@@ -704,48 +704,31 @@ def execute_react_agent_turn(user_msg, chat_id):
     return f"Ajay, RareEmber store live hai (<a href='{SITE_URL}'>rareember-store.vercel.app</a>). Main 24x7 control me hoon. Bolo kya execute karna hai?"
 
 # ─────────────────────────────────────────────────────────────
-# 5. TELEGRAM API HELPER & DISPATCHER
+# 5. TELEGRAM API HELPER & DISPATCHER (@rereemberbot)
 # ─────────────────────────────────────────────────────────────
 
-BOT_TOKENS = [
-    t for t in [
-        os.environ.get("TELEGRAM_BOT_TOKEN", "").strip(),
-        "8717067478:AAGvw5EyqkYF5OkLeWUCGEA730Mxdjg2Dg8",
-        "8898923626:AAEZTnurYzL70qpg42BgKKmLUBpW4g422aY"
-    ] if t
-]
-# Deduplicate while preserving order
-BOT_TOKENS = list(dict.fromkeys(BOT_TOKENS))
-
-def send_message(chat_id, text, parse_mode="HTML", bot_token=None):
-    tokens = [bot_token] if bot_token else BOT_TOKENS
-    success = False
-    for tok in tokens:
-        if not tok:
-            continue
-        url = f"https://api.telegram.org/bot{tok}/sendMessage"
-        try:
-            r = SESSION.post(url, json={"chat_id": chat_id, "text": text, "parse_mode": parse_mode}, timeout=12)
-            if r.status_code == 200:
-                success = True
-                continue
-        except Exception:
-            pass
-        try:
-            r = SESSION.post(url, json={"chat_id": chat_id, "text": text}, timeout=12)
-            if r.status_code == 200:
-                success = True
-        except Exception:
-            pass
-    return success
-
-def get_updates(offset=0, bot_token=None):
-    tok = bot_token or (BOT_TOKENS[0] if BOT_TOKENS else "")
-    if not tok:
-        return []
-    url = f"https://api.telegram.org/bot{tok}/getUpdates"
+def send_message(chat_id, text, parse_mode="HTML"):
+    if not TELEGRAM_TOKEN:
+        return False
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     try:
-        r = SESSION.get(url, params={"timeout": 5, "offset": offset}, timeout=15)
+        r = SESSION.post(url, json={"chat_id": chat_id, "text": text, "parse_mode": parse_mode}, timeout=12)
+        if r.status_code == 200:
+            return True
+    except Exception:
+        pass
+    try:
+        r = SESSION.post(url, json={"chat_id": chat_id, "text": text}, timeout=12)
+        return r.status_code == 200
+    except Exception:
+        return False
+
+def get_updates(offset=0):
+    if not TELEGRAM_TOKEN:
+        return []
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/getUpdates"
+    try:
+        r = SESSION.get(url, params={"timeout": 15, "offset": offset}, timeout=25)
         if r.status_code == 200:
             return r.json().get("result", [])
     except Exception:
@@ -796,18 +779,18 @@ def proactive_order_monitor():
         time.sleep(30)  # Check every 30 seconds
 
 # ─────────────────────────────────────────────────────────────
-# 7. MAIN AGENT EXECUTION LOOP
+# 7. MAIN AGENT EXECUTION LOOP (@rereemberbot)
 # ─────────────────────────────────────────────────────────────
 
 def poll_loop():
-    if not BOT_TOKENS:
-        print("No Telegram bot tokens configured!")
+    if not TELEGRAM_TOKEN:
+        print("TELEGRAM_BOT_TOKEN missing!")
         return
 
     print("==================================================")
     print("Hermes Dropship CEO — Meta Muse Autonomous Agent (JARVIS 2.0)")
     print(f"Store: {SITE_URL}")
-    print(f"Active Bot Gateways: {len(BOT_TOKENS)}")
+    print("Active Telegram Gateway: @rereemberbot")
     print("==================================================")
 
     # Launch proactive monitor thread
@@ -817,6 +800,7 @@ def poll_loop():
     boot_msg = (
         "⚡ <b>Hermes JARVIS 2.0 Online & Standing By!</b>\n\n"
         f"Ajay, RareEmber dropshipping autonomous executive ready hai:\n"
+        f"• <b>Official Bot:</b> @rereemberbot\n"
         f"• <b>Live Actions:</b> Store health check, order audits, CJ fulfillment\n"
         f"• <b>Instagram Autopilot:</b> Instant feed drop via <code>@RareEmber</code>\n"
         f"• <b>Email Concierge:</b> Customer refund & tracking replies ({SUPPORT_EMAIL})\n"
@@ -827,39 +811,37 @@ def poll_loop():
     for uid in ALLOWED_USERS:
         send_message(uid, boot_msg, parse_mode="HTML")
 
-    offsets = {tok: 0 for tok in BOT_TOKENS}
-    for tok in BOT_TOKENS:
-        try:
-            init_updates = get_updates(0, bot_token=tok)
-            if init_updates:
-                offsets[tok] = init_updates[-1]["update_id"] + 1
-        except Exception:
-            pass
+    offset = 0
+    try:
+        init_updates = get_updates(0)
+        if init_updates:
+            offset = init_updates[-1]["update_id"] + 1
+    except Exception:
+        pass
 
     while True:
         try:
-            for tok in BOT_TOKENS:
-                updates = get_updates(offsets[tok], bot_token=tok)
-                for update in updates:
-                    offsets[tok] = update["update_id"] + 1
-                    msg = update.get("message") or update.get("edited_message")
-                    if not msg:
-                        continue
+            updates = get_updates(offset)
+            for update in updates:
+                offset = update["update_id"] + 1
+                msg = update.get("message") or update.get("edited_message")
+                if not msg:
+                    continue
 
-                    chat_id = msg.get("chat", {}).get("id")
-                    text = msg.get("text", "")
-                    from_user = msg.get("from", {})
-                    user_id = str(from_user.get("id", ""))
+                chat_id = msg.get("chat", {}).get("id")
+                text = msg.get("text", "")
+                from_user = msg.get("from", {})
+                user_id = str(from_user.get("id", ""))
 
-                    if not chat_id or not text:
-                        continue
+                if not chat_id or not text:
+                    continue
 
-                    if ALLOWED_USERS and user_id not in ALLOWED_USERS:
-                        continue
+                if ALLOWED_USERS and user_id not in ALLOWED_USERS:
+                    continue
 
-                    # Execute full ReAct Agent Turn
-                    reply = execute_react_agent_turn(text, chat_id)
-                    send_message(chat_id, reply, parse_mode="HTML", bot_token=tok)
+                # Execute full ReAct Agent Turn
+                reply = execute_react_agent_turn(text, chat_id)
+                send_message(chat_id, reply, parse_mode="HTML")
 
         except Exception as e:
             print(f"Polling loop exception: {e}")
