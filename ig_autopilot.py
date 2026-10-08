@@ -318,16 +318,16 @@ def render_post_image(product):
     font_rating = get_font(24, bold=True)
     draw.text((60, info_y + 55), f"RATING {product['rating']} / 5.0  *  ({product['reviews']} Verified Reviews)", fill=(217, 119, 6), font=font_rating)
     
-    # Pricing
+    # Pricing & Amazon Comparison
     font_price = get_font(52, bold=True)
-    font_comp = get_font(32, bold=False)
+    font_comp = get_font(28, bold=False)
     price_str = f"Rs. {product['price_inr']:,}"
-    comp_str = f"Rs. {product['compare_at']:,}"
+    comp_str = f"Amazon: Rs. {product['compare_at']:,}"
     
-    draw.text((width - 360, info_y), price_str, fill=(255, 77, 36), font=font_price)
-    draw.text((width - 360, info_y + 60), comp_str, fill=(160, 150, 140), font=font_comp)
-    # Strike through compare price
-    draw.line([(width - 365, info_y + 78), (width - 240, info_y + 78)], fill=(160, 150, 140), width=3)
+    draw.text((width - 420, info_y), price_str, fill=(255, 77, 36), font=font_price)
+    draw.text((width - 420, info_y + 60), comp_str, fill=(160, 150, 140), font=font_comp)
+    # Strike through Amazon compare price
+    draw.line([(width - 425, info_y + 76), (width - 150, info_y + 76)], fill=(160, 150, 140), width=3)
     
     # 4. Trust Guarantee Strip
     draw.line([(60, info_y + 120), (width - 60, info_y + 120)], fill=(235, 228, 218), width=2)
@@ -351,6 +351,7 @@ def render_post_image(product):
 
 def generate_caption(product):
     discount_pct = int(round((1 - (product["price_inr"] / product["compare_at"])) * 100))
+    saving_inr = product["compare_at"] - product["price_inr"]
     bullets = "\n".join([f"✨ {feat}" for feat in product["features"]])
     
     caption = f"""{product['hook']}
@@ -359,17 +360,19 @@ Meet the {product['title']} — now in stock at RareEmber.
 
 {bullets}
 
-🔥 Special Launch Price: ₹{product['price_inr']:,} (Save {discount_pct}% OFF)
+🔥 Amazon Price: ₹{product['compare_at']:,} ❌ (Overpriced!)
+⚡ RareEmber Deal: ₹{product['price_inr']:,} ONLY ✅ (Direct Hub Price)
+💰 You Save: ₹{saving_inr:,} ({discount_pct}% OFF) + Free Delivery!
 ★ {product['rating']}/5.0 based on {product['reviews']}+ customer reviews.
 
-🚚 Pan-India Express Delivery (2–3 Days)
+🚚 Pan-India Express Delivery (2–4 Days via BlueDart/Delhivery)
 💵 Cash on Delivery (COD) Available
 🛡️ 30-Day Zero-Questions Return & Refund Guarantee
 
 🛒 HOW TO ORDER:
 Tap the link in our bio (@rareember) or visit rareember-store.vercel.app directly to order yours before this drop sells out!
 
-#rareember #trendingproducts #coolgadgets #amazonfindsindia #viralfinds #curatedstyle #onlineclothingstore #indianstartups #cashondelivery #dropshippingindia #homeaesthetic #desksetup #expressdelivery #musthaves"""
+#rareember #amazonprice #amazonfindsindia #trendingproducts #coolgadgets #viralfinds #curatedstyle #onlineclothingstore #indianstartups #cashondelivery #dropshippingindia #homeaesthetic #desksetup #expressdelivery #musthaves"""
     return caption
 
 def send_telegram_alert(photo_path, caption_summary):

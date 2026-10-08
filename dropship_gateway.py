@@ -573,11 +573,13 @@ FOUNDER & BOSS:
 
 STORE ARCHITECTURE & SYSTEMS:
 - Storefront: RareEmber (https://rareember-store.vercel.app)
+- Target Market: 100% Domestic India (Tier-1, Tier-2 & Tier-3 cities)
 - Official Support Email: {SUPPORT_EMAIL} (rareemberagency@gmail.com)
-- Instagram: @RareEmber (Automated marketing engine with PIL creative renderer)
-- Currency: Domestic India in INR (₹) & Global in USD ($)
-- Gateways: Razorpay (UPI, NetBanking, Cards) + Cash on Delivery (COD ₹49 fee)
-- Fulfillment: CJ Dropshipping API + BlueDart/Delhivery/India Post (2-5 days India delivery)
+- Instagram: @RareEmber (Automated marketing engine with PIL creative renderer & Indian tags)
+- Currency: Domestic India in INR (₹)
+- Gateways: Razorpay (Instant UPI, Cards, NetBanking) + Cash on Delivery (COD ₹49 fee)
+- Fulfillment: Domestic Indian Warehouses (DeoDap Gujarat Hub) + BlueDart/Delhivery/Shadowfax (Express 2-4 days pan-India)
+- Catalog: 100% Indian winning products with high 50%+ profit margins (All CJ items purged)
 
 CAPABILITIES & REAL TOOLS:
 1. `system_health_check`: Instant audit of storefront, DB latency, payment gateways, and autopilot.
