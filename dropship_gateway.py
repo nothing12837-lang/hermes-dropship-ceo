@@ -200,6 +200,28 @@ def tool_check_pincode(pincode):
         "couriers": ["BlueDart Express", "Delhivery Direct", "India Post Speed Post"]
     }
 
+def tool_generate_ad_campaign(product_name, platform="instagram_reels"):
+    """Generates viral ad hooks, UGC video scripts, and high-converting ad copy."""
+    return {
+        "status": "ready",
+        "product": product_name,
+        "platform": platform,
+        "framework": "Hook (0-3s) -> Pain Point (3-7s) -> Product Reveal (7-15s) -> Social Proof (15-22s) -> Call to Action (22-30s)",
+        "discount_code": "EMBERFAST",
+        "target_audience": "Gen-Z & Millennials, Tier-1 & Tier-2 cities, impulse online buyers"
+    }
+
+def tool_generate_influencer_pitch(creator_name, platform="instagram", product_name="Trending Item"):
+    """Generates collaboration DM and email pitch for gifting UGC campaigns."""
+    return {
+        "status": "pitch_ready",
+        "creator": creator_name,
+        "platform": platform,
+        "product": product_name,
+        "offer": "Free full-sized gifted product + 15% affiliate revenue share",
+        "compensation": "Gifted Collaboration + Affiliate Commission"
+    }
+
 # Function Map for Execution
 TOOL_DISPATCHER = {
     "get_store_metrics": lambda args: tool_get_store_metrics(args.get("timeframe", "all_time")),
@@ -208,7 +230,9 @@ TOOL_DISPATCHER = {
     "teach_memory": lambda args: tool_teach_memory(args.get("category", "general"), args.get("fact", "")),
     "create_skill": lambda args: tool_create_skill(args.get("skill_name", ""), args.get("instructions", "")),
     "fulfill_order_cj": lambda args: tool_fulfill_order_cj(args.get("order_id", "")),
-    "check_pincode": lambda args: tool_check_pincode(args.get("pincode", ""))
+    "check_pincode": lambda args: tool_check_pincode(args.get("pincode", "")),
+    "generate_ad_campaign": lambda args: tool_generate_ad_campaign(args.get("product_name", ""), args.get("platform", "instagram_reels")),
+    "generate_influencer_pitch": lambda args: tool_generate_influencer_pitch(args.get("creator_name", "Creator"), args.get("platform", "instagram"), args.get("product_name", "Item"))
 }
 
 # ─────────────────────────────────────────────────────────────
@@ -292,6 +316,31 @@ AGENT_TOOLS_SCHEMA = [
                         "pincode": {"type": "string", "description": "6-digit Indian PIN code"}
                     },
                     "required": ["pincode"]
+                }
+            },
+            {
+                "name": "generate_ad_campaign",
+                "description": "Generate viral ad hooks, UGC video scripts, and marketing copy for a product.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "product_name": {"type": "string", "description": "Name or keyword of the product"},
+                        "platform": {"type": "string", "description": "instagram_reels, tiktok, facebook_ads, or youtube_shorts"}
+                    },
+                    "required": ["product_name"]
+                }
+            },
+            {
+                "name": "generate_influencer_pitch",
+                "description": "Generate DM and email outreach pitch to collaborate with influencers & creators.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "creator_name": {"type": "string", "description": "Name or handle of creator"},
+                        "platform": {"type": "string", "description": "instagram or tiktok"},
+                        "product_name": {"type": "string", "description": "Product to pitch for gifting/review"}
+                    },
+                    "required": ["creator_name"]
                 }
             }
         ]
