@@ -152,6 +152,63 @@ PRODUCTS_CATALOG = [
     }
 ]
 
+FALLBACK_IMAGES = {
+    'calmcloud-ortho-bed': 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&q=80&w=800',
+    'cozy-nest-carrier': 'https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&q=80&w=800',
+    'warm-paw-heater-pad': 'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&q=80&w=800',
+    'smart-fetch-pod': 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800',
+    'pawtrack-smart-feeder': 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=800',
+    'aesthetic-scratch-post': 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=800',
+    'lickmat-calm-set': 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&q=80&w=800',
+    'ember-glow-collar': 'https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?auto=format&fit=crop&q=80&w=800',
+}
+
+SUPABASE_URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL", "https://qdkkxpfhwrwyoardlceo.supabase.co")
+SUPABASE_ANON_KEY = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFka2t4cGZod3J3eW9hcmRsY2VvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4Njc2OTcsImV4cCI6MjEwNjQ0MzY5N30.qFvuYQ1G9NvYGYXWVtR6b9dPScOuUIfeVQ8yX3y1DJo")
+
+def fetch_live_catalog():
+    """Dynamically fetches all active products from Supabase store database."""
+    try:
+        url = f"{SUPABASE_URL}/rest/v1/products?select=id,title,price,compare_at_price,rating,reviews,category,image_url,short,story&order=created_at.desc&limit=100"
+        headers = {
+            "apikey": SUPABASE_ANON_KEY,
+            "Authorization": f"Bearer {SUPABASE_ANON_KEY}"
+        }
+        res = requests.get(url, headers=headers, timeout=10)
+        if res.status_code == 200:
+            db_products = res.json()
+            valid = []
+            for p in db_products:
+                title = (p.get("title") or "").strip()
+                img = (p.get("image_url") or "").strip() or FALLBACK_IMAGES.get(p.get("id"))
+                if title and img:
+                    price_usd = float(p.get("price") or 29.99)
+                    price_inr = int(round(price_usd * 85))
+                    compare_usd = float(p.get("compare_at_price") or (price_usd * 1.5))
+                    compare_inr = int(round(compare_usd * 85))
+                    valid.append({
+                        "id": p["id"],
+                        "title": title[:50],
+                        "category": (p.get("category") or "General").title(),
+                        "price_inr": price_inr,
+                        "compare_at": compare_inr,
+                        "rating": float(p.get("rating") or 4.8),
+                        "reviews": int(p.get("reviews") or 520),
+                        "image_url": img,
+                        "hook": f"Discover the {title[:35]} — Trending now at RareEmber ✨",
+                        "features": [
+                            "Handpicked verified build quality",
+                            "Express dispatch from regional fulfillment hub",
+                            "30-day zero-risk return guarantee"
+                        ]
+                    })
+            if valid:
+                print(f"📦 Successfully fetched {len(valid)} live products from store database!")
+                return valid
+    except Exception as e:
+        print(f"Notice: Supabase fetch ({e}), falling back to curated catalog.")
+    return PRODUCTS_CATALOG
+
 def load_history():
     if os.path.exists(HISTORY_FILE):
         try:
@@ -166,12 +223,13 @@ def save_history(history):
         json.dump(history, f, indent=2)
 
 def pick_next_product():
+    catalog = fetch_live_catalog()
     history = load_history()
     posted_ids = [item.get("id") for item in history]
-    unposted = [p for p in PRODUCTS_CATALOG if p["id"] not in posted_ids]
+    unposted = [p for p in catalog if p["id"] not in posted_ids]
     if not unposted:
-        # All posted, loop back to earliest
-        unposted = PRODUCTS_CATALOG
+        print("🔄 All catalog products posted once! Looping back to begin next cycle.")
+        unposted = catalog
     return unposted[0]
 
 def get_font(size, bold=False):
