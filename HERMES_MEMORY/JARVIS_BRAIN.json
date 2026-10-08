@@ -13,16 +13,24 @@
     "storefront_url": "https://rareember-store.vercel.app",
     "market": "100% Domestic India (All 19,000+ PIN codes)",
     "warehouse_hub": "Gujarat Domestic Fulfillment Center (DeoDap Network)",
-    "delivery_partners": ["BlueDart Express", "Delhivery Direct", "Shadowfax", "India Post Speed Post"],
-    "delivery_timeline": "2–4 business days pan-India express",
-    "payment_gateways": ["Razorpay UPI/Cards/NetBanking", "Cash on Delivery (COD ₹49 fee)"],
+    "delivery_partners": [
+      "BlueDart Express",
+      "Delhivery Direct",
+      "Shadowfax",
+      "India Post Speed Post"
+    ],
+    "delivery_timeline": "2\u20134 business days pan-India express",
+    "payment_gateways": [
+      "Razorpay UPI/Cards/NetBanking",
+      "Cash on Delivery (COD \u20b949 fee)"
+    ],
     "support_email": "rareemberagency@gmail.com",
     "support_guarantee": "30-Day Zero-Risk Doorstep Replacement & Refund Guarantee"
   },
   "active_campaigns": {
     "current_festival": "Navratri & Diwali (Deepawali)",
     "coupon_code": "DIWALI100",
-    "discount": "Flat ₹100 OFF on orders above ₹499",
+    "discount": "Flat \u20b9100 OFF on orders above \u20b9499",
     "expiry": "20th November 2026",
     "website_theme": "Diwali Firecracker Burst Engine + Golden Diyas + Audio Celebration"
   },
@@ -38,10 +46,16 @@
     "Store is live in production at https://rareember-store.vercel.app.",
     "Shipping is strictly domestic 2-4 days express across India from Gujarat hub.",
     "Never compare with competitors like Amazon or CJ. RareEmber stands on its own curated luxury brand.",
-    "All prices are strictly in INR (₹) with authentic MRP discount comparisons.",
+    "All prices are strictly in INR (\u20b9) with authentic MRP discount comparisons.",
     "Cash on Delivery (COD) is enabled across all 19,000+ Indian PIN codes.",
     "Instagram marketing drops generate creative posters rotating warm gold, midnight luxury, and festive crimson themes.",
     "When Ajay says anything: read input, execute corresponding action tools, save to neural memory, then answer."
   ],
-  "last_synced": "2026-10-08T20:00:00+05:30"
+  "last_synced": "2026-10-08T15:04:10.620774+00:00",
+  "latest_growth_cycle": {
+    "cycle_id": "cycle_1791471850",
+    "executed_at": "2026-10-08T15:04:10.150654+00:00",
+    "product": "Diamond Pattern Wall Organiser Rack (No-Drill)",
+    "strategy": "WhatsApp / SMS COD Reconfirmation: Ping every COD order within 10 minutes to verify address and slash RTO rate below 12%."
+  }
 }
