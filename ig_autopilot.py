@@ -47,6 +47,7 @@ if os.path.exists(ENV_FILE):
 
 IG_USERNAME = os.environ.get("IG_USERNAME", "").strip()
 IG_PASSWORD = os.environ.get("IG_PASSWORD", "").strip()
+IG_SESSIONID = os.environ.get("IG_SESSIONID", "").strip()
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "8898923626:AAEZTnurYzL70qpg42BgKKmLUBpW4g422aY").strip()
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "5238068527").strip()
 STORE_URL = "https://rareember-store.vercel.app"
@@ -345,8 +346,12 @@ def post_to_instagram(photo_path, caption):
             except Exception:
                 pass
                 
-        print(f"🔐 Logging in as @{IG_USERNAME}...")
-        cl.login(IG_USERNAME, IG_PASSWORD)
+        if IG_SESSIONID:
+            print("🔑 Authenticating via Instagram sessionid cookie...")
+            cl.login_by_sessionid(IG_SESSIONID)
+        else:
+            print(f"🔐 Logging in as @{IG_USERNAME}...")
+            cl.login(IG_USERNAME, IG_PASSWORD)
         cl.dump_settings(SESSION_FILE)
         print("✅ Login authenticated successfully!")
         
