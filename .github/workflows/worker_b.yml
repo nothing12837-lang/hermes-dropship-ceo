@@ -39,6 +39,9 @@ jobs:
           ADMIN_SECRET: "rareember_super_secret_cron_2026"
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          IG_USERNAME: ${{ secrets.IG_USERNAME }}
+          IG_PASSWORD: ${{ secrets.IG_PASSWORD }}
+          IG_SESSIONID: ${{ secrets.IG_SESSIONID }}
         run: |
           timeout 18720 python dropship_gateway.py || echo "Cycle completed gracefully"
 

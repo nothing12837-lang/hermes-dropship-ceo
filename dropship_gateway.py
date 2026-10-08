@@ -1162,10 +1162,66 @@ def proactive_order_monitor():
             with open(SEEN_ORDERS_FILE, "w", encoding="utf-8") as f:
                 json.dump(list(seen_orders), f)
 
+            # Check 5 daily scheduled Instagram drop slots
+            check_and_trigger_instagram_drop()
+
         except Exception as e:
             print(f"Monitor error: {e}")
 
         time.sleep(30)  # Check every 30 seconds
+
+def check_and_trigger_instagram_drop():
+    """
+    Hermes 24/7 Instagram Drop Engine.
+    Executes 5 daily drops in India Standard Time (IST):
+    1. 10:00 AM IST (600m)  - Auto Catalog Post 1
+    2. 01:30 PM IST (810m)  - Hermes Campaign 1 (Problem-Solver)
+    3. 05:30 PM IST (1050m) - Hermes Campaign 2 (Festive Flash Coupon Deal)
+    4. 08:00 PM IST (1200m) - Auto Catalog Post 2 (Evening Bestseller)
+    5. 10:00 PM IST (1320m) - Hermes Campaign 3 (Trust Builder & 5-Star Reviews)
+    """
+    try:
+        now_ist = datetime.now(timezone.utc) + timedelta(hours=5, minutes=30)
+        today_str = now_ist.strftime("%Y-%m-%d")
+        current_minute_of_day = now_ist.hour * 60 + now_ist.minute
+
+        SLOTS = [
+            ("10_00", 600, "catalog"),
+            ("13_30", 810, "problem_solver"),
+            ("17_30", 1050, "festive_deal"),
+            ("20_00", 1200, "catalog"),
+            ("22_00", 1320, "trust_builder"),
+        ]
+
+        status_file = os.path.join(MEMORY_DIR, "INSTAGRAM_POST_SLOTS.json")
+        posted_slots = {}
+        if os.path.exists(status_file):
+            try:
+                with open(status_file, "r", encoding="utf-8") as f:
+                    posted_slots = json.load(f)
+            except Exception:
+                posted_slots = {}
+
+        for slot_id, target_min, campaign_type in SLOTS:
+            key = f"{today_str}_{slot_id}"
+            if key not in posted_slots and abs(current_minute_of_day - target_min) <= 15:
+                print(f"📸 Hermes triggering scheduled Instagram drop for slot {slot_id} ({campaign_type})...")
+                try:
+                    import ig_autopilot
+                    success = ig_autopilot.run_autopilot_cycle(campaign_type=campaign_type)
+                    if success:
+                        posted_slots[key] = {
+                            "timestamp": now_ist.isoformat(),
+                            "slot": slot_id,
+                            "campaign_type": campaign_type,
+                            "status": "POSTED"
+                        }
+                        with open(status_file, "w", encoding="utf-8") as f:
+                            json.dump(posted_slots, f, indent=2)
+                except Exception as ex:
+                    print(f"Hermes Instagram auto-trigger error: {ex}")
+    except Exception as e:
+        print(f"check_and_trigger_instagram_drop error: {e}")
 
 # ─────────────────────────────────────────────────────────────
 # 8. MAIN AGENT EXECUTION LOOP (@rereemberbot)

@@ -449,18 +449,53 @@ def render_post_image(product):
     print(f"✅ Rendered creative ({theme['id']}) post image: {out_path}")
     return out_path
 
-def generate_caption(product):
+def resolve_campaign_type(requested_type="auto"):
+    if requested_type and requested_type != "auto":
+        return requested_type
+    # Detect based on India Standard Time (IST)
+    ist_hour = (datetime.now(timezone.utc) + timedelta(hours=5, minutes=30)).hour
+    if 9 <= ist_hour < 12:
+        return "catalog"          # 10:00 AM IST (Auto Post 1)
+    elif 12 <= ist_hour < 16:
+        return "problem_solver"   # 1:30 PM IST (Hermes Campaign 1)
+    elif 16 <= ist_hour < 19:
+        return "festive_deal"     # 5:30 PM IST (Hermes Campaign 2)
+    elif 19 <= ist_hour < 21:
+        return "catalog"          # 8:00 PM IST (Auto Post 2)
+    else:
+        return "trust_builder"    # 10:00 PM IST (Hermes Campaign 3)
+
+def generate_caption(product, campaign_type="auto"):
+    c_type = resolve_campaign_type(campaign_type)
     fest = get_current_festival()
     discount_pct = int(round((1 - (product["price_inr"] / product["compare_at"])) * 100))
     saving_inr = product["compare_at"] - product["price_inr"]
     bullets = "\n".join([f"✨ {feat}" for feat in product["features"]])
-    chosen_hook = random.choice(HOOK_TEMPLATES)
     
-    caption = f"""{fest['greeting']}
+    if c_type == "problem_solver":
+        headline = "⚡ PROBLEM SOLVER DROP • Built for Modern Living"
+        hook = f"Tired of low quality and overpriced markups? Meet the {product['title']} — curated to upgrade your everyday routine without breaking the bank."
+        badge = "🔥 Trending Life Upgrade • Verified Functional Winner"
+    elif c_type == "festive_deal":
+        headline = fest['greeting']
+        hook = f"Auspicious festive deals for your home and family! Upgrade your living space or gift someone special with the {product['title']}."
+        badge = f"🎉 FESTIVE SALE • Use code {fest['coupon']} for {fest['discount_desc']}"
+    elif c_type == "trust_builder":
+        headline = "⭐ 4.9★ Customer Favorite • Verified Authentic Drop"
+        hook = f"See why hundreds of Indian shoppers rate this 5 stars. The {product['title']} combines premium build with unbeatable factory-direct value."
+        badge = "🛡️ 100% Doorstep Reassurance • Cash on Delivery (COD) Pan-India"
+    else:  # catalog
+        headline = fest['greeting']
+        hook = random.choice(HOOK_TEMPLATES)
+        badge = f"✨ Factory Direct Drop • Only ₹{product['price_inr']:,} ({discount_pct}% OFF)"
+    
+    caption = f"""{headline}
 
-{chosen_hook}
+{hook}
 
-Meet the {product['title']} — now in stock at RareEmber.
+Meet the {product['title']} — in stock now at RareEmber.
+
+{badge}
 
 {bullets}
 
@@ -478,7 +513,7 @@ Meet the {product['title']} — now in stock at RareEmber.
 Tap the link in our bio (@rareember) or visit rareember-store.vercel.app directly to order yours today!
 
 {fest['hashtags']} #curatedstyle #trendingproducts #viralfinds #indiand2c #gadgetsindia #homeaesthetic #desksetup #expressdelivery #cashondelivery #shopindia"""
-    return caption
+    return caption, c_type
 
 def send_telegram_alert(photo_path, caption_summary):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
@@ -536,7 +571,7 @@ def post_to_instagram(photo_path, caption):
         print(f"❌ Instagram upload error: {e}")
         return False
 
-def run_autopilot_cycle(dry_run=False):
+def run_autopilot_cycle(dry_run=False, campaign_type="auto"):
     print("=" * 60)
     print(f"🚀 RAREEMBER INSTAGRAM AUTOPILOT CYCLE | {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 60)
@@ -547,8 +582,9 @@ def run_autopilot_cycle(dry_run=False):
     # 1. Render Post Image
     image_path = render_post_image(product)
     
-    # 2. Generate Caption
-    caption = generate_caption(product)
+    # 2. Generate Caption with Campaign Type
+    caption, c_type = generate_caption(product, campaign_type=campaign_type)
+    print(f"🎯 Active Campaign Angle: {c_type.upper()}")
     
     # 3. Post or Dry Run
     if dry_run:
@@ -557,7 +593,7 @@ def run_autopilot_cycle(dry_run=False):
         print(caption)
         print("-" * 40)
         print(f"🖼️ Creative Image Saved at: {image_path}")
-        send_telegram_alert(image_path, f"📸 *Dry-Run Preview Ready for Approval!*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Post creative rendered and ready.")
+        send_telegram_alert(image_path, f"📸 *Dry-Run Preview Ready ({c_type.upper()})*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Post creative rendered and ready.")
         return True
     else:
         success = post_to_instagram(image_path, caption)
@@ -566,17 +602,19 @@ def run_autopilot_cycle(dry_run=False):
             history.append({
                 "id": product["id"],
                 "title": product["title"],
+                "campaign_type": c_type,
                 "posted_at": datetime.now(timezone.utc).isoformat(),
                 "image_path": image_path
             })
             save_history(history)
-            send_telegram_alert(image_path, f"✅ *Successfully Auto-Posted to Instagram!*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Live on feed with hashtags and bio link.")
+            send_telegram_alert(image_path, f"✅ *Auto-Posted Drop to Instagram ({c_type.upper()})*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Live on feed with hashtags and bio link.")
             return True
         return False
 
 def main():
     parser = argparse.ArgumentParser(description="RareEmber Instagram Autopilot")
     parser.add_argument("--dry-run", action="store_true", help="Generate post and send preview to Telegram without uploading to IG")
+    parser.add_argument("--campaign-type", choices=["auto", "catalog", "problem_solver", "festive_deal", "trust_builder"], default="auto", help="Campaign angle for post")
     parser.add_argument("--daemon", action="store_true", help="Run continuously in background, auto-posting at set intervals")
     parser.add_argument("--interval-hours", type=float, default=12.0, help="Posting interval in hours for daemon mode (default: 12)")
     args = parser.parse_args()
@@ -585,14 +623,14 @@ def main():
         print(f"🔄 Daemon Mode Started: Posting every {args.interval_hours} hours...")
         while True:
             try:
-                run_autopilot_cycle(dry_run=args.dry_run)
+                run_autopilot_cycle(dry_run=args.dry_run, campaign_type=args.campaign_type)
             except Exception as e:
                 print(f"Cycle execution error: {e}")
             sleep_secs = int(args.interval_hours * 3600)
             print(f"⏳ Sleeping for {args.interval_hours} hours until next post...")
             time.sleep(sleep_secs)
     else:
-        run_autopilot_cycle(dry_run=args.dry_run)
+        run_autopilot_cycle(dry_run=args.dry_run, campaign_type=args.campaign_type)
 
 if __name__ == "__main__":
     main()

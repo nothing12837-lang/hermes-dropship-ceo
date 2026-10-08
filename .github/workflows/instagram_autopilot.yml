@@ -1,10 +1,31 @@
-name: RareEmber Instagram 24x7 Autopilot
+name: RareEmber Instagram 24x7 Autopilot (5 Daily Drops)
 
 on:
   schedule:
-    # Runs twice daily at 04:30 UTC (10:00 AM IST) and 14:30 UTC (8:00 PM IST)
-    - cron: '30 4,14 * * *'
+    # 5 Daily Drops in India Standard Time (IST):
+    # 1. 10:00 AM IST (04:30 UTC) - Auto Catalog Post 1
+    # 2. 01:30 PM IST (08:00 UTC) - Hermes AI Campaign 1 (Problem Solver Drop)
+    # 3. 05:30 PM IST (12:00 UTC) - Hermes AI Campaign 2 (Festive Flash Coupon Deal)
+    # 4. 08:00 PM IST (14:30 UTC) - Auto Catalog Post 2 (Evening Bestseller Highlight)
+    # 5. 10:00 PM IST (16:30 UTC) - Hermes AI Campaign 3 (Night Customer Reviews & Trust)
+    - cron: '30 4 * * *'
+    - cron: '0 8 * * *'
+    - cron: '0 12 * * *'
+    - cron: '30 14 * * *'
+    - cron: '30 16 * * *'
   workflow_dispatch:
+    inputs:
+      campaign_type:
+        description: 'Campaign Angle'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - catalog
+          - problem_solver
+          - festive_deal
+          - trust_builder
 
 permissions:
   contents: write
@@ -36,7 +57,7 @@ jobs:
           TELEGRAM_CHAT_ID: "5238068527"
           STORE_URL: "https://rareember-store.vercel.app"
         run: |
-          python ig_autopilot.py
+          python ig_autopilot.py --campaign-type "${{ github.event.inputs.campaign_type || 'auto' }}"
 
       - name: Commit Updated Post History & Session
         if: always()
