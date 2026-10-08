@@ -337,6 +337,8 @@ def post_to_instagram(photo_path, caption):
         from instagrapi import Client
         cl = Client()
         cl.delay_range = [2, 5]
+        # Bypass deprecated Meta internal experiments endpoint that returns 404
+        cl.expose = lambda *args, **kwargs: True
         
         # Reuse existing session if available
         if os.path.exists(SESSION_FILE):
