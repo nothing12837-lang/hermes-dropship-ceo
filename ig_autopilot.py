@@ -169,7 +169,7 @@ SUPABASE_ANON_KEY = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY", "eyJhbGciOiJ
 def fetch_live_catalog():
     """Dynamically fetches all active products from Supabase store database."""
     try:
-        url = f"{SUPABASE_URL}/rest/v1/products?select=id,title,price,compare_at_price,rating,reviews,category,image_url,short,story&order=created_at.desc&limit=100"
+        url = f"{SUPABASE_URL}/rest/v1/products?select=id,title,price,price_inr,compare_at_price,rating,reviews,category,image_url,short,story&order=created_at.desc&limit=100"
         headers = {
             "apikey": SUPABASE_ANON_KEY,
             "Authorization": f"Bearer {SUPABASE_ANON_KEY}"
@@ -182,10 +182,15 @@ def fetch_live_catalog():
                 title = (p.get("title") or "").strip()
                 img = (p.get("image_url") or "").strip() or FALLBACK_IMAGES.get(p.get("id"))
                 if title and img:
-                    price_usd = float(p.get("price") or 29.99)
-                    price_inr = int(round(price_usd * 85))
-                    compare_usd = float(p.get("compare_at_price") or (price_usd * 1.5))
-                    compare_inr = int(round(compare_usd * 85))
+                    if p.get("price_inr"):
+                        price_inr = int(round(float(p["price_inr"])))
+                    else:
+                        price_inr = int(round(float(p.get("price") or 29.99) * 85))
+                    
+                    if p.get("compare_at_price"):
+                        compare_inr = int(round(float(p["compare_at_price"])))
+                    else:
+                        compare_inr = int(round(price_inr * 1.6))
                     valid.append({
                         "id": p["id"],
                         "title": title[:50],
