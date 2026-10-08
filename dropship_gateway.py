@@ -58,7 +58,7 @@ if os.path.exists(env_path):
 
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
 ALLOWED_USERS_RAW = os.environ.get("TELEGRAM_ALLOWED_USERS", "5238068527").strip()
-ALLOWED_USERS = [u.strip() for u in ALLOWED_USERS_RAW.split(",") if u.strip()]
+ALLOWED_USERS = list(dict.fromkeys([u.strip() for u in ALLOWED_USERS_RAW.split(",") if u.strip()]))
 if "5238068527" not in ALLOWED_USERS:
     ALLOWED_USERS.append("5238068527")
 
@@ -1193,6 +1193,50 @@ def get_updates(offset=0):
         pass
     return []
 
+REPORT_IDEMPOTENCY_FILE = os.path.join(MEMORY_DIR, "report_idempotency.json")
+
+def send_idempotent_report(report_type: str, text: str, min_interval_hours: float = 3.0):
+    """
+    Guarantees Ajay NEVER receives the same report twice or duplicate alerts on worker restarts.
+    Tracks SHA256 hash and last sent timestamp per report_type.
+    """
+    os.makedirs(os.path.dirname(REPORT_IDEMPOTENCY_FILE), exist_ok=True)
+    state = {}
+    if os.path.exists(REPORT_IDEMPOTENCY_FILE):
+        try:
+            with open(REPORT_IDEMPOTENCY_FILE, "r", encoding="utf-8") as f:
+                state = json.load(f)
+        except Exception:
+            state = {}
+
+    now = time.time()
+    text_hash = hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+    last_sent = state.get(report_type, {})
+    last_time = last_sent.get("time", 0)
+    last_hash = last_sent.get("hash", "")
+
+    # Suppress duplicate hash
+    if last_hash == text_hash:
+        print(f"🛑 [Idempotency Guard] Suppressed identical duplicate '{report_type}' report.")
+        return False
+    # Suppress frequency spam within interval
+    if (now - last_time) < (min_interval_hours * 3600):
+        print(f"🛑 [Idempotency Guard] Suppressed '{report_type}' report: sent {(now - last_time)/60:.1f}m ago (min interval {min_interval_hours}h).")
+        return False
+
+    unique_users = list(dict.fromkeys(ALLOWED_USERS))
+    for uid in unique_users:
+        send_message(uid, text, parse_mode="HTML")
+
+    state[report_type] = {"time": now, "hash": text_hash, "sent_at": datetime.now(timezone.utc).isoformat()}
+    try:
+        with open(REPORT_IDEMPOTENCY_FILE, "w", encoding="utf-8") as f:
+            json.dump(state, f, indent=2)
+    except Exception as e:
+        print(f"Failed to save report idempotency: {e}")
+    return True
+
 # ─────────────────────────────────────────────────────────────
 # 6. AUTONOMOUS 24/7 CEO GROWTH ENGINE (NON-STOP AUTONOMOUS WORK)
 # ─────────────────────────────────────────────────────────────
@@ -1405,8 +1449,7 @@ def autonomous_ceo_growth_worker():
                 f"🛍️ <b>Store Health:</b> {h.get('status')} ({h.get('latency_ms')}ms) | Coupon: <code>DIWALI100</code>\n\n"
                 f"Hermes non-stop 24h active hai aur continuous customer acquisition par kaam kar raha hai! 🛡️⚡"
             )
-            for uid in ALLOWED_USERS:
-                send_message(uid, briefing, parse_mode="HTML")
+            send_idempotent_report("ceo_growth_report", briefing, min_interval_hours=2.5)
 
         except Exception as e:
             print(f"Autonomous Growth Loop Error: {e}")
@@ -1548,8 +1591,7 @@ def poll_loop():
         f"• <b>Live Store:</b> <a href='{SITE_URL}'>rareember-store.vercel.app</a>\n\n"
         "Bolo Boss, kya execute karein?"
     )
-    for uid in ALLOWED_USERS:
-        send_message(uid, boot_msg, parse_mode="HTML")
+    send_idempotent_report("worker_boot_msg", boot_msg, min_interval_hours=6.0)
 
     offset = 0
     try:

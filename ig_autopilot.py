@@ -87,19 +87,19 @@ PRODUCTS_CATALOG = [
         ]
     },
     {
-        "id": "ember-glow-collar",
-        "title": "Ember Glow LED Safety Collar",
-        "category": "Pet Care Essentials",
-        "price_inr": 2549,
-        "compare_at": 4249,
-        "rating": 4.7,
-        "reviews": 3200,
-        "image_url": "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&q=80&w=1080",
-        "hook": "Never lose sight of your fur baby during late-night walks 🐕🌙",
+        "id": "hc-ambient-rgb-monitor-light-bar-9",
+        "title": "ScreenBar RGB Smart Monitor Light",
+        "category": "Tech & Productivity",
+        "price_inr": 3299,
+        "compare_at": 5499,
+        "rating": 4.9,
+        "reviews": 1420,
+        "image_url": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&q=80&w=1080",
+        "hook": "Zero screen glare, zero eye strain, 100% aesthetic workspace glow ✨",
         "features": [
-            "360° Ultra-bright rechargeable LED",
-            "IPX7 100% Waterproof construction",
-            "Soft breathable padded comfort lining"
+            "Asymmetric optical design prevents screen reflection",
+            "Wireless desktop controller with dual-axis touch",
+            "Customizable ambient back-glow RGB mood lighting"
         ]
     },
     {
@@ -153,14 +153,12 @@ PRODUCTS_CATALOG = [
 ]
 
 FALLBACK_IMAGES = {
-    'calmcloud-ortho-bed': 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&q=80&w=800',
-    'cozy-nest-carrier': 'https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&q=80&w=800',
-    'warm-paw-heater-pad': 'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&q=80&w=800',
-    'smart-fetch-pod': 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800',
-    'pawtrack-smart-feeder': 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=800',
-    'aesthetic-scratch-post': 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=800',
-    'lickmat-calm-set': 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&q=80&w=800',
-    'ember-glow-collar': 'https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?auto=format&fit=crop&q=80&w=800',
+    'hc-modern-brass-desk-lamp-15': 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=1080',
+    'hc-logitech-mx-master-3s-wireless-mouse-3': 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&q=80&w=1080',
+    'hc-ambient-rgb-monitor-light-bar-9': 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&q=80&w=1080',
+    'elec-3': 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&q=80&w=1080',
+    'hc-ceramic-minimalist-planter-set-12': 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=1080',
+    'hc-classic-aviator-sunglasses-6': 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=1080',
 }
 
 SUPABASE_URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL", "https://qdkkxpfhwrwyoardlceo.supabase.co")
@@ -179,7 +177,12 @@ def fetch_live_catalog():
             db_products = res.json()
             valid = []
             for p in db_products:
+                p_id = (p.get("id") or "").lower()
                 title = (p.get("title") or "").strip()
+                cat = (p.get("category") or "").lower()
+                pet_blacklist = ["calmcloud", "ember-glow", "warm-paw", "lickmat", "pawtrack", "collar", "pet", "dog", "cat", "scratch"]
+                if any(bk in p_id or bk in title.lower() or bk in cat for bk in pet_blacklist):
+                    continue
                 img = (p.get("image_url") or "").strip() or FALLBACK_IMAGES.get(p.get("id"))
                 if title and img:
                     if p.get("price_inr"):
@@ -449,12 +452,115 @@ def render_post_image(product):
     print(f"✅ Rendered creative ({theme['id']}) post image: {out_path}")
     return out_path
 
+CHARACTER_PROFILES = [
+    {
+        "name": "Priya",
+        "city": "Bengaluru",
+        "role": "Product Designer",
+        "hook_line": "Priya was tired of cluttered desks & cheap plastic gadgets...",
+        "story_angle": "After testing 4 different setups, she found this factory-direct gem.",
+        "outcome": "Her entire office team placed orders within 48 hours.",
+        "avatar_desc": "young stylish Indian woman UX designer, glasses, modern aesthetic office apartment",
+        "prompt_scene": "3D Pixar-style cinematic render of stylish young Indian female product designer wearing glasses in aesthetic Bengaluru apartment studio with warm ambient backlighting holding modern tech device, octane render, 8k vertical portrait"
+    },
+    {
+        "name": "Aarav",
+        "city": "Mumbai",
+        "role": "Fintech Founder",
+        "hook_line": "Aarav refused to pay 400% luxury retail markups...",
+        "story_angle": "Ordered factory-direct on RareEmber with 1-Click Cash on Delivery.",
+        "outcome": "Arrived in 2 days from the regional warehouse. Absolutely unmatched finish.",
+        "avatar_desc": "handsome Indian male entrepreneur, modern minimalist apartment overlooking Mumbai skyline",
+        "prompt_scene": "3D Pixar-style cinematic render of sharp young Indian male tech entrepreneur in modern minimalist Mumbai high-rise apartment with glass windows and warm cozy evening light, octane render, 8k vertical portrait"
+    },
+    {
+        "name": "Sneha",
+        "city": "Delhi NCR",
+        "role": "Architect & Creator",
+        "hook_line": "Sneha searched everywhere for clean Pinterest aesthetics on a budget...",
+        "story_angle": "Most marketplace knockoffs broke or looked dull. This one exceeded every expectation.",
+        "outcome": "Her Instagram DMs exploded with people asking for the direct link.",
+        "avatar_desc": "creative young Indian woman lifestyle creator, warm aesthetic room with soft ambient light",
+        "prompt_scene": "3D Pixar-style cinematic render of creative young Indian female architect in Scandinavian aesthetic studio with minimalist wood desk and warm sunset glow, octane render, 8k vertical portrait"
+    },
+    {
+        "name": "Kabir",
+        "city": "Hyderabad",
+        "role": "Senior Engineer",
+        "hook_line": "Kabir put this through a 30-day hardcore durability test...",
+        "story_angle": "Solid tactile engineering, seamless build, and factory-direct pricing.",
+        "outcome": "Rated 5.0/5.0 stars. 'Hands down the best lifestyle purchase of 2026.'",
+        "avatar_desc": "sharp Indian male engineer, minimalist workstation with warm ambient lighting",
+        "prompt_scene": "3D Pixar-style cinematic render of young Indian male engineer at clean futuristic aesthetic workstation with dual monitors and warm ambient lighting, octane render, 8k vertical portrait"
+    }
+]
+
+def fetch_3d_ai_render(prompt, timeout=10):
+    """
+    Fetches high-quality 3D visual render via Pollinations AI (free, zero API key required).
+    Returns PIL Image or None on network timeout/failure.
+    """
+    import urllib.parse
+    try:
+        encoded = urllib.parse.quote(prompt)
+        seed = random.randint(1000, 999999)
+        url = f"https://image.pollinations.ai/prompt/{encoded}?width=1080&height=1920&nologo=true&seed={seed}&model=flux"
+        resp = requests.get(url, timeout=timeout)
+        if resp.status_code == 200 and len(resp.content) > 10000:
+            return Image.open(BytesIO(resp.content)).convert("RGB")
+    except Exception as e:
+        print(f"Notice: Pollinations 3D fetch notice ({e}), utilizing studio 3D compositor.")
+    return None
+
+def generate_aesthetic_lofi_audio(out_wav_path, duration_sec=11.8):
+    """
+    Generates a clean stereo 44.1kHz lo-fi / chillhop chord sequence in pure Python.
+    Zero external dependencies, completely royalty-free, 100% legal for Instagram Reels.
+    """
+    import wave, math, struct
+    sample_rate = 44100
+    n_samples = int(sample_rate * duration_sec)
+    progression = [
+        [261.63, 329.63, 392.00, 493.88],  # Cmaj7
+        [220.00, 261.63, 329.63, 392.00],  # Am7
+        [174.61, 220.00, 261.63, 329.63],  # Fmaj7
+        [196.00, 246.94, 293.66, 349.23],  # G7
+    ]
+    chord_len = duration_sec / len(progression)
+    
+    with wave.open(out_wav_path, "w") as wav_file:
+        wav_file.setnchannels(2)
+        wav_file.setsampwidth(2)
+        wav_file.setframerate(sample_rate)
+        frames = bytearray()
+        for i in range(n_samples):
+            t = i / sample_rate
+            chord_idx = min(int(t / chord_len), len(progression) - 1)
+            notes = progression[chord_idx]
+            t_chord = t - (chord_idx * chord_len)
+            env = min(1.0, t_chord * 4.0) * math.exp(-t_chord * 0.7)
+            sample_val = 0.0
+            for freq in notes:
+                sample_val += 0.22 * math.sin(2.0 * math.pi * freq * t)
+                sample_val += 0.08 * math.sin(2.0 * math.pi * (freq * 2) * t)
+            root_freq = notes[0] / 2.0
+            sample_val += 0.25 * math.sin(2.0 * math.pi * root_freq * t) * env
+            beat_phase = (t % 0.5)
+            if beat_phase < 0.03:
+                noise = ((math.sin(t * 12345.67) + 1.0) / 2.0 - 0.5) * 0.08 * math.exp(-beat_phase * 150)
+                sample_val += noise
+            sample_val = max(-1.0, min(1.0, sample_val * env * 0.75))
+            int_val = int(sample_val * 32767.0)
+            frames.extend(struct.pack("<hh", int_val, int_val))
+        wav_file.writeframes(frames)
+    return out_wav_path
+
 def render_reel_video(product):
     """
-    Renders an agency-grade 1080x1920 (9:16) Instagram Reel video (.mp4) with dynamic motion slides.
-    Slide 1: Viral Hook & Aesthetics (0-3.5s)
-    Slide 2: Product Features & Social Proof (3.5-7.0s)
-    Slide 3: Festive Discount & 1-Click COD Offer (7.0-11.0s)
+    Renders an agency-grade 1080x1920 (9:16) 3D Story Instagram Reel video (.mp4)
+    featuring 3rd-character relatable storytelling, 3D visual styling,
+    smooth FFmpeg camera motion (zoompan push-in), animated progress bar,
+    and synthesized lo-fi chillhop background audio.
     """
     import subprocess
     import tempfile
@@ -465,92 +571,120 @@ def render_reel_video(product):
     discount_pct = int(round((1 - (product["price_inr"] / product["compare_at"])) * 100))
     saving_inr = product["compare_at"] - product["price_inr"]
     
+    # Select relatable 3rd character profile
+    char_idx = abs(hash(product.get("id", "char"))) % len(CHARACTER_PROFILES)
+    char = CHARACTER_PROFILES[char_idx]
+    print(f"🎭 Reel Story Character: {char['name']} ({char['role']}, {char['city']})")
+    
+    # Fetch Product Image
     img_url = product["image_url"]
     try:
         resp = requests.get(img_url, timeout=10)
         prod_img = Image.open(BytesIO(resp.content)).convert("RGB")
     except Exception as e:
-        print(f"Reel image fetch error: {e}")
+        print(f"Notice: Product image fetch ({e}), using default canvas.")
         prod_img = Image.new("RGB", (900, 900), color=(240, 240, 240))
         
     prod_square = prod_img.resize((920, 920), Image.Resampling.LANCZOS)
     
+    # Try fetching AI 3D Character render
+    ai_prompt = f"{char['prompt_scene']} showcasing {product['title']}"
+    ai_3d_img = fetch_3d_ai_render(ai_prompt, timeout=10)
+    
     font_brand = get_font(46, bold=True)
-    font_title = get_font(44, bold=True)
+    font_title = get_font(42, bold=True)
     font_sub = get_font(28, bold=False)
-    font_badge = get_font(32, bold=True)
-    font_price = get_font(60, bold=True)
+    font_badge = get_font(30, bold=True)
+    font_price = get_font(58, bold=True)
     font_btn = get_font(36, bold=True)
 
     with tempfile.TemporaryDirectory() as tmpdir:
-        slides = []
-        
-        # --- SLIDE 1: VIRAL HOOK ---
+        # --- SCENE 1: THE 3D CHARACTER & RELATABLE HOOK ---
         s1 = Image.new("RGB", (width, height), color=(15, 23, 42))
         d1 = ImageDraw.Draw(s1)
+        
+        # If AI 3D image available, composite as dramatic backdrop
+        if ai_3d_img:
+            ai_fit = ai_3d_img.resize((width, height), Image.Resampling.LANCZOS)
+            s1.paste(ai_fit, (0, 0))
+            # Overlay dark gradient on top and bottom for readable typography
+            overlay = Image.new("RGBA", (width, height), color=(0, 0, 0, 0))
+            od = ImageDraw.Draw(overlay)
+            od.rectangle([0, 0, width, 240], fill=(10, 15, 30, 210))
+            od.rectangle([0, 1200, width, height], fill=(10, 15, 30, 235))
+            s1 = Image.alpha_composite(s1.convert("RGBA"), overlay).convert("RGB")
+            d1 = ImageDraw.Draw(s1)
+        else:
+            # 3D Studio Mesh Backdrop
+            for y_bg in range(0, height, 4):
+                blend = y_bg / height
+                r = int(15 * (1 - blend) + 30 * blend)
+                g = int(23 * (1 - blend) + 41 * blend)
+                b = int(42 * (1 - blend) + 65 * blend)
+                d1.line([(0, y_bg), (width, y_bg)], fill=(r, g, b), width=4)
+            d1.rounded_rectangle([70, 420, width - 70, 1340], radius=32, fill=(30, 41, 59), outline=(51, 65, 85), width=3)
+            s1.paste(prod_square, (80, 430))
+            
+        # Top Brand Header
         d1.rectangle([0, 0, width, 180], fill=(10, 15, 30))
         d1.text((70, 60), "rareember.", fill=(255, 255, 255), font=font_brand)
         d1.ellipse([325, 80, 345, 100], fill=(255, 107, 53))
-        d1.text((70, 120), "OFFICIAL VIRAL DROP • INDIA", fill=(148, 163, 184), font=font_sub)
+        d1.text((70, 120), f"REAL STORY • {char['city'].upper()}, INDIA", fill=(148, 163, 184), font=font_sub)
         
-        d1.rounded_rectangle([width - 420, 65, width - 70, 125], radius=28, fill=(255, 107, 53))
-        d1.text((width - 400, 80), fest['banner'], fill=(255, 255, 255), font=get_font(20, bold=True))
+        d1.rounded_rectangle([width - 440, 65, width - 70, 125], radius=28, fill=(255, 107, 53))
+        d1.text((width - 420, 80), fest['banner'], fill=(255, 255, 255), font=get_font(20, bold=True))
         
-        d1.rounded_rectangle([70, 230, width - 70, 360], radius=24, fill=(30, 41, 59))
-        d1.text((100, 255), "🛑 STOP SCROLLING", fill=(239, 68, 68), font=font_badge)
-        d1.text((100, 305), "This lifestyle drop is going viral across India ✨", fill=(241, 245, 249), font=get_font(26, bold=True))
+        # Character Hook Banner
+        d1.rounded_rectangle([70, 220, width - 70, 360], radius=24, fill=(30, 41, 59))
+        d1.text((100, 245), f"👤 {char['name']} ({char['role']})", fill=(255, 184, 0), font=font_badge)
+        d1.text((100, 295), "🛑 STOP SCROLLING • Here is what changed everything", fill=(239, 68, 68), font=get_font(26, bold=True))
         
-        d1.rounded_rectangle([70, 410, width - 70, 1370], radius=32, fill=(30, 41, 59), outline=(51, 65, 85), width=3)
-        s1.paste(prod_square, (80, 430))
-        
-        d1.rounded_rectangle([110, 460, 310, 530], radius=28, fill=(220, 38, 38))
-        d1.text((130, 475), f"-{discount_pct}% OFF", fill=(255, 255, 255), font=font_badge)
-        
-        d1.text((80, 1420), product["title"][:38], fill=(255, 255, 255), font=font_title)
-        d1.text((80, 1490), f"⚡ Factory Direct: Rs. {product['price_inr']:,}", fill=(255, 184, 0), font=font_price)
-        d1.text((80, 1570), f"M.R.P. Rs. {product['compare_at']:,} • You Save Rs. {saving_inr:,}", fill=(148, 163, 184), font=font_sub)
+        # Bottom Relatable Story Overlay
+        d1.rounded_rectangle([70, 1380, width - 70, 1640], radius=28, fill=(24, 30, 48), outline=(51, 65, 85), width=2)
+        d1.text((100, 1410), f'"{char["hook_line"]}"', fill=(255, 255, 255), font=get_font(30, bold=True))
+        d1.text((100, 1475), f"{char['story_angle']}", fill=(203, 213, 225), font=get_font(24, bold=False))
+        d1.text((100, 1545), f"✨ {char['outcome']}", fill=(52, 211, 153), font=get_font(24, bold=True))
         
         d1.rounded_rectangle([70, 1680, width - 70, 1800], radius=36, fill=(255, 107, 53))
-        d1.text((260, 1720), "KEEP WATCHING FOR SPECS ▾", fill=(255, 255, 255), font=font_btn)
+        d1.text((250, 1720), "WATCH THE SOLUTION NEXT ▾", fill=(255, 255, 255), font=font_btn)
         
         p1 = os.path.join(tmpdir, "slide_0.jpg")
         s1.save(p1, quality=95)
-        slides.append(p1)
         
-        # --- SLIDE 2: FEATURES & TRUST ---
+        # --- SCENE 2: THE AESTHETIC SOLUTION & 3D SPECS ---
         s2 = Image.new("RGB", (width, height), color=(11, 15, 25))
         d2 = ImageDraw.Draw(s2)
         d2.rectangle([0, 0, width, 180], fill=(10, 15, 30))
         d2.text((70, 60), "rareember.", fill=(255, 255, 255), font=font_brand)
         d2.ellipse([325, 80, 345, 100], fill=(255, 107, 53))
-        d2.text((70, 120), "UNMATCHED QUALITY PROOF", fill=(148, 163, 184), font=font_sub)
+        d2.text((70, 120), "FACTORY DIRECT ARCHITECTURE", fill=(148, 163, 184), font=font_sub)
         
-        d2.rounded_rectangle([70, 230, width - 70, 1050], radius=32, fill=(24, 30, 48), outline=(51, 65, 85), width=2)
-        small_prod = prod_img.resize((480, 480), Image.Resampling.LANCZOS)
-        s2.paste(small_prod, ((width - 480) // 2, 260))
+        d2.rounded_rectangle([70, 220, width - 70, 1040], radius=32, fill=(24, 30, 48), outline=(51, 65, 85), width=2)
+        small_prod = prod_img.resize((500, 500), Image.Resampling.LANCZOS)
+        s2.paste(small_prod, ((width - 500) // 2, 240))
         
         fy = 780
         for feat in product["features"][:3]:
             d2.text((110, fy), f"✔ {feat}", fill=(241, 245, 249), font=get_font(28, bold=True))
             fy += 65
             
-        d2.rounded_rectangle([70, 1100, width - 70, 1280], radius=24, fill=(16, 185, 129))
-        d2.text((120, 1135), f"⭐ {product['rating']}/5.0 VERIFIED BUYER RATING", fill=(255, 255, 255), font=font_badge)
-        d2.text((120, 1195), f"Over {product['reviews']}+ Happy Customers Across India 🇮🇳", fill=(255, 255, 255), font=font_sub)
+        d2.rounded_rectangle([70, 1080, width - 70, 1260], radius=24, fill=(16, 185, 129))
+        d2.text((120, 1115), f"⭐ {product['rating']}/5.0 VERIFIED CUSTOMER RATING", fill=(255, 255, 255), font=font_badge)
+        d2.text((120, 1175), f"Over {product['reviews']}+ Happy Customers Across India 🇮🇳", fill=(255, 255, 255), font=font_sub)
         
-        d2.rounded_rectangle([70, 1330, width - 70, 1620], radius=28, fill=(30, 41, 59))
-        d2.text((110, 1370), "🚚 Pan-India Express Delivery (2–4 Days)", fill=(241, 245, 249), font=font_sub)
-        d2.text((110, 1440), "💵 Cash on Delivery (COD) Available", fill=(241, 245, 249), font=font_sub)
-        d2.text((110, 1510), "🛡️ 30-Day Zero-Risk Return Guarantee", fill=(241, 245, 249), font=font_sub)
+        d2.rounded_rectangle([70, 1310, width - 70, 1620], radius=28, fill=(30, 41, 59))
+        d2.text((110, 1350), "⚡ Factory Direct: No middlemen markups", fill=(255, 184, 0), font=get_font(26, bold=True))
+        d2.text((110, 1415), "🚚 Pan-India Express Delivery (2–4 Days)", fill=(241, 245, 249), font=font_sub)
+        d2.text((110, 1480), "💵 100% Cash on Delivery (COD) Available", fill=(241, 245, 249), font=font_sub)
+        d2.text((110, 1545), "🛡️ 30-Day Zero-Risk Return Guarantee", fill=(241, 245, 249), font=font_sub)
         
         d2.rounded_rectangle([70, 1680, width - 70, 1800], radius=36, fill=(255, 107, 53))
         d2.text((270, 1720), "OFFER DETAILS NEXT ▾", fill=(255, 255, 255), font=font_btn)
         
         p2 = os.path.join(tmpdir, "slide_1.jpg")
         s2.save(p2, quality=95)
-        slides.append(p2)
         
-        # --- SLIDE 3: FESTIVE DEAL & BUY CTA ---
+        # --- SCENE 3: FESTIVE DEAL & VIRAL 1-CLICK COD CTA ---
         s3 = Image.new("RGB", (width, height), color=(18, 12, 8))
         d3 = ImageDraw.Draw(s3)
         d3.rectangle([0, 0, width, 180], fill=(25, 15, 10))
@@ -558,55 +692,103 @@ def render_reel_video(product):
         d3.ellipse([325, 80, 345, 100], fill=(255, 107, 53))
         d3.text((70, 120), fest['greeting'], fill=(255, 184, 0), font=font_sub)
         
-        d3.rounded_rectangle([70, 240, width - 70, 600], radius=32, fill=(249, 115, 22), outline=(255, 237, 213), width=4)
-        d3.text((110, 280), "🪔 GRAND FESTIVE COUPON", fill=(255, 255, 255), font=font_badge)
-        d3.text((110, 350), f"USE CODE: {fest['coupon']}", fill=(255, 255, 255), font=get_font(52, bold=True))
-        d3.text((110, 440), f"{fest['discount_desc']}!", fill=(255, 255, 255), font=font_sub)
-        d3.text((110, 500), "Valid Across 19,000+ PIN Codes in India", fill=(255, 255, 255), font=get_font(22, bold=False))
+        d3.rounded_rectangle([70, 230, width - 70, 590], radius=32, fill=(249, 115, 22), outline=(255, 237, 213), width=4)
+        d3.text((110, 270), "🪔 GRAND FESTIVE COUPON", fill=(255, 255, 255), font=font_badge)
+        d3.text((110, 340), f"USE CODE: {fest['coupon']}", fill=(255, 255, 255), font=get_font(52, bold=True))
+        d3.text((110, 430), f"{fest['discount_desc']}!", fill=(255, 255, 255), font=font_sub)
+        d3.text((110, 490), "Valid Across 19,000+ PIN Codes in India", fill=(255, 255, 255), font=get_font(22, bold=False))
         
-        d3.rounded_rectangle([70, 650, width - 70, 950], radius=32, fill=(28, 25, 23), outline=(68, 64, 60), width=2)
-        d3.text((110, 700), f"TODAY'S SPECIAL: Rs. {product['price_inr']:,}", fill=(255, 184, 0), font=font_price)
-        d3.text((110, 780), f"M.R.P. Rs. {product['compare_at']:,} (-{discount_pct}% OFF)", fill=(168, 162, 158), font=font_sub)
-        d3.text((110, 840), f"Extra ₹100 Off with coupon {fest['coupon']} at checkout", fill=(34, 197, 94), font=font_sub)
+        d3.rounded_rectangle([70, 640, width - 70, 940], radius=32, fill=(28, 25, 23), outline=(68, 64, 60), width=2)
+        d3.text((110, 690), f"TODAY'S SPECIAL: Rs. {product['price_inr']:,}", fill=(255, 184, 0), font=font_price)
+        d3.text((110, 770), f"M.R.P. Rs. {product['compare_at']:,} (-{discount_pct}% OFF)", fill=(168, 162, 158), font=font_sub)
+        d3.text((110, 830), f"Extra ₹100 Off with coupon {fest['coupon']} at checkout", fill=(34, 197, 94), font=font_sub)
         
-        d3.rounded_rectangle([70, 1000, width - 70, 1400], radius=32, fill=(28, 25, 23))
-        d3.text((110, 1050), "🛒 HOW TO ORDER RIGHT NOW:", fill=(255, 255, 255), font=font_badge)
-        d3.text((110, 1130), "1. Tap Link in Bio (@rareember)", fill=(241, 245, 249), font=font_sub)
-        d3.text((110, 1200), "2. Or Comment 'BUY' for instant DM link", fill=(241, 245, 249), font=font_sub)
-        d3.text((110, 1270), "3. Pay via Cash on Delivery at your door", fill=(241, 245, 249), font=font_sub)
+        d3.rounded_rectangle([70, 980, width - 70, 1420], radius=32, fill=(28, 25, 23))
+        d3.text((110, 1025), "🛒 HOW TO ORDER RIGHT NOW:", fill=(255, 255, 255), font=font_badge)
+        d3.text((110, 1095), "1. 💬 Comment 'BUY' or 'LINK' for instant DM link", fill=(255, 184, 0), font=get_font(28, bold=True))
+        d3.text((110, 1165), "2. 📱 Or Tap Link in Bio (@rareember)", fill=(241, 245, 249), font=font_sub)
+        d3.text((110, 1235), "3. 💵 Pay via Cash on Delivery at your doorstep", fill=(241, 245, 249), font=font_sub)
+        d3.text((110, 1305), "4. 🛡️ 30-Day Zero-Risk Return Guarantee", fill=(148, 163, 184), font=get_font(22, bold=False))
         
-        d3.rounded_rectangle([70, 1500, width - 70, 1680], radius=42, fill=(255, 107, 53))
-        d3.text((170, 1565), "TAP LINK IN BIO TO BUY NOW ⚡", fill=(255, 255, 255), font=get_font(40, bold=True))
+        d3.rounded_rectangle([70, 1480, width - 70, 1660], radius=42, fill=(255, 107, 53))
+        d3.text((170, 1545), "TAP LINK IN BIO TO BUY NOW ⚡", fill=(255, 255, 255), font=get_font(40, bold=True))
         
-        d3.text((width // 2 - 240, 1750), "rareember-store.vercel.app", fill=(148, 163, 184), font=font_sub)
+        d3.text((width // 2 - 240, 1720), "rareember-store.vercel.app", fill=(148, 163, 184), font=font_sub)
         
         p3 = os.path.join(tmpdir, "slide_2.jpg")
         s3.save(p3, quality=95)
-        slides.append(p3)
         
-        concat_txt = os.path.join(tmpdir, "concat.txt")
+        # --- GENERATE SYNTHESIZED LO-FI AUDIO TRACK ---
+        audio_wav = os.path.join(tmpdir, "lofi_audio.wav")
+        generate_aesthetic_lofi_audio(audio_wav, duration_sec=11.8)
+        
+        # --- RENDER DYNAMIC 3D MOTION CLIPS VIA FFMPEG (ZOOMPAN PUSH-IN) ---
+        clip0 = os.path.join(tmpdir, "clip_0.mp4")
+        clip1 = os.path.join(tmpdir, "clip_1.mp4")
+        clip2 = os.path.join(tmpdir, "clip_2.mp4")
+        
+        cmd0 = [
+            "ffmpeg", "-y", "-loop", "1", "-i", p1,
+            "-vf", "zoompan=z='min(zoom+0.0012,1.14)':d=114:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps=30",
+            "-t", "3.8", "-c:v", "libx264", "-pix_fmt", "yuv420p", clip0
+        ]
+        cmd1 = [
+            "ffmpeg", "-y", "-loop", "1", "-i", p2,
+            "-vf", "zoompan=z='min(zoom+0.0010,1.12)':d=114:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps=30",
+            "-t", "3.8", "-c:v", "libx264", "-pix_fmt", "yuv420p", clip1
+        ]
+        cmd2 = [
+            "ffmpeg", "-y", "-loop", "1", "-i", p3,
+            "-vf", "zoompan=z='min(zoom+0.0008,1.10)':d=126:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps=30",
+            "-t", "4.2", "-c:v", "libx264", "-pix_fmt", "yuv420p", clip2
+        ]
+        
+        subprocess.run(cmd0, cwd=tmpdir, capture_output=True)
+        subprocess.run(cmd1, cwd=tmpdir, capture_output=True)
+        subprocess.run(cmd2, cwd=tmpdir, capture_output=True)
+        
+        # Concatenate motion clips & apply animated bottom progress bar + lo-fi audio
+        concat_txt = os.path.join(tmpdir, "motion_concat.txt")
         with open(concat_txt, "w") as cf:
-            cf.write("file 'slide_0.jpg'\nduration 3.5\nfile 'slide_1.jpg'\nduration 3.5\nfile 'slide_2.jpg'\nduration 4.0\nfile 'slide_2.jpg'\n")
+            cf.write(f"file '{clip0}'\nfile '{clip1}'\nfile '{clip2}'\n")
             
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         out_filename = f"reel_{product['id']}_{timestamp}.mp4"
         out_path = os.path.join(OUTPUT_DIR, out_filename)
         
-        cmd = [
+        cmd_final = [
             "ffmpeg", "-y",
             "-f", "concat", "-safe", "0", "-i", concat_txt,
-            "-f", "lavfi", "-i", "sine=f=220:d=11",
+            "-i", audio_wav,
+            "-vf", "drawbox=x=0:y=1908:w='iw*t/11.8':h=12:color=0xFF6B35@1:t=fill",
             "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "30",
-            "-c:a", "aac", "-b:a", "128k",
+            "-c:a", "aac", "-b:a", "192k",
             "-shortest",
             out_path
         ]
-        res = subprocess.run(cmd, cwd=tmpdir, capture_output=True, text=True)
+        res = subprocess.run(cmd_final, cwd=tmpdir, capture_output=True, text=True)
         if res.returncode == 0 and os.path.exists(out_path):
-            print(f"🎬 Rendered 1080x1920 Instagram Reel Video: {out_path} ({os.path.getsize(out_path)} bytes)")
+            file_mb = round(os.path.getsize(out_path) / (1024 * 1024), 2)
+            print(f"🎬 Rendered Agency-Grade 3D Story Reel Video: {out_path} ({file_mb} MB)")
             return out_path
         else:
-            print(f"FFmpeg error: {res.stderr}, falling back to post image")
+            print(f"Notice: Motion render fallback ({res.stderr[:200]}), rendering direct concat.")
+            # Simple direct fallback concat
+            fallback_concat = os.path.join(tmpdir, "fb_concat.txt")
+            with open(fallback_concat, "w") as fcf:
+                fcf.write("file 'slide_0.jpg'\nduration 3.8\nfile 'slide_1.jpg'\nduration 3.8\nfile 'slide_2.jpg'\nduration 4.2\nfile 'slide_2.jpg'\n")
+            cmd_fb = [
+                "ffmpeg", "-y",
+                "-f", "concat", "-safe", "0", "-i", fallback_concat,
+                "-i", audio_wav,
+                "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "30",
+                "-c:a", "aac", "-b:a", "128k",
+                "-shortest",
+                out_path
+            ]
+            res_fb = subprocess.run(cmd_fb, cwd=tmpdir, capture_output=True, text=True)
+            if res_fb.returncode == 0 and os.path.exists(out_path):
+                return out_path
             return render_post_image(product)
 
 def resolve_campaign_type(requested_type="auto"):
@@ -648,9 +830,15 @@ def generate_caption(product, campaign_type="auto"):
         hook = random.choice(HOOK_TEMPLATES)
         badge = f"✨ Factory Direct Drop • Only ₹{product['price_inr']:,} ({discount_pct}% OFF)"
     
+    char_idx = abs(hash(product.get("id", "char"))) % len(CHARACTER_PROFILES)
+    char = CHARACTER_PROFILES[char_idx]
+    story_highlight = f"📖 Customer Story ({char['city']}): {char['name']} ({char['role']}) — \"{char['hook_line']}\" {char['story_angle']} ✨ Result: {char['outcome']}"
+
     caption = f"""{headline}
 
 {hook}
+
+{story_highlight}
 
 Meet the {product['title']} — in stock now at RareEmber.
 
