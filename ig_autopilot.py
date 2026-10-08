@@ -509,11 +509,11 @@ Meet the {product['title']} — in stock now at RareEmber.
 💵 Cash on Delivery (COD) Available
 🛡️ 30-Day Zero-Risk Return & Replacement Guarantee
 
-🛒 HOW TO ORDER:
-🔗 Direct Product Link:
-https://rareember-store.vercel.app/product/{product['id']}
+🛒 DIRECT PRODUCT LINK (Tap or Copy):
+👉 https://rareember-store.vercel.app/product/{product['id']}
 
-📱 Or tap the direct link in our bio (@rareember) to checkout with 1-click Express COD!
+📱 INSTANT CHECKOUT: Tap the link in our bio (@rareember) for 1-Click COD!
+💬 INSTANT DM: Comment "LINK" or "BUY" below and we'll immediately DM you the direct checkout link + VIP discount!
 
 {fest['hashtags']} #curatedstyle #trendingproducts #viralfinds #indiand2c #gadgetsindia #homeaesthetic #desksetup #expressdelivery #cashondelivery #shopindia"""
     return caption, c_type
@@ -535,7 +535,7 @@ def send_telegram_alert(photo_path, caption_summary):
     except Exception as e:
         print(f"Telegram alert error: {e}")
 
-def post_to_instagram(photo_path, caption):
+def post_to_instagram(photo_path, caption, product=None):
     """Logs into Instagram using instagrapi and publishes the photo."""
     try:
         from instagrapi import Client
@@ -583,6 +583,23 @@ def post_to_instagram(photo_path, caption):
         print("📤 Uploading photo to Instagram feed...")
         media = cl.photo_upload(photo_path, caption=caption)
         print(f"🎉 SUCCESS! Published to Instagram. Media ID: {media.pk}")
+
+        # Agency Enhancement: Auto-post 1st Comment with direct link & instant discount
+        if product:
+            try:
+                time.sleep(2)
+                fest = get_current_festival()
+                comment_text = (
+                    f"⚡ DIRECT ORDER LINK (Cash on Delivery available):\n"
+                    f"🔗 https://rareember-store.vercel.app/product/{product.get('id', '')}\n\n"
+                    f"🎉 Use coupon code {fest['coupon']} for {fest['discount_desc']}!\n"
+                    f"📦 Express 2-4 day delivery across 19,000+ PIN codes in India."
+                )
+                cl.media_comment(media.id, comment_text)
+                print("💬 Published first comment with direct product link and coupon!")
+            except Exception as ce:
+                print(f"⚠️ First comment notice: {ce}")
+
         return True
     except Exception as e:
         print(f"❌ Instagram upload error: {e}")
@@ -613,7 +630,7 @@ def run_autopilot_cycle(dry_run=False, campaign_type="auto"):
         send_telegram_alert(image_path, f"📸 *Dry-Run Preview Ready ({c_type.upper()})*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Post creative rendered and ready.")
         return True
     else:
-        success = post_to_instagram(image_path, caption)
+        success = post_to_instagram(image_path, caption, product=product)
         if success:
             history = load_history()
             history.append({
