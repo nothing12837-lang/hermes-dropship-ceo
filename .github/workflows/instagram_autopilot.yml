@@ -1,0 +1,47 @@
+name: RareEmber Instagram 24x7 Autopilot
+
+on:
+  schedule:
+    # Runs twice daily at 04:30 UTC (10:00 AM IST) and 14:30 UTC (8:00 PM IST)
+    - cron: '30 4,14 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  auto-post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Execute Instagram Autopilot Drop
+        env:
+          IG_USERNAME: ${{ secrets.IG_USERNAME }}
+          IG_PASSWORD: ${{ secrets.IG_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: "5238068527"
+          STORE_URL: "https://rareember-store.vercel.app"
+        run: |
+          python ig_autopilot.py
+
+      - name: Commit Updated Post History & Session
+        if: always()
+        run: |
+          git config --global user.name "Hermes Autopilot"
+          git config --global user.email "hermes@rareember.com"
+          git add posted_history.json session.json 2>/dev/null || true
+          git commit -m "chore: record auto-posted product history & session [skip ci]" || echo "No changes to commit"
+          git push || echo "Push skipped"
