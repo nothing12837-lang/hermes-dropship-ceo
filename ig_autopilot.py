@@ -303,32 +303,87 @@ def get_current_festival():
         "hashtags": "#rareember #curatedstyle #trendingproducts #viralfinds #indiand2c #gadgetsindia"
     }
 
+CREATIVE_THEMES = [
+    {
+        "id": "warm_gold",
+        "bg_color": (255, 251, 245),
+        "header_bg": (255, 255, 255),
+        "card_bg": (255, 255, 255),
+        "card_outline": (235, 228, 218),
+        "text_main": (26, 20, 18),
+        "text_sub": (140, 130, 120),
+        "accent": (255, 77, 36),
+        "badge_bg": (255, 240, 232),
+        "badge_text": (255, 77, 36),
+        "footer_bg": (29, 29, 31),
+        "footer_text": (255, 255, 255)
+    },
+    {
+        "id": "midnight_luxury",
+        "bg_color": (18, 18, 22),
+        "header_bg": (26, 26, 32),
+        "card_bg": (30, 30, 36),
+        "card_outline": (60, 58, 68),
+        "text_main": (255, 255, 255),
+        "text_sub": (170, 170, 185),
+        "accent": (255, 125, 45),
+        "badge_bg": (55, 30, 15),
+        "badge_text": (255, 155, 75),
+        "footer_bg": (255, 77, 36),
+        "footer_text": (255, 255, 255)
+    },
+    {
+        "id": "festive_crimson",
+        "bg_color": (255, 248, 242),
+        "header_bg": (255, 255, 255),
+        "card_bg": (255, 255, 255),
+        "card_outline": (245, 215, 195),
+        "text_main": (35, 15, 10),
+        "text_sub": (150, 100, 80),
+        "accent": (217, 40, 40),
+        "badge_bg": (255, 230, 220),
+        "badge_text": (200, 30, 30),
+        "footer_bg": (140, 25, 25),
+        "footer_text": (255, 240, 220)
+    }
+]
+
+HOOK_TEMPLATES = [
+    "POV: You just discovered this aesthetic drop for your room ✨",
+    "The festive gift everyone will ask you about this season 🪔",
+    "Why pay retail markups when you can get direct warehouse quality? ⚡",
+    "This small lifestyle upgrade is going viral across India right now 🔥"
+]
+
 def render_post_image(product):
     """
-    Renders a stunning 1080x1350 (4:5) Instagram post creative.
+    Renders a stunning 1080x1350 (4:5) Instagram post creative with dynamic visual themes.
     """
     width = 1080
     height = 1350
     
-    # 1. Background (Warm luxury canvas #FFFBF5)
-    base = Image.new("RGB", (width, height), color=(255, 251, 245))
+    # Select creative theme dynamically per product
+    theme = random.choice(CREATIVE_THEMES)
+    fest = get_current_festival()
+    
+    # 1. Background Canvas
+    base = Image.new("RGB", (width, height), color=theme["bg_color"])
     draw = ImageDraw.Draw(base)
     
     # Header Bar: RareEmber Branding Badge
-    draw.rectangle([0, 0, width, 140], fill=(255, 255, 255))
-    draw.line([(0, 140), (width, 140)], fill=(240, 235, 225), width=2)
+    draw.rectangle([0, 0, width, 140], fill=theme["header_bg"])
+    draw.line([(0, 140), (width, 140)], fill=theme["card_outline"], width=2)
     
-    fest = get_current_festival()
     font_brand = get_font(42, bold=True)
     font_sub = get_font(22, bold=False)
-    draw.text((60, 40), "rareember.", fill=(26, 20, 18), font=font_brand)
-    draw.ellipse([285, 60, 301, 76], fill=(255, 77, 36))
-    draw.text((60, 92), f"{fest['name'].upper()} SPECIAL • OFFICIAL DROP", fill=(140, 130, 120), font=font_sub)
+    draw.text((60, 40), "rareember.", fill=theme["text_main"], font=font_brand)
+    draw.ellipse([285, 60, 301, 76], fill=theme["accent"])
+    draw.text((60, 92), f"{fest['name'].upper()} SPECIAL • OFFICIAL DROP", fill=theme["text_sub"], font=font_sub)
     
     # Festive Coupon Pill Tag (Top Right)
     font_tag = get_font(18, bold=True)
-    draw.rounded_rectangle([width - 380, 48, width - 60, 96], radius=24, fill=(255, 240, 232))
-    draw.text((width - 365, 62), fest['banner'], fill=(255, 77, 36), font=font_tag)
+    draw.rounded_rectangle([width - 380, 48, width - 60, 96], radius=24, fill=theme["badge_bg"])
+    draw.text((width - 365, 62), fest['banner'], fill=theme["badge_text"], font=font_tag)
     
     # 2. Main Product Image (Centered Card)
     img_url = product["image_url"]
@@ -345,7 +400,7 @@ def render_post_image(product):
     # Card Background with Border
     card_x = (width - 880) // 2
     card_y = 170
-    draw.rounded_rectangle([card_x, card_y, card_x + 880, card_y + 880], radius=32, fill=(255, 255, 255), outline=(235, 228, 218), width=3)
+    draw.rounded_rectangle([card_x, card_y, card_x + 880, card_y + 880], radius=32, fill=theme["card_bg"], outline=theme["card_outline"], width=3)
     base.paste(prod_img, (card_x + 10, card_y + 10))
     
     # Discount Badge on Product Image (Top Left)
@@ -356,42 +411,42 @@ def render_post_image(product):
     
     # 3. Product Info Section
     info_y = 1080
-    font_title = get_font(42, bold=True)
-    draw.text((60, info_y), product["title"], fill=(22, 19, 17), font=font_title)
+    font_title = get_font(40, bold=True)
+    draw.text((60, info_y), product["title"][:42], fill=theme["text_main"], font=font_title)
     
     # Ratings & Social Proof
     font_rating = get_font(24, bold=True)
     draw.text((60, info_y + 55), f"RATING {product['rating']} / 5.0  *  ({product['reviews']} Verified Reviews)", fill=(217, 119, 6), font=font_rating)
     
-    # Pricing & M.R.P. Savings (Clean branding, no competitor comparisons)
+    # Pricing & M.R.P. Savings
     font_price = get_font(52, bold=True)
     font_comp = get_font(28, bold=False)
     price_str = f"Rs. {product['price_inr']:,}"
     comp_str = f"M.R.P.: Rs. {product['compare_at']:,}"
     
-    draw.text((width - 420, info_y), price_str, fill=(255, 77, 36), font=font_price)
-    draw.text((width - 420, info_y + 60), comp_str, fill=(160, 150, 140), font=font_comp)
+    draw.text((width - 420, info_y), price_str, fill=theme["accent"], font=font_price)
+    draw.text((width - 420, info_y + 60), comp_str, fill=theme["text_sub"], font=font_comp)
     # Strike through M.R.P.
-    draw.line([(width - 425, info_y + 76), (width - 150, info_y + 76)], fill=(160, 150, 140), width=3)
+    draw.line([(width - 425, info_y + 76), (width - 150, info_y + 76)], fill=theme["text_sub"], width=3)
     
     # 4. Trust Guarantee Strip
-    draw.line([(60, info_y + 120), (width - 60, info_y + 120)], fill=(235, 228, 218), width=2)
-    font_trust = get_font(22, bold=True)
+    draw.line([(60, info_y + 120), (width - 60, info_y + 120)], fill=theme["card_outline"], width=2)
+    font_trust = get_font(21, bold=True)
     trust_text = "PAN-INDIA EXPRESS COURIER   *   CASH ON DELIVERY   *   30-DAY ZERO-RISK RETURNS"
-    draw.text((70, info_y + 138), trust_text, fill=(70, 60, 50), font=font_trust)
+    draw.text((70, info_y + 138), trust_text, fill=theme["text_sub"], font=font_trust)
     
     # 5. Bottom Call-To-Action Banner
-    draw.rectangle([0, height - 75, width, height], fill=(29, 29, 31))
+    draw.rectangle([0, height - 75, width, height], fill=theme["footer_bg"])
     font_cta = get_font(24, bold=True)
     cta_text = "Tap Link in Bio to Order  |  rareember-store.vercel.app"
-    draw.text((width // 2 - 270, height - 52), cta_text, fill=(255, 255, 255), font=font_cta)
+    draw.text((width // 2 - 270, height - 52), cta_text, fill=theme["footer_text"], font=font_cta)
     
     # Save Image
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     out_filename = f"post_{product['id']}_{timestamp}.jpg"
     out_path = os.path.join(OUTPUT_DIR, out_filename)
     base.save(out_path, quality=95)
-    print(f"✅ Rendered post image: {out_path}")
+    print(f"✅ Rendered creative ({theme['id']}) post image: {out_path}")
     return out_path
 
 def generate_caption(product):
@@ -399,10 +454,11 @@ def generate_caption(product):
     discount_pct = int(round((1 - (product["price_inr"] / product["compare_at"])) * 100))
     saving_inr = product["compare_at"] - product["price_inr"]
     bullets = "\n".join([f"✨ {feat}" for feat in product["features"]])
+    chosen_hook = random.choice(HOOK_TEMPLATES)
     
     caption = f"""{fest['greeting']}
 
-{product['hook']}
+{chosen_hook}
 
 Meet the {product['title']} — now in stock at RareEmber.
 
