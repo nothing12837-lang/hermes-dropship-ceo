@@ -21,6 +21,18 @@ import requests
 import traceback
 from datetime import datetime, timezone, timedelta
 
+# Ensure UTF-8 output across Windows and all console environments
+if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+if sys.stderr and hasattr(sys.stderr, 'reconfigure'):
+    try:
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
 IST = timezone(timedelta(hours=5, minutes=30))
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MEMORY_DIR = os.path.join(BASE_DIR, "HERMES_MEMORY")
