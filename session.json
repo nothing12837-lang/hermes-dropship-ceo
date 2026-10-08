@@ -1,12 +1,12 @@
 {
     "uuids": {
-        "phone_id": "13a3d93d-7f5c-4087-bff4-5fc1f83dadd2",
-        "uuid": "7209a460-0993-4c7c-b4e6-c930927304e9",
-        "client_session_id": "16a856ec-4a2b-4108-a5aa-28386ce824f1",
-        "advertising_id": "ebe193f0-30a9-4847-84ad-69f4ab457ac4",
-        "android_device_id": "android-ebe47e5a1708d07a",
-        "request_id": "119d6c58-c4e1-47ff-9508-08a8ddf2e68a",
-        "tray_session_id": "9a5f0f79-3c57-4eae-bd4b-f80f4feec72d"
+        "phone_id": "2d995072-e0aa-4ed2-943a-051435cbc948",
+        "uuid": "e935b73c-36a8-47dd-9fb7-c85094199f6f",
+        "client_session_id": "6f0c6740-2fa8-4e0f-896f-3d8cf9055087",
+        "advertising_id": "068bc197-fee9-4fef-9e9c-c0da6dd2f0f9",
+        "android_device_id": "android-c31f587c8e4ee9fc",
+        "request_id": "cf0390ba-5226-42e1-a86e-a419da6514f5",
+        "tray_session_id": "ab33fa72-e0c4-4d9a-9fb3-644d7675d48d"
     },
     "mid": null,
     "ig_u_rur": null,
@@ -19,7 +19,7 @@
     "cookies": {
         "sessionid": "72011430533%3AGRvQ0eWpTJXesH%3A19%3AAYkUMrTGBc8Pr8lRptbGbY6Q41JvodBi4m1g9aLTJQ",
         "ds_user_id": "72011430533",
-        "rur": "VLL%2C17841472195991428%2C1792684186%3A01ff7ba1b4d9ead73e24b198cda6ecef2068ebad0e551b8f1c67c19ffe7424028437df21"
+        "rur": "MWG%2C17841472195991428%2C1792704339%3A01ff38f38c958f568834a22da12747f99ae6cf32762592788fa474dd97ab231fef44e32a"
     },
     "last_login": null,
     "device_settings": {
@@ -31,11 +31,11 @@
         "device": "husky",
         "model": "Pixel 8 Pro",
         "cpu": "husky",
-        "app_version": "428.0.0.47.67",
-        "version_code": "961145276",
-        "bloks_versioning_id": "7189b949425f9bf80ea8bd880cf5a3080b292d9b1c4b38a18d112f7c4b71e7a8"
+        "app_version": "449.0.0.52.84",
+        "version_code": "1079242191",
+        "bloks_versioning_id": "799db3e387d7a21a19c72918b8698b6cd28a1516ade363792c100ed45a0f9f0b"
     },
-    "user_agent": "Instagram 428.0.0.47.67 Android (34/14; 480dpi; 1344x2992; Google/google; Pixel 8 Pro; husky; husky; en_US; 961145276)",
+    "user_agent": "Instagram 449.0.0.52.84 Android (34/14; 480dpi; 1344x2992; Google/google; Pixel 8 Pro; husky; husky; en_US; 1079242191)",
     "country": "US",
     "country_code": 1,
     "locale": "en_US",
@@ -55,6 +55,7 @@
         504
     ],
     "public_transport": "requests",
+    "private_transport": "curl",
     "public_transport_impersonate": "chrome136",
     "tls_verify": true
 }
