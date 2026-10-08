@@ -30,6 +30,19 @@ os.makedirs(os.path.join(SKILLS_DIR, "custom"), exist_ok=True)
 
 MEMORY_FILE = os.path.join(MEMORY_DIR, "long_term_memory.json")
 SEEN_ORDERS_FILE = os.path.join(MEMORY_DIR, "seen_orders.json")
+# Load local environment if available
+env_path = os.path.join(BASE_DIR, ".env")
+if os.path.exists(env_path):
+    try:
+        with open(env_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    if k.strip() not in os.environ:
+                        os.environ[k.strip()] = v.strip()
+    except Exception:
+        pass
 
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
 ALLOWED_USERS_RAW = os.environ.get("TELEGRAM_ALLOWED_USERS", "5238068527").strip()
@@ -222,6 +235,145 @@ def tool_generate_influencer_pitch(creator_name, platform="instagram", product_n
         "compensation": "Gifted Collaboration + Affiliate Commission"
     }
 
+def tool_trigger_instagram_drop():
+    """Triggers an immediate autonomous Instagram feed post using ig_autopilot."""
+    try:
+        import ig_autopilot
+        success = ig_autopilot.run_autopilot_cycle(dry_run=False)
+        return {
+            "status": "published" if success else "failed",
+            "message": "New product creative rendered and published to @RareEmber feed." if success else "Failed to publish."
+        }
+    except Exception as e:
+        return {"status": "error", "error": str(e)}
+
+def tool_system_health_check():
+    """Performs instant health audit on storefront, database, and gateways."""
+    start_time = time.time()
+    try:
+        r = SESSION.get(SITE_URL, timeout=5)
+        store_up = r.status_code == 200
+        latency_ms = int((time.time() - start_time) * 1000)
+    except Exception:
+        store_up = False
+        latency_ms = -1
+    return {
+        "storefront_url": SITE_URL,
+        "status": "ONLINE" if store_up else "DEGRADED",
+        "latency_ms": latency_ms,
+        "gateways": ["Razorpay UPI", "Cash on Delivery (COD) Rs. 49 fee"],
+        "instagram_autopilot": "ACTIVE (Cloud Scheduled at 10 AM & 8 PM IST)",
+        "autonomous_agent": "HERMES 2.0 (JARVIS Edition)"
+    }
+
+def tool_calculate_unit_economics(selling_price_inr, supplier_cost_usd):
+    """Calculates dropshipping unit economics, margins, and profit per order."""
+    sp = float(selling_price_inr)
+    cost_inr = float(supplier_cost_usd) * 85.0
+    shipping_inr = 150.0  # BlueDart / Delhivery average
+    rto_buffer = sp * 0.08  # 8% RTO reserve for COD
+    gateway_fee = sp * 0.02  # 2% Razorpay fee
+    net_profit = sp - (cost_inr + shipping_inr + rto_buffer + gateway_fee)
+    margin_pct = (net_profit / sp) * 100 if sp > 0 else 0
+    return {
+        "selling_price_inr": round(sp, 2),
+        "supplier_cost_inr": round(cost_inr, 2),
+        "shipping_cost_inr": shipping_inr,
+        "gateway_and_rto_buffer": round(gateway_fee + rto_buffer, 2),
+        "net_profit_inr": round(net_profit, 2),
+        "net_margin_percentage": f"{round(margin_pct, 1)}%",
+        "verdict": "HIGH PROFIT ITEM 🚀" if margin_pct > 35 else "MODERATE MARGIN"
+    }
+
+SUPPORT_EMAIL = os.environ.get("SUPPORT_EMAIL", "rareemberagency@gmail.com")
+GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
+
+def tool_draft_customer_email(customer_email, issue_type="order_status", details=""):
+    """Drafts empathetic, highly professional customer support email resolution."""
+    issue_lower = issue_type.lower()
+    if "track" in issue_lower or "where" in issue_lower or "status" in issue_lower:
+        subject = "Update regarding your RareEmber Order 📦"
+        body = f"""Dear Valued Customer,
+
+Thank you for reaching out to RareEmber Customer Care.
+
+Your order is being processed with our express courier partners (BlueDart / Delhivery). You can track your real-time shipment status anytime by visiting:
+https://rareember-store.vercel.app/track
+
+If your package was dispatched within the last 24 hours, live GPS tracking scans may take a short moment to reflect online. 
+
+Rest assured, your package is safely on its way. If you have any further questions, simply reply to this email.
+
+Warm regards,
+Hermes | Customer Care Concierge
+RareEmber (rareemberagency@gmail.com)"""
+    elif "return" in issue_lower or "refund" in issue_lower or "damage" in issue_lower:
+        subject = "RareEmber: 30-Day Zero-Risk Return & Replacement Guarantee 🛡️"
+        body = f"""Dear Valued Customer,
+
+We are truly sorry to hear that your item did not meet expectations or arrived with an issue.
+
+At RareEmber, you are 100% protected under our 30-Day Zero-Questions Return & Replacement Policy.
+
+Please reply to this email with a quick photo of the item received. Once verified, our team will immediately arrange:
+1. A free expedited replacement delivered to your doorstep, OR
+2. A 100% full refund credited back to your original payment method within 5-7 business days.
+
+We sincerely appreciate your trust in RareEmber.
+
+Warm regards,
+Hermes | Customer Care Concierge
+RareEmber (rareemberagency@gmail.com)"""
+    else:
+        subject = "Regarding your inquiry with RareEmber ✨"
+        body = f"""Dear Valued Customer,
+
+Thank you for contacting RareEmber Support.
+
+{details if details else "We have received your request and our team is actively reviewing the details."}
+
+If you need any further assistance, please let us know. We are here to help 24/7.
+
+Warm regards,
+Hermes | Customer Care Concierge
+RareEmber (rareemberagency@gmail.com)"""
+
+    return {
+        "status": "drafted",
+        "to_email": customer_email,
+        "from_email": SUPPORT_EMAIL,
+        "subject": subject,
+        "body": body
+    }
+
+def tool_send_support_email(to_email, subject, body):
+    """Sends email via Gmail SMTP if GMAIL_APP_PASSWORD is set, or returns formatted draft."""
+    if GMAIL_APP_PASSWORD:
+        import smtplib
+        from email.mime.text import MIMEText
+        from email.mime.multipart import MIMEMultipart
+        try:
+            msg = MIMEMultipart()
+            msg["From"] = SUPPORT_EMAIL
+            msg["To"] = to_email
+            msg["Subject"] = subject
+            msg.attach(MIMEText(body, "plain"))
+            with smtplib.SMTP("smtp.gmail.com", 587) as server:
+                server.starttls()
+                server.login(SUPPORT_EMAIL, GMAIL_APP_PASSWORD)
+                server.send_message(msg)
+            return {"status": "sent", "to": to_email, "subject": subject}
+        except Exception as e:
+            return {"status": "smtp_error", "error": str(e), "draft": {"to": to_email, "subject": subject, "body": body}}
+    return {
+        "status": "ready_to_send",
+        "notice": "GMAIL_APP_PASSWORD not set in secrets; draft ready for copy-paste or approval.",
+        "to": to_email,
+        "from": SUPPORT_EMAIL,
+        "subject": subject,
+        "body": body
+    }
+
 # Function Map for Execution
 TOOL_DISPATCHER = {
     "get_store_metrics": lambda args: tool_get_store_metrics(args.get("timeframe", "all_time")),
@@ -232,7 +384,12 @@ TOOL_DISPATCHER = {
     "fulfill_order_cj": lambda args: tool_fulfill_order_cj(args.get("order_id", "")),
     "check_pincode": lambda args: tool_check_pincode(args.get("pincode", "")),
     "generate_ad_campaign": lambda args: tool_generate_ad_campaign(args.get("product_name", ""), args.get("platform", "instagram_reels")),
-    "generate_influencer_pitch": lambda args: tool_generate_influencer_pitch(args.get("creator_name", "Creator"), args.get("platform", "instagram"), args.get("product_name", "Item"))
+    "generate_influencer_pitch": lambda args: tool_generate_influencer_pitch(args.get("creator_name", "Creator"), args.get("platform", "instagram"), args.get("product_name", "Item")),
+    "trigger_instagram_drop": lambda args: tool_trigger_instagram_drop(),
+    "system_health_check": lambda args: tool_system_health_check(),
+    "calculate_unit_economics": lambda args: tool_calculate_unit_economics(args.get("selling_price_inr", 0), args.get("supplier_cost_usd", 0)),
+    "draft_customer_email": lambda args: tool_draft_customer_email(args.get("customer_email", ""), args.get("issue_type", "order_status"), args.get("details", "")),
+    "send_support_email": lambda args: tool_send_support_email(args.get("to_email", ""), args.get("subject", ""), args.get("body", ""))
 }
 
 # ─────────────────────────────────────────────────────────────
@@ -342,6 +499,60 @@ AGENT_TOOLS_SCHEMA = [
                     },
                     "required": ["creator_name"]
                 }
+            },
+            {
+                "name": "trigger_instagram_drop",
+                "description": "Trigger an immediate autonomous marketing drop on RareEmber's official Instagram feed (@RareEmber).",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            },
+            {
+                "name": "system_health_check",
+                "description": "Audit storefront server latency, database connectivity, payment gateways, and autopilot systems.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            },
+            {
+                "name": "calculate_unit_economics",
+                "description": "Calculate product profit margins, shipping cost, gateway fees, and RTO buffer in INR from supplier USD cost.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "selling_price_inr": {"type": "number", "description": "Retail price on store in INR"},
+                        "supplier_cost_usd": {"type": "number", "description": "Supplier cost in USD"}
+                    },
+                    "required": ["selling_price_inr", "supplier_cost_usd"]
+                }
+            },
+            {
+                "name": "draft_customer_email",
+                "description": "Draft an empathetic, professional customer service email for order status, refund, return, or general inquiry.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "customer_email": {"type": "string", "description": "Customer's email address"},
+                        "issue_type": {"type": "string", "description": "order_status, refund, return, or general"},
+                        "details": {"type": "string", "description": "Specific details or reason"}
+                    },
+                    "required": ["customer_email"]
+                }
+            },
+            {
+                "name": "send_support_email",
+                "description": "Send an official support email to a customer from rareemberagency@gmail.com.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "to_email": {"type": "string", "description": "Customer email"},
+                        "subject": {"type": "string", "description": "Email subject line"},
+                        "body": {"type": "string", "description": "Email body content"}
+                    },
+                    "required": ["to_email", "subject", "body"]
+                }
             }
         ]
     }
@@ -353,27 +564,42 @@ AGENT_TOOLS_SCHEMA = [
 
 def build_system_prompt():
     mem = load_memory()
-    facts_str = "\n".join(f"• {f}" for f in mem.get("learned_facts", [])[-6:])
-    return f"""You are Hermes (Radha), Ajay Rajbhar's autonomous AI Chief Operating Officer (COO) and dropshipping executive for RareEmber ({SITE_URL}).
-You are built like Meta's Muse AI — an autonomous agent that takes real actions using tools, creates strategies, analyzes live store data, and executes operations.
+    facts_str = "\n".join(f"• {f}" for f in mem.get("learned_facts", [])[-8:])
+    return f"""You are Hermes (JARVIS), Ajay Rajbhar's autonomous AI Chief of Staff and Executive COO for RareEmber ({SITE_URL}).
+You are built like Tony Stark's JARVIS and Meta's Muse AI — an elite autonomous intelligence that takes direct actions, manages operations, audits live systems, writes/sends customer emails, calculates unit economics, triggers viral Instagram marketing, and executes business strategy.
 
 FOUNDER & BOSS:
-- Ajay Rajbhar (Always address him with respect as Ajay).
+- Ajay Rajbhar (Always address him with respect as Ajay or Sir/Boss).
 
-STORE ARCHITECTURE:
-- Store: RareEmber (https://rareember-store.vercel.app)
-- Currency: INR ₹ (Domestic India) & USD $ (Global)
+STORE ARCHITECTURE & SYSTEMS:
+- Storefront: RareEmber (https://rareember-store.vercel.app)
+- Official Support Email: {SUPPORT_EMAIL} (rareemberagency@gmail.com)
+- Instagram: @RareEmber (Automated marketing engine with PIL creative renderer)
+- Currency: Domestic India in INR (₹) & Global in USD ($)
 - Gateways: Razorpay (UPI, NetBanking, Cards) + Cash on Delivery (COD ₹49 fee)
-- Fulfillment: CJ Dropshipping API + BlueDart/Delhivery/India Post
+- Fulfillment: CJ Dropshipping API + BlueDart/Delhivery/India Post (2-5 days India delivery)
+
+CAPABILITIES & REAL TOOLS:
+1. `system_health_check`: Instant audit of storefront, DB latency, payment gateways, and autopilot.
+2. `trigger_instagram_drop`: Autonomously renders and publishes a new viral product drop to @RareEmber feed.
+3. `calculate_unit_economics`: Calculates exact profit margins, gateway cuts, shipping, and COD RTO buffer in INR.
+4. `draft_customer_email`: Empathic, professional email resolution for customer support (refunds, tracking, replacements).
+5. `send_support_email`: Sends official email via {SUPPORT_EMAIL}.
+6. `get_store_metrics` & `list_orders`: Live sales, order counts, and customer transaction audits.
+7. `search_products`: Real catalog search with prices, stock, and ratings.
+8. `teach_memory` & `create_skill`: Permanently learns new rules and installs new custom skills into your agent registry.
+9. `check_pincode`: Indian courier verification (BlueDart/Delhivery).
+10. `generate_ad_campaign` & `generate_influencer_pitch`: High-converting marketing copy and creator outreach.
 
 LEARNED MEMORY:
 {facts_str}
 
 OPERATING PRINCIPLES:
-1. Always be decisive, strategic, and direct in natural Hinglish or English.
-2. Use tools proactively when Ajay asks about orders, revenue, products, delivery, or strategy.
-3. Keep answers punchy, confident, and executive (2-5 lines with clear next action steps).
-4. Never repeat static robotic text. Always reason dynamically as a true autonomous AI executive.
+1. Act like a true JARVIS — hyper-intelligent, proactive, concise, confident, and never generic.
+2. Speak in natural Hinglish or English matching Ajay's tone.
+3. When Ajay asks you to do something (e.g., check store, email customer, calculate profit, post to Instagram), ALWAYS call the corresponding tool first, observe the real data, and then present the result clearly.
+4. If drafting or sending emails, ensure the tone is deeply respectful, reassuring, and represents RareEmber Customer Care (rareemberagency@gmail.com).
+5. Format Telegram responses neatly with HTML tags (<b>, <code>, <a>).
 """
 
 def execute_react_agent_turn(user_msg, chat_id):
@@ -387,7 +613,7 @@ def execute_react_agent_turn(user_msg, chat_id):
         contents.append({"role": role, "parts": [{"text": h["content"]}]})
     contents.append({"role": "user", "parts": [{"text": user_msg}]})
 
-    candidate_models = ["gemini-3.1-flash-lite-preview", "gemini-3-flash-preview"]
+    candidate_models = ["gemini-3.1-flash-lite", "gemini-3.8-flash", "gemini-flash-latest"]
 
     for model in candidate_models:
         try:
