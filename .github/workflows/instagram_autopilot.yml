@@ -26,6 +26,15 @@ on:
           - problem_solver
           - festive_deal
           - trust_builder
+      format:
+        description: 'Content Format (Auto, Post Image, or Video Reel)'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - post
+          - reel
 
 permissions:
   contents: write
@@ -45,6 +54,9 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
+      - name: Ensure FFmpeg Installed
+        run: which ffmpeg || sudo apt-get update && sudo apt-get install -y ffmpeg
+
       - name: Install Dependencies
         run: pip install -r requirements.txt
 
@@ -57,7 +69,7 @@ jobs:
           TELEGRAM_CHAT_ID: "5238068527"
           STORE_URL: "https://rareember-store.vercel.app"
         run: |
-          python ig_autopilot.py --campaign-type "${{ github.event.inputs.campaign_type || 'auto' }}"
+          python ig_autopilot.py --campaign-type "${{ github.event.inputs.campaign_type || 'auto' }}" --format "${{ github.event.inputs.format || 'auto' }}"
 
       - name: Commit Updated Post History & Session
         if: always()

@@ -449,10 +449,169 @@ def render_post_image(product):
     print(f"✅ Rendered creative ({theme['id']}) post image: {out_path}")
     return out_path
 
+def render_reel_video(product):
+    """
+    Renders an agency-grade 1080x1920 (9:16) Instagram Reel video (.mp4) with dynamic motion slides.
+    Slide 1: Viral Hook & Aesthetics (0-3.5s)
+    Slide 2: Product Features & Social Proof (3.5-7.0s)
+    Slide 3: Festive Discount & 1-Click COD Offer (7.0-11.0s)
+    """
+    import subprocess
+    import tempfile
+    
+    width = 1080
+    height = 1920
+    fest = get_current_festival()
+    discount_pct = int(round((1 - (product["price_inr"] / product["compare_at"])) * 100))
+    saving_inr = product["compare_at"] - product["price_inr"]
+    
+    img_url = product["image_url"]
+    try:
+        resp = requests.get(img_url, timeout=10)
+        prod_img = Image.open(BytesIO(resp.content)).convert("RGB")
+    except Exception as e:
+        print(f"Reel image fetch error: {e}")
+        prod_img = Image.new("RGB", (900, 900), color=(240, 240, 240))
+        
+    prod_square = prod_img.resize((920, 920), Image.Resampling.LANCZOS)
+    
+    font_brand = get_font(46, bold=True)
+    font_title = get_font(44, bold=True)
+    font_sub = get_font(28, bold=False)
+    font_badge = get_font(32, bold=True)
+    font_price = get_font(60, bold=True)
+    font_btn = get_font(36, bold=True)
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        slides = []
+        
+        # --- SLIDE 1: VIRAL HOOK ---
+        s1 = Image.new("RGB", (width, height), color=(15, 23, 42))
+        d1 = ImageDraw.Draw(s1)
+        d1.rectangle([0, 0, width, 180], fill=(10, 15, 30))
+        d1.text((70, 60), "rareember.", fill=(255, 255, 255), font=font_brand)
+        d1.ellipse([325, 80, 345, 100], fill=(255, 107, 53))
+        d1.text((70, 120), "OFFICIAL VIRAL DROP • INDIA", fill=(148, 163, 184), font=font_sub)
+        
+        d1.rounded_rectangle([width - 420, 65, width - 70, 125], radius=28, fill=(255, 107, 53))
+        d1.text((width - 400, 80), fest['banner'], fill=(255, 255, 255), font=get_font(20, bold=True))
+        
+        d1.rounded_rectangle([70, 230, width - 70, 360], radius=24, fill=(30, 41, 59))
+        d1.text((100, 255), "🛑 STOP SCROLLING", fill=(239, 68, 68), font=font_badge)
+        d1.text((100, 305), "This lifestyle drop is going viral across India ✨", fill=(241, 245, 249), font=get_font(26, bold=True))
+        
+        d1.rounded_rectangle([70, 410, width - 70, 1370], radius=32, fill=(30, 41, 59), outline=(51, 65, 85), width=3)
+        s1.paste(prod_square, (80, 430))
+        
+        d1.rounded_rectangle([110, 460, 310, 530], radius=28, fill=(220, 38, 38))
+        d1.text((130, 475), f"-{discount_pct}% OFF", fill=(255, 255, 255), font=font_badge)
+        
+        d1.text((80, 1420), product["title"][:38], fill=(255, 255, 255), font=font_title)
+        d1.text((80, 1490), f"⚡ Factory Direct: Rs. {product['price_inr']:,}", fill=(255, 184, 0), font=font_price)
+        d1.text((80, 1570), f"M.R.P. Rs. {product['compare_at']:,} • You Save Rs. {saving_inr:,}", fill=(148, 163, 184), font=font_sub)
+        
+        d1.rounded_rectangle([70, 1680, width - 70, 1800], radius=36, fill=(255, 107, 53))
+        d1.text((260, 1720), "KEEP WATCHING FOR SPECS ▾", fill=(255, 255, 255), font=font_btn)
+        
+        p1 = os.path.join(tmpdir, "slide_0.jpg")
+        s1.save(p1, quality=95)
+        slides.append(p1)
+        
+        # --- SLIDE 2: FEATURES & TRUST ---
+        s2 = Image.new("RGB", (width, height), color=(11, 15, 25))
+        d2 = ImageDraw.Draw(s2)
+        d2.rectangle([0, 0, width, 180], fill=(10, 15, 30))
+        d2.text((70, 60), "rareember.", fill=(255, 255, 255), font=font_brand)
+        d2.ellipse([325, 80, 345, 100], fill=(255, 107, 53))
+        d2.text((70, 120), "UNMATCHED QUALITY PROOF", fill=(148, 163, 184), font=font_sub)
+        
+        d2.rounded_rectangle([70, 230, width - 70, 1050], radius=32, fill=(24, 30, 48), outline=(51, 65, 85), width=2)
+        small_prod = prod_img.resize((480, 480), Image.Resampling.LANCZOS)
+        s2.paste(small_prod, ((width - 480) // 2, 260))
+        
+        fy = 780
+        for feat in product["features"][:3]:
+            d2.text((110, fy), f"✔ {feat}", fill=(241, 245, 249), font=get_font(28, bold=True))
+            fy += 65
+            
+        d2.rounded_rectangle([70, 1100, width - 70, 1280], radius=24, fill=(16, 185, 129))
+        d2.text((120, 1135), f"⭐ {product['rating']}/5.0 VERIFIED BUYER RATING", fill=(255, 255, 255), font=font_badge)
+        d2.text((120, 1195), f"Over {product['reviews']}+ Happy Customers Across India 🇮🇳", fill=(255, 255, 255), font=font_sub)
+        
+        d2.rounded_rectangle([70, 1330, width - 70, 1620], radius=28, fill=(30, 41, 59))
+        d2.text((110, 1370), "🚚 Pan-India Express Delivery (2–4 Days)", fill=(241, 245, 249), font=font_sub)
+        d2.text((110, 1440), "💵 Cash on Delivery (COD) Available", fill=(241, 245, 249), font=font_sub)
+        d2.text((110, 1510), "🛡️ 30-Day Zero-Risk Return Guarantee", fill=(241, 245, 249), font=font_sub)
+        
+        d2.rounded_rectangle([70, 1680, width - 70, 1800], radius=36, fill=(255, 107, 53))
+        d2.text((270, 1720), "OFFER DETAILS NEXT ▾", fill=(255, 255, 255), font=font_btn)
+        
+        p2 = os.path.join(tmpdir, "slide_1.jpg")
+        s2.save(p2, quality=95)
+        slides.append(p2)
+        
+        # --- SLIDE 3: FESTIVE DEAL & BUY CTA ---
+        s3 = Image.new("RGB", (width, height), color=(18, 12, 8))
+        d3 = ImageDraw.Draw(s3)
+        d3.rectangle([0, 0, width, 180], fill=(25, 15, 10))
+        d3.text((70, 60), "rareember.", fill=(255, 255, 255), font=font_brand)
+        d3.ellipse([325, 80, 345, 100], fill=(255, 107, 53))
+        d3.text((70, 120), fest['greeting'], fill=(255, 184, 0), font=font_sub)
+        
+        d3.rounded_rectangle([70, 240, width - 70, 600], radius=32, fill=(249, 115, 22), outline=(255, 237, 213), width=4)
+        d3.text((110, 280), "🪔 GRAND FESTIVE COUPON", fill=(255, 255, 255), font=font_badge)
+        d3.text((110, 350), f"USE CODE: {fest['coupon']}", fill=(255, 255, 255), font=get_font(52, bold=True))
+        d3.text((110, 440), f"{fest['discount_desc']}!", fill=(255, 255, 255), font=font_sub)
+        d3.text((110, 500), "Valid Across 19,000+ PIN Codes in India", fill=(255, 255, 255), font=get_font(22, bold=False))
+        
+        d3.rounded_rectangle([70, 650, width - 70, 950], radius=32, fill=(28, 25, 23), outline=(68, 64, 60), width=2)
+        d3.text((110, 700), f"TODAY'S SPECIAL: Rs. {product['price_inr']:,}", fill=(255, 184, 0), font=font_price)
+        d3.text((110, 780), f"M.R.P. Rs. {product['compare_at']:,} (-{discount_pct}% OFF)", fill=(168, 162, 158), font=font_sub)
+        d3.text((110, 840), f"Extra ₹100 Off with coupon {fest['coupon']} at checkout", fill=(34, 197, 94), font=font_sub)
+        
+        d3.rounded_rectangle([70, 1000, width - 70, 1400], radius=32, fill=(28, 25, 23))
+        d3.text((110, 1050), "🛒 HOW TO ORDER RIGHT NOW:", fill=(255, 255, 255), font=font_badge)
+        d3.text((110, 1130), "1. Tap Link in Bio (@rareember)", fill=(241, 245, 249), font=font_sub)
+        d3.text((110, 1200), "2. Or Comment 'BUY' for instant DM link", fill=(241, 245, 249), font=font_sub)
+        d3.text((110, 1270), "3. Pay via Cash on Delivery at your door", fill=(241, 245, 249), font=font_sub)
+        
+        d3.rounded_rectangle([70, 1500, width - 70, 1680], radius=42, fill=(255, 107, 53))
+        d3.text((170, 1565), "TAP LINK IN BIO TO BUY NOW ⚡", fill=(255, 255, 255), font=get_font(40, bold=True))
+        
+        d3.text((width // 2 - 240, 1750), "rareember-store.vercel.app", fill=(148, 163, 184), font=font_sub)
+        
+        p3 = os.path.join(tmpdir, "slide_2.jpg")
+        s3.save(p3, quality=95)
+        slides.append(p3)
+        
+        concat_txt = os.path.join(tmpdir, "concat.txt")
+        with open(concat_txt, "w") as cf:
+            cf.write("file 'slide_0.jpg'\nduration 3.5\nfile 'slide_1.jpg'\nduration 3.5\nfile 'slide_2.jpg'\nduration 4.0\nfile 'slide_2.jpg'\n")
+            
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        out_filename = f"reel_{product['id']}_{timestamp}.mp4"
+        out_path = os.path.join(OUTPUT_DIR, out_filename)
+        
+        cmd = [
+            "ffmpeg", "-y",
+            "-f", "concat", "-safe", "0", "-i", concat_txt,
+            "-f", "lavfi", "-i", "sine=f=220:d=11",
+            "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "30",
+            "-c:a", "aac", "-b:a", "128k",
+            "-shortest",
+            out_path
+        ]
+        res = subprocess.run(cmd, cwd=tmpdir, capture_output=True, text=True)
+        if res.returncode == 0 and os.path.exists(out_path):
+            print(f"🎬 Rendered 1080x1920 Instagram Reel Video: {out_path} ({os.path.getsize(out_path)} bytes)")
+            return out_path
+        else:
+            print(f"FFmpeg error: {res.stderr}, falling back to post image")
+            return render_post_image(product)
+
 def resolve_campaign_type(requested_type="auto"):
     if requested_type and requested_type != "auto":
         return requested_type
-    # Detect based on India Standard Time (IST)
     ist_hour = (datetime.now(timezone.utc) + timedelta(hours=5, minutes=30)).hour
     if 9 <= ist_hour < 12:
         return "catalog"          # 10:00 AM IST (Auto Post 1)
@@ -518,25 +677,28 @@ Meet the {product['title']} — in stock now at RareEmber.
 {fest['hashtags']} #curatedstyle #trendingproducts #viralfinds #indiand2c #gadgetsindia #homeaesthetic #desksetup #expressdelivery #cashondelivery #shopindia"""
     return caption, c_type
 
-def send_telegram_alert(photo_path, caption_summary):
+def send_telegram_alert(media_path, caption_summary):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         return
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
+    is_video = media_path.lower().endswith(".mp4")
+    endpoint = "sendVideo" if is_video else "sendPhoto"
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/{endpoint}"
+    file_key = "video" if is_video else "photo"
     try:
-        with open(photo_path, "rb") as f:
+        with open(media_path, "rb") as f:
             data = {
                 "chat_id": TELEGRAM_CHAT_ID,
                 "caption": f"🚀 *RareEmber Instagram Autopilot*\n\n{caption_summary}",
                 "parse_mode": "Markdown"
             }
-            resp = requests.post(url, data=data, files={"photo": f}, timeout=15)
+            resp = requests.post(url, data=data, files={file_key: f}, timeout=30)
             if resp.status_code == 200:
                 print("📲 Telegram alert delivered to Ajay successfully.")
     except Exception as e:
         print(f"Telegram alert error: {e}")
 
-def post_to_instagram(photo_path, caption, product=None):
-    """Logs into Instagram using instagrapi and publishes the photo."""
+def post_to_instagram(media_path, caption, product=None):
+    """Logs into Instagram using instagrapi and publishes the photo or video Reel."""
     try:
         from instagrapi import Client
         cl = Client()
@@ -580,9 +742,15 @@ def post_to_instagram(photo_path, caption, product=None):
             pass
         print("✅ Login authenticated successfully!")
         
-        print("📤 Uploading photo to Instagram feed...")
-        media = cl.photo_upload(photo_path, caption=caption)
-        print(f"🎉 SUCCESS! Published to Instagram. Media ID: {media.pk}")
+        is_video = media_path.lower().endswith(".mp4")
+        if is_video:
+            print("📤 Uploading video Reel to Instagram Reels (@rareember)...")
+            media = cl.clip_upload(media_path, caption=caption)
+            print(f"🎉 SUCCESS! Published Reel to Instagram! Media ID: {media.pk}")
+        else:
+            print("📤 Uploading photo to Instagram feed (@rareember)...")
+            media = cl.photo_upload(media_path, caption=caption)
+            print(f"🎉 SUCCESS! Published Post to Instagram! Media ID: {media.pk}")
 
         # Agency Enhancement: Auto-post 1st Comment with direct link & instant discount
         if product:
@@ -605,7 +773,7 @@ def post_to_instagram(photo_path, caption, product=None):
         print(f"❌ Instagram upload error: {e}")
         return False
 
-def run_autopilot_cycle(dry_run=False, campaign_type="auto"):
+def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="auto"):
     print("=" * 60)
     print(f"🚀 RAREEMBER INSTAGRAM AUTOPILOT CYCLE | {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 60)
@@ -613,35 +781,47 @@ def run_autopilot_cycle(dry_run=False, campaign_type="auto"):
     product = pick_next_product()
     print(f"📦 Selected Product: {product['title']} (ID: {product['id']})")
     
-    # 1. Render Post Image
-    image_path = render_post_image(product)
-    
-    # 2. Generate Caption with Campaign Type
-    caption, c_type = generate_caption(product, campaign_type=campaign_type)
+    # 1. Resolve campaign angle
+    c_type = resolve_campaign_type(campaign_type)
     print(f"🎯 Active Campaign Angle: {c_type.upper()}")
+
+    # 2. Render Media (Reel MP4 or Feed JPG)
+    should_render_reel = (format_type == "reel") or (format_type == "auto" and c_type in ["problem_solver", "festive_deal"])
+    if should_render_reel:
+        print("🎬 Rendering Vertical 9:16 Instagram Reel Video...")
+        media_path = render_reel_video(product)
+    else:
+        print("🖼️ Rendering Vertical 4:5 Instagram Feed Creative...")
+        media_path = render_post_image(product)
     
-    # 3. Post or Dry Run
+    # 3. Generate Caption
+    caption, _ = generate_caption(product, campaign_type=c_type)
+    
+    # 4. Post or Dry Run
     if dry_run:
         print("\n[DRY RUN MODE ACTIVE]")
         print("📝 Generated Caption:\n" + "-" * 40)
         print(caption)
         print("-" * 40)
-        print(f"🖼️ Creative Image Saved at: {image_path}")
-        send_telegram_alert(image_path, f"📸 *Dry-Run Preview Ready ({c_type.upper()})*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Post creative rendered and ready.")
+        print(f"🖼️ Media Asset Saved at: {media_path}")
+        media_kind = "Reel Video (MP4)" if media_path.endswith(".mp4") else "Feed Image (JPG)"
+        send_telegram_alert(media_path, f"📸 *Dry-Run Preview Ready ({c_type.upper()} | {media_kind})*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Media generated and ready for broadcast.")
         return True
     else:
-        success = post_to_instagram(image_path, caption, product=product)
+        success = post_to_instagram(media_path, caption, product=product)
         if success:
             history = load_history()
+            media_kind = "reel" if media_path.endswith(".mp4") else "post"
             history.append({
                 "id": product["id"],
                 "title": product["title"],
                 "campaign_type": c_type,
+                "format": media_kind,
                 "posted_at": datetime.now(timezone.utc).isoformat(),
-                "image_path": image_path
+                "media_path": media_path
             })
             save_history(history)
-            send_telegram_alert(image_path, f"✅ *Auto-Posted Drop to Instagram ({c_type.upper()})*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Live on feed with hashtags and bio link.")
+            send_telegram_alert(media_path, f"✅ *Auto-Posted {media_kind.upper()} to Instagram ({c_type.upper()})*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Live on @rareember with direct product link & bio link.")
             return True
         return False
 
@@ -649,6 +829,7 @@ def main():
     parser = argparse.ArgumentParser(description="RareEmber Instagram Autopilot")
     parser.add_argument("--dry-run", action="store_true", help="Generate post and send preview to Telegram without uploading to IG")
     parser.add_argument("--campaign-type", choices=["auto", "catalog", "problem_solver", "festive_deal", "trust_builder"], default="auto", help="Campaign angle for post")
+    parser.add_argument("--format", choices=["auto", "post", "reel"], default="auto", help="Content format (post image or video reel)")
     parser.add_argument("--daemon", action="store_true", help="Run continuously in background, auto-posting at set intervals")
     parser.add_argument("--interval-hours", type=float, default=12.0, help="Posting interval in hours for daemon mode (default: 12)")
     args = parser.parse_args()
@@ -657,14 +838,14 @@ def main():
         print(f"🔄 Daemon Mode Started: Posting every {args.interval_hours} hours...")
         while True:
             try:
-                run_autopilot_cycle(dry_run=args.dry_run, campaign_type=args.campaign_type)
+                run_autopilot_cycle(dry_run=args.dry_run, campaign_type=args.campaign_type, format_type=args.format)
             except Exception as e:
                 print(f"Cycle execution error: {e}")
             sleep_secs = int(args.interval_hours * 3600)
             print(f"⏳ Sleeping for {args.interval_hours} hours until next post...")
             time.sleep(sleep_secs)
     else:
-        run_autopilot_cycle(dry_run=args.dry_run, campaign_type=args.campaign_type)
+        run_autopilot_cycle(dry_run=args.dry_run, campaign_type=args.campaign_type, format_type=args.format)
 
 if __name__ == "__main__":
     main()
