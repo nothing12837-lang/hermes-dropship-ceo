@@ -510,7 +510,10 @@ Meet the {product['title']} — in stock now at RareEmber.
 🛡️ 30-Day Zero-Risk Return & Replacement Guarantee
 
 🛒 HOW TO ORDER:
-Tap the link in our bio (@rareember) or visit rareember-store.vercel.app directly to order yours today!
+🔗 Direct Product Link:
+https://rareember-store.vercel.app/product/{product['id']}
+
+📱 Or tap the direct link in our bio (@rareember) to checkout with 1-click Express COD!
 
 {fest['hashtags']} #curatedstyle #trendingproducts #viralfinds #indiand2c #gadgetsindia #homeaesthetic #desksetup #expressdelivery #cashondelivery #shopindia"""
     return caption, c_type
@@ -534,11 +537,6 @@ def send_telegram_alert(photo_path, caption_summary):
 
 def post_to_instagram(photo_path, caption):
     """Logs into Instagram using instagrapi and publishes the photo."""
-    if not IG_USERNAME or not IG_PASSWORD:
-        print("\n⚠️  IG_USERNAME or IG_PASSWORD not set in .env!")
-        print("    Run in --dry-run mode or update .env with your credentials.")
-        return False
-        
     try:
         from instagrapi import Client
         cl = Client()
@@ -546,21 +544,40 @@ def post_to_instagram(photo_path, caption):
         # Bypass deprecated Meta internal experiments endpoint that returns 404
         cl.expose = lambda *args, **kwargs: True
         
-        # Reuse existing session if available
-        if os.path.exists(SESSION_FILE):
-            print("🔑 Loading saved Instagram session...")
-            try:
-                cl.load_settings(SESSION_FILE)
-            except Exception:
-                pass
-                
+        session_loaded = False
+        
+        # 1. Prefer explicit fresh sessionid
         if IG_SESSIONID:
             print("🔑 Authenticating via Instagram sessionid cookie...")
-            cl.login_by_sessionid(IG_SESSIONID)
-        else:
+            try:
+                cl.login_by_sessionid(IG_SESSIONID)
+                session_loaded = True
+            except Exception as se:
+                print(f"⚠️ login_by_sessionid error: {se}")
+                
+        # 2. Fall back to saved session.json settings
+        if not session_loaded and os.path.exists(SESSION_FILE):
+            print("🔑 Loading saved Instagram session from session.json...")
+            try:
+                cl.load_settings(SESSION_FILE)
+                session_loaded = True
+            except Exception as se:
+                print(f"⚠️ session.json load error: {se}")
+                
+        # 3. Last fallback: credentials login
+        if not session_loaded and IG_USERNAME and IG_PASSWORD:
             print(f"🔐 Logging in as @{IG_USERNAME}...")
             cl.login(IG_USERNAME, IG_PASSWORD)
-        cl.dump_settings(SESSION_FILE)
+            session_loaded = True
+            
+        if not session_loaded:
+            print("\n⚠️ No valid Instagram credentials or session available!")
+            return False
+
+        try:
+            cl.dump_settings(SESSION_FILE)
+        except Exception:
+            pass
         print("✅ Login authenticated successfully!")
         
         print("📤 Uploading photo to Instagram feed...")

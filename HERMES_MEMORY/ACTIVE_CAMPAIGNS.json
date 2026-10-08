@@ -28,5 +28,35 @@
       "estimated_profit": "\u20b9210"
     },
     "status": "READY_TO_LAUNCH"
+  },
+  {
+    "cycle_id": "cycle_1791473200",
+    "timestamp": "2026-10-08T15:26:40.391709+00:00",
+    "campaign_name": "Viral Drop: Welcome Textured Mesh Door Mat (Heavy Duty 57x37.5 Cm)",
+    "platform": "Instagram Reels & Meta Ads",
+    "hook": "Does your entrance mat look dull before guests arrive for festive dinner? \ud83e\ude94\ud83d\udc40",
+    "video_script": "Dusty shoes entry test -> Mat traps 95% dirt effortlessly -> Quick water rinse -> 'Elevate your entrance for Diwali. Flat \u20b9449 with 2-4 days express delivery across India.'",
+    "offer": "DIWALI100 (Flat \u20b9100 OFF above \u20b9499) + Pan-India COD",
+    "unit_economics": {
+      "selling_price": "\u20b9449",
+      "supplier_cost": "\u20b9150",
+      "estimated_profit": "\u20b9220"
+    },
+    "status": "READY_TO_LAUNCH"
+  },
+  {
+    "cycle_id": "cycle_1791473240",
+    "timestamp": "2026-10-08T15:27:20.471031+00:00",
+    "campaign_name": "Viral Drop: Soft Stretchable Ankle Socks Mixed Designs (12 Pairs Pack)",
+    "platform": "Instagram Reels & Meta Ads",
+    "hook": "Why pay \u20b9150 for a single pair of socks when you can get a 12-pair designer pack for \u20b9449? \ud83e\udde6\ud83d\udd25",
+    "video_script": "Unbox 12 distinct aesthetic patterns -> Stretch & breathability test -> Style with white sneakers -> 'Premium breathable knit. 12 pairs for \u20b9449 on RareEmber with Cash on Delivery.'",
+    "offer": "DIWALI100 (Flat \u20b9100 OFF above \u20b9499) + Pan-India COD",
+    "unit_economics": {
+      "selling_price": "\u20b9449",
+      "supplier_cost": "\u20b9140",
+      "estimated_profit": "\u20b9230"
+    },
+    "status": "READY_TO_LAUNCH"
   }
 ]
