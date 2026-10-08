@@ -1,24 +1,25 @@
 {
     "uuids": {
-        "phone_id": "9c74c812-86dc-402e-b95a-7c218cbfe6fc",
-        "uuid": "e6257cd0-d8ee-4e3f-93ab-442ebb2f4c53",
-        "client_session_id": "02e4558c-81d0-41f0-aaed-51323149470f",
-        "advertising_id": "4ab75140-fc15-4576-9a38-6ba8b0c832bd",
-        "android_device_id": "android-8a46e70f346240d7",
-        "request_id": "90b82e5a-c59c-4c59-80ef-436865c98f17",
-        "tray_session_id": "d8bcf9ce-f2c6-49c0-882d-d86ba1558c7b"
+        "phone_id": "13a3d93d-7f5c-4087-bff4-5fc1f83dadd2",
+        "uuid": "7209a460-0993-4c7c-b4e6-c930927304e9",
+        "client_session_id": "16a856ec-4a2b-4108-a5aa-28386ce824f1",
+        "advertising_id": "ebe193f0-30a9-4847-84ad-69f4ab457ac4",
+        "android_device_id": "android-ebe47e5a1708d07a",
+        "request_id": "119d6c58-c4e1-47ff-9508-08a8ddf2e68a",
+        "tray_session_id": "9a5f0f79-3c57-4eae-bd4b-f80f4feec72d"
     },
     "mid": null,
     "ig_u_rur": null,
     "ig_www_claim": null,
     "authorization_data": {
         "ds_user_id": "72011430533",
-        "sessionid": "72011430533%3AJ8dDn3LQvpvF2R%3A3%3AAYkKtfY8VZEzxBBzPIimy0umrLkkLSCH_7IFqsMETmI",
+        "sessionid": "72011430533%3AGRvQ0eWpTJXesH%3A19%3AAYkUMrTGBc8Pr8lRptbGbY6Q41JvodBi4m1g9aLTJQ",
         "should_use_header_over_cookies": true
     },
     "cookies": {
-        "sessionid": "72011430533%3AJ8dDn3LQvpvF2R%3A3%3AAYkKtfY8VZEzxBBzPIimy0umrLkkLSCH_7IFqsMETmI",
-        "ds_user_id": "72011430533"
+        "sessionid": "72011430533%3AGRvQ0eWpTJXesH%3A19%3AAYkUMrTGBc8Pr8lRptbGbY6Q41JvodBi4m1g9aLTJQ",
+        "ds_user_id": "72011430533",
+        "rur": "VLL%2C17841472195991428%2C1792684186%3A01ff7ba1b4d9ead73e24b198cda6ecef2068ebad0e551b8f1c67c19ffe7424028437df21"
     },
     "last_login": null,
     "device_settings": {
@@ -30,11 +31,11 @@
         "device": "husky",
         "model": "Pixel 8 Pro",
         "cpu": "husky",
-        "app_version": "449.0.0.52.84",
-        "version_code": "1079242191",
-        "bloks_versioning_id": "799db3e387d7a21a19c72918b8698b6cd28a1516ade363792c100ed45a0f9f0b"
+        "app_version": "428.0.0.47.67",
+        "version_code": "961145276",
+        "bloks_versioning_id": "7189b949425f9bf80ea8bd880cf5a3080b292d9b1c4b38a18d112f7c4b71e7a8"
     },
-    "user_agent": "Instagram 449.0.0.52.84 Android (34/14; 480dpi; 1344x2992; Google/google; Pixel 8 Pro; husky; husky; en_US; 1079242191)",
+    "user_agent": "Instagram 428.0.0.47.67 Android (34/14; 480dpi; 1344x2992; Google/google; Pixel 8 Pro; husky; husky; en_US; 961145276)",
     "country": "US",
     "country_code": 1,
     "locale": "en_US",
@@ -54,7 +55,6 @@
         504
     ],
     "public_transport": "requests",
-    "private_transport": "curl",
     "public_transport_impersonate": "chrome136",
     "tls_verify": true
 }
