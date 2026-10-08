@@ -273,16 +273,16 @@ def query_gemini_api(user_msg, history):
         chat_formatted += f"{h['role'].upper()}: {h['content']}\n"
     chat_formatted += f"AJAY: {user_msg}\nHERMES:"
 
-    candidate_models = ["gemini-flash-latest", "gemini-3-flash-preview", "gemini-3.1-flash-lite-preview"]
+    candidate_models = ["gemini-3.1-flash-lite-preview", "gemini-3-flash-preview", "gemma-4-26b-a4b-it"]
 
     for model in candidate_models:
         try:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}"
             payload = {
                 "contents": [{"parts": [{"text": chat_formatted}]}],
-                "generationConfig": {"temperature": 0.4, "maxOutputTokens": 300}
+                "generationConfig": {"temperature": 0.4, "maxOutputTokens": 350}
             }
-            r = SESSION.post(url, json=payload, timeout=7)
+            r = SESSION.post(url, json=payload, timeout=12)
             if r.status_code == 200:
                 cand = r.json().get("candidates", [])
                 if cand:
@@ -381,14 +381,23 @@ def process_agent_response(user_msg, chat_id):
 
     # 6. High-IQ Conversational Fallback if APIs fail
     if not response:
-        if any(w in cmd_lower for w in ["hi", "hello", "hlo", "hey"]):
-            response = "Hello Ajay! Hermes active hai. Store operations, order status ya marketing copy me kya kaam karna hai?"
+        if cmd_lower in ["hi", "hello", "hlo", "hey", "hii", "helo"]:
+            response = "Hello Ajay! Hermes active hai. Store operations, marketing campaigns ya product scaling me kya update chahiye?"
+        elif any(k in cmd_lower for k in ["plan", "strategy", "roadmap"]):
+            response = (
+                "🎯 <b>RareEmber 20-Day Scale Plan:</b>\n"
+                "1. <b>Conversion & Trust:</b> Store UI live hai with INR/USD currency & Razorpay + COD.\n"
+                "2. <b>Winning Products:</b> Curate top 3 high-margin tech & pet accessories.\n"
+                "3. <b>Marketing Hooks:</b> Launch 3 viral TikTok/Instagram ad creatives.\n"
+                "4. <b>Autopilot Fulfillment:</b> CJ Dropshipping sync with 2-5 days domestic delivery.\n\n"
+                "Ajay, batao pehle kis product ke liye ad copy banayein?"
+            )
         elif "order" in cmd_lower:
             response = generate_orders_summary()
         elif "wtf" in cmd_lower:
-            response = "Batao Ajay kya issue hua? Main turant fix karta hoon."
+            response = "Batao Ajay kya issue hua? Main turant diagnose karke fix karta hoon."
         elif "who" in cmd_lower and "you" in cmd_lower:
-            response = "Main <b>Hermes (Radha)</b> hoon — tumhari autonomous dropshipping COO aur RareEmber manager."
+            response = "Main <b>Hermes (Radha)</b> hoon — tumhari autonomous dropshipping COO aur RareEmber store executive."
         else:
             response = f"Ajay, store live hai (<a href='{SITE_URL}'>rareember-store.vercel.app</a>). Main 24x7 control me hoon. Batao kya update execute karna hai?"
 
