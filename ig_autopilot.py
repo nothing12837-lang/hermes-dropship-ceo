@@ -258,6 +258,51 @@ def get_font(size, bold=False):
                 continue
     return ImageFont.load_default()
 
+def get_current_festival():
+    now = datetime.now()
+    m = now.month
+    d = now.day
+    # Oct / Nov: Diwali & Navratri season in India
+    if m in (10, 11):
+        return {
+            "name": "Diwali",
+            "emoji": "🪔",
+            "greeting": "🪔 Shubh Deepawali Grand Festive Sale!",
+            "coupon": "DIWALI100",
+            "discount_desc": "Flat ₹100 OFF on orders above ₹499",
+            "banner": "DIWALI DROP • CODE: DIWALI100",
+            "hashtags": "#diwalisale #diwalishopping #diwalideals #festiveindia #shubhdeepawali #rareember"
+        }
+    if m == 3:
+        return {
+            "name": "Holi",
+            "emoji": "🎨",
+            "greeting": "🎨 Happy Holi Festive Color Splash Sale!",
+            "coupon": "HOLI100",
+            "discount_desc": "Flat ₹100 OFF on orders above ₹499",
+            "banner": "HOLI DROP • CODE: HOLI100",
+            "hashtags": "#holisale #holishopping #festivalofcolors #holioffers #rareember"
+        }
+    if (m == 12 and d >= 20) or (m == 1 and d <= 15):
+        return {
+            "name": "New Year 2026",
+            "emoji": "🎉",
+            "greeting": "🎉 Happy New Year 2026 Celebration Drop!",
+            "coupon": "NEWYEAR2026",
+            "discount_desc": "Flat ₹100 OFF on orders above ₹499",
+            "banner": "NEW YEAR DROP • CODE: NEWYEAR2026",
+            "hashtags": "#newyearsale #newyear2026 #freshdrops #lifestyleindia #rareember"
+        }
+    return {
+        "name": "Welcome Drop",
+        "emoji": "⚡",
+        "greeting": "⚡ RareEmber Exclusive Factory Direct Drop!",
+        "coupon": "FIRST50",
+        "discount_desc": "Flat ₹50 OFF on your first order",
+        "banner": "OFFICIAL DROP • CODE: FIRST50",
+        "hashtags": "#rareember #curatedstyle #trendingproducts #viralfinds #indiand2c #gadgetsindia"
+    }
+
 def render_post_image(product):
     """
     Renders a stunning 1080x1350 (4:5) Instagram post creative.
@@ -273,17 +318,17 @@ def render_post_image(product):
     draw.rectangle([0, 0, width, 140], fill=(255, 255, 255))
     draw.line([(0, 140), (width, 140)], fill=(240, 235, 225), width=2)
     
+    fest = get_current_festival()
     font_brand = get_font(42, bold=True)
     font_sub = get_font(22, bold=False)
     draw.text((60, 40), "rareember.", fill=(26, 20, 18), font=font_brand)
     draw.ellipse([285, 60, 301, 76], fill=(255, 77, 36))
-    draw.text((60, 92), "CURATED CATALOG • OFFICIAL DROP", fill=(140, 130, 120), font=font_sub)
+    draw.text((60, 92), f"{fest['name'].upper()} SPECIAL • OFFICIAL DROP", fill=(140, 130, 120), font=font_sub)
     
-    # Category Pill Tag (Top Right)
-    cat_text = product.get("category", "Trending").upper()
-    font_tag = get_font(20, bold=True)
-    draw.rounded_rectangle([width - 320, 48, width - 60, 96], radius=24, fill=(255, 240, 232))
-    draw.text((width - 300, 60), f"DROP • {cat_text}", fill=(255, 77, 36), font=font_tag)
+    # Festive Coupon Pill Tag (Top Right)
+    font_tag = get_font(18, bold=True)
+    draw.rounded_rectangle([width - 380, 48, width - 60, 96], radius=24, fill=(255, 240, 232))
+    draw.text((width - 365, 62), fest['banner'], fill=(255, 77, 36), font=font_tag)
     
     # 2. Main Product Image (Centered Card)
     img_url = product["image_url"]
@@ -350,11 +395,14 @@ def render_post_image(product):
     return out_path
 
 def generate_caption(product):
+    fest = get_current_festival()
     discount_pct = int(round((1 - (product["price_inr"] / product["compare_at"])) * 100))
     saving_inr = product["compare_at"] - product["price_inr"]
     bullets = "\n".join([f"✨ {feat}" for feat in product["features"]])
     
-    caption = f"""{product['hook']}
+    caption = f"""{fest['greeting']}
+
+{product['hook']}
 
 Meet the {product['title']} — now in stock at RareEmber.
 
@@ -362,7 +410,8 @@ Meet the {product['title']} — now in stock at RareEmber.
 
 🏷️ M.R.P.: ₹{product['compare_at']:,}
 ⚡ Factory Direct Price: ₹{product['price_inr']:,} ONLY ({discount_pct}% OFF)
-💰 You Save: ₹{saving_inr:,} with Free Shipping across India!
+🎉 FESTIVE COUPON: Use code {fest['coupon']} for {fest['discount_desc']}!
+💰 You Save: ₹{saving_inr:,} + Extra Coupon Savings & Free Shipping across India!
 ★ {product['rating']}/5.0 verified authentic quality.
 
 🚚 Pan-India Express Delivery (2–4 Days via BlueDart & Delhivery)
@@ -372,7 +421,7 @@ Meet the {product['title']} — now in stock at RareEmber.
 🛒 HOW TO ORDER:
 Tap the link in our bio (@rareember) or visit rareember-store.vercel.app directly to order yours today!
 
-#rareember #curatedstyle #trendingproducts #viralfinds #indiand2c #gadgetsindia #homeaesthetic #desksetup #expressdelivery #cashondelivery #shopindia #indianstartups"""
+{fest['hashtags']} #curatedstyle #trendingproducts #viralfinds #indiand2c #gadgetsindia #homeaesthetic #desksetup #expressdelivery #cashondelivery #shopindia"""
     return caption
 
 def send_telegram_alert(photo_path, caption_summary):
