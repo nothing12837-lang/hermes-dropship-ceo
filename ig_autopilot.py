@@ -318,15 +318,15 @@ def render_post_image(product):
     font_rating = get_font(24, bold=True)
     draw.text((60, info_y + 55), f"RATING {product['rating']} / 5.0  *  ({product['reviews']} Verified Reviews)", fill=(217, 119, 6), font=font_rating)
     
-    # Pricing & Amazon Comparison
+    # Pricing & M.R.P. Savings (Clean branding, no competitor comparisons)
     font_price = get_font(52, bold=True)
     font_comp = get_font(28, bold=False)
     price_str = f"Rs. {product['price_inr']:,}"
-    comp_str = f"Amazon: Rs. {product['compare_at']:,}"
+    comp_str = f"M.R.P.: Rs. {product['compare_at']:,}"
     
     draw.text((width - 420, info_y), price_str, fill=(255, 77, 36), font=font_price)
     draw.text((width - 420, info_y + 60), comp_str, fill=(160, 150, 140), font=font_comp)
-    # Strike through Amazon compare price
+    # Strike through M.R.P.
     draw.line([(width - 425, info_y + 76), (width - 150, info_y + 76)], fill=(160, 150, 140), width=3)
     
     # 4. Trust Guarantee Strip
@@ -360,19 +360,19 @@ Meet the {product['title']} — now in stock at RareEmber.
 
 {bullets}
 
-🔥 Amazon Price: ₹{product['compare_at']:,} ❌ (Overpriced!)
-⚡ RareEmber Deal: ₹{product['price_inr']:,} ONLY ✅ (Direct Hub Price)
-💰 You Save: ₹{saving_inr:,} ({discount_pct}% OFF) + Free Delivery!
-★ {product['rating']}/5.0 based on {product['reviews']}+ customer reviews.
+🏷️ M.R.P.: ₹{product['compare_at']:,}
+⚡ Factory Direct Price: ₹{product['price_inr']:,} ONLY ({discount_pct}% OFF)
+💰 You Save: ₹{saving_inr:,} with Free Shipping across India!
+★ {product['rating']}/5.0 verified authentic quality.
 
-🚚 Pan-India Express Delivery (2–4 Days via BlueDart/Delhivery)
+🚚 Pan-India Express Delivery (2–4 Days via BlueDart & Delhivery)
 💵 Cash on Delivery (COD) Available
-🛡️ 30-Day Zero-Questions Return & Refund Guarantee
+🛡️ 30-Day Zero-Risk Return & Replacement Guarantee
 
 🛒 HOW TO ORDER:
-Tap the link in our bio (@rareember) or visit rareember-store.vercel.app directly to order yours before this drop sells out!
+Tap the link in our bio (@rareember) or visit rareember-store.vercel.app directly to order yours today!
 
-#rareember #amazonprice #amazonfindsindia #trendingproducts #coolgadgets #viralfinds #curatedstyle #onlineclothingstore #indianstartups #cashondelivery #dropshippingindia #homeaesthetic #desksetup #expressdelivery #musthaves"""
+#rareember #curatedstyle #trendingproducts #viralfinds #indiand2c #gadgetsindia #homeaesthetic #desksetup #expressdelivery #cashondelivery #shopindia #indianstartups"""
     return caption
 
 def send_telegram_alert(photo_path, caption_summary):
