@@ -949,8 +949,8 @@ def render_reel_video(product):
             "-i", merged_video,
             "-i", mixed_audio,
             "-vf", f"drawbox=x=0:y=1905:w='iw*t/{total_duration}':h=15:color=0xFF6B35@1:t=fill",
-            "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "30",
-            "-c:a", "aac", "-b:a", "192k",
+            "-c:v", "libx264", "-preset", "faster", "-crf", "26", "-pix_fmt", "yuv420p", "-r", "30",
+            "-c:a", "aac", "-b:a", "128k",
             "-shortest",
             out_path
         ]
