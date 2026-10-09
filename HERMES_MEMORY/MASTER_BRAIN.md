@@ -47,6 +47,7 @@
   - **Permanently Blacklisted Keywords:** `medicine`, `medicinal`, `pharma`, `drug`, `orthopedic`, `anti-anxiety`, `anxiety`, `joint therapy`, `disinfectant`, `antibacterial`, `sanitizer`, `veterinary`, `vet approved`, `aromatherapy`.
   - All product endpoints (`/product/[id]`) strictly block any blacklisted keywords and return HTTP 404.
   - Live verified categories: **Electronics & Tech** (`/shop?cat=electronics`), **Curated Fashion** (`/shop?cat=fashion`), **Home & Living** (`/shop?cat=home-garden`), and **Lifestyle Drops** (`/shop?cat=general`).
+  - **Active Razorpay Appeal Ticket:** `#21311442` (Submitted: 2026-10-09 | Status: Under Review 4-8 business hours | Tracker: `https://rzp.io/rzp/3YhOeQU`).
 
 ---
 
