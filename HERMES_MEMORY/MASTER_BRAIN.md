@@ -65,26 +65,40 @@
 
 ---
 
-## 5. 🎬 VIRAL 3D CARTOON HINDI DIALOGUE REEL ENGINE
-- **Inspiration Format:** `@amitverse_ai` viral Hindi 3D cartoon dialogue debate style (`🍋 Gappu vs Pappu • Mall Price Debate`).
-- **Core Characters:**
-  - **Gappu / Chintu:** The Mall Overpayer (comedic, shocked voice, bought expensive showroom items for ₹4,500+).
-  - **Pappu / Mintu:** The Smart RareEmber Dropshipper (confident, cool sunglasses, reveals direct factory prices under ₹999).
-- **Spoken Audio Synthesis:**
-  - Authentic spoken Hindi dialogues generated using Google TTS (`gTTS`).
-  - Dual-character pitch shifting via FFmpeg (`asetrate=44100*1.14` for Gappu, `asetrate=44100*0.96` for Pappu).
-  - Layered over upbeat lo-fi background music bed at 18% volume.
-- **Video Motion & Composition (`ig_autopilot.py`):**
+## 5. 🎬 100% FREE 3D PIXAR ANIMATED DIALOGUE REEL ENGINE
+- **Inspiration Format:** Viral Instagram Reels / YouTube Shorts 3D cartoon dialogue debate style (`@amitverse_ai` style).
+- **Core 3D Pixar Characters (Saved in `assets/avatars/`):**
+  - **Character A (Mentor / Gappu / Kabir):** Witty confident mentor with stylish glasses, dark blazer, talking pose (`char_a.jpg`).
+  - **Character B (Friend / Pappu / Aman):** Curious, trendy friend in casual hoodie, expressive surprised/talking face (`char_b.jpg`).
+  - **Celebrating Duo:** Both characters enthusiastically celebrating with thumbs up (`char_celebrate.jpg`).
+- **100% Free Neural Speech Synthesis (`edge-tts`):**
+  - Synthesizes studio-grade neural voices without API keys or credit limits:
+    - Speaker A: `hi-IN-MadhurNeural` (energetic, clear mentor voice).
+    - Speaker B: `hi-IN-SwaraNeural` (expressive, natural companion voice).
+  - Uses `aiohttp.connector.DefaultResolver = aiohttp.resolver.ThreadedResolver` for rock-solid DNS resolution across Windows and GitHub Actions containers.
+  - Automatic graceful fallback to `gTTS` if network blips occur.
+- **Dynamic Cinematic Video Motion (FFmpeg):**
   - 1080x1920 (9:16) vertical MP4 video at 30 fps.
-  - Multi-scene dynamic camera push-in motion (`zoompan`).
-  - 3D cartoon character avatars with expressive mood changes (shocked, smirk, celebrate).
-  - High-contrast glowing speech bubbles with Devanagari Hindi text + Roman English subtitles.
-  - High-impact 3D studio product showcase with verified 4.9★ rating.
-  - Animated bottom progress bar across the entire video runtime.
+  - **Angle Switching Every 2–4 Seconds:** Alternates camera angles between Character A, Character B, Product Showcase, and Celebrate CTA to maximize viral viewer retention.
+  - Smooth camera motion (`zoompan` push-ins, punch-ins, and studio breathing zooms).
+  - High-contrast kinetic subtitle bubbles with bright yellow (`#FFD700`) and emerald green (`#00FF88`) highlighted keywords.
+  - High-impact 3D studio product showcase with verified 4.9★ rating, factory direct pricing, and discount badge.
+  - Upbeat lo-fi background chillhop music bed mixed at -18dB (`volume=0.18`).
+  - Bottom animated progress bar tracking reel duration.
 - **Viral Engagement CTA:**
   - *"Comment 'BUY' or 'LINK' for instant 1-Click COD link in your DMs!"*
-  - First comment auto-posted on Instagram with direct product checkout link + festive coupon code.
-  - Real-time video preview delivered directly to Ajay's Telegram bot.
+  - First comment auto-posted on Instagram with direct checkout link + festive coupon code (`DIWALI100`).
+  - Real-time video proof delivered directly to Ajay's Telegram bot (`@rereemberbot`).
+
+---
+
+## 5B. ⚡ ACTION-ORIENTED AUTONOMOUS CEO EXECUTIVE
+- **Not Just Strategy — Real Actions Executed:**
+  - When the CEO growth loop triggers, Hermes doesn't just print theoretical plans. It actively runs:
+    1. **Content Marketing:** Automatically renders a 3D Pixar Dialogue Reel (or high-converting post creative) and uploads to Instagram `@RareEmber`.
+    2. **SEO Engine:** Ingests fresh SEO-optimized lifestyle articles via `hermes_blog_engine.py` into `PUBLISHED_BLOGS.json` for Google ranking.
+    3. **Store Health Audit:** Audits store latency, verifies `DIWALI100` coupon validity, and confirms strict 0-medicine compliance.
+    4. **Executive Action Report:** Sends Ajay a verified Telegram briefing detailing the exact actions taken with live proofs and metrics.
 
 ---
 
@@ -93,7 +107,7 @@
 - **Worker Ping-Pong:** `worker_a.yml` and `worker_b.yml` hand off continuous execution every ~5.5 hours.
 - **Posting Schedule (IST):**
   1. `10:00 AM IST` - Auto Catalog Drop 1
-  2. `01:30 PM IST` - Problem Solver Hindi Dialogue Reel
+  2. `01:30 PM IST` - 3D Pixar Hindi Dialogue Reel
   3. `05:30 PM IST` - Festive Flash Coupon Deal
   4. `08:00 PM IST` - Evening Bestseller Highlight
   5. `10:00 PM IST` - Customer Trust & 5-Star Reviews
