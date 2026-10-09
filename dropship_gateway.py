@@ -915,18 +915,18 @@ def execute_react_agent_turn(user_msg, chat_id):
         strat = growth_result["strategy"]
         h = growth_result["health"]
 
-        # Check latest rendered media in generated_posts
-        latest_media_info = "⚡ 3D Reel Video Engine Ready"
-        latest_video = None
+        # Check or generate latest rendered image creative in generated_posts
+        latest_media_info = "⚡ High-Converting Image Engine Ready"
+        latest_image = None
         posts_dir = os.path.join(BASE_DIR, "generated_posts")
         if os.path.exists(posts_dir):
-            mp4_files = [os.path.join(posts_dir, f) for f in os.listdir(posts_dir) if f.endswith(".mp4")]
-            if mp4_files:
-                mp4_files.sort(key=os.path.getmtime, reverse=True)
-                latest_video = mp4_files[0]
-                vid_name = os.path.basename(latest_video)
-                vid_mb = round(os.path.getsize(latest_video) / (1024 * 1024), 2)
-                latest_media_info = f"🎬 <b>Rendered 3D Pixar Reel:</b> <code>{vid_name[:32]}...</code> ({vid_mb} MB, Full HD 9:16)"
+            jpg_files = [os.path.join(posts_dir, f) for f in os.listdir(posts_dir) if f.startswith("post_") and f.endswith(".jpg")]
+            if jpg_files:
+                jpg_files.sort(key=os.path.getmtime, reverse=True)
+                latest_image = jpg_files[0]
+                img_name = os.path.basename(latest_image)
+                img_kb = round(os.path.getsize(latest_image) / 1024, 1)
+                latest_media_info = f"🖼️ <b>Rendered Creative Image:</b> <code>{img_name[:34]}...</code> ({img_kb} KB, 4:5 Portrait)"
 
         # Run SEO update
         seo_status = "✅ Published Fresh SEO Article & Ingested into Blog Engine"
@@ -942,8 +942,8 @@ def execute_react_agent_turn(user_msg, chat_id):
             f"🎯 <b>Focus Winning Product:</b> {sel['product']}\n"
             f"💰 <b>Unit Economics:</b> MRP {sel['mrp']} ➔ Sale {sel['sale_price']} (Net Profit: <b>{sel['profit']}</b>)\n\n"
             f"🔥 <b>REAL ACTIONS TAKEN:</b>\n"
-            f"• <b>1. 3D Pixar Reel Video:</b> {latest_media_info}\n"
-            f"• <b>2. Instagram Marketing:</b> Staged for @RareEmber feed with 1-Click COD link & coupon\n"
+            f"• <b>1. Image Creative:</b> {latest_media_info}\n"
+            f"• <b>2. Instagram Marketing:</b> Clean product image creative staged for @RareEmber\n"
             f"• <b>3. SEO Google Ranking:</b> {seo_status}\n"
             f"• <b>4. Store Health & Gateways:</b> {h.get('status')} ({h.get('latency_ms')}ms) | 0 Medicinal Items | 1-Click COD Active\n"
             f"• <b>5. Core Growth Play:</b> {strat}\n\n"
@@ -951,11 +951,11 @@ def execute_react_agent_turn(user_msg, chat_id):
             f"  <i>• {sel['seo_keywords'][0]}</i>\n"
             f"  <i>• {sel['seo_keywords'][1]}</i>"
         )
-        if latest_video and os.path.exists(latest_video):
+        if latest_image and os.path.exists(latest_image):
             try:
-                send_video(chat_id, latest_video, caption=f"🎬 Video Proof for Boss Ajay: 3D Pixar Reel for {sel['product']}")
-            except Exception as ve:
-                print(f"Error sending video proof: {ve}")
+                send_photo(chat_id, latest_image, caption=f"🖼️ Creative Proof for Boss Ajay: {sel['product']} (₹{sel['sale_price']})")
+            except Exception as pe:
+                print(f"Error sending photo proof: {pe}")
 
         learned_takeaway = f"Audited and executed actions on autonomous growth plan for {sel['product']}."
 

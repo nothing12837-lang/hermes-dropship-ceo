@@ -72,22 +72,17 @@
   - **Character B (Friend / Pappu / Aman):** Curious, trendy friend in casual hoodie, expressive surprised/talking face (`char_b.jpg`).
   - **Celebrating Duo:** Both characters enthusiastically celebrating with thumbs up (`char_celebrate.jpg`).
 - **100% Free Neural Speech Synthesis (`edge-tts`):**
-  - Synthesizes studio-grade neural voices without API keys or credit limits:
-    - Speaker A: `hi-IN-MadhurNeural` (energetic, clear mentor voice).
-    - Speaker B: `hi-IN-SwaraNeural` (expressive, natural companion voice).
-  - Uses `aiohttp.connector.DefaultResolver = aiohttp.resolver.ThreadedResolver` for rock-solid DNS resolution across Windows and GitHub Actions containers.
-  - Automatic graceful fallback to `gTTS` if network blips occur.
-- **Genuine Real-Motion Video Footage Composite (FFmpeg):**
-  - 1080x1920 (9:16) vertical MP4 video at 30 fps using genuine high-definition motion video clips (`scene1_hook.mp4` to `scene5_celebrate.mp4`).
-  - **Zero Static Slideshows:** Moving actors, expressive gestures, head nods, retail product inspection, and celebration reactions.
-  - **Dynamic Cut Switching Every 2–4 Seconds:** Alternates high-energy live footage scenes with animated dialogue overlays.
-  - **Transparent HUD & Kinetic Captions:** RGBA overlay with crisp speech bubbles, golden (`#FFD700`) dialogue accents, and factory-direct pricing pills.
-  - **Lo-Fi Chillhop Sound Bed:** Background music mixed at -18dB (`volume=0.18`) underneath Edge-TTS neural Hindi voices.
-  - **Lightweight Delivery:** Rendered with `-preset faster -crf 26`, producing ultra-crisp ~4.5 MB MP4 files delivered to Telegram in <7 seconds.
-- **Viral Engagement CTA:**
-  - *"Comment 'BUY' or 'LINK' for instant 1-Click COD link in your DMs!"*
-  - First comment auto-posted on Instagram with direct checkout link + festive coupon code (`DIWALI100`).
-  - Real-time video proof delivered directly to Ajay's Telegram bot (`@rereemberbot`).
+## 5. 📸 HIGH-CONVERTING IMAGE CREATIVE PIPELINE (FOUNDER DIRECTIVE: KEEP ONLY IMG)
+- **Zero Video Reels Policy:**
+  - Per Founder Ajay Rajbhar's explicit instruction (*"stop remve reels idea keep only img"*), the video reels pipeline has been completely stopped and deprecated.
+  - No video generation, no heavy FFmpeg compositing, no video reels.
+- **Strictly High-Converting 4:5 Portrait Image Creatives (`render_post_image`):**
+  - High-resolution 1080x1350 (4:5) Instagram-native image creatives.
+  - **Dynamic Visual Themes:** Crimson, Deep Teal, Emerald, Amber, Charcoal aesthetic cards.
+  - **Clean Product-First Visuals:** 860x860 centered product image card with subtle rounded corners and verified badge.
+  - **Clean Hierarchy & Price Placement:** Dedicated pricing row placed below the title, with clear sale price, strikethrough M.R.P., and percentage savings pill tag.
+  - **Social Proof & Guarantees:** 4.9★ rating, verified buyer reviews count, Cash on Delivery, pan-India express shipping, and 30-day zero-risk returns.
+  - **Direct Broadcast:** Instant posting to `@RareEmber` feed and preview proof delivery to Telegram bot (`@rereemberbot`).
 
 ---
 

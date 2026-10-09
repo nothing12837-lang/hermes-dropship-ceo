@@ -1057,14 +1057,9 @@ def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="auto")
     c_type = resolve_campaign_type(campaign_type)
     print(f"🎯 Active Campaign Angle: {c_type.upper()}")
 
-    # 2. Render Media (Reel MP4 or Feed JPG)
-    should_render_reel = (format_type == "reel") or (format_type == "auto" and c_type in ["problem_solver", "festive_deal"])
-    if should_render_reel:
-        print("🎬 Rendering Vertical 9:16 Instagram Reel Video...")
-        media_path = render_reel_video(product)
-    else:
-        print("🖼️ Rendering Vertical 4:5 Instagram Feed Creative...")
-        media_path = render_post_image(product)
+    # 2. Render Media (Strictly High-Converting Image Creatives - No Video Reels)
+    print("🖼️ Rendering Vertical 4:5 Instagram Feed Image Creative...")
+    media_path = render_post_image(product)
     
     # 3. Generate Caption
     caption, _ = generate_caption(product, campaign_type=c_type)
