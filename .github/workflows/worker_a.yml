@@ -44,11 +44,22 @@ jobs:
         run: |
           timeout 18720 python dropship_gateway.py || echo "Cycle completed gracefully"
 
+      - name: Sync Persistent State & Memory
+        if: always()
+        run: |
+          git config user.name "Hermes CEO Bot"
+          git config user.email "hermes@rareember.com"
+          git pull --rebase origin main || true
+          git add HERMES_MEMORY/*.json || true
+          git commit -m "chore(memory): persist seen orders and idempotency state" || true
+          git push origin main || true
+
       - name: Trigger Worker B (Ping-Pong)
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
+          sleep 10
           curl -X POST \
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ env.GH_TOKEN }}" \

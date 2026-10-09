@@ -1455,7 +1455,7 @@ def autonomous_ceo_growth_worker():
                 f"🛍️ <b>Store Health:</b> {h.get('status')} ({h.get('latency_ms')}ms) | Coupon: <code>DIWALI100</code>\n\n"
                 f"Hermes non-stop 24h active hai aur continuous customer acquisition par kaam kar raha hai! 🛡️⚡"
             )
-            send_idempotent_report("ceo_growth_report", briefing, min_interval_hours=2.5)
+            send_idempotent_report("ceo_growth_report", briefing, min_interval_hours=6.0)
 
         except Exception as e:
             print(f"Autonomous Growth Loop Error: {e}")
@@ -1479,28 +1479,46 @@ def proactive_order_monitor():
         except Exception:
             pass
 
+    first_run = True
     while True:
         try:
-            orders_data = tool_list_orders(limit=10)
+            orders_data = tool_list_orders(limit=20)
             orders = orders_data.get("orders", [])
-            for o in orders:
-                oid = o.get("id")
-                if oid and oid not in seen_orders:
-                    seen_orders.add(oid)
-                    alert_text = (
-                        f"🔔 <b>NEW LIVE ORDER DETECTED!</b>\n\n"
-                        f"• <b>Order Ref:</b> <code>#{oid}</code>\n"
-                        f"• <b>Amount:</b> {o.get('amount')}\n"
-                        f"• <b>Customer:</b> {o.get('email')}\n"
-                        f"• <b>Status:</b> <b>{o.get('status', 'PENDING').upper()}</b>\n\n"
-                        f"Hermes is queuing factory-direct dispatch via BlueDart & Delhivery Express."
-                    )
-                    for uid in ALLOWED_USERS:
-                        send_message(uid, alert_text, parse_mode="HTML")
+            
+            # Pre-seed existing orders on initial boot to prevent blasting old orders as new alerts
+            if first_run:
+                for o in orders:
+                    oid = o.get("id")
+                    if oid:
+                        seen_orders.add(oid)
+                first_run = False
+                try:
+                    with open(SEEN_ORDERS_FILE, "w", encoding="utf-8") as f:
+                        json.dump(list(seen_orders), f)
+                except Exception:
+                    pass
+            else:
+                for o in orders:
+                    oid = o.get("id")
+                    if oid and oid not in seen_orders:
+                        seen_orders.add(oid)
+                        alert_text = (
+                            f"🔔 <b>NEW LIVE ORDER DETECTED!</b>\n\n"
+                            f"• <b>Order Ref:</b> <code>#{oid}</code>\n"
+                            f"• <b>Amount:</b> {o.get('amount')}\n"
+                            f"• <b>Customer:</b> {o.get('email')}\n"
+                            f"• <b>Status:</b> <b>{o.get('status', 'PENDING').upper()}</b>\n\n"
+                            f"Hermes is queuing factory-direct dispatch via BlueDart & Delhivery Express."
+                        )
+                        for uid in ALLOWED_USERS:
+                            send_message(uid, alert_text, parse_mode="HTML")
 
-            # Save state
-            with open(SEEN_ORDERS_FILE, "w", encoding="utf-8") as f:
-                json.dump(list(seen_orders), f)
+                        # Save state immediately
+                        try:
+                            with open(SEEN_ORDERS_FILE, "w", encoding="utf-8") as f:
+                                json.dump(list(seen_orders), f)
+                        except Exception:
+                            pass
 
             # Check 5 daily scheduled Instagram drop slots
             check_and_trigger_instagram_drop()
@@ -1542,6 +1560,11 @@ def check_and_trigger_instagram_drop():
             except Exception:
                 posted_slots = {}
 
+        # Anti-spam cooldown: Do not post more than once every 3 hours
+        last_posted_epoch = posted_slots.get("_last_posted_epoch", 0)
+        if (time.time() - last_posted_epoch) < (3.0 * 3600):
+            return
+
         for slot_id, target_min, campaign_type in SLOTS:
             key = f"{today_str}_{slot_id}"
             if key not in posted_slots and abs(current_minute_of_day - target_min) <= 15:
@@ -1556,8 +1579,10 @@ def check_and_trigger_instagram_drop():
                             "campaign_type": campaign_type,
                             "status": "POSTED"
                         }
+                        posted_slots["_last_posted_epoch"] = time.time()
                         with open(status_file, "w", encoding="utf-8") as f:
                             json.dump(posted_slots, f, indent=2)
+                        break
                 except Exception as ex:
                     print(f"Hermes Instagram auto-trigger error: {ex}")
     except Exception as e:
@@ -1597,7 +1622,7 @@ def poll_loop():
         f"• <b>Live Store:</b> <a href='{SITE_URL}'>rareember-store.vercel.app</a>\n\n"
         "Bolo Boss, kya execute karein?"
     )
-    send_idempotent_report("worker_boot_msg", boot_msg, min_interval_hours=6.0)
+    send_idempotent_report("worker_boot_msg", boot_msg, min_interval_hours=24.0)
 
     offset = 0
     try:

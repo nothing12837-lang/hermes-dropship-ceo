@@ -406,37 +406,53 @@ def render_post_image(product):
     draw.rounded_rectangle([card_x, card_y, card_x + 880, card_y + 880], radius=32, fill=theme["card_bg"], outline=theme["card_outline"], width=3)
     base.paste(prod_img, (card_x + 10, card_y + 10))
     
-    # Discount Badge on Product Image (Top Left)
+    # Subtle Verified Tag on Product Image (Top Left)
     discount_pct = int(round((1 - (product["price_inr"] / product["compare_at"])) * 100))
-    draw.rounded_rectangle([card_x + 24, card_y + 24, card_x + 190, card_y + 80], radius=28, fill=(29, 29, 31))
-    font_disc = get_font(26, bold=True)
-    draw.text((card_x + 44, card_y + 36), f"-{discount_pct}% OFF", fill=(255, 184, 0), font=font_disc)
+    draw.rounded_rectangle([card_x + 24, card_y + 24, card_x + 210, card_y + 76], radius=24, fill=theme["header_bg"], outline=theme["card_outline"], width=2)
+    font_disc = get_font(22, bold=True)
+    draw.text((card_x + 40, card_y + 36), "VERIFIED DROP", fill=theme["text_main"], font=font_disc)
     
-    # 3. Product Info Section
-    info_y = 1080
-    font_title = get_font(40, bold=True)
-    draw.text((60, info_y), product["title"][:42], fill=theme["text_main"], font=font_title)
+    # 3. Product Title Section (Full width, no right-side overlap)
+    info_y = 1065
+    font_title = get_font(38, bold=True)
+    draw.text((60, info_y), product["title"][:46], fill=theme["text_main"], font=font_title)
     
-    # Ratings & Social Proof
-    font_rating = get_font(24, bold=True)
-    draw.text((60, info_y + 55), f"RATING {product['rating']} / 5.0  *  ({product['reviews']} Verified Reviews)", fill=(217, 119, 6), font=font_rating)
-    
-    # Pricing & M.R.P. Savings
+    # 4. Dedicated Pricing Row (Clean, spacious, placed directly below title)
+    price_y = info_y + 54
     font_price = get_font(52, bold=True)
-    font_comp = get_font(28, bold=False)
+    font_mrp = get_font(26, bold=False)
+    font_save = get_font(22, bold=True)
+    
     price_str = f"Rs. {product['price_inr']:,}"
-    comp_str = f"M.R.P.: Rs. {product['compare_at']:,}"
+    draw.text((60, price_y), price_str, fill=theme["accent"], font=font_price)
     
-    draw.text((width - 420, info_y), price_str, fill=theme["accent"], font=font_price)
-    draw.text((width - 420, info_y + 60), comp_str, fill=theme["text_sub"], font=font_comp)
-    # Strike through M.R.P.
-    draw.line([(width - 425, info_y + 76), (width - 150, info_y + 76)], fill=theme["text_sub"], width=3)
+    price_bbox = draw.textbbox((60, price_y), price_str, font=font_price)
+    mrp_x = price_bbox[2] + 20
+    mrp_str = f"M.R.P. Rs. {product['compare_at']:,}"
+    draw.text((mrp_x, price_y + 16), mrp_str, fill=theme["text_sub"], font=font_mrp)
     
-    # 4. Trust Guarantee Strip
-    draw.line([(60, info_y + 120), (width - 60, info_y + 120)], fill=theme["card_outline"], width=2)
-    font_trust = get_font(21, bold=True)
-    trust_text = "PAN-INDIA EXPRESS COURIER   *   CASH ON DELIVERY   *   30-DAY ZERO-RISK RETURNS"
-    draw.text((70, info_y + 138), trust_text, fill=theme["text_sub"], font=font_trust)
+    # Dynamic strikethrough line exactly across M.R.P. text
+    mrp_bbox = draw.textbbox((mrp_x, price_y + 16), mrp_str, font=font_mrp)
+    mrp_mid_y = (mrp_bbox[1] + mrp_bbox[3]) // 2
+    draw.line([(mrp_bbox[0], mrp_mid_y), (mrp_bbox[2], mrp_mid_y)], fill=theme["text_sub"], width=2)
+    
+    # Save % badge pill right beside MRP
+    save_x = mrp_bbox[2] + 18
+    save_text = f"SAVE {discount_pct}%"
+    save_bbox = draw.textbbox((save_x + 12, price_y + 14), save_text, font=font_save)
+    draw.rounded_rectangle([save_x, price_y + 12, save_bbox[2] + 12, price_y + 46], radius=16, fill=theme["badge_bg"])
+    draw.text((save_x + 12, price_y + 15), save_text, fill=theme["badge_text"], font=font_save)
+    
+    # 5. Rating & Social Proof (Below Price Row)
+    rating_y = price_y + 68
+    font_rating = get_font(22, bold=True)
+    draw.text((60, rating_y), f"Rating: {product['rating']} / 5.0  ({product['reviews']} Verified Reviews)  •  Gujarat Fulfillment Hub", fill=(217, 119, 6), font=font_rating)
+    
+    # 6. Trust Guarantee Strip
+    draw.line([(60, rating_y + 36), (width - 60, rating_y + 36)], fill=theme["card_outline"], width=1)
+    font_trust = get_font(20, bold=True)
+    trust_text = "PAN-INDIA EXPRESS COURIER   •   CASH ON DELIVERY   •   30-DAY ZERO-RISK RETURNS"
+    draw.text((60, rating_y + 48), trust_text, fill=theme["text_sub"], font=font_trust)
     
     # 5. Bottom Call-To-Action Banner
     draw.rectangle([0, height - 75, width, height], fill=theme["footer_bg"])
