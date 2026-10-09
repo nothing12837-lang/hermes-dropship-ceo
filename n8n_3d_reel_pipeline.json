@@ -1,0 +1,157 @@
+{
+  "name": "RareEmber 3D Pixar Dialogue Reel Autonomous Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "30 13 * * *"
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger-node",
+      "name": "Schedule Trigger (Daily 1:30 PM IST)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://rareember-store.vercel.app/api/products",
+        "options": {}
+      },
+      "id": "fetch-winning-product",
+      "name": "Fetch Winning Product (RareEmber API)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Write a 30-second viral Instagram Reel dialogue in Hindi between Character A (witty mentor) and Character B (curious student) discussing why buying {{ $json.title }} for Rs. {{ $json.price_inr }} directly from factory beats overpriced showroom mall prices of Rs. {{ $json.compare_at }}.\n\nOutput ONLY a valid JSON object matching this schema:\n{\n  \"theme\": \"Short punchy theme\",\n  \"scenes\": [\n    {\"character\": \"A\", \"speaker\": \"Mentor\", \"voice\": \"hi-IN-MadhurNeural\", \"scene_type\": \"character_a\", \"hindi\": \"...\", \"sub\": \"...\"},\n    {\"character\": \"B\", \"speaker\": \"Friend\", \"voice\": \"hi-IN-SwaraNeural\", \"scene_type\": \"character_b\", \"hindi\": \"...\", \"sub\": \"...\"},\n    {\"character\": \"A\", \"speaker\": \"Mentor\", \"voice\": \"hi-IN-MadhurNeural\", \"scene_type\": \"character_a\", \"hindi\": \"...\", \"sub\": \"...\"},\n    {\"character\": \"B\", \"speaker\": \"Friend\", \"voice\": \"hi-IN-SwaraNeural\", \"scene_type\": \"product_showcase\", \"hindi\": \"...\", \"sub\": \"...\"},\n    {\"character\": \"Both\", \"speaker\": \"Both Friends\", \"voice\": \"hi-IN-MadhurNeural\", \"scene_type\": \"viral_cta\", \"hindi\": \"...\", \"sub\": \"...\"}\n  ]\n}",
+        "hasOutputParser": true
+      },
+      "id": "generate-structured-dialogue",
+      "name": "Generate Dialogue Script (LLM in JSON)",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        720,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "command": "python reel_pipeline_engine.py --product-json '{{ JSON.stringify($('Fetch Winning Product (RareEmber API)').item.json) }}' --script-json '{{ JSON.stringify($json) }}'"
+      },
+      "id": "execute-reel-assembly",
+      "name": "Assemble 3D Pixar Reel (Edge-TTS + FFmpeg)",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        960,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "command": "python ig_autopilot.py --format reel"
+      },
+      "id": "post-to-instagram",
+      "name": "Auto-Post Reel to Instagram (@RareEmber)",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "5238068527",
+        "text": "=🚀 <b>RareEmber 3D Pixar Reel Published!</b>\n\nProduct: {{ $('Fetch Winning Product (RareEmber API)').item.json.title }}\nPrice: ₹{{ $('Fetch Winning Product (RareEmber API)').item.json.price_inr }}\nStatus: Live on @RareEmber feed with 1-Click COD link!",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "telegram-alert-ajay",
+      "name": "Telegram Alert to Ajay (@rereemberbot)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1440,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger (Daily 1:30 PM IST)": {
+      "main": [
+        [
+          {
+            "node": "Fetch Winning Product (RareEmber API)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Winning Product (RareEmber API)": {
+      "main": [
+        [
+          {
+            "node": "Generate Dialogue Script (LLM in JSON)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Dialogue Script (LLM in JSON)": {
+      "main": [
+        [
+          {
+            "node": "Assemble 3D Pixar Reel (Edge-TTS + FFmpeg)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assemble 3D Pixar Reel (Edge-TTS + FFmpeg)": {
+      "main": [
+        [
+          {
+            "node": "Auto-Post Reel to Instagram (@RareEmber)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto-Post Reel to Instagram (@RareEmber)": {
+      "main": [
+        [
+          {
+            "node": "Telegram Alert to Ajay (@rereemberbot)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
