@@ -789,95 +789,24 @@ def render_reel_video(product):
             motion_file = os.path.join(BASE_DIR, "assets", "videos", clip_map[idx % len(clip_map)])
             has_real_video = os.path.exists(motion_file) and os.path.getsize(motion_file) > 100000
 
-            # --- RENDER 1080x1920 OVERLAY (RGBA) ---
-            bg_color = (0, 0, 0, 0) if has_real_video else (15, 23, 42, 255)
-            frame = Image.new("RGBA", (width, height), color=bg_color)
-            draw = ImageDraw.Draw(frame)
-            
-            # Top Brand Header (Clean Modern Bar)
-            draw.rectangle([0, 0, width, 160], fill=(10, 15, 30, 230))
-            draw.text((70, 50), "rareember.", fill=(255, 255, 255, 255), font=font_brand)
-            draw.ellipse([325, 70, 345, 90], fill=(255, 107, 53, 255))
-            draw.text((70, 105), script["theme"].upper(), fill=(255, 184, 0, 255), font=font_sub)
-            draw.rounded_rectangle([width - 440, 50, width - 60, 115], radius=26, fill=(255, 107, 53, 255))
-            draw.text((width - 410, 68), fest['banner'], fill=(255, 255, 255, 255), font=get_font(20, bold=True))
-            
-            scene_type = line.get("scene", "character_a")
-            
-            # Center Visual Overlays
-            if scene_type == "character_a":
-                # Speaker Badge
-                draw.rounded_rectangle([60, 190, 420, 255], radius=24, fill=(30, 58, 138, 230), outline=(96, 165, 250, 255), width=2)
-                draw.text((85, 205), f"🗣️ {speaker.upper()} SPEAKS", fill=(255, 255, 255, 255), font=font_badge)
-                draw.rounded_rectangle([width - 340, 190, width - 60, 255], radius=24, fill=(15, 23, 42, 220), outline=(52, 211, 153, 255), width=2)
-                draw.text((width - 315, 205), "⚡ FACTORY DIRECT", fill=(52, 211, 153, 255), font=get_font(22, bold=True))
-                if not has_real_video and "char_a" in avatar_cache:
-                    av = avatar_cache["char_a"]
-                    scale = width / av.size[0]
-                    frame.paste(av.resize((width, int(av.size[1] * scale))), (0, 160))
-                
-            elif scene_type == "character_b":
-                draw.rounded_rectangle([60, 190, 420, 255], radius=24, fill=(5, 150, 105, 230), outline=(110, 231, 183, 255), width=2)
-                draw.text((85, 205), f"🗣️ {speaker.upper()} SPEAKS", fill=(255, 255, 255, 255), font=font_badge)
-                draw.rounded_rectangle([width - 340, 190, width - 60, 255], radius=24, fill=(15, 23, 42, 220), outline=(245, 158, 11, 255), width=2)
-                draw.text((width - 315, 205), "🔥 TRENDING DROP", fill=(245, 158, 11, 255), font=get_font(22, bold=True))
-                if not has_real_video and "char_b" in avatar_cache:
-                    av = avatar_cache["char_b"]
-                    scale = width / av.size[0]
-                    frame.paste(av.resize((width, int(av.size[1] * scale))), (0, 160))
-                
-            elif scene_type == "product_showcase":
-                draw.rounded_rectangle([100, 220, width - 100, 1180], radius=36, fill=(15, 23, 42, 235), outline=(52, 211, 153, 255), width=4)
-                frame.paste(prod_square, (130, 260))
-                draw.rounded_rectangle([140, 240, 540, 295], radius=20, fill=(15, 23, 42, 240), outline=(255, 184, 0, 255), width=2)
-                draw.text((160, 252), "⭐ 4.9 RATED • PAN-INDIA BESTSELLER", fill=(255, 184, 0, 255), font=get_font(20, bold=True))
-                draw.rounded_rectangle([130, 1110, width - 130, 1240], radius=26, fill=(16, 185, 129, 240))
-                draw.text((170, 1130), f"⚡ Factory Direct: Rs. {product['price_inr']:,}", fill=(255, 255, 255, 255), font=font_price)
-                draw.text((170, 1200), f"M.R.P. Rs. {product['compare_at']:,} • Save Rs. {saving_inr:,} ({discount_pct}% OFF)", fill=(255, 255, 255, 255), font=font_sub)
-                
-            elif scene_type == "viral_cta":
-                draw.rounded_rectangle([80, 780, width - 80, 1220], radius=32, fill=(249, 115, 22, 240), outline=(255, 237, 213, 255), width=4)
-                draw.text((130, 810), "🪔 SPECIAL LAUNCH COUPON", fill=(255, 255, 255, 255), font=font_badge)
-                draw.text((130, 870), f"CODE: {fest['coupon']}", fill=(255, 255, 255, 255), font=get_font(52, bold=True))
-                draw.text((130, 950), f"{fest['discount_desc']} • Pan-India Free Delivery", fill=(255, 255, 255, 255), font=font_sub)
-                draw.text((130, 1020), "🚚 Express 2-4 Days Dispatch (BlueDart & Delhivery)", fill=(255, 255, 255, 255), font=font_sub)
-                draw.text((130, 1080), "💵 100% Cash on Delivery (COD) Available", fill=(255, 255, 255, 255), font=font_sub)
-                if not has_real_video and "char_celebrate" in avatar_cache:
-                    av = avatar_cache["char_celebrate"]
-                    scale = width / av.size[0]
-                    frame.paste(av.resize((width, int(av.size[1] * scale))), (0, 160))
-
-            # --- DYNAMIC KINETIC DIALOGUE SUBTITLE SPEECH BUBBLE (BOTTOM) ---
-            draw.rounded_rectangle([50, 1330, width - 50, 1660], radius=32, fill=(10, 15, 30, 240), outline=(255, 107, 53, 255), width=3)
-            draw.text((80, 1365), hi_text[:46], fill=(255, 255, 255, 255), font=font_dialogue_hi)
-            if len(hi_text) > 46:
-                draw.text((80, 1425), hi_text[46:92], fill=(255, 255, 255, 255), font=font_dialogue_hi)
-            draw.text((80, 1505), f"\"{en_sub[:54]}\"", fill=(255, 215, 0, 255), font=font_dialogue_en)
-            if len(en_sub) > 54:
-                draw.text((80, 1550), f"\"{en_sub[54:108]}\"", fill=(255, 215, 0, 255), font=font_dialogue_en)
-            draw.text((80, 1610), "⚡ Free Pan-India Delivery • 100% Cash on Delivery", fill=(52, 211, 153, 255), font=get_font(22, bold=True))
-            
-            # Action CTA Button
-            draw.rounded_rectangle([60, 1690, width - 60, 1810], radius=38, fill=(255, 107, 53, 255))
-            draw.text((150, 1735), "COMMENT \"BUY\" FOR 1-CLICK COD LINK ⚡", fill=(255, 255, 255, 255), font=font_btn)
-            draw.text((width // 2 - 220, 1845), "rareember-store.vercel.app  •  @rareember", fill=(148, 163, 184, 255), font=font_sub)
-            
-            overlay_path = os.path.join(tmpdir, f"overlay_{idx}.png")
-            frame.save(overlay_path)
-            
-            # Render video clip (Real Motion Video or Static fallback)
+            # --- RENDER VIDEO CLIP (CLEAN REAL MOTION VIDEO - ZERO TEXT OVERLAY) ---
             clip_path = os.path.join(tmpdir, f"clip_{idx}.mp4")
             if has_real_video:
                 cmd_clip = [
-                    "ffmpeg", "-y", "-ss", "0", "-i", motion_file, "-i", overlay_path,
-                    "-filter_complex", "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920[bg];[bg][1:v]overlay=0:0[out]",
+                    "ffmpeg", "-y", "-ss", "0", "-stream_loop", "-1", "-i", motion_file,
+                    "-filter_complex", "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920[out]",
                     "-map", "[out]",
                     "-t", str(round(duration, 2)),
                     "-c:v", "libx264", "-preset", "faster", "-crf", "26", "-pix_fmt", "yuv420p", clip_path
                 ]
             else:
+                # Fallback clean product canvas (zero text)
+                frame = Image.new("RGB", (width, height), color=(15, 23, 42))
+                frame.paste(prod_square, (130, (height - 820) // 2))
+                frame_path = os.path.join(tmpdir, f"frame_{idx}.jpg")
+                frame.save(frame_path, quality=95)
                 cmd_clip = [
-                    "ffmpeg", "-y", "-loop", "1", "-i", overlay_path,
+                    "ffmpeg", "-y", "-loop", "1", "-i", frame_path,
                     "-vf", "scale=1080:1920",
                     "-t", str(round(duration, 2)),
                     "-c:v", "libx264", "-preset", "faster", "-crf", "26", "-pix_fmt", "yuv420p", clip_path
@@ -929,8 +858,7 @@ def render_reel_video(product):
             "ffmpeg", "-y",
             "-i", merged_video,
             "-i", mixed_audio,
-            "-vf", f"drawbox=x=0:y=1905:w='iw*t/{total_duration}':h=15:color=0xFF6B35@1:t=fill",
-            "-c:v", "libx264", "-preset", "faster", "-crf", "26", "-pix_fmt", "yuv420p", "-r", "30",
+            "-c:v", "copy",
             "-c:a", "aac", "-b:a", "128k",
             "-shortest",
             out_path
