@@ -19,6 +19,7 @@ import glob
 import threading
 import requests
 import traceback
+import hashlib
 from datetime import datetime, timezone, timedelta
 
 # Ensure UTF-8 output across Windows and all console environments
