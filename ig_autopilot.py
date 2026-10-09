@@ -509,12 +509,9 @@ def generate_caption(product, campaign_type="auto"):
         hook = random.choice(HOOK_TEMPLATES)
         badge = f"✨ Factory Direct Drop • Only ₹{product['price_inr']:,} ({discount_pct}% OFF)"
     
-    script_idx = abs(hash(product.get("id", "script"))) % len(DIALOGUE_BANTER_SCRIPTS)
-    script = DIALOGUE_BANTER_SCRIPTS[script_idx]
-    story_highlight = f"""🎭 {script['theme']}
-Gappu: "Bhai maine showroom se ₹{product['compare_at']:,} mein liya!"
-Pappu: "Arey bhai tu loot gaya! RareEmber pe wahi direct factory se sirf ₹{product['price_inr']:,} mein mil raha hai!"
-✨ Verified 4.9★ Quality • 30-Day Zero-Risk Return Guarantee"""
+    story_highlight = f"""⭐ Why shoppers across India love RareEmber:
+"Ordered with Cash on Delivery and delivered in 3 days! Exceptional build quality and fraction of mall showroom pricing."
+✨ Verified 4.9★ Quality • 30-Day Zero-Risk Return & Replacement Guarantee"""
 
     caption = f"""{headline}
 
