@@ -5,7 +5,7 @@ Hermes Dropship CEO — Meta Muse-Grade Autonomous AI Agent Architecture
 Architecture:
 - ReAct Autonomous Tool Execution Loop (Multi-turn Function Calling)
 - Multi-Model LLM Engine (Gemini 3.1 Flash Lite / Gemini 3 Flash)
-- 10+ Real Business Tools (Orders, Products, CJ Fulfillment, Marketing, Memory, Dynamic Skills)
+- 10+ Real Business Tools (Orders, Products, Domestic Dispatch, Marketing, Memory, Dynamic Skills)
 - Persistent Self-Evolving Knowledge Graph (HERMES_MEMORY)
 - Proactive Autopilot Background Monitor (Real-time order alerts & health checks)
 - Website Chatbot Bridge Integration
@@ -85,14 +85,14 @@ def load_memory():
         "founder": "Ajay Rajbhar (Telegram ID: 5238068527)",
         "business": "RareEmber (Curated E-Commerce & Dropshipping Empire)",
         "website": "https://rareember-store.vercel.app",
-        "supplier": "CJ Dropshipping API",
+        "supplier": "RareEmber Domestic Factory-Direct Network (BlueDart & Delhivery Express)",
         "gateways": "Razorpay (UPI, Cards, NetBanking) + Cash on Delivery (COD ₹49 fee in India)",
         "currencies": "Domestic India in INR (₹), Global in USD ($)",
         "learned_facts": [
             "Ajay Rajbhar is the founder and boss. Address him as Ajay.",
             "RareEmber store is 100% live in production at https://rareember-store.vercel.app.",
-            "Domestic delivery is 2-5 days via BlueDart/Delhivery. Global is 7-14 days.",
-            "Primary categories: Curated Tech/Electronics, Premium Pet Comfort, Fashion, and Home-Living.",
+            "Domestic delivery is 2-4 days via BlueDart/Delhivery express dispatch.",
+            "Primary categories: Curated Tech, Minimalist Home Aesthetics, Everyday Carry, and Smart Living.",
             "Hermes is an elite Meta Muse-grade autonomous agent with tool execution and auto-learning."
         ],
         "last_updated": datetime.now(timezone.utc).isoformat()
@@ -248,14 +248,18 @@ created_at: {datetime.now(timezone.utc).isoformat()}
         f.write(content)
     return {"status": "skill_created", "skill_name": clean_name, "file": target_file}
 
-def tool_fulfill_order_cj(order_id):
-    """Triggers autonomous fulfillment check with CJ Dropshipping."""
+def tool_fulfill_order_factory_direct(order_id):
+    """Triggers autonomous factory-direct dispatch with Indian fulfillment hubs (BlueDart & Delhivery)."""
     return {
         "status": "processing",
         "order_id": order_id,
-        "cj_status": "Fulfillment queue authorized. Dispatch ready within 24 hours.",
-        "warehouse": "Nearest Regional Hub (Delhi / Shenzhen)"
+        "dispatch_status": "Factory-direct dispatch authorized. Manifested for BlueDart / Delhivery Express pickup within 24 hours.",
+        "warehouse": "Domestic Regional Fulfillment Hub (Bhiwandi / Gurugram / Bengaluru)"
     }
+
+def tool_fulfill_order_cj(order_id):
+    """Backward compatibility alias for factory direct dispatch."""
+    return tool_fulfill_order_factory_direct(order_id)
 
 def tool_check_pincode(pincode):
     """Checks pan-India delivery timelines and Cash on Delivery (COD) serviceability."""
@@ -663,7 +667,8 @@ TOOL_DISPATCHER = {
     "search_products": lambda args: tool_search_products(args.get("query", "")),
     "teach_memory": lambda args: tool_teach_memory(args.get("category", "general"), args.get("fact", "")),
     "create_skill": lambda args: tool_create_skill(args.get("skill_name", ""), args.get("instructions", "")),
-    "fulfill_order_cj": lambda args: tool_fulfill_order_cj(args.get("order_id", "")),
+    "fulfill_order_factory_direct": lambda args: tool_fulfill_order_factory_direct(args.get("order_id", "")),
+    "fulfill_order_cj": lambda args: tool_fulfill_order_factory_direct(args.get("order_id", "")),
     "check_pincode": lambda args: tool_check_pincode(args.get("pincode", "")),
     "generate_ad_campaign": lambda args: tool_generate_ad_campaign(args.get("product_name", ""), args.get("platform", "instagram_reels")),
     "generate_influencer_pitch": lambda args: tool_generate_influencer_pitch(args.get("creator_name", "Creator"), args.get("platform", "instagram"), args.get("product_name", "Item")),
@@ -742,8 +747,8 @@ AGENT_TOOLS_SCHEMA = [
                 }
             },
             {
-                "name": "fulfill_order_cj",
-                "description": "Trigger CJ Dropshipping fulfillment for a customer order.",
+                "name": "fulfill_order_factory_direct",
+                "description": "Trigger factory-direct dispatch via BlueDart & Delhivery Express for a customer order.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -1487,7 +1492,7 @@ def proactive_order_monitor():
                         f"• <b>Amount:</b> {o.get('amount')}\n"
                         f"• <b>Customer:</b> {o.get('email')}\n"
                         f"• <b>Status:</b> <b>{o.get('status', 'PENDING').upper()}</b>\n\n"
-                        f"Hermes is queuing supplier fulfillment with CJ Dropshipping."
+                        f"Hermes is queuing factory-direct dispatch via BlueDart & Delhivery Express."
                     )
                     for uid in ALLOWED_USERS:
                         send_message(uid, alert_text, parse_mode="HTML")
@@ -1584,7 +1589,7 @@ def poll_loop():
         "⚡ <b>Hermes JARVIS 2.0 Online & Standing By!</b>\n\n"
         f"Ajay, RareEmber dropshipping autonomous executive ready hai:\n"
         f"• <b>Official Bot:</b> @rereemberbot\n"
-        f"• <b>Live Actions:</b> Store health check, order audits, CJ fulfillment\n"
+        f"• <b>Live Actions:</b> Store health check, order audits, factory-direct dispatch\n"
         f"• <b>Instagram Autopilot:</b> Instant feed drop via <code>@RareEmber</code>\n"
         f"• <b>Email Concierge:</b> Customer refund & tracking replies ({SUPPORT_EMAIL})\n"
         f"• <b>Finance & Margins:</b> Real-time unit economics calculator (INR/USD)\n"

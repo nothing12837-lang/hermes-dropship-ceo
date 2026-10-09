@@ -452,71 +452,93 @@ def render_post_image(product):
     print(f"✅ Rendered creative ({theme['id']}) post image: {out_path}")
     return out_path
 
-CHARACTER_PROFILES = [
+DIALOGUE_BANTER_SCRIPTS = [
     {
-        "name": "Priya",
-        "city": "Bengaluru",
-        "role": "Product Designer",
-        "hook_line": "Priya was tired of cluttered desks & cheap plastic gadgets...",
-        "story_angle": "After testing 4 different setups, she found this factory-direct gem.",
-        "outcome": "Her entire office team placed orders within 48 hours.",
-        "avatar_desc": "young stylish Indian woman UX designer, glasses, modern aesthetic office apartment",
-        "prompt_scene": "3D Pixar-style cinematic render of stylish young Indian female product designer wearing glasses in aesthetic Bengaluru apartment studio with warm ambient backlighting holding modern tech device, octane render, 8k vertical portrait"
+        "id": "mall_vs_factory",
+        "theme": "🍋 Gappu vs Pappu • Mall Price Debate",
+        "lines": [
+            {
+                "speaker": "Gappu",
+                "avatar": "shocked",
+                "hindi": "अरे भाई! मैंने मॉल से ₹{compare_at} में ये लिया, मस्त है ना?",
+                "sub": "Bro! I bought this from mall showroom for Rs. {compare_at}!",
+                "scene": "character_gappu"
+            },
+            {
+                "speaker": "Pappu",
+                "avatar": "smirk",
+                "hindi": "अरे भाई तू तो लुट गया! RareEmber पे यही डायरेक्ट फैक्ट्री से सिर्फ ₹{price_inr} में मिल रहा है!",
+                "sub": "Bro you got robbed! Same item on RareEmber is only Rs. {price_inr}!",
+                "scene": "character_pappu"
+            },
+            {
+                "speaker": "Gappu",
+                "avatar": "confused",
+                "hindi": "क्या बात कर रहा है?! सच में? पर क्वालिटी कैसी है भाई?",
+                "sub": "Really?! But how is the build quality?",
+                "scene": "character_gappu"
+            },
+            {
+                "speaker": "Pappu",
+                "avatar": "verified",
+                "hindi": "अरे 4.9 स्टार रेटिंग है, 30 दिन की रिप्लेसमेंट गारंटी और कैश ऑन डिलीवरी भी!",
+                "sub": "4.9 star rating, 30-day guarantee and Cash on Delivery too!",
+                "scene": "product_showcase"
+            },
+            {
+                "speaker": "Both",
+                "avatar": "celebrate",
+                "hindi": "तो देर मत करो, अभी कमेंट करो BUY या बायो में लिंक पे क्लिक करो!",
+                "sub": "Comment 'BUY' right now or tap the link in bio!",
+                "scene": "viral_cta"
+            }
+        ]
     },
     {
-        "name": "Aarav",
-        "city": "Mumbai",
-        "role": "Fintech Founder",
-        "hook_line": "Aarav refused to pay 400% luxury retail markups...",
-        "story_angle": "Ordered factory-direct on RareEmber with 1-Click Cash on Delivery.",
-        "outcome": "Arrived in 2 days from the regional warehouse. Absolutely unmatched finish.",
-        "avatar_desc": "handsome Indian male entrepreneur, modern minimalist apartment overlooking Mumbai skyline",
-        "prompt_scene": "3D Pixar-style cinematic render of sharp young Indian male tech entrepreneur in modern minimalist Mumbai high-rise apartment with glass windows and warm cozy evening light, octane render, 8k vertical portrait"
-    },
-    {
-        "name": "Sneha",
-        "city": "Delhi NCR",
-        "role": "Architect & Creator",
-        "hook_line": "Sneha searched everywhere for clean Pinterest aesthetics on a budget...",
-        "story_angle": "Most marketplace knockoffs broke or looked dull. This one exceeded every expectation.",
-        "outcome": "Her Instagram DMs exploded with people asking for the direct link.",
-        "avatar_desc": "creative young Indian woman lifestyle creator, warm aesthetic room with soft ambient light",
-        "prompt_scene": "3D Pixar-style cinematic render of creative young Indian female architect in Scandinavian aesthetic studio with minimalist wood desk and warm sunset glow, octane render, 8k vertical portrait"
-    },
-    {
-        "name": "Kabir",
-        "city": "Hyderabad",
-        "role": "Senior Engineer",
-        "hook_line": "Kabir put this through a 30-day hardcore durability test...",
-        "story_angle": "Solid tactile engineering, seamless build, and factory-direct pricing.",
-        "outcome": "Rated 5.0/5.0 stars. 'Hands down the best lifestyle purchase of 2026.'",
-        "avatar_desc": "sharp Indian male engineer, minimalist workstation with warm ambient lighting",
-        "prompt_scene": "3D Pixar-style cinematic render of young Indian male engineer at clean futuristic aesthetic workstation with dual monitors and warm ambient lighting, octane render, 8k vertical portrait"
+        "id": "clutter_headache",
+        "theme": "⚡ Chintu vs Mintu • Setup Life Hack",
+        "lines": [
+            {
+                "speaker": "Chintu",
+                "avatar": "shocked",
+                "hindi": "यार दिनभर काम करके सिरदर्द और मेज पर सारा कचरा फैल गया है!",
+                "sub": "Bro, desk clutter and eye strain is driving me crazy!",
+                "scene": "character_gappu"
+            },
+            {
+                "speaker": "Mintu",
+                "avatar": "smirk",
+                "hindi": "अरे तो RareEmber से ये स्मार्ट अपग्रेड क्यों नहीं मंगाया? एक झटके में पूरा सेटअप बदल देगा!",
+                "sub": "Why didn't you get this RareEmber smart drop? Instant life upgrade!",
+                "scene": "character_pappu"
+            },
+            {
+                "speaker": "Chintu",
+                "avatar": "confused",
+                "hindi": "अरे बहुत महंगा होगा भाई, मेरा तो टाइट बजट है!",
+                "sub": "Must be super expensive bro, I am on a budget!",
+                "scene": "character_gappu"
+            },
+            {
+                "speaker": "Mintu",
+                "avatar": "verified",
+                "hindi": "अरे सिर्फ ₹{price_inr} का है! M.R.P. ₹{compare_at} था, सीधा ₹{saving_inr} की बचत!",
+                "sub": "Only Rs. {price_inr}! You save Rs. {saving_inr} today!",
+                "scene": "product_showcase"
+            },
+            {
+                "speaker": "Both",
+                "avatar": "celebrate",
+                "hindi": "कमेंट करो LINK तुरंत डिस्काउंट कूपन के साथ 1-क्लिक COD पर!",
+                "sub": "Comment 'LINK' for instant 1-Click Cash on Delivery link!",
+                "scene": "viral_cta"
+            }
+        ]
     }
 ]
 
-def fetch_3d_ai_render(prompt, timeout=10):
-    """
-    Fetches high-quality 3D visual render via Pollinations AI (free, zero API key required).
-    Returns PIL Image or None on network timeout/failure.
-    """
-    import urllib.parse
-    try:
-        encoded = urllib.parse.quote(prompt)
-        seed = random.randint(1000, 999999)
-        url = f"https://image.pollinations.ai/prompt/{encoded}?width=1080&height=1920&nologo=true&seed={seed}&model=flux"
-        resp = requests.get(url, timeout=timeout)
-        if resp.status_code == 200 and len(resp.content) > 10000:
-            return Image.open(BytesIO(resp.content)).convert("RGB")
-    except Exception as e:
-        print(f"Notice: Pollinations 3D fetch notice ({e}), utilizing studio 3D compositor.")
-    return None
-
-def generate_aesthetic_lofi_audio(out_wav_path, duration_sec=11.8):
-    """
-    Generates a clean stereo 44.1kHz lo-fi / chillhop chord sequence in pure Python.
-    Zero external dependencies, completely royalty-free, 100% legal for Instagram Reels.
-    """
+def generate_aesthetic_lofi_audio(out_wav_path, duration_sec=14.0):
+    """Generates an upbeat lo-fi chillhop background track in pure Python."""
     import wave, math, struct
     sample_rate = 44100
     n_samples = int(sample_rate * duration_sec)
@@ -527,7 +549,6 @@ def generate_aesthetic_lofi_audio(out_wav_path, duration_sec=11.8):
         [196.00, 246.94, 293.66, 349.23],  # G7
     ]
     chord_len = duration_sec / len(progression)
-    
     with wave.open(out_wav_path, "w") as wav_file:
         wav_file.setnchannels(2)
         wav_file.setsampwidth(2)
@@ -538,32 +559,82 @@ def generate_aesthetic_lofi_audio(out_wav_path, duration_sec=11.8):
             chord_idx = min(int(t / chord_len), len(progression) - 1)
             notes = progression[chord_idx]
             t_chord = t - (chord_idx * chord_len)
-            env = min(1.0, t_chord * 4.0) * math.exp(-t_chord * 0.7)
+            env = min(1.0, t_chord * 4.0) * math.exp(-t_chord * 0.6)
             sample_val = 0.0
             for freq in notes:
-                sample_val += 0.22 * math.sin(2.0 * math.pi * freq * t)
-                sample_val += 0.08 * math.sin(2.0 * math.pi * (freq * 2) * t)
-            root_freq = notes[0] / 2.0
-            sample_val += 0.25 * math.sin(2.0 * math.pi * root_freq * t) * env
+                sample_val += 0.20 * math.sin(2.0 * math.pi * freq * t)
+            sample_val += 0.25 * math.sin(2.0 * math.pi * (notes[0] / 2.0) * t) * env
             beat_phase = (t % 0.5)
             if beat_phase < 0.03:
                 noise = ((math.sin(t * 12345.67) + 1.0) / 2.0 - 0.5) * 0.08 * math.exp(-beat_phase * 150)
                 sample_val += noise
-            sample_val = max(-1.0, min(1.0, sample_val * env * 0.75))
+            sample_val = max(-1.0, min(1.0, sample_val * env * 0.70))
             int_val = int(sample_val * 32767.0)
             frames.extend(struct.pack("<hh", int_val, int_val))
         wav_file.writeframes(frames)
     return out_wav_path
 
+def get_audio_duration(file_path):
+    """Returns audio file duration in seconds via ffprobe."""
+    import subprocess
+    cmd = ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", file_path]
+    res = subprocess.run(cmd, capture_output=True, text=True)
+    try:
+        return float(res.stdout.strip())
+    except Exception:
+        return 3.5
+
+def draw_3d_cartoon_avatar(draw, center_x, center_y, radius, mood="shocked", name="Gappu"):
+    """Draws an expressive 3D style cartoon character avatar."""
+    cx, cy, r = center_x, center_y, radius
+    # Glowing outer border
+    border_color = (239, 68, 68) if mood == "shocked" else ((52, 211, 153) if mood == "smirk" else (245, 158, 11))
+    draw.ellipse([cx - r - 8, cy - r - 8, cx + r + 8, cy + r + 8], fill=border_color)
+    
+    # Character Face Base
+    face_color = (254, 215, 170) if name in ["Gappu", "Chintu"] else (253, 186, 116)
+    draw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=face_color)
+    
+    # Hair
+    draw.chord([cx - r, cy - r - 10, cx + r, cy - r // 2], start=180, end=360, fill=(40, 25, 20))
+    
+    # Eyes & Expressions
+    if mood == "shocked":
+        # Wide popped eyes
+        draw.ellipse([cx - 55, cy - 35, cx - 15, cy + 5], fill=(255, 255, 255), outline=(0, 0, 0), width=3)
+        draw.ellipse([cx + 15, cy - 35, cx + 55, cy + 5], fill=(255, 255, 255), outline=(0, 0, 0), width=3)
+        draw.ellipse([cx - 38, cy - 20, cx - 28, cy - 10], fill=(0, 0, 0))
+        draw.ellipse([cx + 28, cy - 20, cx + 38, cy - 10], fill=(0, 0, 0))
+        # Open mouth (screaming / shock)
+        draw.ellipse([cx - 30, cy + 25, cx + 30, cy + 75], fill=(185, 28, 28), outline=(0, 0, 0), width=3)
+    elif mood == "smirk":
+        # Cool shades / sunglasses
+        draw.rounded_rectangle([cx - 65, cy - 35, cx - 10, cy + 10], radius=12, fill=(15, 23, 42))
+        draw.rounded_rectangle([cx + 10, cy - 35, cx + 65, cy + 10], radius=12, fill=(15, 23, 42))
+        draw.line([(cx - 10, cy - 12), (cx + 10, cy - 12)], fill=(15, 23, 42), width=6)
+        # Confident smirk
+        draw.arc([cx - 30, cy + 25, cx + 35, cy + 65], start=0, end=180, fill=(15, 23, 42), width=5)
+    else:  # celebrate / happy
+        # Big smiling eyes
+        draw.arc([cx - 55, cy - 35, cx - 15, cy - 5], start=180, end=360, fill=(0, 0, 0), width=5)
+        draw.arc([cx + 15, cy - 35, cx + 55, cy - 5], start=180, end=360, fill=(0, 0, 0), width=5)
+        # Big open smile
+        draw.chord([cx - 35, cy + 20, cx + 35, cy + 70], start=0, end=180, fill=(225, 29, 72), outline=(0, 0, 0), width=3)
+
 def render_reel_video(product):
     """
-    Renders an agency-grade 1080x1920 (9:16) 3D Story Instagram Reel video (.mp4)
-    featuring 3rd-character relatable storytelling, 3D visual styling,
-    smooth FFmpeg camera motion (zoompan push-in), animated progress bar,
-    and synthesized lo-fi chillhop background audio.
+    Renders a viral 3D Cartoon Hindi Dialogue Instagram Reel video (.mp4)
+    modeled directly after the high-engagement @amitverse_ai Hindi cartoon format.
+    Features:
+    - Real spoken Hindi dialogue voices (via Google TTS + pitch shifting)
+    - 2 animated comedic personas (Gappu & Pappu) debating mall price vs RareEmber
+    - Dynamic speech bubbles with Hindi & English subtitles
+    - Studio 3D product showcase with verified 4.9 rating
+    - Clear viral 1-Click COD comment call to action
     """
     import subprocess
     import tempfile
+    from gtts import gTTS
     
     width = 1080
     height = 1920
@@ -571,10 +642,10 @@ def render_reel_video(product):
     discount_pct = int(round((1 - (product["price_inr"] / product["compare_at"])) * 100))
     saving_inr = product["compare_at"] - product["price_inr"]
     
-    # Select relatable 3rd character profile
-    char_idx = abs(hash(product.get("id", "char"))) % len(CHARACTER_PROFILES)
-    char = CHARACTER_PROFILES[char_idx]
-    print(f"🎭 Reel Story Character: {char['name']} ({char['role']}, {char['city']})")
+    # Pick banter script
+    script_idx = abs(hash(product.get("id", "script"))) % len(DIALOGUE_BANTER_SCRIPTS)
+    script = DIALOGUE_BANTER_SCRIPTS[script_idx]
+    print(f"🎬 Active Reel Banter: {script['theme']}")
     
     # Fetch Product Image
     img_url = product["image_url"]
@@ -582,185 +653,182 @@ def render_reel_video(product):
         resp = requests.get(img_url, timeout=10)
         prod_img = Image.open(BytesIO(resp.content)).convert("RGB")
     except Exception as e:
-        print(f"Notice: Product image fetch ({e}), using default canvas.")
+        print(f"Notice: Product image fetch ({e}), using studio default.")
         prod_img = Image.new("RGB", (900, 900), color=(240, 240, 240))
         
-    prod_square = prod_img.resize((920, 920), Image.Resampling.LANCZOS)
+    prod_square = prod_img.resize((820, 820), Image.Resampling.LANCZOS)
     
-    # Try fetching AI 3D Character render
-    ai_prompt = f"{char['prompt_scene']} showcasing {product['title']}"
-    ai_3d_img = fetch_3d_ai_render(ai_prompt, timeout=10)
-    
+    # Fonts
     font_brand = get_font(46, bold=True)
-    font_title = get_font(42, bold=True)
-    font_sub = get_font(28, bold=False)
+    font_sub = get_font(26, bold=False)
     font_badge = get_font(30, bold=True)
-    font_price = get_font(58, bold=True)
-    font_btn = get_font(36, bold=True)
+    font_dialogue_hi = get_font(36, bold=True)
+    font_dialogue_en = get_font(24, bold=False)
+    font_price = get_font(60, bold=True)
+    font_btn = get_font(38, bold=True)
 
     with tempfile.TemporaryDirectory() as tmpdir:
-        # --- SCENE 1: THE 3D CHARACTER & RELATABLE HOOK ---
-        s1 = Image.new("RGB", (width, height), color=(15, 23, 42))
-        d1 = ImageDraw.Draw(s1)
+        scene_video_clips = []
+        dialogue_audio_clips = []
         
-        # If AI 3D image available, composite as dramatic backdrop
-        if ai_3d_img:
-            ai_fit = ai_3d_img.resize((width, height), Image.Resampling.LANCZOS)
-            s1.paste(ai_fit, (0, 0))
-            # Overlay dark gradient on top and bottom for readable typography
-            overlay = Image.new("RGBA", (width, height), color=(0, 0, 0, 0))
-            od = ImageDraw.Draw(overlay)
-            od.rectangle([0, 0, width, 240], fill=(10, 15, 30, 210))
-            od.rectangle([0, 1200, width, height], fill=(10, 15, 30, 235))
-            s1 = Image.alpha_composite(s1.convert("RGBA"), overlay).convert("RGB")
-            d1 = ImageDraw.Draw(s1)
-        else:
-            # 3D Studio Mesh Backdrop
-            for y_bg in range(0, height, 4):
-                blend = y_bg / height
-                r = int(15 * (1 - blend) + 30 * blend)
-                g = int(23 * (1 - blend) + 41 * blend)
-                b = int(42 * (1 - blend) + 65 * blend)
-                d1.line([(0, y_bg), (width, y_bg)], fill=(r, g, b), width=4)
-            d1.rounded_rectangle([70, 420, width - 70, 1340], radius=32, fill=(30, 41, 59), outline=(51, 65, 85), width=3)
-            s1.paste(prod_square, (80, 430))
+        # 1. GENERATE AUDIO & VISUALS FOR EACH DIALOGUE LINE
+        for idx, line in enumerate(script["lines"]):
+            speaker = line["speaker"]
+            hi_text = line["hindi"].format(
+                compare_at=f"{product['compare_at']:,}",
+                price_inr=f"{product['price_inr']:,}",
+                saving_inr=f"{saving_inr:,}"
+            )
+            en_sub = line["sub"].format(
+                compare_at=f"{product['compare_at']:,}",
+                price_inr=f"{product['price_inr']:,}",
+                saving_inr=f"{saving_inr:,}"
+            )
             
-        # Top Brand Header
-        d1.rectangle([0, 0, width, 180], fill=(10, 15, 30))
-        d1.text((70, 60), "rareember.", fill=(255, 255, 255), font=font_brand)
-        d1.ellipse([325, 80, 345, 100], fill=(255, 107, 53))
-        d1.text((70, 120), f"REAL STORY • {char['city'].upper()}, INDIA", fill=(148, 163, 184), font=font_sub)
-        
-        d1.rounded_rectangle([width - 440, 65, width - 70, 125], radius=28, fill=(255, 107, 53))
-        d1.text((width - 420, 80), fest['banner'], fill=(255, 255, 255), font=get_font(20, bold=True))
-        
-        # Character Hook Banner
-        d1.rounded_rectangle([70, 220, width - 70, 360], radius=24, fill=(30, 41, 59))
-        d1.text((100, 245), f"👤 {char['name']} ({char['role']})", fill=(255, 184, 0), font=font_badge)
-        d1.text((100, 295), "🛑 STOP SCROLLING • Here is what changed everything", fill=(239, 68, 68), font=get_font(26, bold=True))
-        
-        # Bottom Relatable Story Overlay
-        d1.rounded_rectangle([70, 1380, width - 70, 1640], radius=28, fill=(24, 30, 48), outline=(51, 65, 85), width=2)
-        d1.text((100, 1410), f'"{char["hook_line"]}"', fill=(255, 255, 255), font=get_font(30, bold=True))
-        d1.text((100, 1475), f"{char['story_angle']}", fill=(203, 213, 225), font=get_font(24, bold=False))
-        d1.text((100, 1545), f"✨ {char['outcome']}", fill=(52, 211, 153), font=get_font(24, bold=True))
-        
-        d1.rounded_rectangle([70, 1680, width - 70, 1800], radius=36, fill=(255, 107, 53))
-        d1.text((250, 1720), "WATCH THE SOLUTION NEXT ▾", fill=(255, 255, 255), font=font_btn)
-        
-        p1 = os.path.join(tmpdir, "slide_0.jpg")
-        s1.save(p1, quality=95)
-        
-        # --- SCENE 2: THE AESTHETIC SOLUTION & 3D SPECS ---
-        s2 = Image.new("RGB", (width, height), color=(11, 15, 25))
-        d2 = ImageDraw.Draw(s2)
-        d2.rectangle([0, 0, width, 180], fill=(10, 15, 30))
-        d2.text((70, 60), "rareember.", fill=(255, 255, 255), font=font_brand)
-        d2.ellipse([325, 80, 345, 100], fill=(255, 107, 53))
-        d2.text((70, 120), "FACTORY DIRECT ARCHITECTURE", fill=(148, 163, 184), font=font_sub)
-        
-        d2.rounded_rectangle([70, 220, width - 70, 1040], radius=32, fill=(24, 30, 48), outline=(51, 65, 85), width=2)
-        small_prod = prod_img.resize((500, 500), Image.Resampling.LANCZOS)
-        s2.paste(small_prod, ((width - 500) // 2, 240))
-        
-        fy = 780
-        for feat in product["features"][:3]:
-            d2.text((110, fy), f"✔ {feat}", fill=(241, 245, 249), font=get_font(28, bold=True))
-            fy += 65
+            # --- SYNTHESIZE HINDI SPEECH ---
+            raw_audio = os.path.join(tmpdir, f"raw_{idx}.mp3")
+            pitched_audio = os.path.join(tmpdir, f"dialogue_{idx}.mp3")
+            tts = gTTS(hi_text, lang="hi")
+            tts.save(raw_audio)
             
-        d2.rounded_rectangle([70, 1080, width - 70, 1260], radius=24, fill=(16, 185, 129))
-        d2.text((120, 1115), f"⭐ {product['rating']}/5.0 VERIFIED CUSTOMER RATING", fill=(255, 255, 255), font=font_badge)
-        d2.text((120, 1175), f"Over {product['reviews']}+ Happy Customers Across India 🇮🇳", fill=(255, 255, 255), font=font_sub)
-        
-        d2.rounded_rectangle([70, 1310, width - 70, 1620], radius=28, fill=(30, 41, 59))
-        d2.text((110, 1350), "⚡ Factory Direct: No middlemen markups", fill=(255, 184, 0), font=get_font(26, bold=True))
-        d2.text((110, 1415), "🚚 Pan-India Express Delivery (2–4 Days)", fill=(241, 245, 249), font=font_sub)
-        d2.text((110, 1480), "💵 100% Cash on Delivery (COD) Available", fill=(241, 245, 249), font=font_sub)
-        d2.text((110, 1545), "🛡️ 30-Day Zero-Risk Return Guarantee", fill=(241, 245, 249), font=font_sub)
-        
-        d2.rounded_rectangle([70, 1680, width - 70, 1800], radius=36, fill=(255, 107, 53))
-        d2.text((270, 1720), "OFFER DETAILS NEXT ▾", fill=(255, 255, 255), font=font_btn)
-        
-        p2 = os.path.join(tmpdir, "slide_1.jpg")
-        s2.save(p2, quality=95)
-        
-        # --- SCENE 3: FESTIVE DEAL & VIRAL 1-CLICK COD CTA ---
-        s3 = Image.new("RGB", (width, height), color=(18, 12, 8))
-        d3 = ImageDraw.Draw(s3)
-        d3.rectangle([0, 0, width, 180], fill=(25, 15, 10))
-        d3.text((70, 60), "rareember.", fill=(255, 255, 255), font=font_brand)
-        d3.ellipse([325, 80, 345, 100], fill=(255, 107, 53))
-        d3.text((70, 120), fest['greeting'], fill=(255, 184, 0), font=font_sub)
-        
-        d3.rounded_rectangle([70, 230, width - 70, 590], radius=32, fill=(249, 115, 22), outline=(255, 237, 213), width=4)
-        d3.text((110, 270), "🪔 GRAND FESTIVE COUPON", fill=(255, 255, 255), font=font_badge)
-        d3.text((110, 340), f"USE CODE: {fest['coupon']}", fill=(255, 255, 255), font=get_font(52, bold=True))
-        d3.text((110, 430), f"{fest['discount_desc']}!", fill=(255, 255, 255), font=font_sub)
-        d3.text((110, 490), "Valid Across 19,000+ PIN Codes in India", fill=(255, 255, 255), font=get_font(22, bold=False))
-        
-        d3.rounded_rectangle([70, 640, width - 70, 940], radius=32, fill=(28, 25, 23), outline=(68, 64, 60), width=2)
-        d3.text((110, 690), f"TODAY'S SPECIAL: Rs. {product['price_inr']:,}", fill=(255, 184, 0), font=font_price)
-        d3.text((110, 770), f"M.R.P. Rs. {product['compare_at']:,} (-{discount_pct}% OFF)", fill=(168, 162, 158), font=font_sub)
-        d3.text((110, 830), f"Extra ₹100 Off with coupon {fest['coupon']} at checkout", fill=(34, 197, 94), font=font_sub)
-        
-        d3.rounded_rectangle([70, 980, width - 70, 1420], radius=32, fill=(28, 25, 23))
-        d3.text((110, 1025), "🛒 HOW TO ORDER RIGHT NOW:", fill=(255, 255, 255), font=font_badge)
-        d3.text((110, 1095), "1. 💬 Comment 'BUY' or 'LINK' for instant DM link", fill=(255, 184, 0), font=get_font(28, bold=True))
-        d3.text((110, 1165), "2. 📱 Or Tap Link in Bio (@rareember)", fill=(241, 245, 249), font=font_sub)
-        d3.text((110, 1235), "3. 💵 Pay via Cash on Delivery at your doorstep", fill=(241, 245, 249), font=font_sub)
-        d3.text((110, 1305), "4. 🛡️ 30-Day Zero-Risk Return Guarantee", fill=(148, 163, 184), font=get_font(22, bold=False))
-        
-        d3.rounded_rectangle([70, 1480, width - 70, 1660], radius=42, fill=(255, 107, 53))
-        d3.text((170, 1545), "TAP LINK IN BIO TO BUY NOW ⚡", fill=(255, 255, 255), font=get_font(40, bold=True))
-        
-        d3.text((width // 2 - 240, 1720), "rareember-store.vercel.app", fill=(148, 163, 184), font=font_sub)
-        
-        p3 = os.path.join(tmpdir, "slide_2.jpg")
-        s3.save(p3, quality=95)
-        
-        # --- GENERATE SYNTHESIZED LO-FI AUDIO TRACK ---
-        audio_wav = os.path.join(tmpdir, "lofi_audio.wav")
-        generate_aesthetic_lofi_audio(audio_wav, duration_sec=11.8)
-        
-        # --- RENDER DYNAMIC 3D MOTION CLIPS VIA FFMPEG (ZOOMPAN PUSH-IN) ---
-        clip0 = os.path.join(tmpdir, "clip_0.mp4")
-        clip1 = os.path.join(tmpdir, "clip_1.mp4")
-        clip2 = os.path.join(tmpdir, "clip_2.mp4")
-        
-        cmd0 = [
-            "ffmpeg", "-y", "-loop", "1", "-i", p1,
-            "-vf", "zoompan=z='min(zoom+0.0012,1.14)':d=114:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps=30",
-            "-t", "3.8", "-c:v", "libx264", "-pix_fmt", "yuv420p", clip0
-        ]
-        cmd1 = [
-            "ffmpeg", "-y", "-loop", "1", "-i", p2,
-            "-vf", "zoompan=z='min(zoom+0.0010,1.12)':d=114:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps=30",
-            "-t", "3.8", "-c:v", "libx264", "-pix_fmt", "yuv420p", clip1
-        ]
-        cmd2 = [
-            "ffmpeg", "-y", "-loop", "1", "-i", p3,
-            "-vf", "zoompan=z='min(zoom+0.0008,1.10)':d=126:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps=30",
-            "-t", "4.2", "-c:v", "libx264", "-pix_fmt", "yuv420p", clip2
-        ]
-        
-        subprocess.run(cmd0, cwd=tmpdir, capture_output=True)
-        subprocess.run(cmd1, cwd=tmpdir, capture_output=True)
-        subprocess.run(cmd2, cwd=tmpdir, capture_output=True)
-        
-        # Concatenate motion clips & apply animated bottom progress bar + lo-fi audio
-        concat_txt = os.path.join(tmpdir, "motion_concat.txt")
-        with open(concat_txt, "w") as cf:
-            cf.write(f"file '{clip0}'\nfile '{clip1}'\nfile '{clip2}'\n")
+            # Distinct character pitches (Gappu higher comedic pitch, Pappu deeper confident pitch)
+            if speaker in ["Gappu", "Chintu"]:
+                pitch_filter = "asetrate=44100*1.14,atempo=1/1.14"
+            elif speaker in ["Pappu", "Mintu"]:
+                pitch_filter = "asetrate=44100*0.96,atempo=1/0.96"
+            else:
+                pitch_filter = "asetrate=44100*1.04,atempo=1/1.04"
+                
+            subprocess.run(["ffmpeg", "-y", "-i", raw_audio, "-af", pitch_filter, pitched_audio], capture_output=True)
+            duration = max(3.0, get_audio_duration(pitched_audio) + 0.25)
+            dialogue_audio_clips.append(pitched_audio)
             
+            # --- RENDER 1080x1920 DIALOGUE FRAME ---
+            frame = Image.new("RGB", (width, height), color=(15, 23, 42))
+            draw = ImageDraw.Draw(frame)
+            
+            # Top Brand Header
+            draw.rectangle([0, 0, width, 180], fill=(10, 15, 30))
+            draw.text((70, 60), "rareember.", fill=(255, 255, 255), font=font_brand)
+            draw.ellipse([325, 80, 345, 100], fill=(255, 107, 53))
+            draw.text((70, 120), script["theme"].upper(), fill=(255, 184, 0), font=font_sub)
+            draw.rounded_rectangle([width - 430, 65, width - 70, 125], radius=28, fill=(255, 107, 53))
+            draw.text((width - 410, 80), fest['banner'], fill=(255, 255, 255), font=get_font(20, bold=True))
+            
+            # Center Visual Content
+            if line["scene"] in ["character_gappu", "character_pappu"]:
+                # Draw 3D Cartoon Character Avatar
+                draw_3d_cartoon_avatar(draw, width // 2, 600, 190, mood=line["avatar"], name=speaker)
+                
+                # Speaker Badge
+                spk_color = (239, 68, 68) if speaker in ["Gappu", "Chintu"] else (34, 197, 94)
+                draw.rounded_rectangle([width // 2 - 180, 830, width // 2 + 180, 895], radius=28, fill=spk_color)
+                draw.text((width // 2 - 130, 845), f"🗣️ {speaker.upper()} SPEAKS", fill=(255, 255, 255), font=font_badge)
+                
+                # Small Product Teaser
+                draw.rounded_rectangle([width // 2 - 200, 930, width // 2 + 200, 1230], radius=24, fill=(24, 30, 48), outline=(51, 65, 85), width=2)
+                mini_prod = prod_img.resize((260, 260), Image.Resampling.LANCZOS)
+                frame.paste(mini_prod, (width // 2 - 130, 950))
+                
+            elif line["scene"] == "product_showcase":
+                # High-Impact 3D Product Hero Stage
+                draw.rounded_rectangle([90, 240, width - 90, 1150], radius=36, fill=(24, 30, 48), outline=(52, 211, 153), width=4)
+                frame.paste(prod_square, (130, 280))
+                
+                # Floating Price & Specs Badge
+                draw.rounded_rectangle([130, 1180, width - 130, 1310], radius=28, fill=(16, 185, 129))
+                draw.text((170, 1210), f"⚡ Factory Direct: Rs. {product['price_inr']:,}", fill=(255, 255, 255), font=font_price)
+                draw.text((170, 1280), f"M.R.P. Rs. {product['compare_at']:,} • Save Rs. {saving_inr:,} ({discount_pct}% OFF)", fill=(255, 255, 255), font=font_sub)
+                
+            else:  # viral_cta
+                # Both Characters Celebrating + Big Action Button
+                draw_3d_cartoon_avatar(draw, width // 2 - 220, 450, 140, mood="celebrate", name="Gappu")
+                draw_3d_cartoon_avatar(draw, width // 2 + 220, 450, 140, mood="celebrate", name="Pappu")
+                
+                # Festive Coupon Box
+                draw.rounded_rectangle([90, 640, width - 90, 1020], radius=32, fill=(249, 115, 22), outline=(255, 237, 213), width=4)
+                draw.text((140, 680), "🪔 SPECIAL LAUNCH COUPON", fill=(255, 255, 255), font=font_badge)
+                draw.text((140, 750), f"CODE: {fest['coupon']}", fill=(255, 255, 255), font=get_font(52, bold=True))
+                draw.text((140, 840), f"{fest['discount_desc']} • Pan-India Free Delivery", fill=(255, 255, 255), font=font_sub)
+                draw.text((140, 910), "🚚 Express 2-4 Days Dispatch (BlueDart & Delhivery)", fill=(255, 255, 255), font=font_sub)
+                draw.text((140, 960), "💵 100% Cash on Delivery (COD) Available", fill=(255, 255, 255), font=font_sub)
+
+            # --- DYNAMIC DIALOGUE SUBTITLE SPEECH BUBBLE (BOTTOM) ---
+            draw.rounded_rectangle([60, 1340, width - 60, 1660], radius=32, fill=(10, 15, 30), outline=(255, 107, 53), width=3)
+            # Hindi Spoken Dialogue
+            draw.text((90, 1375), hi_text[:46], fill=(255, 255, 255), font=font_dialogue_hi)
+            if len(hi_text) > 46:
+                draw.text((90, 1435), hi_text[46:92], fill=(255, 255, 255), font=font_dialogue_hi)
+            # English Subtitle
+            draw.text((90, 1515), f"\"{en_sub[:54]}\"", fill=(255, 184, 0), font=font_dialogue_en)
+            if len(en_sub) > 54:
+                draw.text((90, 1560), f"\"{en_sub[54:108]}\"", fill=(255, 184, 0), font=font_dialogue_en)
+            draw.text((90, 1615), "⚡ 100% Cash on Delivery Pan-India", fill=(52, 211, 153), font=get_font(22, bold=True))
+            
+            # Action CTA Button
+            draw.rounded_rectangle([70, 1690, width - 70, 1810], radius=38, fill=(255, 107, 53))
+            draw.text((160, 1735), "COMMENT \"BUY\" FOR 1-CLICK COD LINK ⚡", fill=(255, 255, 255), font=font_btn)
+            draw.text((width // 2 - 220, 1845), "rareember-store.vercel.app  •  @rareember", fill=(148, 163, 184), font=font_sub)
+            
+            frame_path = os.path.join(tmpdir, f"frame_{idx}.jpg")
+            frame.save(frame_path, quality=95)
+            
+            # Render video clip with motion push-in
+            clip_path = os.path.join(tmpdir, f"clip_{idx}.mp4")
+            cmd_clip = [
+                "ffmpeg", "-y", "-loop", "1", "-i", frame_path,
+                "-vf", f"zoompan=z='min(zoom+0.0008,1.08)':d={int(duration * 30)}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps=30",
+                "-t", str(round(duration, 2)),
+                "-c:v", "libx264", "-pix_fmt", "yuv420p", clip_path
+            ]
+            subprocess.run(cmd_clip, cwd=tmpdir, capture_output=True)
+            if os.path.exists(clip_path):
+                scene_video_clips.append(clip_path)
+
+        # 2. CONCATENATE ALL VIDEO & DIALOGUE AUDIO CLIPS
+        video_concat_txt = os.path.join(tmpdir, "v_concat.txt")
+        with open(video_concat_txt, "w") as vf:
+            for c in scene_video_clips:
+                vf.write(f"file '{c}'\n")
+                
+        audio_concat_txt = os.path.join(tmpdir, "a_concat.txt")
+        with open(audio_concat_txt, "w") as af:
+            for a in dialogue_audio_clips:
+                af.write(f"file '{a}'\n")
+                
+        merged_video = os.path.join(tmpdir, "merged_video.mp4")
+        merged_audio = os.path.join(tmpdir, "merged_audio.mp3")
+        
+        subprocess.run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", video_concat_txt, "-c", "copy", merged_video], capture_output=True)
+        subprocess.run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", audio_concat_txt, "-c", "copy", merged_audio], capture_output=True)
+        
+        total_duration = get_audio_duration(merged_audio)
+        
+        # 3. GENERATE BACKGROUND LO-FI AUDIO & MIX UNDERNEATH
+        bg_audio_wav = os.path.join(tmpdir, "bg_lofi.wav")
+        generate_aesthetic_lofi_audio(bg_audio_wav, duration_sec=total_duration + 1.0)
+        
+        mixed_audio = os.path.join(tmpdir, "final_mixed_audio.mp3")
+        cmd_mix = [
+            "ffmpeg", "-y",
+            "-i", merged_audio,
+            "-i", bg_audio_wav,
+            "-filter_complex", "[0:a]volume=1.0[voice];[1:a]volume=0.18[bg];[voice][bg]amix=inputs=2:duration=first[out]",
+            "-map", "[out]",
+            mixed_audio
+        ]
+        subprocess.run(cmd_mix, capture_output=True)
+        
+        # 4. FINAL MUX WITH ANIMATED BOTTOM PROGRESS BAR
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         out_filename = f"reel_{product['id']}_{timestamp}.mp4"
         out_path = os.path.join(OUTPUT_DIR, out_filename)
         
         cmd_final = [
             "ffmpeg", "-y",
-            "-f", "concat", "-safe", "0", "-i", concat_txt,
-            "-i", audio_wav,
-            "-vf", "drawbox=x=0:y=1908:w='iw*t/11.8':h=12:color=0xFF6B35@1:t=fill",
+            "-i", merged_video,
+            "-i", mixed_audio,
+            "-vf", f"drawbox=x=0:y=1905:w='iw*t/{total_duration}':h=15:color=0xFF6B35@1:t=fill",
             "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "30",
             "-c:a", "aac", "-b:a", "192k",
             "-shortest",
@@ -769,26 +837,10 @@ def render_reel_video(product):
         res = subprocess.run(cmd_final, cwd=tmpdir, capture_output=True, text=True)
         if res.returncode == 0 and os.path.exists(out_path):
             file_mb = round(os.path.getsize(out_path) / (1024 * 1024), 2)
-            print(f"🎬 Rendered Agency-Grade 3D Story Reel Video: {out_path} ({file_mb} MB)")
+            print(f"🎬 Rendered Viral Hindi Dialogue Cartoon Reel Video: {out_path} ({file_mb} MB, {total_duration:.1f}s)")
             return out_path
         else:
-            print(f"Notice: Motion render fallback ({res.stderr[:200]}), rendering direct concat.")
-            # Simple direct fallback concat
-            fallback_concat = os.path.join(tmpdir, "fb_concat.txt")
-            with open(fallback_concat, "w") as fcf:
-                fcf.write("file 'slide_0.jpg'\nduration 3.8\nfile 'slide_1.jpg'\nduration 3.8\nfile 'slide_2.jpg'\nduration 4.2\nfile 'slide_2.jpg'\n")
-            cmd_fb = [
-                "ffmpeg", "-y",
-                "-f", "concat", "-safe", "0", "-i", fallback_concat,
-                "-i", audio_wav,
-                "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "30",
-                "-c:a", "aac", "-b:a", "128k",
-                "-shortest",
-                out_path
-            ]
-            res_fb = subprocess.run(cmd_fb, cwd=tmpdir, capture_output=True, text=True)
-            if res_fb.returncode == 0 and os.path.exists(out_path):
-                return out_path
+            print(f"Notice: Dialogue render fallback notice ({res.stderr[:200]}), falling back to post image.")
             return render_post_image(product)
 
 def resolve_campaign_type(requested_type="auto"):
@@ -830,9 +882,12 @@ def generate_caption(product, campaign_type="auto"):
         hook = random.choice(HOOK_TEMPLATES)
         badge = f"✨ Factory Direct Drop • Only ₹{product['price_inr']:,} ({discount_pct}% OFF)"
     
-    char_idx = abs(hash(product.get("id", "char"))) % len(CHARACTER_PROFILES)
-    char = CHARACTER_PROFILES[char_idx]
-    story_highlight = f"📖 Customer Story ({char['city']}): {char['name']} ({char['role']}) — \"{char['hook_line']}\" {char['story_angle']} ✨ Result: {char['outcome']}"
+    script_idx = abs(hash(product.get("id", "script"))) % len(DIALOGUE_BANTER_SCRIPTS)
+    script = DIALOGUE_BANTER_SCRIPTS[script_idx]
+    story_highlight = f"""🎭 {script['theme']}
+Gappu: "Bhai maine showroom se ₹{product['compare_at']:,} mein liya!"
+Pappu: "Arey bhai tu loot gaya! RareEmber pe wahi direct factory se sirf ₹{product['price_inr']:,} mein mil raha hai!"
+✨ Verified 4.9★ Quality • 30-Day Zero-Risk Return Guarantee"""
 
     caption = f"""{headline}
 

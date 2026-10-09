@@ -34,7 +34,6 @@ jobs:
           TELEGRAM_ALLOWED_USERS: ${{ secrets.TELEGRAM_ALLOWED_USERS }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          CJ_APP_TOKEN: ${{ secrets.CJ_APP_TOKEN }}
           SITE_URL: "https://rareember-store.vercel.app"
           ADMIN_SECRET: "rareember_super_secret_cron_2026"
           GH_TOKEN: ${{ secrets.GH_PAT }}
