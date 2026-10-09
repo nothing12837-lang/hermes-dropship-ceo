@@ -180,8 +180,8 @@ def fetch_live_catalog():
                 p_id = (p.get("id") or "").lower()
                 title = (p.get("title") or "").strip()
                 cat = (p.get("category") or "").lower()
-                pet_blacklist = ["calmcloud", "ember-glow", "warm-paw", "lickmat", "pawtrack", "collar", "pet", "dog", "cat", "scratch"]
-                if any(bk in p_id or bk in title.lower() or bk in cat for bk in pet_blacklist):
+                disallowed_blacklist = ["calmcloud", "ember-glow", "warm-paw", "lickmat", "pawtrack", "collar", "pet", "dog", "cat", "scratch", "disinfectant", "medicine", "pharma", "ortho", "anxiety"]
+                if any(bk in p_id or bk in title.lower() or bk in cat for bk in disallowed_blacklist):
                     continue
                 img = (p.get("image_url") or "").strip() or FALLBACK_IMAGES.get(p.get("id"))
                 if title and img:
