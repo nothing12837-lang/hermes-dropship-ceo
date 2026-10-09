@@ -205,10 +205,10 @@ def tool_search_products(query=""):
     """Searches RareEmber catalog for product titles, prices, categories, and ratings."""
     CATALOG = [
         {"id": "tech-anc-headphones", "title": "Sony WH-1000XM4 Noise Canceling Headphones", "price_inr": 24999, "price_usd": 248.00, "category": "electronics", "rating": 4.8},
-        {"id": "ember-glow-collar", "title": "EmberGlow™ LED Waterproof Dog Collar", "price_inr": 1499, "price_usd": 29.99, "category": "pets", "rating": 4.9},
-        {"id": "home-espresso-maker", "title": "Barista Pro Compact Espresso Machine", "price_inr": 34999, "price_usd": 549.99, "category": "home-garden", "rating": 4.9},
+        {"id": "crystal-led-pillar-lamp", "title": "Crystal Style Flameless LED Ambient Lamp", "price_inr": 899, "price_usd": 10.58, "category": "home-living", "rating": 4.9},
+        {"id": "home-espresso-maker", "title": "Barista Pro Compact Espresso Machine", "price_inr": 34999, "price_usd": 549.99, "category": "home-living", "rating": 4.9},
         {"id": "smart-magnetic-cable", "title": "GlowCharge 540° Magnetic Fast Cable", "price_inr": 799, "price_usd": 19.99, "category": "electronics", "rating": 4.7},
-        {"id": "orthopedic-calming-bed", "title": "CloudRest Orthopedic Pet Bed", "price_inr": 2999, "price_usd": 49.99, "category": "pets", "rating": 4.8},
+        {"id": "aesthetic-aroma-diffuser", "title": "Aesthetic Ultrasonic Ambient Aroma Diffuser", "price_inr": 1299, "price_usd": 15.28, "category": "home-living", "rating": 4.8},
         {"id": "minimalist-leather-wallet", "title": "Slim RFID Leather Cardholder", "price_inr": 999, "price_usd": 24.99, "category": "fashion", "rating": 4.6}
     ]
     q = query.lower().strip()
