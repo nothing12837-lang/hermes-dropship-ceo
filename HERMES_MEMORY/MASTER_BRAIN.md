@@ -40,6 +40,16 @@
 
 ---
 
+## 3B. ⚖️ RAZORPAY COMPLIANCE & ZERO-MEDICINE MANDATE
+- **Razorpay Merchant Terms & Drugs/Cosmetics Act 1940:**
+  - Businesses selling pharmaceuticals, therapeutic remedies, disinfectants, or orthopedic medical equipment require dedicated Drug Licenses and are prohibited on standard payment gateway merchant accounts.
+  - RareEmber operates exclusively as a **Lifestyle, Desk Tech & Home Aesthetics Boutique**.
+  - **Permanently Blacklisted Keywords:** `medicine`, `medicinal`, `pharma`, `drug`, `orthopedic`, `anti-anxiety`, `anxiety`, `joint therapy`, `disinfectant`, `antibacterial`, `sanitizer`, `veterinary`, `vet approved`, `aromatherapy`.
+  - All product endpoints (`/product/[id]`) strictly block any blacklisted keywords and return HTTP 404.
+  - Live verified categories: **Electronics & Tech** (`/shop?cat=electronics`), **Curated Fashion** (`/shop?cat=fashion`), **Home & Living** (`/shop?cat=home-garden`), and **Lifestyle Drops** (`/shop?cat=general`).
+
+---
+
 ## 4. 🛡️ CHECKOUT IDEMPOTENCY & DUPLICATE DEFENSE
 - **API Endpoint:** `/api/orders`
 - **Idempotency Protection:**
