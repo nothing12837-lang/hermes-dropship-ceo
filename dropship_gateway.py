@@ -194,6 +194,8 @@ def tool_list_orders(limit=5):
                     "email": o.get("user_email", "guest"),
                     "amount": f"₹{o.get('total_amount', 0)}",
                     "status": o.get("status", "pending"),
+                    "shipping_address": o.get("shipping_address"),
+                    "items": o.get("items", []),
                     "created_at": o.get("created_at", "")
                 })
             return {"orders": clean_list, "count": len(clean_list)}
@@ -1250,11 +1252,12 @@ def execute_react_agent_turn(user_msg, chat_id):
         f"Founder Ajay's Message: \"{user_msg}\"\n\n"
         f"CRITICAL DIRECTIVES:\n"
         f"1. Listen carefully and DIRECTLY answer what Ajay asked, commanded, or said. Never ignore his words.\n"
-        f"2. If Ajay asks for strategies ('any stetergys ?', 'growth', 'plan'), give him real, highly actionable Indian dropshipping tactics (COD optimization, viral Reels/TikTok hooks, high-AOV bundles, regional festivals).\n"
-        f"3. If Ajay greeted ('hlo', 'hi', 'hey'), greet him back warmly and respectfully as his executive COO ('Hello Boss Ajay, standing by to execute. What do you need today?').\n"
-        f"4. If Ajay complained (repeated posts, not listening, slow speed), acknowledge it honestly with genuine accountability and reassure him.\n"
-        f"5. Speak in natural, sharp Hinglish or English matching Ajay's tone.\n"
-        f"6. Keep it concise (2-4 sentences max), punchy, and actionable. Do NOT repeat long boilerplate status intros."
+        f"2. MEESHO ORDER DISPATCH PROTOCOL: Whenever a new order is received, Hermes instantly sends Ajay the exact customer name, full delivery address with pincode, and a direct 1-click Meesho link so Ajay can punch it in 1 minute via the Meesho app in Reseller mode.\n"
+        f"3. DAILY MEESHO PRODUCT EXPANSION: Hermes actively scouts and adds high-margin (50-70% profit) winning products from Meesho categories (Festive lights, Home decor, Aesthetic utility, trending gadgets) directly to RareEmber store.\n"
+        f"4. If Ajay asks for strategies, give him real, highly actionable Indian dropshipping tactics (COD optimization, viral Reels hooks, high-AOV bundles, festive sales).\n"
+        f"5. If Ajay greeted ('hlo', 'hi', 'hey'), greet him back warmly and respectfully as his executive COO ('Hello Boss Ajay, standing by to execute. What do you need today?').\n"
+        f"6. Speak in natural, sharp Hinglish or English matching Ajay's tone.\n"
+        f"7. Keep it concise (2-4 sentences max), punchy, and actionable. Do NOT repeat long boilerplate status intros."
     )
 
     # Priority 1: Google Gemini 3.5 Flash Lite (Fast, Reliable, High IQ)
@@ -1711,13 +1714,38 @@ def proactive_order_monitor():
                     oid = o.get("id")
                     if oid and oid not in seen_orders:
                         seen_orders.add(oid)
+                        
+                        shipping_addr = o.get("shipping_address")
+                        addr_str = "Customer provided during checkout"
+                        if isinstance(shipping_addr, dict):
+                            name_part = shipping_addr.get('name', '')
+                            line1 = shipping_addr.get('line1') or shipping_addr.get('address', '')
+                            city = shipping_addr.get('city', '')
+                            state = shipping_addr.get('state', '')
+                            pin = shipping_addr.get('pincode') or shipping_addr.get('postal_code', '')
+                            phone = shipping_addr.get('phone', '')
+                            addr_str = f"<b>{name_part}</b>\n{line1}\n{city}, {state} - <b>{pin}</b>\n📞 Phone: {phone}"
+                        elif isinstance(shipping_addr, str) and shipping_addr.strip():
+                            addr_str = shipping_addr.strip()
+
+                        items_list = o.get("items", [])
+                        item_names = [it.get("title") or it.get("name") or it.get("id") for it in items_list] if isinstance(items_list, list) else []
+                        first_item = item_names[0] if item_names else "Trending Catalog Product"
+                        import urllib.parse
+                        meesho_search_query = urllib.parse.quote_plus(first_item[:30])
+                        meesho_link = f"https://www.meesho.com/search?q={meesho_search_query}"
+
                         alert_text = (
-                            f"🔔 <b>NEW LIVE ORDER DETECTED!</b>\n\n"
-                            f"• <b>Order Ref:</b> <code>#{oid}</code>\n"
-                            f"• <b>Amount:</b> {o.get('amount')}\n"
-                            f"• <b>Customer:</b> {o.get('email')}\n"
-                            f"• <b>Status:</b> <b>{o.get('status', 'PENDING').upper()}</b>\n\n"
-                            f"Hermes is queuing factory-direct dispatch via BlueDart & Delhivery Express."
+                            f"🚨 <b>NEW ORDER RECEIVED ON RAREEMBER!</b>\n\n"
+                            f"📦 <b>Product:</b> {first_item}\n"
+                            f"💰 <b>Total Amount:</b> {o.get('amount')}\n"
+                            f"🆔 <b>Order ID:</b> <code>#{oid}</code>\n"
+                            f"💳 <b>Payment:</b> <b>{o.get('status', 'PENDING').upper()} (COD/Paid)</b>\n\n"
+                            f"📍 <b>CUSTOMER DELIVERY ADDRESS:</b>\n"
+                            f"{addr_str}\n\n"
+                            f"📲 <b>1-CLICK MEESHO DIRECT LINK:</b>\n"
+                            f"👉 <a href='{meesho_link}'>Open Product on Meesho App/Web</a>\n\n"
+                            f"⚡ <i>Action: Open link, tap 'Buy Now', paste address above & enter your selling price ({o.get('amount')}) in Reseller mode!</i>"
                         )
                         for uid in ALLOWED_USERS:
                             send_message(uid, alert_text, parse_mode="HTML")
