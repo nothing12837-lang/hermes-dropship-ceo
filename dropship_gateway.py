@@ -1059,25 +1059,34 @@ def execute_react_agent_turn(user_msg, chat_id):
         )
         learned_takeaway = f"Store database audited: {metrics.get('total_orders', 0)} orders recorded."
 
-    # C. Instagram Marketing Drop Intent (Respects Stop Directive)
-    is_stop_ig = any(k in user_lower for k in ["stop", "rok", "band", "dont post", "don't post", "mat post", "no post"])
+    # C. Instagram Marketing Drop Intent (Respects Stop/Manual-Only Directive)
+    is_stop_ig = any(k in user_lower for k in ["stop", "rok", "band", "dont post", "don't post", "mat post", "no post", "remove auto", "remove", "manual", "manually", "verify", "verifying"])
     if any(k in user_lower for k in ["instagram", "post", "creative", "drop", "poster", "autopilot"]):
         if is_stop_ig:
             actions_proof.append(
-                f"🛑 <b>Action: Instagram Posting Halted & Disabled</b>\n"
-                f"• Status: <b>STOPPED</b>\n"
-                f"• Detail: Founder directive enforced. All auto-posting schedules and workflows have been shut down."
+                f"🛑 <b>Action: Automated Instagram Publishing Permanently Disabled</b>\n"
+                f"• Status: <b>MANUAL APPROVAL MODE ACTIVE</b>\n"
+                f"• Detail: Founder Ajay directive enforced. No post will ever be published automatically to @RareEmber feed. Everything will be previewed and verified manually first."
             )
-            learned_takeaway = "Instagram posting has been completely stopped per Founder Ajay's command."
+            learned_takeaway = "Automated Instagram publishing disabled. Switched to 100% manual preview & founder verification mode."
         else:
-            res = tool_trigger_instagram_drop()
-            executed_tools.append({"tool": "trigger_instagram_drop", "result": res})
-            actions_proof.append(
-                f"🎨 <b>Action: Instagram Autopilot Drop Executed</b>\n"
-                f"• Status: <b>{res.get('status', 'SUCCESS').upper()}</b>\n"
-                f"• Detail: {res.get('message', 'Product poster rendered & published to @RareEmber feed.')}"
-            )
-            learned_takeaway = "Instagram autopilot drop triggered and logged to post history."
+            # Check for explicit command to actually post right now
+            if any(k in user_lower for k in ["push now", "publish now", "post now", "live karo", "post karo"]):
+                res = tool_trigger_instagram_drop()
+                executed_tools.append({"tool": "trigger_instagram_drop", "result": res})
+                actions_proof.append(
+                    f"🎨 <b>Action: Manual Instagram Drop Executed</b>\n"
+                    f"• Status: <b>{res.get('status', 'SUCCESS').upper()}</b>\n"
+                    f"• Detail: {res.get('message', 'Product poster rendered & published to @RareEmber feed.')}"
+                )
+                learned_takeaway = "Manual Instagram drop triggered per explicit founder command."
+            else:
+                actions_proof.append(
+                    f"🛡️ <b>Action: Instagram Auto-Post Blocked (Safety Guard)</b>\n"
+                    f"• Status: <b>PROTECTED</b>\n"
+                    f"• Detail: Automatic posting is locked. Send 'publish now' or 'post now' when ready to manually push."
+                )
+                learned_takeaway = "Instagram auto-post blocked to enforce manual verification protocol."
 
     # D. Unit Economics / Margins Calculation Intent
     if any(k in user_lower for k in ["profit", "margin", "calculate", "economics", "hisab", "pricing"]):
