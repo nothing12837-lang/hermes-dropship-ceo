@@ -1,18 +1,13 @@
 name: RareEmber Instagram 24x7 Autopilot (5 Daily Drops)
 
+# on:
+#   schedule:
+#     - cron: '30 4 * * *'
+#     - cron: '0 8 * * *'
+#     - cron: '0 12 * * *'
+#     - cron: '30 14 * * *'
+#     - cron: '30 16 * * *'
 on:
-  schedule:
-    # 5 Daily Drops in India Standard Time (IST):
-    # 1. 10:00 AM IST (04:30 UTC) - Auto Catalog Post 1
-    # 2. 01:30 PM IST (08:00 UTC) - Hermes AI Campaign 1 (Problem Solver Drop)
-    # 3. 05:30 PM IST (12:00 UTC) - Hermes AI Campaign 2 (Festive Flash Coupon Deal)
-    # 4. 08:00 PM IST (14:30 UTC) - Auto Catalog Post 2 (Evening Bestseller Highlight)
-    # 5. 10:00 PM IST (16:30 UTC) - Hermes AI Campaign 3 (Night Customer Reviews & Trust)
-    - cron: '30 4 * * *'
-    - cron: '0 8 * * *'
-    - cron: '0 12 * * *'
-    - cron: '30 14 * * *'
-    - cron: '30 16 * * *'
   workflow_dispatch:
     inputs:
       campaign_type:

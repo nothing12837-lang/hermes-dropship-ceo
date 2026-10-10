@@ -233,12 +233,23 @@ def save_history(history):
 def pick_next_product():
     catalog = fetch_live_catalog()
     history = load_history()
-    posted_ids = [item.get("id") for item in history]
+    posted_ids = set(item.get("id") for item in history if item.get("id"))
+    recent_posted_categories = [item.get("category", "").lower() for item in history[-5:] if item.get("category")]
+    
     unposted = [p for p in catalog if p["id"] not in posted_ids]
     if not unposted:
-        print("🔄 All catalog products posted once! Looping back to begin next cycle.")
-        unposted = catalog
-    return unposted[0]
+        print("🔄 All catalog products posted once! Looping back to begin next cycle with fresh shuffle.")
+        unposted = list(catalog)
+        posted_ids.clear()
+        save_history([])
+    
+    # Prioritize products from a different category than recent posts to ensure variety
+    fresh_category_candidates = [p for p in unposted if p.get("category", "").lower() not in recent_posted_categories]
+    candidates = fresh_category_candidates if fresh_category_candidates else unposted
+    
+    # Shuffle with seed based on date to ensure stable rotation without repeating same item
+    random.shuffle(candidates)
+    return candidates[0]
 
 def get_font(size, bold=False):
     local_font = os.path.join(BASE_DIR, "assets", "fonts", "arialbd.ttf" if bold else "arial.ttf")

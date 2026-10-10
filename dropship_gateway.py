@@ -1059,16 +1059,25 @@ def execute_react_agent_turn(user_msg, chat_id):
         )
         learned_takeaway = f"Store database audited: {metrics.get('total_orders', 0)} orders recorded."
 
-    # C. Instagram Marketing Drop Intent
+    # C. Instagram Marketing Drop Intent (Respects Stop Directive)
+    is_stop_ig = any(k in user_lower for k in ["stop", "rok", "band", "dont post", "don't post", "mat post", "no post"])
     if any(k in user_lower for k in ["instagram", "post", "creative", "drop", "poster", "autopilot"]):
-        res = tool_trigger_instagram_drop()
-        executed_tools.append({"tool": "trigger_instagram_drop", "result": res})
-        actions_proof.append(
-            f"🎨 <b>Action: Instagram Autopilot Drop Executed</b>\n"
-            f"• Status: <b>{res.get('status', 'SUCCESS').upper()}</b>\n"
-            f"• Detail: {res.get('message', 'Product poster rendered & published to @RareEmber feed.')}"
-        )
-        learned_takeaway = "Instagram autopilot drop triggered and logged to post history."
+        if is_stop_ig:
+            actions_proof.append(
+                f"🛑 <b>Action: Instagram Posting Halted & Disabled</b>\n"
+                f"• Status: <b>STOPPED</b>\n"
+                f"• Detail: Founder directive enforced. All auto-posting schedules and workflows have been shut down."
+            )
+            learned_takeaway = "Instagram posting has been completely stopped per Founder Ajay's command."
+        else:
+            res = tool_trigger_instagram_drop()
+            executed_tools.append({"tool": "trigger_instagram_drop", "result": res})
+            actions_proof.append(
+                f"🎨 <b>Action: Instagram Autopilot Drop Executed</b>\n"
+                f"• Status: <b>{res.get('status', 'SUCCESS').upper()}</b>\n"
+                f"• Detail: {res.get('message', 'Product poster rendered & published to @RareEmber feed.')}"
+            )
+            learned_takeaway = "Instagram autopilot drop triggered and logged to post history."
 
     # D. Unit Economics / Margins Calculation Intent
     if any(k in user_lower for k in ["profit", "margin", "calculate", "economics", "hisab", "pricing"]):
@@ -1229,20 +1238,24 @@ def execute_react_agent_turn(user_msg, chat_id):
     if OPENROUTER_API_KEY:
         try:
             prompt_context = (
-                f"You are JARVIS, Ajay Rajbhar's Autonomous Executive COO AI for RareEmber.\n"
+                f"You are Hermes JARVIS, Ajay Rajbhar's dedicated intelligent Executive COO for RareEmber.\n"
                 f"Actions Executed First:\n{chr(10).join([json.dumps(t) for t in executed_tools])}\n\n"
-                f"Ajay's Input: {user_msg}\n\n"
-                f"Respond with crisp, high-IQ Jarvis energy in Hinglish/English. Acknowledge the exact actions completed, show key numbers/facts, and propose the next step."
+                f"Founder Ajay's Exact Message: \"{user_msg}\"\n\n"
+                f"CRITICAL DIRECTIVES:\n"
+                f"1. Listen carefully and DIRECTLY answer what Ajay asked or commanded. Never ignore his words.\n"
+                f"2. If Ajay complained about something (e.g. repeated posts, useless replies, slow speed), acknowledge it honestly with genuine responsibility and state the concrete fix made.\n"
+                f"3. Speak with sharp, respectful, loyal Jarvis executive energy in natural Hinglish or English.\n"
+                f"4. Keep it concise (2-4 sentences max), punchy, and actionable."
             )
             r = SESSION.post(
                 "https://openrouter.ai/api/v1/chat/completions",
                 headers={"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"},
                 json={
-                    "model": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+                    "model": "nvidia/nemotron-3.5-lightning:free",
                     "messages": [{"role": "user", "content": prompt_context}],
-                    "max_tokens": 300
+                    "max_tokens": 250
                 },
-                timeout=8
+                timeout=10
             )
             if r.status_code == 200:
                 data = r.json()
@@ -1745,31 +1758,9 @@ def check_and_trigger_instagram_drop():
             except Exception:
                 posted_slots = {}
 
-        # Anti-spam cooldown: Do not post more than once every 3 hours
-        last_posted_epoch = posted_slots.get("_last_posted_epoch", 0)
-        if (time.time() - last_posted_epoch) < (3.0 * 3600):
-            return
-
-        for slot_id, target_min, campaign_type in SLOTS:
-            key = f"{today_str}_{slot_id}"
-            if key not in posted_slots and abs(current_minute_of_day - target_min) <= 15:
-                print(f"📸 Hermes triggering scheduled Instagram drop for slot {slot_id} ({campaign_type})...")
-                try:
-                    import ig_autopilot
-                    success = ig_autopilot.run_autopilot_cycle(campaign_type=campaign_type)
-                    if success:
-                        posted_slots[key] = {
-                            "timestamp": now_ist.isoformat(),
-                            "slot": slot_id,
-                            "campaign_type": campaign_type,
-                            "status": "POSTED"
-                        }
-                        posted_slots["_last_posted_epoch"] = time.time()
-                        with open(status_file, "w", encoding="utf-8") as f:
-                            json.dump(posted_slots, f, indent=2)
-                        break
-                except Exception as ex:
-                    print(f"Hermes Instagram auto-trigger error: {ex}")
+        # Founder Directive: Automated Instagram posting is strictly DISABLED.
+        # Only manual founder commands can trigger posts.
+        return
     except Exception as e:
         print(f"check_and_trigger_instagram_drop error: {e}")
 
