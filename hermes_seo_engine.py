@@ -1,6 +1,6 @@
 """
 Hermes Autonomous SEO & Indexing Engine (Lightweight & Low-CPU)
-Generates sitemap with all live Supabase/DeoDap products and submits to IndexNow / Google.
+Generates sitemap with all live Meesho/Indian winning products and submits to IndexNow / Google.
 """
 
 import os

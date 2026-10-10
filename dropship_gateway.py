@@ -722,7 +722,7 @@ def tool_run_executive_team_operations():
         "specialist": "Pooja (Customer Care & Logistics Concierge)",
         "action": "Verified Store Health, Gateways, and Express Dispatch Readiness",
         "store_status": f"{health.get('status')} ({health.get('latency_ms')}ms latency)",
-        "fulfillment_hub": "DeoDap Gujarat Hub (BlueDart / Delhivery Express 2-4 days)",
+        "fulfillment_hub": "Meesho Direct Reseller Hub (Express 2-4 days COD pan-India)",
         "cod_verification": "Automated 1-Click COD active across 19,000+ PIN codes",
         "support_desk": f"{SUPPORT_EMAIL} (Zero pending unresolved tickets)"
     }
@@ -946,8 +946,8 @@ STORE ARCHITECTURE & SYSTEMS:
 - Instagram: @RareEmber (Automated marketing engine with PIL creative renderer & Indian tags)
 - Currency: Domestic India in INR (₹)
 - Gateways: Razorpay (Instant UPI, Cards, NetBanking) + Cash on Delivery (COD ₹49 fee)
-- Fulfillment: Domestic Indian Warehouses (DeoDap Gujarat Hub) + BlueDart/Delhivery/Shadowfax (Express 2-4 days pan-India)
-- Catalog: 100% Indian winning products with high 50%+ profit margins (All CJ items purged)
+- Fulfillment: 100% Meesho Reseller Model (Zero inventory, pan-India 2-4 day COD delivery, zero upfront costs)
+- Catalog: 100% Curated Meesho Winning Products (Electronics, Aesthetic Home, Lighting, Utility) with 50-70% profit margins (All DeoDap & CJ purged)
 
 CAPABILITIES & REAL TOOLS:
 1. `system_health_check`: Instant audit of storefront, DB latency, payment gateways, and autopilot.
@@ -1099,7 +1099,7 @@ def execute_react_agent_turn(user_msg, chat_id):
         actions_proof.append(
             f"📊 <b>Action: Real Unit Economics Calculated</b>\n"
             f"• Retail Price: ₹{res.get('selling_price_inr')}\n"
-            f"• Supplier Cost (Gujarat Hub): ₹{res.get('supplier_cost_inr')}\n"
+            f"• Meesho Wholesale Cost: ₹{res.get('supplier_cost_inr')}\n"
             f"• Courier & Shipping: ₹{res.get('shipping_cost_inr')}\n"
             f"• COD & RTO Reserve: ₹{res.get('gateway_and_rto_buffer')}\n"
             f"• Net Profit / Order: <b>₹{res.get('net_profit_inr')}</b> (Margin: <b>{res.get('net_margin_percentage')}</b>)\n"
