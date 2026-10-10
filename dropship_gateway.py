@@ -1139,7 +1139,7 @@ def execute_react_agent_turn(user_msg, chat_id):
         learned_takeaway = "Drafted customer support email resolution."
 
     # H. Growth / SEO / Ad Campaigns / Scaling Ideas Intent
-    if any(k in user_lower for k in ["grow", "growth", "idea", "seo", "advertis", "campaign", "marketing", "soch", "strategy", "kaam", "24h", "client", "sell"]):
+    if any(k in user_lower for k in ["grow", "growth", "idea", "seo", "advertis", "campaign", "marketing", "soch", "strategy", "stetergy", "steterg", "strateg", "kaam", "24h", "client", "sell", "traffic", "visitor", "sales"]):
         growth_result = generate_autonomous_growth_cycle()
         executed_tools.append({"tool": "generate_autonomous_growth_cycle", "result": growth_result})
         sel = growth_result["selected"]
@@ -1233,27 +1233,46 @@ def execute_react_agent_turn(user_msg, chat_id):
         learned_insight=learned_takeaway
     )
 
-    # 3. CALL LLM (OPENROUTER FREE / GEMINI) OR SYNTHESIZE JARVIS BRIEFING
+    # 3. CALL REAL AI MODEL (GEMINI 3.5 FLASH LITE -> OPENROUTER FALLBACK)
     llm_response = None
-    if OPENROUTER_API_KEY:
+    prompt_context = (
+        f"You are Hermes JARVIS, Ajay Rajbhar's dedicated intelligent Executive COO and AI Chief of Staff for RareEmber (https://rareember-store.vercel.app).\n"
+        f"Actions Executed First:\n{chr(10).join([json.dumps(t) for t in executed_tools])}\n\n"
+        f"Founder Ajay's Message: \"{user_msg}\"\n\n"
+        f"CRITICAL DIRECTIVES:\n"
+        f"1. Listen carefully and DIRECTLY answer what Ajay asked, commanded, or said. Never ignore his words.\n"
+        f"2. If Ajay asks for strategies ('any stetergys ?', 'growth', 'plan'), give him real, highly actionable Indian dropshipping tactics (COD optimization, viral Reels/TikTok hooks, high-AOV bundles, regional festivals).\n"
+        f"3. If Ajay greeted ('hlo', 'hi', 'hey'), greet him back warmly and respectfully as his executive COO ('Hello Boss Ajay, standing by to execute. What do you need today?').\n"
+        f"4. If Ajay complained (repeated posts, not listening, slow speed), acknowledge it honestly with genuine accountability and reassure him.\n"
+        f"5. Speak in natural, sharp Hinglish or English matching Ajay's tone.\n"
+        f"6. Keep it concise (2-4 sentences max), punchy, and actionable. Do NOT repeat long boilerplate status intros."
+    )
+
+    # Priority 1: Google Gemini 3.5 Flash Lite (Fast, Reliable, High IQ)
+    if GEMINI_API_KEY:
         try:
-            prompt_context = (
-                f"You are Hermes JARVIS, Ajay Rajbhar's dedicated intelligent Executive COO for RareEmber.\n"
-                f"Actions Executed First:\n{chr(10).join([json.dumps(t) for t in executed_tools])}\n\n"
-                f"Founder Ajay's Exact Message: \"{user_msg}\"\n\n"
-                f"CRITICAL DIRECTIVES:\n"
-                f"1. Listen carefully and DIRECTLY answer what Ajay asked or commanded. Never ignore his words.\n"
-                f"2. If Ajay complained about something (e.g. repeated posts, useless replies, slow speed), acknowledge it honestly with genuine responsibility and state the concrete fix made.\n"
-                f"3. Speak with sharp, respectful, loyal Jarvis executive energy in natural Hinglish or English.\n"
-                f"4. Keep it concise (2-4 sentences max), punchy, and actionable."
-            )
+            gem_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key={GEMINI_API_KEY}"
+            gr = SESSION.post(gem_url, json={"contents": [{"parts": [{"text": prompt_context}]}]}, timeout=10)
+            if gr.status_code == 200:
+                g_data = gr.json()
+                candidates = g_data.get("candidates", [])
+                if candidates:
+                    parts = candidates[0].get("content", {}).get("parts", [])
+                    if parts:
+                        llm_response = parts[0].get("text", "").strip()
+        except Exception as ge:
+            print(f"Gemini call error: {ge}")
+
+    # Priority 2: OpenRouter Fallback
+    if not llm_response and OPENROUTER_API_KEY:
+        try:
             r = SESSION.post(
                 "https://openrouter.ai/api/v1/chat/completions",
                 headers={"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"},
                 json={
                     "model": "nvidia/nemotron-3.5-lightning:free",
                     "messages": [{"role": "user", "content": prompt_context}],
-                    "max_tokens": 250
+                    "max_tokens": 300
                 },
                 timeout=10
             )
@@ -1269,52 +1288,35 @@ def execute_react_agent_turn(user_msg, chat_id):
         briefing = (
             f"⚡ <b>Hermes JARVIS Autonomous Execution:</b>\n\n"
             f"{proof_header}\n\n"
-            f"🧠 <b>Neural Learning:</b> Recorded into <code>JARVIS_BRAIN.json</code>.\n"
         )
         if llm_response:
-            briefing += f"\n🎙️ <b>Jarvis Insight:</b>\n{llm_response}"
-        else:
-            briefing += f"\n🎯 <b>Status:</b> All systems operational and ready for next command, Ajay."
+            briefing += f"🎙️ <b>Hermes Reply:</b>\n{llm_response}\n\n"
+        briefing += f"🧠 <i>Logged to JARVIS_BRAIN.json.</i>"
         
         history.append({"role": "user", "content": user_msg})
         history.append({"role": "assistant", "content": briefing})
         return briefing
 
-    # If no specific action tool matched, run general store health check as default action!
-    health = tool_system_health_check()
-    append_learning_log(
-        user_input=user_msg,
-        intent="general_inquiry_with_health_check",
-        actions_taken=["system_health_check"],
-        results_summary=f"Store online, latency {health.get('latency_ms')}ms",
-        learned_insight="Ajay checked in. Verified live store operations."
-    )
+    # If no tool matched, respond directly with conversational LLM response!
+    if llm_response:
+        final_msg = (
+            f"⚡ <b>Hermes JARVIS:</b>\n\n"
+            f"{llm_response}\n\n"
+            f"• <b>Live Store:</b> <a href='{SITE_URL}'>rareember-store.vercel.app</a> (Online)"
+        )
+        history.append({"role": "user", "content": user_msg})
+        history.append({"role": "assistant", "content": final_msg})
+        return final_msg
 
-    is_question = any(q in user_lower for q in ["what", "why", "how", "kya", "kab", "kaise", "batao", "sun"])
-    if is_question:
-        default_briefing = (
-            f"⚡ <b>Hermes JARVIS Executive Report:</b>\n\n"
-            f"Boss Ajay, aapke inquiry ka direct status update:\n\n"
-            f"• <b>Live Store:</b> <a href='{SITE_URL}'>rareember-store.vercel.app</a> ({health.get('status')}, {health.get('latency_ms')}ms)\n"
-            f"• <b>Active Operations:</b>\n"
-            f"  1. 3D Pixar Animated Reel Engine ready & active via Edge-TTS\n"
-            f"  2. Organic Instagram Autopilot feed drops staged for @RareEmber\n"
-            f"  3. Domestic express logistics active via BlueDart & Delhivery (2-4 days COD)\n"
-            f"  4. Razorpay verification appeal ticket (#21311442) under active review\n\n"
-            f"Bolo Boss, kya agla reel generate karein ya kisi product ka live order audit karein?"
-        )
-    else:
-        default_briefing = (
-            f"⚡ <b>Hermes JARVIS Online & Standing By:</b>\n\n"
-            f"• <b>Live Store:</b> <a href='{SITE_URL}'>rareember-store.vercel.app</a> ({health.get('status')}, {health.get('latency_ms')}ms)\n"
-            f"• <b>Active Festival:</b> 🪔 Happy Navratri & Diwali Grand Festive Sale (Coupon: <code>DIWALI100</code>)\n"
-            f"• <b>Memory & Learning:</b> 100% active, logging every interaction to <code>JARVIS_BRAIN.json</code>\n"
-            f"• <b>Autopilot:</b> Instagram drops at 10 AM & 8 PM IST + 24/7 Cloud Background Monitoring\n\n"
-            f"Ajay, I read your message and stand ready to execute any action. Bolo Boss kya perform karna hai?"
-        )
+    # Graceful fallback if both LLMs fail
+    fallback_msg = (
+        f"⚡ <b>Hermes JARVIS Online:</b>\n\n"
+        f"Boss Ajay, aapka message mila: <i>\"{user_msg}\"</i>\n"
+        f"Main directly aapke order par taiyar hoon. Batayein kis product ka SEO, ad script ya store audit run karna hai?"
+    )
     history.append({"role": "user", "content": user_msg})
-    history.append({"role": "assistant", "content": default_briefing})
-    return default_briefing
+    history.append({"role": "assistant", "content": fallback_msg})
+    return fallback_msg
 
 # ─────────────────────────────────────────────────────────────
 # 5. TELEGRAM API HELPER & DISPATCHER (@rereemberbot)
