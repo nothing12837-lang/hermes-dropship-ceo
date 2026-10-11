@@ -185,7 +185,7 @@ def tool_get_database_catalog_status():
     try:
         active_counts = con.run("SELECT count(*), supplier FROM products WHERE active = true GROUP BY supplier")
         trending_items = con.run("SELECT id, title, price_inr, compare_at_price, rating, reviews FROM products WHERE active = true AND is_trending = true ORDER BY reviews DESC LIMIT 8")
-        deodap_count = con.run("SELECT count(*) FROM products WHERE supplier ILIKE '%deodap%'")[0][0]
+        deodap_count = con.run("SELECT count(*) FROM products WHERE supplier ILIKE '%deodap%' OR image_url LIKE '%0782/3284/6646%' OR cj_sku LIKE 'whl%'")[0][0]
         con.close()
         
         trending_list = []
@@ -221,10 +221,10 @@ def tool_sync_meesho_products_to_store():
     if not con:
         return {"error": "Database connection unavailable"}
     try:
-        # Enforce supplier = 'Meesho' and market = 'INDIA'
-        con.run("UPDATE products SET supplier = 'Meesho', market = 'INDIA' WHERE active = true")
-        # Ensure junk and incense are deactivated
-        con.run("UPDATE products SET active = false, is_trending = false WHERE title ILIKE '%incense%' OR title ILIKE '%marker%' OR title ILIKE '%slime%'")
+        # Purge any remaining DeoDap or non-meesho records
+        con.run("DELETE FROM products WHERE id NOT LIKE 'meesho-%' OR image_url LIKE '%0782/3284/6646%' OR cj_sku LIKE 'whl%'")
+        # Ensure active meesho products
+        con.run("UPDATE products SET supplier = 'Meesho', market = 'INDIA', active = true WHERE id LIKE 'meesho-%'")
         # Query active count
         res = con.run("SELECT count(*) FROM products WHERE active = true AND supplier = 'Meesho'")
         trending_res = con.run("SELECT count(*) FROM products WHERE active = true AND is_trending = true")
