@@ -448,5 +448,95 @@
       "estimated_profit": "\u20b9210"
     },
     "status": "READY_TO_LAUNCH"
+  },
+  {
+    "cycle_id": "cycle_1791685539",
+    "timestamp": "2026-10-11T02:25:39.592671+00:00",
+    "campaign_name": "Viral Drop: Diamond Pattern Wall Organiser Rack (No-Drill)",
+    "platform": "Instagram Reels & Meta Ads",
+    "hook": "POV: You rent an apartment in India and your landlord won\u2019t let you drill holes into the wall \ud83d\udeab\ud83d\udd28",
+    "video_script": "Show messy counter -> Stick diamond rack in 10s without nails -> Load bottles -> 'Holds up to 5kg! Available on RareEmber for \u20b9449 with COD + Flat \u20b9100 OFF with code DIWALI100.'",
+    "offer": "DIWALI100 (Flat \u20b9100 OFF above \u20b9499) + Pan-India COD",
+    "unit_economics": {
+      "selling_price": "\u20b9449",
+      "supplier_cost": "\u20b9160",
+      "estimated_profit": "\u20b9210"
+    },
+    "status": "READY_TO_LAUNCH"
+  },
+  {
+    "cycle_id": "cycle_1791689140",
+    "timestamp": "2026-10-11T03:25:40.042067+00:00",
+    "campaign_name": "Viral Drop: Electric Rechargeable Mini Garlic & Veggie Chopper (250ml)",
+    "platform": "Instagram Reels & Meta Ads",
+    "hook": "Chop garlic, ginger and chilies in literally 5 seconds without tears \ud83e\uddc5\u26a1",
+    "video_script": "Drop whole garlic cloves -> Press button for 5 sec -> Perfect fine mince -> 'Wireless USB charging. Flat \u20b9449 on RareEmber with Cash on Delivery.'",
+    "offer": "DIWALI100 (Flat \u20b9100 OFF above \u20b9499) + Pan-India COD",
+    "unit_economics": {
+      "selling_price": "\u20b9449",
+      "supplier_cost": "\u20b9145",
+      "estimated_profit": "\u20b9230"
+    },
+    "status": "READY_TO_LAUNCH"
+  },
+  {
+    "cycle_id": "cycle_1791692741",
+    "timestamp": "2026-10-11T04:25:41.295069+00:00",
+    "campaign_name": "Viral Drop: Diamond Pattern Wall Organiser Rack (No-Drill)",
+    "platform": "Instagram Reels & Meta Ads",
+    "hook": "POV: You rent an apartment in India and your landlord won\u2019t let you drill holes into the wall \ud83d\udeab\ud83d\udd28",
+    "video_script": "Show messy counter -> Stick diamond rack in 10s without nails -> Load bottles -> 'Holds up to 5kg! Available on RareEmber for \u20b9449 with COD + Flat \u20b9100 OFF with code DIWALI100.'",
+    "offer": "DIWALI100 (Flat \u20b9100 OFF above \u20b9499) + Pan-India COD",
+    "unit_economics": {
+      "selling_price": "\u20b9449",
+      "supplier_cost": "\u20b9160",
+      "estimated_profit": "\u20b9210"
+    },
+    "status": "READY_TO_LAUNCH"
+  },
+  {
+    "cycle_id": "cycle_1791696341",
+    "timestamp": "2026-10-11T05:25:41.592346+00:00",
+    "campaign_name": "Viral Drop: Electric Rechargeable Mini Garlic & Veggie Chopper (250ml)",
+    "platform": "Instagram Reels & Meta Ads",
+    "hook": "Chop garlic, ginger and chilies in literally 5 seconds without tears \ud83e\uddc5\u26a1",
+    "video_script": "Drop whole garlic cloves -> Press button for 5 sec -> Perfect fine mince -> 'Wireless USB charging. Flat \u20b9449 on RareEmber with Cash on Delivery.'",
+    "offer": "DIWALI100 (Flat \u20b9100 OFF above \u20b9499) + Pan-India COD",
+    "unit_economics": {
+      "selling_price": "\u20b9449",
+      "supplier_cost": "\u20b9145",
+      "estimated_profit": "\u20b9230"
+    },
+    "status": "READY_TO_LAUNCH"
+  },
+  {
+    "cycle_id": "cycle_1791699941",
+    "timestamp": "2026-10-11T06:25:41.906487+00:00",
+    "campaign_name": "Viral Drop: Welcome Textured Mesh Door Mat (Heavy Duty 57x37.5 Cm)",
+    "platform": "Instagram Reels & Meta Ads",
+    "hook": "Does your entrance mat look dull before guests arrive for festive dinner? \ud83e\ude94\ud83d\udc40",
+    "video_script": "Dusty shoes entry test -> Mat traps 95% dirt effortlessly -> Quick water rinse -> 'Elevate your entrance for Diwali. Flat \u20b9449 with 2-4 days express delivery across India.'",
+    "offer": "DIWALI100 (Flat \u20b9100 OFF above \u20b9499) + Pan-India COD",
+    "unit_economics": {
+      "selling_price": "\u20b9449",
+      "supplier_cost": "\u20b9150",
+      "estimated_profit": "\u20b9220"
+    },
+    "status": "READY_TO_LAUNCH"
+  },
+  {
+    "cycle_id": "cycle_1791703542",
+    "timestamp": "2026-10-11T07:25:42.180531+00:00",
+    "campaign_name": "Viral Drop: Crystal Diamond Touch LED Table Lamp (16 Colors RGB)",
+    "platform": "Instagram Reels & Meta Ads",
+    "hook": "Tap the top and watch your room transform into a luxury hotel room \ud83c\udf39\ud83d\udc8e",
+    "video_script": "Tap lamp -> Rose shadow reflects on table -> Cycle colors via remote -> 'Rechargeable USB acrylic lamp. Flat \u20b9599 on RareEmber with Cash on Delivery.'",
+    "offer": "DIWALI100 (Flat \u20b9100 OFF above \u20b9499) + Pan-India COD",
+    "unit_economics": {
+      "selling_price": "\u20b9599",
+      "supplier_cost": "\u20b9190",
+      "estimated_profit": "\u20b9320"
+    },
+    "status": "READY_TO_LAUNCH"
   }
 ]
