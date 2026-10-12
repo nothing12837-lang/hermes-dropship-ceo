@@ -1,0 +1,46 @@
+[
+  {
+    "id": "TASK-001",
+    "title": "Pre-Diwali ₹10,000 Sales Sprint",
+    "description": "Generate ₹10,000 in domestic sales before Diwali through WhatsApp broadcasts, viral Instagram Reels, and DIWALI100 festive offers.",
+    "priority": "HIGH",
+    "category": "REVENUE",
+    "status": "IN_PROGRESS",
+    "created_at": "2026-10-12T09:30:00Z",
+    "updated_at": "2026-10-12T09:30:00Z",
+    "target": "20-25 customer orders, ₹10,000 GMV, ~₹5,000 net profit"
+  },
+  {
+    "id": "TASK-002",
+    "title": "Daily High-Margin Meesho Product Sourcing",
+    "description": "Scout and rotate 1-2 winning, high-rated (4.6★-4.9★) Meesho festive & aesthetic products with 50%-70% profit margin into frontpage catalog.",
+    "priority": "HIGH",
+    "category": "CATALOG",
+    "status": "IN_PROGRESS",
+    "created_at": "2026-10-12T09:30:00Z",
+    "updated_at": "2026-10-12T09:30:00Z",
+    "target": "Keep store frontpage populated with top festive winners and trending gadgets"
+  },
+  {
+    "id": "TASK-003",
+    "title": "Purge Test Order #e50f4ed7 from Supabase & Memory",
+    "description": "Hard delete test order #e50f4ed7 from Supabase PostgreSQL orders table and reset seen_orders to zero.",
+    "priority": "HIGH",
+    "category": "DATABASE",
+    "status": "COMPLETED",
+    "created_at": "2026-10-11T15:26:00Z",
+    "updated_at": "2026-10-12T09:20:00Z",
+    "target": "Total Orders = 0, Total Revenue = ₹0 verified"
+  },
+  {
+    "id": "TASK-004",
+    "title": "100% Domestic Meesho Catalog Enforcement",
+    "description": "Purge all 52 DeoDap items and maintain pure domestic Meesho supplier catalog with 2-4 day express delivery.",
+    "priority": "HIGH",
+    "category": "CATALOG",
+    "status": "COMPLETED",
+    "created_at": "2026-10-11T16:00:00Z",
+    "updated_at": "2026-10-12T09:25:00Z",
+    "target": "48 active products, 0 DeoDap items"
+  }
+]

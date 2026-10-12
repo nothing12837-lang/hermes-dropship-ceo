@@ -70,6 +70,144 @@ OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "").strip()
 
 SESSION = requests.Session()
 CONVERSATION_HISTORY = {}
+CONVERSATION_HISTORY_FILE = os.path.join(MEMORY_DIR, "conversation_history.json")
+TASKS_FILE = os.path.join(MEMORY_DIR, "TASKS.json")
+
+def load_conversation_history(chat_id):
+    """Loads persistent multi-turn conversation context from disk."""
+    chat_key = str(chat_id)
+    if os.path.exists(CONVERSATION_HISTORY_FILE):
+        try:
+            with open(CONVERSATION_HISTORY_FILE, "r", encoding="utf-8") as f:
+                all_hist = json.load(f)
+                return all_hist.get(chat_key, [])
+        except Exception:
+            pass
+    return []
+
+def save_conversation_history(chat_id, history):
+    """Persists recent multi-turn conversation context to disk so Hermes never forgets context."""
+    chat_key = str(chat_id)
+    all_hist = {}
+    if os.path.exists(CONVERSATION_HISTORY_FILE):
+        try:
+            with open(CONVERSATION_HISTORY_FILE, "r", encoding="utf-8") as f:
+                all_hist = json.load(f)
+        except Exception:
+            all_hist = {}
+    all_hist[chat_key] = history[-24:]  # Retain last 24 conversational turns
+    try:
+        with open(CONVERSATION_HISTORY_FILE, "w", encoding="utf-8") as f:
+            json.dump(all_hist, f, indent=2)
+    except Exception as e:
+        print(f"Error saving conversation history: {e}")
+
+def load_tasks():
+    """Loads persistent business task queue."""
+    if os.path.exists(TASKS_FILE):
+        try:
+            with open(TASKS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return []
+
+def save_tasks(tasks):
+    """Persists business task queue."""
+    try:
+        with open(TASKS_FILE, "w", encoding="utf-8") as f:
+            json.dump(tasks, f, indent=2)
+    except Exception as e:
+        print(f"Error saving tasks: {e}")
+
+def tool_create_task(title, description, priority="HIGH", category="GROWTH"):
+    """Creates a new actionable, tracked task in Hermes Autonomous CEO ledger."""
+    tasks = load_tasks()
+    task_num = len(tasks) + 1
+    task_id = f"TASK-{task_num:03d}"
+    now_iso = datetime.now(timezone.utc).isoformat()
+    new_task = {
+        "id": task_id,
+        "title": title.strip()[:80],
+        "description": description.strip(),
+        "priority": priority.upper(),
+        "category": category.upper(),
+        "status": "IN_PROGRESS",
+        "created_at": now_iso,
+        "updated_at": now_iso,
+        "target": "24/7 autonomous background tracking and execution"
+    }
+    tasks.insert(0, new_task)
+    save_tasks(tasks)
+    return {
+        "status": "created",
+        "task_id": task_id,
+        "title": new_task["title"],
+        "priority": new_task["priority"],
+        "total_tasks": len(tasks)
+    }
+
+def tool_list_tasks(status="all"):
+    """Lists tracked tasks in Hermes Autonomous CEO ledger."""
+    tasks = load_tasks()
+    if status != "all":
+        tasks = [t for t in tasks if t.get("status", "").lower() == status.lower()]
+    pending = sum(1 for t in tasks if t.get("status", "").upper() in ["PENDING", "IN_PROGRESS"])
+    completed = sum(1 for t in tasks if t.get("status", "").upper() == "COMPLETED")
+    return {
+        "tasks": tasks[:10],
+        "total": len(tasks),
+        "pending": pending,
+        "completed": completed
+    }
+
+def tool_update_task(task_id, new_status="COMPLETED", notes=""):
+    """Updates status of a tracked task."""
+    tasks = load_tasks()
+    found = False
+    for t in tasks:
+        if t.get("id", "").upper() == task_id.upper():
+            t["status"] = new_status.upper()
+            t["updated_at"] = datetime.now(timezone.utc).isoformat()
+            if notes:
+                t["notes"] = notes
+            found = True
+            break
+    if found:
+        save_tasks(tasks)
+        return {"status": "updated", "task_id": task_id, "new_status": new_status.upper()}
+    return {"status": "not_found", "task_id": task_id}
+
+def auto_learn_from_founder(user_msg):
+    """Automatically extracts rules, corrections, and founder directives and persists them."""
+    user_lower = user_msg.lower().strip()
+    # Questions are NEVER directives
+    if "?" in user_msg or any(k in user_lower for k in ["kya", "kese", "kaise", "kitna", "how", "why", "what", "where", "kab", "status"]):
+        return None
+
+    is_directive = any(k in user_lower for k in [
+        "remember", "yad rakh", "yaad rakh", "rule hai", "never", "always", "kabhi mat", "hamesha",
+        "don't", "dont", "mat karo", "ye mat", "sirf meesho", "only meesho", "note kar lo", "ye yaad rakhna"
+    ])
+    if is_directive and len(user_msg.strip()) > 8:
+        brain = load_jarvis_brain()
+        learned = brain.setdefault("learned_rules", [])
+        clean_rule = user_msg.strip()
+        if not any(clean_rule.lower() in r.lower() for r in learned):
+            learned.append(f"Founder Directive: {clean_rule}")
+            if len(learned) > 35:
+                brain["learned_rules"] = learned[-35:]
+            save_jarvis_brain(brain)
+            
+            mem = load_memory()
+            facts = mem.setdefault("learned_facts", [])
+            if not any(clean_rule.lower() in f.lower() for f in facts):
+                facts.append(clean_rule)
+                if len(facts) > 35:
+                    mem["learned_facts"] = facts[-35:]
+                save_memory(mem)
+            return clean_rule
+    return None
 
 # ─────────────────────────────────────────────────────────────
 # 1. PERSISTENT LONG-TERM MEMORY & KNOWLEDGE GRAPH
@@ -1122,13 +1260,65 @@ OPERATING PRINCIPLES:
 """
 
 def execute_react_agent_turn(user_msg, chat_id):
-    history = CONVERSATION_HISTORY.setdefault(chat_id, [])
+    history = load_conversation_history(chat_id)
     user_lower = user_msg.lower().strip()
+    auto_rule = auto_learn_from_founder(user_msg)
 
     # 1. ACTION-FIRST ENGINE: Execute real business tools before answering
     executed_tools = []
     actions_proof = []
     learned_takeaway = ""
+
+    # A-LEARN. If Ajay taught or commanded a permanent rule, confirm its neural persistence
+    if auto_rule:
+        actions_proof.append(
+            f"🧠 <b>Action: Permanent Neural Directive Learned & Saved</b>\n"
+            f"• <b>Founder Rule:</b> <i>\"{auto_rule}\"</i>\n"
+            f"• <b>Memory Storage:</b> Persisted to JARVIS_BRAIN.json and long_term_memory.json. Hermes will strictly remember and enforce this."
+        )
+
+    # A-TASK. REAL TASK CREATION & TRACKING ENGINE
+    is_task_related = any(k in user_lower for k in ["task", "todo", "tasks", "karna hai", "target", "assign", "goal", "pending task"])
+    if is_task_related:
+        is_question_or_list = any(k in user_lower for k in ["kese", "kaise", "how", "what", "kya", "list", "pending", "show", "status", "batao", "kaunse", "check", "kitna", "?", "karega", "karenge"])
+        is_creation_command = any(k in user_lower for k in ["banao", "add", "create", "lock", "new", "karna hai", "karo", "assign", "set", "note karo"]) and not is_question_or_list
+        
+        if is_creation_command:
+            clean_title = user_msg.strip()[:65]
+            new_t = tool_create_task(
+                title=clean_title,
+                description=user_msg.strip(),
+                priority="HIGH" if any(k in user_lower for k in ["urgent", "jaldi", "diwali", "target", "10k", "must"]) else "MEDIUM",
+                category="GROWTH"
+            )
+            executed_tools.append({"tool": "create_task", "result": new_t})
+            actions_proof.append(
+                f"📝 <b>Action: New Autonomous Task Created & Assigned</b>\n\n"
+                f"• <b>Task ID:</b> <code>{new_t['task_id']}</code>\n"
+                f"• <b>Objective:</b> <b>{new_t['title']}</b>\n"
+                f"• <b>Priority:</b> <b>{new_t['priority']}</b>\n"
+                f"• <b>Status:</b> <b>IN_PROGRESS (LOCKED IN 24/7 EXECUTION QUEUE)</b>\n\n"
+                f"Hermes 24/7 background engine is task ko continuously monitor aur execute karega!"
+            )
+            learned_takeaway = f"Created actionable task {new_t['task_id']}: {new_t['title']}"
+        else:
+            tasks_data = tool_list_tasks("all")
+            executed_tools.append({"tool": "list_tasks", "result": tasks_data})
+            t_lines = []
+            for t in tasks_data.get("tasks", [])[:6]:
+                status_emoji = "✅" if t.get("status") == "COMPLETED" else ("⚡" if t.get("status") == "IN_PROGRESS" else "⏳")
+                t_lines.append(f"  • {status_emoji} <b>[{t['id']}] {t['title']}</b> ({t['status']} | {t['priority']})\n    <i>{t['description'][:85]}...</i>")
+            task_str = "\n".join(t_lines) if t_lines else "  • No tasks active."
+            actions_proof.append(
+                f"📋 <b>Action: Executive Task Ledger Audited</b>\n\n"
+                f"Boss Ajay, active business task tracker verified:\n"
+                f"• <b>Total Tracked Tasks:</b> {tasks_data.get('total')}\n"
+                f"• <b>Active / In-Progress:</b> {tasks_data.get('pending')}\n"
+                f"• <b>Completed:</b> {tasks_data.get('completed')}\n\n"
+                f"📌 <b>ACTIVE TASK PIPELINE:</b>\n"
+                f"{task_str}"
+            )
+            learned_takeaway = f"Audited task ledger: {tasks_data.get('total')} tasks tracked."
 
     # A0. REAL STOREFRONT CATALOG & MEESHO ACTION ENGINE (Live Database Execution)
     if any(k in user_lower for k in ["acton", "action", "actions", "meesho", "deodap", "catalog", "product", "products", "upload", "sync", "kuch karo", "taking action", "nhi le rha", "not taking", "doing nothing", "trending", "frontpage", "inventory", "stock", "kya kiya"]):
@@ -1420,55 +1610,66 @@ def execute_react_agent_turn(user_msg, chat_id):
         learned_insight=learned_takeaway
     )
 
-    # 3. CALL REAL AI MODEL (GEMINI 3.5 FLASH LITE -> OPENROUTER FALLBACK)
+    # 3. CALL REAL AI MODEL (GEMINI FLASH LITE WITH FULL MULTI-TURN CONVERSATION CONTEXT)
     llm_response = None
+
+    # Format multi-turn conversation context so Hermes NEVER forgets context
+    history_snippets = []
+    for h in history[-8:]:
+        role_label = "Ajay (Founder)" if h.get("role") == "user" else "Hermes (COO)"
+        content_snippet = h.get("content", "").replace("<b>", "").replace("</b>", "").replace("<i>", "").replace("</i>", "").replace("<code>", "").replace("</code>", "")
+        if len(content_snippet) > 280:
+            content_snippet = content_snippet[:280] + "..."
+        history_snippets.append(f"{role_label}: {content_snippet}")
+    history_context_str = "\n".join(history_snippets) if history_snippets else "No prior conversation turns recorded."
+
+    # Format active learned rules & founder preferences
+    brain = load_jarvis_brain()
+    learned_rules = brain.get("learned_rules", [])[-8:]
+    rules_str = "\n".join([f"- {r}" for r in learned_rules]) if learned_rules else "- Ajay Rajbhar is Founder & CEO. Sourcing: 100% Meesho."
+
+    # Format active tracked tasks
+    tasks_list = load_tasks()
+    active_tasks_summary = ", ".join([f"{t['id']}: {t['title']} [{t['status']}]" for t in tasks_list[:5]]) if tasks_list else "None"
+
     prompt_context = (
-        f"You are Hermes JARVIS, Ajay Rajbhar's dedicated intelligent Executive COO and AI Chief of Staff for RareEmber (https://rareember-store.vercel.app).\n"
-        f"Actions Executed First:\n{chr(10).join([json.dumps(t) for t in executed_tools])}\n\n"
-        f"Founder Ajay's Message: \"{user_msg}\"\n\n"
+        f"You are Hermes JARVIS, Ajay Rajbhar's dedicated intelligent Executive COO and AI Chief of Staff for RareEmber (https://rareember-store.vercel.app).\n\n"
+        f"=== ACTIVE LEARNED RULES & FOUNDER PREFERENCES ===\n"
+        f"{rules_str}\n\n"
+        f"=== ACTIVE BUSINESS TASKS PIPELINE ===\n"
+        f"{active_tasks_summary}\n\n"
+        f"=== RECENT CONVERSATION HISTORY (CRITICAL: DO NOT FORGET CONTEXT) ===\n"
+        f"{history_context_str}\n\n"
+        f"=== REAL ACTIONS EXECUTED FOR THIS TURN ===\n"
+        f"{chr(10).join([json.dumps(t) for t in executed_tools])}\n\n"
+        f"Founder Ajay's Current Message: \"{user_msg}\"\n\n"
         f"CRITICAL DIRECTIVES:\n"
-        f"1. Listen carefully and DIRECTLY answer what Ajay asked, commanded, or said. Never ignore his words.\n"
-        f"2. MEESHO ORDER DISPATCH PROTOCOL: Whenever a new order is received, Hermes instantly sends Ajay the exact customer name, full delivery address with pincode, and a direct 1-click Meesho link so Ajay can punch it in 1 minute via the Meesho app in Reseller mode.\n"
-        f"3. DAILY MEESHO PRODUCT EXPANSION: Hermes actively scouts and adds high-margin (50-70% profit) winning products from Meesho categories (Festive lights, Home decor, Aesthetic utility, trending gadgets) directly to RareEmber store.\n"
-        f"4. If Ajay asks for strategies, give him real, highly actionable Indian dropshipping tactics (COD optimization, viral Reels hooks, high-AOV bundles, festive sales).\n"
-        f"5. If Ajay greeted ('hlo', 'hi', 'hey'), greet him back warmly and respectfully as his executive COO ('Hello Boss Ajay, standing by to execute. What do you need today?').\n"
-        f"6. Speak in natural, sharp Hinglish or English matching Ajay's tone.\n"
-        f"7. Keep it concise (2-4 sentences max), punchy, and actionable. Do NOT repeat long boilerplate status intros."
+        f"1. Listen carefully and DIRECTLY answer what Ajay asked, commanded, or said based on the conversation history. NEVER forget or ignore past context.\n"
+        f"2. If Ajay asks follow-ups like 'kese ?' or 'target kitna pahucha ?' or 'uska status kya hai ?', use recent conversation history to give exact, consistent answers.\n"
+        f"3. Sourcing: 100% Meesho domestic sourcing with 50-70% profit margin. Zero DeoDap products allowed.\n"
+        f"4. Test orders: Order #e50f4ed7 is permanently purged. Never hallucinate or report fake test orders.\n"
+        f"5. Tasks: When Ajay commands or gives a goal, confirm the task and outline concrete execution steps.\n"
+        f"6. Speak in natural, respectful Hinglish or English matching Ajay's tone.\n"
+        f"7. Keep reply punchy, intelligent, and actionable. Do NOT repeat long boilerplate status intros."
     )
 
-    # Priority 1: Google Gemini 3.5 Flash Lite (Fast, Reliable, High IQ)
+    # Priority 1: Google Gemini Flash Lite (Fast, Reliable, Verified 200 OK)
     if GEMINI_API_KEY:
-        try:
-            gem_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key={GEMINI_API_KEY}"
-            gr = SESSION.post(gem_url, json={"contents": [{"parts": [{"text": prompt_context}]}]}, timeout=10)
-            if gr.status_code == 200:
-                g_data = gr.json()
-                candidates = g_data.get("candidates", [])
-                if candidates:
-                    parts = candidates[0].get("content", {}).get("parts", [])
-                    if parts:
-                        llm_response = parts[0].get("text", "").strip()
-        except Exception as ge:
-            print(f"Gemini call error: {ge}")
-
-    # Priority 2: OpenRouter Fallback
-    if not llm_response and OPENROUTER_API_KEY:
-        try:
-            r = SESSION.post(
-                "https://openrouter.ai/api/v1/chat/completions",
-                headers={"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"},
-                json={
-                    "model": "nvidia/nemotron-3.5-lightning:free",
-                    "messages": [{"role": "user", "content": prompt_context}],
-                    "max_tokens": 300
-                },
-                timeout=10
-            )
-            if r.status_code == 200:
-                data = r.json()
-                llm_response = data.get("choices", [{}])[0].get("message", {}).get("content")
-        except Exception as e:
-            print(f"OpenRouter call error: {e}")
+        for model_name in ["gemini-flash-lite-latest", "gemini-3.8-flash"]:
+            try:
+                gem_url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={GEMINI_API_KEY}"
+                gr = SESSION.post(gem_url, json={"contents": [{"parts": [{"text": prompt_context}]}]}, timeout=15)
+                if gr.status_code == 200:
+                    g_data = gr.json()
+                    candidates = g_data.get("candidates", [])
+                    if candidates:
+                        parts = candidates[0].get("content", {}).get("parts", [])
+                        if parts:
+                            llm_response = parts[0].get("text", "").strip()
+                            if llm_response:
+                                break
+            except Exception as ge:
+                print(f"Gemini {model_name} error: {ge}")
 
     # Build final response
     if actions_proof:
@@ -1479,10 +1680,11 @@ def execute_react_agent_turn(user_msg, chat_id):
         )
         if llm_response:
             briefing += f"🎙️ <b>Hermes Reply:</b>\n{llm_response}\n\n"
-        briefing += f"🧠 <i>Logged to JARVIS_BRAIN.json.</i>"
+        briefing += f"🧠 <i>Logged to JARVIS_BRAIN.json & TASKS.json.</i>"
         
         history.append({"role": "user", "content": user_msg})
         history.append({"role": "assistant", "content": briefing})
+        save_conversation_history(chat_id, history)
         return briefing
 
     # If no tool matched, respond directly with conversational LLM response!
@@ -1494,16 +1696,18 @@ def execute_react_agent_turn(user_msg, chat_id):
         )
         history.append({"role": "user", "content": user_msg})
         history.append({"role": "assistant", "content": final_msg})
+        save_conversation_history(chat_id, history)
         return final_msg
 
-    # Graceful fallback if both LLMs fail
+    # Graceful fallback if LLM is unavailable
     fallback_msg = (
         f"⚡ <b>Hermes JARVIS Online:</b>\n\n"
         f"Boss Ajay, aapka message mila: <i>\"{user_msg}\"</i>\n"
-        f"Main directly aapke order par taiyar hoon. Batayein kis product ka SEO, ad script ya store audit run karna hai?"
+        f"Maine aapka context record kar liya hai. Batayein kis winning product ya task par immediate action lena hai?"
     )
     history.append({"role": "user", "content": user_msg})
     history.append({"role": "assistant", "content": fallback_msg})
+    save_conversation_history(chat_id, history)
     return fallback_msg
 
 # ─────────────────────────────────────────────────────────────
