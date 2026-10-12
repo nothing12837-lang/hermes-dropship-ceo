@@ -2123,6 +2123,34 @@ def autonomous_ceo_growth_worker():
 # 7. PROACTIVE ORDER MONITOR (24x7 REAL-TIME ORDER ALERTS)
 # ─────────────────────────────────────────────────────────────
 
+def get_exact_meesho_sourcing_link(item_dict_or_name):
+    """
+    Returns exact Meesho search / direct product sourcing link for any catalog item.
+    Ensures Ajay gets a direct 1-click buy link for 30-second fulfillment in reseller mode.
+    """
+    import urllib.parse
+    import re
+    if isinstance(item_dict_or_name, dict):
+        pid = str(item_dict_or_name.get("id") or "").strip()
+        title = str(item_dict_or_name.get("title") or item_dict_or_name.get("name") or "").strip()
+    else:
+        pid = ""
+        title = str(item_dict_or_name or "").strip()
+
+    if pid and pid.startswith("meesho-"):
+        clean_keywords = pid.replace("meesho-", "").replace("-", " ").strip()
+        return f"https://www.meesho.com/search?q={urllib.parse.quote_plus(clean_keywords)}"
+
+    if title:
+        clean = re.sub(r"\(.*?\)", "", title)
+        clean = re.sub(r"[^a-zA-Z0-9\s]", " ", clean)
+        clean = " ".join(clean.split())
+        words = clean.split()[:7]
+        search_str = " ".join(words)
+        return f"https://www.meesho.com/search?q={urllib.parse.quote_plus(search_str)}"
+
+    return "https://www.meesho.com"
+
 def proactive_order_monitor():
     """Background loop that watches for new orders and alerts Ajay immediately."""
     print("🛰️ Proactive Order Monitor Started...")
@@ -2161,34 +2189,64 @@ def proactive_order_monitor():
                         shipping_addr = o.get("shipping_address")
                         addr_str = "Customer provided during checkout"
                         if isinstance(shipping_addr, dict):
-                            name_part = shipping_addr.get('name', '')
+                            name_part = shipping_addr.get('name', '') or o.get('shipping_name', '')
                             line1 = shipping_addr.get('line1') or shipping_addr.get('address', '')
                             city = shipping_addr.get('city', '')
                             state = shipping_addr.get('state', '')
                             pin = shipping_addr.get('pincode') or shipping_addr.get('postal_code', '')
                             phone = shipping_addr.get('phone', '')
-                            addr_str = f"<b>{name_part}</b>\n{line1}\n{city}, {state} - <b>{pin}</b>\n📞 Phone: {phone}"
+                            addr_str = f"👤 <b>{name_part}</b>\n🏠 {line1}\n📍 {city}, {state} - <b>{pin}</b>\n📞 Phone: <b>{phone}</b>"
                         elif isinstance(shipping_addr, str) and shipping_addr.strip():
                             addr_str = shipping_addr.strip()
 
-                        items_list = o.get("items", [])
-                        item_names = [it.get("title") or it.get("name") or it.get("id") for it in items_list] if isinstance(items_list, list) else []
-                        first_item = item_names[0] if item_names else "Trending Catalog Product"
-                        import urllib.parse
-                        meesho_search_query = urllib.parse.quote_plus(first_item[:30])
-                        meesho_link = f"https://www.meesho.com/search?q={meesho_search_query}"
+                        raw_items = o.get("items", [])
+                        if isinstance(raw_items, str):
+                            try:
+                                raw_items = json.loads(raw_items)
+                            except Exception:
+                                raw_items = []
+
+                        items_summary_lines = []
+                        exact_meesho_links = []
+
+                        if isinstance(raw_items, list) and raw_items:
+                            for idx, it in enumerate(raw_items):
+                                if isinstance(it, dict):
+                                    it_name = it.get("title") or it.get("name") or it.get("id") or "Catalog Product"
+                                    it_qty = it.get("qty") or it.get("quantity") or 1
+                                    items_summary_lines.append(f"  {idx+1}. <b>{it_name}</b> (Qty: {it_qty})")
+                                    link = get_exact_meesho_sourcing_link(it)
+                                    exact_meesho_links.append((it_name, link))
+                                else:
+                                    items_summary_lines.append(f"  {idx+1}. <b>{str(it)}</b>")
+                                    link = get_exact_meesho_sourcing_link(str(it))
+                                    exact_meesho_links.append((str(it), link))
+                        else:
+                            fallback_title = "Winning Meesho Product"
+                            items_summary_lines.append(f"  • <b>{fallback_title}</b> (1 unit)")
+                            link = get_exact_meesho_sourcing_link(fallback_title)
+                            exact_meesho_links.append((fallback_title, link))
+
+                        items_text = "\n".join(items_summary_lines)
+                        links_text = "\n".join([f"👉 <a href='{lnk}'><b>{nm[:40]}</b> (Open on Meesho)</a>" for nm, lnk in exact_meesho_links])
+                        ord_amt = o.get('amount') or o.get('total_amount') or 'N/A'
 
                         alert_text = (
                             f"🚨 <b>NEW ORDER RECEIVED ON RAREEMBER!</b>\n\n"
-                            f"📦 <b>Product:</b> {first_item}\n"
-                            f"💰 <b>Total Amount:</b> {o.get('amount')}\n"
+                            f"📦 <b>ORDERED ITEMS:</b>\n"
+                            f"{items_text}\n\n"
+                            f"💰 <b>Total Amount:</b> <b>₹{ord_amt}</b>\n"
                             f"🆔 <b>Order ID:</b> <code>#{oid}</code>\n"
-                            f"💳 <b>Payment:</b> <b>{o.get('status', 'PENDING').upper()} (COD/Paid)</b>\n\n"
+                            f"💳 <b>Payment Status:</b> <b>{o.get('status', 'PENDING').upper()}</b>\n\n"
                             f"📍 <b>CUSTOMER DELIVERY ADDRESS:</b>\n"
                             f"{addr_str}\n\n"
-                            f"📲 <b>1-CLICK MEESHO DIRECT LINK:</b>\n"
-                            f"👉 <a href='{meesho_link}'>Open Product on Meesho App/Web</a>\n\n"
-                            f"⚡ <i>Action: Open link, tap 'Buy Now', paste address above & enter your selling price ({o.get('amount')}) in Reseller mode!</i>"
+                            f"📲 <b>1-CLICK MEESHO DIRECT PRODUCT SOURCING LINK:</b>\n"
+                            f"{links_text}\n\n"
+                            f"⚡ <b>Quick Reseller Fulfillment (30 Seconds):</b>\n"
+                            f"1. Tap Meesho link above & click 'Buy Now'\n"
+                            f"2. Paste customer delivery address\n"
+                            f"3. Select 'Yes' for Reselling & enter your selling price (₹{ord_amt})\n"
+                            f"4. Meesho ships directly to customer under RareEmber with COD collected!"
                         )
                         for uid in ALLOWED_USERS:
                             send_message(uid, alert_text, parse_mode="HTML")
