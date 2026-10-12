@@ -1,33 +1,5 @@
 [
   {
-    "cycle_id": "cycle_1791471814",
-    "timestamp": "2026-10-08T15:03:34.772395+00:00",
-    "strategy": "Festive Gift Bundling: Create a 'Diwali Living Upgrade Kit' pairing the Door Mat + Diamond Wall Rack together for \u20b9799 to lift Average Order Value (AOV).",
-    "target_metric": "Customer Conversion & Net Margin",
-    "focus": "High profit, genuine customer trust, zero competitor mentions"
-  },
-  {
-    "cycle_id": "cycle_1791471850",
-    "timestamp": "2026-10-08T15:04:10.150654+00:00",
-    "strategy": "WhatsApp / SMS COD Reconfirmation: Ping every COD order within 10 minutes to verify address and slash RTO rate below 12%.",
-    "target_metric": "Customer Conversion & Net Margin",
-    "focus": "High profit, genuine customer trust, zero competitor mentions"
-  },
-  {
-    "cycle_id": "cycle_1791473200",
-    "timestamp": "2026-10-08T15:26:40.391709+00:00",
-    "strategy": "Micro-Influencer Gifting: Outreach to 5 Indian interior & lifestyle micro-creators with free gifted samples in exchange for 1 Instagram Reel tagging @RareEmber.",
-    "target_metric": "Customer Conversion & Net Margin",
-    "focus": "High profit, genuine customer trust, zero competitor mentions"
-  },
-  {
-    "cycle_id": "cycle_1791473240",
-    "timestamp": "2026-10-08T15:27:20.471031+00:00",
-    "strategy": "Prepaid UPI Incentive: Offer extra 5% instant discount on UPI payments to eliminate return-to-origin courier risks.",
-    "target_metric": "Customer Conversion & Net Margin",
-    "focus": "High profit, genuine customer trust, zero competitor mentions"
-  },
-  {
     "cycle_id": "cycle_1791595940",
     "timestamp": "2026-10-10T01:32:20.649573+00:00",
     "strategy": "Festive Gift Bundling: Create a 'Diwali Living Upgrade Kit' pairing the Door Mat + Diamond Wall Rack together for \u20b9799 to lift Average Order Value (AOV).",
@@ -332,6 +304,48 @@
     "cycle_id": "cycle_1791765548",
     "timestamp": "2026-10-12T00:39:08.754699+00:00",
     "strategy": "Micro-Influencer Gifting: Outreach to 5 Indian interior & lifestyle micro-creators with free gifted samples in exchange for 1 Instagram Reel tagging @RareEmber.",
+    "target_metric": "Customer Conversion & Net Margin",
+    "focus": "High profit, genuine customer trust, zero competitor mentions"
+  },
+  {
+    "cycle_id": "cycle_1791766296",
+    "timestamp": "2026-10-12T00:51:36.418040+00:00",
+    "strategy": "Micro-Influencer Gifting: Outreach to 5 Indian interior & lifestyle micro-creators with free gifted samples in exchange for 1 Instagram Reel tagging @RareEmber.",
+    "target_metric": "Customer Conversion & Net Margin",
+    "focus": "High profit, genuine customer trust, zero competitor mentions"
+  },
+  {
+    "cycle_id": "cycle_1791769897",
+    "timestamp": "2026-10-12T01:51:37.079763+00:00",
+    "strategy": "WhatsApp / SMS COD Reconfirmation: Ping every COD order within 10 minutes to verify address and slash RTO rate below 12%.",
+    "target_metric": "Customer Conversion & Net Margin",
+    "focus": "High profit, genuine customer trust, zero competitor mentions"
+  },
+  {
+    "cycle_id": "cycle_1791773497",
+    "timestamp": "2026-10-12T02:51:37.360349+00:00",
+    "strategy": "WhatsApp / SMS COD Reconfirmation: Ping every COD order within 10 minutes to verify address and slash RTO rate below 12%.",
+    "target_metric": "Customer Conversion & Net Margin",
+    "focus": "High profit, genuine customer trust, zero competitor mentions"
+  },
+  {
+    "cycle_id": "cycle_1791777098",
+    "timestamp": "2026-10-12T03:51:38.723491+00:00",
+    "strategy": "WhatsApp / SMS COD Reconfirmation: Ping every COD order within 10 minutes to verify address and slash RTO rate below 12%.",
+    "target_metric": "Customer Conversion & Net Margin",
+    "focus": "High profit, genuine customer trust, zero competitor mentions"
+  },
+  {
+    "cycle_id": "cycle_1791780698",
+    "timestamp": "2026-10-12T04:51:38.977201+00:00",
+    "strategy": "Festive Gift Bundling: Create a 'Diwali Living Upgrade Kit' pairing the Door Mat + Diamond Wall Rack together for \u20b9799 to lift Average Order Value (AOV).",
+    "target_metric": "Customer Conversion & Net Margin",
+    "focus": "High profit, genuine customer trust, zero competitor mentions"
+  },
+  {
+    "cycle_id": "cycle_1791784299",
+    "timestamp": "2026-10-12T05:51:39.228060+00:00",
+    "strategy": "Prepaid UPI Incentive: Offer extra 5% instant discount on UPI payments to eliminate return-to-origin courier risks.",
     "target_metric": "Customer Conversion & Net Margin",
     "focus": "High profit, genuine customer trust, zero competitor mentions"
   }
