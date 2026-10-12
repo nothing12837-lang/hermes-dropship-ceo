@@ -242,7 +242,31 @@ def tool_sync_meesho_products_to_store():
         return {"status": "error", "message": str(e)}
 
 def tool_get_store_metrics(timeframe="all_time"):
-    """Fetches real-time store metrics, total revenue, and orders from live database."""
+    """Fetches real-time store metrics, total revenue, and orders directly from Supabase database."""
+    con = get_supabase_connection()
+    if con:
+        try:
+            orders = con.run("SELECT id, user_email, total_amount, status, created_at FROM orders ORDER BY created_at DESC")
+            con.close()
+            total_rev = sum(float(o[2] or 0) for o in orders)
+            pending = sum(1 for o in orders if str(o[3] or "").lower() == "pending")
+            paid = sum(1 for o in orders if str(o[3] or "").lower() in ["paid", "completed"])
+            return {
+                "status": "success",
+                "total_orders": len(orders),
+                "total_revenue_inr": total_rev,
+                "pending_fulfillment": pending,
+                "paid_orders": paid,
+                "storefront_url": SITE_URL,
+                "currency_engine": "Active (INR / USD)",
+                "gateways": "Razorpay + COD"
+            }
+        except Exception:
+            if con:
+                try:
+                    con.close()
+                except Exception:
+                    pass
     url = f"{SITE_URL}/api/admin/orders?limit=50"
     try:
         r = SESSION.get(url, headers={"Authorization": f"Bearer {ADMIN_SECRET}"}, timeout=6)
@@ -266,7 +290,31 @@ def tool_get_store_metrics(timeframe="all_time"):
     return {"status": "success", "total_orders": 0, "total_revenue_inr": 0, "storefront_url": SITE_URL}
 
 def tool_list_orders(limit=5):
-    """Lists recent real customer orders placed on RareEmber."""
+    """Lists recent real customer orders placed on RareEmber directly from Supabase database."""
+    con = get_supabase_connection()
+    if con:
+        try:
+            limit_val = int(limit) if limit else 5
+            orders = con.run(f"SELECT id, user_email, total_amount, status, shipping_address, items, created_at FROM orders ORDER BY created_at DESC LIMIT {limit_val}")
+            con.close()
+            clean_list = []
+            for o in orders:
+                clean_list.append({
+                    "id": str(o[0])[:8],
+                    "email": o[1] or "guest",
+                    "amount": f"₹{float(o[2] or 0):,.0f}",
+                    "status": o[3] or "pending",
+                    "shipping_address": o[4],
+                    "items": o[5],
+                    "created_at": str(o[6])
+                })
+            return {"orders": clean_list, "count": len(clean_list)}
+        except Exception:
+            if con:
+                try:
+                    con.close()
+                except Exception:
+                    pass
     url = f"{SITE_URL}/api/admin/orders?limit={limit}"
     try:
         r = SESSION.get(url, headers={"Authorization": f"Bearer {ADMIN_SECRET}"}, timeout=6)
