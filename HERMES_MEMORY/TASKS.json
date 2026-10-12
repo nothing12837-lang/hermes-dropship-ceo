@@ -1,5 +1,16 @@
 [
   {
+    "id": "TASK-006",
+    "title": "1-Year Amazon Competitor Scale Roadmap (High Review & Multi-Image Dominance)",
+    "description": "Founder Directive: Compete with Amazon within 1 year by building an unbeatable domestic D2C catalog with verified 4.8★+ reviews, interactive multi-image galleries, direct 1-click reseller fulfillment links, and 24/7 cloud autopilot.",
+    "priority": "CRITICAL",
+    "category": "LONG_TERM_STRATEGY",
+    "status": "IN_PROGRESS",
+    "created_at": "2026-10-12T11:15:00Z",
+    "updated_at": "2026-10-12T11:15:00Z",
+    "target": "Expand to 100+ winning products, 4.8★ verified reviews, Amazon-grade UI, ₹100,000+ monthly revenue"
+  },
+  {
     "id": "TASK-005",
     "title": "Plug Live Razorpay API Keys into Storefront & Test Instant UPI",
     "description": "Ajay received official Razorpay approval! Live Key ID & Secret configured on Vercel production, live UPI/Card checkout verified 100% active.",
@@ -24,13 +35,13 @@
   {
     "id": "TASK-002",
     "title": "Daily High-Margin Meesho Product Sourcing",
-    "description": "Scout and rotate 1-2 winning, high-rated (4.6★-4.9★) Meesho festive & aesthetic products with 50%-70% profit margin into frontpage catalog.",
+    "description": "Scout and rotate winning, high-rated (4.8★-4.9★) Meesho festive & aesthetic products with 50%-70% profit margin into catalog.",
     "priority": "HIGH",
     "category": "CATALOG",
     "status": "IN_PROGRESS",
     "created_at": "2026-10-12T09:30:00Z",
-    "updated_at": "2026-10-12T09:30:00Z",
-    "target": "Keep store frontpage populated with top festive winners and trending gadgets"
+    "updated_at": "2026-10-12T11:15:00Z",
+    "target": "58+ active verified Meesho products, multi-image Amazon-grade galleries"
   },
   {
     "id": "TASK-003",
@@ -46,12 +57,12 @@
   {
     "id": "TASK-004",
     "title": "100% Domestic Meesho Catalog Enforcement",
-    "description": "Purge all 52 DeoDap items and maintain pure domestic Meesho supplier catalog with 2-4 day express delivery.",
+    "description": "Purge all DeoDap items and maintain pure domestic Meesho supplier catalog with 2-4 day express delivery.",
     "priority": "HIGH",
     "category": "CATALOG",
     "status": "COMPLETED",
     "created_at": "2026-10-11T16:00:00Z",
-    "updated_at": "2026-10-12T09:25:00Z",
-    "target": "48 active products, 0 DeoDap items"
+    "updated_at": "2026-10-12T10:55:00Z",
+    "target": "58 active products, 0 DeoDap items"
   }
 ]
