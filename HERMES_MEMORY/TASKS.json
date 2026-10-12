@@ -1,5 +1,16 @@
 [
   {
+    "id": "TASK-005",
+    "title": "Plug Live Razorpay API Keys into Storefront & Test Instant UPI",
+    "description": "Ajay received official Razorpay approval! Generate Live Key ID & Secret from Razorpay Dashboard, update Vercel environment variables, and verify live UPI/Card checkout.",
+    "priority": "HIGH",
+    "category": "PAYMENTS",
+    "status": "IN_PROGRESS",
+    "created_at": "2026-10-12T10:20:00Z",
+    "updated_at": "2026-10-12T10:20:00Z",
+    "target": "Enable Instant UPI (GPay/PhonePe/Paytm), Cards, NetBanking with 0% RTO risk"
+  },
+  {
     "id": "TASK-001",
     "title": "Pre-Diwali ₹10,000 Sales Sprint",
     "description": "Generate ₹10,000 in domestic sales before Diwali through WhatsApp broadcasts, viral Instagram Reels, and DIWALI100 festive offers.",
