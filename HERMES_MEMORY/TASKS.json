@@ -2,13 +2,13 @@
   {
     "id": "TASK-005",
     "title": "Plug Live Razorpay API Keys into Storefront & Test Instant UPI",
-    "description": "Ajay received official Razorpay approval! Generate Live Key ID & Secret from Razorpay Dashboard, update Vercel environment variables, and verify live UPI/Card checkout.",
+    "description": "Ajay received official Razorpay approval! Live Key ID & Secret configured on Vercel production, live UPI/Card checkout verified 100% active.",
     "priority": "HIGH",
     "category": "PAYMENTS",
-    "status": "IN_PROGRESS",
+    "status": "COMPLETED",
     "created_at": "2026-10-12T10:20:00Z",
-    "updated_at": "2026-10-12T10:20:00Z",
-    "target": "Enable Instant UPI (GPay/PhonePe/Paytm), Cards, NetBanking with 0% RTO risk"
+    "updated_at": "2026-10-12T10:30:00Z",
+    "target": "Live Razorpay API keys (rzp_live_Tmxc7829nihkbA) active on https://rareember-store.vercel.app with 0% RTO risk"
   },
   {
     "id": "TASK-001",
