@@ -2231,6 +2231,23 @@ def proactive_order_monitor():
                         links_text = "\n".join([f"👉 <a href='{lnk}'><b>{nm[:40]}</b> (Open on Meesho)</a>" for nm, lnk in exact_meesho_links])
                         ord_amt = o.get('amount') or o.get('total_amount') or 'N/A'
 
+                        clean_phone = "".join(filter(str.isdigit, str(phone or "")))
+                        if len(clean_phone) == 10:
+                            clean_phone = f"91{clean_phone}"
+
+                        wa_section = ""
+                        if clean_phone and len(clean_phone) >= 10:
+                            first_item_clean = items_summary_lines[0].replace("<b>", "").replace("</b>", "").strip() if items_summary_lines else "Order Items"
+                            wa_payload = (
+                                f"Namaste {name_part}! 🙏\n\n"
+                                f"Aapka RareEmber Cash on Delivery order #{oid} successfully receive ho gaya hai!\n\n"
+                                f"📦 Item: {first_item_clean}\n"
+                                f"💰 Delivery Amount: ₹{ord_amt} (COD)\n\n"
+                                f"Order confirm karne aur express dispatch lock karne ke liye kripya 'CONFIRM' reply karein. Dhanyawad! ✨ - Team RareEmber"
+                            )
+                            wa_link = f"https://wa.me/{clean_phone}?text={urllib.parse.quote_plus(wa_payload)}"
+                            wa_section = f"💬 <b>1-CLICK WHATSAPP COD CONFIRMATION:</b>\n👉 <a href='{wa_link}'>Tap to Send Pre-written WhatsApp to Customer</a>\n\n"
+
                         alert_text = (
                             f"🚨 <b>NEW ORDER RECEIVED ON RAREEMBER!</b>\n\n"
                             f"📦 <b>ORDERED ITEMS:</b>\n"
@@ -2240,13 +2257,15 @@ def proactive_order_monitor():
                             f"💳 <b>Payment Status:</b> <b>{o.get('status', 'PENDING').upper()}</b>\n\n"
                             f"📍 <b>CUSTOMER DELIVERY ADDRESS:</b>\n"
                             f"{addr_str}\n\n"
+                            f"{wa_section}"
                             f"📲 <b>1-CLICK MEESHO DIRECT PRODUCT SOURCING LINK:</b>\n"
                             f"{links_text}\n\n"
                             f"⚡ <b>Quick Reseller Fulfillment (30 Seconds):</b>\n"
-                            f"1. Tap Meesho link above & click 'Buy Now'\n"
-                            f"2. Paste customer delivery address\n"
-                            f"3. Select 'Yes' for Reselling & enter your selling price (₹{ord_amt})\n"
-                            f"4. Meesho ships directly to customer under RareEmber with COD collected!"
+                            f"1. Tap WhatsApp link above to confirm order with customer\n"
+                            f"2. Tap Meesho link above & click 'Buy Now'\n"
+                            f"3. Paste customer delivery address\n"
+                            f"4. Select 'Yes' for Reselling & enter your selling price (₹{ord_amt})\n"
+                            f"5. Meesho ships directly to customer under RareEmber with COD collected!"
                         )
                         for uid in ALLOWED_USERS:
                             send_message(uid, alert_text, parse_mode="HTML")
