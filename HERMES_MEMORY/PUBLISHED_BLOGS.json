@@ -724,5 +724,27 @@
       "wireless-charging-car-mount-guide"
     ],
     "status": "active"
+  },
+  {
+    "timestamp": "2026-10-13T11:20:54.272059+00:00",
+    "total_articles": 4,
+    "articles": [
+      "minimalist-desk-setup-guide",
+      "smart-home-essentials-india",
+      "curated-living-space-zen",
+      "wireless-charging-car-mount-guide"
+    ],
+    "status": "active"
+  },
+  {
+    "timestamp": "2026-10-13T15:20:55.779182+00:00",
+    "total_articles": 4,
+    "articles": [
+      "minimalist-desk-setup-guide",
+      "smart-home-essentials-india",
+      "curated-living-space-zen",
+      "wireless-charging-car-mount-guide"
+    ],
+    "status": "active"
   }
 ]
