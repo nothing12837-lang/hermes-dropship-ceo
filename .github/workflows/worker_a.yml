@@ -2,6 +2,8 @@ name: Hermes Dropship 24x7 (Worker A)
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'
 
 permissions:
   contents: write
@@ -35,7 +37,7 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           SITE_URL: "https://rareember-store.vercel.app"
-          ADMIN_SECRET: "rareember_super_secret_cron_2026"
+          ADMIN_SECRET: ${{ secrets.ADMIN_SECRET }}
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           IG_USERNAME: ${{ secrets.IG_USERNAME }}
