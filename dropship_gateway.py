@@ -612,6 +612,33 @@ def tool_update_order_tracking(order_id, tracking_number, courier="Delhivery"):
     except Exception as e:
         return {"error": str(e)}
 
+def tool_toggle_product_stock(product_identifier, in_stock=True):
+    """Updates product stock availability in Supabase (active = true/false)."""
+    clean_id = str(product_identifier or "").strip().lower()
+    active_val = "true" if in_stock in [True, "true", "True", 1, "1"] else "false"
+    con = get_supabase_connection()
+    if con:
+        try:
+            con.run(
+                f"UPDATE products SET active = {active_val} WHERE id ILIKE '%{clean_id}%' OR title ILIKE '%{clean_id}%'"
+            )
+            con.close()
+            status_word = "IN STOCK (Orders Enabled)" if active_val == "true" else "OUT OF STOCK (Orders Disabled)"
+            return {
+                "status": "success",
+                "product": clean_id,
+                "stock_status": status_word,
+                "message": f"Product '{clean_id}' updated to {status_word}."
+            }
+        except Exception as e:
+            if con:
+                try:
+                    con.close()
+                except Exception:
+                    pass
+            return {"error": str(e)}
+    return {"error": "DB connection unavailable"}
+
 def tool_check_pincode(pincode):
     """Checks pan-India delivery timelines and Cash on Delivery (COD) serviceability."""
     p = str(pincode).strip()
@@ -1094,6 +1121,7 @@ TOOL_DISPATCHER = {
     "fulfill_order_factory_direct": lambda args: tool_fulfill_order_factory_direct(args.get("order_id", "")),
     "fulfill_order_cj": lambda args: tool_fulfill_order_factory_direct(args.get("order_id", "")),
     "update_order_tracking": lambda args: tool_update_order_tracking(args.get("order_id", ""), args.get("tracking_number", ""), args.get("courier", "Delhivery")),
+    "toggle_product_stock": lambda args: tool_toggle_product_stock(args.get("product", ""), args.get("in_stock", True)),
     "check_pincode": lambda args: tool_check_pincode(args.get("pincode", "")),
     "generate_ad_campaign": lambda args: tool_generate_ad_campaign(args.get("product_name", ""), args.get("platform", "instagram_reels")),
     "generate_influencer_pitch": lambda args: tool_generate_influencer_pitch(args.get("creator_name", "Creator"), args.get("platform", "instagram"), args.get("product_name", "Item")),
@@ -1194,6 +1222,18 @@ AGENT_TOOLS_SCHEMA = [
                         "courier": {"type": "string", "description": "Courier name e.g. Delhivery, Shadowfax, Xpressbees, BlueDart"}
                     },
                     "required": ["order_id", "tracking_number"]
+                }
+            },
+            {
+                "name": "toggle_product_stock",
+                "description": "Enable or disable product ordering based on supplier/Meesho stock availability.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "product": {"type": "string", "description": "Product ID or title keyword"},
+                        "in_stock": {"type": "boolean", "description": "true if in stock on Meesho, false if out of stock"}
+                    },
+                    "required": ["product", "in_stock"]
                 }
             },
             {
