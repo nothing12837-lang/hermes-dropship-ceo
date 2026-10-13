@@ -549,6 +549,69 @@ def tool_fulfill_order_cj(order_id):
     """Backward compatibility alias for factory direct dispatch."""
     return tool_fulfill_order_factory_direct(order_id)
 
+def tool_update_order_tracking(order_id, tracking_number, courier="Delhivery"):
+    """
+    Updates order status to 'shipped' in Supabase, assigns courier tracking number,
+    and constructs direct live tracking URL for customer self-service on /track.
+    """
+    courier_lower = str(courier or "").lower().strip()
+    tn = str(tracking_number or "").strip()
+    clean_id = str(order_id or "").strip()
+
+    if not clean_id or not tn:
+        return {"error": "Both order_id and tracking_number are required"}
+
+    tracking_url = f"https://www.delhivery.com/track/package/{tn}"
+    if "shadow" in courier_lower or tn.upper().startswith("SF"):
+        tracking_url = f"https://tracker.shadowfax.in/#/track/{tn}"
+    elif "xpress" in courier_lower or tn.upper().startswith("XB"):
+        tracking_url = f"https://www.xpressbees.com/shipment/tracking?awbNo={tn}"
+    elif "blue" in courier_lower:
+        tracking_url = f"https://www.bluedart.com/tracking?track={tn}"
+    elif "ekart" in courier_lower:
+        tracking_url = f"https://ekartlogistics.com/shipmenttrack/{tn}"
+
+    con = get_supabase_connection()
+    if con:
+        try:
+            con.run(
+                f"UPDATE orders SET status = 'shipped', tracking_number = '{tn}', tracking_url = '{tracking_url}' WHERE id::text ILIKE '{clean_id}%'"
+            )
+            con.close()
+            return {
+                "status": "success",
+                "order_id": clean_id,
+                "order_status": "shipped",
+                "tracking_number": tn,
+                "tracking_url": tracking_url,
+                "message": f"Order #{clean_id[:8]} marked SHIPPED with {courier} AWB {tn}. Live tracking active on /track!"
+            }
+        except Exception as e:
+            if con:
+                try:
+                    con.close()
+                except Exception:
+                    pass
+
+    try:
+        r = SESSION.patch(
+            f"{SITE_URL}/api/admin/orders",
+            headers={"Authorization": f"Bearer {ADMIN_SECRET}", "Content-Type": "application/json"},
+            json={"orderId": clean_id, "status": "shipped", "tracking_number": tn, "tracking_url": tracking_url},
+            timeout=8
+        )
+        if r.status_code == 200:
+            return {
+                "status": "success",
+                "order_id": clean_id,
+                "order_status": "shipped",
+                "tracking_number": tn,
+                "tracking_url": tracking_url
+            }
+        return {"error": f"API returned {r.status_code}: {r.text}"}
+    except Exception as e:
+        return {"error": str(e)}
+
 def tool_check_pincode(pincode):
     """Checks pan-India delivery timelines and Cash on Delivery (COD) serviceability."""
     p = str(pincode).strip()
@@ -1030,6 +1093,7 @@ TOOL_DISPATCHER = {
     "create_skill": lambda args: tool_create_skill(args.get("skill_name", ""), args.get("instructions", "")),
     "fulfill_order_factory_direct": lambda args: tool_fulfill_order_factory_direct(args.get("order_id", "")),
     "fulfill_order_cj": lambda args: tool_fulfill_order_factory_direct(args.get("order_id", "")),
+    "update_order_tracking": lambda args: tool_update_order_tracking(args.get("order_id", ""), args.get("tracking_number", ""), args.get("courier", "Delhivery")),
     "check_pincode": lambda args: tool_check_pincode(args.get("pincode", "")),
     "generate_ad_campaign": lambda args: tool_generate_ad_campaign(args.get("product_name", ""), args.get("platform", "instagram_reels")),
     "generate_influencer_pitch": lambda args: tool_generate_influencer_pitch(args.get("creator_name", "Creator"), args.get("platform", "instagram"), args.get("product_name", "Item")),
@@ -1117,6 +1181,19 @@ AGENT_TOOLS_SCHEMA = [
                         "order_id": {"type": "string", "description": "The order ID to fulfill"}
                     },
                     "required": ["order_id"]
+                }
+            },
+            {
+                "name": "update_order_tracking",
+                "description": "Update customer order status to 'shipped' with courier AWB tracking number (Delhivery/Shadowfax/etc) and activate live tracking map on storefront.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "order_id": {"type": "string", "description": "Order ID or prefix"},
+                        "tracking_number": {"type": "string", "description": "Courier AWB or tracking number provided by Meesho/supplier"},
+                        "courier": {"type": "string", "description": "Courier name e.g. Delhivery, Shadowfax, Xpressbees, BlueDart"}
+                    },
+                    "required": ["order_id", "tracking_number"]
                 }
             },
             {
