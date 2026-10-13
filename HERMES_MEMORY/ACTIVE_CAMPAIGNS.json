@@ -1,20 +1,5 @@
 [
   {
-    "cycle_id": "cycle_1791670389",
-    "timestamp": "2026-10-10T22:13:09.399521+00:00",
-    "campaign_name": "Viral Drop: Crystal Diamond Touch LED Table Lamp (16 Colors RGB)",
-    "platform": "Instagram Reels & Meta Ads",
-    "hook": "Tap the top and watch your room transform into a luxury hotel room \ud83c\udf39\ud83d\udc8e",
-    "video_script": "Tap lamp -> Rose shadow reflects on table -> Cycle colors via remote -> 'Rechargeable USB acrylic lamp. Flat \u20b9599 on RareEmber with Cash on Delivery.'",
-    "offer": "DIWALI100 (Flat \u20b9100 OFF above \u20b9499) + Pan-India COD",
-    "unit_economics": {
-      "selling_price": "\u20b9599",
-      "supplier_cost": "\u20b9190",
-      "estimated_profit": "\u20b9320"
-    },
-    "status": "READY_TO_LAUNCH"
-  },
-  {
     "cycle_id": "cycle_1791673989",
     "timestamp": "2026-10-10T23:13:09.571500+00:00",
     "campaign_name": "Viral Drop: Water Sensor LED Diyas (Pack of 12 Smokeless)",
@@ -746,6 +731,21 @@
       "selling_price": "\u20b9449",
       "supplier_cost": "\u20b9160",
       "estimated_profit": "\u20b9210"
+    },
+    "status": "READY_TO_LAUNCH"
+  },
+  {
+    "cycle_id": "cycle_1791909204",
+    "timestamp": "2026-10-13T16:33:24.826111+00:00",
+    "campaign_name": "Viral Drop: Crystal Diamond Touch LED Table Lamp (16 Colors RGB)",
+    "platform": "Instagram Reels & Meta Ads",
+    "hook": "Tap the top and watch your room transform into a luxury hotel room \ud83c\udf39\ud83d\udc8e",
+    "video_script": "Tap lamp -> Rose shadow reflects on table -> Cycle colors via remote -> 'Rechargeable USB acrylic lamp. Flat \u20b9599 on RareEmber with Cash on Delivery.'",
+    "offer": "DIWALI100 (Flat \u20b9100 OFF above \u20b9499) + Pan-India COD",
+    "unit_economics": {
+      "selling_price": "\u20b9599",
+      "supplier_cost": "\u20b9190",
+      "estimated_profit": "\u20b9320"
     },
     "status": "READY_TO_LAUNCH"
   }
