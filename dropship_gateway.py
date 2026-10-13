@@ -2174,67 +2174,99 @@ def generate_autonomous_growth_cycle():
         "metrics": metrics
     }
 
+def check_meesho_stock_lightweight(url: str) -> bool:
+    """
+    Lightweight non-blocking availability check for a Meesho product listing.
+    Returns True if listing is accessible, False if deleted or out of stock.
+    """
+    try:
+        r = SESSION.get(
+            url,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            },
+            timeout=8,
+            allow_redirects=True
+        )
+        if r.status_code in [404, 410]:
+            return False
+        txt = r.text.lower()
+        if "product unavailable" in txt or "item sold out" in txt or "currently out of stock" in txt:
+            return False
+        return True
+    except Exception:
+        return True
+
 def autonomous_ceo_growth_worker():
     """
-    Non-stop 24/7 Executive Growth Engine.
-    Executes REAL business actions:
-    1. Content Marketing: Renders 3D Reel / Post creative & uploads to Instagram @RareEmber
-    2. SEO Engine: Publishes fresh lifestyle articles via hermes_blog_engine
-    3. Store Audit: Verifies site health, 0 medicinal compliance, and 1-Click COD
-    4. Executive Briefing: Sends action report and media proof to Ajay on Telegram
+    Non-stop 24/7 Autonomous Meesho Stock & Catalog Sync Engine.
+    Executes every 4 hours completely SILENTLY:
+    1. Verifies Meesho stock for all active products; toggles active=false if out-of-stock.
+    2. Auto-ingests scouted winning products from Meesho catalog with high margin.
+    3. Runs SEO blog engine and store health checks silently.
+    4. TELEGRAM SPAM REDUCTION: Only notifies Ajay if an item goes out of stock or real order arrives.
+       Zero routine ping spam!
     """
-    print("🚀 Hermes 24/7 Autonomous CEO Growth Engine Activated...")
-    time.sleep(15)  # Wait 15 seconds after boot
+    print("🚀 Hermes 24/7 Autonomous Meesho Stock & Catalog Worker Activated...")
+    time.sleep(20)
 
     while True:
         try:
-            print(f"[{datetime.now(timezone.utc).isoformat()}] Executing Autonomous Growth Actions...")
-            result = generate_autonomous_growth_cycle()
-            sel = result["selected"]
-            strat = result["strategy"]
-            h = result["health"]
+            print(f"[{datetime.now(timezone.utc).isoformat()}] Starting 4-Hour Background Meesho Sync Cycle...")
 
-            # ACTION 1: Execute SEO Content Engine
-            seo_action_status = "Skipped"
+            # 1. 4-Hour Autonomous Stock Verification
+            stock_alerts = []
+            con = get_supabase_connection()
+            if con:
+                try:
+                    for prod_id, m_url in MEESHO_DIRECT_URLS.items():
+                        is_in_stock = check_meesho_stock_lightweight(m_url)
+                        if not is_in_stock:
+                            con.run(f"UPDATE products SET active = false WHERE id = '{prod_id}' AND active = true")
+                            stock_alerts.append(f"• <b>{prod_id}</b> (Temporarily out of stock on Meesho - Orders Paused)")
+                        time.sleep(1)
+                    con.close()
+                except Exception as se:
+                    print(f"Stock verification DB error: {se}")
+                    if con:
+                        try:
+                            con.close()
+                        except Exception:
+                            pass
+
+            # ONLY notify Ajay if an actual product went out of stock!
+            if stock_alerts:
+                alert_text = (
+                    "⚠️ <b>Hermes Supplier Stock Notice:</b>\n\n"
+                    "Meesho par niche diye gaye products out-of-stock detect hue hain. "
+                    "Customer trust bachane ke liye store par inke orders auto-pause kar diye gaye hain:\n\n"
+                    + "\n".join(stock_alerts)
+                )
+                unique_users = list(dict.fromkeys(ALLOWED_USERS))
+                for uid in unique_users:
+                    send_message(uid, alert_text, parse_mode="HTML")
+
+            # 2. Autonomous New Winning Products Ingestion in Background
+            try:
+                generate_autonomous_growth_cycle()
+            except Exception as ge:
+                print(f"Growth cycle error: {ge}")
+
+            # 3. Autonomous SEO Blog Engine
             try:
                 import hermes_blog_engine
                 hermes_blog_engine.update_store_blog()
-                seo_action_status = "✅ Published Fresh SEO Article & Ingested into Blog Engine"
-            except Exception as be:
-                seo_action_status = f"⚡ Engine Ready ({be})"
+            except Exception:
+                pass
 
-            # ACTION 2: Daily Meesho High-Margin Winning Product Scout & Frontpage Rotation
-            meesho_scout_status = "Active"
-            try:
-                meesho_scout_status = f"✅ Daily High-Margin Meesho Drop Verified: {sel['product']} (Margin: {sel['profit']})"
-            except Exception as me:
-                meesho_scout_status = f"⚡ Meesho Scout Active ({me})"
-
-            briefing = (
-                f"🚀 <b>HERMES 24/7 CEO AUTONOMOUS ACTION REPORT</b>\n\n"
-                f"Boss Ajay, maine agla growth cycle execute karke <b>real actions deploy kar diye hain</b>:\n\n"
-                f"🎯 <b>Winning Product:</b> {sel['product']}\n"
-                f"⭐ <b>Quality Rating:</b> {sel.get('rating', '4.7 ⭐')} ({sel.get('reviews', '1,000+ Reviews')})\n"
-                f"💰 <b>Unit Economics:</b> MRP {sel['mrp']} ➔ Sale {sel['sale_price']} (Wholesale: {sel['cost']} | Net Margin: <b>{sel['profit']} / {sel.get('margin_pct', '50%+')}</b>)\n"
-                f"🔗 <b>Meesho Direct Source:</b> <a href='{sel.get('meesho_link', 'https://meesho.com')}'>Open on Meesho App</a>\n\n"
-                f"⚡ <b>EXECUTED CEO ACTIONS:</b>\n"
-                f"• <b>Meesho Sourcing Scout:</b> {meesho_scout_status}\n"
-                f"• <b>SEO Indexing:</b> {seo_action_status}\n"
-                f"• <b>Store Health:</b> {h.get('status')} ({h.get('latency_ms')}ms) | 1-Click COD Active\n"
-                f"• <b>Growth Campaign:</b> {strat}\n\n"
-                f"📈 <b>Target Keywords Ranking:</b>\n"
-                f"  <i>• {sel['seo_keywords'][0]}</i>\n"
-                f"  <i>• {sel['seo_keywords'][1]}</i>\n\n"
-                f"Hermes autonomous executive non-stop active hai aur continuous revenue growth par kaam kar raha hai! 🛡️⚡"
-            )
-            send_idempotent_report("ceo_growth_report", briefing, min_interval_hours=4.0)
+            print(f"[{datetime.now(timezone.utc).isoformat()}] 4-Hour Background Sync Complete. Sleeping for 4 hours...")
 
         except Exception as e:
-            print(f"Autonomous Growth Loop Error: {e}")
+            print(f"Autonomous Sync Worker Error: {e}")
             traceback.print_exc()
 
-        # Run every 60 minutes
-        time.sleep(3600)
+        # Run every 4 hours (14,400 seconds)
+        time.sleep(14400)
 
 # ─────────────────────────────────────────────────────────────
 # 7. PROACTIVE ORDER MONITOR (24x7 REAL-TIME ORDER ALERTS)
