@@ -2147,6 +2147,7 @@ MEESHO_DIRECT_URLS = {
     "meesho-vintage-amber-edison-decorative-led-filament-bulb": "https://www.meesho.com/s/p/er1af1",
     "meesho-4-layer-rotating-jewelry-storage-box-mirror": "https://www.meesho.com/s/p/ctey2b",
     "meesho-diamond-wall-organiser-rack-no-drill": "https://www.meesho.com/s/p/fa1ldj",
+    "meesho-nordic-insulated-coffee-tumbler-straw-500ml": "https://www.meesho.com/s/p/92h14r",
 }
 
 def get_exact_meesho_sourcing_link(item_dict_or_name):
