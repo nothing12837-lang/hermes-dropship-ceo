@@ -1844,7 +1844,7 @@ def generate_autonomous_growth_cycle():
             "margin_pct": "53%",
             "rating": "4.8 ⭐",
             "reviews": "1,840+ Verified Reviews",
-            "meesho_link": "https://www.meesho.com/search?q=water+sensor+diyas+pack+of+12",
+            "meesho_link": "https://www.meesho.com/s/p/756ycd",
             "seo_keywords": [
                 "water sensor led diyas buy online COD",
                 "flameless smokeless diwali diya pack of 12",
@@ -1865,7 +1865,7 @@ def generate_autonomous_growth_cycle():
             "margin_pct": "54%",
             "rating": "4.7 ⭐",
             "reviews": "2,410+ Verified Reviews",
-            "meesho_link": "https://www.meesho.com/search?q=crystal+diamond+touch+lamp+rgb",
+            "meesho_link": "https://www.meesho.com/s/p/gxgqyy",
             "seo_keywords": [
                 "crystal diamond touch lamp buy online India",
                 "16 color rgb table light with remote COD",
@@ -1886,7 +1886,7 @@ def generate_autonomous_growth_cycle():
             "margin_pct": "51%",
             "rating": "4.6 ⭐",
             "reviews": "980+ Verified Reviews",
-            "meesho_link": "https://www.meesho.com/search?q=electric+mini+garlic+chopper+rechargeable",
+            "meesho_link": "https://www.meesho.com/s/p/gk1pui",
             "seo_keywords": [
                 "wireless electric mini chopper buy online India",
                 "portable garlic onion cutter COD",
@@ -1907,7 +1907,7 @@ def generate_autonomous_growth_cycle():
             "margin_pct": "47%",
             "rating": "4.7 ⭐",
             "reviews": "1,120+ Verified Reviews",
-            "meesho_link": "https://www.meesho.com/search?q=diamond+wall+organiser+rack+no+drill",
+            "meesho_link": "https://www.meesho.com/s/p/fa1ldj",
             "seo_keywords": [
                 "buy wall organizer rack no drill online India",
                 "bathroom kitchen storage shelf COD",
@@ -1928,7 +1928,7 @@ def generate_autonomous_growth_cycle():
             "margin_pct": "49%",
             "rating": "4.8 ⭐",
             "reviews": "3,150+ Verified Reviews",
-            "meesho_link": "https://www.meesho.com/search?q=welcome+textured+mesh+door+mat",
+            "meesho_link": "https://www.meesho.com/s/p/hbentp",
             "seo_keywords": [
                 "heavy duty entrance doormat buy online COD",
                 "diwali welcome mat washable textured mesh",
@@ -2123,9 +2123,35 @@ def autonomous_ceo_growth_worker():
 # 7. PROACTIVE ORDER MONITOR (24x7 REAL-TIME ORDER ALERTS)
 # ─────────────────────────────────────────────────────────────
 
+MEESHO_DIRECT_URLS = {
+    "meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base": "https://www.meesho.com/s/p/h61mf5",
+    "meesho-water-sensor-led-diyas-pack-of-12": "https://www.meesho.com/s/p/756ycd",
+    "meesho-heavy-duty-welcome-textured-mesh-door-mat": "https://www.meesho.com/s/p/hbentp",
+    "meesho-galaxy-star-astronaut-projector-night-lamp": "https://www.meesho.com/s/p/ck0svm",
+    "meesho-ultrasonic-flame-mist-aroma-diffuser": "https://www.meesho.com/s/p/ga8uq8",
+    "meesho-crystal-diamond-touch-led-table-lamp": "https://www.meesho.com/s/p/gxgqyy",
+    "meesho-electric-mini-wireless-garlic-chopper": "https://www.meesho.com/s/p/gk1pui",
+    "meesho-acrylic-led-glow-message-note-board": "https://www.meesho.com/s/p/9skjts",
+    "meesho-3in1-foldable-magnetic-wireless-charging-pad": "https://www.meesho.com/s/p/a62v2o",
+    "meesho-luxury-travel-jewelry-organizer-box": "https://www.meesho.com/s/p/etztkc",
+    "meesho-automatic-magnetic-self-stirring-mug": "https://www.meesho.com/s/p/cgjz5c",
+    "meesho-moroccan-golden-metal-fairy-lantern-string": "https://www.meesho.com/s/p/7eb6x1",
+    "meesho-golden-metal-hanging-birdcage-tealight-lantern-set": "https://www.meesho.com/s/p/121h54",
+    "meesho-portable-mini-thermal-bluetooth-pocket-printer": "https://www.meesho.com/s/p/789hag",
+    "meesho-rechargeable-motion-sensor-led-cabinet-stair-light": "https://www.meesho.com/s/p/6e7uwm",
+    "meesho-foldable-heavy-base-mobile-tablet-desk-stand": "https://www.meesho.com/s/p/fa1ldj",
+    "meesho-multi-blade-mandoline-vegetable-slicer-cutter": "https://www.meesho.com/s/p/71b9uy",
+    "meesho-oil-dispenser-bottle-silicone-basting-brush": "https://www.meesho.com/s/p/gsce3g",
+    "meesho-electric-fabric-shaver-lint-remover-usb": "https://www.meesho.com/s/p/ai41up",
+    "meesho-astronaut-magnetic-cable-organizer-desk-clips": "https://www.meesho.com/s/p/8zcq5w",
+    "meesho-vintage-amber-edison-decorative-led-filament-bulb": "https://www.meesho.com/s/p/er1af1",
+    "meesho-4-layer-rotating-jewelry-storage-box-mirror": "https://www.meesho.com/s/p/ctey2b",
+    "meesho-diamond-wall-organiser-rack-no-drill": "https://www.meesho.com/s/p/fa1ldj",
+}
+
 def get_exact_meesho_sourcing_link(item_dict_or_name):
     """
-    Returns exact Meesho search / direct product sourcing link for any catalog item.
+    Returns exact Meesho direct product listing link for any catalog item.
     Ensures Ajay gets a direct 1-click buy link for 30-second fulfillment in reseller mode.
     """
     import urllib.parse
@@ -2137,6 +2163,26 @@ def get_exact_meesho_sourcing_link(item_dict_or_name):
         pid = ""
         title = str(item_dict_or_name or "").strip()
 
+    # 1. Exact ID match
+    if pid and pid in MEESHO_DIRECT_URLS:
+        return MEESHO_DIRECT_URLS[pid]
+
+    # 2. Substring ID match
+    if pid:
+        for k, v in MEESHO_DIRECT_URLS.items():
+            if k in pid or pid in k:
+                return v
+
+    # 3. Match against title keywords
+    if title:
+        lower_t = title.lower()
+        for k, url in MEESHO_DIRECT_URLS.items():
+            words = [w for w in k.replace("meesho-", "").split("-") if len(w) >= 4]
+            matches = [w for w in words if w in lower_t]
+            if len(matches) >= 2:
+                return url
+
+    # 4. Fallback search query if novel item
     if pid and pid.startswith("meesho-"):
         clean_keywords = pid.replace("meesho-", "").replace("-", " ").strip()
         return f"https://www.meesho.com/search?q={urllib.parse.quote_plus(clean_keywords)}"
