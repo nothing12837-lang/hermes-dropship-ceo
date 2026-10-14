@@ -24,13 +24,34 @@ async def _synthesize_edge_tts(text: str, output_file: str, voice: str = DEFAULT
     await communicate.save(output_file)
 
 def generate_evaa_audio(text: str, output_path: str):
-    """Synchronous wrapper to synthesize Evaa voiceover in Hindi."""
+    """
+    Synthesize Evaa voiceover in natural Hindi:
+    1. Primary: Microsoft Edge-TTS (hi-IN-SwaraNeural)
+    2. Resilient Fallback: Google TTS (gTTS lang='hi')
+    """
+    # 1. Try Microsoft Edge-TTS
     try:
+        import aiohttp
+        import aiohttp.resolver
+        aiohttp.DefaultResolver = aiohttp.resolver.ThreadedResolver
         asyncio.run(_synthesize_edge_tts(text, output_path))
-        return True
+        if os.path.exists(output_path) and os.path.getsize(output_path) > 500:
+            return True
     except Exception as e:
-        print(f"[Evaa TTS Error] {e}")
-        return False
+        print(f"[Evaa Edge-TTS Note] {e}, falling back to gTTS")
+
+    # 2. Resilient Fallback: gTTS
+    try:
+        from gtts import gTTS
+        clean_text = text.replace("★", " star ").replace("₹", " rupees ")
+        tts = gTTS(clean_text, lang="hi")
+        tts.save(output_path)
+        if os.path.exists(output_path) and os.path.getsize(output_path) > 500:
+            return True
+    except Exception as ge:
+        print(f"[Evaa gTTS Error] {ge}")
+
+    return False
 
 def render_reel_card(image_url: str, title: str, price_inr: float, mrp_inr: float, headline: str, output_path: str):
     """
@@ -130,7 +151,7 @@ def build_evaa_video_reel(product_title: str, price_inr: float, mrp_inr: float, 
     except Exception:
         has_ffmpeg = False
 
-    if has_ffmpeg and os.path.exists(audio_path) and os.path.exists(card_path):
+    if has_ffmpeg and os.path.exists(audio_path) and os.path.getsize(audio_path) > 500 and os.path.exists(card_path):
         try:
             cmd = [
                 "ffmpeg", "-y",

@@ -59,7 +59,7 @@ flowchart TD
 3. **Hermes Dropship CEO Bot:** Hosted on **GitHub Actions Cloud** via Ping-Pong Workers (`Worker A` and `Worker B`) with a 6-hour watchdog cron in repo `nothing12837-lang/hermes-dropship-ceo`.
 4. **Payment Gateways:**
    * **Cash on Delivery (COD):** 1-Click native COD with â‚¹49 convenience fee.
-   * **Razorpay LIVE Mode:** Key ID `rzp_live_Tmxc7829nihkbA` supporting Google Pay, PhonePe, Paytm, any UPI App, dynamic QR code scan, and Debit/Credit cards.
+   * **Razorpay LIVE Mode:** Key ID `rzp_live_***REDACTED***` supporting Google Pay, PhonePe, Paytm, any UPI App, dynamic QR code scan, and Debit/Credit cards.
 
 ---
 
