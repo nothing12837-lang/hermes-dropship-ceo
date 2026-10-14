@@ -235,11 +235,13 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    const orderId = crypto.randomUUID();
     const orderRef = idempotencyKey || `cod_${Date.now()}`;
 
     const newOrder = {
+      id: orderId,
       user_email: email,
-      user_id: null, // Untrusted client user_id ignored
+      user_id: body.user_id || null,
       stripe_session_id: orderRef,
       total_amount: finalTotal,
       status: body.payment_method === 'cod' ? 'pending_cod' : 'pending',
@@ -257,25 +259,27 @@ export async function POST(req: NextRequest) {
       },
     };
 
-    const { data, error } = await sb.from('orders').insert([newOrder]).select('id').single();
+    // Explicit UUID supplied: We omit .select('id') so Supabase executes return=minimal,
+    // avoiding the Postgres RLS 42501 error on anon key where SELECT is restricted to authenticated users.
+    const { error } = await sb.from('orders').insert([newOrder]);
 
     if (error) {
       console.warn('Orders insert retry minimal:', error.message);
       const minimal = {
+        id: orderId,
         user_email: email,
         total_amount: finalTotal,
         status: body.payment_method === 'cod' ? 'pending_cod' : 'pending',
         shipping_address: newOrder.shipping_address,
       };
-      const retry = await sb.from('orders').insert([minimal]).select('id').single();
+      const retry = await sb.from('orders').insert([minimal]);
       if (retry.error) {
         console.error('Order creation failed:', retry.error.message);
         return NextResponse.json({ error: 'Failed to record order' }, { status: 500 });
       }
-      return NextResponse.json({ ok: true, order_id: retry.data?.id || orderRef });
     }
 
-    const finalOrderId = data?.id || orderRef;
+    const finalOrderId = orderId;
 
     // Automated Alert to Store Owner on Telegram
     notifyTelegramOrder({

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { useCart } from '@/lib/store/cart';
 import { useWishlist } from '@/lib/store/wishlist';
 import { resolveProductImage } from '@/lib/data/fallback-images';
@@ -87,9 +88,12 @@ export default function ProductCard({
   };
 
   return (
-    <div className="group flex flex-col h-full rounded-[1.75rem] bg-white border border-black/[0.06] shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.10)] hover:-translate-y-1.5 transition-all duration-300 ring-1 ring-black/[0.03] overflow-hidden">
+    <div className="group flex flex-col h-full rounded-[1.75rem] bg-white border border-black/[0.06] shadow-[0_2px_12px_rgba(48,26,12,0.05)] hover:shadow-[0_22px_48px_rgba(48,26,12,0.14)] hover:-translate-y-2 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden relative ring-ember-animated">
       <Link href={`/product/${id}`} className="no-underline flex flex-col flex-1">
-        <div className="relative aspect-square m-2.5 mb-0 rounded-2xl overflow-hidden" style={{ background: gradient }}>
+        <div
+          className="relative aspect-square m-2.5 mb-0 rounded-2xl overflow-hidden shine-hover"
+          style={{ background: gradient }}
+        >
           {showImage ? (
             <Image
               src={resolvedSrc as string}
@@ -97,11 +101,11 @@ export default function ProductCard({
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               style={{ objectFit: 'cover' }}
-              className="group-hover:scale-105 transition-transform duration-500"
+              className="group-hover:scale-110 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
               onError={() => setImgFailed(true)}
             />
           ) : (
-            <span className="text-7xl flex items-center justify-center h-full group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500">
+            <span className="text-7xl flex items-center justify-center h-full group-hover:scale-115 group-hover:-rotate-6 transition-transform duration-500">
               {emoji}
             </span>
           )}
@@ -109,15 +113,19 @@ export default function ProductCard({
           {/* Category / Curated / Out-of-Stock badge */}
           {!isInStock ? (
             <span
-              className="absolute top-3 left-3 bg-rose-600 text-white text-[11px] font-black px-3 py-1.5 rounded-full uppercase tracking-wide backdrop-blur-md shadow-xs z-10"
+              className="absolute top-3 left-3 z-10 bg-gradient-to-r from-rose-600 to-red-500 text-white text-[11px] font-black px-3.5 py-1.5 rounded-full uppercase tracking-wide shadow-md backdrop-blur-md"
               style={{ transform: 'rotate(-4deg)' }}
             >
               ⚠️ Out of Stock
             </span>
           ) : tag ? (
             <span
-              className="absolute top-3 left-3 bg-white/95 text-text-primary text-[11px] font-black px-3 py-1.5 rounded-full uppercase tracking-wide backdrop-blur-md shadow-xs"
-              style={{ transform: 'rotate(-4deg)' }}
+              className="absolute top-3 left-3 z-10 text-[11px] font-black px-3.5 py-1.5 rounded-full uppercase tracking-wide backdrop-blur-md shadow-xs"
+              style={{
+                transform: 'rotate(-4deg)',
+                background: tag.includes('Trending') ? 'var(--gradient-ember)' : 'rgba(255,255,255,0.95)',
+                color: tag.includes('Trending') ? '#fff' : 'var(--color-text-primary)',
+              }}
             >
               {tag}
             </span>
@@ -126,15 +134,30 @@ export default function ProductCard({
           <button
             onClick={handleWishlist}
             aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
-            className="absolute top-2.5 right-2.5 w-9 h-9 rounded-full border border-black/[0.06] cursor-pointer text-base flex items-center justify-center bg-white/90 backdrop-blur-md shadow-xs active:scale-95 transition-all"
+            className="absolute top-2.5 right-2.5 w-9 h-9 rounded-full border border-black/[0.06] cursor-pointer text-base flex items-center justify-center bg-white/92 backdrop-blur-md shadow-xs hover:scale-115 hover:border-ember/50 active:scale-95 transition-all z-10"
             style={{ color: wished ? '#FF4D24' : '#1d1d1f' }}
           >
-            {wished ? '♥' : '♡'}
+            <motion.span
+              key={String(wished)}
+              initial={{ scale: 0.4 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 520, damping: 14 }}
+              style={{ display: 'inline-flex' }}
+            >
+              {wished ? '♥' : '♡'}
+            </motion.span>
           </button>
 
           {rank != null && (
-            <span className="absolute bottom-2 left-3 font-display text-5xl text-white/90 leading-none drop-shadow-md">
+            <span className="absolute bottom-2 left-3 font-display text-5xl leading-none drop-shadow-[0_4px_14px_rgba(0,0,0,0.5)] text-white/95">
               {String(rank).padStart(2, '0')}
+            </span>
+          )}
+
+          {/* Discount chip */}
+          {isInStock && discount != null && discount > 0 && (
+            <span className="absolute bottom-2.5 right-2.5 text-[11px] font-black px-2.5 py-1 rounded-full text-white shadow-md bg-gradient-to-r from-emerald-500 to-teal-500">
+              −{discount}%
             </span>
           )}
         </div>
@@ -142,7 +165,7 @@ export default function ProductCard({
         <div className="p-4 flex flex-col flex-1">
           {isInStock ? (
             <div className="text-[11px] font-semibold text-emerald-700 flex items-center gap-1.5 mb-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 animate-pulse" />
+              <span className="live-dot w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 text-emerald-500" />
               <span>In Stock • Verified Domestic Hub • COD Ready</span>
             </div>
           ) : (
@@ -152,7 +175,7 @@ export default function ProductCard({
             </div>
           )}
           <h3
-            className="text-[15px] font-bold leading-snug mb-2 overflow-hidden text-[#1d1d1f]"
+            className="text-[15px] font-bold leading-snug mb-2 overflow-hidden text-[#1d1d1f] transition-colors duration-300 group-hover:text-ember-deep"
             style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
           >
             {title}
@@ -175,15 +198,17 @@ export default function ProductCard({
         {isInStock ? (
           <button
             onClick={handleOrderNow}
-            className="w-full py-3 rounded-full font-bold text-sm tracking-tight border-none cursor-pointer bg-[#1d1d1f] text-white hover:bg-black active:scale-[0.98] shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5"
+            className="w-full py-3 rounded-full font-black text-[13px] tracking-wide border-none cursor-pointer btn-ember flex items-center justify-center gap-1.5"
           >
-            <span>ORDER NOW</span>
-            <span>⚡</span>
+            <span className="relative z-10 flex items-center gap-1.5">
+              ORDER NOW
+              <span>⚡</span>
+            </span>
           </button>
         ) : (
           <Link
             href={`/product/${id}`}
-            className="w-full py-3 rounded-full font-bold text-sm tracking-tight border border-rose-200 cursor-pointer bg-rose-50 text-rose-700 hover:bg-rose-100 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 no-underline"
+            className="w-full py-3 rounded-full font-bold text-sm tracking-tight border border-rose-200 cursor-pointer bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-300 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 no-underline"
           >
             <span>NOTIFY ME WHEN RESTOCKED 🔔</span>
           </Link>

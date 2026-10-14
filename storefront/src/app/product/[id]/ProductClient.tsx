@@ -51,9 +51,9 @@ export function ProductClient({ product }: Props) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [galleryImages.length]);
 
-  const currentSrc = galleryImages[selectedImgIndex] || galleryImages[0];
-  const isCurrentFailed = failedImages[selectedImgIndex];
-  const showImage = Boolean(currentSrc) && !isCurrentFailed;
+  const fallbackSrc: string = galleryImages[0] || product.image_url || '';
+  const currentSrc: string = (!failedImages[selectedImgIndex] ? (galleryImages[selectedImgIndex] || fallbackSrc) : fallbackSrc) || '';
+  const showImage = Boolean(currentSrc);
   const wished = has(product.id);
 
   const relatedIds = bundles[product.id] ?? [];
@@ -119,7 +119,7 @@ export function ProductClient({ product }: Props) {
                 setTouchStartX(null);
               }}
             >
-              {showImage ? (
+              {showImage && currentSrc ? (
                 <Image
                   key={currentSrc}
                   src={currentSrc}
@@ -259,6 +259,7 @@ export function ProductClient({ product }: Props) {
                 }}
               >
                 {galleryImages.map((imgUrl: string, idx: number) => {
+                  if (failedImages[idx]) return null;
                   const isSelected = idx === selectedImgIndex;
                   return (
                     <div
@@ -295,6 +296,7 @@ export function ProductClient({ product }: Props) {
                           fill
                           sizes="80px"
                           style={{ objectFit: 'cover' }}
+                          onError={() => setFailedImages((prev) => ({ ...prev, [idx]: true }))}
                         />
                       </button>
                       <span

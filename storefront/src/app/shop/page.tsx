@@ -119,46 +119,64 @@ function ShopInner() {
   const active = TABS.find((c) => c.id === cat) ?? TABS[0];
 
   return (
-    <main className="page-top min-h-screen bg-bg-base">
-      <div className="max-w-6xl mx-auto px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className="inline-block px-5 py-2 rounded-full bg-bg-surface border border-border-subtle text-xs font-extrabold tracking-[0.2em] uppercase text-text-secondary backdrop-blur-sm">
-            The Everything Store
-          </div>
-          <h1 className="font-display text-5xl md:text-7xl text-text-primary mt-5">
-            Everything. <span className="text-gradient-ember">Everyday.</span>
-          </h1>
-          <p className="text-text-secondary text-base leading-relaxed max-w-xl mx-auto mt-4">
-            Every rare find in one place — filter by vibe or search the whole stash.
-          </p>
-        </motion.div>
+    <main className="page-top min-h-screen">
+      {/* Hero */}
+      <section className="relative overflow-hidden">
+        <div aria-hidden className="absolute inset-0 pointer-events-none">
+          <span className="aurora-blob" style={{ width: 420, height: 420, top: -180, right: -120, background: 'rgba(255,122,24,0.14)' }} />
+          <span className="aurora-blob aurora-blob-b" style={{ width: 360, height: 360, top: -140, left: -140, background: 'rgba(232,36,75,0.10)' }} />
+        </div>
 
-        <div className="flex gap-3 flex-wrap justify-center mt-9">
-          {TABS.map((c) => (
-            <motion.button
-              key={c.id}
-              onClick={() => setCat(c.id)}
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.96 }}
-              className="px-6 py-3 rounded-full border cursor-pointer font-extrabold text-sm min-h-[44px] transition-all duration-200"
-              style={{
-                borderColor: cat === c.id ? 'var(--color-ember)' : 'var(--color-border-subtle)',
-                background: cat === c.id ? 'var(--color-ember)' : 'var(--color-bg-surface)',
-                color: cat === c.id ? 'white' : 'var(--color-text-primary)',
-                boxShadow: cat === c.id ? '0 10px 30px rgba(255,107,53,0.3)' : 'none',
-              }}
-            >
-              {'emoji' in c && c.emoji ? `${c.emoji} ` : ''}{c.label}
-            </motion.button>
-          ))}
-        </div>
-        <div className="mt-3 text-sm text-text-secondary">
-          {active.hint} — showing {list.length} items
-        </div>
+        <div className="max-w-6xl mx-auto px-6 text-center relative z-10 pt-4">
+          <motion.div
+            initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="inline-block px-5 py-2 rounded-full glass text-xs font-extrabold tracking-[0.2em] uppercase text-text-secondary shadow-xs">
+              The Everything Store
+            </div>
+            <h1 className="font-display text-5xl md:text-8xl text-text-primary mt-5">
+              Everything. <span className="text-gradient-ember-animated">Everyday.</span>
+            </h1>
+            <p className="text-text-secondary text-base leading-relaxed max-w-xl mx-auto mt-4">
+              Every rare find in one place — filter by vibe or search the whole stash.
+            </p>
+          </motion.div>
+
+          <div className="flex gap-3 flex-wrap justify-center mt-9">
+            {TABS.map((c) => (
+              <motion.button
+                key={c.id}
+                onClick={() => setCat(c.id)}
+                whileHover={{ y: -3 }}
+                whileTap={{ scale: 0.95 }}
+                layout
+                transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                className="relative px-6 py-3 rounded-full border cursor-pointer font-extrabold text-sm min-h-[44px] transition-colors duration-200"
+                style={{
+                  borderColor: cat === c.id ? 'transparent' : 'var(--color-border-subtle)',
+                  background: cat === c.id ? 'transparent' : 'var(--color-bg-surface)',
+                  color: cat === c.id ? 'white' : 'var(--color-text-primary)',
+                  boxShadow: cat === c.id ? 'var(--shadow-ember)' : 'var(--shadow-xs)',
+                  zIndex: 1,
+                }}
+              >
+                {cat === c.id && (
+                  <motion.span
+                    layoutId="shop-active-pill"
+                    className="absolute inset-0 rounded-full bg-gradient-ember"
+                    transition={{ type: 'spring', stiffness: 400, damping: 34 }}
+                    style={{ zIndex: -1 }}
+                  />
+                )}
+                {'emoji' in c && c.emoji ? `${c.emoji} ` : ''}{c.label}
+              </motion.button>
+            ))}
+          </div>
+          <div className="mt-3 text-sm text-text-secondary">
+            {active.hint} — showing {list.length} items
+          </div>
 
         <div className="flex gap-3 flex-wrap justify-center mt-6">
           <input
@@ -219,7 +237,8 @@ function ShopInner() {
             </button>
           </div>
         </div>
-      </div>
+        </div>
+      </section>
 
       <div className="max-w-6xl mx-auto px-6 pt-10 pb-20">
         <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -169,11 +169,7 @@ export default function CheckoutPage() {
 
   const pay = async () => {
     setError('');
-    if (!userId) {
-      setError('Account required: Please sign in or register before completing your order.');
-      router.push('/login?redirect=/checkout');
-      return;
-    }
+    // Guest checkout fully supported; user_id attached if signed in
     if (!email.includes('@')) return setError('Please enter a valid email address for tracking.');
     if (!name.trim()) return setError('Please enter your full name for courier delivery.');
     if (!phone.trim() || phone.replace(/\D/g, '').length !== 10) return setError('Please enter a valid 10-digit phone for COD confirmation.');
@@ -371,25 +367,23 @@ export default function CheckoutPage() {
           </div>
         )}
 
-        {/* Mandatory Account Verification Notice */}
+        {/* Guest Checkout Active Notice */}
         {!userId && !authChecking && (
-          <div className="mb-8 p-6 rounded-3xl bg-amber-500/[0.08] border border-amber-500/25 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
-            <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-[#161311] text-white flex items-center justify-center text-xl shrink-0">
-                🔐
-              </div>
+          <div className="mb-8 p-4 md:p-5 rounded-2xl bg-amber-500/[0.07] border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">⚡</span>
               <div>
-                <h3 className="text-sm font-bold text-neutral-900">Sign in or Register required to complete order</h3>
+                <h3 className="text-sm font-bold text-neutral-900">1-Click Express Guest Checkout Active</h3>
                 <p className="text-xs text-neutral-600 mt-0.5">
-                  Account registration is mandatory for verified door-to-door courier tracking, priority dispatch, and buyer protection.
+                  No account or password needed! Fill in delivery address below to place your order with Cash on Delivery (COD) or UPI.
                 </p>
               </div>
             </div>
             <Link
               href="/login?redirect=/checkout"
-              className="px-5 py-3 rounded-full bg-[#161311] hover:bg-black text-white text-xs font-bold transition-all shadow-md shrink-0 text-center no-underline whitespace-nowrap"
+              className="px-4 py-2 rounded-full bg-white hover:bg-neutral-100 text-[#161311] border border-black/10 text-xs font-bold transition-all shrink-0 text-center no-underline whitespace-nowrap"
             >
-              Sign In / Register ⚡ →
+              Sign In (Optional) →
             </Link>
           </div>
         )}
@@ -733,36 +727,35 @@ export default function CheckoutPage() {
                 </span>
               </div>
 
-              {/* High-Converting Executive Checkout Button */}
-              {!userId ? (
-                <button
-                  onClick={() => router.push('/login?redirect=/checkout')}
-                  className="w-full py-4 rounded-full font-black text-sm tracking-tight border-none cursor-pointer text-white bg-gradient-to-r from-[#FF4D24] via-[#FF6B35] to-[#FF9900] shadow-[0_12px_36px_rgba(255,77,36,0.45)] hover:shadow-[0_16px_44px_rgba(255,77,36,0.6)] hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-                >
-                  <span>SIGN IN TO COMPLETE ORDER ⚡ • {formatCheckoutPrice(total)}</span>
-                </button>
-              ) : (
-                <button
-                  onClick={pay}
-                  disabled={loading || processing || detailed.length === 0}
-                  className="w-full py-4 rounded-full font-black text-sm tracking-tight border-none cursor-pointer text-white bg-gradient-to-r from-[#FF4D24] via-[#FF6B35] to-[#FF9900] shadow-[0_12px_36px_rgba(255,77,36,0.45)] hover:shadow-[0_16px_44px_rgba(255,77,36,0.6)] hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {loading || processing ? (
-                    <>
-                      <span className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                      <span>Connecting Gateway…</span>
-                    </>
-                  ) : detailed.length === 0 ? (
-                    <span>BAG IS EMPTY • ADD ITEMS FIRST 🛍️</span>
-                  ) : (
-                    <>
-                      <span>PLACE ORDER NOW</span>
-                      <span>⚡</span>
-                      <span>• {formatCheckoutPrice(total)}</span>
-                    </>
-                  )}
-                </button>
+              {/* Error Box above Place Order button */}
+              {error && (
+                <div className="mb-4 p-3.5 rounded-2xl bg-rose-500/20 border border-rose-500/40 text-rose-200 text-xs font-bold flex items-center gap-2">
+                  <span>⚠️</span>
+                  <span>{error}</span>
+                </div>
               )}
+
+              {/* High-Converting Executive Checkout Button */}
+              <button
+                onClick={pay}
+                disabled={loading || processing || detailed.length === 0}
+                className="w-full py-4 rounded-full font-black text-sm tracking-tight border-none cursor-pointer text-white bg-gradient-to-r from-[#FF4D24] via-[#FF6B35] to-[#FF9900] shadow-[0_12px_36px_rgba(255,77,36,0.45)] hover:shadow-[0_16px_44px_rgba(255,77,36,0.6)] hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading || processing ? (
+                  <>
+                    <span className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                    <span>Processing Order…</span>
+                  </>
+                ) : detailed.length === 0 ? (
+                  <span>BAG IS EMPTY • ADD ITEMS FIRST 🛍️</span>
+                ) : (
+                  <>
+                    <span>{paymentMethod === 'cod' ? 'PLACE COD ORDER NOW' : 'PAY & PLACE ORDER NOW'}</span>
+                    <span>⚡</span>
+                    <span>• {formatCheckoutPrice(total)}</span>
+                  </>
+                )}
+              </button>
 
               {/* Trust & Guarantee strip */}
               <div className="mt-4 pt-4 border-t border-white/10 flex flex-col gap-2 text-center text-[11px] text-neutral-400">

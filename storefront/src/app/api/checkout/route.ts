@@ -162,11 +162,16 @@ export async function POST(req: NextRequest) {
     // to the minimal live-safe columns if migration 0002 hasn't run yet.
     async function insertOrder(row: Record<string, unknown>): Promise<boolean> {
       if (!supabase) return false;
-      const { error } = await supabase.from('orders').insert([row]);
+      const orderPayload = {
+        id: row.id || crypto.randomUUID(),
+        ...row,
+      };
+      const { error } = await supabase.from('orders').insert([orderPayload]);
       if (!error) return true;
       if (/column .* does not exist/i.test(error.message)) {
         console.warn('Orders table missing extension columns — retrying minimal insert (run migration 0002).');
         const minimal = {
+          id: orderPayload.id,
           user_email: row.user_email,
           user_id: row.user_id,
           total_amount: row.total_amount,
@@ -216,17 +221,15 @@ export async function POST(req: NextRequest) {
       receipt: `rcpt_${Date.now()}`,
       notes: {
         email,
-        name: name || '',
-        items: JSON.stringify(items),
-        address: JSON.stringify(address || {}),
-        coupon: verifiedCoupon || '',
+        name: (name || '').slice(0, 100),
+        coupon: (verifiedCoupon || '').slice(0, 50),
         discount: String(discountAmount),
       },
     });
 
     const saved = await insertOrder({
       user_email: email,
-      user_id: null,
+      user_id: body.user_id || null,
       stripe_session_id: rzpOrder.id,
       total_amount: finalTotal,
       status: 'pending',
@@ -247,7 +250,8 @@ export async function POST(req: NextRequest) {
       currency: 'INR',
       key_id: process.env.RAZORPAY_KEY_ID,
     });
-  } catch {
-    return NextResponse.json({ error: 'Checkout failed' }, { status: 500 });
+  } catch (err) {
+    console.error('POST /api/checkout error:', err);
+    return NextResponse.json({ error: err instanceof Error ? err.message : 'Checkout failed' }, { status: 500 });
   }
 }
