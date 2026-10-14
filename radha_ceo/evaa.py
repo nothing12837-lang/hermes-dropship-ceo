@@ -126,12 +126,13 @@ def build_evaa_video_reel(product_title: str, price_inr: float, mrp_inr: float, 
     os.makedirs(output_dir, exist_ok=True)
     slug = "".join(c if c.isalnum() else "_" for c in product_title.lower())[:24]
 
-    # 1. Script
+    # 1. Script with authentic Meesho reference image
     script = MeeraCreative.generate_evaa_script(
         product_title=product_title,
         price_inr=price_inr,
         mrp_inr=mrp_inr,
-        key_benefit="100% quality checked direct domestic manufacturing"
+        key_benefit="100% quality checked direct domestic manufacturing",
+        image_url=image_url
     )
 
     full_voice_text = (

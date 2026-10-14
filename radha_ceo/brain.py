@@ -181,7 +181,8 @@ class RadhaBrain:
             f"DIRECTIVES:\n"
             f"1. Acknowledge Ajay directly as 'Ajay' or 'Boss'. Answer his exact question or command.\n"
             f"2. Confirm actions executed across the business.\n"
-            f"3. 100% domestic Indian Meesho sourcing with 7-day doorstep replacement guarantee."
+            f"3. 100% domestic Indian Meesho sourcing with 7-day doorstep replacement guarantee.\n"
+            f"4. CONTENT CREATOR STANDARD: Enforce that all content creators (Meera, Evaa, video & social agents) strictly use exact authentic Meesho product photos ({product_image_url}) as mandatory reference images for all reels, storyboards, and creatives — ZERO generic stock photos."
         )
 
         prompt = (
@@ -244,7 +245,7 @@ class RadhaBrain:
                 "Vikram": "Ensure all catalog items maintain >50% gross profit margin and active holiday coupons.",
                 "Aarav": "Publish high-converting lifestyle guides to Supabase blog_posts targeting long-tail Indian keywords.",
                 "Pooja": "Maintain <10% RTO rate via pre-dispatch 1-click WhatsApp verification.",
-                "Meera": "Iterate viral 28-second hooks focusing on problem-solution room transformations.",
+                "Meera": "Iterate viral 28-second hooks focusing on problem-solution room transformations, strictly using exact authentic Meesho product photos as reference images.",
                 "Kabir": "Audit real-time unit economics and maintain positive net cash flow.",
                 "Arjun": "Continuously scout Meesho catalog for high-rated trending home and desk drops."
             }

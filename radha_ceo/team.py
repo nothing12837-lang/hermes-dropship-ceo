@@ -261,12 +261,17 @@ class PoojaOperations:
 # 4. MEERA — CREATIVE MEDIA DIRECTOR (VIDEO & VIRAL HOOKS)
 # ─────────────────────────────────────────────────────────────
 class MeeraCreative:
-    """Crafts 28-second viral Reels and Shorts scripts tailored for Indian e-commerce audiences."""
+    """
+    Crafts 28-second viral Reels and Shorts scripts tailored for Indian e-commerce audiences.
+    DIRECTIVE: All content creators (Meera, Evaa, autonomous video & social agents) must
+    ALWAYS use authentic Meesho manufacturer product photos as the primary visual reference.
+    """
 
     @staticmethod
-    def generate_evaa_script(product_title: str, price_inr: float, mrp_inr: float, key_benefit: str):
-        """Generates structured 28-second Hook/Problem/Demo/CTA Hindi script."""
+    def generate_evaa_script(product_title: str, price_inr: float, mrp_inr: float, key_benefit: str, image_url: str = None, gallery_images: list = None):
+        """Generates structured 28-second Hook/Problem/Demo/CTA Hindi script with authentic image reference."""
         discount_pct = round((1 - price_inr / mrp_inr) * 100) if mrp_inr > price_inr else 50
+        ref_image = image_url or (gallery_images[0] if gallery_images else "")
         return {
             "hook_duration": "0:00 - 0:06",
             "hook_speech": f"Agar aap bhi apne room ya desk ko luxury hotel vibe dena chahte ho, toh yeh video bilkul miss mat karna!",
@@ -278,7 +283,17 @@ class MeeraCreative:
                 "✨ Aesthetic Room Transformation",
                 f"🔥 ₹{price_inr:,.0f} (Flat {discount_pct}% OFF)",
                 "💵 Cash on Delivery Available Across India"
-            ]
+            ],
+            "visual_reference": {
+                "primary_image_url": ref_image,
+                "gallery_urls": gallery_images or ([ref_image] if ref_image else []),
+                "creator_directive": (
+                    "MANDATORY CREATIVE DIRECTIVE: All video editors, motion designers, and AI creators "
+                    "MUST use this exact authentic Meesho product photo as the visual reference. "
+                    "Ensure exact color, shape, and physical design match the real item."
+                ),
+                "ai_image_prompt": f"Professional commercial product photography of {product_title}, styled identically to reference image ({ref_image}), soft studio lighting, ultra-realistic 8k, modern Indian aesthetic interior setting, 9:16 vertical ratio."
+            }
         }
 
     @staticmethod
@@ -290,7 +305,11 @@ class MeeraCreative:
                 "This 499 rupee Amazon alternative is pure magic...",
                 "The secret to a 10/10 cozy aesthetic room..."
             ],
-            "optimal_length": "24 to 28 seconds with dynamic caption text"
+            "optimal_length": "24 to 28 seconds with dynamic caption text",
+            "content_creator_golden_rule": (
+                "Every video, carousel, and reel creator must anchor all scenes to the authentic "
+                "Meesho manufacturer product photos — ZERO generic stock photos or hallucinations allowed."
+            )
         }
 
 # ─────────────────────────────────────────────────────────────

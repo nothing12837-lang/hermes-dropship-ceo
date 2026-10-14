@@ -258,7 +258,7 @@ export function ProductClient({ product }: Props) {
                   scrollbarWidth: 'none',
                 }}
               >
-                {galleryImages.map((imgUrl, idx) => {
+                {galleryImages.map((imgUrl: string, idx: number) => {
                   const isSelected = idx === selectedImgIndex;
                   return (
                     <div

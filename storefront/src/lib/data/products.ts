@@ -122,12 +122,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/609133396/ujs4q_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1595044426077-d36d9236d54a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1588702547919-26089e690ecc?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/609133396/ujs4q_512.jpg",
+      "https://images.meesho.com/images/products/609133396/cuyiv_512.jpg",
+      "https://images.meesho.com/images/products/609133396/advra_512.jpg",
+      "https://images.meesho.com/images/products/609133396/07ptk_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "ELECTRONICS",
@@ -168,12 +168,12 @@ export const products: Product[] = [
     "category": "fashion",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/239049045/hx7yx_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/239049045/hx7yx_512.jpg",
+      "https://images.meesho.com/images/products/239049045/cpwii_512.jpg",
+      "https://images.meesho.com/images/products/239049045/uedwl_512.jpg",
+      "https://images.meesho.com/images/products/239049045/6vof0_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "FASHION",
@@ -214,12 +214,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/681447111/bwzxw_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/681447111/bwzxw_512.jpg",
+      "https://images.meesho.com/images/products/681447111/kujc8_512.jpg",
+      "https://images.meesho.com/images/products/681447111/ctjts_512.jpg",
+      "https://images.meesho.com/images/products/681447111/d5mvi_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "HOME-LIVING",
@@ -362,12 +362,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/527716065/erpia_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1540518614846-7ede433c4ef4?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/527716065/erpia_512.jpg",
+      "https://images.meesho.com/images/products/527716065/vtjxs_512.jpg",
+      "https://images.meesho.com/images/products/527716065/tq811_512.jpg",
+      "https://images.meesho.com/images/products/527716065/5js3e_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "HOME-LIVING",
@@ -408,12 +408,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/1015542681/5pias_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1595044426077-d36d9236d54a?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/1015542681/5pias_512.jpg",
+      "https://images.meesho.com/images/products/1015542681/qfeag_512.jpg",
+      "https://images.meesho.com/images/products/1015542681/wpw6a_512.jpg",
+      "https://images.meesho.com/images/products/542736092/cgqgt_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -461,12 +461,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/596541532/x9tqj_512.jpg",
     "images": [
       "https://images.meesho.com/images/products/596541532/x9tqj_512.jpg",
       "https://images.meesho.com/images/products/596541532/9h1y7_512.jpg",
       "https://images.meesho.com/images/products/596541532/5sypb_512.jpg",
-      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/596541532/x9tqj_1024.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fefce8, #fef08a)",
     "chapter": "",
@@ -513,12 +513,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/719201159/owu7i_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/719201159/owu7i_512.jpg",
+      "https://images.meesho.com/images/products/719201159/hukkb_512.jpg",
+      "https://images.meesho.com/images/products/719201159/grtiy_512.jpg",
+      "https://images.meesho.com/images/products/719201159/wpmdy_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -567,12 +567,12 @@ export const products: Product[] = [
     "category": "fashion",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/613749826/dk2bi_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512290900672-1f486cb7bb47?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/613749826/dk2bi_512.jpg",
+      "https://images.meesho.com/images/products/613749826/2nsxv_512.jpg",
+      "https://images.meesho.com/images/products/613749826/9vz7j_512.jpg",
+      "https://images.meesho.com/images/products/613749826/wkpxx_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -671,7 +671,7 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/753399984/fpmqz_512.jpg",
     "images": [
       "https://images.meesho.com/images/products/753399984/fpmqz_512.jpg",
       "https://images.meesho.com/images/products/753399984/retdj_512.jpg",
@@ -723,12 +723,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/884033635/rytgi_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/884033635/rytgi_512.jpg",
+      "https://images.meesho.com/images/products/884033635/gxzid_512.jpg",
+      "https://images.meesho.com/images/products/884033635/s8tfj_512.jpg",
+      "https://images.meesho.com/images/products/884033635/wdoka_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "HOME-LIVING",
@@ -769,12 +769,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/494516454/yxtv3_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/494516454/yxtv3_512.jpg",
+      "https://images.meesho.com/images/products/494516454/xdlb7_512.jpg",
+      "https://images.meesho.com/images/products/494516454/ihgdz_512.jpg",
+      "https://images.meesho.com/images/products/494516454/8vaeq_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -823,12 +823,12 @@ export const products: Product[] = [
     "category": "fashion",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/410882010/iidgy_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/410882010/iidgy_512.jpg",
+      "https://images.meesho.com/images/products/410882010/g1iv5_512.jpg",
+      "https://images.meesho.com/images/products/410882010/ckvxo_512.jpg",
+      "https://images.meesho.com/images/products/410882010/83nix_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -877,12 +877,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/538967791/xiqyt_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1540518614846-7ede433c4ef4?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/538967791/xiqyt_512.jpg",
+      "https://images.meesho.com/images/products/538967791/vvsxc_512.jpg",
+      "https://images.meesho.com/images/products/538967791/taxob_512.jpg",
+      "https://images.meesho.com/images/products/538967791/d7njm_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "HOME-LIVING",
@@ -923,12 +923,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/440375513/mxce7_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/440375513/mxce7_512.jpg",
+      "https://images.meesho.com/images/products/440375513/x6z1w_512.jpg",
+      "https://images.meesho.com/images/products/440375513/pw92m_512.jpg",
+      "https://images.meesho.com/images/products/440375513/bq81n_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -977,12 +977,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/635083873/wfasw_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/635083873/wfasw_512.jpg",
+      "https://images.meesho.com/images/products/635083873/mv0un_512.jpg",
+      "https://images.meesho.com/images/products/635083873/lgzvk_512.jpg",
+      "https://images.meesho.com/images/products/635083873/wfasw_1024.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -1031,12 +1031,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/1048478715/32eci_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/1048478715/32eci_512.jpg",
+      "https://images.meesho.com/images/products/1048478715/s2sck_512.jpg",
+      "https://images.meesho.com/images/products/1048478715/mq2cw_512.jpg",
+      "https://images.meesho.com/images/products/1048478715/w7hbk_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "ELECTRONICS",
@@ -1076,12 +1076,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/1038078401/hha6k_512.jpg",
     "images": [
       "https://images.meesho.com/images/products/1038078401/hha6k_512.jpg",
       "https://images.meesho.com/images/products/1038078401/t7ub2_512.jpg",
       "https://images.meesho.com/images/products/1038078401/l7wwn_512.jpg",
-      "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/1038078401/hha6k_1024.jpg"
     ],
     "gradient": "linear-gradient(135deg, #faf5ff, #f3e8ff)",
     "chapter": "",
@@ -1179,12 +1179,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/1023667594/w5bxr_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/1023667594/w5bxr_512.jpg",
+      "https://images.meesho.com/images/products/1023667594/t0ds8_512.jpg",
+      "https://images.meesho.com/images/products/1023667594/bgtil_512.jpg",
+      "https://images.meesho.com/images/products/1023667594/h7qsy_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -1233,12 +1233,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/1043226086/u33az_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/1043226086/u33az_512.jpg",
+      "https://images.meesho.com/images/products/1043226086/nf3gp_512.jpg",
+      "https://images.meesho.com/images/products/1043226086/mo6pr_512.jpg",
+      "https://images.meesho.com/images/products/1043226086/7nlnp_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "HOME-LIVING",
@@ -1279,12 +1279,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/1043226086/u33az_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/1043226086/u33az_512.jpg",
+      "https://images.meesho.com/images/products/1043226086/nf3gp_512.jpg",
+      "https://images.meesho.com/images/products/1043226086/mo6pr_512.jpg",
+      "https://images.meesho.com/images/products/1043226086/7nlnp_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -1333,12 +1333,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/510843012/lrw2j_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/510843012/lrw2j_512.jpg",
+      "https://images.meesho.com/images/products/510843012/exmwi_512.jpg",
+      "https://images.meesho.com/images/products/510843012/vv2vz_512.jpg",
+      "https://images.meesho.com/images/products/510843012/ul2el_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -1387,12 +1387,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1587486913049-53fc88980cfc?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/891713961/6ppzx_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1587486913049-53fc88980cfc?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1540518614846-7ede433c4ef4?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/891713961/6ppzx_512.jpg",
+      "https://images.meesho.com/images/products/891713961/oxxdm_512.jpg",
+      "https://images.meesho.com/images/products/891713961/e1moe_512.jpg",
+      "https://images.meesho.com/images/products/891713961/na9ab_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -1441,12 +1441,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1589396575653-c09c794ff6a6?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/1031980035/blvuo_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1589396575653-c09c794ff6a6?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/1031980035/blvuo_512.jpg",
+      "https://images.meesho.com/images/products/1031980035/wapwf_512.jpg",
+      "https://images.meesho.com/images/products/1031980035/ij3ye_512.jpg",
+      "https://images.meesho.com/images/products/1031980035/kbhyy_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -1499,7 +1499,7 @@ export const products: Product[] = [
       "https://images.meesho.com/images/products/635083873/wfasw_512.jpg",
       "https://images.meesho.com/images/products/635083873/mv0un_512.jpg",
       "https://images.meesho.com/images/products/635083873/lgzvk_512.jpg",
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/635083873/wfasw_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f0f9ff, #e0f2fe)",
     "chapter": "",
@@ -1546,12 +1546,12 @@ export const products: Product[] = [
     "category": "fashion",
     "is_trending": false,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/696522587/zm2pg_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/696522587/zm2pg_512.jpg",
+      "https://images.meesho.com/images/products/696522587/lwrca_512.jpg",
+      "https://images.meesho.com/images/products/696522587/wiiot_512.jpg",
+      "https://images.meesho.com/images/products/696522587/rgcai_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -1600,12 +1600,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/508283374/wqk4r_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1588854337236-6889d631faa8?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/508283374/wqk4r_512.jpg",
+      "https://images.meesho.com/images/products/508283374/gviyp_512.jpg",
+      "https://images.meesho.com/images/products/508283374/7lgaj_512.jpg",
+      "https://images.meesho.com/images/products/508283374/h4q8p_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -1705,12 +1705,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/407794791/oa7n5_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/407794791/oa7n5_512.jpg",
+      "https://images.meesho.com/images/products/407794791/vylxl_512.jpg",
+      "https://images.meesho.com/images/products/407794791/bt1n6_512.jpg",
+      "https://images.meesho.com/images/products/407794791/jh5rd_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -1759,12 +1759,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/802952646/snrfn_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/802952646/snrfn_512.jpg",
+      "https://images.meesho.com/images/products/802952646/hhjlb_512.jpg",
+      "https://images.meesho.com/images/products/802952646/vy1xy_512.jpg",
+      "https://images.meesho.com/images/products/802952646/5xuqq_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -1813,12 +1813,12 @@ export const products: Product[] = [
     "category": "fashion",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/419515147/mw4b2_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512290900672-1f486cb7bb47?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/419515147/mw4b2_512.jpg",
+      "https://images.meesho.com/images/products/419515147/wow9x_512.jpg",
+      "https://images.meesho.com/images/products/419515147/20vvr_512.jpg",
+      "https://images.meesho.com/images/products/419515147/6i2pz_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -1867,12 +1867,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/422092075/limiv_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1588854337236-6889d631faa8?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/422092075/limiv_512.jpg",
+      "https://images.meesho.com/images/products/145847757/lgpjf_512.jpg",
+      "https://images.meesho.com/images/products/377353982/j8f8n_512.jpg",
+      "https://images.meesho.com/images/products/377353982/9qcid_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -1921,12 +1921,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1570824104453-508955ab713e?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/335562144/phlca_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1570824104453-508955ab713e?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1540518614846-7ede433c4ef4?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/335562144/phlca_512.jpg",
+      "https://images.meesho.com/images/products/335562144/5qpem_512.jpg",
+      "https://images.meesho.com/images/products/335562144/yoact_512.jpg",
+      "https://images.meesho.com/images/products/335562144/g84kd_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "HOME-LIVING",
@@ -2018,12 +2018,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/1025428764/rypet_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/1025428764/rypet_512.jpg",
+      "https://images.meesho.com/images/products/889178028/vph5p_512.jpg",
+      "https://images.meesho.com/images/products/772421946/gqxam_512.jpg",
+      "https://images.meesho.com/images/products/772421946/1t3w2_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2072,12 +2072,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/947626968/5l7dz_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/947626968/5l7dz_512.jpg",
+      "https://images.meesho.com/images/products/47737179/4u4tl_512.jpg",
+      "https://images.meesho.com/images/products/47737179/8x1s2_512.jpg",
+      "https://images.meesho.com/images/products/947626968/r9tzk_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2177,12 +2177,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1534349762230-e0cadf78f5da?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/990496085/lfgyn_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1534349762230-e0cadf78f5da?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1540518614846-7ede433c4ef4?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/990496085/lfgyn_512.jpg",
+      "https://images.meesho.com/images/products/565856240/tdm47_512.jpg",
+      "https://images.meesho.com/images/products/565856240/13m3j_512.jpg",
+      "https://images.meesho.com/images/products/990496085/0u2l1_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2231,12 +2231,12 @@ export const products: Product[] = [
     "category": "fashion",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/778648310/w6bwe_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/778648310/w6bwe_512.jpg",
+      "https://images.meesho.com/images/products/778648310/2e19d_512.jpg",
+      "https://images.meesho.com/images/products/778648310/22s69_512.jpg",
+      "https://images.meesho.com/images/products/778648310/j3v4z_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2336,12 +2336,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/61440567/hpbkq_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/61440567/hpbkq_512.jpg",
+      "https://images.meesho.com/images/products/61440567/rurmf_512.jpg",
+      "https://images.meesho.com/images/products/61440567/4w3e6_512.jpg",
+      "https://images.meesho.com/images/products/61440567/y6xik_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2390,12 +2390,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/177067863/3xhlp_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1588854337236-6889d631faa8?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/177067863/3xhlp_512.jpg",
+      "https://images.meesho.com/images/products/177067863/0i1g7_512.jpg",
+      "https://images.meesho.com/images/products/177067863/u1gfl_512.jpg",
+      "https://images.meesho.com/images/products/177067863/9t6t3_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2444,12 +2444,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/1048315040/xz6kv_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1540518614846-7ede433c4ef4?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/1048315040/xz6kv_512.jpg",
+      "https://images.meesho.com/images/products/1048315040/m6unz_512.jpg",
+      "https://images.meesho.com/images/products/1048315040/52lcq_512.jpg",
+      "https://images.meesho.com/images/products/1048315040/1ckvf_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2498,12 +2498,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1536939459926-301728717817?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/210011159/9kxpl_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1536939459926-301728717817?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/210011159/9kxpl_512.jpg",
+      "https://images.meesho.com/images/products/902281753/q7ouv_512.jpg",
+      "https://images.meesho.com/images/products/902281753/0p71h_512.jpg",
+      "https://images.meesho.com/images/products/210011159/3e2vj_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2552,12 +2552,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/933394706/fq9aa_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/933394706/fq9aa_512.jpg",
+      "https://images.meesho.com/images/products/933485053/amdsd_512.jpg",
+      "https://images.meesho.com/images/products/933485053/z2779_512.jpg",
+      "https://images.meesho.com/images/products/933394706/u4kvi_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2606,12 +2606,12 @@ export const products: Product[] = [
     "category": "fashion",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/701625906/bt0gl_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/701625906/bt0gl_512.jpg",
+      "https://images.meesho.com/images/products/701625906/5e73y_512.jpg",
+      "https://images.meesho.com/images/products/410065409/6rr6b_512.jpg",
+      "https://images.meesho.com/images/products/410065409/8q2g9_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2711,12 +2711,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/600742548/3z26u_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/600742548/3z26u_512.jpg",
+      "https://images.meesho.com/images/products/600742548/9h4u8_512.jpg",
+      "https://images.meesho.com/images/products/600742548/59l6c_512.jpg",
+      "https://images.meesho.com/images/products/600742548/r8o5a_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2765,12 +2765,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1593618998160-e34014e67546?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/447363625/2753y_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1593618998160-e34014e67546?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/447363625/2753y_512.jpg",
+      "https://images.meesho.com/images/products/447363625/j1e8p_512.jpg",
+      "https://images.meesho.com/images/products/447363625/f8y0y_512.jpg",
+      "https://images.meesho.com/images/products/447363625/3h0o9_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2819,12 +2819,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1532767153582-b1a0e5145009?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/524838612/8o2n5_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1532767153582-b1a0e5145009?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/524838612/8o2n5_512.jpg",
+      "https://images.meesho.com/images/products/524838612/h5a7v_512.jpg",
+      "https://images.meesho.com/images/products/524838612/5y2g3_512.jpg",
+      "https://images.meesho.com/images/products/524838612/2f0gq_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2873,12 +2873,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/481977114/x1e4a_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/481977114/x1e4a_512.jpg",
+      "https://images.meesho.com/images/products/481977114/u584i_512.jpg",
+      "https://images.meesho.com/images/products/481977114/3f1ea_512.jpg",
+      "https://images.meesho.com/images/products/481977114/l9u1c_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2927,12 +2927,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/884238611/jjqnu_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1588702547919-26089e690ecc?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1625842268584-8f3296236761?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/884238611/jjqnu_512.jpg",
+      "https://images.meesho.com/images/products/860971099/3fsa4_512.jpg",
+      "https://images.meesho.com/images/products/860971099/v9z4e_512.jpg",
+      "https://images.meesho.com/images/products/884238611/k4y1q_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -2981,12 +2981,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/489371052/3d8g4_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1540518614846-7ede433c4ef4?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/489371052/3d8g4_512.jpg",
+      "https://images.meesho.com/images/products/489371052/8f9s2_512.jpg",
+      "https://images.meesho.com/images/products/489371052/9e2d7_512.jpg",
+      "https://images.meesho.com/images/products/489371052/w4y0z_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -3035,12 +3035,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/697543460/s7dp5_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/697543460/s7dp5_512.jpg",
+      "https://images.meesho.com/images/products/410742450/jvz02_512.jpg",
+      "https://images.meesho.com/images/products/410742450/q3l0f_512.jpg",
+      "https://images.meesho.com/images/products/697543460/7v6s0_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -3089,12 +3089,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/907682400/hgi7s_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/907682400/hgi7s_512.jpg",
+      "https://images.meesho.com/images/products/907682400/8acpg_512.jpg",
+      "https://images.meesho.com/images/products/907682400/hmioz_512.jpg",
+      "https://images.meesho.com/images/products/907682400/d7kl9_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -3142,12 +3142,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/447300037/08eir_512.jpg",
     "images": [
-      "https://images.meesho.com/images/products/447300037/rvypx_512.jpg",
-      "https://images.meesho.com/images/products/447300037/7lg9b_512.jpg",
-      "https://images.meesho.com/images/products/447300037/bjpiq_512.jpg",
-      "https://images.meesho.com/images/products/447300037/avxc6_512.jpg"
+      "https://images.meesho.com/images/products/447300037/08eir_512.jpg",
+      "https://images.meesho.com/images/products/447300037/z1f4u_512.jpg",
+      "https://images.meesho.com/images/products/447300037/8w21o_512.jpg",
+      "https://images.meesho.com/images/products/447300037/k8m0r_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fffbeb, #fef3c7)",
     "chapter": "",
@@ -3194,12 +3194,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/541476859/1wsma_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1588854337236-6889d631faa8?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/541476859/1wsma_512.jpg",
+      "https://images.meesho.com/images/products/1044174595/secsd_512.jpg",
+      "https://images.meesho.com/images/products/1044174595/m1v8g_512.jpg",
+      "https://images.meesho.com/images/products/541476859/2f80q_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -3299,12 +3299,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1587829740344-f949c8694073?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/689037412/1r8k2_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1587829740344-f949c8694073?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1625842268584-8f3296236761?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/689037412/1r8k2_512.jpg",
+      "https://images.meesho.com/images/products/689037412/9e2o1_512.jpg",
+      "https://images.meesho.com/images/products/689037412/w5c1j_512.jpg",
+      "https://images.meesho.com/images/products/689037412/4z8n0_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -3353,12 +3353,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/1025223800/tiowq_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/1025223800/tiowq_512.jpg",
+      "https://images.meesho.com/images/products/1025223800/ia0ic_512.jpg",
+      "https://images.meesho.com/images/products/1025223800/mc5bw_512.jpg",
+      "https://images.meesho.com/images/products/1025223800/tiowq_1024.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -3407,12 +3407,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/462090785/k8dzr_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/462090785/k8dzr_512.jpg",
+      "https://images.meesho.com/images/products/538459453/ojw1a_512.jpg",
+      "https://images.meesho.com/images/products/538459453/9a2b5_512.jpg",
+      "https://images.meesho.com/images/products/462090785/m2v7w_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -3460,12 +3460,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1577937927133-66ef06acdf18?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/678942110/ha4pc_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1577937927133-66ef06acdf18?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1588854337236-6889d631faa8?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/678942110/ha4pc_512.jpg",
+      "https://images.meesho.com/images/products/678942110/stts5_512.jpg",
+      "https://images.meesho.com/images/products/678942110/7y2m1_512.jpg",
+      "https://images.meesho.com/images/products/678942110/ha4pc_1024.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff7ed, #ffedd5)",
     "chapter": "",
@@ -3512,12 +3512,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/340659595/xmh66_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/340659595/xmh66_512.jpg",
+      "https://images.meesho.com/images/products/1085280793/b7wyx_512.jpg",
+      "https://images.meesho.com/images/products/1085280793/k1p2e_512.jpg",
+      "https://images.meesho.com/images/products/340659595/9d01f_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -3617,12 +3617,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/524810372/2r8q0_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/524810372/2r8q0_512.jpg",
+      "https://images.meesho.com/images/products/524810372/h4xcn_512.jpg",
+      "https://images.meesho.com/images/products/524810372/rouwo_512.jpg",
+      "https://images.meesho.com/images/products/524810372/8u1m4_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -3671,12 +3671,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/739104825/2f9w1_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512499617640-c74ae3a79d37?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/739104825/2f9w1_512.jpg",
+      "https://images.meesho.com/images/products/739104825/8m3y0_512.jpg",
+      "https://images.meesho.com/images/products/739104825/4r1p7_512.jpg",
+      "https://images.meesho.com/images/products/739104825/u1e7a_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -3776,12 +3776,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/556406917/oxgsj_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1540518614846-7ede433c4ef4?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/556406917/oxgsj_512.jpg",
+      "https://images.meesho.com/images/products/1011221994/sq2rl_512.jpg",
+      "https://images.meesho.com/images/products/1011394064/48lu8_512.jpg",
+      "https://images.meesho.com/images/products/570625349/wvbu9_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -3830,12 +3830,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/396503059/g8f2t_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/396503059/g8f2t_512.jpg",
+      "https://images.meesho.com/images/products/470345860/ll2in_512.jpg",
+      "https://images.meesho.com/images/products/446775261/46zdb_512.jpg",
+      "https://images.meesho.com/images/products/548838954/dc0hz_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -3884,12 +3884,12 @@ export const products: Product[] = [
     "category": "fashion",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/986144453/2asdl_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/986144453/2asdl_512.jpg",
+      "https://images.meesho.com/images/products/984049591/pcmnt_512.jpg",
+      "https://images.meesho.com/images/products/694063478/zecwx_512.jpg",
+      "https://images.meesho.com/images/products/975930471/xjl2s_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -3989,12 +3989,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/1066962640/ok3hn_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1588854337236-6889d631faa8?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/1066962640/ok3hn_512.jpg",
+      "https://images.meesho.com/images/products/482414741/dkekg_512.jpg",
+      "https://images.meesho.com/images/products/763479666/ofkrn_512.jpg",
+      "https://images.meesho.com/images/products/1015643569/hldmt_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "HOME-LIVING",
@@ -4035,12 +4035,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/473960771/p4iru_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1540518614846-7ede433c4ef4?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/473960771/p4iru_512.jpg",
+      "https://images.meesho.com/images/products/1011477786/pgx9j_512.jpg",
+      "https://images.meesho.com/images/products/552785797/w4mwa_512.jpg",
+      "https://images.meesho.com/images/products/452851399/koq3w_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4089,12 +4089,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/648912744/awzsx_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/648912744/awzsx_512.jpg",
+      "https://images.meesho.com/images/products/1031626967/ulnyz_512.jpg",
+      "https://images.meesho.com/images/products/974504201/cycjb_512.jpg",
+      "https://images.meesho.com/images/products/1048262960/n1e5h_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4143,12 +4143,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/232388766/ivnjj_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/232388766/ivnjj_512.jpg",
+      "https://images.meesho.com/images/products/408233342/d64hb_512.jpg",
+      "https://images.meesho.com/images/products/942637903/zmlyi_512.jpg",
+      "https://images.meesho.com/images/products/419372939/czdbe_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4197,12 +4197,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": false,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/922911674/9upfo_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/922911674/9upfo_512.jpg",
+      "https://images.meesho.com/images/products/943170729/23z48_512.jpg",
+      "https://images.meesho.com/images/products/989159246/5fvav_512.jpg",
+      "https://images.meesho.com/images/products/1050791560/7j3s4_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4251,12 +4251,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/699869518/b4rhd_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1588854337236-6889d631faa8?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/699869518/b4rhd_512.jpg",
+      "https://images.meesho.com/images/products/890638492/ybz9d_512.jpg",
+      "https://images.meesho.com/images/products/3146940/7qlsx_512.jpg",
+      "https://images.meesho.com/images/products/60031336/tgglr_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "HOME-LIVING",
@@ -4297,12 +4297,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1578849278619-e73505e9610f?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/635441666/dnor2_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1578849278619-e73505e9610f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1540518614846-7ede433c4ef4?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/635441666/dnor2_512.jpg",
+      "https://images.meesho.com/images/products/982796786/4qmbr_512.jpg",
+      "https://images.meesho.com/images/products/1022713936/11ohb_512.jpg",
+      "https://images.meesho.com/images/products/372506625/hex2a_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4351,12 +4351,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/885890734/s8bd0_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/885890734/s8bd0_512.jpg",
+      "https://images.meesho.com/images/products/514478987/wqibz_512.jpg",
+      "https://images.meesho.com/images/products/94334738/szjwy_512.jpg",
+      "https://images.meesho.com/images/products/1015994213/3rtmp_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4405,12 +4405,12 @@ export const products: Product[] = [
     "category": "home-garden",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/408076693/6flv9_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/408076693/6flv9_512.jpg",
+      "https://images.meesho.com/images/products/408077588/gpor2_512.jpg",
+      "https://images.meesho.com/images/products/408075880/oayi2_512.jpg",
+      "https://images.meesho.com/images/products/731123819/lplxi_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4459,12 +4459,12 @@ export const products: Product[] = [
     "category": "fashion",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/658257709/gl2rf_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/658257709/gl2rf_512.jpg",
+      "https://images.meesho.com/images/products/424694596/waij7_512.jpg",
+      "https://images.meesho.com/images/products/393894183/bvwyo_512.jpg",
+      "https://images.meesho.com/images/products/986904325/qi8zl_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4513,12 +4513,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/367162417/htuav_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1588854337236-6889d631faa8?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/367162417/htuav_512.jpg",
+      "https://images.meesho.com/images/products/428087551/76ukm_512.jpg",
+      "https://images.meesho.com/images/products/274307389/bgpjz_512.jpg",
+      "https://images.meesho.com/images/products/898817520/i9lme_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4567,12 +4567,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/406355988/wilmr_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1540518614846-7ede433c4ef4?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/406355988/wilmr_512.jpg",
+      "https://images.meesho.com/images/products/999719743/mgyif_512.jpg",
+      "https://images.meesho.com/images/products/1060612263/9h2wo_512.jpg",
+      "https://images.meesho.com/images/products/906311736/f1kr7_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4621,12 +4621,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/1004575037/ine42_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/1004575037/ine42_512.jpg",
+      "https://images.meesho.com/images/products/1007396287/kk1iq_512.jpg",
+      "https://images.meesho.com/images/products/919076950/gqxbr_512.jpg",
+      "https://images.meesho.com/images/products/419916386/nf7ps_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4675,12 +4675,12 @@ export const products: Product[] = [
     "category": "fashion",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/407527523/mc5dt_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512290900672-1f486cb7bb47?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/407527523/mc5dt_512.jpg",
+      "https://images.meesho.com/images/products/431782988/j2hhh_512.jpg",
+      "https://images.meesho.com/images/products/550410435/svmbq_512.jpg",
+      "https://images.meesho.com/images/products/418600821/ba3vg_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "FASHION",
@@ -4721,12 +4721,12 @@ export const products: Product[] = [
     "category": "fashion",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/966755702/nov6y_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/966755702/nov6y_512.jpg",
+      "https://images.meesho.com/images/products/412204733/uffcm_512.jpg",
+      "https://images.meesho.com/images/products/650769317/jm9m5_512.jpg",
+      "https://images.meesho.com/images/products/376509029/wo0gw_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4775,12 +4775,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/447324762/hdd4x_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1588854337236-6889d631faa8?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/447324762/hdd4x_512.jpg",
+      "https://images.meesho.com/images/products/501873312/cdm4w_512.jpg",
+      "https://images.meesho.com/images/products/653346735/7yek9_512.jpg",
+      "https://images.meesho.com/images/products/1033905205/iynib_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4833,7 +4833,7 @@ export const products: Product[] = [
       "https://images.meesho.com/images/products/984668048/khohq_512.jpg",
       "https://images.meesho.com/images/products/984668048/qhzrl_512.jpg",
       "https://images.meesho.com/images/products/984668048/awdtr_512.jpg",
-      "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/984668048/khohq_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff7ed, #fed7aa)",
     "chapter": "",
@@ -4880,12 +4880,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1588508065123-287b28e013da?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/86139588/poaub_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1588508065123-287b28e013da?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/86139588/poaub_512.jpg",
+      "https://images.meesho.com/images/products/955500434/kbceb_512.jpg",
+      "https://images.meesho.com/images/products/624187468/ykhpv_512.jpg",
+      "https://images.meesho.com/images/products/860971033/lz2nx_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4934,12 +4934,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1540518614846-7ede433c4ef0?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/20518899/a6d99_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1540518614846-7ede433c4ef0?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/20518899/a6d99_512.jpg",
+      "https://images.meesho.com/images/products/581991010/r7fui_512.jpg",
+      "https://images.meesho.com/images/products/671199571/sftvu_512.jpg",
+      "https://images.meesho.com/images/products/693205175/xcxsa_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -4988,12 +4988,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/1034147026/hhtwq_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1595044426077-d36d9236d54a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/1034147026/hhtwq_512.jpg",
+      "https://images.meesho.com/images/products/165350536/nmwuj_512.jpg",
+      "https://images.meesho.com/images/products/947077909/0lg9l_512.jpg",
+      "https://images.meesho.com/images/products/526002321/ic8nl_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "ELECTRONICS",
@@ -5034,12 +5034,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": true,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/657115078/gijtl_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1588702547919-26089e690ecc?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1625842268584-8f3296236761?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/657115078/gijtl_512.jpg",
+      "https://images.meesho.com/images/products/929946036/inuw3_512.jpg",
+      "https://images.meesho.com/images/products/275248825/nksnn_512.jpg",
+      "https://images.meesho.com/images/products/514611342/tqv9e_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -5088,12 +5088,12 @@ export const products: Product[] = [
     "category": "fashion",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/673489727/raent_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/673489727/raent_512.jpg",
+      "https://images.meesho.com/images/products/909135826/z0yjb_512.jpg",
+      "https://images.meesho.com/images/products/768836395/xtspa_512.jpg",
+      "https://images.meesho.com/images/products/509835912/9v1gx_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "FASHION",
@@ -5134,12 +5134,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/629181565/psrui_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/629181565/psrui_512.jpg",
+      "https://images.meesho.com/images/products/548235802/qqgq4_512.jpg",
+      "https://images.meesho.com/images/products/629165842/kuq8t_512.jpg",
+      "https://images.meesho.com/images/products/388969849/6fkz2_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -5239,12 +5239,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": false,
-    "image_url": "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/891936253/wxcmw_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/891936253/wxcmw_512.jpg",
+      "https://images.meesho.com/images/products/533387156/auc2j_512.jpg",
+      "https://images.meesho.com/images/products/476760972/7vun4_512.jpg",
+      "https://images.meesho.com/images/products/555131126/96idx_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -5293,12 +5293,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": true,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/675041132/zdvf8_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1588854337236-6889d631faa8?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/675041132/zdvf8_512.jpg",
+      "https://images.meesho.com/images/products/436508648/nmcnp_512.jpg",
+      "https://images.meesho.com/images/products/576132591/hzqcx_512.jpg",
+      "https://images.meesho.com/images/products/540261616/5ceg9_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -5398,12 +5398,12 @@ export const products: Product[] = [
     "category": "home-living",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/754097453/rbmd7_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/754097453/rbmd7_512.jpg",
+      "https://images.meesho.com/images/products/917698103/fzyzs_512.jpg",
+      "https://images.meesho.com/images/products/987369410/dyner_512.jpg",
+      "https://images.meesho.com/images/products/1038387606/8rzcb_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #fff3e0, #ffe8d6)",
     "chapter": "Dropship Collection",
@@ -5452,12 +5452,12 @@ export const products: Product[] = [
     "category": "electronics",
     "is_trending": false,
     "is_new": true,
-    "image_url": "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&q=80&w=800",
+    "image_url": "https://images.meesho.com/images/products/453294115/yxaaj_512.jpg",
     "images": [
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1512499617640-c74ae3a79d37?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1526738549149-8e07eca6c147?auto=format&fit=crop&q=80&w=800"
+      "https://images.meesho.com/images/products/453294115/yxaaj_512.jpg",
+      "https://images.meesho.com/images/products/579194526/99y7e_512.jpg",
+      "https://images.meesho.com/images/products/586911852/wtwkr_512.jpg",
+      "https://images.meesho.com/images/products/487361185/omn9m_512.jpg"
     ],
     "gradient": "linear-gradient(135deg, #f8fafc, #f1f5f9)",
     "chapter": "ELECTRONICS",

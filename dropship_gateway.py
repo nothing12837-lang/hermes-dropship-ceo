@@ -977,32 +977,39 @@ def tool_generate_viral_reels_script(product_name="trending product"):
     prods = search_res.get("results", []) or search_res.get("products", [])
     prod = prods[0] if prods else {"title": product_name, "price": "₹449", "id": "bestseller"}
     price_val = prod.get("price_inr") or prod.get("price") or "₹449"
+    img_url = prod.get("image_url") or "https://images.meesho.com/images/products/431985757/t7ur4_512.jpg"
     
     script = {
         "product": prod.get("title"),
         "product_id": prod.get("id"),
         "price_inr": price_val,
         "product_url": f"{SITE_URL}/product/{prod.get('id', '')}",
+        "visual_reference_image": img_url,
+        "content_creator_directive": (
+            "CRITICAL: All content creators (Meera, Evaa, video editors, AI prompt designers) MUST "
+            f"use this exact authentic product photo ({img_url}) as the visual reference for all scenes, "
+            "prompts, product close-ups, and overlays. NEVER substitute with generic stock photos."
+        ),
         "audio_recommendation": "Trending Aesthetic Lofi beat or fast-paced Bass drop",
         "duration": "28 seconds",
         "scenes": [
             {
                 "time": "0:00 - 0:03",
-                "visual": "Extreme close-up macro shot opening the luxury package with dramatic lighting.",
+                "visual": f"Extreme macro shot of {prod.get('title')}, matching authentic supplier reference ({img_url}), with warm dramatic lighting.",
                 "text_on_screen": "Stop buying overpriced home gadgets 🛑",
                 "voiceover": "If you are still buying from retail stores with 300% markups, you need to see this."
             },
             {
                 "time": "0:03 - 0:10",
-                "visual": "Demonstrating the main problem in daily life, followed by unboxing the product.",
+                "visual": f"Demonstrating {prod.get('title')} in real-life room/desk setting, authentic item aesthetics matching {img_url}.",
                 "text_on_screen": "Factory-Direct to your doorstep ⚡",
                 "voiceover": f"Meet RareEmber's {prod.get('title')}. Same export-grade build, but direct from the warehouse."
             },
             {
                 "time": "0:10 - 0:20",
-                "visual": "Using the product in real-time. Satisfying clicks, lights, and aesthetic b-roll.",
-                "text_on_screen": f"Under ₹{prod.get('price_inr', 1290):,} + Cash on Delivery 🚚",
-                "voiceover": f"It feels so satisfying to use, has a 4.9-star rating, and costs under ₹{prod.get('price_inr', 1290):,} with express courier across India."
+                "visual": "Using the product in real-time. Satisfying clicks, lights, and aesthetic b-roll matching genuine Meesho manufacturer build.",
+                "text_on_screen": f"Under ₹{price_val} + Cash on Delivery 🚚",
+                "voiceover": f"It feels so satisfying to use, has a 4.9-star rating, and costs under ₹{price_val} with express courier across India."
             },
             {
                 "time": "0:20 - 0:28",
