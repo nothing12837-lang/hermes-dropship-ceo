@@ -176,12 +176,12 @@ Hermes is an autonomous ReAct AI Agent written in Python (`dropship_gateway.py`)
 * **Hermes CEO Agent:** [https://github.com/nothing12837-lang/hermes-dropship-ceo](https://github.com/nothing12837-lang/hermes-dropship-ceo) (Branch: `main`).
 
 ### Production Vault Keys:
-* **Razorpay LIVE Key ID:** `rzp_live_Tmxc7829nihkbA`
-* **Razorpay LIVE Secret:** `qdW01yEvz616hxyHit5Si8vp`
-* **Telegram Bot Token:** `8898923626:AAEZTnurYzL70qpg42BgKKmLUBpW4g422aY`
-* **Master Admin Secret:** `RE_SECURE_VAULT_2026_hNjMeToDUPKxb!dB#cXAJmsC`
-* **Supabase PostgreSQL Host:** `db.qdkkxpfhwrwyoardlceo.supabase.co:5432/postgres` (User: `postgres`, Pass: `RareEmber2026SecureDb123!`)
-* **GitHub PAT:** Stored securely in repository secrets as `${{ secrets.GH_PAT }}` and in local `.env`
+* **Razorpay LIVE Key ID:** Stored in `.env` / Vercel as `NEXT_PUBLIC_RAZORPAY_KEY_ID`
+* **Razorpay LIVE Secret:** Stored in `.env` / Vercel as `RAZORPAY_KEY_SECRET`
+* **Telegram Bot Token:** Stored in `.env` / GitHub Secrets as `TELEGRAM_BOT_TOKEN`
+* **Master Admin Secret:** Stored in `.env` / GitHub Secrets / Vercel as `ADMIN_SECRET`
+* **Supabase PostgreSQL Host:** `db.qdkkxpfhwrwyoardlceo.supabase.co:5432/postgres` (User: `postgres`, Pass: Stored in `.env` / GitHub Secrets as `SUPABASE_DB_PASS`)
+* **GitHub PAT:** Stored in `.env` / GitHub Secrets as `GH_PAT`
 
 ---
 
