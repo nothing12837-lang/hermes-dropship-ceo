@@ -52,113 +52,113 @@ TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "5238068527").strip()
 STORE_URL = "https://rareember-store.vercel.app"
 
-# Curated High-Converting Catalog for RareEmber
+# Curated High-Converting Catalog for RareEmber (100% Domestic Meesho Sourcing)
 PRODUCTS_CATALOG = [
     {
-        "id": "hc-modern-brass-desk-lamp-15",
-        "title": "Modern Brass Touch Desk Lamp",
-        "category": "Home & Aesthetics",
-        "price_inr": 3570,
-        "compare_at": 5525,
+        "id": "meesho-water-sensor-led-diyas-pack-of-12",
+        "title": "Water Sensor LED Diyas (Pack of 12)",
+        "category": "Festive Lighting",
+        "price_inr": 399,
+        "compare_at": 899,
         "rating": 4.8,
-        "reviews": 795,
-        "image_url": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=1080",
-        "hook": "Turn your desk from boring to luxury hotel vibes in one touch ✨",
+        "reviews": 1840,
+        "image_url": "https://images.meesho.com/images/products/431985757/756ycd_512.jpg",
+        "hook": "Pour a drop of water and they illuminate instantly! 🪔✨ No fire risk, 100% reusable.",
         "features": [
-            "Smooth touch-dimming sensor",
-            "Weighted solid brass aesthetic base",
-            "Zero flicker warm eye-comfort light"
+            "Water-activated automatic LED sensor",
+            "100% flameless, smokeless & shockproof",
+            "Long-lasting replaceable coin cells included"
         ]
     },
     {
-        "id": "hc-logitech-mx-master-3s-wireless-mouse-3",
-        "title": "Logitech MX Master 3S Wireless",
-        "category": "Tech & Productivity",
-        "price_inr": 8499,
-        "compare_at": 10199,
-        "rating": 4.9,
+        "id": "meesho-crystal-diamond-touch-led-table-lamp",
+        "title": "Crystal Diamond Touch LED Table Lamp",
+        "category": "Ambient Lighting",
+        "price_inr": 499,
+        "compare_at": 1299,
+        "rating": 4.7,
+        "reviews": 2410,
+        "image_url": "https://images.meesho.com/images/products/1023667594/gxgqyy_512.jpg",
+        "hook": "Tap the top and watch your room transform into a luxury hotel lounge 💎✨",
+        "features": [
+            "16 RGB color modes with remote controller",
+            "Rechargeable USB-C with 12hr battery life",
+            "Precision faceted acrylic 3D rose shadow effect"
+        ]
+    },
+    {
+        "id": "meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base",
+        "title": "3D Crystal Ball Galaxy Night Lamp",
+        "category": "Aesthetic Living",
+        "price_inr": 399,
+        "compare_at": 899,
+        "rating": 4.8,
         "reviews": 1250,
-        "image_url": "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&q=80&w=1080",
-        "hook": "Scroll 1,000 spreadsheet lines in 1 second. Complete silence.",
+        "image_url": "https://images.meesho.com/images/products/1038078401/h61mf5_512.jpg",
+        "hook": "Bring the entire Milky Way galaxy onto your bedroom desk 🌌✨",
         "features": [
-            "MagSpeed electromagnetic scroll wheel",
-            "Whisper-quiet tactile switches",
-            "8,000 DPI track-anywhere optical sensor"
+            "K9 optical glass crystal ball with laser engraving",
+            "Natural solid beech wood base with warm LED",
+            "Plug & play USB power for bedroom or study"
         ]
     },
     {
-        "id": "hc-ambient-rgb-monitor-light-bar-9",
-        "title": "ScreenBar RGB Smart Monitor Light",
-        "category": "Tech & Productivity",
-        "price_inr": 3299,
-        "compare_at": 5499,
+        "id": "meesho-ultrasonic-flame-mist-aroma-diffuser",
+        "title": "Ultrasonic Flame Mist Aroma Diffuser",
+        "category": "Wellness & Decor",
+        "price_inr": 699,
+        "compare_at": 1499,
+        "rating": 4.8,
+        "reviews": 920,
+        "image_url": "https://images.meesho.com/images/products/984668048/ga8uq8_512.jpg",
+        "hook": "Realistic fireplace flame effect with relaxing essential oil aroma 🔥✨",
+        "features": [
+            "Ultrasonic cool mist with realistic LED flame simulation",
+            "Auto shut-off sensor when water runs dry",
+            "Whisper-quiet operation (<25dB) for sound sleep"
+        ]
+    },
+    {
+        "id": "meesho-electric-mini-wireless-garlic-chopper",
+        "title": "Electric Mini Wireless Food & Garlic Chopper",
+        "category": "Smart Kitchen",
+        "price_inr": 499,
+        "compare_at": 999,
+        "rating": 4.6,
+        "reviews": 980,
+        "image_url": "https://images.meesho.com/images/products/1001131290/gk1pui_512.jpg",
+        "hook": "Chop garlic, ginger, and chilies in literally 5 seconds without tears 🧅⚡",
+        "features": [
+            "304 stainless steel food-grade reinforced blades",
+            "One-touch push-button operation",
+            "Rechargeable USB battery with waterproof design"
+        ]
+    },
+    {
+        "id": "meesho-galaxy-star-astronaut-projector-night-lamp",
+        "title": "Astronaut Galaxy Star Projector LED Lamp",
+        "category": "Space Decor",
+        "price_inr": 899,
+        "compare_at": 1899,
         "rating": 4.9,
-        "reviews": 1420,
-        "image_url": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&q=80&w=1080",
-        "hook": "Zero screen glare, zero eye strain, 100% aesthetic workspace glow ✨",
+        "reviews": 1540,
+        "image_url": "https://images.meesho.com/images/products/759223858/ck0svm_512.jpg",
+        "hook": "Transform your ceiling into a stunning starry nebula space adventure 👨‍🚀🚀",
         "features": [
-            "Asymmetric optical design prevents screen reflection",
-            "Wireless desktop controller with dual-axis touch",
-            "Customizable ambient back-glow RGB mood lighting"
-        ]
-    },
-    {
-        "id": "elec-3",
-        "title": "4K Ultra HD Pocket Action Camera",
-        "category": "Gadgets & Travel",
-        "price_inr": 4890,
-        "compare_at": 7990,
-        "rating": 4.8,
-        "reviews": 840,
-        "image_url": "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&q=80&w=1080",
-        "hook": "Cinematic 4K travel & motovlog recordings without GoPro prices ⚡",
-        "features": [
-            "Crystal clear 4K 60FPS video recording",
-            "Electronic Image Stabilization (EIS)",
-            "Waterproof case included up to 30m"
-        ]
-    },
-    {
-        "id": "hc-ceramic-minimalist-planter-set-12",
-        "title": "Minimalist Ceramic Planter Set",
-        "category": "Home & Living",
-        "price_inr": 2890,
-        "compare_at": 4675,
-        "rating": 4.8,
-        "reviews": 660,
-        "image_url": "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=1080",
-        "hook": "The easiest way to make your living room look fresh and peaceful 🪴",
-        "features": [
-            "Handcrafted matte textured ceramic",
-            "Drainage hole with matching saucer tray",
-            "Perfect for succulents, monsteras & herbs"
-        ]
-    },
-    {
-        "id": "hc-classic-aviator-sunglasses-6",
-        "title": "Polarized Classic Aviator Sunglasses",
-        "category": "Curated Fashion",
-        "price_inr": 3825,
-        "compare_at": 7225,
-        "rating": 4.8,
-        "reviews": 390,
-        "image_url": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=1080",
-        "hook": "Timeless military styling with 100% UV400 polarized clarity 🕶️",
-        "features": [
-            "Premium lightweight alloy frame",
-            "Anti-glare high definition polarized lenses",
-            "Includes luxury leather protective case"
+            "360° rotating magnetic astronaut head",
+            "8 dynamic nebula modes + green starry projection",
+            "Wireless remote control with smart timer auto-off"
         ]
     }
 ]
 
 FALLBACK_IMAGES = {
-    'hc-modern-brass-desk-lamp-15': 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=1080',
-    'hc-logitech-mx-master-3s-wireless-mouse-3': 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&q=80&w=1080',
-    'hc-ambient-rgb-monitor-light-bar-9': 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&q=80&w=1080',
-    'elec-3': 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&q=80&w=1080',
-    'hc-ceramic-minimalist-planter-set-12': 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=1080',
-    'hc-classic-aviator-sunglasses-6': 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=1080',
+    'meesho-water-sensor-led-diyas-pack-of-12': 'https://images.meesho.com/images/products/431985757/756ycd_512.jpg',
+    'meesho-crystal-diamond-touch-led-table-lamp': 'https://images.meesho.com/images/products/1023667594/gxgqyy_512.jpg',
+    'meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base': 'https://images.meesho.com/images/products/1038078401/h61mf5_512.jpg',
+    'meesho-ultrasonic-flame-mist-aroma-diffuser': 'https://images.meesho.com/images/products/984668048/ga8uq8_512.jpg',
+    'meesho-electric-mini-wireless-garlic-chopper': 'https://images.meesho.com/images/products/1001131290/gk1pui_512.jpg',
+    'meesho-galaxy-star-astronaut-projector-night-lamp': 'https://images.meesho.com/images/products/759223858/ck0svm_512.jpg',
 }
 
 SUPABASE_URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL", "").strip()
@@ -764,6 +764,18 @@ def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="auto")
             return {**base_result, "ok": True, "reason": ""}
         if not reason:
             reason = "upload failed. " + " | ".join(diagnose_instagram())
+        
+        # When cloud upload is blocked by Meta, immediately deliver rendered asset to Ajay's Telegram
+        media_kind = "Reel (MP4)" if media_path.endswith(".mp4") else "Post (JPG)"
+        send_telegram_alert(
+            media_path,
+            f"⚠️ *Instagram Direct Upload Blocked by Meta*\n\n"
+            f"*Product:* {product['title']}\n"
+            f"*Price:* ₹{product['price_inr']:,}\n"
+            f"*Status:* HD {media_kind} delivered to your chat above 👆\n"
+            f"*Reason:* `{reason[:120]}`\n\n"
+            f"📱 *Action:* Meta cloud IP rate-limit block lagata hai. Aap is delivered media ko phone me save karke 1 tap me @RareEmber feed ya Reels par post kar sakte hain!"
+        )
         return {**base_result, "ok": False,
                 "stage": (res.get("stage", "upload") if isinstance(res, dict) else "upload"),
                 "reason": reason}
