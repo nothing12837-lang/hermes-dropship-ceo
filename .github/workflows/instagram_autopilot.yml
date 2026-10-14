@@ -15,13 +15,14 @@ on:
           - festive_deal
           - trust_builder
       format:
-        description: 'Content Format (Auto or Post Image)'
+        description: 'Content Format (Auto, Post Image or Reel Video)'
         required: false
         default: 'auto'
         type: choice
         options:
           - auto
           - post
+          - reel
 
 permissions:
   contents: write
@@ -42,7 +43,9 @@ jobs:
           cache: 'pip'
 
       - name: Install Dependencies
-        run: pip install -r requirements.txt
+        run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+          pip install -r requirements.txt
 
       - name: Execute Instagram Autopilot Drop
         env:
@@ -53,7 +56,7 @@ jobs:
           TELEGRAM_CHAT_ID: "5238068527"
           STORE_URL: "https://rareember-store.vercel.app"
         run: |
-          python ig_autopilot.py --campaign-type "${{ github.event.inputs.campaign_type || 'auto' }}" --format "post"
+          python ig_autopilot.py --campaign-type "${{ github.event.inputs.campaign_type || 'auto' }}" --format "${{ github.event.inputs.format || 'auto' }}"
 
       - name: Upload Generated Creative Artifact
         if: always()
@@ -62,4 +65,6 @@ jobs:
           name: instagram-creative-output
           path: |
             generated_posts/*.jpg
+            generated_posts/reels/*.mp4
+            generated_posts/reels/*.jpg
           retention-days: 7

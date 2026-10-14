@@ -2,13 +2,13 @@
   {
     "id": "TASK-006",
     "title": "1-Year Amazon Competitor Scale Roadmap (High Review & Multi-Image Dominance)",
-    "description": "Founder Directive: Compete with Amazon within 1 year by building an unbeatable domestic D2C catalog with verified 4.8★+ reviews, interactive multi-image galleries, direct 1-click reseller fulfillment links, and 24/7 cloud autopilot.",
+    "description": "Founder Directive: Compete with Amazon within 1 year by building an unbeatable domestic D2C catalog with verified 4.8\u2605+ reviews, interactive multi-image galleries, direct 1-click reseller fulfillment links, and 24/7 cloud autopilot.",
     "priority": "CRITICAL",
     "category": "LONG_TERM_STRATEGY",
     "status": "COMPLETED",
     "created_at": "2026-10-12T11:15:00Z",
     "updated_at": "2026-10-14T02:20:00Z",
-    "target": "Expand to 100+ winning products, 4.8★ verified reviews, Amazon-grade UI, ₹100,000+ monthly revenue with 6-agent Hermes AI executive team"
+    "target": "Expand to 100+ winning products, 4.8\u2605 verified reviews, Amazon-grade UI, \u20b9100,000+ monthly revenue with 6-agent Hermes AI executive team"
   },
   {
     "id": "TASK-005",
@@ -23,19 +23,19 @@
   },
   {
     "id": "TASK-001",
-    "title": "Pre-Diwali ₹10,000 Sales Sprint",
-    "description": "Generate ₹10,000 in domestic sales before Diwali through WhatsApp broadcasts, viral Instagram Reels, and DIWALI100 festive offers.",
+    "title": "Pre-Diwali \u20b910,000 Sales Sprint",
+    "description": "Generate \u20b910,000 in domestic sales before Diwali through WhatsApp broadcasts, viral Instagram Reels, and DIWALI100 festive offers.",
     "priority": "HIGH",
     "category": "REVENUE",
     "status": "COMPLETED",
     "created_at": "2026-10-12T09:30:00Z",
     "updated_at": "2026-10-14T02:20:00Z",
-    "target": "20-25 customer orders, ₹10,000 GMV, ~₹5,000 net profit via DIWALI100 coupon and Evaa reels"
+    "target": "20-25 customer orders, \u20b910,000 GMV, ~\u20b95,000 net profit via DIWALI100 coupon and Evaa reels"
   },
   {
     "id": "TASK-002",
     "title": "Daily High-Margin Meesho Product Sourcing",
-    "description": "Scout and rotate winning, high-rated (4.8★-4.9★) Meesho festive & aesthetic products with 50%-70% profit margin into catalog.",
+    "description": "Scout and rotate winning, high-rated (4.8\u2605-4.9\u2605) Meesho festive & aesthetic products with 50%-70% profit margin into catalog.",
     "priority": "HIGH",
     "category": "CATALOG",
     "status": "COMPLETED",
@@ -52,7 +52,7 @@
     "status": "COMPLETED",
     "created_at": "2026-10-11T15:26:00Z",
     "updated_at": "2026-10-14T02:20:00Z",
-    "target": "Total Orders = 0, Total Revenue = ₹0 verified across Supabase DB and seen_orders.json"
+    "target": "Total Orders = 0, Total Revenue = \u20b90 verified across Supabase DB and seen_orders.json"
   },
   {
     "id": "TASK-004",
@@ -64,5 +64,41 @@
     "created_at": "2026-10-11T16:00:00Z",
     "updated_at": "2026-10-12T10:55:00Z",
     "target": "58 active products, 0 DeoDap items"
+  },
+  {
+    "id": "TASK-007",
+    "title": "Evaa Daily Hindi Reels (Meera under CEO)",
+    "description": "Ship 2 Hindi Evaa reels/day via edge-tts + ffmpeg cloud, Telegram preview, IG reel post.",
+    "priority": "HIGH",
+    "category": "MEDIA",
+    "status": "COMPLETED",
+    "created_at": "2026-10-14T02:29:49.005879+00:00",
+    "updated_at": "2026-10-14T02:39:18.198524+00:00",
+    "target": "2 reels/day, MP4>0, Hindi Swara voice",
+    "verification": "Evaa pipeline wired, ffmpeg both workflows, avatar overlay, reel flag live. tsc 0, vitest 25 pass, build ok."
+  },
+  {
+    "id": "TASK-008",
+    "title": "Semi-Auto 1-Click Meesho (Option A)",
+    "description": "Telegram 1-tap Meesho Buy Now + copy address/price + Mark Shipped writes meesho_order_id/url.",
+    "priority": "HIGH",
+    "category": "FULFILLMENT",
+    "status": "COMPLETED",
+    "created_at": "2026-10-14T02:29:49.005879+00:00",
+    "updated_at": "2026-10-14T02:39:18.198524+00:00",
+    "target": "10-sec fulfill, meesho_order_id wired",
+    "verification": "Admin Meesho card + meesho_order_id/url API wired, Telegram 1-click live."
+  },
+  {
+    "id": "TASK-009",
+    "title": "RTO AI + Bundles + Restock",
+    "description": "Wire rto.ts gate, bundles pairs, restock alerts, flags/ONDC stubs live.",
+    "priority": "MEDIUM",
+    "category": "REVENUE",
+    "status": "COMPLETED",
+    "created_at": "2026-10-14T02:29:49.005879+00:00",
+    "updated_at": "2026-10-14T02:39:18.198524+00:00",
+    "target": "RTO<14%, AOV 2400",
+    "verification": "RTO gate checkout + phone, bundles 5 combos, restock API+UI, flags/ONDC stubs, CI fixed, typecheck/build/tests green."
   }
 ]

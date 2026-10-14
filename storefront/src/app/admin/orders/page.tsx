@@ -9,6 +9,9 @@ interface AdminOrder {
   total_amount: number;
   status: string;
   cj_order_id: string | null;
+  meesho_order_id?: string | null;
+  meesho_url?: string | null;
+  rto_risk_level?: string | null;
   tracking_number: string | null;
   tracking_url: string | null;
   created_at: string;
@@ -400,6 +403,16 @@ export default function AdminOrdersPage() {
                       <p className="text-cyan-400 font-mono font-bold">
                         📍 Courier Tracking: {o.tracking_number}
                       </p>
+                    )}
+                    {(o as any).meesho_order_id && (
+                      <p className="text-amber-400 font-mono font-bold">
+                        🛍️ Meesho Order: {(o as any).meesho_order_id}
+                      </p>
+                    )}
+                    {(o as any).meesho_url && (
+                      <a href={(o as any).meesho_url} target="_blank" rel="noopener noreferrer" className="text-orange-400 underline text-xs font-bold">
+                        👉 1-Click Meesho Buy Now (Semi-Auto A)
+                      </a>
                     )}
                   </div>
                 </div>

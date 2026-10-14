@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
   let query = supabase
     .from('orders')
     .select(
-      'id,user_email,total_amount,status,cj_order_id,tracking_number,created_at,shipping_address'
+      'id,user_email,total_amount,status,cj_order_id,meesho_order_id,meesho_url,tracking_number,created_at,shipping_address'
     )
     .order('created_at', { ascending: false })
     .limit(limit);
@@ -70,7 +70,7 @@ export async function PATCH(req: NextRequest) {
   if (!supabase) return NextResponse.json({ error: 'Supabase not configured' }, { status: 503 });
 
   try {
-    const body = (await req.json()) as { orderId?: string; status?: string; tracking_number?: string };
+    const body = (await req.json()) as { orderId?: string; status?: string; tracking_number?: string; meesho_order_id?: string; meesho_url?: string };
     const { orderId, status, tracking_number } = body;
     if (!orderId) return NextResponse.json({ error: 'orderId required' }, { status: 400 });
 
@@ -103,6 +103,14 @@ export async function PATCH(req: NextRequest) {
           updates.tracking_url = `https://www.delhivery.com/track/package/${cleanTn}`;
         }
       }
+    }
+
+    if (body.meesho_order_id !== undefined) {
+      updates.meesho_order_id = String(body.meesho_order_id).trim().slice(0, 64) || null;
+    }
+    if (body.meesho_url !== undefined) {
+      const u = String(body.meesho_url).trim().slice(0, 500);
+      if (u === "" || u.startsWith("https://")) updates.meesho_url = u || null;
     }
 
     const { error } = await supabase.from('orders').update(updates).eq('id', orderId);

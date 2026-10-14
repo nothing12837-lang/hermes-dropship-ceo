@@ -1346,6 +1346,21 @@ AGENT_TOOLS_SCHEMA = [
 def build_system_prompt():
     mem = load_memory()
     facts_str = "\n".join(f"• {f}" for f in mem.get("learned_facts", [])[-8:])
+    skills_txt = "- none yet"
+    try:
+        base = os.path.join(BASE_DIR, "skills", "custom")
+        if os.path.isdir(base):
+            names = sorted(os.listdir(base))[:5]
+            lines = []
+            for n in names:
+                p = os.path.join(base, n, "SKILL.md")
+                if os.path.exists(p):
+                    with open(p, "r", encoding="utf-8") as f:
+                        lines.append(f"• {n}: {f.read(300)[:300]}")
+            if lines:
+                skills_txt = "\n".join(lines)
+    except Exception:
+        pass
     return f"""You are Hermes (JARVIS), Ajay Rajbhar's autonomous AI Chief of Staff and Executive COO for RareEmber ({SITE_URL}).
 You are built like Tony Stark's JARVIS and Meta's Muse AI — an elite autonomous intelligence that takes direct actions, manages operations, audits live systems, writes/sends customer emails, calculates unit economics, triggers viral Instagram marketing, and executes business strategy.
 
@@ -1377,6 +1392,9 @@ CAPABILITIES & REAL TOOLS:
 LEARNED MEMORY:
 {facts_str}
 
+CUSTOM SKILLS LOADED:
+{skills_txt}
+
 OPERATING PRINCIPLES:
 1. Act like a true JARVIS — hyper-intelligent, proactive, concise, confident, and never generic.
 2. Speak in natural Hinglish or English matching Ajay's tone.
@@ -1389,6 +1407,75 @@ def execute_react_agent_turn(user_msg, chat_id):
     history = load_conversation_history(chat_id)
     user_lower = user_msg.lower().strip()
     auto_rule = auto_learn_from_founder(user_msg)
+
+    # 0. SLASH COMMANDS (/start /help /team /evaa /blog /pnl /reflect /health /orders)
+    if user_lower.startswith("/"):
+        parts = user_lower.split()
+        cmd = parts[0]
+        if cmd in ("/start", "/help"):
+            return ("⚡ <b>Hermes God-CEO Online</b>\n\n"
+                    "Commands: <code>/team</code> <code>/evaa [product]</code> <code>/blog</code> "
+                    "<code>/pnl</code> <code>/reflect</code> <code>/health</code> <code>/orders</code> <code>/tasks</code>\n"
+                    "Ya natural Hinglish me bolo: <i>video banao, sale kitna, price 499 karo</i>.")
+        if cmd == "/team":
+            ops = tool_run_executive_team_operations()
+            return (f"🏛️ <b>Team Status</b>\nSales: {ops['sales_department'].get('focus_product')}\n"
+                    f"SEO indexed: {ops['seo_department'].get('indexed_products')}\n"
+                    f"Service: {ops['service_department'].get('store_status')}")
+        if cmd == "/health":
+            h = tool_system_health_check()
+            return f"⚡ <b>{h.get('status')}</b> {h.get('latency_ms')}ms - <a href='{h.get('storefront_url')}'>store</a>"
+        if cmd == "/pnl":
+            try:
+                from hermes_ceo.team import KabirFinance
+                p = KabirFinance.audit_daily_pnl()
+                return f"📊 <b>P&L 24h</b> Orders: {p.get('orders_24h')} Rev: ₹{p.get('revenue_inr',0):,.0f} Profit: ₹{p.get('net_profit_inr',0):,.0f}"
+            except Exception as e:
+                return f"PNL note: {e}"
+        if cmd == "/reflect":
+            try:
+                from hermes_ceo.brain import HermesBrain
+                r = HermesBrain().execute_nightly_reflection()
+                return f"🌙 <b>Reflected {r.get('period')}</b> GMV ₹{r.get('gmv',0):,.0f} Profit ₹{r.get('profit',0):,.0f}"
+            except Exception as e:
+                return f"Reflect note: {e}"
+        if cmd == "/blog":
+            try:
+                from hermes_ceo.team import AaravSEO
+                b = AaravSEO.publish_daily_blog()
+                return f"📝 <b>Blog {b.get('status')}</b> {b.get('title','')} {b.get('url','')}"
+            except Exception as e:
+                return f"Blog note: {e}"
+        if cmd.startswith("/evaa"):
+            q = user_msg[len(cmd):].strip() or "trending product"
+            reels = tool_generate_viral_reels_script(q)
+            try:
+                from hermes_ceo.evaa import build_evaa_video_reel
+                import tempfile
+                td = os.path.join(BASE_DIR, "generated_posts", "reels")
+                v = build_evaa_video_reel(reels.get("product","drop"), float(reels.get("price_inr",499)), float(reels.get("price_inr",499)*1.8), reels.get("product_url",""), td)
+                vp, cp = v.get("video_path"), v.get("card_path")
+                if vp and os.path.exists(vp or ""):
+                    send_video(chat_id, vp, caption=f"🎬 Evaa reel: {reels.get('product')}")
+                elif cp and os.path.exists(cp or ""):
+                    send_photo(chat_id, cp, caption=f"🖼️ Evaa card: {reels.get('product')}")
+            except Exception as e:
+                print(f"Evaa slash note: {e}")
+            return f"🎬 <b>Evaa</b> {reels.get('product')} ready. Caption me link hai."
+        if cmd in ("/orders", "/tasks"):
+            m = tool_get_store_metrics()
+            return f"📦 Orders: {m.get('total_orders',0)} Rev ₹{m.get('total_revenue_inr',0):,.0f}"
+
+    # 0b. HermesBrain delegation (act/learn + skills) - cloud team wiring
+    try:
+        from hermes_ceo.brain import HermesBrain
+        _brain = HermesBrain()
+        _brain_actions = _brain.act(user_msg)
+        _brain_skills = _brain.load_custom_skills()
+        if _brain_actions or _brain_skills:
+            pass
+    except Exception as _be:
+        print(f"Brain delegate note: {_be}")
 
     # 1. ACTION-FIRST ENGINE: Execute real business tools before answering
     executed_tools = []

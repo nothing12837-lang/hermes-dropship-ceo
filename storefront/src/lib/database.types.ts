@@ -124,6 +124,12 @@ export interface Database {
           total_amount: number;
           status: string;
           cj_order_id: string | null;
+          meesho_order_id: string | null;
+          meesho_url: string | null;
+          meesho_cogs_inr: number | null;
+          cod_confirmed: boolean | null;
+          whatsapp_confirmed_at: string | null;
+          rto_risk_level: string | null;
           tracking_number: string | null;
           items: Json;
           subtotal: number;

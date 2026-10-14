@@ -10,6 +10,7 @@ import { resolveProductImage } from '@/lib/data/fallback-images';
 import { supabase } from '@/lib/supabase-client';
 import { useGeo } from '@/context/GeoContext';
 import { validateCouponCode } from '@/lib/festivals';
+import { scoreRtoRisk } from '@/lib/rto';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function CheckoutPage() {
   const { items, setQty, remove, clear } = useCart();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [zip, setZip] = useState('');
@@ -171,10 +173,15 @@ export default function CheckoutPage() {
     }
     if (!email.includes('@')) return setError('Please enter a valid email address for tracking.');
     if (!name.trim()) return setError('Please enter your full name for courier delivery.');
+    if (!phone.trim() || phone.replace(/\D/g, '').length !== 10) return setError('Please enter a valid 10-digit phone for COD confirmation.');
     if (!address.trim()) return setError('Please enter your delivery street address.');
     if (!zip.trim()) return setError('Please enter your PIN / postal code.');
     if (detailed.length === 0) return setError('Your cart is empty. Add a product first.');
     if (loading || processing) return;
+    if (paymentMethod === 'cod') {
+      const rto = scoreRtoRisk({ phone, pincode: zip, totalInr: 0 });
+      if (rto.recommendation === 'PREPAID_ONLY') return setError(`High RTO risk (${rto.risk_score}). Please pay online (UPI) for this pincode.`);
+    }
 
     localStorage.setItem('rareember_email', email);
     setLoading(true);
@@ -468,6 +475,19 @@ export default function CheckoutPage() {
                 <div className="grid grid-cols-2 gap-3.5">
                   <div>
                     <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1">
+                      Phone (10-digit, COD confirm) *
+                    </label>
+                    <input
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                      placeholder="98765 43210"
+                      maxLength={10}
+                      className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1">
                       City / District *
                     </label>
                     <input
@@ -478,6 +498,8 @@ export default function CheckoutPage() {
                       className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all"
                     />
                   </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3.5">
                   <div>
                     <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1">
                       {market === 'IN' ? '6-Digit PIN Code *' : 'Postal / ZIP Code *'}
@@ -490,6 +512,16 @@ export default function CheckoutPage() {
                       maxLength={10}
                       className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all"
                     />
+                  </div>
+                  <div className="flex items-end">
+                    {(() => {
+                      const r = scoreRtoRisk({ phone, pincode: zip, totalInr: 0 });
+                      return (
+                        <p className={`text-[11px] font-bold px-2.5 py-1.5 rounded-full ${r.recommendation === 'ALLOW_COD' ? 'bg-emerald-50 text-emerald-700' : r.recommendation === 'CONFIRM_FIRST' ? 'bg-amber-50 text-amber-700' : 'bg-rose-50 text-rose-700'}`}>
+                          {r.recommendation === 'ALLOW_COD' ? `✅ COD OK (risk ${r.risk_score})` : r.recommendation === 'CONFIRM_FIRST' ? `⚠️ Confirm first (risk ${r.risk_score})` : `🛑 Prepaid only (risk ${r.risk_score})`}
+                        </p>
+                      );
+                    })()}
                   </div>
                 </div>
               </div>

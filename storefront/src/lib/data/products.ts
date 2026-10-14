@@ -754,7 +754,13 @@ export const PET_META: Record<string, any> = {
   both: { emoji: '🐾', label: 'For Pets', color: '#0f172a', bg: '#f1f5f9' }
 };
 
-export const bundles: Record<string, string[]> = {};
+export const bundles: Record<string, string[]> = {
+  "meesho-water-sensor-led-diyas-pack-of-12": ["meesho-fairy-curtain-string-led-lights-300-led", "meesho-floating-water-lotus-led-candles-6pk"],
+  "meesho-crystal-diamond-touch-led-table-lamp": ["meesho-sunset-projection-lamp-16-colors-rgb", "meesho-3d-moon-touch-ambient-night-lamp"],
+  "meesho-galaxy-star-astronaut-projector-night-lamp": ["meesho-3d-moon-touch-ambient-night-lamp", "meesho-sunset-projection-lamp-16-colors-rgb"],
+  "meesho-electric-mini-wireless-garlic-chopper": ["meesho-2in1-oil-spray-pour-glass-dispenser", "meesho-3in1-rotary-drum-vegetable-slicer"],
+  "meesho-glowcharge-540-magnetic-fast-cable": ["meesho-3in1-foldable-magnetic-wireless-charging-pad", "meesho-universal-360-magnetic-car-phone-mount"],
+};
 
 export function getProduct(id: string): Product | undefined {
   return products.find(p => p.id === id || p.slug === id);

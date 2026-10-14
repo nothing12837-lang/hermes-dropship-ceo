@@ -45,6 +45,60 @@ class HermesBrain:
             "recent_memories": memories[:5]
         }
 
+    def act(self, founder_message: str):
+        """Act: delegate to executive sub-agents based on intent keywords."""
+        msg = (founder_message or "").lower()
+        results = {}
+        try:
+            if any(k in msg for k in ["price", "pricing", "coupon", "sale", "discount", "vikram"]):
+                results["vikram"] = VikramSales.evaluate_pricing_strategy()
+                results["coupons"] = VikramSales.get_active_coupons()
+        except Exception as e:
+            results["vikram_error"] = str(e)
+        try:
+            if any(k in msg for k in ["blog", "seo", "index", "traffic", "aarav"]):
+                results["aarav"] = AaravSEO.publish_daily_blog()
+        except Exception as e:
+            results["aarav_error"] = str(e)
+        try:
+            if any(k in msg for k in ["cod", "whatsapp", "rto", "track", "courier", "pooja", "order"]):
+                results["pooja_rto"] = PoojaOperations.assess_rto_risk("", "")
+        except Exception as e:
+            results["pooja_error"] = str(e)
+        try:
+            if any(k in msg for k in ["pnl", "profit", "margin", "finance", "kabir", "gmv"]):
+                results["kabir"] = KabirFinance.audit_daily_pnl()
+        except Exception as e:
+            results["kabir_error"] = str(e)
+        return results
+
+    def learn(self, founder_message: str, action_results: dict, reply_text: str):
+        """Learn: persist episodic learning from this turn."""
+        try:
+            save_memory("HERMES_CEO", "episodic", f"turn_{int(time.time())}", {
+                "input": (founder_message or "")[:200],
+                "actions": list((action_results or {}).keys()),
+                "reply_preview": (reply_text or "")[:200],
+                "at": datetime.now(timezone.utc).isoformat(),
+            })
+        except Exception as e:
+            print(f"[Hermes Brain] learn error: {e}")
+
+    def load_custom_skills(self, max_skills: int = 5):
+        """Load custom SKILL.md files created via tool_create_skill."""
+        base = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "skills", "custom")
+        skills = []
+        try:
+            if os.path.isdir(base):
+                for name in sorted(os.listdir(base))[:max_skills]:
+                    p = os.path.join(base, name, "SKILL.md")
+                    if os.path.exists(p):
+                        with open(p, "r", encoding="utf-8") as f:
+                            skills.append({"name": name, "content": f.read()[:1500]})
+        except Exception as e:
+            print(f"[Hermes Brain] skill load error: {e}")
+        return skills
+
     def reason_and_reply(self, founder_message: str, chat_history: list = None):
         """
         Reason: multi-model LLM thinking engine that synthesizes context,
@@ -53,6 +107,9 @@ class HermesBrain:
         perception = self.perceive()
         latest_goal = perception.get("latest_goal") or {}
         pnl = perception.get("financials_24h") or {}
+        action_results = self.act(founder_message)
+        custom_skills = self.load_custom_skills()
+        skills_txt = "\n".join([f"- {s['name']}: {s['content'][:300]}" for s in custom_skills]) if custom_skills else "- none yet"
 
         system_prompt = (
             f"You are Hermes, the autonomous God-CEO of RareEmber (rareember-store.vercel.app).\n"
@@ -60,7 +117,9 @@ class HermesBrain:
             f"CURRENT BUSINESS SNAPSHOT:\n"
             f"• Revenue (24h): ₹{pnl.get('revenue_inr', 0):,.0f}\n"
             f"• Net Profit (24h): ₹{pnl.get('net_profit_inr', 0):,.0f} (Avg Margin: {pnl.get('avg_margin_pct', 0):.1f}%)\n"
-            f"• Target Daily GMV: ₹{latest_goal.get('target_gmv_inr', 10000):,.0f}\n\n"
+            f"• Target Daily GMV: ₹{latest_goal.get('target_gmv_inr', 10000):,.0f}\n"
+            f"• Team actions this turn: {action_results}\n"
+            f"• Custom skills loaded:\n{skills_txt}\n\n"
             f"EXECUTIVE TEAM DELEGATION:\n"
             f"• Vikram (Sales & Pricing): Flash discounts (DIWALI100, FIRST50), dynamic margins.\n"
             f"• Aarav (SEO & Content): Publishes daily blogs to Supabase blog_posts & triggers IndexNow.\n"
@@ -90,7 +149,9 @@ class HermesBrain:
                     if r.status_code == 200:
                         parts = r.json().get("candidates", [{}])[0].get("content", {}).get("parts", [])
                         if parts and parts[0].get("text"):
-                            return parts[0].get("text").strip()
+                            reply = parts[0].get("text").strip()
+                            self.learn(founder_message, action_results, reply)
+                            return reply
                 except Exception as e:
                     print(f"[Hermes Brain] Gemini {model} error: {e}")
 
@@ -106,17 +167,20 @@ class HermesBrain:
                 if r.status_code == 200:
                     reply = r.json()["choices"][0]["message"]["content"].strip()
                     if reply:
+                        self.learn(founder_message, action_results, reply)
                         return reply
             except Exception as e:
                 print(f"[Hermes Brain] OpenRouter error: {e}")
 
         # Fallback intelligent rule-based response
-        return (
+        fallback = (
             f"Namaste Ajay! Command acknowledge kar liya hai.\n\n"
             f"📊 Store Status: Live on Vercel ({SITE_URL}).\n"
             f"Autonomous 4-hour Meesho stock monitoring & catalog sync active on cloud.\n"
             f"Team Vikram, Aarav, Pooja, Meera, Kabir, aur Arjun 24/7 autonomous work kar rahe hain."
         )
+        self.learn(founder_message, action_results, fallback)
+        return fallback
 
     def execute_nightly_reflection(self):
         """

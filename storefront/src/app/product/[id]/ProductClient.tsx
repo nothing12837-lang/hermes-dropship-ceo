@@ -339,6 +339,19 @@ export function ProductClient({ product }: Props) {
                 >
                   {wished ? '♥' : '♡'}
                 </button>
+                <button
+                  onClick={async () => {
+                    const contact = prompt('Back in stock alert ke liye email/phone likho:');
+                    if (!contact) return;
+                    try {
+                      await fetch('/api/restock', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product_id: product.id, contact }) });
+                      alert('✅ Notify-Me ON! Stock aate hi message milega.');
+                    } catch { alert('Try again later.'); }
+                  }}
+                  style={{ ...wishBtn, border: '1.5px solid #FF4D24', color: '#FF4D24' }}
+                >
+                  🔔 Notify Me
+                </button>
               </div>
             ) : (
               <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginTop: '1.75rem', flexWrap: 'wrap' }}>

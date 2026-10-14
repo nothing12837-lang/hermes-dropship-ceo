@@ -75,6 +75,21 @@ def render_reel_card(image_url: str, title: str, price_inr: float, mrp_inr: floa
     except Exception as e:
         print(f"[Render Frame] Image fetch error: {e}")
 
+    # 1b. Evaa avatar overlay (fixed brand face, top-right circle)
+    try:
+        ar = requests.get(EVAA_AVATAR_URL, timeout=10)
+        if ar.status_code == 200:
+            from io import BytesIO
+            av = Image.open(BytesIO(ar.content)).convert("RGB").resize((220, 220), Image.Resampling.LANCZOS)
+            mask = Image.new("L", (220, 220), 0)
+            md = ImageDraw.Draw(mask)
+            md.ellipse([0, 0, 220, 220], fill=255)
+            canvas.paste(av, (780, 20), mask)
+            draw.ellipse([780, 20, 1000, 240], outline=(255, 215, 0), width=4)
+            draw.text((800, 245), "EVAA • HINDI", fill=(255, 215, 0))
+    except Exception as e:
+        print(f"[Render Frame] Evaa avatar note: {e}")
+
     # 2. Header & Branding Banner
     draw.rectangle([0, 0, width, 240], fill=(24, 24, 30))
     draw.rectangle([80, 160, 420, 220], fill=(255, 107, 53))

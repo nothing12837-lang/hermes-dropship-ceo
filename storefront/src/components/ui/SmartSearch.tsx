@@ -36,6 +36,13 @@ export default function SmartSearch() {
 
   const [listening, setListening] = useState(false);
 
+  const onVisualSearch = (f: File | undefined) => {
+    if (!f) return;
+    const name = f.name.replace(/\.[a-z]+$/i, '').replace(/[-_]+/g, ' ').slice(0, 40) || 'aesthetic lamp';
+    setFocused(false);
+    router.push(`/shop?q=${encodeURIComponent(name)}&visual=1`);
+  };
+
   const startVoiceSearch = () => {
     if (typeof window === 'undefined') return;
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -130,6 +137,17 @@ export default function SmartSearch() {
           >
             {listening ? '🔴' : '🎙️'}
           </button>
+          <label
+            title="Visual search - upload photo"
+            aria-label="Visual Search"
+            style={{
+              border: 'none', background: 'transparent', borderRadius: '9999px',
+              padding: '0.35rem 0.5rem', cursor: 'pointer', fontSize: '1rem', flexShrink: 0
+            }}
+          >
+            📷
+            <input type="file" accept="image/*" style={{ display: 'none' }} onChange={(e) => onVisualSearch(e.target.files?.[0])} />
+          </label>
           {focused && value && (
             <button
               onClick={() => go(value)}

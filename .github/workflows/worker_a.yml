@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 */6 * * *'
+    - cron: '30 18 * * *'
 
 permissions:
   contents: write
@@ -28,7 +29,19 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+          pip install -r requirements.txt
+
+      - name: Nightly CEO reflection (11:30pm IST)
+        if: github.event.schedule == '30 18 * * *'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          SUPABASE_DB_PASS: ${{ secrets.SUPABASE_DB_PASS }}
+          SITE_URL: "https://rareember-store.vercel.app"
+        run: |
+          python -c "from hermes_ceo.brain import HermesBrain; print(HermesBrain().execute_nightly_reflection())" || echo "reflection skipped"
 
       - name: Run Hermes Dropship CEO
         env:

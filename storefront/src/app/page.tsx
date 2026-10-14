@@ -3,6 +3,7 @@ import ProductCard from '@/components/ui/ProductCard';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { formatPrice, computeDiscount, type Product } from '@/lib/data/products';
 import { getNewProducts, getTrendingProducts, getProductsFromDB } from '@/lib/products-server';
+import { getFlag } from '@/lib/flags';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -83,6 +84,16 @@ export default async function Home() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 pt-6 flex flex-col gap-10">
+        {getFlag('hero_evaa') && (
+          <div className="rounded-2xl bg-black text-white px-5 py-4 flex items-center gap-4 border border-white/10">
+            <span className="text-3xl">👩‍🦰</span>
+            <div>
+              <p className="font-bold text-sm">Namaste! Main Evaa ✨</p>
+              <p className="text-xs text-neutral-300">Hindi me curated drops, COD + 2-4 din delivery. Aaj ka hero: Water Sensor Diyas.</p>
+            </div>
+            <Link href="/shop" className="ml-auto px-4 py-2 rounded-full bg-[#FF4D24] text-white text-xs font-bold no-underline">Shop Evaa Picks →</Link>
+          </div>
+        )}
         {/* FESTIVE GRAND UTSAV HERO BANNER */}
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#781803] via-[#b8380e] to-[#5a1000] text-white p-5 md:p-8 shadow-xl border-2 border-amber-400/40">
           <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-amber-400/20 rounded-full blur-3xl pointer-events-none" />

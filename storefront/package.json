@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start -p 3002",
     "typecheck": "tsc --noEmit",
-    "test": "echo 'Unit tests skipped or passed' && exit 0",
-    "test:e2e": "echo 'E2E tests skipped or passed' && exit 0"
+    "test": "vitest run",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@hookform/resolvers": "3.9.0",
@@ -36,6 +36,7 @@
     "zustand": "4.5.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.51.1",
     "@types/node": "20.14.0",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
@@ -44,6 +45,7 @@
     "eslint-config-next": "14.2.5",
     "postcss": "^8.5.29",
     "tailwindcss": "^4.3.3",
-    "typescript": "5.4.5"
+    "typescript": "5.4.5",
+    "vitest": "^2.1.0"
   }
 }

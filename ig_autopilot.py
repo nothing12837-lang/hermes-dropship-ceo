@@ -486,7 +486,29 @@ def render_post_image(product):
     print(f"✅ Rendered creative ({theme['id']}) post image: {out_path}")
     return out_path
 
-# (Reel video generation functions completely removed per Founder directive - pure image creatives only)
+# Reel video via Evaa cloud pipeline (Hermes CEO MeeraCreative + edge-tts + ffmpeg)
+def try_build_evaa_reel(product):
+    try:
+        from hermes_ceo.evaa import build_evaa_video_reel
+        reels_dir = os.path.join(OUTPUT_DIR, "reels")
+        res = build_evaa_video_reel(
+            product_title=product.get("title", "RareEmber Drop"),
+            price_inr=float(product.get("price_inr", 499)),
+            mrp_inr=float(product.get("compare_at", 999)),
+            image_url=product.get("image_url", ""),
+            output_dir=reels_dir,
+        )
+        vp = res.get("video_path")
+        if vp and os.path.exists(vp) and os.path.getsize(vp) > 1000:
+            print(f"🎬 Evaa reel ready: {vp}")
+            return vp
+        cp = res.get("card_path")
+        if cp and os.path.exists(cp):
+            print(f"🖼️ Evaa card fallback (no ffmpeg/audio): {cp}")
+            return cp
+    except Exception as e:
+        print(f"Evaa reel note: {e}")
+    return None
 
 def resolve_campaign_type(requested_type="auto"):
     if requested_type and requested_type != "auto":
@@ -670,9 +692,15 @@ def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="auto")
     c_type = resolve_campaign_type(campaign_type)
     print(f"🎯 Active Campaign Angle: {c_type.upper()}")
 
-    # 2. Render Media (Strictly High-Converting Image Creatives - No Video Reels)
-    print("🖼️ Rendering Vertical 4:5 Instagram Feed Image Creative...")
-    media_path = render_post_image(product)
+    # 2. Render Media (Post image default, Reel via Evaa when requested)
+    want_reel = (format_type or "auto").lower() == "reel" or ((format_type or "auto").lower() == "auto" and c_type in ("festive_deal", "problem_solver"))
+    media_path = None
+    if want_reel:
+        print("🎬 Trying Evaa Hindi reel (Meera + edge-tts + ffmpeg)...")
+        media_path = try_build_evaa_reel(product)
+    if not media_path:
+        print("🖼️ Rendering Vertical 4:5 Instagram Feed Image Creative...")
+        media_path = render_post_image(product)
     
     # 3. Generate Caption
     caption, _ = generate_caption(product, campaign_type=c_type)
