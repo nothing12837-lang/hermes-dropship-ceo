@@ -60,6 +60,7 @@ def generate_full_sitemap_xml(products):
         ("/", "1.0", "daily"),
         ("/shop", "0.9", "daily"),
         ("/about", "0.7", "monthly"),
+        ("/team", "0.85", "weekly"),
         ("/contact", "0.7", "monthly"),
         ("/returns", "0.7", "monthly"),
         ("/track", "0.8", "weekly"),

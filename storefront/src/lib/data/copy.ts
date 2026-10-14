@@ -28,6 +28,7 @@ export const COPY = {
         title: 'Story',
         links: [
           { label: 'About RareEmber', href: '/about' },
+          { label: 'Radha & AI Executive Board', href: '/team' },
           { label: 'How It Works', href: '/about' },
           { label: 'Quality Guarantee', href: '/about' },
         ],

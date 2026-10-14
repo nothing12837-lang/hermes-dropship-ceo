@@ -13,6 +13,7 @@ import FestiveEffects from './FestiveEffects';
 
 const links = [
   { href: '/shop', label: 'Shop' },
+  { href: '/team', label: 'AI Team' },
   { href: '/quiz', label: 'Quiz' },
   { href: '/blog', label: 'Journal' },
   { href: '/track', label: 'Track' },
