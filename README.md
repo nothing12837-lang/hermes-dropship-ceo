@@ -104,11 +104,11 @@ Official direct links to trending factory-direct drops:
 - [All Products & Trending Drops](https://rareember-store.vercel.app/shop)
 - [Curated Electronics & Gadgets](https://rareember-store.vercel.app/shop?cat=electronics)
 - [Aesthetic Home & Living](https://rareember-store.vercel.app/shop?cat=home-garden)
-- [Pet Comfort Essentials](https://rareember-store.vercel.app/shop?cat=pets)
+- [Curated Fashion & Lifestyle](https://rareember-store.vercel.app/shop?cat=fashion)
 - [Order Tracking (BlueDart & Delhivery)](https://rareember-store.vercel.app/track)
 - [Customer Care & Support](https://rareember-store.vercel.app/contact)
 
 ---
 
-## 🤖 Managed by Hermes Autonomous CEO (Tony Stark JARVIS Architecture)
-24/7 autonomous dropshipping management, Instagram Autopilot, unit economics calculation, and search indexing engine.
+## 🤖 Managed by Radha Autonomous CEO
+24/7 autonomous dropshipping executive management, continuous deep business research, unit economics auditing, 103 verified Indian Meesho products, and multi-agent coordination.

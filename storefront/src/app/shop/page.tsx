@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import ProductCard from '@/components/ui/ProductCard';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { COPY } from '@/lib/data/copy';
-import { formatPrice, computeDiscount, SHOP_CATEGORIES } from '@/lib/data/products';
+import { formatPrice, computeDiscount, SHOP_CATEGORIES, products as localProducts } from '@/lib/data/products';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { supabase, type ProductRow } from '@/lib/supabase';
 
@@ -48,13 +48,25 @@ function ShopInner() {
 
   useEffect(() => {
     let cancelled = false;
-    let q = supabase.from('products').select('*');
-    if (DB_CATEGORIES.has(cat)) q = q.eq('category', cat);
+    let q = supabase.from('products').select('*').eq('active', true);
+    if (cat === 'home-garden') {
+      q = q.in('category', ['home-garden', 'home-living', 'decor']);
+    } else if (cat === 'electronics') {
+      q = q.in('category', ['electronics', 'tech']);
+    } else if (cat === 'general') {
+      q = q.in('category', ['general', 'lifestyle', 'viral']);
+    } else if (cat === 'fashion') {
+      q = q.in('category', ['fashion', 'apparel']);
+    } else if (DB_CATEGORIES.has(cat)) {
+      q = q.eq('category', cat);
+    }
     Promise.resolve(q.order('created_at', { ascending: false }))
       .then(({ data, error }: any) => {
         if (!cancelled) {
-          if (error) {
-            console.error('Shop fetch error:', error.message);
+          if (error || !data || data.length === 0) {
+            if (error) console.error('Shop fetch error:', error.message);
+            const fallback = (localProducts as any[]).filter((p) => !isDisallowedRow(p));
+            setProducts(fallback as ProductRow[]);
             return;
           }
           const filtered = ((data ?? []) as ProductRow[]).filter((p) => !isDisallowedRow(p));
@@ -64,6 +76,8 @@ function ShopInner() {
       .catch((err: unknown) => {
         if (!cancelled) {
           console.error('Shop promise error:', err);
+          const fallback = (localProducts as any[]).filter((p) => !isDisallowedRow(p));
+          setProducts(fallback as ProductRow[]);
         }
       });
     return () => {

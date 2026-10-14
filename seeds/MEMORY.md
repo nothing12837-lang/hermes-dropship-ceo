@@ -1,8 +1,8 @@
-# Operational Memory — Fresh Slate (2026-10-08)
+# Operational Memory — Radha CEO & RareEmber (2026-10-14)
 
-## Active Business Focus: 20-Day Automated Dropshipping Empire
-- **Store Architecture & Stack:** Rareember dropshipping platform (`rareember/dropshipping-platform` & `dropship-store`), Next.js store, Express API (:8002), Razorpay (UPI/cards/COD +₹49) + Stripe.
-- **Supplier Adapters:** GlowRoad / BaapStore / CJ Dropshipping / Qikink auto-sync and order fulfillment.
-- **Telegram Bot:** @rereemberbot (`8898923626`) for Ajay's mobile executive command.
-- **Reporting Schedule:** 08:00 AM IST & 20:00 PM IST daily business performance digests.
-
+## Active Business Focus: Autonomous Domestic Indian E-Commerce Empire
+- **Store Architecture & Stack:** RareEmber Next.js 16 Storefront (`https://rareember-store.vercel.app`) with 103 active products, Supabase Cloud PostgreSQL, Razorpay Live Gateway + Cash on Delivery (COD).
+- **Executive Leadership:** **Radha** (Autonomous CEO) watching and guiding 6 executive departmental agents: Vikram (Sales & Pricing), Aarav (SEO & Content), Pooja (Operations & WhatsApp COD), Meera (Creative & Evaa Reels), Kabir (CFO & Unit Economics), Arjun (Procurement & Sourcing).
+- **Continuous Research Engine:** 24/7 non-stop perpetual autonomous improvement loop executing continuous market research, keyword ranking, and margin preservation.
+- **Supplier & Logistics:** 100% Meesho domestic reselling model with express 2-4 day domestic courier delivery (Delhivery, Shadowfax, BlueDart) and 7-day doorstep replacement guarantee.
+- **Telegram Bot:** @rereemberbot for Ajay Rajbhar's mobile executive command.

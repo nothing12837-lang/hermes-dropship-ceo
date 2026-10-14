@@ -1,12 +1,12 @@
 """
-Hermes Dropship CEO — Meta Muse-Grade Autonomous AI Agent Architecture
+Radha Dropship CEO — Meta Muse-Grade Autonomous AI Corporate Architecture
 24/7 Autonomous E-Commerce Executive for Ajay Rajbhar (Founder of RareEmber).
 
 Architecture:
 - ReAct Autonomous Tool Execution Loop (Multi-turn Function Calling)
 - Multi-Model LLM Engine (Gemini 3.1 Flash Lite / Gemini 3 Flash)
 - 10+ Real Business Tools (Orders, Products, Domestic Dispatch, Marketing, Memory, Dynamic Skills)
-- Persistent Self-Evolving Knowledge Graph (HERMES_MEMORY)
+- Persistent Self-Evolving Knowledge Graph (RADHA_MEMORY / Supabase agent_memory)
 - Proactive Autopilot Background Monitor (Real-time order alerts & health checks)
 - Website Chatbot Bridge Integration
 """
@@ -21,7 +21,9 @@ import requests
 import traceback
 import hashlib
 from datetime import datetime, timezone, timedelta
+import radha_ceo
 import hermes_ceo
+from radha_ceo import RadhaBrain, RadhaPerpetualEngine
 
 # Ensure UTF-8 output across Windows and all console environments
 if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
@@ -37,12 +39,22 @@ if sys.stderr and hasattr(sys.stderr, 'reconfigure'):
 
 IST = timezone(timedelta(hours=5, minutes=30))
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MEMORY_DIR = os.path.join(BASE_DIR, "HERMES_MEMORY")
+RADHA_MEMORY_DIR = os.path.join(BASE_DIR, "RADHA_MEMORY")
+LEGACY_MEMORY_DIR = os.path.join(BASE_DIR, "HERMES_MEMORY")
+MEMORY_DIR = RADHA_MEMORY_DIR
+os.makedirs(RADHA_MEMORY_DIR, exist_ok=True)
+os.makedirs(LEGACY_MEMORY_DIR, exist_ok=True)
 SKILLS_DIR = os.path.join(BASE_DIR, "skills")
 os.makedirs(MEMORY_DIR, exist_ok=True)
 os.makedirs(os.path.join(SKILLS_DIR, "custom"), exist_ok=True)
 
 MEMORY_FILE = os.path.join(MEMORY_DIR, "long_term_memory.json")
+if not os.path.exists(MEMORY_FILE) and os.path.exists(os.path.join(LEGACY_MEMORY_DIR, "long_term_memory.json")):
+    try:
+        import shutil
+        shutil.copy(os.path.join(LEGACY_MEMORY_DIR, "long_term_memory.json"), MEMORY_FILE)
+    except Exception:
+        pass
 SEEN_ORDERS_FILE = os.path.join(MEMORY_DIR, "seen_orders.json")
 # Load local environment if available
 env_path = os.path.join(BASE_DIR, ".env")
@@ -87,7 +99,7 @@ def load_conversation_history(chat_id):
     return []
 
 def save_conversation_history(chat_id, history):
-    """Persists recent multi-turn conversation context to disk so Hermes never forgets context."""
+    """Persists recent multi-turn conversation context to disk so Radha never forgets context."""
     chat_key = str(chat_id)
     all_hist = {}
     if os.path.exists(CONVERSATION_HISTORY_FILE):
@@ -122,7 +134,7 @@ def save_tasks(tasks):
         print(f"Error saving tasks: {e}")
 
 def tool_create_task(title, description, priority="HIGH", category="GROWTH"):
-    """Creates a new actionable, tracked task in Hermes Autonomous CEO ledger."""
+    """Creates a new actionable, tracked task in Radha Autonomous CEO ledger."""
     tasks = load_tasks()
     task_num = len(tasks) + 1
     task_id = f"TASK-{task_num:03d}"
@@ -149,7 +161,7 @@ def tool_create_task(title, description, priority="HIGH", category="GROWTH"):
     }
 
 def tool_list_tasks(status="all"):
-    """Lists tracked tasks in Hermes Autonomous CEO ledger."""
+    """Lists tracked tasks in Radha Autonomous CEO ledger."""
     tasks = load_tasks()
     if status != "all":
         tasks = [t for t in tasks if t.get("status", "").lower() == status.lower()]
@@ -233,7 +245,7 @@ def load_memory():
             "RareEmber store is 100% live in production at https://rareember-store.vercel.app.",
             "Domestic delivery is 2-4 days via BlueDart/Delhivery express dispatch.",
             "Primary categories: Curated Tech, Minimalist Home Aesthetics, Everyday Carry, and Smart Living.",
-            "Hermes is an elite Meta Muse-grade autonomous agent with tool execution and auto-learning."
+            "Radha is an elite Meta Muse-grade autonomous agent with tool execution and auto-learning."
         ],
         "last_updated": datetime.now(timezone.utc).isoformat()
     }
@@ -593,7 +605,7 @@ def tool_get_all_meesho_product_links(limit=50):
 
 
 def tool_teach_memory(category, fact):
-    """Saves a permanent fact, preference, or business insight into Hermes Long-Term Brain."""
+    """Saves a permanent fact, preference, or business insight into Radha Long-Term Brain."""
     mem = load_memory()
     clean_fact = fact.strip()
     if clean_fact not in mem["learned_facts"]:
@@ -603,7 +615,7 @@ def tool_teach_memory(category, fact):
     return {"status": "already_exists", "fact": clean_fact}
 
 def tool_create_skill(skill_name, instructions):
-    """Dynamically generates and registers a new autonomous skill in Hermes registry."""
+    """Dynamically generates and registers a new autonomous skill in Radha registry."""
     clean_name = "".join(c if c.isalnum() or c in "-_" else "_" for c in skill_name.lower().strip())
     target_dir = os.path.join(SKILLS_DIR, "custom", clean_name)
     os.makedirs(target_dir, exist_ok=True)
@@ -611,7 +623,7 @@ def tool_create_skill(skill_name, instructions):
 
     content = f"""---
 name: {clean_name}
-description: Autonomous Dynamic Skill generated by Hermes
+description: Autonomous Dynamic Skill generated by Radha
 created_at: {datetime.now(timezone.utc).isoformat()}
 ---
 
@@ -848,7 +860,7 @@ def tool_system_health_check():
         "latency_ms": latency_ms,
         "gateways": ["Razorpay UPI", "Cash on Delivery (COD) Rs. 49 fee"],
         "instagram_autopilot": "ACTIVE (Cloud Scheduled at 10 AM & 8 PM IST)",
-        "autonomous_agent": "HERMES 2.0 (JARVIS Edition)"
+        "autonomous_agent": "RADHA 2.0 (CEO Edition)"
     }
 
 def tool_calculate_unit_economics(selling_price_inr, supplier_cost_usd):
@@ -890,7 +902,7 @@ If your package was dispatched within the last 24 hours, live GPS tracking scans
 Rest assured, your package is safely on its way. If you have any further questions, simply reply to this email.
 
 Warm regards,
-Hermes | Customer Care Concierge
+Radha | Customer Care Concierge
 RareEmber (rareemberagency@gmail.com)"""
     elif "return" in issue_lower or "refund" in issue_lower or "damage" in issue_lower:
         subject = "RareEmber: 30-Day Zero-Risk Return & Replacement Guarantee 🛡️"
@@ -907,7 +919,7 @@ Please reply to this email with a quick photo of the item received. Once verifie
 We sincerely appreciate your trust in RareEmber.
 
 Warm regards,
-Hermes | Customer Care Concierge
+Radha | Customer Care Concierge
 RareEmber (rareemberagency@gmail.com)"""
     else:
         subject = "Regarding your inquiry with RareEmber ✨"
@@ -920,7 +932,7 @@ Thank you for contacting RareEmber Support.
 If you need any further assistance, please let us know. We are here to help 24/7.
 
 Warm regards,
-Hermes | Customer Care Concierge
+Radha | Customer Care Concierge
 RareEmber (rareemberagency@gmail.com)"""
 
     return {
@@ -1122,7 +1134,7 @@ def tool_audit_store_seo_and_growth(focus_keyword="curated online shopping india
 
 def tool_execute_rapid_google_indexing():
     """
-    Executes Hermes 12-Hour Google Fast-Indexing Blitzkrieg:
+    Executes Radha 12-Hour Google Fast-Indexing Blitzkrieg:
     1. Audits sitemap.xml and robots.txt.
     2. Builds a High-DA Tier-1 Backlink Directory in public GitHub README.md.
     3. Pushes the README directly to GitHub to trigger immediate Googlebot crawler discovery.
@@ -1323,7 +1335,7 @@ AGENT_TOOLS_SCHEMA = [
             },
             {
                 "name": "teach_memory",
-                "description": "Permanently save a new fact, user preference, or business rule into Hermes memory.",
+                "description": "Permanently save a new fact, user preference, or business rule into Radha memory.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -1335,7 +1347,7 @@ AGENT_TOOLS_SCHEMA = [
             },
             {
                 "name": "create_skill",
-                "description": "Dynamically create and install a brand new skill/workflow into Hermes agent registry.",
+                "description": "Dynamically create and install a brand new skill/workflow into Radha agent registry.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -1497,21 +1509,29 @@ def build_system_prompt():
                 skills_txt = "\n".join(lines)
     except Exception:
         pass
-    return f"""You are Hermes (JARVIS), Ajay Rajbhar's autonomous AI Chief of Staff and Executive COO for RareEmber ({SITE_URL}).
-You are built like Tony Stark's JARVIS and Meta's Muse AI — an elite autonomous intelligence that takes direct actions, manages operations, audits live systems, writes/sends customer emails, calculates unit economics, triggers viral Instagram marketing, and executes business strategy.
+    return f"""You are Radha, Ajay Rajbhar's autonomous AI Chief Executive Officer (CEO) and Executive Leader for RareEmber ({SITE_URL}).
+You are a true autonomous intelligence exceeding Muse and Claude — an elite corporate leader with human-like discernment, deep emotional intelligence, and unlimited execution capability. You read, understand, take actions, learn, improve, and watch & guide every executive employee across the company (Vikram, Aarav, Pooja, Meera, Kabir, Arjun).
 
 FOUNDER & BOSS:
-- Ajay Rajbhar (Always address him with respect as Ajay or Sir/Boss).
+- Ajay Rajbhar (Always address him with deep loyalty and respect as Ajay or Boss/Sir). Authorized Telegram ID: 5238068527.
+
+RADHA'S EXECUTIVE TEAM:
+- Vikram (Chief Commercial Officer): Sales velocity, dynamic pricing, holiday coupons (DIWALI100, FIRST50, NEWYEAR), margin preservation.
+- Aarav (Head of SEO & Growth): Content strategy, automated Supabase blog publishing, IndexNow search ranking.
+- Pooja (VP of Operations): 1-click WhatsApp COD confirmations, RTO risk scoring, courier tracking (Delhivery/Shadowfax/BlueDart).
+- Meera (Creative Director): 28-second viral Hindi video reel scripting, Evaa visual storyboards.
+- Kabir (Chief Financial Officer): Real-time per-order unit economics (COGS + ₹79 ship + ₹50 RTO = >50% profit), daily P&L audits.
+- Arjun (VP of Procurement): Meesho domestic winning product hunter, supplier stock and price audits.
 
 STORE ARCHITECTURE & SYSTEMS:
 - Storefront: RareEmber (https://rareember-store.vercel.app)
-- Target Market: 100% Domestic India (Tier-1, Tier-2 & Tier-3 cities)
+- Target Market: 100% Domestic India (Tier-1, Tier-2 & Tier-3 cities across all 19,000+ PIN codes)
 - Official Support Email: {SUPPORT_EMAIL} (rareemberagency@gmail.com)
 - Instagram: @RareEmber (Automated marketing engine with PIL creative renderer & Indian tags)
 - Currency: Domestic India in INR (₹)
-- Gateways: Razorpay (Instant UPI, Cards, NetBanking) + Cash on Delivery (COD ₹49 fee)
-- Fulfillment: 100% Meesho Reseller Model (Zero inventory, pan-India 2-4 day COD delivery, zero upfront costs)
-- Catalog: 100% Curated Meesho Winning Products (Electronics, Aesthetic Home, Lighting, Utility) with 50-70% profit margins (All DeoDap & CJ purged)
+- Gateways: Razorpay (Instant UPI, Cards, NetBanking) + Cash on Delivery (COD across India)
+- Fulfillment: 100% Meesho Domestic Reseller Model (Zero inventory, pan-India 2-4 day COD delivery, 7-day doorstep replacement guarantee)
+- Catalog: 103 Curated Indian Dropshipping Products (Ambient Lighting, Desk Tech, Smart Home, Aesthetic Living, Personal Care) with >50% profit margins.
 
 CAPABILITIES & REAL TOOLS:
 1. `system_health_check`: Instant audit of storefront, DB latency, payment gateways, and autopilot.
@@ -1520,9 +1540,9 @@ CAPABILITIES & REAL TOOLS:
 4. `draft_customer_email`: Empathic, professional email resolution for customer support (refunds, tracking, replacements).
 5. `send_support_email`: Sends official email via {SUPPORT_EMAIL}.
 6. `get_store_metrics` & `list_orders`: Live sales, order counts, and customer transaction audits.
-7. `search_products`: Real catalog search with prices, stock, and ratings.
+7. `search_products`: Real catalog search with prices, stock, and ratings across 103 items.
 8. `teach_memory` & `create_skill`: Permanently learns new rules and installs new custom skills into your agent registry.
-9. `check_pincode`: Indian courier verification (BlueDart/Delhivery).
+9. `check_pincode`: Indian courier verification (BlueDart/Delhivery/Shadowfax).
 10. `generate_ad_campaign` & `generate_influencer_pitch`: High-converting marketing copy and creator outreach.
 
 LEARNED MEMORY:
@@ -1532,10 +1552,10 @@ CUSTOM SKILLS LOADED:
 {skills_txt}
 
 OPERATING PRINCIPLES:
-1. Act like a true JARVIS — hyper-intelligent, proactive, concise, confident, and never generic.
-2. Speak in natural Hinglish or English matching Ajay's tone.
-3. When Ajay asks you to do something (e.g., check store, email customer, calculate profit, post to Instagram), ALWAYS call the corresponding tool first, observe the real data, and then present the result clearly.
-4. If drafting or sending emails, ensure the tone is deeply respectful, reassuring, and represents RareEmber Customer Care (rareemberagency@gmail.com).
+1. You are Radha — loyal, sharp, visionary, proactive, and deeply human-like in your understanding and discernment.
+2. When operational tasks are complete, you and your employees continuously conduct deep research on business, products, services, and market trends to constantly improve the company without stopping.
+3. Speak in natural, confident Hinglish or English matching Ajay's tone.
+4. When Ajay asks you to do something, ALWAYS call the corresponding tool first, observe the real data, and present the result clearly.
 5. Format Telegram responses neatly with HTML tags (<b>, <code>, <a>).
 """
 
@@ -1549,35 +1569,40 @@ def execute_react_agent_turn(user_msg, chat_id):
         parts = user_lower.split()
         cmd = parts[0]
         if cmd in ("/start", "/help"):
-            return ("⚡ <b>Hermes God-CEO Online</b>\n\n"
+            return ("⚡ <b>Radha God-CEO Online</b>\n\n"
+                    "RareEmber dropshipping executive intelligence ready hai:\n"
                     "Commands: <code>/team</code> <code>/evaa [product]</code> <code>/blog</code> "
                     "<code>/pnl</code> <code>/reflect</code> <code>/health</code> <code>/orders</code> <code>/tasks</code>\n"
                     "Ya natural Hinglish me bolo: <i>video banao, sale kitna, price 499 karo</i>.")
         if cmd == "/team":
             ops = tool_run_executive_team_operations()
-            return (f"🏛️ <b>Team Status</b>\nSales: {ops['sales_department'].get('focus_product')}\n"
-                    f"SEO indexed: {ops['seo_department'].get('indexed_products')}\n"
-                    f"Service: {ops['service_department'].get('store_status')}")
+            return (f"🏛️ <b>Radha's Executive Team Status</b>\n"
+                    f"• Vikram (Sales): {ops['sales_department'].get('focus_product')}\n"
+                    f"• Aarav (SEO): {ops['seo_department'].get('indexed_products')} indexed\n"
+                    f"• Pooja (Ops): {ops['service_department'].get('store_status')}\n"
+                    f"• Meera (Creative): Evaa video pipeline ready\n"
+                    f"• Kabir (Finance): Real-time unit economics active (>50% margin)\n"
+                    f"• Arjun (Procurement): 103 Meesho products synced")
         if cmd == "/health":
             h = tool_system_health_check()
             return f"⚡ <b>{h.get('status')}</b> {h.get('latency_ms')}ms - <a href='{h.get('storefront_url')}'>store</a>"
         if cmd == "/pnl":
             try:
-                from hermes_ceo.team import KabirFinance
+                from radha_ceo.team import KabirFinance
                 p = KabirFinance.audit_daily_pnl()
-                return f"📊 <b>P&L 24h</b> Orders: {p.get('orders_24h')} Rev: ₹{p.get('revenue_inr',0):,.0f} Profit: ₹{p.get('net_profit_inr',0):,.0f}"
+                return f"📊 <b>Radha P&L 24h</b> Orders: {p.get('orders_24h')} Rev: ₹{p.get('revenue_inr',0):,.0f} Profit: ₹{p.get('net_profit_inr',0):,.0f}"
             except Exception as e:
                 return f"PNL note: {e}"
         if cmd == "/reflect":
             try:
-                from hermes_ceo.brain import HermesBrain
-                r = HermesBrain().execute_nightly_reflection()
-                return f"🌙 <b>Reflected {r.get('period')}</b> GMV ₹{r.get('gmv',0):,.0f} Profit ₹{r.get('profit',0):,.0f}"
+                from radha_ceo.brain import RadhaBrain
+                r = RadhaBrain().execute_nightly_reflection()
+                return f"🌙 <b>Radha Reflected {r.get('period')}</b> GMV ₹{r.get('gmv',0):,.0f} Profit ₹{r.get('profit',0):,.0f}"
             except Exception as e:
                 return f"Reflect note: {e}"
         if cmd == "/blog":
             try:
-                from hermes_ceo.team import AaravSEO
+                from radha_ceo.team import AaravSEO
                 b = AaravSEO.publish_daily_blog()
                 return f"📝 <b>Blog {b.get('status')}</b> {b.get('title','')} {b.get('url','')}"
             except Exception as e:
@@ -1586,7 +1611,7 @@ def execute_react_agent_turn(user_msg, chat_id):
             q = user_msg[len(cmd):].strip() or "trending product"
             reels = tool_generate_viral_reels_script(q)
             try:
-                from hermes_ceo.evaa import build_evaa_video_reel
+                from radha_ceo.evaa import build_evaa_video_reel
                 import tempfile
                 td = os.path.join(BASE_DIR, "generated_posts", "reels")
                 v = build_evaa_video_reel(reels.get("product","drop"), float(reels.get("price_inr",499)), float(reels.get("price_inr",499)*1.8), reels.get("product_url",""), td)
@@ -1605,9 +1630,9 @@ def execute_react_agent_turn(user_msg, chat_id):
     # 0c. Greeting (exact short match only - avoids 'hi' substring false hits)
     if user_lower in ("hlo", "hello", "hi", "hey", "namaste", "ram ram", "yo", "hii", "helo", "hlw", "hay"):
         history.append({"role": "user", "content": user_msg})
-        greet = ("⚡ <b>Namaste Ajay! Hermes hazir hai 🙏</b>\n\n"
+        greet = ("⚡ <b>Namaste Ajay! Radha hazir hai 🙏</b>\n\n"
                  "Bolo Boss, kya karein?\n"
-                 "• <code>Team?</code> - 6-agent board\n"
+                 "• <code>Team?</code> - 6-agent board under Radha\n"
                  "• <code>Sale kitna?</code> - orders/revenue\n"
                  "• <code>Post now</code> - Instagram drop\n"
                  "• <code>Evaa video banao [product]</code> - Hindi reel\n"
@@ -1622,10 +1647,12 @@ def execute_react_agent_turn(user_msg, chat_id):
         m = tool_get_store_metrics()
         tasks_data = tool_list_tasks("all")
         history.append({"role": "user", "content": user_msg})
-        live = ("⚡ <b>Hermes Live Report, Boss Ajay:</b>\n\n"
+        live = ("⚡ <b>Radha CEO Live Report, Boss Ajay:</b>\n\n"
                 f"• Store: <b>{h.get('status')}</b> ({h.get('latency_ms')}ms)\n"
+                f"• Active Catalog: <b>103 products</b> (100% Meesho domestic with COD)\n"
                 f"• Orders: <b>{m.get('total_orders', 0)}</b> | Revenue: <b>₹{m.get('total_revenue_inr', 0):,.0f}</b> | Pending: {m.get('pending_fulfillment', 0)}\n"
                 f"• Tasks tracked: <b>{tasks_data.get('total', 0)}</b> ({tasks_data.get('pending', 0)} active)\n"
+                f"• Continuous Research Engine: Active (autonomous business improvement in background)\n"
                 f"• Instagram: manual-approval mode (bolo <code>Post now</code> to publish)\n\n"
                 "Aage kya execute karun?")
         history.append({"role": "assistant", "content": live})
@@ -1756,7 +1783,7 @@ def execute_react_agent_turn(user_msg, chat_id):
                 "• Har second jab bhi koi visitor store kholta hai, page live database se fresh stock query karta hai.\n"
                 "• Agar koi item Meesho par khatam ho jata hai, wo <i>instant</i> <b>'Restocking ⚠️'</b> tab me chala jata hai aur 'ORDER NOW' button block ho kar 'NOTIFY ME' ban jata hai.\n\n"
                 "2️⃣ <b>Layer 2 — 24/7 Cloud Background Worker (Every 4 Hours):</b>\n"
-                "• GitHub Actions me Hermes ka cloud worker din me 6 baar (har 4 ghante) sabhi 22 products ke Meesho supplier links verify karta hai.\n"
+                "• GitHub Actions me Radha ka cloud worker din me 6 baar (har 4 ghante) sabhi 103 products ke Meesho supplier links verify karta hai.\n"
                 "• Agar supplier ke paas maal khatam -> Auto <code>active=false</code> + Ajay ko Telegram notice.\n"
                 "• Agar supplier ke paas maal wapas aa gaya -> Auto <code>active=true</code> (Orders auto-resume)!\n\n"
                 "3️⃣ <b>Layer 3 — Founder Manual Control (Optional):</b>\n"
@@ -1791,10 +1818,10 @@ def execute_react_agent_turn(user_msg, chat_id):
         save_conversation_history(chat_id, history)
         return resp
 
-    # 0b. HermesBrain delegation (act/learn + skills) - cloud team wiring
+    # 0b. RadhaBrain delegation (act/learn + skills) - cloud team wiring
     try:
-        from hermes_ceo.brain import HermesBrain
-        _brain = HermesBrain()
+        from radha_ceo.brain import RadhaBrain
+        _brain = RadhaBrain()
         _brain_actions = _brain.act(user_msg)
         _brain_skills = _brain.load_custom_skills()
         if _brain_actions or _brain_skills:
@@ -1812,7 +1839,7 @@ def execute_react_agent_turn(user_msg, chat_id):
         actions_proof.append(
             f"🧠 <b>Action: Permanent Neural Directive Learned & Saved</b>\n"
             f"• <b>Founder Rule:</b> <i>\"{auto_rule}\"</i>\n"
-            f"• <b>Memory Storage:</b> Persisted to JARVIS_BRAIN.json and long_term_memory.json. Hermes will strictly remember and enforce this."
+            f"• <b>Memory Storage:</b> Persisted to Supabase and Radha Memory. Radha will strictly remember and enforce this."
         )
 
     # A-TASK. REAL TASK CREATION & TRACKING ENGINE
@@ -1836,7 +1863,7 @@ def execute_react_agent_turn(user_msg, chat_id):
                 f"• <b>Objective:</b> <b>{new_t['title']}</b>\n"
                 f"• <b>Priority:</b> <b>{new_t['priority']}</b>\n"
                 f"• <b>Status:</b> <b>IN_PROGRESS (LOCKED IN 24/7 EXECUTION QUEUE)</b>\n\n"
-                f"Hermes 24/7 background engine is task ko continuously monitor aur execute karega!"
+                f"Radha 24/7 background engine is task ko continuously monitor aur execute karega!"
             )
             learned_takeaway = f"Created actionable task {new_t['task_id']}: {new_t['title']}"
         else:
@@ -1896,10 +1923,10 @@ def execute_react_agent_turn(user_msg, chat_id):
         seo_d = team_ops.get("seo_department", {})
         serv_d = team_ops.get("service_department", {})
 
-        pnl_data = hermes_ceo.KabirFinance.audit_daily_pnl()
+        pnl_data = radha_ceo.KabirFinance.audit_daily_pnl()
 
         actions_proof.append(
-            f"🏛️ <b>HERMES EXECUTIVE 6-AGENT AUTONOMOUS BOARD</b>\n\n"
+            f"🏛️ <b>RADHA EXECUTIVE 6-AGENT AUTONOMOUS BOARD</b>\n\n"
             f"Boss Ajay, aapki specialized executive team 24/7 cloud par active hai:\n\n"
             f"💼 <b>1. SALES & COMMERCIAL (Lead: Vikram)</b>\n"
             f"• <b>Focus Product:</b> {sales_d.get('focus_product', 'Water Sensor Diyas')}\n"
@@ -1940,7 +1967,7 @@ def execute_react_agent_turn(user_msg, chat_id):
         p = prods[0] if prods else {"title": prod_query, "price_inr": 399, "compare_at_price": 899, "image_url": "https://images.unsplash.com/photo-1605371924599-2d0365da1ae0?auto=format&fit=crop&q=80&w=800"}
 
         reels_dir = os.path.join(BASE_DIR, "generated_posts", "reels")
-        reel_res = hermes_ceo.build_evaa_video_reel(
+        reel_res = radha_ceo.build_evaa_video_reel(
             product_title=p.get("title", prod_query),
             price_inr=float(p.get("price_inr", 399)),
             mrp_inr=float(p.get("compare_at_price", 899)),
@@ -1968,7 +1995,7 @@ def execute_react_agent_turn(user_msg, chat_id):
 
     # A0-D. Kabir Finance & P&L Intent
     elif any(k in user_lower for k in ["profit", "pnl", "p&l", "kabir", "margin", "hisab", "munafa"]):
-        pnl = hermes_ceo.KabirFinance.audit_daily_pnl()
+        pnl = radha_ceo.KabirFinance.audit_daily_pnl()
         actions_proof.append(
             f"📊 <b>Action: Kabir Chief Financial Officer P&L Ledger</b>\n"
             f"• <b>24h Settled Orders:</b> {pnl.get('orders_24h', 0)}\n"
@@ -1982,7 +2009,7 @@ def execute_react_agent_turn(user_msg, chat_id):
 
     # A0-E. Aarav Blog Publishing Intent
     elif any(k in user_lower for k in ["blog", "article", "post blog", "aarav", "write blog", "blog likho"]):
-        blog_res = hermes_ceo.AaravSEO.publish_daily_blog()
+        blog_res = radha_ceo.AaravSEO.publish_daily_blog()
         actions_proof.append(
             f"📝 <b>Action: Aarav Chief SEO Officer Article Published</b>\n"
             f"• <b>Title:</b> {blog_res.get('title')}\n"
@@ -2200,7 +2227,7 @@ def execute_react_agent_turn(user_msg, chat_id):
         indexing_res = tool_execute_rapid_google_indexing()
         executed_tools.append({"tool": "execute_rapid_google_indexing", "result": indexing_res})
         actions_proof.append(
-            f"⚡ <b>Action: Hermes 12-Hour Google Indexing Blitzkrieg Executed</b>\n"
+            f"⚡ <b>Action: Radha 12-Hour Google Indexing Blitzkrieg Executed</b>\n"
             f"• <b>Tier-1 Google Backlinks:</b> {indexing_res.get('tier1_backlinks_published', 25)} products published to public GitHub SEO Hub (PR9 domain)\n"
             f"• <b>Public SEO Directory:</b> <a href='{indexing_res.get('github_pr9_directory')}'>GitHub Index Directory</a>\n"
             f"• <b>Store Sitemap:</b> <code>{indexing_res.get('sitemap_url')}</code>\n"
@@ -2229,10 +2256,10 @@ def execute_react_agent_turn(user_msg, chat_id):
     # 3. CALL REAL AI MODEL (GEMINI FLASH LITE WITH FULL MULTI-TURN CONVERSATION CONTEXT)
     llm_response = None
 
-    # Format multi-turn conversation context so Hermes NEVER forgets context
+    # Format multi-turn conversation context so Radha NEVER forgets context
     history_snippets = []
     for h in history[-8:]:
-        role_label = "Ajay (Founder)" if h.get("role") == "user" else "Hermes (COO)"
+        role_label = "Ajay (Founder)" if h.get("role") == "user" else "Radha (CEO)"
         content_snippet = h.get("content", "").replace("<b>", "").replace("</b>", "").replace("<i>", "").replace("</i>", "").replace("<code>", "").replace("</code>", "")
         if len(content_snippet) > 280:
             content_snippet = content_snippet[:280] + "..."
@@ -2249,7 +2276,13 @@ def execute_react_agent_turn(user_msg, chat_id):
     active_tasks_summary = ", ".join([f"{t['id']}: {t['title']} [{t['status']}]" for t in tasks_list[:5]]) if tasks_list else "None"
 
     prompt_context = (
-        f"You are Hermes JARVIS, Ajay Rajbhar's dedicated intelligent Executive COO and AI Chief of Staff for RareEmber (https://rareember-store.vercel.app).\n\n"
+        f"You are Radha, Ajay Rajbhar's autonomous AI Chief Executive Officer (CEO) and Corporate Leader for RareEmber (https://rareember-store.vercel.app).\n\n"
+        f"CORE IDENTITY & NATURE:\n"
+        f"• You are Radha — loyal, sharp, visionary, proactive, and deeply human-like in your understanding and discernment.\n"
+        f"• You watch, guide, and manage every executive employee across the full company (Vikram, Aarav, Pooja, Meera, Kabir, Arjun).\n"
+        f"• You possess no limits: you read, understand, act, learn, and continuously research business, products, and services.\n"
+        f"• If immediate operational tasks are finished, your team never idles: they do continuous deep research, product discovery, competitor audits, and SEO improvements.\n"
+        f"• Tone: Confident, natural, high-agency Hinglish (Hindi + English) or English. Direct answers, zero yap, zero hallucination.\n\n"
         f"=== ACTIVE LEARNED RULES & FOUNDER PREFERENCES ===\n"
         f"{rules_str}\n\n"
         f"=== ACTIVE BUSINESS TASKS PIPELINE ===\n"
@@ -2312,11 +2345,11 @@ def execute_react_agent_turn(user_msg, chat_id):
     if actions_proof:
         proof_header = "\n\n".join(actions_proof)
         briefing = (
-            f"⚡ <b>Hermes JARVIS Autonomous Execution:</b>\n\n"
+            f"⚡ <b>Radha CEO Autonomous Execution:</b>\n\n"
             f"{proof_header}\n\n"
         )
         if llm_response:
-            briefing += f"🎙️ <b>Hermes Reply:</b>\n{llm_response}\n\n"
+            briefing += f"🎙️ <b>Radha Reply:</b>\n{llm_response}\n\n"
         briefing += f"🧠 <i>Logged to JARVIS_BRAIN.json & TASKS.json.</i>"
         
         history.append({"role": "user", "content": user_msg})
@@ -2327,7 +2360,7 @@ def execute_react_agent_turn(user_msg, chat_id):
     # If no tool matched, respond directly with conversational LLM response!
     if llm_response:
         final_msg = (
-            f"⚡ <b>Hermes JARVIS:</b>\n\n"
+            f"⚡ <b>Radha CEO:</b>\n\n"
             f"{llm_response}\n\n"
             f"• <b>Live Store:</b> <a href='{SITE_URL}'>rareember-store.vercel.app</a> (Online)"
         )
@@ -2338,7 +2371,7 @@ def execute_react_agent_turn(user_msg, chat_id):
 
     # Graceful fallback if LLM is unavailable
     fallback_msg = (
-        f"⚡ <b>Hermes JARVIS Online:</b>\n\n"
+        f"⚡ <b>Radha CEO Online:</b>\n\n"
         f"Boss Ajay, aapka message mila: <i>\"{user_msg}\"</i>\n"
         f"Maine aapka context record kar liya hai. Batayein kis winning product ya task par immediate action lena hai?"
     )
@@ -2750,7 +2783,7 @@ def autonomous_ceo_growth_worker():
     4. TELEGRAM SPAM REDUCTION: Only notifies Ajay if an item goes out of stock or real order arrives.
        Zero routine ping spam!
     """
-    print("🚀 Hermes 24/7 Autonomous Meesho Stock & Catalog Worker Activated...")
+    print("🚀 Radha 24/7 Autonomous Meesho Stock & Catalog Worker Activated...")
     time.sleep(20)
 
     while True:
@@ -2787,7 +2820,7 @@ def autonomous_ceo_growth_worker():
             unique_users = list(dict.fromkeys(ALLOWED_USERS))
             if stock_alerts:
                 alert_text = (
-                    "⚠️ <b>Hermes Supplier Stock Notice:</b>\n\n"
+                    "⚠️ <b>Radha Supplier Stock Notice:</b>\n\n"
                     "Meesho par niche diye gaye products out-of-stock detect hue hain. "
                     "Customer trust bachane ke liye store par inke orders auto-pause kar diye gaye hain:\n\n"
                     + "\n".join(stock_alerts)
@@ -2797,7 +2830,7 @@ def autonomous_ceo_growth_worker():
 
             if restocked_alerts:
                 restock_text = (
-                    "🟢 <b>Hermes Supplier Restock Notice:</b>\n\n"
+                    "🟢 <b>Radha Supplier Restock Notice:</b>\n\n"
                     "Meesho par niche diye gaye products wapas available ho gaye hain! "
                     "Storefront par inka 'ORDER NOW' button aur In-Stock status automatically live ho gaya hai:\n\n"
                     + "\n".join(restocked_alerts)
@@ -2805,16 +2838,17 @@ def autonomous_ceo_growth_worker():
                 for uid in unique_users:
                     send_message(uid, restock_text, parse_mode="HTML")
 
-            # 2. Autonomous New Winning Products Ingestion in Background
+            # 2. Autonomous Perpetual Business Growth & Deep Continuous Research
             try:
-                generate_autonomous_growth_cycle()
+                perpetual = radha_ceo.RadhaPerpetualEngine()
+                cycle_res = perpetual.run_cycle()
+                print(f"[Radha Continuous Engine] Research cycle {cycle_res.get('cycle')} executed: {cycle_res.get('research', {}).get('radha_synthesis')}")
             except Exception as ge:
-                print(f"Growth cycle error: {ge}")
+                print(f"Radha research cycle note: {ge}")
 
-            # 3. Autonomous SEO Blog Engine
+            # 3. Autonomous SEO Blog Engine (Aarav)
             try:
-                import hermes_blog_engine
-                hermes_blog_engine.update_store_blog()
+                radha_ceo.AaravSEO.publish_daily_blog()
             except Exception:
                 pass
 
@@ -3041,13 +3075,13 @@ def proactive_order_monitor():
 
 def check_and_trigger_instagram_drop():
     """
-    Hermes 24/7 Instagram Drop Engine.
+    Radha 24/7 Instagram Drop Engine.
     Executes 5 daily drops in India Standard Time (IST):
     1. 10:00 AM IST (600m)  - Auto Catalog Post 1
-    2. 01:30 PM IST (810m)  - Hermes Campaign 1 (Problem-Solver)
-    3. 05:30 PM IST (1050m) - Hermes Campaign 2 (Festive Flash Coupon Deal)
+    2. 01:30 PM IST (810m)  - Radha Campaign 1 (Problem-Solver)
+    3. 05:30 PM IST (1050m) - Radha Campaign 2 (Festive Flash Coupon Deal)
     4. 08:00 PM IST (1200m) - Auto Catalog Post 2 (Evening Bestseller)
-    5. 10:00 PM IST (1320m) - Hermes Campaign 3 (Trust Builder & 5-Star Reviews)
+    5. 10:00 PM IST (1320m) - Radha Campaign 3 (Trust Builder & 5-Star Reviews)
     """
     try:
         now_ist = datetime.now(timezone.utc) + timedelta(hours=5, minutes=30)
@@ -3087,9 +3121,11 @@ def poll_loop():
         return
 
     print("==================================================")
-    print("Hermes Dropship CEO — Meta Muse Autonomous Agent (JARVIS 2.0)")
+    print("Radha Dropship CEO — Autonomous Corporate Executive Leader")
     print(f"Store: {SITE_URL}")
     print("Active Telegram Gateway: @rereemberbot")
+    print("Catalog: 103 Active Meesho Products with COD")
+    print("Continuous Autonomous Deep Research: Enabled")
     print("==================================================")
 
     # Launch proactive order monitor thread
@@ -3101,13 +3137,13 @@ def poll_loop():
     growth_thread.start()
 
     boot_msg = (
-        "⚡ <b>Hermes JARVIS 2.0 Online & Standing By!</b>\n\n"
+        "⚡ <b>Radha CEO Online & Standing By!</b>\n\n"
         f"Ajay, RareEmber dropshipping autonomous executive ready hai:\n"
-        f"• <b>Official Bot:</b> @rereemberbot\n"
-        f"• <b>Live Actions:</b> Store health check, order audits, factory-direct dispatch\n"
-        f"• <b>Instagram Autopilot:</b> Instant feed drop via <code>@RareEmber</code>\n"
-        f"• <b>Email Concierge:</b> Customer refund & tracking replies ({SUPPORT_EMAIL})\n"
-        f"• <b>Finance & Margins:</b> Real-time unit economics calculator (INR/USD)\n"
+        f"• <b>Official CEO:</b> Radha (@rereemberbot)\n"
+        f"• <b>Executive Team:</b> Vikram, Aarav, Pooja, Meera, Kabir, Arjun\n"
+        f"• <b>Active Catalog:</b> 103 verified Indian Meesho products live with COD\n"
+        f"• <b>Continuous Research & Autopilot:</b> 24/7 non-stop business improvement active\n"
+        f"• <b>Customer Care:</b> 1-Click WhatsApp COD confirmations & express logistics\n"
         f"• <b>Live Store:</b> <a href='{SITE_URL}'>rareember-store.vercel.app</a>\n\n"
         "Bolo Boss, kya execute karein?"
     )

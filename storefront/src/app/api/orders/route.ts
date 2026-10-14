@@ -41,21 +41,40 @@ export async function GET(req: NextRequest) {
 
   try {
     const sb = createClient(url, key);
-    let q = sb
-      .from('orders')
-      .select('id,user_email,total_amount,status,cj_order_id,tracking_number,tracking_url,items,payment_method,shipping_name,shipping_address,created_at')
-      .order('created_at', { ascending: false });
+    let data: any[] | null = null;
+    let error: any = null;
 
     if (adminAuthorized) {
-      if (email) q = q.eq('user_email', email);
-      if (orderId) q = q.ilike('id', `${orderId}%`);
-      q = q.limit(20);
+      if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+        let q = sb
+          .from('orders')
+          .select('id,user_email,total_amount,status,cj_order_id,tracking_number,tracking_url,items,payment_method,shipping_name,shipping_address,created_at')
+          .order('created_at', { ascending: false });
+        if (email) q = q.eq('user_email', email);
+        if (orderId) q = q.ilike('id', `${orderId}%`);
+        const res = await q.limit(20);
+        data = res.data;
+        error = res.error;
+      } else {
+        const adminSecret = process.env.ADMIN_SECRET || 'RareEmberAdmin2026';
+        const res = await sb.rpc('admin_lookup_orders', {
+          p_admin_secret: adminSecret,
+          p_order_id: orderId || null,
+          p_email: email || null,
+        });
+        data = res.data;
+        error = res.error;
+      }
     } else {
-      // Exact lookup only — no prefix enumeration
-      q = q.eq('id', orderId).eq('user_email', email).limit(1);
+      // Secure public tracking: exact match on both order ID and email via security-definer RPC
+      const res = await sb.rpc('track_order', {
+        p_order_id: orderId,
+        p_email: email,
+      });
+      data = res.data;
+      error = res.error;
     }
 
-    const { data, error } = await q;
     if (error) {
       console.error('Orders lookup failed:', error.message);
       return NextResponse.json({ orders: [], error: 'Lookup failed' }, { status: 500 });

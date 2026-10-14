@@ -21,6 +21,7 @@ const KNOWN_CATEGORIES: ProductCategory[] = [
   'electronics',
   'fashion',
   'home-garden',
+  'home-living',
   'pets',
   'beds',
   'toys',

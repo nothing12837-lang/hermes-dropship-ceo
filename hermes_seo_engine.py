@@ -35,7 +35,7 @@ INDEXNOW_KEY = os.environ.get("INDEXNOW_KEY", "rareember2026indexnowkey").strip(
 
 def fetch_all_live_products():
     """Gently fetches all live products from Supabase database."""
-    url = f"{SUPABASE_URL}/rest/v1/products?select=id,title,category,updated_at,created_at&market=eq.INDIA&order=created_at.desc&limit=150"
+    url = f"{SUPABASE_URL}/rest/v1/products?select=id,title,category,updated_at,created_at&active=eq.true&order=created_at.desc&limit=250"
     headers = {
         "apikey": SUPABASE_ANON_KEY,
         "Authorization": f"Bearer {SUPABASE_ANON_KEY}"
