@@ -13,29 +13,36 @@ import os
 import json
 import ssl
 import urllib.parse
+from pathlib import Path
 from datetime import datetime, timezone
+
+try:
+    from dotenv import load_dotenv
+    _env_path = Path(__file__).resolve().parent.parent / ".env"
+    if _env_path.exists():
+        load_dotenv(_env_path)
+    else:
+        load_dotenv()
+except Exception:
+    pass
+
 import pg8000.native
 from hermes_ceo.memory import save_memory, get_memory
 
-DB_HOST = os.environ.get("SUPABASE_DB_HOST", "db.qdkkxpfhwrwyoardlceo.supabase.co").strip()
-DB_USER = os.environ.get("SUPABASE_DB_USER", "postgres").strip()
-DB_PASS = os.environ.get("SUPABASE_DB_PASS", "").strip()
-DB_NAME = os.environ.get("SUPABASE_DB_NAME", "postgres").strip()
-SITE_URL = os.environ.get("SITE_URL", "https://rareember-store.vercel.app").strip()
-
 def _get_con():
-    if not DB_PASS:
+    db_pass = os.environ.get("SUPABASE_DB_PASS", "").strip()
+    if not db_pass:
         return None
     try:
         ctx = ssl.create_default_context()
         ctx.check_hostname = False
         ctx.verify_mode = ssl.CERT_NONE
         return pg8000.native.Connection(
-            user=DB_USER,
-            host=DB_HOST,
+            user=os.environ.get("SUPABASE_DB_USER", "postgres").strip(),
+            host=os.environ.get("SUPABASE_DB_HOST", "db.qdkkxpfhwrwyoardlceo.supabase.co").strip(),
             port=5432,
-            database=DB_NAME,
-            password=DB_PASS,
+            database=os.environ.get("SUPABASE_DB_NAME", "postgres").strip(),
+            password=db_pass,
             ssl_context=ctx
         )
     except Exception as e:
