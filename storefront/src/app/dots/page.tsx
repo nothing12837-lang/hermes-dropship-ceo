@@ -135,9 +135,20 @@ interface ChatMessage {
   approval?: PendingApproval;
 }
 
+const EXECUTIVE_TEAM = [
+  { id: 'radha', name: 'Radha', role: 'CEO', icon: '👑', color: 'from-amber-500 to-rose-500', prompt: 'Review executive operations, daily GMV, and board execution metrics.' },
+  { id: 'vikram', name: 'Vikram', role: 'CCO', icon: '💼', color: 'from-blue-500 to-cyan-500', prompt: 'Audit catalog pricing, markup elasticity, and 55%-65% margin preservation.' },
+  { id: 'aarav', name: 'Aarav', role: 'SEO', icon: '🔍', color: 'from-emerald-500 to-teal-500', prompt: 'Check Google Search indexing status and sitemap for 103 domestic products.' },
+  { id: 'pooja', name: 'Pooja', role: 'Ops & COD', icon: '🚚', color: 'from-indigo-500 to-purple-500', prompt: 'Verify live Cash on Delivery (COD) dispatches and BlueDart/Delhivery tracking.' },
+  { id: 'meera', name: 'Meera', role: 'Google Vids', icon: '🎬', color: 'from-pink-500 to-rose-500', prompt: 'Synthesize a high-converting Google Vids AI reel for top trending winner.' },
+  { id: 'kabir', name: 'Kabir', role: 'CFO', icon: '💰', color: 'from-green-500 to-emerald-500', prompt: 'Run real-time unit economics breakdown and confirm ₹0 negative margin policy.' },
+  { id: 'arjun', name: 'Arjun', role: 'Procurement', icon: '📦', color: 'from-orange-500 to-amber-500', prompt: 'Inspect Surat & Meesho manufacturer pricing and check for stock updates.' },
+];
+
 export default function DotsDashboardPage() {
   // State
   const [agentState, setAgentState] = useState<DotState>('Sleeping');
+  const [selectedExecutive, setSelectedExecutive] = useState<string>('radha');
   const [backend, setBackend] = useState<ExecutionBackend>('local');
   const [sessionId, setSessionId] = useState<string>('dots_session');
   const [activeTab, setActiveTab] = useState<'terminal' | 'mcp' | 'skills' | 'vids' | 'canvas' | 'files' | 'crons' | 'memory'>('terminal');
@@ -812,10 +823,18 @@ export default function DotsDashboardPage() {
           </div>
 
           <Link
+            href="/admin/orders"
+            className="text-xs text-amber-400 hover:text-amber-300 px-2.5 py-1.5 rounded-md bg-amber-950/40 border border-amber-800/40 transition-colors flex items-center gap-1.5"
+          >
+            <span>👑</span>
+            <span className="hidden sm:inline">Admin Console</span>
+          </Link>
+
+          <Link
             href="/"
             className="text-xs text-slate-400 hover:text-white px-2 py-1.5 rounded-md hover:bg-[#151722] transition-colors flex items-center gap-1 border border-transparent hover:border-[#262A3D]"
           >
-            <span>Live Store</span>
+            <span>Store</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -833,12 +852,14 @@ export default function DotsDashboardPage() {
                   className={`absolute inset-0 rounded-full bg-gradient-to-br blur-md transition-all duration-500 ${statusConfig.orb}`}
                 />
                 <div className="relative w-8 h-8 rounded-full bg-[#10121C] border border-white/20 flex items-center justify-center shadow-inner">
-                  <div className="w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_10px_#fff]" />
+                  <span className="text-sm">
+                    {EXECUTIVE_TEAM.find((e) => e.id === selectedExecutive)?.icon || '👑'}
+                  </span>
                 </div>
               </div>
               <div>
-                <h3 className="text-xs sm:text-sm font-medium text-white flex items-center gap-2">
-                  Hermes Dot Executive Brain
+                <h3 className="text-xs sm:text-sm font-semibold text-white flex items-center gap-2">
+                  <span>Radha CEO &amp; Autonomous Board</span>
                   {activeApprovals.length > 0 && (
                     <span className="px-1.5 py-0.5 text-[10px] rounded bg-red-500/20 text-red-400 border border-red-500/40">
                       {activeApprovals.length} Approval Pending
@@ -846,11 +867,9 @@ export default function DotsDashboardPage() {
                   )}
                 </h3>
                 <p className="text-[11px] text-slate-400 flex items-center gap-2">
+                  <span>Active: <strong className="text-amber-400 font-medium">{EXECUTIVE_TEAM.find((e) => e.id === selectedExecutive)?.name} ({EXECUTIVE_TEAM.find((e) => e.id === selectedExecutive)?.role})</strong></span>
+                  <span>•</span>
                   <span>Backend: <strong className="text-purple-400 uppercase">{backend}</strong></span>
-                  <span>•</span>
-                  <span>MCP Apps: <strong className="text-emerald-400">{mcpServers.length}</strong></span>
-                  <span>•</span>
-                  <span>Skills: <strong className="text-indigo-400">{skills.length}</strong></span>
                 </p>
               </div>
             </div>
@@ -861,7 +880,7 @@ export default function DotsDashboardPage() {
                   {
                     id: `new_${Date.now()}`,
                     role: 'assistant',
-                    content: '✨ Thread refreshed. Ready for autonomous tasks, shell runs, or market actions.',
+                    content: '✨ Executive thread refreshed. Radha CEO, Vikram, Aarav, Pooja, Meera, Kabir, and Arjun stand ready at your command.',
                     timestamp: Date.now() / 1000
                   }
                 ]);
@@ -871,6 +890,29 @@ export default function DotsDashboardPage() {
             >
               <RefreshCw className="w-3.5 h-3.5" />
             </button>
+          </div>
+
+          {/* Executive Board Team Switcher Bar */}
+          <div className="px-3 py-2 border-b border-[#161824] bg-[#08090E] flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+            {EXECUTIVE_TEAM.map((exec) => (
+              <button
+                key={exec.id}
+                onClick={() => {
+                  setSelectedExecutive(exec.id);
+                  setInputPrompt(exec.prompt);
+                }}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+                  selectedExecutive === exec.id
+                    ? 'bg-amber-950/80 text-amber-200 border border-amber-600/50 shadow-sm'
+                    : 'bg-[#11131E] hover:bg-[#181B2A] text-slate-400 hover:text-slate-200 border border-[#1E2235]'
+                }`}
+                title={`${exec.name} (${exec.role})`}
+              >
+                <span>{exec.icon}</span>
+                <span>{exec.name}</span>
+                <span className="text-[10px] text-slate-500 font-mono">({exec.role})</span>
+              </button>
+            ))}
           </div>
 
           {/* Chat Messages Feed */}
