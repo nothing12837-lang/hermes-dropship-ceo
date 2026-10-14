@@ -33,7 +33,7 @@ export default function ReturnsPage() {
             </div>
             <h3 className="text-base font-bold text-neutral-950 mb-2">Reach Out</h3>
             <p className="text-xs text-neutral-600 leading-relaxed">
-              Contact us within 7 days of delivery at <code className="text-neutral-900 font-bold">rareemberagency@gmail.com</code> or ask our 24/7 Hermes AI Concierge.
+              Contact us within 7 days of delivery at <code className="text-neutral-900 font-bold">rareemberagency@gmail.com</code> or ask our 24/7 Radha CEO &amp; AI Concierge.
             </p>
           </div>
 
@@ -85,7 +85,7 @@ export default function ReturnsPage() {
           <div className="border-t border-black/[0.05] pt-6">
             <h2 className="text-lg font-black text-neutral-950 mb-2">Need Immediate Help?</h2>
             <p className="text-xs text-neutral-600 leading-relaxed">
-              Our 24/7 Hermes AI assistant is active in the bottom right corner to answer any order queries, or you can email our support team directly:
+              Our 24/7 Radha CEO &amp; AI concierge is active in the bottom right corner to answer any order queries, or you can email our support team directly:
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <a

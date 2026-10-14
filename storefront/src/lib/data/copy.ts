@@ -19,7 +19,7 @@ export const COPY = {
   announcement: 'standard shipping (7-14 days) • 24/7 live AI support • Real-time tracking',
 
   chatbotGreeting:
-    "Hi! I'm Hermes, your RareEmber shopping & support concierge. How can I help you today? (Track an order, check product specs, shipping info, or discounts)",
+    "Namaste! I'm Radha, RareEmber's CEO & AI Shopping Concierge. How can I help you today? (Track an order, verify COD & PIN code, check product specs, or discounts)",
 
   footer: {
     blurb: 'Everything you need. Trending electronics, fashion, home essentials and more — delivered fast.',
