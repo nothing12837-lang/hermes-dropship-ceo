@@ -208,5 +208,38 @@
         "description": "Retrieve size, permissions, and stats"
       }
     ]
+  },
+  {
+    "name": "google-vids-studio",
+    "description": "Google Vids AI Studio video creator, multi-scene storyboard synthesis, and neural TTS voiceover",
+    "transport": "stdio",
+    "command": "python",
+    "args": [
+      "-m",
+      "dots_gateway.google_vids"
+    ],
+    "url": null,
+    "env": {},
+    "connected": true,
+    "category": "media",
+    "tools_count": 4,
+    "tools": [
+      {
+        "name": "create_storyboard",
+        "description": "Generate multi-scene Google Vids outline from product or prompt"
+      },
+      {
+        "name": "synthesize_voiceover",
+        "description": "Generate neural TTS audio narration in Indian English, Hindi, or US English"
+      },
+      {
+        "name": "render_scene_cards",
+        "description": "Render 9:16 vertical reel slides with product photography and subtitles"
+      },
+      {
+        "name": "export_vids_manifest",
+        "description": "Export official Google Workspace Vids JSON project schema"
+      }
+    ]
   }
 ]

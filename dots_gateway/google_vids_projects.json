@@ -1,0 +1,71 @@
+[
+  {
+    "project_id": "vids_a89df6d4",
+    "title": "Google Vid: 3D Crystal Ball Galaxy Night Lamp with Natura",
+    "product_id": "meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base",
+    "product_title": "3D Crystal Ball Galaxy Night Lamp with Natural Beech Wood Base",
+    "aspect_ratio": "9:16",
+    "voice_id": "en-IN-NeerjaNeural",
+    "scenes": [
+      {
+        "scene_number": 1,
+        "title": "Scene 1: High-Impact Hook",
+        "layout": "hook",
+        "voiceover_text": "Stop scrolling if you want to upgrade your daily setup! Look at this incredible 3D find.",
+        "duration_seconds": 4.5,
+        "image_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=800",
+        "badge_text": "\ud83d\udd25 VIRAL FIND",
+        "slide_image_path": "generated_posts/google_vids/vids_a89df6d4/slide_1.jpg",
+        "audio_path": null
+      },
+      {
+        "scene_number": 2,
+        "title": "Scene 2: Core Problem & Solution",
+        "layout": "product_focus",
+        "voiceover_text": "Tired of cluttered spaces or overpriced gadgets? This 3D Crystal Ball Galaxy Night Lamp with Natural Beech Wood Base solves it with premium build quality.",
+        "duration_seconds": 5.5,
+        "image_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=800",
+        "badge_text": "\u2728 100% QUALITY TESTED",
+        "slide_image_path": "generated_posts/google_vids/vids_a89df6d4/slide_2.jpg",
+        "audio_path": null
+      },
+      {
+        "scene_number": 3,
+        "title": "Scene 3: Deep Feature Demo",
+        "layout": "feature_demo",
+        "voiceover_text": "Crafted with durable materials, seamless design, and zero hassle. It fits perfectly into your everyday routine.",
+        "duration_seconds": 5.0,
+        "image_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=800",
+        "badge_text": "\u26a1 EXPRESS DISPATCH",
+        "slide_image_path": "generated_posts/google_vids/vids_a89df6d4/slide_3.jpg",
+        "audio_path": null
+      },
+      {
+        "scene_number": 4,
+        "title": "Scene 4: Social Proof & Indian Domestic Delivery",
+        "layout": "social_proof",
+        "voiceover_text": "Rated 4.9 stars by over 500 customers across India. Delivered right to your doorstep in 2 to 4 days with Cash on Delivery.",
+        "duration_seconds": 5.0,
+        "image_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=800",
+        "badge_text": "\u2b50 4.9/5 RATED \u2022 COD AVAILABLE",
+        "slide_image_path": "generated_posts/google_vids/vids_a89df6d4/slide_4.jpg",
+        "audio_path": null
+      },
+      {
+        "scene_number": 5,
+        "title": "Scene 5: Irresistible Call-To-Action",
+        "layout": "cta",
+        "voiceover_text": "Only \u20b9399 for a limited time! Tap the link in bio or visit RareEmber to claim free shipping today.",
+        "duration_seconds": 5.0,
+        "image_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=800",
+        "badge_text": "\ud83d\uded2 GRAB FOR ONLY \u20b9399",
+        "slide_image_path": "generated_posts/google_vids/vids_a89df6d4/slide_5.jpg",
+        "audio_path": null
+      }
+    ],
+    "total_duration_seconds": 25.0,
+    "created_at": 1792020731.3041441,
+    "manifest_file": "generated_posts/google_vids/vids_a89df6d4/google_vids_manifest.json",
+    "full_audio_path": null
+  }
+]

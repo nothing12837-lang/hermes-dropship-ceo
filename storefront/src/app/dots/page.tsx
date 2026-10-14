@@ -33,7 +33,11 @@ import {
   Server,
   Cloud,
   Box,
-  Laptop
+  Laptop,
+  Film,
+  Video,
+  Volume2,
+  PlayCircle
 } from 'lucide-react';
 
 type DotState = 'Sleeping' | 'Thinking' | 'Running Code' | 'Awaiting Approval' | 'Completed';
@@ -97,6 +101,32 @@ interface SkillItem {
   full_content?: string;
 }
 
+interface GoogleVidsScene {
+  scene_number: number;
+  title: string;
+  layout: string;
+  voiceover_text: string;
+  duration_seconds: number;
+  image_url?: string;
+  badge_text?: string;
+  slide_image_path?: string;
+  audio_path?: string;
+}
+
+interface GoogleVidsProject {
+  project_id: string;
+  title: string;
+  product_id?: string;
+  product_title?: string;
+  aspect_ratio: string;
+  voice_id: string;
+  scenes: GoogleVidsScene[];
+  total_duration_seconds: number;
+  created_at: number;
+  manifest_file?: string;
+  full_audio_path?: string;
+}
+
 interface ChatMessage {
   id: string;
   role: 'user' | 'assistant' | 'system';
@@ -110,7 +140,7 @@ export default function DotsDashboardPage() {
   const [agentState, setAgentState] = useState<DotState>('Sleeping');
   const [backend, setBackend] = useState<ExecutionBackend>('local');
   const [sessionId, setSessionId] = useState<string>('dots_session');
-  const [activeTab, setActiveTab] = useState<'terminal' | 'mcp' | 'skills' | 'canvas' | 'files' | 'crons' | 'memory'>('terminal');
+  const [activeTab, setActiveTab] = useState<'terminal' | 'mcp' | 'skills' | 'vids' | 'canvas' | 'files' | 'crons' | 'memory'>('terminal');
   
   // Realtime & Connection
   const [wsConnected, setWsConnected] = useState<boolean>(false);
@@ -155,6 +185,14 @@ export default function DotsDashboardPage() {
   const [retainTaskName, setRetainTaskName] = useState<string>('');
   const [retainGoal, setRetainGoal] = useState<string>('');
   const [retainSummary, setRetainSummary] = useState<string>('');
+
+  // Google Vids Studio
+  const [vidsProjects, setVidsProjects] = useState<GoogleVidsProject[]>([]);
+  const [selectedVidProject, setSelectedVidProject] = useState<GoogleVidsProject | null>(null);
+  const [vidPrompt, setVidPrompt] = useState<string>('meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base');
+  const [vidAspectRatio, setVidAspectRatio] = useState<string>('9:16');
+  const [vidVoice, setVidVoice] = useState<string>('en-IN-NeerjaNeural');
+  const [isGeneratingVid, setIsGeneratingVid] = useState<boolean>(false);
 
   // Files Explorer
   const [files, setFiles] = useState<FileItem[]>([]);
@@ -269,6 +307,7 @@ export default function DotsDashboardPage() {
     fetchCrons();
     fetchMcpServers();
     fetchSkills();
+    fetchVidsProjects();
     fetchMemory();
 
     const pollInterval = setInterval(() => {
@@ -337,6 +376,48 @@ export default function DotsDashboardPage() {
         setSkills(data);
       }
     } catch {}
+  };
+
+  const fetchVidsProjects = async () => {
+    try {
+      const res = await fetch('/api/dots/api/v1/vids');
+      if (res.ok) {
+        const data = await res.json();
+        setVidsProjects(data);
+        if (data.length > 0) {
+          setSelectedVidProject((prev) => prev || data[0]);
+        }
+      }
+    } catch {}
+  };
+
+  const handleGenerateVid = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!vidPrompt.trim() || isGeneratingVid) return;
+
+    setIsGeneratingVid(true);
+    try {
+      const res = await fetch('/api/dots/api/v1/vids/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt_or_product: vidPrompt,
+          aspect_ratio: vidAspectRatio,
+          voice_id: vidVoice
+        })
+      });
+
+      if (res.ok) {
+        const project = await res.json();
+        setVidsProjects((prev) => [project, ...prev.filter((p) => p.project_id !== project.project_id)]);
+        setSelectedVidProject(project);
+        setActiveTab('vids');
+      }
+    } catch (err) {
+      console.error('Error generating Google Vid:', err);
+    } finally {
+      setIsGeneratingVid(false);
+    }
   };
 
   const fetchFiles = async () => {
@@ -960,6 +1041,23 @@ export default function DotsDashboardPage() {
               </button>
 
               <button
+                onClick={() => setActiveTab('vids')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  activeTab === 'vids'
+                    ? 'bg-[#161824] text-white border border-[#25283B]'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-[#10121C]'
+                }`}
+              >
+                <Film className="w-3.5 h-3.5 text-pink-400" />
+                <span>Google Vids</span>
+                {vidsProjects.length > 0 && (
+                  <span className="text-[10px] px-1 rounded bg-pink-950 text-pink-300 font-mono">
+                    {vidsProjects.length}
+                  </span>
+                )}
+              </button>
+
+              <button
                 onClick={() => setActiveTab('canvas')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                   activeTab === 'canvas'
@@ -1215,6 +1313,206 @@ export default function DotsDashboardPage() {
                     <span>Select any retained skill from the library to inspect its SKILL.md</span>
                   </div>
                 )}
+              </div>
+            </div>
+          )}
+
+          {/* TAB: GOOGLE VIDS AI STUDIO */}
+          {activeTab === 'vids' && (
+            <div className="flex-1 flex flex-col bg-[#08090E] overflow-hidden">
+              {/* Generator control panel */}
+              <div className="p-4 border-b border-[#161824] bg-[#0A0B10]">
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                      <Film className="w-4 h-4 text-pink-400" />
+                      <span>Google Vids AI Studio</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-pink-950 text-pink-300 border border-pink-800/40">
+                        Workspace AI Pipeline
+                      </span>
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      Convert any product into a high-converting multi-scene storyboard with synchronized neural voiceovers and Google Workspace manifests.
+                    </p>
+                  </div>
+                </div>
+
+                <form onSubmit={handleGenerateVid} className="flex flex-col sm:flex-row gap-2">
+                  <div className="flex-1 relative">
+                    <input
+                      type="text"
+                      value={vidPrompt}
+                      onChange={(e) => setVidPrompt(e.target.value)}
+                      placeholder="Product ID, title, or video prompt (e.g. 3D Crystal Ball Galaxy Lamp)..."
+                      className="w-full bg-[#12141F] text-xs text-slate-200 pl-3 pr-2 py-2 rounded-lg border border-[#1E2233] focus:outline-none focus:border-pink-500"
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <select
+                      value={vidAspectRatio}
+                      onChange={(e) => setVidAspectRatio(e.target.value)}
+                      className="bg-[#12141F] text-xs text-slate-200 px-2.5 py-2 rounded-lg border border-[#1E2233] focus:outline-none focus:border-pink-500"
+                    >
+                      <option value="9:16">9:16 Reels / Shorts</option>
+                      <option value="16:9">16:9 Presentation</option>
+                    </select>
+                    <select
+                      value={vidVoice}
+                      onChange={(e) => setVidVoice(e.target.value)}
+                      className="bg-[#12141F] text-xs text-slate-200 px-2.5 py-2 rounded-lg border border-[#1E2233] focus:outline-none focus:border-pink-500"
+                    >
+                      <option value="en-IN-NeerjaNeural">Indian English (Neerja)</option>
+                      <option value="hi-IN-SwaraNeural">Hindi (Swara)</option>
+                      <option value="en-US-JennyNeural">US English (Jenny)</option>
+                    </select>
+                    <button
+                      type="submit"
+                      disabled={isGeneratingVid || !vidPrompt.trim()}
+                      className="bg-pink-600 hover:bg-pink-500 disabled:opacity-40 text-white font-medium text-xs px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1.5 shrink-0"
+                    >
+                      {isGeneratingVid ? (
+                        <>
+                          <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <span>Generating...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-3.5 h-3.5" />
+                          <span>Generate Vid</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              {/* Storyboard and Project Inspector */}
+              <div className="flex-1 flex overflow-hidden">
+                {/* Project selector sidebar */}
+                <div className="w-64 border-r border-[#161824] bg-[#0A0B10] flex flex-col">
+                  <div className="p-3 border-b border-[#161824] text-[11px] font-semibold text-slate-400">
+                    Video Projects ({vidsProjects.length})
+                  </div>
+                  <div className="flex-1 overflow-y-auto p-2 space-y-1">
+                    {vidsProjects.map((proj) => (
+                      <button
+                        key={proj.project_id}
+                        onClick={() => setSelectedVidProject(proj)}
+                        className={`w-full text-left p-2.5 rounded-lg text-xs transition-colors ${
+                          selectedVidProject?.project_id === proj.project_id
+                            ? 'bg-pink-950/70 border border-pink-800/50 text-pink-200'
+                            : 'bg-[#0D0F17] hover:bg-[#12141F] text-slate-300 border border-transparent'
+                        }`}
+                      >
+                        <div className="font-medium truncate">{proj.title}</div>
+                        <div className="flex items-center gap-2 text-[10px] text-slate-500 mt-1">
+                          <span>{proj.aspect_ratio}</span>
+                          <span>•</span>
+                          <span>{proj.scenes?.length || 5} Scenes</span>
+                          <span>•</span>
+                          <span>{proj.total_duration_seconds}s</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Selected project details */}
+                <div className="flex-1 flex flex-col bg-[#050608] overflow-y-auto">
+                  {selectedVidProject ? (
+                    <div className="p-4 space-y-4">
+                      {/* Project Header & Export Bar */}
+                      <div className="p-4 rounded-xl bg-[#0D0F17] border border-[#1B1E2D] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                          <h4 className="text-sm font-semibold text-white">{selectedVidProject.title}</h4>
+                          <div className="flex items-center gap-3 text-xs text-slate-400 mt-1">
+                            <span>Format: <strong className="text-pink-300">{selectedVidProject.aspect_ratio}</strong></span>
+                            <span>•</span>
+                            <span>Voice: <strong className="text-slate-300">{selectedVidProject.voice_id}</strong></span>
+                            <span>•</span>
+                            <span>Total Runtime: <strong className="text-emerald-400">{selectedVidProject.total_duration_seconds}s</strong></span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => {
+                              const manifestStr = JSON.stringify(selectedVidProject, null, 2);
+                              const blob = new Blob([manifestStr], { type: 'application/json' });
+                              const url = URL.createObjectURL(blob);
+                              const a = document.createElement('a');
+                              a.href = url;
+                              a.download = `${selectedVidProject.project_id}_manifest.json`;
+                              a.click();
+                            }}
+                            className="flex items-center gap-1 text-xs bg-[#151724] hover:bg-[#1E2235] text-slate-300 border border-[#23273D] px-3 py-1.5 rounded-lg transition-colors"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                            <span>Export Manifest</span>
+                          </button>
+                          <button
+                            onClick={() => {
+                              setInputPrompt(`Publish Google Vid project ${selectedVidProject.project_id} as a video reel`);
+                            }}
+                            className="flex items-center gap-1 text-xs bg-pink-600 hover:bg-pink-500 text-white font-medium px-3 py-1.5 rounded-lg transition-colors"
+                          >
+                            <Play className="w-3.5 h-3.5" />
+                            <span>Publish via Agent</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Scene Cards Grid */}
+                      <div className="space-y-3">
+                        <div className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                          <Video className="w-4 h-4 text-pink-400" />
+                          <span>Storyboard Timeline ({selectedVidProject.scenes?.length || 0} Scenes)</span>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                          {selectedVidProject.scenes?.map((scene) => (
+                            <div
+                              key={scene.scene_number}
+                              className="p-3.5 rounded-xl bg-[#0D0F17] border border-[#191C2B] flex flex-col justify-between space-y-2.5"
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs font-semibold text-white">{scene.title}</span>
+                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-mono">
+                                  {scene.duration_seconds}s
+                                </span>
+                              </div>
+
+                              {scene.badge_text && (
+                                <div className="text-[10px] font-semibold text-pink-300 bg-pink-950/40 border border-pink-900/50 px-2 py-0.5 rounded w-fit">
+                                  {scene.badge_text}
+                                </div>
+                              )}
+
+                              <div className="text-xs text-slate-300 bg-[#070709] p-2.5 rounded-lg border border-[#141622] leading-relaxed">
+                                <div className="text-[10px] text-slate-500 font-semibold mb-1 flex items-center gap-1">
+                                  <Volume2 className="w-3 h-3 text-pink-400" />
+                                  <span>Voiceover Narration:</span>
+                                </div>
+                                &ldquo;{scene.voiceover_text}&rdquo;
+                              </div>
+
+                              <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1 border-t border-[#151724]">
+                                <span>Layout: {scene.layout}</span>
+                                <span className="text-pink-400 font-mono">Scene {scene.scene_number}</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex-1 flex flex-col items-center justify-center text-slate-500 text-xs p-8 text-center">
+                      <Film className="w-12 h-12 text-slate-700 mb-3" />
+                      <span className="text-slate-400 font-medium">No Google Vids project selected</span>
+                      <span className="text-slate-600 mt-1">Select any project from the sidebar or click &quot;Generate Vid&quot; above to create a new storyboard.</span>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           )}

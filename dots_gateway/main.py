@@ -14,6 +14,7 @@ from dots_gateway.file_manager import file_manager
 from dots_gateway.scheduler import scheduler, CronJobModel
 from dots_gateway.mcp_manager import mcp_manager, MCPServerConfig
 from dots_gateway.skills_manager import skills_manager
+from dots_gateway.google_vids import google_vids
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -83,6 +84,11 @@ class RetainSkillRequest(BaseModel):
     solution_summary: str
     commands_run: List[str] = []
     category: str = "custom"
+
+class GenerateVidsRequest(BaseModel):
+    prompt_or_product: str
+    aspect_ratio: str = "9:16"
+    voice_id: str = "en-IN-NeerjaNeural"
 
 # ----------------- Health & Status -----------------
 @app.get("/health")
@@ -279,6 +285,35 @@ async def retain_skill_endpoint(req: RetainSkillRequest):
         f"\n🎓 [SKILL RETENTION LOOP] Learned new skill '{result['skill_name']}' -> saved to {result['path']}\n"
     )
     return result
+
+# ----------------- Google Vids AI Video Studio -----------------
+@app.get("/api/v1/vids")
+async def get_vids_projects():
+    return google_vids.list_projects()
+
+@app.get("/api/v1/vids/{project_id}")
+async def get_vids_project_detail(project_id: str):
+    project = google_vids.get_project(project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Google Vids project not found")
+    return project
+
+@app.post("/api/v1/vids/generate")
+async def generate_vids_project(req: GenerateVidsRequest):
+    await dot_engine.broadcast_terminal_output(
+        "system",
+        f"\n🎬 [GOOGLE VIDS STUDIO] Generating multi-scene AI storyboard & TTS voiceover for: {req.prompt_or_product}\n"
+    )
+    project = await google_vids.create_storyboard(
+        prompt_or_product=req.prompt_or_product,
+        aspect_ratio=req.aspect_ratio,
+        voice_id=req.voice_id
+    )
+    await dot_engine.broadcast_terminal_output(
+        "system",
+        f"✅ [GOOGLE VIDS STUDIO] Project '{project.title}' synthesized! Manifest: {project.manifest_file}\n"
+    )
+    return project.model_dump()
 
 # ----------------- Cron Scheduler -----------------
 @app.get("/api/v1/crons")

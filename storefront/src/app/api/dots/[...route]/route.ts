@@ -115,6 +115,55 @@ async function proxyRequest(req: NextRequest, { params }: { params: Promise<{ ro
           path: 'custom/meesho-direct-supplier-routing/SKILL.md',
           modified_at: Date.now() / 1000,
           is_custom: true
+        },
+        {
+          name: 'google-vids-creator',
+          category: 'media',
+          description: 'Autonomous product promo and viral social media video creation via Google Vids AI studio storyboard, TTS voiceover synthesis, and project manifest generation',
+          path: 'media/google-vids-creator/SKILL.md',
+          modified_at: Date.now() / 1000,
+          is_custom: false
+        }
+      ]);
+    }
+
+    if (path.includes('vids')) {
+      return NextResponse.json([
+        {
+          project_id: 'vids_demo_103',
+          title: 'Google Vid: 3D Crystal Ball Galaxy Night Lamp',
+          product_id: 'meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base',
+          product_title: '3D Crystal Ball Galaxy Night Lamp with Wooden Base',
+          aspect_ratio: '9:16',
+          voice_id: 'en-IN-NeerjaNeural',
+          total_duration_seconds: 25.0,
+          created_at: Date.now() / 1000,
+          scenes: [
+            {
+              scene_number: 1,
+              title: 'Scene 1: High-Impact Hook',
+              layout: 'hook',
+              voiceover_text: 'Stop scrolling if you want to turn your bedroom into a cosmic dream!',
+              duration_seconds: 4.5,
+              badge_text: '🔥 VIRAL REEL'
+            },
+            {
+              scene_number: 2,
+              title: 'Scene 2: Core Feature Showcase',
+              layout: 'product_focus',
+              voiceover_text: 'High-clarity optical crystal ball with warm LED wooden base.',
+              duration_seconds: 5.5,
+              badge_text: '✨ 100% QUALITY'
+            },
+            {
+              scene_number: 3,
+              title: 'Scene 3: Irresistible Call-To-Action',
+              layout: 'cta',
+              voiceover_text: 'Only ₹399 with free express shipping across India. Cash on delivery available!',
+              duration_seconds: 5.0,
+              badge_text: '🛒 ₹399 • COD AVAILABLE'
+            }
+          ]
         }
       ]);
     }
