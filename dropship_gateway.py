@@ -1994,9 +1994,9 @@ def execute_react_agent_turn(user_msg, chat_id):
         f"7. Keep reply punchy, intelligent, and actionable. Do NOT repeat long boilerplate status intros."
     )
 
-    # Priority 1: Google Gemini Flash (Official 2.0 Flash / 1.5 Flash)
+    # Priority 1: Google Gemini Flash (Official 3.5 Flash / 3.6 Flash / 3.5 Flash Lite)
     if GEMINI_API_KEY:
-        for model_name in ["gemini-2.0-flash", "gemini-1.5-flash"]:
+        for model_name in ["gemini-3.5-flash", "gemini-3.6-flash", "gemini-3.5-flash-lite"]:
             try:
                 gem_url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={GEMINI_API_KEY}"
                 gr = SESSION.post(gem_url, json={"contents": [{"parts": [{"text": prompt_context}]}]}, timeout=15)

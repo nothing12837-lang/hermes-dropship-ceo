@@ -140,9 +140,9 @@ class HermesBrain:
             f"Reply as Hermes CEO:"
         )
 
-        # 1. Primary: Gemini 2.0 Flash / 1.5 Flash
+        # 1. Primary: Gemini 3.5 Flash / 3.6 Flash / 3.5 Flash Lite
         if GEMINI_API_KEY:
-            for model in ["gemini-2.0-flash", "gemini-1.5-flash"]:
+            for model in ["gemini-3.5-flash", "gemini-3.6-flash", "gemini-3.5-flash-lite"]:
                 try:
                     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}"
                     r = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=12)
