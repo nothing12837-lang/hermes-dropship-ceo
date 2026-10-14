@@ -35,6 +35,8 @@ export interface Product {
   subscribeEligible: boolean;
   wash: string;
   badges: string[];
+  stock?: number;
+  active?: boolean;
 }
 
 export const USD_TO_INR_RATE = 85;

@@ -100,11 +100,11 @@ export async function POST(req: NextRequest) {
       const ids = [...new Set(items.map((i) => i.id))];
       const { data: rows } = await supabase
         .from('products')
-        .select('id, title, price, price_inr, image_url, active')
+        .select('id, title, price, price_inr, image_url, active, stock')
         .in('id', ids);
 
       if (rows && rows.length > 0) {
-        const outOfStock = rows.find((r: any) => r.active === false);
+        const outOfStock = rows.find((r: any) => r.active === false || (r.stock != null && Number(r.stock) <= 0));
         if (outOfStock) {
           return NextResponse.json(
             { error: `"${outOfStock.title}" is currently out of stock at supplier. Order cannot be placed.` },

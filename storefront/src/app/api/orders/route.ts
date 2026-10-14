@@ -132,7 +132,7 @@ export async function POST(req: NextRequest) {
     const itemIds = validatedItems.map((i) => i.id);
     const { data: dbProducts, error: prodErr } = await sb
       .from('products')
-      .select('id, title, price_inr, price, active')
+      .select('id, title, price_inr, price, active, stock')
       .in('id', itemIds);
 
     if (prodErr) {
@@ -150,7 +150,7 @@ export async function POST(req: NextRequest) {
       if (!prod) {
         return NextResponse.json({ error: `Product "${item.id}" is not available in catalog` }, { status: 400 });
       }
-      if ((prod as any).active === false) {
+      if ((prod as any).active === false || ((prod as any).stock != null && Number((prod as any).stock) <= 0)) {
         return NextResponse.json(
           { error: `"${prod.title}" is currently out of stock. Order cannot be placed.` },
           { status: 400 }

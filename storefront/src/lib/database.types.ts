@@ -42,6 +42,10 @@ export interface Database {
           wash: string;
           badges: string[];
           active: boolean;
+          stock?: number | null;
+          price_inr?: number | null;
+          supplier?: string | null;
+          market?: string | null;
           created_at: string;
           updated_at: string;
         };

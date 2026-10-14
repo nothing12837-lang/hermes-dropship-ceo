@@ -30,6 +30,8 @@ interface ProductCardProps {
   reviews?: number;
   discount?: number;
   rank?: number;
+  inStock?: boolean;
+  stock?: number;
 }
 
 export default function ProductCard({
@@ -47,6 +49,8 @@ export default function ProductCard({
   reviews = 120,
   discount,
   rank,
+  inStock = true,
+  stock,
 }: ProductCardProps) {
   const router = useRouter();
   const { add } = useCart();
@@ -56,6 +60,7 @@ export default function ProductCard({
   const [imgFailed, setImgFailed] = useState(false);
   const resolvedSrc = resolveProductImage(id, imageUrl);
   const showImage = Boolean(resolvedSrc) && !imgFailed;
+  const isInStock = inStock !== false && (stock == null || stock > 0);
 
   const displayPrice = rawPrice ? geoFormatPrice(rawPrice) : price;
   const displayOldPrice = rawComparePrice ? geoFormatPrice(rawComparePrice) : oldPrice;
@@ -95,15 +100,22 @@ export default function ProductCard({
             </span>
           )}
 
-          {/* Category / Curated badge */}
-          {tag && (
+          {/* Category / Curated / Out-of-Stock badge */}
+          {!isInStock ? (
+            <span
+              className="absolute top-3 left-3 bg-rose-600 text-white text-[11px] font-black px-3 py-1.5 rounded-full uppercase tracking-wide backdrop-blur-md shadow-xs z-10"
+              style={{ transform: 'rotate(-4deg)' }}
+            >
+              ⚠️ Out of Stock
+            </span>
+          ) : tag ? (
             <span
               className="absolute top-3 left-3 bg-white/95 text-text-primary text-[11px] font-black px-3 py-1.5 rounded-full uppercase tracking-wide backdrop-blur-md shadow-xs"
               style={{ transform: 'rotate(-4deg)' }}
             >
               {tag}
             </span>
-          )}
+          ) : null}
 
           <button
             onClick={handleWishlist}
@@ -122,10 +134,17 @@ export default function ProductCard({
         </div>
 
         <div className="p-4 flex flex-col flex-1">
-          <div className="text-[11px] font-semibold text-emerald-700 flex items-center gap-1.5 mb-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
-            <span>Verified Domestic Hub • COD Ready</span>
-          </div>
+          {isInStock ? (
+            <div className="text-[11px] font-semibold text-emerald-700 flex items-center gap-1.5 mb-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 animate-pulse" />
+              <span>In Stock • Verified Domestic Hub • COD Ready</span>
+            </div>
+          ) : (
+            <div className="text-[11px] font-bold text-rose-600 flex items-center gap-1.5 mb-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
+              <span>Temporarily Out of Stock • Restocking Soon</span>
+            </div>
+          )}
           <h3
             className="text-[15px] font-bold leading-snug mb-2 overflow-hidden text-[#1d1d1f]"
             style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
@@ -147,13 +166,22 @@ export default function ProductCard({
       </Link>
 
       <div className="px-4 pb-4">
-        <button
-          onClick={handleOrderNow}
-          className="w-full py-3 rounded-full font-bold text-sm tracking-tight border-none cursor-pointer bg-[#1d1d1f] text-white hover:bg-black active:scale-[0.98] shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5"
-        >
-          <span>ORDER NOW</span>
-          <span>⚡</span>
-        </button>
+        {isInStock ? (
+          <button
+            onClick={handleOrderNow}
+            className="w-full py-3 rounded-full font-bold text-sm tracking-tight border-none cursor-pointer bg-[#1d1d1f] text-white hover:bg-black active:scale-[0.98] shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5"
+          >
+            <span>ORDER NOW</span>
+            <span>⚡</span>
+          </button>
+        ) : (
+          <Link
+            href={`/product/${id}`}
+            className="w-full py-3 rounded-full font-bold text-sm tracking-tight border border-rose-200 cursor-pointer bg-rose-50 text-rose-700 hover:bg-rose-100 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 no-underline"
+          >
+            <span>NOTIFY ME WHEN RESTOCKED 🔔</span>
+          </Link>
+        )}
       </div>
     </div>
   );

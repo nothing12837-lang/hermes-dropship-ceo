@@ -36,6 +36,7 @@ function ShopInner() {
   const [cat, setCat] = useState<string>(initial);
   const [query, setQuery] = useState(search.get('q') || '');
   const [sort, setSort] = useState('featured');
+  const [stockFilter, setStockFilter] = useState<'all' | 'in_stock' | 'out_of_stock'>('all');
   const [products, setProducts] = useState<ProductRow[]>([]);
 
   useEffect(() => {
@@ -47,7 +48,7 @@ function ShopInner() {
 
   useEffect(() => {
     let cancelled = false;
-    let q = supabase.from('products').select('*').eq('active', true);
+    let q = supabase.from('products').select('*');
     if (DB_CATEGORIES.has(cat)) q = q.eq('category', cat);
     Promise.resolve(q.order('created_at', { ascending: false }))
       .then(({ data, error }: any) => {
@@ -70,8 +71,24 @@ function ShopInner() {
     };
   }, [cat]);
 
+  const inStockCount = useMemo(() => {
+    return products.filter((p) => matchesCategory(cat, p) && p.active !== false && (p.stock == null || Number(p.stock) > 0)).length;
+  }, [products, cat]);
+
+  const outOfStockCount = useMemo(() => {
+    return products.filter((p) => matchesCategory(cat, p) && (p.active === false || (p.stock != null && Number(p.stock) <= 0))).length;
+  }, [products, cat]);
+
   const list = useMemo(() => {
     let l = products.filter((p) => matchesCategory(cat, p));
+
+    // Stock Filter
+    if (stockFilter === 'in_stock') {
+      l = l.filter((p) => p.active !== false && (p.stock == null || Number(p.stock) > 0));
+    } else if (stockFilter === 'out_of_stock') {
+      l = l.filter((p) => p.active === false || (p.stock != null && Number(p.stock) <= 0));
+    }
+
     if (query) {
       const q = query.toLowerCase();
       l = l.filter((p) =>
@@ -83,7 +100,7 @@ function ShopInner() {
     if (sort === 'rating')
       l = [...l].sort((a, b) => Number(b.rating ?? 5) - Number(a.rating ?? 5));
     return l;
-  }, [products, cat, query, sort]);
+  }, [products, cat, query, sort, stockFilter]);
 
   const active = TABS.find((c) => c.id === cat) ?? TABS[0];
 
@@ -147,6 +164,47 @@ function ShopInner() {
             <option value="high">Price high → low</option>
           </select>
         </div>
+
+        {/* Modern Stock Availability Filter */}
+        <div className="flex gap-2 flex-wrap justify-center items-center mt-5">
+          <div className="inline-flex p-1 bg-bg-surface border border-border-subtle rounded-full backdrop-blur-md shadow-xs">
+            <button
+              type="button"
+              onClick={() => setStockFilter('all')}
+              className={`px-4 py-2 rounded-full text-xs font-black transition-all cursor-pointer ${
+                stockFilter === 'all'
+                  ? 'bg-[#1d1d1f] text-white shadow-xs'
+                  : 'text-text-secondary hover:text-text-primary'
+              }`}
+            >
+              All Items ({products.length})
+            </button>
+            <button
+              type="button"
+              onClick={() => setStockFilter('in_stock')}
+              className={`px-4 py-2 rounded-full text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                stockFilter === 'in_stock'
+                  ? 'bg-emerald-600 text-white shadow-xs'
+                  : 'text-text-secondary hover:text-emerald-700'
+              }`}
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              In Stock ({inStockCount})
+            </button>
+            <button
+              type="button"
+              onClick={() => setStockFilter('out_of_stock')}
+              className={`px-4 py-2 rounded-full text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                stockFilter === 'out_of_stock'
+                  ? 'bg-rose-600 text-white shadow-xs'
+                  : 'text-text-secondary hover:text-rose-600'
+              }`}
+            >
+              <span>⚠️</span>
+              Restocking ({outOfStockCount})
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-6 pt-10 pb-20">
@@ -184,6 +242,8 @@ function ShopInner() {
                     p.compare_at_price ? Number(p.compare_at_price) : undefined,
                     (p as any).price_inr ? Number((p as any).price_inr) : undefined
                   )}
+                  inStock={p.active !== false && (p.stock == null || Number(p.stock) > 0)}
+                  stock={p.stock != null ? Number(p.stock) : undefined}
                 />
               </motion.div>
             ))}

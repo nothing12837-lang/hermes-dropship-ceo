@@ -307,17 +307,28 @@ export function ProductClient({ product }: Props) {
             </div>
 
             {/* Real Honest Inventory & Verification Badges */}
-            <div className="flex flex-wrap items-center gap-2 mt-3 text-xs">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-800 font-semibold border border-emerald-500/20">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" /> In Stock • Ready to Dispatch (Domestic Hub)
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-800 font-semibold border border-blue-500/20">
-                <span>🛡️</span> 100% Genuine & Quality Tested
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-900 font-semibold border border-amber-500/20">
-                <span>🚚</span> 2–4 Days Express Pan-India
-              </span>
-            </div>
+            {(() => {
+              const isOutOfStock = (product as any).active === false || ((product as any).stock != null && Number((product as any).stock) <= 0);
+              return (
+                <div className="flex flex-wrap items-center gap-2 mt-3 text-xs">
+                  {!isOutOfStock ? (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-800 font-semibold border border-emerald-500/20">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" /> In Stock • Ready to Dispatch (Domestic Hub)
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 text-rose-800 font-bold border border-rose-500/20">
+                      <span className="w-2 h-2 rounded-full bg-rose-500" /> Currently Out of Stock at Supplier
+                    </span>
+                  )}
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-800 font-semibold border border-blue-500/20">
+                    <span>🛡️</span> 100% Genuine & Quality Tested
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-900 font-semibold border border-amber-500/20">
+                    <span>🚚</span> 2–4 Days Express Pan-India
+                  </span>
+                </div>
+              );
+            })()}
 
             <p style={{ marginTop: '1.25rem', lineHeight: 1.8, color: '#1a1412' }}>{product.story}</p>
 
@@ -327,7 +338,7 @@ export function ProductClient({ product }: Props) {
               ))}
             </ul>
 
-            {(product as any).active === false ? (
+            {((product as any).active === false || ((product as any).stock != null && Number((product as any).stock) <= 0)) ? (
               <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginTop: '1.75rem', flexWrap: 'wrap' }}>
                 <div style={{ padding: '0.85rem 1.75rem', borderRadius: '9999px', background: '#fef2f2', border: '1.5px solid #fecaca', color: '#dc2626', fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span>⚠️</span> CURRENTLY OUT OF STOCK AT SUPPLIER
