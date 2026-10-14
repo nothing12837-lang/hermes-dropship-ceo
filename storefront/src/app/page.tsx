@@ -46,11 +46,19 @@ const CATEGORY_TABS = [
 ];
 
 export default async function Home() {
-  const [trending, fresh, allProducts] = await Promise.all([
+  const [trending, freshRaw, allProducts] = await Promise.all([
     getTrendingProducts(8),
-    getNewProducts(8),
+    getNewProducts(16),
     getProductsFromDB(),
   ]);
+
+  // Ensure 100% unique products across homepage sections (zero duplicates)
+  const trendingIds = new Set(trending.map((p) => p.id));
+  const freshDistinct = freshRaw.filter((p) => !trendingIds.has(p.id));
+  const freshTopUp = allProducts.filter(
+    (p) => !trendingIds.has(p.id) && !freshDistinct.some((f) => f.id === p.id)
+  );
+  const fresh = [...freshDistinct, ...freshTopUp].slice(0, 4);
 
   return (
     <main className="page-top min-h-screen bg-[#FFFBF5] text-[#161311] pb-16">

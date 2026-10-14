@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -14,6 +14,8 @@ import ProductCard from '@/components/ui/ProductCard';
 import PincodeChecker from '@/components/ui/PincodeChecker';
 import ProductReviews from '@/components/ui/ProductReviews';
 import { useGeo } from '@/context/GeoContext';
+
+const PERSPECTIVE_LABELS = ['Hero Front', 'Detail Macro', 'In-Room Setup', 'Unboxed & Scale'];
 
 interface Props {
   product: Product;
@@ -33,6 +35,21 @@ export function ProductClient({ product }: Props) {
   );
   const [selectedImgIndex, setSelectedImgIndex] = useState(0);
   const [failedImages, setFailedImages] = useState<Record<number, boolean>>({});
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
+  // Keyboard navigation for image gallery
+  useEffect(() => {
+    if (galleryImages.length <= 1) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        setSelectedImgIndex((prev) => (prev > 0 ? prev - 1 : galleryImages.length - 1));
+      } else if (e.key === 'ArrowRight') {
+        setSelectedImgIndex((prev) => (prev < galleryImages.length - 1 ? prev + 1 : 0));
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [galleryImages.length]);
 
   const currentSrc = galleryImages[selectedImgIndex] || galleryImages[0];
   const isCurrentFailed = failedImages[selectedImgIndex];
@@ -87,6 +104,19 @@ export function ProductClient({ product }: Props) {
                 justifyContent: 'center',
                 boxShadow: '0 20px 40px -15px rgba(0,0,0,0.07)',
                 border: '1px solid rgba(0,0,0,0.06)',
+                touchAction: 'pan-y',
+              }}
+              onTouchStart={(e) => setTouchStartX(e.touches[0].clientX)}
+              onTouchEnd={(e) => {
+                if (touchStartX === null || galleryImages.length <= 1) return;
+                const touchEndX = e.changedTouches[0].clientX;
+                const diff = touchStartX - touchEndX;
+                if (diff > 40) {
+                  setSelectedImgIndex((prev) => (prev < galleryImages.length - 1 ? prev + 1 : 0));
+                } else if (diff < -40) {
+                  setSelectedImgIndex((prev) => (prev > 0 ? prev - 1 : galleryImages.length - 1));
+                }
+                setTouchStartX(null);
               }}
             >
               {showImage ? (
@@ -231,34 +261,53 @@ export function ProductClient({ product }: Props) {
                 {galleryImages.map((imgUrl, idx) => {
                   const isSelected = idx === selectedImgIndex;
                   return (
-                    <button
+                    <div
                       key={imgUrl + idx}
-                      onClick={() => setSelectedImgIndex(idx)}
-                      aria-label={`View photo ${idx + 1}`}
                       style={{
-                        position: 'relative',
-                        width: '4.75rem',
-                        height: '4.75rem',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: '0.35rem',
                         flexShrink: 0,
-                        borderRadius: '0.85rem',
-                        overflow: 'hidden',
-                        border: isSelected ? '2.5px solid #ff6b35' : '1.5px solid rgba(0,0,0,0.1)',
-                        transform: isSelected ? 'scale(1.03)' : 'scale(1)',
-                        boxShadow: isSelected ? '0 4px 12px rgba(255,107,53,0.25)' : 'none',
-                        cursor: 'pointer',
-                        padding: 0,
-                        background: '#f1f5f9',
-                        transition: 'all 0.18s ease',
                       }}
                     >
-                      <Image
-                        src={imgUrl}
-                        alt={`${product.title} thumbnail ${idx + 1}`}
-                        fill
-                        sizes="80px"
-                        style={{ objectFit: 'cover' }}
-                      />
-                    </button>
+                      <button
+                        onClick={() => setSelectedImgIndex(idx)}
+                        aria-label={`View photo ${idx + 1}`}
+                        style={{
+                          position: 'relative',
+                          width: '4.75rem',
+                          height: '4.75rem',
+                          borderRadius: '0.85rem',
+                          overflow: 'hidden',
+                          border: isSelected ? '2.5px solid #ff6b35' : '1.5px solid rgba(0,0,0,0.1)',
+                          transform: isSelected ? 'scale(1.03)' : 'scale(1)',
+                          boxShadow: isSelected ? '0 4px 12px rgba(255,107,53,0.25)' : 'none',
+                          cursor: 'pointer',
+                          padding: 0,
+                          background: '#f1f5f9',
+                          transition: 'all 0.18s ease',
+                        }}
+                      >
+                        <Image
+                          src={imgUrl}
+                          alt={`${product.title} thumbnail ${idx + 1}`}
+                          fill
+                          sizes="80px"
+                          style={{ objectFit: 'cover' }}
+                        />
+                      </button>
+                      <span
+                        style={{
+                          fontSize: '0.68rem',
+                          fontWeight: isSelected ? 800 : 600,
+                          color: isSelected ? '#ff4d24' : '#64748b',
+                          letterSpacing: '0.01em',
+                        }}
+                      >
+                        {PERSPECTIVE_LABELS[idx] || `Angle ${idx + 1}`}
+                      </span>
+                    </div>
                   );
                 })}
               </div>
