@@ -604,8 +604,29 @@ def send_telegram_alert(media_path, caption_summary):
     except Exception as e:
         print(f"Telegram alert error: {e}")
 
+def diagnose_instagram():
+    """Cloud-safe preflight: reports WHY a post would fail (no secrets printed)."""
+    issues = []
+    try:
+        import instagrapi  # noqa: F401
+    except Exception as e:
+        issues.append(f"instagrapi package missing ({e})")
+    if not (IG_SESSIONID or (os.path.exists(SESSION_FILE)) or (IG_USERNAME and IG_PASSWORD)):
+        issues.append("no auth: set IG_SESSIONID secret (preferred) or IG_USERNAME+IG_PASSWORD")
+    elif not IG_SESSIONID and not os.path.exists(SESSION_FILE) and (IG_USERNAME and IG_PASSWORD):
+        issues.append("password login only: Meta often blocks with challenge/2FA, prefer IG_SESSIONID")
+    if os.path.exists(SESSION_FILE):
+        try:
+            age_h = (time.time() - os.path.getmtime(SESSION_FILE)) / 3600
+            if age_h > 24 * 14:
+                issues.append(f"session.json stale ({age_h/24:.0f} days old), refresh IG_SESSIONID")
+        except Exception:
+            pass
+    return issues
+
 def post_to_instagram(media_path, caption, product=None):
-    """Logs into Instagram using instagrapi and publishes the photo or video Reel."""
+    """Logs into Instagram using instagrapi and publishes the photo or video Reel.
+    Returns dict {ok, stage, reason} - stage is auth|upload|comment|done."""
     try:
         from instagrapi import Client
         cl = Client()
@@ -641,7 +662,9 @@ def post_to_instagram(media_path, caption, product=None):
             
         if not session_loaded:
             print("\n⚠️ No valid Instagram credentials or session available!")
-            return False
+            return {"ok": False, "stage": "auth",
+                    "reason": "no valid session (IG_SESSIONID/session.json/password all failed or missing). " +
+                              " | ".join(diagnose_instagram())}
 
         try:
             cl.dump_settings(SESSION_FILE)
@@ -675,10 +698,14 @@ def post_to_instagram(media_path, caption, product=None):
             except Exception as ce:
                 print(f"⚠️ First comment notice: {ce}")
 
-        return True
+        return {"ok": True, "stage": "done", "reason": ""}
     except Exception as e:
         print(f"❌ Instagram upload error: {e}")
-        return False
+        stage = "upload"
+        msg = str(e)
+        if "login" in msg.lower() or "challenge" in msg.lower() or "checkpoint" in msg.lower():
+            stage = "auth"
+        return {"ok": False, "stage": stage, "reason": msg[:300]}
 
 def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="auto"):
     print("=" * 60)
@@ -705,7 +732,9 @@ def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="auto")
     # 3. Generate Caption
     caption, _ = generate_caption(product, campaign_type=c_type)
     
-    # 4. Post or Dry Run
+    # 4. Post or Dry Run - returns dict {ok, reason, media_path, product...}
+    base_result = {"media_path": media_path, "campaign_type": c_type,
+                   "product": {"id": product["id"], "title": product["title"]}}
     if dry_run:
         print("\n[DRY RUN MODE ACTIVE]")
         print("📝 Generated Caption:\n" + "-" * 40)
@@ -714,10 +743,12 @@ def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="auto")
         print(f"🖼️ Media Asset Saved at: {media_path}")
         media_kind = "Reel Video (MP4)" if media_path.endswith(".mp4") else "Feed Image (JPG)"
         send_telegram_alert(media_path, f"📸 *Dry-Run Preview Ready ({c_type.upper()} | {media_kind})*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Media generated and ready for broadcast.")
-        return True
+        return {**base_result, "ok": True, "reason": ""}
     else:
-        success = post_to_instagram(media_path, caption, product=product)
-        if success:
+        res = post_to_instagram(media_path, caption, product=product)
+        ok = bool(res.get("ok")) if isinstance(res, dict) else bool(res)
+        reason = (res.get("reason", "") if isinstance(res, dict) else "")
+        if ok:
             history = load_history()
             media_kind = "reel" if media_path.endswith(".mp4") else "post"
             history.append({
@@ -730,8 +761,12 @@ def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="auto")
             })
             save_history(history)
             send_telegram_alert(media_path, f"✅ *Auto-Posted {media_kind.upper()} to Instagram ({c_type.upper()})*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Live on @rareember with direct product link & bio link.")
-            return True
-        return False
+            return {**base_result, "ok": True, "reason": ""}
+        if not reason:
+            reason = "upload failed. " + " | ".join(diagnose_instagram())
+        return {**base_result, "ok": False,
+                "stage": (res.get("stage", "upload") if isinstance(res, dict) else "upload"),
+                "reason": reason}
 
 def main():
     parser = argparse.ArgumentParser(description="RareEmber Instagram Autopilot")

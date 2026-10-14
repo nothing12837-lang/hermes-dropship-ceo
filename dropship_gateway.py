@@ -689,16 +689,32 @@ def tool_generate_influencer_pitch(creator_name, platform="instagram", product_n
     }
 
 def tool_trigger_instagram_drop():
-    """Triggers an immediate autonomous Instagram feed post using ig_autopilot."""
+    """Triggers an immediate autonomous Instagram feed post using ig_autopilot.
+    Returns dict with ok flag, reason, and rendered media_path for preview fallback."""
     try:
         import ig_autopilot
-        success = ig_autopilot.run_autopilot_cycle(dry_run=False)
+        res = ig_autopilot.run_autopilot_cycle(dry_run=False)
+        if isinstance(res, dict):
+            ok = bool(res.get("ok"))
+            return {
+                "status": "published" if ok else "failed",
+                "ok": ok,
+                "reason": res.get("reason", ""),
+                "stage": res.get("stage", ""),
+                "media_path": res.get("media_path", ""),
+                "product": res.get("product", {}),
+                "message": "New product creative rendered and published to @RareEmber feed." if ok else f"Publish failed: {res.get('reason', 'unknown error')[:250]}",
+            }
+        ok = bool(res)
         return {
-            "status": "published" if success else "failed",
-            "message": "New product creative rendered and published to @RareEmber feed." if success else "Failed to publish."
+            "status": "published" if ok else "failed",
+            "ok": ok,
+            "reason": "" if ok else "upload failed (legacy boolean result, no diagnostics)",
+            "media_path": "",
+            "message": "New product creative rendered and published to @RareEmber feed." if ok else "Failed to publish."
         }
     except Exception as e:
-        return {"status": "error", "error": str(e)}
+        return {"status": "error", "ok": False, "reason": str(e)[:300], "media_path": "", "error": str(e)}
 
 def tool_system_health_check():
     """Performs instant health audit on storefront, database, and gateways."""
@@ -1067,14 +1083,16 @@ def tool_run_executive_team_operations():
         catalog = []
         
     winning_prods = [p for p in catalog if p.get("price_inr", 0) <= 1299][:5]
+    catalog_live = bool(winning_prods)
     featured_item = winning_prods[0] if winning_prods else {"title": "Festive Ambient Lamp", "price_inr": 899, "compare_at": 1699}
     discount_pct = int(round((1 - (featured_item.get("price_inr", 899) / max(featured_item.get("compare_at", 1699), 1))) * 100))
     sales_report = {
         "specialist": "Vikram (Sales & Growth Director)",
         "action": "Curated Daily Festive Drop & Margin Strategy",
-        "focus_product": featured_item.get("title"),
+        "focus_product": featured_item.get("title") + ("" if catalog_live else " (fallback - live catalog unreachable, showing sample)"),
         "price": f"₹{featured_item.get('price_inr', 899):,}",
         "discount": f"{discount_pct}% OFF",
+        "catalog_live": catalog_live,
         "active_promos": ["DIWALI100 (Flat ₹100 OFF)", "FREE_SHIPPING (Pan-India Express COD)"],
         "status": "Ready for Instagram Autopilot image broadcast"
     }
@@ -1086,7 +1104,7 @@ def tool_run_executive_team_operations():
         "specialist": "Aarav (Head of SEO & Organic Traffic)",
         "action": "Synchronized Sitemap & Executed IndexNow Crawler Submission",
         "indexed_products": len(catalog),
-        "indexnow_status": "HTTP 202 Accepted (92 URLs submitted to Bing & Yandex)",
+        "indexnow_status": "Last known: HTTP 202 (92 URLs) - fresh submission pending",
         "ranking_status": "Indexing queue active; sitemap.xml dynamically updated with all 90 domestic products",
         "target_keywords": [
             "festive diya led candles online India COD",
@@ -1468,6 +1486,36 @@ def execute_react_agent_turn(user_msg, chat_id):
             m = tool_get_store_metrics()
             return f"📦 Orders: {m.get('total_orders',0)} Rev ₹{m.get('total_revenue_inr',0):,.0f}"
 
+    # 0c. Greeting (exact short match only - avoids 'hi' substring false hits)
+    if user_lower in ("hlo", "hello", "hi", "hey", "namaste", "ram ram", "yo", "hii", "helo", "hlw", "hay"):
+        history.append({"role": "user", "content": user_msg})
+        greet = ("⚡ <b>Namaste Ajay! Hermes hazir hai 🙏</b>\n\n"
+                 "Bolo Boss, kya karein?\n"
+                 "• <code>Team?</code> - 6-agent board\n"
+                 "• <code>Sale kitna?</code> - orders/revenue\n"
+                 "• <code>Post now</code> - Instagram drop\n"
+                 "• <code>Evaa video banao [product]</code> - Hindi reel\n"
+                 "• <code>Health</code> - store status")
+        history.append({"role": "assistant", "content": greet})
+        save_conversation_history(chat_id, history)
+        return greet
+
+    # 0d. Current-activity check ("tum kya kar rahe ho", "kya chal raha")
+    if any(k in user_lower for k in ["kya kar rahe", "kya chal raha", "kya ho raha", "what are you doing", "abhi kya", "kya kaam"]):
+        h = tool_system_health_check()
+        m = tool_get_store_metrics()
+        tasks_data = tool_list_tasks("all")
+        history.append({"role": "user", "content": user_msg})
+        live = ("⚡ <b>Hermes Live Report, Boss Ajay:</b>\n\n"
+                f"• Store: <b>{h.get('status')}</b> ({h.get('latency_ms')}ms)\n"
+                f"• Orders: <b>{m.get('total_orders', 0)}</b> | Revenue: <b>₹{m.get('total_revenue_inr', 0):,.0f}</b> | Pending: {m.get('pending_fulfillment', 0)}\n"
+                f"• Tasks tracked: <b>{tasks_data.get('total', 0)}</b> ({tasks_data.get('pending', 0)} active)\n"
+                f"• Instagram: manual-approval mode (bolo <code>Post now</code> to publish)\n\n"
+                "Aage kya execute karun?")
+        history.append({"role": "assistant", "content": live})
+        save_conversation_history(chat_id, history)
+        return live
+
     # 0b. HermesBrain delegation (act/learn + skills) - cloud team wiring
     try:
         from hermes_ceo.brain import HermesBrain
@@ -1701,8 +1749,10 @@ def execute_react_agent_turn(user_msg, chat_id):
         learned_takeaway = f"Store database audited: {metrics.get('total_orders', 0)} orders recorded."
 
     # C. Instagram Marketing Drop Intent (Respects Stop/Manual-Only Directive)
+    # NOTE: outer list must include bare publish/push/upload words - "Publish now"
+    # alone contains none of instagram/post/drop, so it needs its own trigger.
     is_stop_ig = any(k in user_lower for k in ["stop", "rok", "band", "dont post", "don't post", "mat post", "no post", "remove auto", "remove", "manual", "manually", "verify", "verifying"])
-    if any(k in user_lower for k in ["instagram", "post", "creative", "drop", "poster", "autopilot"]):
+    if any(k in user_lower for k in ["instagram", "post", "creative", "drop", "poster", "autopilot", "publish", "push now", "upload", "daal", "daldo"]):
         if is_stop_ig:
             actions_proof.append(
                 f"🛑 <b>Action: Automated Instagram Publishing Permanently Disabled</b>\n"
@@ -1712,15 +1762,33 @@ def execute_react_agent_turn(user_msg, chat_id):
             learned_takeaway = "Automated Instagram publishing disabled. Switched to 100% manual preview & founder verification mode."
         else:
             # Check for explicit command to actually post right now
-            if any(k in user_lower for k in ["push now", "publish now", "post now", "live karo", "post karo"]):
+            if any(k in user_lower for k in ["push now", "publish now", "publish", "push", "post now", "post kar", "live karo", "post karo", "upload now", "daal do", "dal do", "daldo"]):
                 res = tool_trigger_instagram_drop()
-                executed_tools.append({"tool": "trigger_instagram_drop", "result": res})
-                actions_proof.append(
-                    f"🎨 <b>Action: Manual Instagram Drop Executed</b>\n"
-                    f"• Status: <b>{res.get('status', 'SUCCESS').upper()}</b>\n"
-                    f"• Detail: {res.get('message', 'Product poster rendered & published to @RareEmber feed.')}"
-                )
-                learned_takeaway = "Manual Instagram drop triggered per explicit founder command."
+                executed_tools.append({"tool": "trigger_instagram_drop", "result": {k: v for k, v in res.items() if k != "media_path"}})
+                if res.get("ok"):
+                    actions_proof.append(
+                        f"🎨 <b>Action: Manual Instagram Drop Executed</b>\n"
+                        f"• Status: <b>PUBLISHED</b>\n"
+                        f"• Detail: New product creative rendered & published to @RareEmber feed."
+                    )
+                    learned_takeaway = "Manual Instagram drop triggered per explicit founder command."
+                else:
+                    reason = res.get("reason", "unknown error")
+                    mp = res.get("media_path", "")
+                    prod = res.get("product", {}) or {}
+                    actions_proof.append(
+                        f"⚠️ <b>Action: Instagram Drop Attempted - Upload Blocked</b>\n"
+                        f"• Status: <b>FAILED ({res.get('stage', 'upload')})</b>\n"
+                        f"• Reason: <i>{reason[:220]}</i>\n"
+                        f"• Creative: <b>{prod.get('title', 'product poster')}</b> rendered and saved as preview below 👇\n"
+                        f"• Fix: GitHub Secrets me <code>IG_SESSIONID</code> refresh karo (password login Meta block karta hai), phir <code>Post now</code> dobara bhejo."
+                    )
+                    if mp and os.path.exists(mp):
+                        try:
+                            send_photo(chat_id, mp, caption=f"👀 Preview (NOT posted): {prod.get('title', '')} - upload reason: {reason[:100]}")
+                        except Exception as pe:
+                            print(f"Preview send note: {pe}")
+                    learned_takeaway = f"Instagram drop failed ({res.get('stage', '?')}): {reason[:80]}. Preview sent instead."
             else:
                 actions_proof.append(
                     f"🛡️ <b>Action: Instagram Auto-Post Blocked (Safety Guard)</b>\n"
