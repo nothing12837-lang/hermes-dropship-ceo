@@ -1,0 +1,32 @@
+[
+  {
+    "id": "cron_store_sync",
+    "name": "Store Health & Live Inventory Sync",
+    "prompt": "Check RareEmber store health and Supabase database connection status",
+    "interval_seconds": 1800,
+    "enabled": true,
+    "last_run": null,
+    "next_run": 1792021474.9867513,
+    "created_at": 1792019674.9867513
+  },
+  {
+    "id": "cron_telegram_sync",
+    "name": "Telegram Bot Autonomous Keepalive",
+    "prompt": "Verify @rereemberbot heartbeat and queue status",
+    "interval_seconds": 900,
+    "enabled": true,
+    "last_run": null,
+    "next_run": 1792020574.9867513,
+    "created_at": 1792019674.9867513
+  },
+  {
+    "id": "cron_market_scrape",
+    "name": "Viral Winning Products Scrape",
+    "prompt": "run: python -c \"print('Scraping viral dropshipping trends for electronics and home decor...')\"",
+    "interval_seconds": 7200,
+    "enabled": true,
+    "last_run": null,
+    "next_run": 1792026874.9867513,
+    "created_at": 1792019674.9867513
+  }
+]

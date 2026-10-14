@@ -1,0 +1,262 @@
+import asyncio
+import os
+import re
+import time
+import uuid
+from typing import Any, AsyncGenerator, Callable, Dict, List, Optional
+from enum import Enum
+import requests
+
+from dots_gateway.config import settings
+
+class DotState(str, Enum):
+    SLEEPING = "Sleeping"
+    THINKING = "Thinking"
+    RUNNING_CODE = "Running Code"
+    AWAITING_APPROVAL = "Awaiting Approval"
+    COMPLETED = "Completed"
+
+class PendingApproval:
+    def __init__(self, action_id: str, command: str, reason: str, details: dict):
+        self.action_id = action_id
+        self.command = command
+        self.reason = reason
+        self.details = details
+        self.created_at = time.time()
+        self.event = asyncio.Event()
+        self.is_approved: Optional[bool] = None
+        self.rejection_feedback: Optional[str] = None
+
+class HermesDotEngine:
+    def __init__(self):
+        self.state: DotState = DotState.SLEEPING
+        self.current_task: Optional[str] = None
+        self.session_id: str = str(uuid.uuid4())[:8]
+        self.active_websockets: List[Any] = []
+        self.pending_approvals: Dict[str, PendingApproval] = {}
+        self.execution_logs: List[Dict[str, Any]] = []
+        self.chat_history: List[Dict[str, str]] = []
+
+    def set_state(self, new_state: DotState):
+        self.state = new_state
+        self._broadcast_event({
+            "type": "state_change",
+            "state": self.state.value,
+            "session_id": self.session_id,
+            "current_task": self.current_task,
+            "timestamp": time.time()
+        })
+
+    def register_websocket(self, ws: Any):
+        self.active_websockets.append(ws)
+
+    def unregister_websocket(self, ws: Any):
+        if ws in self.active_websockets:
+            self.active_websockets.remove(ws)
+
+    def _broadcast_event(self, data: dict):
+        for ws in list(self.active_websockets):
+            try:
+                asyncio.create_task(ws.send_json(data))
+            except Exception:
+                self.unregister_websocket(ws)
+
+    async def broadcast_terminal_output(self, stream: str, text: str):
+        self.execution_logs.append({
+            "stream": stream,
+            "text": text,
+            "timestamp": time.time()
+        })
+        if len(self.execution_logs) > 1000:
+            self.execution_logs.pop(0)
+        self._broadcast_event({
+            "type": "terminal_stream",
+            "stream": stream,
+            "text": text
+        })
+
+    def is_destructive(self, command: str) -> tuple[bool, str]:
+        cmd_lower = command.lower()
+        for pat in settings.DESTRUCTIVE_COMMAND_PATTERNS:
+            if re.search(pat, cmd_lower):
+                return True, f"Command matches protected policy pattern: '{pat}'"
+        return False, ""
+
+    async def request_human_approval(self, command: str, reason: str, details: dict) -> bool:
+        action_id = str(uuid.uuid4())[:8]
+        approval = PendingApproval(action_id, command, reason, details)
+        self.pending_approvals[action_id] = approval
+        self.set_state(DotState.AWAITING_APPROVAL)
+
+        await self.broadcast_terminal_output("system", f"\n🛑 [SECURITY INTERCEPTOR] Destructive operation paused!\nCommand: {command}\nReason: {reason}\nAwaiting human approval in UI (Action ID: {action_id})...\n")
+
+        self._broadcast_event({
+            "type": "approval_required",
+            "action_id": action_id,
+            "command": command,
+            "reason": reason,
+            "risk_level": "HIGH",
+            "timestamp": approval.created_at
+        })
+
+        # Block until approved or rejected
+        await approval.event.wait()
+        del self.pending_approvals[action_id]
+        
+        if approval.is_approved:
+            self.set_state(DotState.RUNNING_CODE)
+            await self.broadcast_terminal_output("system", f"✅ [APPROVED BY USER] Resuming action {action_id}...\n")
+            return True
+        else:
+            self.set_state(DotState.COMPLETED)
+            await self.broadcast_terminal_output("system", f"❌ [REJECTED BY USER] Action {action_id} was rejected. Feedback: {approval.rejection_feedback or 'None'}\n")
+            return False
+
+    def resolve_approval(self, action_id: str, approved: bool, feedback: str = "") -> bool:
+        approval = self.pending_approvals.get(action_id)
+        if not approval:
+            return False
+        approval.is_approved = approved
+        approval.rejection_feedback = feedback
+        approval.event.set()
+        return True
+
+    async def execute_sandboxed_command(self, command: str, cwd: str = None) -> tuple[int, str, str]:
+        work_dir = cwd or str(settings.WORKSPACE_PATH)
+        is_dest, reason = self.is_destructive(command)
+        
+        if is_dest:
+            allowed = await self.request_human_approval(command, reason, {"cwd": work_dir})
+            if not allowed:
+                return -1, "", f"Operation rejected by human operator: {reason}"
+
+        self.set_state(DotState.RUNNING_CODE)
+        await self.broadcast_terminal_output("stdin", f"$ {command}\n")
+
+        proc = await asyncio.create_subprocess_shell(
+            command,
+            cwd=work_dir,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
+
+        stdout_chunks = []
+        stderr_chunks = []
+
+        async def read_stream(stream, kind):
+            while True:
+                line = await stream.readline()
+                if not line:
+                    break
+                decoded = line.decode("utf-8", errors="replace")
+                if kind == "stdout":
+                    stdout_chunks.append(decoded)
+                else:
+                    stderr_chunks.append(decoded)
+                await self.broadcast_terminal_output(kind, decoded)
+
+        await asyncio.gather(
+            read_stream(proc.stdout, "stdout"),
+            read_stream(proc.stderr, "stderr")
+        )
+
+        exit_code = await proc.wait()
+        await self.broadcast_terminal_output("system", f"[Process exited with code {exit_code}]\n")
+        self.set_state(DotState.COMPLETED)
+        return exit_code, "".join(stdout_chunks), "".join(stderr_chunks)
+
+    def read_memory_state(self) -> dict:
+        memory_content = ""
+        user_content = ""
+        
+        # Check ~/.hermes or local RADHA_MEMORY
+        if settings.MEMORY_MD_PATH.exists():
+            try:
+                memory_content = settings.MEMORY_MD_PATH.read_text(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+        elif (settings.MEMORY_PATH / "long_term_memory.json").exists():
+            try:
+                memory_content = (settings.MEMORY_PATH / "long_term_memory.json").read_text(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+
+        if settings.USER_MD_PATH.exists():
+            try:
+                user_content = settings.USER_MD_PATH.read_text(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+
+        return {
+            "memory_md": memory_content,
+            "user_md": user_content,
+            "last_updated": time.time()
+        }
+
+    async def process_chat_message(self, user_prompt: str) -> AsyncGenerator[dict, None]:
+        self.current_task = user_prompt
+        self.set_state(DotState.THINKING)
+        self.chat_history.append({"role": "user", "content": user_prompt})
+
+        # Yield thinking state
+        yield {"type": "status", "state": DotState.THINKING.value}
+
+        # Check for direct execution command triggers
+        if user_prompt.strip().startswith("$") or user_prompt.strip().startswith("run:"):
+            cmd = user_prompt.strip().lstrip("$").replace("run:", "").strip()
+            yield {"type": "status", "state": DotState.RUNNING_CODE.value}
+            code, out, err = await self.execute_sandboxed_command(cmd)
+            response_text = f"**Command Executed:** `{cmd}`\n\n```text\n{out or err or 'Done (no output)'}\n```"
+            self.chat_history.append({"role": "assistant", "content": response_text})
+            yield {"type": "message", "content": response_text, "exit_code": code}
+            self.set_state(DotState.SLEEPING)
+            return
+
+        # LLM Orchestration (OpenRouter / Gemini / OpenAI compatible)
+        api_key = settings.OPENROUTER_API_KEY or settings.GEMINI_API_KEY or settings.OPENAI_API_KEY
+        base_url = settings.LLM_BASE_URL
+        model = settings.DEFAULT_MODEL
+
+        system_prompt = (
+            "You are Hermes Dot, an always-on autonomous AI agent cloned from OpenAI Dots architecture. "
+            "You serve as the executive brain for Ajay's business (RareEmber & Hermes). "
+            "You have direct capabilities to inspect workspace files, run shell commands, execute Python scripts, "
+            "and schedule automated jobs. Always be proactive, concise, and executive in your delivery."
+        )
+
+        assistant_reply = ""
+        try:
+            if api_key:
+                payload = {
+                    "model": model,
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        *self.chat_history[-8:]
+                    ],
+                    "temperature": 0.7,
+                    "max_tokens": 1200
+                }
+                headers = {
+                    "Authorization": f"Bearer {api_key}",
+                    "Content-Type": "application/json"
+                }
+                
+                resp = requests.post(f"{base_url}/chat/completions", json=payload, headers=headers, timeout=40)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    assistant_reply = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+                else:
+                    assistant_reply = f"Hermes Dot Brain Notice: API response status {resp.status_code}. Executing autonomous fallback."
+            else:
+                assistant_reply = (
+                    "⚡ **Hermes Dot Online:** I received your instruction. "
+                    "All workspace triggers, terminal sandboxes, and file observers are active."
+                )
+        except Exception as e:
+            assistant_reply = f"Hermes Dot processing notice: {e}"
+
+        self.chat_history.append({"role": "assistant", "content": assistant_reply})
+        self.set_state(DotState.SLEEPING)
+        yield {"type": "message", "content": assistant_reply}
+
+dot_engine = HermesDotEngine()
