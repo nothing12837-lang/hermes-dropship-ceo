@@ -16,7 +16,11 @@ from datetime import datetime, timezone
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MEMORY_DIR = os.path.join(BASE_DIR, "HERMES_MEMORY")
 PUBLISHED_LOG = os.path.join(MEMORY_DIR, "PUBLISHED_BLOGS.json")
-FRONTEND_CONTENT_TS = os.path.abspath(os.path.join(BASE_DIR, "..", "rareember", "dropshipping-platform", "frontend", "src", "lib", "data", "content.ts"))
+candidate_content_paths = [
+    os.path.join(BASE_DIR, "storefront", "src", "lib", "data", "content.ts"),
+    os.path.abspath(os.path.join(BASE_DIR, "..", "rareember", "dropshipping-platform", "frontend", "src", "lib", "data", "content.ts")),
+]
+FRONTEND_CONTENT_TS = next((p for p in candidate_content_paths if os.path.exists(p)), candidate_content_paths[0])
 
 os.makedirs(MEMORY_DIR, exist_ok=True)
 

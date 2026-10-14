@@ -1,24 +1,45 @@
 import json
 import sys
+import os
+import ssl
 import pg8000.native
 
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-DB_HOST = "db.qdkkxpfhwrwyoardlceo.supabase.co"
-DB_USER = "postgres"
-DB_PASS = "RareEmber2026SecureDb123!"
-DB_NAME = "postgres"
+env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+if os.path.exists(env_path):
+    try:
+        with open(env_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    if k.strip() not in os.environ:
+                        os.environ[k.strip()] = v.strip()
+    except Exception:
+        pass
+
+DB_HOST = os.environ.get("SUPABASE_DB_HOST", "db.qdkkxpfhwrwyoardlceo.supabase.co").strip()
+DB_USER = os.environ.get("SUPABASE_DB_USER", "postgres").strip()
+DB_PASS = os.environ.get("SUPABASE_DB_PASS", "").strip()
+DB_NAME = os.environ.get("SUPABASE_DB_NAME", "postgres").strip()
 
 def main():
+    if not DB_PASS:
+        print("Error: SUPABASE_DB_PASS not set in environment.")
+        return
     print("🚀 Connecting to Supabase PostgreSQL database...")
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
     con = pg8000.native.Connection(
         user=DB_USER,
         host=DB_HOST,
         port=5432,
         database=DB_NAME,
         password=DB_PASS,
-        ssl_context=True
+        ssl_context=ctx
     )
 
     # 1. HARD PURGE ALL DEODAP PRODUCTS
@@ -26,13 +47,13 @@ def main():
     print("🧹 Permanently purging ALL DeoDap products from database...")
     del_deodap = con.run("""
         DELETE FROM products 
-        WHERE image_url LIKE '%0782/3284/6646%' 
+        WHERE supplier ILIKE '%deodap%'
+           OR image_url LIKE '%0782/3284/6646%' 
            OR cj_sku LIKE 'whl%' 
            OR cj_sku LIKE '260%' 
            OR cj_sku LIKE '253%' 
            OR cj_sku LIKE '7160%'
            OR cj_sku LIKE '26021%'
-           OR id LIKE 'in-%-%-%-____'
     """)
     print("✅ Purged all old DeoDap rows completely.")
 

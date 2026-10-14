@@ -294,22 +294,28 @@ def append_learning_log(user_input, intent, actions_taken, results_summary, lear
 # 2. REAL BUSINESS TOOLS FOR AGENT EXECUTION
 # ─────────────────────────────────────────────────────────────
 
-SUPABASE_DB_HOST = "db.qdkkxpfhwrwyoardlceo.supabase.co"
-SUPABASE_DB_USER = "postgres"
-SUPABASE_DB_PASS = "RareEmber2026SecureDb123!"
-SUPABASE_DB_NAME = "postgres"
+SUPABASE_DB_HOST = os.environ.get("SUPABASE_DB_HOST", "db.qdkkxpfhwrwyoardlceo.supabase.co").strip()
+SUPABASE_DB_USER = os.environ.get("SUPABASE_DB_USER", "postgres").strip()
+SUPABASE_DB_PASS = os.environ.get("SUPABASE_DB_PASS", "").strip()
+SUPABASE_DB_NAME = os.environ.get("SUPABASE_DB_NAME", "postgres").strip()
 
 def get_supabase_connection():
     """Returns direct connection to Supabase PostgreSQL database."""
+    if not SUPABASE_DB_PASS:
+        return None
     try:
         import pg8000.native
+        import ssl
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
         return pg8000.native.Connection(
             user=SUPABASE_DB_USER,
             host=SUPABASE_DB_HOST,
             port=5432,
             database=SUPABASE_DB_NAME,
             password=SUPABASE_DB_PASS,
-            ssl_context=True
+            ssl_context=ctx
         )
     except Exception as e:
         print(f"Error connecting to Supabase DB: {e}")
@@ -433,7 +439,7 @@ def tool_list_orders(limit=5):
     if con:
         try:
             limit_val = int(limit) if limit else 5
-            orders = con.run(f"SELECT id, user_email, total_amount, status, shipping_address, items, created_at FROM orders ORDER BY created_at DESC LIMIT {limit_val}")
+            orders = con.run("SELECT id, user_email, total_amount, status, shipping_address, items, created_at FROM orders ORDER BY created_at DESC LIMIT :lim", lim=limit_val)
             con.close()
             clean_list = []
             for o in orders:
@@ -482,7 +488,7 @@ def tool_search_products(query=""):
     try:
         q = query.lower().strip()
         if q:
-            rows = con.run(f"SELECT id, title, price_inr, compare_at_price, category, rating, reviews, supplier FROM products WHERE active = true AND (title ILIKE '%{q}%' OR category ILIKE '%{q}%') LIMIT 6")
+            rows = con.run("SELECT id, title, price_inr, compare_at_price, category, rating, reviews, supplier FROM products WHERE active = true AND (title ILIKE :q OR category ILIKE :q) LIMIT 6", q=f"%{q}%")
         else:
             rows = con.run("SELECT id, title, price_inr, compare_at_price, category, rating, reviews, supplier FROM products WHERE active = true AND is_trending = true LIMIT 6")
         con.close()
@@ -575,7 +581,10 @@ def tool_update_order_tracking(order_id, tracking_number, courier="Delhivery"):
     if con:
         try:
             con.run(
-                f"UPDATE orders SET status = 'shipped', tracking_number = '{tn}', tracking_url = '{tracking_url}' WHERE id::text ILIKE '{clean_id}%'"
+                "UPDATE orders SET status = 'shipped', tracking_number = :tn, tracking_url = :turl WHERE id::text ILIKE :oid",
+                tn=str(tn).strip(),
+                turl=str(tracking_url).strip(),
+                oid=f"{clean_id}%"
             )
             con.close()
             return {
@@ -615,15 +624,17 @@ def tool_update_order_tracking(order_id, tracking_number, courier="Delhivery"):
 def tool_toggle_product_stock(product_identifier, in_stock=True):
     """Updates product stock availability in Supabase (active = true/false)."""
     clean_id = str(product_identifier or "").strip().lower()
-    active_val = "true" if in_stock in [True, "true", "True", 1, "1"] else "false"
+    is_active = bool(in_stock in [True, "true", "True", 1, "1"])
     con = get_supabase_connection()
     if con:
         try:
             con.run(
-                f"UPDATE products SET active = {active_val} WHERE id ILIKE '%{clean_id}%' OR title ILIKE '%{clean_id}%'"
+                "UPDATE products SET active = :act WHERE id ILIKE :q OR title ILIKE :q",
+                act=is_active,
+                q=f"%{clean_id}%"
             )
             con.close()
-            status_word = "IN STOCK (Orders Enabled)" if active_val == "true" else "OUT OF STOCK (Orders Disabled)"
+            status_word = "IN STOCK (Orders Enabled)" if is_active else "OUT OF STOCK (Orders Disabled)"
             return {
                 "status": "success",
                 "product": clean_id,
@@ -815,13 +826,15 @@ def tool_send_support_email(to_email, subject, body):
 
 def tool_generate_viral_reels_script(product_name="trending product"):
     """Agency-grade 30-second viral Reels / TikTok script with visual hooks, voiceover, and sound styling."""
-    prods = tool_search_products(product_name).get("products", [])
-    prod = prods[0] if prods else {"title": product_name, "price_inr": 1290, "id": "bestseller"}
+    search_res = tool_search_products(product_name)
+    prods = search_res.get("results", []) or search_res.get("products", [])
+    prod = prods[0] if prods else {"title": product_name, "price": "₹449", "id": "bestseller"}
+    price_val = prod.get("price_inr") or prod.get("price") or "₹449"
     
     script = {
         "product": prod.get("title"),
         "product_id": prod.get("id"),
-        "price_inr": prod.get("price_inr", 1290),
+        "price_inr": price_val,
         "product_url": f"{SITE_URL}/product/{prod.get('id', '')}",
         "audio_recommendation": "Trending Aesthetic Lofi beat or fast-paced Bass drop",
         "duration": "28 seconds",
@@ -981,7 +994,7 @@ def tool_execute_rapid_google_indexing():
     4. Prepares the Google Search Console manual priority queue.
     """
     try:
-        readme_path = os.path.join(BASE_DIR, "README.md")
+        seo_dir_path = os.path.join(BASE_DIR, "SEO_DIRECTORY.md")
         import ig_autopilot
         prods = ig_autopilot.fetch_live_catalog()
         
@@ -993,14 +1006,14 @@ def tool_execute_rapid_google_indexing():
             if pid and title:
                 links_markdown += f"- [{title} - Buy Online India (₹{price:,})](https://rareember-store.vercel.app/product/{pid})\n"
                 
-        content = f"""# RareEmber™ - Autonomous E-Commerce & Curated Dropshipping Platform
+        content = f"""# RareEmber™ - Curated Dropshipping Catalog & Google Index Directory
 > **Live Store:** [rareember-store.vercel.app](https://rareember-store.vercel.app)  
 > **Official Instagram:** [@rareember](https://instagram.com/rareember)  
 > **Pan-India Express Delivery:** 2–4 Days with Cash on Delivery (COD) across 19,000+ PIN codes.
 
 ---
 
-## 🛍️ Official RareEmber Curated Product Catalog (Google Index Directory)
+## 🛍️ Official RareEmber Curated Product Catalog
 Official direct links to trending factory-direct drops:
 
 {links_markdown}
@@ -1010,20 +1023,15 @@ Official direct links to trending factory-direct drops:
 - [All Products & Trending Drops](https://rareember-store.vercel.app/shop)
 - [Curated Electronics & Gadgets](https://rareember-store.vercel.app/shop?cat=electronics)
 - [Aesthetic Home & Living](https://rareember-store.vercel.app/shop?cat=home-garden)
-- [Pet Comfort Essentials](https://rareember-store.vercel.app/shop?cat=pets)
-- [Order Tracking (BlueDart & Delhivery)](https://rareember-store.vercel.app/track)
+- [Curated Fashion](https://rareember-store.vercel.app/shop?cat=fashion)
+- [Order Tracking](https://rareember-store.vercel.app/track)
 - [Customer Care & Support](https://rareember-store.vercel.app/contact)
-
----
-
-## 🤖 Managed by Hermes Autonomous CEO (Tony Stark JARVIS Architecture)
-24/7 autonomous dropshipping management, Instagram Autopilot, unit economics calculation, and search indexing engine.
 """
-        with open(readme_path, "w", encoding="utf-8") as f:
+        with open(seo_dir_path, "w", encoding="utf-8") as f:
             f.write(content)
             
         import subprocess
-        subprocess.run(["git", "add", "README.md"], cwd=BASE_DIR, capture_output=True)
+        subprocess.run(["git", "add", "SEO_DIRECTORY.md"], cwd=BASE_DIR, capture_output=True)
         subprocess.run(["git", "commit", "-m", "seo(backlinks): publish Google indexing tier-1 catalog directory [skip ci]"], cwd=BASE_DIR, capture_output=True)
         subprocess.run(["git", "push", "origin", "main"], cwd=BASE_DIR, capture_output=True)
 
@@ -1770,9 +1778,9 @@ def execute_react_agent_turn(user_msg, chat_id):
         f"7. Keep reply punchy, intelligent, and actionable. Do NOT repeat long boilerplate status intros."
     )
 
-    # Priority 1: Google Gemini Flash Lite (Fast, Reliable, Verified 200 OK)
+    # Priority 1: Google Gemini Flash (Official 2.0 Flash / 1.5 Flash)
     if GEMINI_API_KEY:
-        for model_name in ["gemini-flash-lite-latest", "gemini-3.8-flash"]:
+        for model_name in ["gemini-2.0-flash", "gemini-1.5-flash"]:
             try:
                 gem_url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={GEMINI_API_KEY}"
                 gr = SESSION.post(gem_url, json={"contents": [{"parts": [{"text": prompt_context}]}]}, timeout=15)
@@ -1787,6 +1795,27 @@ def execute_react_agent_turn(user_msg, chat_id):
                                 break
             except Exception as ge:
                 print(f"Gemini {model_name} error: {ge}")
+
+    # Priority 2: OpenRouter Fallback
+    if not llm_response and OPENROUTER_API_KEY:
+        try:
+            or_url = "https://openrouter.ai/api/v1/chat/completions"
+            or_headers = {
+                "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+                "Content-Type": "application/json"
+            }
+            or_payload = {
+                "model": "google/gemini-2.0-flash-001",
+                "messages": [{"role": "user", "content": prompt_context}]
+            }
+            r = SESSION.post(or_url, headers=or_headers, json=or_payload, timeout=15)
+            if r.status_code == 200:
+                or_data = r.json()
+                choices = or_data.get("choices", [])
+                if choices:
+                    llm_response = choices[0].get("message", {}).get("content", "").strip()
+        except Exception as oe:
+            print(f"OpenRouter fallback error: {oe}")
 
     # Build final response
     if actions_proof:
@@ -2066,7 +2095,7 @@ def generate_autonomous_growth_cycle():
     if con:
         try:
             prod_search = selected["product"].split("(")[0].strip()
-            con.run(f"UPDATE products SET is_trending = true, is_new = true, active = true, supplier = 'Meesho' WHERE title ILIKE '%{prod_search[:20]}%'")
+            con.run("UPDATE products SET is_trending = true, is_new = true, active = true, supplier = 'Meesho' WHERE title ILIKE :t", t=f"%{prod_search[:20]}%")
             con.close()
         except Exception as dbe:
             if con:
@@ -2222,7 +2251,7 @@ def autonomous_ceo_growth_worker():
                     for prod_id, m_url in MEESHO_DIRECT_URLS.items():
                         is_in_stock = check_meesho_stock_lightweight(m_url)
                         if not is_in_stock:
-                            con.run(f"UPDATE products SET active = false WHERE id = '{prod_id}' AND active = true")
+                            con.run("UPDATE products SET active = false WHERE id = :pid AND active = true", pid=prod_id)
                             stock_alerts.append(f"• <b>{prod_id}</b> (Temporarily out of stock on Meesho - Orders Paused)")
                         time.sleep(1)
                     con.close()
@@ -2383,9 +2412,11 @@ def proactive_order_monitor():
                         seen_orders.add(oid)
                         
                         shipping_addr = o.get("shipping_address")
+                        name_part = str(o.get('shipping_name') or 'Customer').strip()
+                        phone = ""
                         addr_str = "Customer provided during checkout"
                         if isinstance(shipping_addr, dict):
-                            name_part = shipping_addr.get('name', '') or o.get('shipping_name', '')
+                            name_part = shipping_addr.get('name', '') or name_part
                             line1 = shipping_addr.get('line1') or shipping_addr.get('address', '')
                             city = shipping_addr.get('city', '')
                             state = shipping_addr.get('state', '')
@@ -2472,9 +2503,6 @@ def proactive_order_monitor():
                                 json.dump(list(seen_orders), f)
                         except Exception:
                             pass
-
-            # Check 5 daily scheduled Instagram drop slots
-            check_and_trigger_instagram_drop()
 
         except Exception as e:
             print(f"Monitor error: {e}")

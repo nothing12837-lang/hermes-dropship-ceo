@@ -14,10 +14,24 @@ from datetime import datetime, timezone
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
 
-SITE_URL = "https://rareember-store.vercel.app"
-SUPABASE_URL = "https://qdkkxpfhwrwyoardlceo.supabase.co"
-SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFka2t4cGZod3J3eW9hcmRsY2VvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4Njc2OTcsImV4cCI6MjEwNjQ0MzY5N30.qFvuYQ1G9NvYGYXWVtR6b9dPScOuUIfeVQ8yX3y1DJo"
-INDEXNOW_KEY = "rareember2026indexnowkey"
+# Load local environment if available
+env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+if os.path.exists(env_path):
+    try:
+        with open(env_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    if k.strip() not in os.environ:
+                        os.environ[k.strip()] = v.strip()
+    except Exception:
+        pass
+
+SITE_URL = os.environ.get("SITE_URL", "https://rareember-store.vercel.app").strip()
+SUPABASE_URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL", "").strip()
+SUPABASE_ANON_KEY = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY", "").strip()
+INDEXNOW_KEY = os.environ.get("INDEXNOW_KEY", "rareember2026indexnowkey").strip()
 
 def fetch_all_live_products():
     """Gently fetches all live products from Supabase database."""
@@ -126,14 +140,20 @@ def run_seo_blitz():
     print(f"✅ Generated comprehensive sitemap.xml with {len(products) + 9} URLs: {out_sitemap}")
     
     # Also write to public folder of Next.js store if accessible
-    frontend_public = os.path.join(os.path.dirname(__file__), "..", "rareember", "dropshipping-platform", "frontend", "public")
-    if os.path.exists(frontend_public):
-        with open(os.path.join(frontend_public, "sitemap.xml"), "w", encoding="utf-8") as f:
-            f.write(sitemap_content)
-        # Create IndexNow verification key file
-        with open(os.path.join(frontend_public, f"{INDEXNOW_KEY}.txt"), "w", encoding="utf-8") as f:
-            f.write(INDEXNOW_KEY)
-        print(f"✅ Synced static sitemap.xml and IndexNow key file directly to frontend/public!")
+    public_dirs = [
+        os.path.join(os.path.dirname(__file__), "storefront", "public"),
+        os.path.join(os.path.dirname(__file__), "..", "rareember", "dropshipping-platform", "frontend", "public")
+    ]
+    for pdir in public_dirs:
+        if os.path.exists(pdir):
+            try:
+                with open(os.path.join(pdir, "sitemap.xml"), "w", encoding="utf-8") as f:
+                    f.write(sitemap_content)
+                with open(os.path.join(pdir, f"{INDEXNOW_KEY}.txt"), "w", encoding="utf-8") as f:
+                    f.write(INDEXNOW_KEY)
+                print(f"✅ Synced static sitemap.xml and IndexNow key file directly to {pdir}!")
+            except Exception as pe:
+                print(f"Notice writing to {pdir}: {pe}")
 
     # 2. Collect URLs for IndexNow
     url_list = [f"{SITE_URL}/", f"{SITE_URL}/shop"] + [f"{SITE_URL}/product/{p['id']}" for p in products if p.get("id")]

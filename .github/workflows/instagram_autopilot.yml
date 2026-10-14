@@ -1,12 +1,5 @@
-name: RareEmber Instagram 24x7 Autopilot (5 Daily Drops)
+name: RareEmber Instagram Campaign Drop (Manual / On-Demand)
 
-# on:
-#   schedule:
-#     - cron: '30 4 * * *'
-#     - cron: '0 8 * * *'
-#     - cron: '0 12 * * *'
-#     - cron: '30 14 * * *'
-#     - cron: '30 16 * * *'
 on:
   workflow_dispatch:
     inputs:
@@ -22,14 +15,13 @@ on:
           - festive_deal
           - trust_builder
       format:
-        description: 'Content Format (Auto, Post Image, or Video Reel)'
+        description: 'Content Format (Auto or Post Image)'
         required: false
         default: 'auto'
         type: choice
         options:
           - auto
           - post
-          - reel
 
 permissions:
   contents: write
@@ -49,9 +41,6 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: Ensure FFmpeg Installed
-        run: which ffmpeg || sudo apt-get update && sudo apt-get install -y ffmpeg
-
       - name: Install Dependencies
         run: pip install -r requirements.txt
 
@@ -64,13 +53,13 @@ jobs:
           TELEGRAM_CHAT_ID: "5238068527"
           STORE_URL: "https://rareember-store.vercel.app"
         run: |
-          python ig_autopilot.py --campaign-type "${{ github.event.inputs.campaign_type || 'auto' }}" --format "${{ github.event.inputs.format || 'auto' }}"
+          python ig_autopilot.py --campaign-type "${{ github.event.inputs.campaign_type || 'auto' }}" --format "post"
 
-      - name: Commit Updated Post History & Session
+      - name: Upload Generated Creative Artifact
         if: always()
-        run: |
-          git config --global user.name "Hermes Autopilot"
-          git config --global user.email "hermes@rareember.com"
-          git add posted_history.json session.json 2>/dev/null || true
-          git commit -m "chore: record auto-posted product history & session [skip ci]" || echo "No changes to commit"
-          git push || echo "Push skipped"
+        uses: actions/upload-artifact@v4
+        with:
+          name: instagram-creative-output
+          path: |
+            generated_posts/*.jpg
+          retention-days: 7

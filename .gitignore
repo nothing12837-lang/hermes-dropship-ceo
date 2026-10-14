@@ -1,5 +1,10 @@
 .env
+.env.*
 __pycache__/
 *.pyc
 session.json
+posted_history.json
 generated_posts/
+BOT_BACKUPS/
+storefront/.next/
+storefront/node_modules/

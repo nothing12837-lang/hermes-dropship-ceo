@@ -48,7 +48,7 @@ if os.path.exists(ENV_FILE):
 IG_USERNAME = os.environ.get("IG_USERNAME", "").strip()
 IG_PASSWORD = os.environ.get("IG_PASSWORD", "").strip()
 IG_SESSIONID = os.environ.get("IG_SESSIONID", "").strip()
-TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "8898923626:AAEZTnurYzL70qpg42BgKKmLUBpW4g422aY").strip()
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "5238068527").strip()
 STORE_URL = "https://rareember-store.vercel.app"
 
@@ -161,8 +161,8 @@ FALLBACK_IMAGES = {
     'hc-classic-aviator-sunglasses-6': 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=1080',
 }
 
-SUPABASE_URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL", "https://qdkkxpfhwrwyoardlceo.supabase.co")
-SUPABASE_ANON_KEY = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFka2t4cGZod3J3eW9hcmRsY2VvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4Njc2OTcsImV4cCI6MjEwNjQ0MzY5N30.qFvuYQ1G9NvYGYXWVtR6b9dPScOuUIfeVQ8yX3y1DJo")
+SUPABASE_URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL", "").strip()
+SUPABASE_ANON_KEY = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY", "").strip()
 
 def fetch_live_catalog():
     """Dynamically fetches all active products from Supabase store database."""
@@ -408,8 +408,9 @@ def render_post_image(product):
         print(f"Image fetch error: {e}, using color placeholder")
         prod_img = Image.new("RGB", (800, 800), color=(245, 240, 230))
         
-    # Crop to square 860x860
-    prod_img = prod_img.resize((860, 860), Image.Resampling.LANCZOS)
+    # Crop to square 860x860 without squashing aspect ratio
+    from PIL import ImageOps
+    prod_img = ImageOps.fit(prod_img, (860, 860), method=Image.Resampling.LANCZOS)
     
     # Card Background with Border
     card_x = (width - 880) // 2
@@ -418,7 +419,9 @@ def render_post_image(product):
     base.paste(prod_img, (card_x + 10, card_y + 10))
     
     # Subtle Verified Tag on Product Image (Top Left)
-    discount_pct = int(round((1 - (product["price_inr"] / product["compare_at"])) * 100))
+    compare_at = float(product.get("compare_at") or 0)
+    price_inr = float(product.get("price_inr") or 0)
+    discount_pct = int(round((1 - (price_inr / compare_at)) * 100)) if compare_at > price_inr else 0
     draw.rounded_rectangle([card_x + 24, card_y + 24, card_x + 210, card_y + 76], radius=24, fill=theme["header_bg"], outline=theme["card_outline"], width=2)
     font_disc = get_font(22, bold=True)
     draw.text((card_x + 40, card_y + 36), "VERIFIED DROP", fill=theme["text_main"], font=font_disc)
@@ -434,42 +437,46 @@ def render_post_image(product):
     font_mrp = get_font(26, bold=False)
     font_save = get_font(22, bold=True)
     
-    price_str = f"Rs. {product['price_inr']:,}"
+    price_str = f"Rs. {int(price_inr):,}"
     draw.text((60, price_y), price_str, fill=theme["accent"], font=font_price)
     
     price_bbox = draw.textbbox((60, price_y), price_str, font=font_price)
     mrp_x = price_bbox[2] + 20
-    mrp_str = f"M.R.P. Rs. {product['compare_at']:,}"
-    draw.text((mrp_x, price_y + 16), mrp_str, fill=theme["text_sub"], font=font_mrp)
-    
-    # Dynamic strikethrough line exactly across M.R.P. text
-    mrp_bbox = draw.textbbox((mrp_x, price_y + 16), mrp_str, font=font_mrp)
-    mrp_mid_y = (mrp_bbox[1] + mrp_bbox[3]) // 2
-    draw.line([(mrp_bbox[0], mrp_mid_y), (mrp_bbox[2], mrp_mid_y)], fill=theme["text_sub"], width=2)
-    
-    # Save % badge pill right beside MRP
-    save_x = mrp_bbox[2] + 18
-    save_text = f"SAVE {discount_pct}%"
-    save_bbox = draw.textbbox((save_x + 12, price_y + 14), save_text, font=font_save)
-    draw.rounded_rectangle([save_x, price_y + 12, save_bbox[2] + 12, price_y + 46], radius=16, fill=theme["badge_bg"])
-    draw.text((save_x + 12, price_y + 15), save_text, fill=theme["badge_text"], font=font_save)
+    mrp_str = f"M.R.P. Rs. {int(compare_at):,}" if compare_at > 0 else ""
+    if mrp_str:
+        draw.text((mrp_x, price_y + 16), mrp_str, fill=theme["text_sub"], font=font_mrp)
+        
+        # Dynamic strikethrough line exactly across M.R.P. text
+        mrp_bbox = draw.textbbox((mrp_x, price_y + 16), mrp_str, font=font_mrp)
+        mrp_mid_y = (mrp_bbox[1] + mrp_bbox[3]) // 2
+        draw.line([(mrp_bbox[0], mrp_mid_y), (mrp_bbox[2], mrp_mid_y)], fill=theme["text_sub"], width=2)
+        
+        # Save % badge pill right beside MRP
+        if discount_pct > 0:
+            save_x = mrp_bbox[2] + 18
+            save_text = f"SAVE {discount_pct}%"
+            save_bbox = draw.textbbox((save_x + 12, price_y + 14), save_text, font=font_save)
+            draw.rounded_rectangle([save_x, price_y + 12, save_bbox[2] + 12, price_y + 46], radius=16, fill=theme["badge_bg"])
+            draw.text((save_x + 12, price_y + 15), save_text, fill=theme["badge_text"], font=font_save)
     
     # 5. Rating & Social Proof (Below Price Row)
     rating_y = price_y + 68
     font_rating = get_font(22, bold=True)
-    draw.text((60, rating_y), f"Rating: {product['rating']} / 5.0  ({product['reviews']} Verified Reviews)  •  Gujarat Fulfillment Hub", fill=(217, 119, 6), font=font_rating)
+    draw.text((60, rating_y), f"Rating: {product.get('rating', '4.8')} / 5.0  ({product.get('reviews', '500+')} Verified Reviews)  •  Indian Fulfillment Hub", fill=(217, 119, 6), font=font_rating)
     
     # 6. Trust Guarantee Strip
     draw.line([(60, rating_y + 36), (width - 60, rating_y + 36)], fill=theme["card_outline"], width=1)
     font_trust = get_font(20, bold=True)
-    trust_text = "PAN-INDIA EXPRESS COURIER   •   CASH ON DELIVERY   •   30-DAY ZERO-RISK RETURNS"
+    trust_text = "PAN-INDIA EXPRESS COURIER   •   CASH ON DELIVERY   •   7-DAY EASY REPLACEMENT"
     draw.text((60, rating_y + 48), trust_text, fill=theme["text_sub"], font=font_trust)
     
     # 5. Bottom Call-To-Action Banner
     draw.rectangle([0, height - 75, width, height], fill=theme["footer_bg"])
     font_cta = get_font(24, bold=True)
     cta_text = "Tap Link in Bio to Order  |  rareember-store.vercel.app"
-    draw.text((width // 2 - 270, height - 52), cta_text, fill=theme["footer_text"], font=font_cta)
+    cta_bbox = draw.textbbox((0, 0), cta_text, font=font_cta)
+    cta_w = cta_bbox[2] - cta_bbox[0]
+    draw.text(((width - cta_w) // 2, height - 52), cta_text, fill=theme["footer_text"], font=font_cta)
     
     # Save Image
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
