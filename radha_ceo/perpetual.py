@@ -31,10 +31,11 @@ class RadhaPerpetualEngine:
     Never stops: either executes operational fulfillment or conducts deep business research.
     """
 
-    def __init__(self):
+    def __init__(self, cycle_interval_seconds: int = 180):
         self.brain = RadhaBrain()
         self.cycle_count = 0
         self.last_research_time = 0
+        self.cycle_interval_seconds = cycle_interval_seconds
 
     def step_operational_audit(self):
         """

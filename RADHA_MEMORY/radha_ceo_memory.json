@@ -2,8 +2,8 @@
   "procedural": {
     "current_guidance": {
       "content": {
-        "directive": "Maintain >55% gross margins and optimize COD delivery acceptance",
-        "issued_at": "2026-10-14T13:27:42.428943+00:00",
+        "directive": "Continuously improve business metrics, customer trust, and unit economics",
+        "issued_at": "2026-10-14T13:35:21.461053+00:00",
         "departmental_goals": {
           "Vikram": "Ensure all catalog items maintain >50% gross profit margin and active holiday coupons.",
           "Aarav": "Publish high-converting lifestyle guides to Supabase blog_posts targeting long-tail Indian keywords.",
@@ -14,7 +14,7 @@
         }
       },
       "confidence": 1.0,
-      "updated_at": "2026-10-14T13:27:45.592548+00:00"
+      "updated_at": "2026-10-14T13:35:24.404302+00:00"
     }
   },
   "episodic": {
@@ -27,6 +27,19 @@
       },
       "confidence": 1.0,
       "updated_at": "2026-10-14T13:28:22.085590+00:00"
+    },
+    "turn_1791984973": {
+      "content": {
+        "input": "Aaj ka sales report kaisa hai?",
+        "actions": [
+          "vikram_pricing",
+          "active_coupons"
+        ],
+        "reply_preview": "Namaste Boss Ajay,\n\nAaj ka 24-hour sales report seedha aur clear hai:\n\n* **Total Revenue (GMV):** \u20b9499 (Target: \u20b910,000 \u2014 humein abhi aur zor lagana hai).\n* **Net Profit:** \u20b9190 (Healthy average margin: **38.1%**).\n* **Team Update:** Vikram ne catalo",
+        "at": "2026-10-14T13:36:13.417376+00:00"
+      },
+      "confidence": 1.0,
+      "updated_at": "2026-10-14T13:36:17.332140+00:00"
     }
   },
   "learning": {
@@ -43,6 +56,20 @@
       },
       "confidence": 1.0,
       "updated_at": "2026-10-14T13:28:45.519438+00:00"
+    },
+    "continuous_research_1791984941": {
+      "content": {
+        "summary": "Continuous deep research cycle completed.",
+        "insights": [
+          "High festive demand for ambient decorative lighting with water/sound sensors.",
+          "Maintaining \u20b9449-\u20b9599 price point yields optimal impulse purchases with >55% gross margin.",
+          "Pre-dispatch WhatsApp confirmation mitigates COD RTO rate below 10%."
+        ],
+        "cycle": 1,
+        "timestamp": "2026-10-14T13:35:41.836402+00:00"
+      },
+      "confidence": 1.0,
+      "updated_at": "2026-10-14T13:35:45.074589+00:00"
     }
   }
 }

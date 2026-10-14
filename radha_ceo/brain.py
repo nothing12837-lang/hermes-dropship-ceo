@@ -233,7 +233,7 @@ class RadhaBrain:
         self.learn(founder_message, action_results, fallback)
         return fallback
 
-    def guide_team(self, directive: str):
+    def guide_team(self, directive: str = "Continuously improve business metrics, customer trust, and unit economics"):
         """
         Radha guides her executive team with clear strategic focus.
         """
