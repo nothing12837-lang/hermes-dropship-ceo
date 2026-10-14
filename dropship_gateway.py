@@ -302,7 +302,8 @@ SUPABASE_DB_NAME = os.environ.get("SUPABASE_DB_NAME", "postgres").strip()
 
 def get_supabase_connection():
     """Returns direct connection to Supabase PostgreSQL database."""
-    if not SUPABASE_DB_PASS:
+    db_pass = os.environ.get("SUPABASE_DB_PASS", "").strip() or SUPABASE_DB_PASS
+    if not db_pass:
         return None
     try:
         import pg8000.native
@@ -311,11 +312,11 @@ def get_supabase_connection():
         ctx.check_hostname = False
         ctx.verify_mode = ssl.CERT_NONE
         return pg8000.native.Connection(
-            user=SUPABASE_DB_USER,
-            host=SUPABASE_DB_HOST,
+            user=os.environ.get("SUPABASE_DB_USER", "postgres").strip(),
+            host=os.environ.get("SUPABASE_DB_HOST", "db.qdkkxpfhwrwyoardlceo.supabase.co").strip(),
             port=5432,
-            database=SUPABASE_DB_NAME,
-            password=SUPABASE_DB_PASS,
+            database=os.environ.get("SUPABASE_DB_NAME", "postgres").strip(),
+            password=db_pass,
             ssl_context=ctx
         )
     except Exception as e:
@@ -597,6 +598,7 @@ def tool_update_order_tracking(order_id, tracking_number, courier="Delhivery"):
                 "message": f"Order #{clean_id[:8]} marked SHIPPED with {courier} AWB {tn}. Live tracking active on /track!"
             }
         except Exception as e:
+            print(f"[Supabase Update Order Error] {e}")
             if con:
                 try:
                     con.close()
