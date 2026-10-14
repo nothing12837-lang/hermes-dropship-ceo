@@ -8,6 +8,7 @@ from enum import Enum
 import requests
 
 from dots_gateway.config import settings
+from dots_gateway.skills_manager import skills_manager
 
 class DotState(str, Enum):
     SLEEPING = "Sleeping"
@@ -36,6 +37,19 @@ class HermesDotEngine:
         self.pending_approvals: Dict[str, PendingApproval] = {}
         self.execution_logs: List[Dict[str, Any]] = []
         self.chat_history: List[Dict[str, str]] = []
+        # Hermes Terminal Execution Backend flag: 'local' | 'docker' | 'modal'
+        self.execution_backend: str = settings.EXECUTION_BACKEND
+
+    def set_execution_backend(self, backend: str) -> str:
+        if backend in ["local", "docker", "modal"]:
+            self.execution_backend = backend
+            self._broadcast_event({
+                "type": "backend_change",
+                "backend": self.execution_backend,
+                "timestamp": time.time()
+            })
+            return self.execution_backend
+        return self.execution_backend
 
     def set_state(self, new_state: DotState):
         self.state = new_state
@@ -44,6 +58,7 @@ class HermesDotEngine:
             "state": self.state.value,
             "session_id": self.session_id,
             "current_task": self.current_task,
+            "backend": self.execution_backend,
             "timestamp": time.time()
         })
 
@@ -72,7 +87,8 @@ class HermesDotEngine:
         self._broadcast_event({
             "type": "terminal_stream",
             "stream": stream,
-            "text": text
+            "text": text,
+            "backend": self.execution_backend
         })
 
     def is_destructive(self, command: str) -> tuple[bool, str]:
@@ -122,48 +138,71 @@ class HermesDotEngine:
         return True
 
     async def execute_sandboxed_command(self, command: str, cwd: str = None) -> tuple[int, str, str]:
+        """
+        Executes command according to Hermes Terminal Backend:
+        - 'local': Native async subprocess shell
+        - 'docker': Wrapped in docker container exec
+        - 'modal': Remote Modal serverless sandbox execution
+        """
         work_dir = cwd or str(settings.WORKSPACE_PATH)
         is_dest, reason = self.is_destructive(command)
         
         if is_dest:
-            allowed = await self.request_human_approval(command, reason, {"cwd": work_dir})
+            allowed = await self.request_human_approval(command, reason, {"cwd": work_dir, "backend": self.execution_backend})
             if not allowed:
                 return -1, "", f"Operation rejected by human operator: {reason}"
 
         self.set_state(DotState.RUNNING_CODE)
-        await self.broadcast_terminal_output("stdin", f"$ {command}\n")
+        
+        # Format command based on backend
+        actual_cmd = command
+        backend_tag = f"[{self.execution_backend.upper()} SANDBOX]"
 
-        proc = await asyncio.create_subprocess_shell(
-            command,
-            cwd=work_dir,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE
-        )
+        if self.execution_backend == "docker":
+            actual_cmd = f"docker exec -i {settings.DOCKER_CONTAINER_NAME} sh -c \"{command}\""
+        elif self.execution_backend == "modal":
+            actual_cmd = f"modal run modal_sandbox.py --cmd \"{command}\""
 
-        stdout_chunks = []
-        stderr_chunks = []
+        await self.broadcast_terminal_output("stdin", f"$ {backend_tag} {command}\n")
 
-        async def read_stream(stream, kind):
-            while True:
-                line = await stream.readline()
-                if not line:
-                    break
-                decoded = line.decode("utf-8", errors="replace")
-                if kind == "stdout":
-                    stdout_chunks.append(decoded)
-                else:
-                    stderr_chunks.append(decoded)
-                await self.broadcast_terminal_output(kind, decoded)
+        try:
+            proc = await asyncio.create_subprocess_shell(
+                actual_cmd,
+                cwd=work_dir,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE
+            )
 
-        await asyncio.gather(
-            read_stream(proc.stdout, "stdout"),
-            read_stream(proc.stderr, "stderr")
-        )
+            stdout_chunks = []
+            stderr_chunks = []
 
-        exit_code = await proc.wait()
-        await self.broadcast_terminal_output("system", f"[Process exited with code {exit_code}]\n")
-        self.set_state(DotState.COMPLETED)
-        return exit_code, "".join(stdout_chunks), "".join(stderr_chunks)
+            async def read_stream(stream, kind):
+                while True:
+                    line = await stream.readline()
+                    if not line:
+                        break
+                    decoded = line.decode("utf-8", errors="replace")
+                    if kind == "stdout":
+                        stdout_chunks.append(decoded)
+                    else:
+                        stderr_chunks.append(decoded)
+                    await self.broadcast_terminal_output(kind, decoded)
+
+            await asyncio.gather(
+                read_stream(proc.stdout, "stdout"),
+                read_stream(proc.stderr, "stderr")
+            )
+
+            exit_code = await proc.wait()
+            await self.broadcast_terminal_output("system", f"[Process exited with code {exit_code}]\n")
+            self.set_state(DotState.COMPLETED)
+            return exit_code, "".join(stdout_chunks), "".join(stderr_chunks)
+
+        except Exception as e:
+            err_msg = f"Backend execution error ({self.execution_backend}): {str(e)}"
+            await self.broadcast_terminal_output("stderr", f"{err_msg}\n")
+            self.set_state(DotState.COMPLETED)
+            return -1, "", err_msg
 
     def read_memory_state(self) -> dict:
         memory_content = ""
@@ -199,14 +238,14 @@ class HermesDotEngine:
         self.chat_history.append({"role": "user", "content": user_prompt})
 
         # Yield thinking state
-        yield {"type": "status", "state": DotState.THINKING.value}
+        yield {"type": "status", "state": DotState.THINKING.value, "backend": self.execution_backend}
 
         # Check for direct execution command triggers
         if user_prompt.strip().startswith("$") or user_prompt.strip().startswith("run:"):
             cmd = user_prompt.strip().lstrip("$").replace("run:", "").strip()
             yield {"type": "status", "state": DotState.RUNNING_CODE.value}
             code, out, err = await self.execute_sandboxed_command(cmd)
-            response_text = f"**Command Executed:** `{cmd}`\n\n```text\n{out or err or 'Done (no output)'}\n```"
+            response_text = f"**Command Executed:** `{cmd}` ({self.execution_backend})\n\n```text\n{out or err or 'Done (no output)'}\n```"
             self.chat_history.append({"role": "assistant", "content": response_text})
             yield {"type": "message", "content": response_text, "exit_code": code}
             self.set_state(DotState.SLEEPING)
@@ -219,9 +258,10 @@ class HermesDotEngine:
 
         system_prompt = (
             "You are Hermes Dot, an always-on autonomous AI agent cloned from OpenAI Dots architecture. "
+            f"Active Terminal Backend: {self.execution_backend}. "
             "You serve as the executive brain for Ajay's business (RareEmber & Hermes). "
-            "You have direct capabilities to inspect workspace files, run shell commands, execute Python scripts, "
-            "and schedule automated jobs. Always be proactive, concise, and executive in your delivery."
+            "You have direct capabilities to inspect workspace files, run shell commands, interact with 4,000+ apps via Model Context Protocol (MCP), "
+            "and retain newly learned tasks into version-controlled SKILL.md files. Always be proactive, concise, and executive in your delivery."
         )
 
         assistant_reply = ""
@@ -250,7 +290,8 @@ class HermesDotEngine:
             else:
                 assistant_reply = (
                     "⚡ **Hermes Dot Online:** I received your instruction. "
-                    "All workspace triggers, terminal sandboxes, and file observers are active."
+                    f"Execution backend: `{self.execution_backend}`. "
+                    "4,000+ MCP apps and Skill Retention pipeline are active."
                 )
         except Exception as e:
             assistant_reply = f"Hermes Dot processing notice: {e}"

@@ -2,7 +2,7 @@ import asyncio
 import os
 import time
 from contextlib import asynccontextmanager
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Query, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
@@ -12,6 +12,8 @@ from dots_gateway.config import settings
 from dots_gateway.engine import dot_engine, DotState
 from dots_gateway.file_manager import file_manager
 from dots_gateway.scheduler import scheduler, CronJobModel
+from dots_gateway.mcp_manager import mcp_manager, MCPServerConfig
+from dots_gateway.skills_manager import skills_manager
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -24,7 +26,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="Hermes Dots Gateway API",
     description="Production API Gateway & Sandboxed Dashboard Wrapper for Hermes Agent (OpenAI Dots Clone)",
-    version="1.0.0",
+    version="1.1.0",
     lifespan=lifespan
 )
 
@@ -67,6 +69,21 @@ class MemoryUpdateRequest(BaseModel):
     target: str = "memory"  # 'memory' or 'user'
     content: str
 
+class BackendSwitchRequest(BaseModel):
+    backend: str  # 'local' | 'docker' | 'modal'
+
+class MCPCallRequest(BaseModel):
+    server_name: str
+    tool_name: str
+    arguments: Dict[str, Any] = {}
+
+class RetainSkillRequest(BaseModel):
+    task_name: str
+    goal: str
+    solution_summary: str
+    commands_run: List[str] = []
+    category: str = "custom"
+
 # ----------------- Health & Status -----------------
 @app.get("/health")
 @app.get("/api/v1/health")
@@ -77,9 +94,34 @@ async def health_check():
         "agent_state": dot_engine.state.value,
         "current_task": dot_engine.current_task,
         "session_id": dot_engine.session_id,
+        "execution_backend": dot_engine.execution_backend,
         "timestamp": time.time(),
-        "pending_approvals_count": len(dot_engine.pending_approvals)
+        "pending_approvals_count": len(dot_engine.pending_approvals),
+        "mcp_servers_count": len(mcp_manager.servers),
+        "skills_count": len(skills_manager.list_skills())
     }
+
+# ----------------- Hermes Terminal Backend Switcher -----------------
+@app.get("/api/v1/backend")
+async def get_backend():
+    return {
+        "backend": dot_engine.execution_backend,
+        "available_backends": ["local", "docker", "modal"],
+        "docker_container": settings.DOCKER_CONTAINER_NAME,
+        "docker_image": settings.DOCKER_IMAGE,
+        "modal_app": settings.MODAL_APP_NAME
+    }
+
+@app.post("/api/v1/backend")
+async def set_backend(req: BackendSwitchRequest):
+    if req.backend not in ["local", "docker", "modal"]:
+        raise HTTPException(status_code=400, detail="Backend must be 'local', 'docker', or 'modal'")
+    new_backend = dot_engine.set_execution_backend(req.backend)
+    await dot_engine.broadcast_terminal_output(
+        "system",
+        f"\n⚙️ [HERMES TERMINAL] Switched execution backend to: {new_backend.upper()}\n"
+    )
+    return {"status": "updated", "backend": new_backend}
 
 # ----------------- WebSocket for Realtime Terminal & Approvals -----------------
 @app.websocket("/ws/terminal/{session_id}")
@@ -93,6 +135,7 @@ async def websocket_terminal_endpoint(websocket: WebSocket, session_id: str):
             "type": "init",
             "state": dot_engine.state.value,
             "session_id": session_id,
+            "backend": dot_engine.execution_backend,
             "logs": dot_engine.execution_logs[-50:],
             "pending_approvals": [
                 {
@@ -120,6 +163,10 @@ async def websocket_terminal_endpoint(websocket: WebSocket, session_id: str):
                 feedback = data.get("feedback", "")
                 dot_engine.resolve_approval(action_id, approved, feedback)
                 
+            elif msg_type == "backend":
+                new_backend = data.get("backend", "local")
+                dot_engine.set_execution_backend(new_backend)
+
             elif msg_type == "ping":
                 await websocket.send_json({"type": "pong", "timestamp": time.time()})
 
@@ -151,7 +198,8 @@ async def execute_endpoint(req: ExecuteRequest):
         "exit_code": exit_code,
         "stdout": stdout,
         "stderr": stderr,
-        "state": dot_engine.state.value
+        "state": dot_engine.state.value,
+        "backend": dot_engine.execution_backend
     }
 
 # ----------------- External Webhook Trigger -----------------
@@ -180,6 +228,57 @@ async def resolve_approval_endpoint(action_id: str, body: ApprovalResponse):
     if not success:
         raise HTTPException(status_code=404, detail="Pending approval action ID not found or already resolved.")
     return {"status": "resolved", "action_id": action_id, "approved": body.approved}
+
+# ----------------- 4,000+ App Connections: Model Context Protocol (MCP) -----------------
+@app.get("/api/v1/mcp/servers")
+async def get_mcp_servers():
+    return mcp_manager.list_servers()
+
+@app.post("/api/v1/mcp/servers")
+async def add_mcp_server(config: MCPServerConfig):
+    return mcp_manager.connect_server(config).model_dump()
+
+@app.delete("/api/v1/mcp/servers/{name}")
+async def delete_mcp_server(name: str):
+    success = mcp_manager.remove_server(name)
+    if not success:
+        raise HTTPException(status_code=404, detail="MCP server not found")
+    return {"status": "removed", "server": name}
+
+@app.get("/api/v1/mcp/tools")
+async def get_mcp_tools():
+    return mcp_manager.list_all_tools()
+
+@app.post("/api/v1/mcp/call")
+async def call_mcp_tool(req: MCPCallRequest):
+    return await mcp_manager.execute_tool(req.server_name, req.tool_name, req.arguments)
+
+# ----------------- Skill Retention Loop: SKILL.md Pipeline -----------------
+@app.get("/api/v1/skills")
+async def get_skills():
+    return skills_manager.list_skills()
+
+@app.get("/api/v1/skills/content")
+async def get_skill_content(path: str = Query(..., description="Relative path in skills/")):
+    res = skills_manager.get_skill_content(path)
+    if "error" in res:
+        raise HTTPException(status_code=404, detail=res["error"])
+    return res
+
+@app.post("/api/v1/skills/learn")
+async def retain_skill_endpoint(req: RetainSkillRequest):
+    result = await skills_manager.distill_and_retain_skill(
+        task_name=req.task_name,
+        goal=req.goal,
+        solution_summary=req.solution_summary,
+        commands_run=req.commands_run,
+        category=req.category
+    )
+    await dot_engine.broadcast_terminal_output(
+        "system",
+        f"\n🎓 [SKILL RETENTION LOOP] Learned new skill '{result['skill_name']}' -> saved to {result['path']}\n"
+    )
+    return result
 
 # ----------------- Cron Scheduler -----------------
 @app.get("/api/v1/crons")

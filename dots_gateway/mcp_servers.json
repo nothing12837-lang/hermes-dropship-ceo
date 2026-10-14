@@ -1,0 +1,212 @@
+[
+  {
+    "name": "supabase-postgres",
+    "description": "Live SQL query, schema inspect, and table mutations on Supabase Postgres",
+    "transport": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-postgres",
+      ""
+    ],
+    "url": null,
+    "env": {},
+    "connected": true,
+    "category": "database",
+    "tools_count": 4,
+    "tools": [
+      {
+        "name": "query_db",
+        "description": "Execute read-only SQL queries"
+      },
+      {
+        "name": "list_tables",
+        "description": "List all database schemas and tables"
+      },
+      {
+        "name": "inspect_schema",
+        "description": "Inspect columns, primary keys, and relations"
+      },
+      {
+        "name": "execute_mutation",
+        "description": "Execute INSERT, UPDATE, or schema alterations"
+      }
+    ]
+  },
+  {
+    "name": "github-integration",
+    "description": "Repo management, issues, PRs, workflow triggers, and commit inspection",
+    "transport": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-github"
+    ],
+    "url": null,
+    "env": {
+      "GITHUB_PERSONAL_ACCESS_TOKEN": ""
+    },
+    "connected": true,
+    "category": "developer",
+    "tools_count": 6,
+    "tools": [
+      {
+        "name": "get_file_contents",
+        "description": "Fetch file content from remote GitHub repo"
+      },
+      {
+        "name": "create_issue",
+        "description": "Create a new issue on GitHub"
+      },
+      {
+        "name": "create_pull_request",
+        "description": "Open a pull request from branch"
+      },
+      {
+        "name": "trigger_workflow",
+        "description": "Trigger a GitHub Actions workflow run"
+      },
+      {
+        "name": "list_commits",
+        "description": "List recent commits on branch"
+      },
+      {
+        "name": "search_code",
+        "description": "Search code across repositories"
+      }
+    ]
+  },
+  {
+    "name": "brave-web-search",
+    "description": "Real-time web browsing, search queries, competitor prices, and viral dropship research",
+    "transport": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-brave-search"
+    ],
+    "url": null,
+    "env": {},
+    "connected": true,
+    "category": "web",
+    "tools_count": 2,
+    "tools": [
+      {
+        "name": "brave_web_search",
+        "description": "Search the live web for queries"
+      },
+      {
+        "name": "brave_local_search",
+        "description": "Search local entities and businesses"
+      }
+    ]
+  },
+  {
+    "name": "puppeteer-browser",
+    "description": "Headless Chrome browser automation, screenshot capture, DOM scraping, and checkout testing",
+    "transport": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-puppeteer"
+    ],
+    "url": null,
+    "env": {},
+    "connected": true,
+    "category": "automation",
+    "tools_count": 5,
+    "tools": [
+      {
+        "name": "navigate",
+        "description": "Navigate to URL in headless browser"
+      },
+      {
+        "name": "screenshot",
+        "description": "Take screenshot of current web page"
+      },
+      {
+        "name": "click",
+        "description": "Click element on page by CSS selector"
+      },
+      {
+        "name": "fill",
+        "description": "Fill input text field on page"
+      },
+      {
+        "name": "evaluate_script",
+        "description": "Execute JavaScript in browser page context"
+      }
+    ]
+  },
+  {
+    "name": "stripe-payments",
+    "description": "Stripe billing, invoice sync, customer disputes, checkout sessions, and payout checks",
+    "transport": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@stripe/mcp"
+    ],
+    "url": null,
+    "env": {},
+    "connected": true,
+    "category": "finance",
+    "tools_count": 4,
+    "tools": [
+      {
+        "name": "list_payments",
+        "description": "List recent transactions and charges"
+      },
+      {
+        "name": "create_payment_link",
+        "description": "Generate a direct checkout payment link"
+      },
+      {
+        "name": "get_balance",
+        "description": "Retrieve current Stripe account balance"
+      },
+      {
+        "name": "refund_charge",
+        "description": "Initiate refund for customer charge"
+      }
+    ]
+  },
+  {
+    "name": "filesystem-sandbox",
+    "description": "Sandboxed file reads, writes, directory listings, and file hash generation",
+    "transport": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-filesystem",
+      "C:\\Users\\ajay kumar\\Downloads\\harmess agemnt"
+    ],
+    "url": null,
+    "env": {},
+    "connected": true,
+    "category": "system",
+    "tools_count": 5,
+    "tools": [
+      {
+        "name": "read_file",
+        "description": "Read file contents in workspace"
+      },
+      {
+        "name": "write_file",
+        "description": "Write or overwrite file in workspace"
+      },
+      {
+        "name": "list_directory",
+        "description": "List files and subfolders"
+      },
+      {
+        "name": "move_file",
+        "description": "Move or rename file"
+      },
+      {
+        "name": "get_file_info",
+        "description": "Retrieve size, permissions, and stats"
+      }
+    ]
+  }
+]

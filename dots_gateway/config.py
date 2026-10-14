@@ -6,6 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 WORKSPACE_DIR = BASE_DIR
 MEMORY_DIR = BASE_DIR / "RADHA_MEMORY"
 HERMES_DIR = Path(os.path.expanduser("~/.hermes"))
+SKILLS_DIR = BASE_DIR / "skills"
 
 class Settings(BaseModel):
     # Gateway Server
@@ -19,12 +20,25 @@ class Settings(BaseModel):
     DEFAULT_MODEL: str = os.getenv("DOTS_MODEL", "google/gemini-2.5-flash")
     LLM_BASE_URL: str = os.getenv("LLM_BASE_URL", "https://openrouter.ai/api/v1")
     
-    # Hermes Integration
+    # Hermes Terminal Backend (Local, Docker, or Modal)
+    EXECUTION_BACKEND: str = os.getenv("HERMES_EXEC_BACKEND", "local")  # 'local' | 'docker' | 'modal'
+    DOCKER_CONTAINER_NAME: str = os.getenv("HERMES_DOCKER_CONTAINER", "hermes-agent-sandbox")
+    DOCKER_IMAGE: str = os.getenv("HERMES_DOCKER_IMAGE", "ghcr.io/nousresearch/hermes-agent-sandbox:latest")
+    MODAL_APP_NAME: str = os.getenv("MODAL_APP_NAME", "hermes-cloud-terminal")
+    MODAL_TOKEN_ID: str = os.getenv("MODAL_TOKEN_ID", "")
+    MODAL_TOKEN_SECRET: str = os.getenv("MODAL_TOKEN_SECRET", "")
+
+    # Hermes Integration & Paths
     HERMES_LOCAL_RPC: str = os.getenv("HERMES_RPC_URL", "http://localhost:8002")
     WORKSPACE_PATH: Path = WORKSPACE_DIR
     MEMORY_PATH: Path = MEMORY_DIR
+    SKILLS_PATH: Path = SKILLS_DIR
+    MCP_STORE_PATH: Path = BASE_DIR / "dots_gateway" / "mcp_servers.json"
     USER_MD_PATH: Path = HERMES_DIR / "USER.md" if (HERMES_DIR / "USER.md").exists() else BASE_DIR / "USER.md"
     MEMORY_MD_PATH: Path = HERMES_DIR / "MEMORY.md" if (HERMES_DIR / "MEMORY.md").exists() else BASE_DIR / "MEMORY.md"
+    
+    # Skill Retention Loop
+    AUTO_SKILL_RETENTION: bool = True
     
     # Security Interceptor
     DESTRUCTIVE_COMMAND_PATTERNS: list[str] = [

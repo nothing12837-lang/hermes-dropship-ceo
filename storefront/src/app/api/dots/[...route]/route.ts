@@ -41,9 +41,82 @@ async function proxyRequest(req: NextRequest, { params }: { params: Promise<{ ro
         service: 'Hermes Dots Gateway (Cloud Standby)',
         agent_state: 'Sleeping',
         session_id: 'cloud_standby',
+        execution_backend: 'local',
         timestamp: Date.now() / 1000,
         pending_approvals_count: 0
       });
+    }
+
+    if (path.includes('backend')) {
+      return NextResponse.json({
+        backend: 'local',
+        available_backends: ['local', 'docker', 'modal'],
+        docker_container: 'hermes-agent-sandbox',
+        docker_image: 'ghcr.io/nousresearch/hermes-agent-sandbox:latest',
+        modal_app: 'hermes-cloud-terminal'
+      });
+    }
+
+    if (path.includes('mcp/servers')) {
+      return NextResponse.json([
+        {
+          name: 'supabase-postgres',
+          description: 'Live SQL query, schema inspect, and table mutations on Supabase Postgres',
+          transport: 'stdio',
+          connected: true,
+          category: 'database',
+          tools_count: 4,
+          tools: [{ name: 'query_db' }, { name: 'list_tables' }, { name: 'inspect_schema' }]
+        },
+        {
+          name: 'github-integration',
+          description: 'Repo management, issues, PRs, workflow triggers, and commit inspection',
+          transport: 'stdio',
+          connected: true,
+          category: 'developer',
+          tools_count: 6,
+          tools: [{ name: 'get_file_contents' }, { name: 'create_issue' }, { name: 'trigger_workflow' }]
+        },
+        {
+          name: 'brave-web-search',
+          description: 'Real-time web browsing, search queries, competitor prices, and viral dropship research',
+          transport: 'stdio',
+          connected: true,
+          category: 'web',
+          tools_count: 2,
+          tools: [{ name: 'brave_web_search' }]
+        },
+        {
+          name: 'puppeteer-browser',
+          description: 'Headless Chrome browser automation, screenshot capture, DOM scraping, and checkout testing',
+          transport: 'stdio',
+          connected: true,
+          category: 'automation',
+          tools_count: 5,
+          tools: [{ name: 'navigate' }, { name: 'screenshot' }, { name: 'click' }]
+        }
+      ]);
+    }
+
+    if (path.includes('skills')) {
+      return NextResponse.json([
+        {
+          name: 'cj-dropshipping-fulfillment',
+          category: 'ecommerce',
+          description: 'Autonomous product sourcing, inventory synchronization, pricing markup, and auto-fulfillment via CJ Dropshipping API',
+          path: 'ecommerce/cj-dropshipping/SKILL.md',
+          modified_at: Date.now() / 1000,
+          is_custom: false
+        },
+        {
+          name: 'meesho-direct-supplier-routing',
+          category: 'custom',
+          description: 'Autonomous domestic Indian sourcing and high-speed catalog injection',
+          path: 'custom/meesho-direct-supplier-routing/SKILL.md',
+          modified_at: Date.now() / 1000,
+          is_custom: true
+        }
+      ]);
     }
 
     if (path.includes('files')) {
