@@ -8,7 +8,35 @@ export function generateStaticParams() {
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = blogPosts.find((b) => b.slug === slug);
+  let post = blogPosts.find((b) => b.slug === slug);
+  if (!post) {
+    try {
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+      if (supabaseUrl && supabaseKey) {
+        const res = await fetch(`${supabaseUrl}/rest/v1/blog_posts?slug=eq.${encodeURIComponent(slug)}&select=*`, {
+          headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}` },
+          next: { revalidate: 3600 }
+        });
+        if (res.ok) {
+          const rows = await res.json();
+          if (rows && rows.length > 0) {
+            const r = rows[0];
+            post = {
+              slug: r.slug,
+              title: r.title,
+              excerpt: r.excerpt || '',
+              category: r.category || 'Lifestyle',
+              readTime: '4 min',
+              emoji: '✨',
+              wash: '#fff3e0',
+              body: r.content ? r.content.split('\n\n').filter(Boolean) : [r.excerpt || '']
+            };
+          }
+        }
+      }
+    } catch {}
+  }
   if (!post) return notFound();
 
   return (

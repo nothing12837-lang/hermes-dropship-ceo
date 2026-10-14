@@ -7,7 +7,40 @@ export const metadata = {
   description: 'Curated styling tips, workspace ergonomics, and smart home guides from the RareEmber design studio.',
 };
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  let posts = [...blogPosts];
+  try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (supabaseUrl && supabaseKey) {
+      const res = await fetch(`${supabaseUrl}/rest/v1/blog_posts?published=eq.true&select=*&order=created_at.desc&limit=50`, {
+        headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}` },
+        next: { revalidate: 3600 }
+      });
+      if (res.ok) {
+        const rows = await res.json();
+        if (Array.isArray(rows) && rows.length > 0) {
+          const dbPosts = rows.map((r: any) => ({
+            slug: r.slug,
+            title: r.title,
+            category: r.category || 'Lifestyle',
+            readTime: '4 min',
+            emoji: '✨',
+            wash: '#fff3e0',
+            excerpt: r.excerpt || (r.content ? r.content.slice(0, 120) + '...' : ''),
+            body: []
+          }));
+          const existingSlugs = new Set(posts.map(p => p.slug));
+          for (const dp of dbPosts) {
+            if (!existingSlugs.has(dp.slug)) {
+              posts.unshift(dp);
+            }
+          }
+        }
+      }
+    }
+  } catch {}
+
   return (
     <main className="page-top" style={{ background: '#fffbf5', minHeight: '100vh' }}>
       <div style={{ maxWidth: '76rem', margin: '0 auto', padding: '2rem' }}>
@@ -16,7 +49,7 @@ export default function BlogPage() {
           Actionable aesthetic blueprints, workspace setups, and smart home recommendations — curated by our design team.
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: '1.4rem' }}>
-          {blogPosts.map((b) => (
+          {posts.map((b) => (
             <Link key={b.slug} href={`/blog/${b.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
               <div style={{ background: b.wash, borderRadius: '1.6rem', padding: '2.2rem', minHeight: '300px', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ fontSize: '2.6rem' }}>{b.emoji}</div>

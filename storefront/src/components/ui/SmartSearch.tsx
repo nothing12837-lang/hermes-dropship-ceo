@@ -34,6 +34,37 @@ export default function SmartSearch() {
     return () => document.removeEventListener('keydown', onKey);
   }, [focused]);
 
+  const [listening, setListening] = useState(false);
+
+  const startVoiceSearch = () => {
+    if (typeof window === 'undefined') return;
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert('Voice search is available on Chrome, Edge, and Android browsers.');
+      return;
+    }
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'hi-IN';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onstart = () => setListening(true);
+      recognition.onend = () => setListening(false);
+      recognition.onerror = () => setListening(false);
+      recognition.onresult = (event: any) => {
+        const transcript = event.results?.[0]?.[0]?.transcript;
+        if (transcript) {
+          setValue(transcript);
+          go(transcript);
+        }
+      };
+      recognition.start();
+    } catch {
+      setListening(false);
+    }
+  };
+
   const go = (q: string) => {
     const query = q.trim();
     if (!query) return;
@@ -85,6 +116,20 @@ export default function SmartSearch() {
               fontSize: '0.92rem', fontWeight: 600, color: '#1a1412', minWidth: 0,
             }}
           />
+          <button
+            type="button"
+            onClick={startVoiceSearch}
+            title="Search by voice (Hindi / English)"
+            aria-label="Voice Search"
+            style={{
+              border: 'none', background: listening ? '#fee2e2' : 'transparent',
+              borderRadius: '9999px', padding: '0.35rem 0.5rem', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '1rem', transition: 'all 0.2s', flexShrink: 0
+            }}
+          >
+            {listening ? '🔴' : '🎙️'}
+          </button>
           {focused && value && (
             <button
               onClick={() => go(value)}
