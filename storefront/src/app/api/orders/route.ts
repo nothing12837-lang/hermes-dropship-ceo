@@ -157,7 +157,13 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      const unitPrice = Number((prod as any).price_inr ?? prod.price ?? 449);
+      let unitPrice = 449;
+      if ((prod as any).price_inr != null && Number((prod as any).price_inr) > 0) {
+        unitPrice = Math.round(Number((prod as any).price_inr));
+      } else if (prod.price != null && Number(prod.price) > 0) {
+        const p = Number(prod.price);
+        unitPrice = p >= 80 ? Math.round(p) : Math.round(p * 85);
+      }
       calculatedSubtotal += unitPrice * item.qty;
       enrichedItems.push({
         id: item.id,

@@ -45,10 +45,11 @@ export function ProductClient({ product }: Props) {
     .filter((p): p is Product => Boolean(p));
 
   const handleOrderNow = () => {
+    const inr = product.price_inr || (product.price >= 80 ? product.price : Math.round(product.price * 85));
     add(product.id, qty, {
       title: product.title,
-      price: product.price,
-      price_inr: product.price_inr,
+      price: Number((inr / 85).toFixed(2)),
+      price_inr: inr,
       emoji: product.emoji,
       imageUrl: currentSrc || product.image_url,
       gradient: product.gradient,

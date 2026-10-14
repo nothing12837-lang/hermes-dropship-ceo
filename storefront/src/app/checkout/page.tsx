@@ -81,17 +81,20 @@ export default function CheckoutPage() {
               ...i,
               product: {
                 ...found,
+                price_inr: found.price_inr ?? found.price,
                 image_url: resolveProductImage(found.id, found.image_url),
               },
             };
           }
+          const inferredInr = i.price_inr != null ? Number(i.price_inr) : (i.price && i.price >= 80 ? Math.round(i.price) : Math.round((i.price || 4.99) * 85));
           return {
             ...i,
             product: {
               id: i.id,
               slug: i.id,
               title: i.title || 'Curated Lifestyle Drop',
-              price: Number(i.price ?? 29.99),
+              price: Number(i.price ?? inferredInr),
+              price_inr: inferredInr,
               emoji: i.emoji || '🛍️',
               image_url: resolveProductImage(i.id, i.imageUrl),
               gradient: i.gradient || 'linear-gradient(135deg, #f1f5f9, #e2e8f0)',

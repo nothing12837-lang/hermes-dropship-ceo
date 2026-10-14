@@ -24,7 +24,38 @@ const ulVariants = {
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, setQty, remove, add } = useCart();
-  const { formatPrice: geoFormatPrice } = useGeo();
+  const { market } = useGeo();
+  const isIndia = market === 'IN';
+
+  const getItemPrice = (item: { price?: number; price_inr?: number }) => {
+    if (isIndia) {
+      if (item.price_inr != null && Number(item.price_inr) > 0) {
+        return Math.round(Number(item.price_inr));
+      }
+      if (item.price != null && Number(item.price) > 0) {
+        const p = Number(item.price);
+        return p >= 80 ? Math.round(p) : Math.round(p * 85);
+      }
+      return 449;
+    }
+    // Global / USD market
+    if (item.price != null && Number(item.price) > 0) {
+      const p = Number(item.price);
+      return p >= 80 ? Number((p / 85).toFixed(2)) : p;
+    }
+    if (item.price_inr != null && Number(item.price_inr) > 0) {
+      return Number((Number(item.price_inr) / 85).toFixed(2));
+    }
+    return 14.99;
+  };
+
+  const formatCartPrice = (val: number) => {
+    if (isIndia) {
+      return `₹${Math.round(val).toLocaleString('en-IN')}`;
+    }
+    return `$${Number(val).toFixed(2)}`;
+  };
+
   const detailed = items
     .map((i) => {
       const found = products.find((p) => p.id === i.id);
@@ -33,17 +64,20 @@ export default function CartDrawer() {
           ...i,
           product: {
             ...found,
+            price_inr: found.price_inr ?? found.price,
             image_url: resolveProductImage(found.id, found.image_url),
           },
         };
       }
+      const inferredInr = i.price_inr != null ? Number(i.price_inr) : (i.price && i.price >= 80 ? Math.round(i.price) : Math.round((i.price || 4.99) * 85));
       return {
         ...i,
         product: {
           id: i.id,
           slug: i.id,
           title: i.title || 'Curated Essential',
-          price: Number(i.price ?? 29.99),
+          price: Number(i.price ?? inferredInr),
+          price_inr: inferredInr,
           emoji: i.emoji || '🛍️',
           image_url: resolveProductImage(i.id, i.imageUrl),
           gradient: i.gradient || 'linear-gradient(135deg, #f1f5f9, #e2e8f0)',
@@ -68,7 +102,8 @@ export default function CartDrawer() {
       };
     })
     .filter((d): d is NonNullable<typeof d> => Boolean(d));
-  const subtotal = detailed.reduce((a, b) => a + b.product.price * b.qty, 0);
+
+  const subtotal = detailed.reduce((a, b) => a + getItemPrice((b as any).product) * b.qty, 0);
 
   const inCart = new Set(items.map((i) => i.id));
   const upsells = products
@@ -213,7 +248,7 @@ export default function CartDrawer() {
                             </p>
                           </Link>
                           <p className="text-ember font-extrabold mt-1">
-                            {geoFormatPrice(d.product.price)}
+                            {formatCartPrice(getItemPrice((d as any).product))}
                           </p>
                           <div className="flex gap-2 items-center mt-2">
                             <motion.button
@@ -282,7 +317,7 @@ export default function CartDrawer() {
                               <p className="font-bold text-xs text-neutral-900 truncate">{u.title}</p>
                             </Link>
                             <p className="text-xs text-amber-600 font-extrabold mt-0.5">
-                              {geoFormatPrice(u.price)} <span className="text-neutral-400 font-medium">★ {u.rating}</span>
+                              {formatCartPrice(getItemPrice(u))} <span className="text-neutral-400 font-medium">★ {u.rating}</span>
                             </p>
                           </div>
                           <motion.button
@@ -290,7 +325,8 @@ export default function CartDrawer() {
                             onClick={() =>
                               add(u.id, 1, {
                                 title: u.title,
-                                price: u.price,
+                                price: Number(((u.price_inr || u.price) / 85).toFixed(2)),
+                                price_inr: u.price_inr || u.price,
                                 emoji: u.emoji,
                                 imageUrl: u.image_url,
                                 gradient: u.gradient,
@@ -330,7 +366,7 @@ export default function CartDrawer() {
 
               <div className="flex justify-between font-bold text-sm mb-2 text-neutral-600">
                 <span>Subtotal</span>
-                <span className="text-neutral-900 font-black">{geoFormatPrice(subtotal)}</span>
+                <span className="text-neutral-900 font-black">{formatCartPrice(subtotal)}</span>
               </div>
 
               <div className="flex justify-between text-xs text-neutral-500 mb-3">
@@ -340,7 +376,7 @@ export default function CartDrawer() {
 
               <div className="flex justify-between font-black text-xl text-neutral-950 pt-3 border-t border-black/[0.06] mb-3">
                 <span>Total</span>
-                <span className="text-[#FF4D24]">{geoFormatPrice(subtotal)}</span>
+                <span className="text-[#FF4D24]">{formatCartPrice(subtotal)}</span>
               </div>
 
               <motion.button
@@ -349,7 +385,7 @@ export default function CartDrawer() {
                 whileTap={{ scale: 0.98 }}
                 className="block text-center w-full bg-[#1d1d1f] hover:bg-black text-white py-3.5 rounded-full font-black text-sm tracking-tight border-none cursor-pointer shadow-md active:scale-95 transition-all"
               >
-                {`PROCEED TO CHECKOUT ⚡ • ${geoFormatPrice(subtotal)}`}
+                {`PROCEED TO CHECKOUT ⚡ • ${formatCartPrice(subtotal)}`}
               </motion.button>
 
               <p className="text-center text-xs text-neutral-400 mt-3">

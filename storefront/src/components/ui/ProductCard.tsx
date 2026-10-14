@@ -74,9 +74,15 @@ export default function ProductCard({
   const handleOrderNow = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const basePrice = rawPrice ?? (parseFloat(price.replace(/[^0-9.]/g, '')) || 29.99);
-    const normalizedPrice = basePrice > 1000 ? basePrice / 85 : basePrice;
-    add(id, 1, { title, price: normalizedPrice, price_inr: rawPrice, emoji, imageUrl, gradient });
+    const inr = rawPrice ?? (parseFloat(price.replace(/[^0-9.]/g, '')) || 449);
+    add(id, 1, {
+      title,
+      price: Number((inr / 85).toFixed(2)),
+      price_inr: inr,
+      emoji,
+      imageUrl,
+      gradient,
+    });
     router.push('/checkout');
   };
 

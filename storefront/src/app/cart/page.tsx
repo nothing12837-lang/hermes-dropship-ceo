@@ -6,9 +6,29 @@ import { useGeo } from '@/context/GeoContext';
 
 export default function CartPage() {
   const { items, setQty, remove, count } = useCart();
-  const { formatPrice } = useGeo();
+  const { formatPrice, market } = useGeo();
+  const isIndia = market === 'IN';
 
-  const subtotal = items.reduce((acc, i) => acc + (i.price_inr || (i.price ? i.price * 85 : 449)) * i.qty, 0);
+  const getItemPrice = (item: { price?: number; price_inr?: number }) => {
+    if (isIndia) {
+      if (item.price_inr != null && Number(item.price_inr) > 0) return Math.round(Number(item.price_inr));
+      if (item.price != null && Number(item.price) > 0) {
+        const p = Number(item.price);
+        return p >= 80 ? Math.round(p) : Math.round(p * 85);
+      }
+      return 449;
+    }
+    if (item.price != null && Number(item.price) > 0) {
+      const p = Number(item.price);
+      return p >= 80 ? Number((p / 85).toFixed(2)) : p;
+    }
+    if (item.price_inr != null && Number(item.price_inr) > 0) {
+      return Number((Number(item.price_inr) / 85).toFixed(2));
+    }
+    return 14.99;
+  };
+
+  const subtotal = items.reduce((acc, i) => acc + getItemPrice(i) * i.qty, 0);
 
   if (items.length === 0) {
     return (
