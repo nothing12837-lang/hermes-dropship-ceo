@@ -17,6 +17,10 @@ generated_posts/
 # Backups & Memory JSON state
 BOT_BACKUPS/
 HERMES_MEMORY/*.json
+RADHA_MEMORY/*.json
+scratch_*.py
+all_103_products.json
+unsplash_products_list.json
 
 # Next.js & Frontend runtime
 storefront/.next/

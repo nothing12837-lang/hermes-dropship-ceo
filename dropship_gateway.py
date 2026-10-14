@@ -3127,9 +3127,28 @@ def check_and_trigger_instagram_drop():
             except Exception:
                 posted_slots = {}
 
-        # Founder Directive: Automated Instagram posting is strictly DISABLED.
-        # Only manual founder commands can trigger posts.
-        return
+        import ig_autopilot
+
+        for slot_key, slot_min, campaign_type in SLOTS:
+            # Trigger window: slot_min to slot_min + 35 minutes
+            if slot_min <= current_minute_of_day <= (slot_min + 35):
+                slot_id = f"{today_str}_{slot_key}"
+                if slot_id not in posted_slots:
+                    print(f"🚀 [Radha Autopilot] Executing IST Scheduled Drop: {slot_key} ({campaign_type})...")
+                    res = ig_autopilot.run_autopilot_cycle(dry_run=False, campaign_type=campaign_type, format_type="auto")
+                    posted_slots[slot_id] = {
+                        "triggered_at": datetime.now(timezone.utc).isoformat(),
+                        "campaign_type": campaign_type,
+                        "slot": slot_key,
+                        "ok": res.get("ok", False) if isinstance(res, dict) else bool(res),
+                        "product": res.get("product", {}).get("title", "") if isinstance(res, dict) else ""
+                    }
+                    try:
+                        with open(status_file, "w", encoding="utf-8") as f:
+                            json.dump(posted_slots, f, indent=2)
+                    except Exception as fe:
+                        print(f"Failed to persist slot state: {fe}")
+                    break
     except Exception as e:
         print(f"check_and_trigger_instagram_drop error: {e}")
 
@@ -3157,6 +3176,19 @@ def poll_loop():
     # Launch 24/7 autonomous CEO growth worker thread
     growth_thread = threading.Thread(target=autonomous_ceo_growth_worker, daemon=True)
     growth_thread.start()
+
+    # Launch 24/7 autonomous Instagram drop scheduler thread (5 daily IST drops)
+    def instagram_drop_worker():
+        print("📸 Radha Instagram 24/7 Auto-Drop Daemon Initialized...")
+        while True:
+            try:
+                check_and_trigger_instagram_drop()
+            except Exception as e:
+                print(f"Instagram daemon error: {e}")
+            time.sleep(60)
+
+    ig_worker_thread = threading.Thread(target=instagram_drop_worker, daemon=True)
+    ig_worker_thread.start()
 
     boot_msg = (
         "⚡ <b>Radha CEO Online & Standing By!</b>\n\n"

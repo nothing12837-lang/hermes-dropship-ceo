@@ -604,6 +604,28 @@ def send_telegram_alert(media_path, caption_summary):
     except Exception as e:
         print(f"Telegram alert error: {e}")
 
+def send_telegram_caption_box(caption):
+    """Sends full Instagram caption in 1-tap copyable HTML <code> format to Telegram."""
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        return
+    import html
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    try:
+        data = {
+            "chat_id": TELEGRAM_CHAT_ID,
+            "text": (
+                "📋 <b>INSTAGRAM CAPTION (Tap below to copy instantly):</b>\n\n"
+                f"<code>{html.escape(caption)}</code>\n\n"
+                "💡 <i>Tip: Upar diye gaye text par 1-tap karke copy karein aur Instagram app me direct paste karein.</i>"
+            ),
+            "parse_mode": "HTML"
+        }
+        resp = requests.post(url, data=data, timeout=20)
+        if resp.status_code == 200:
+            print("📋 Copyable caption box delivered to Telegram chat.")
+    except Exception as e:
+        print(f"Telegram caption box delivery error: {e}")
+
 def diagnose_instagram():
     """Cloud-safe preflight: reports WHY a post would fail (no secrets printed)."""
     issues = []
@@ -743,6 +765,7 @@ def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="auto")
         print(f"🖼️ Media Asset Saved at: {media_path}")
         media_kind = "Reel Video (MP4)" if media_path.endswith(".mp4") else "Feed Image (JPG)"
         send_telegram_alert(media_path, f"📸 *Dry-Run Preview Ready ({c_type.upper()} | {media_kind})*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Media generated and ready for broadcast.")
+        send_telegram_caption_box(caption)
         return {**base_result, "ok": True, "reason": ""}
     else:
         res = post_to_instagram(media_path, caption, product=product)
@@ -776,6 +799,7 @@ def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="auto")
             f"*Reason:* `{reason[:120]}`\n\n"
             f"📱 *Action:* Meta cloud IP rate-limit block lagata hai. Aap is delivered media ko phone me save karke 1 tap me @RareEmber feed ya Reels par post kar sakte hain!"
         )
+        send_telegram_caption_box(caption)
         return {**base_result, "ok": False,
                 "stage": (res.get("stage", "upload") if isinstance(res, dict) else "upload"),
                 "reason": reason}

@@ -1,4 +1,4 @@
-name: RareEmber Instagram Campaign Drop (Manual / On-Demand)
+name: RareEmber Instagram Campaign Autopilot (5x Daily)
 
 on:
   workflow_dispatch:
@@ -23,6 +23,13 @@ on:
           - auto
           - post
           - reel
+  schedule:
+    # 5 peak shopping slots in India (IST = UTC + 5:30)
+    - cron: '30 4 * * *'   # 10:00 AM IST (Catalog Drop 1)
+    - cron: '0 8 * * *'    # 01:30 PM IST (Problem-Solver Drop)
+    - cron: '0 12 * * *'   # 05:30 PM IST (Festive Flash Deal Drop)
+    - cron: '30 14 * * *'  # 08:00 PM IST (Evening Bestseller Drop)
+    - cron: '30 16 * * *'  # 10:00 PM IST (Trust-Builder & Reviews Drop)
 
 permissions:
   contents: write
