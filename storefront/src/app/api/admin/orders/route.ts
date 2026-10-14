@@ -74,32 +74,42 @@ export async function PATCH(req: NextRequest) {
     const { orderId, status, tracking_number } = body;
     if (!orderId) return NextResponse.json({ error: 'orderId required' }, { status: 400 });
 
+    const ALLOWED_STATUSES = new Set(['pending', 'pending_cod', 'paid', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded']);
     const updates: Record<string, unknown> = {};
-    if (status) updates.status = status;
+    if (status) {
+      const cleanStatus = status.trim().toLowerCase();
+      if (!ALLOWED_STATUSES.has(cleanStatus)) {
+        return NextResponse.json({ error: `Invalid status. Allowed: ${[...ALLOWED_STATUSES].join(', ')}` }, { status: 400 });
+      }
+      updates.status = cleanStatus;
+    }
+
     if (tracking_number !== undefined) {
-      updates.tracking_number = tracking_number;
+      const cleanTn = String(tracking_number).trim().slice(0, 64);
+      updates.tracking_number = cleanTn || null;
       if ((body as any).tracking_url) {
-        updates.tracking_url = (body as any).tracking_url;
-      } else if (tracking_number && tracking_number.trim()) {
-        const tn = tracking_number.trim();
-        if (/^SF/i.test(tn)) {
-          updates.tracking_url = `https://tracker.shadowfax.in/#/track/${tn}`;
-        } else if (/^1\d{10,13}$/.test(tn) || /^\d{12,14}$/.test(tn)) {
-          updates.tracking_url = `https://www.delhivery.com/track/package/${tn}`;
-        } else if (/^XB/i.test(tn)) {
-          updates.tracking_url = `https://www.xpressbees.com/shipment/tracking?awbNo=${tn}`;
+        const rawUrl = String((body as any).tracking_url).trim();
+        if (rawUrl.startsWith('https://') && rawUrl.length <= 500) {
+          updates.tracking_url = rawUrl;
+        }
+      } else if (cleanTn) {
+        if (/^SF/i.test(cleanTn)) {
+          updates.tracking_url = `https://tracker.shadowfax.in/#/track/${cleanTn}`;
+        } else if (/^1\d{10,13}$/.test(cleanTn) || /^\d{12,14}$/.test(cleanTn)) {
+          updates.tracking_url = `https://www.delhivery.com/track/package/${cleanTn}`;
+        } else if (/^XB/i.test(cleanTn)) {
+          updates.tracking_url = `https://www.xpressbees.com/shipment/tracking?awbNo=${cleanTn}`;
         } else {
-          updates.tracking_url = `https://www.delhivery.com/track/package/${tn}`;
+          updates.tracking_url = `https://www.delhivery.com/track/package/${cleanTn}`;
         }
       }
     }
 
     const { error } = await supabase.from('orders').update(updates).eq('id', orderId);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: 'Order update failed' }, { status: 500 });
     return NextResponse.json({ ok: true, orderId, updates });
   } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : 'Update failed';
-    return NextResponse.json({ error: msg }, { status: 400 });
+    return NextResponse.json({ error: 'Update failed' }, { status: 400 });
   }
 }
 

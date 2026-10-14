@@ -14,11 +14,11 @@
 | **Founder & CEO** | Ajay Rajbhar |
 | **Brand Name** | **RareEmber** (Curated Indian Lifestyle, Desk Tech & Aesthetic Home Boutique) |
 | **Founder Telegram ID** | `5238068527` (Authorized Master ID) |
-| **Telegram Bot** | `@rereemberbot` (Token: `8898923626:AAEZTnurYzL70qpg42BgKKmLUBpW4g422aY`) |
+| **Telegram Bot** | `@rereemberbot` (Token: Stored in `.env` / GitHub Secrets as `TELEGRAM_BOT_TOKEN`) |
 | **Official Instagram** | `@RareEmber` |
 | **Live Storefront URL** | [https://rareember-store.vercel.app](https://rareember-store.vercel.app) |
 | **Admin Orders Portal** | [https://rareember-store.vercel.app/admin/orders](https://rareember-store.vercel.app/admin/orders) |
-| **Master Admin Secret** | `RE_SECURE_VAULT_2026_hNjMeToDUPKxb!dB#cXAJmsC` |
+| **Master Admin Secret** | Stored in `.env` / GitHub Secrets / Vercel as `ADMIN_SECRET` |
 | **Support Email** | `rareemberagency@gmail.com` |
 
 ---

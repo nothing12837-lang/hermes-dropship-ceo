@@ -289,11 +289,11 @@ export function ProductClient({ product }: Props) {
 
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
               <span style={{ fontSize: '2rem', fontWeight: 900, color: '#212121' }}>
-                {geoFormatPrice(product.price_inr || product.price)}
+                {geoFormatPrice(product.price, product.price_inr)}
               </span>
               {product.compareAtPrice && (
                 <span style={{ color: '#8a7b6b', textDecoration: 'line-through', fontSize: '1rem', fontWeight: 500 }}>
-                  M.R.P.: {geoFormatPrice(product.compareAtPrice)}
+                  M.R.P.: {geoFormatPrice(product.compareAtPrice, product.compareAtPrice)}
                 </span>
               )}
               {computeDiscount(product.price, product.compareAtPrice, product.price_inr) && (

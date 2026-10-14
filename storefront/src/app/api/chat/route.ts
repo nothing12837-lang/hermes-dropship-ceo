@@ -33,41 +33,10 @@ function isPromptInjection(text: string): boolean {
 
 // Supabase client instance
 function getSupabase() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://qdkkxpfhwrwyoardlceo.supabase.co';
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFka2t4cGZod3J3eW9hcmRsY2VvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4Njc2OTcsImV4cCI6MjEwNjQ0MzY5N30.qFvuYQ1G9NvYGYXWVtR6b9dPScOuUIfeVQ8yX3y1DJo';
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
   return createClient(url, key);
-}
-
-// Order lookup directly from Supabase
-async function lookupOrders(emailOrId: string) {
-  try {
-    const sb = getSupabase();
-    const clean = emailOrId.toLowerCase().trim();
-
-    if (EMAIL_RE.test(clean)) {
-      const { data, error } = await sb
-        .from('orders')
-        .select('id, user_email, total_amount, status, tracking_number, created_at, shipping_address')
-        .eq('user_email', clean)
-        .order('created_at', { ascending: false })
-        .limit(3);
-
-      if (error) return null;
-      return data ?? [];
-    }
-
-    const { data, error } = await sb
-      .from('orders')
-      .select('id, user_email, total_amount, status, tracking_number, created_at, shipping_address')
-      .ilike('id', `%${clean}%`)
-      .order('created_at', { ascending: false })
-      .limit(1);
-
-      if (error) return null;
-      return data ?? [];
-  } catch {
-    return null;
-  }
 }
 
 function isDisallowedChatProduct(p: { id?: string; title?: string; category?: string }): boolean {
@@ -79,6 +48,7 @@ function isDisallowedChatProduct(p: { id?: string; title?: string; category?: st
 async function getLiveProducts(categoryFilter?: string, limit = 3) {
   try {
     const sb = getSupabase();
+    if (!sb) throw new Error('Supabase client unconfigured');
     let query = sb
       .from('products')
       .select('id, title, price, price_inr, compare_at_price, category, emoji')
@@ -115,6 +85,7 @@ async function getLiveProducts(categoryFilter?: string, limit = 3) {
 async function searchLiveProducts(searchTerm: string, limit = 3) {
   try {
     const sb = getSupabase();
+    if (!sb) return [];
     const clean = searchTerm.trim().toLowerCase();
     const { data } = await sb
       .from('products')
@@ -221,34 +192,12 @@ async function processRadhaQuery(message: string) {
   }
 
   // 3. Order Tracking & Status Inquiries
-  const emailMatch = message.match(EMAIL_RE);
-  const orderIdMatch = message.match(ORDER_ID_RE);
-  const wantsTrack = /track|where.*order|order.*status|package|parcel|shipment|delivery status|mera order/.test(q);
+  const wantsTrack = /track|where.*order|order.*status|package|parcel|shipment|delivery status|mera order/i.test(q) || Boolean(message.match(ORDER_ID_RE));
 
-  if (wantsTrack || emailMatch || orderIdMatch) {
-    const identifier = emailMatch?.[0] || orderIdMatch?.[0];
-    if (!identifier) {
-      return {
-        reply:
-          "📦 I can track your shipment right now! Please share your **Order ID** (e.g. `ord_...`) or the **Email Address** you entered during checkout.",
-      };
-    }
-
-    const orders = await lookupOrders(identifier);
-    if (!orders || orders.length === 0) {
-      return {
-        reply: `🔍 Radha searched our dispatch database for "${identifier}", but found no recent order yet.\n\n• If you just placed your order in the last 15 minutes, please allow a moment for confirmation.\n• You can also track in real time on our [Order Tracking Portal](/track) or reach our team at **rareemberagency@gmail.com**.`,
-      };
-    }
-
-    const order = orders[0] as Record<string, any>;
-    const orderRef = String(order.id).slice(0, 8);
-    const trackingInfo = order.tracking_number
-      ? `\n🚚 **Courier Tracking:** \`${order.tracking_number}\` (BlueDart / Delhivery)`
-      : '\n🚚 **Courier Tracking:** Order packed & preparing for hub handover. Active tracking updates within 12–24h.';
-
+  if (wantsTrack) {
     return {
-      reply: `✅ **Order #${orderRef} Found**\n• **Status:** ${String(order.status || 'Confirmed & Processing').toUpperCase()}\n• **Amount:** ${formatPrice(Number(order.total_amount ?? 0))}${trackingInfo}\n\nNeed to modify your delivery address or prioritize express dispatch? Let me know!`,
+      reply:
+        "📦 **Track Your Order Securely:**\n\nFor your personal privacy and order security, please use our dedicated **[Live Tracking Portal](/track)**.\n\nSimply enter your **Order ID** along with your checkout **Email Address** to view real-time courier updates (BlueDart, Delhivery, Shadowfax) and tracking numbers.\n\nNeed urgent assistance or want to update your delivery address? Feel free to reach our priority support at **rareemberagency@gmail.com**.",
     };
   }
 

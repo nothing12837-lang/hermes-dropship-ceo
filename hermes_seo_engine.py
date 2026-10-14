@@ -109,10 +109,9 @@ def submit_to_indexnow(url_list):
         return {"status": "notice", "error": str(e), "count": len(url_list[:100])}
 
 def ping_search_engines():
-    """Pings Google and Bing with the store sitemap URL."""
+    """Pings Bing crawler with the store sitemap URL (Google ping shut down in 2023)."""
     sitemap_url = urllib.parse.quote(f"{SITE_URL}/sitemap.xml")
     pings = {
-        "google": f"https://www.google.com/ping?sitemap={sitemap_url}",
         "bing": f"https://www.bing.com/ping?sitemap={sitemap_url}"
     }
     results = {}
@@ -123,7 +122,7 @@ def ping_search_engines():
                 results[engine] = f"HTTP {resp.status}"
         except Exception as e:
             results[engine] = f"Notice: {e}"
-        time.sleep(1.0) # gentle delay
+        time.sleep(1.0)
     return results
 
 def run_seo_blitz():

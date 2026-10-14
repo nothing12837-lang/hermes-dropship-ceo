@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { checkRateLimit } from '@/lib/security/rate-limit';
-import { clientIp, isValidOrderId, normalizeEmail } from '@/lib/security/validation';
+import { clientIp, isValidOrderId, normalizeEmail, sanitizeCheckoutItems } from '@/lib/security/validation';
 import { notifyTelegramOrder } from '@/lib/notifications/telegram';
+import { isAdmin } from '@/lib/security/auth';
+import { validateCouponCode } from '@/lib/festivals';
+import { products as fallbackCatalog } from '@/lib/data/products';
 
-// GET /api/orders?email=x&orderId=y — Radha + /track read path (service key, server only).
-// Blueprint table: orders(id, user_email, stripe_session_id, total_amount,
-// status, cj_order_id, tracking_number).
+// GET /api/orders?email=x&orderId=y — Public /track read path & Admin lookup
 export async function GET(req: NextRequest) {
   const rl = checkRateLimit(`orders:${clientIp(req.headers)}`, 30, 60_000);
   if (!rl.allowed) {
@@ -17,59 +18,82 @@ export async function GET(req: NextRequest) {
   const email = normalizeEmail(params.get('email'));
   const rawOrderId = params.get('orderId')?.trim() ?? '';
   const orderId = isValidOrderId(rawOrderId) ? rawOrderId : null;
-  if (!email && !orderId)
-    return NextResponse.json({ orders: [], error: 'Valid email or Order ID required' }, { status: 400 });
+
+  const adminAuthorized = isAdmin(req);
+
+  // IDOR & PII Protection: Public users MUST provide BOTH orderId AND email.
+  if (!adminAuthorized) {
+    if (!email || !orderId) {
+      return NextResponse.json(
+        { orders: [], error: 'Both valid Order ID and Email are required to track an order.' },
+        { status: 400 }
+      );
+    }
+  } else {
+    if (!email && !orderId) {
+      return NextResponse.json({ orders: [], error: 'Email or Order ID required for admin query' }, { status: 400 });
+    }
+  }
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key =
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) return NextResponse.json({ orders: [], demo: true });
 
   try {
     const sb = createClient(url, key);
-    // NOTE: select only columns guaranteed on every live DB. Extension
-    // columns (items, tracking_url, …) are added by migration 0002 and
-    // mapped defensively below, so /track works before AND after it runs.
     let q = sb
       .from('orders')
       .select('id,user_email,total_amount,status,cj_order_id,tracking_number,tracking_url,items,payment_method,shipping_name,shipping_address,created_at')
-      .order('created_at', { ascending: false })
-      .limit(10);
-    if (email) q = q.eq('user_email', email);
-    // Order IDs are uuids — match by prefix so users can paste short IDs.
-    if (orderId) q = q.ilike('id', `${orderId}%`);
+      .order('created_at', { ascending: false });
+
+    if (adminAuthorized) {
+      if (email) q = q.eq('user_email', email);
+      if (orderId) q = q.ilike('id', `${orderId}%`);
+      q = q.limit(20);
+    } else {
+      // Exact lookup only — no prefix enumeration
+      q = q.eq('id', orderId).eq('user_email', email).limit(1);
+    }
+
     const { data, error } = await q;
     if (error) {
       console.error('Orders lookup failed:', error.message);
       return NextResponse.json({ orders: [], error: 'Lookup failed' }, { status: 500 });
     }
-    // Normalize to the storefront shape
-    const orders = (data ?? []).map((o: Record<string, unknown>) => ({
-      id: String(o.id),
-      email: String(o.user_email ?? ''),
-      user_email: String(o.user_email ?? ''),
-      items: Array.isArray(o.items) ? o.items : [],
-      subtotal: Number(o.subtotal ?? o.total_amount ?? 0),
-      shipping: Number(o.shipping ?? 0),
-      total: Number(o.total_amount ?? 0),
-      total_amount: Number(o.total_amount ?? 0),
-      status: String(o.status ?? 'pending'),
-      payment_method: String(o.payment_method ?? 'online'),
-      shipping_name: (o.shipping_name as string) ?? null,
-      shipping_address: o.shipping_address ?? null,
-      stripe_session_id: (o.stripe_session_id as string) ?? null,
-      cj_order_id: (o.cj_order_id as string) ?? null,
-      tracking_number: (o.tracking_number as string) ?? null,
-      tracking_url: (o.tracking_url as string) ?? null,
-      created_at: String(o.created_at ?? ''),
-    }));
+
+    // Public view masks full street address / sensitive PII
+    const orders = (data ?? []).map((o: Record<string, unknown>) => {
+      const isPublic = !adminAuthorized;
+      const addr = (o.shipping_address as Record<string, unknown>) || {};
+      const safeAddress = isPublic
+        ? { city: addr.city || null, state: addr.state || null, country: addr.country || 'India' }
+        : o.shipping_address;
+
+      return {
+        id: String(o.id),
+        email: isPublic ? String(o.user_email ?? '').replace(/(?<=.{2}).(?=[^@]*?@)/g, '*') : String(o.user_email ?? ''),
+        user_email: isPublic ? undefined : String(o.user_email ?? ''),
+        items: Array.isArray(o.items) ? o.items : [],
+        total: Number(o.total_amount ?? 0),
+        total_amount: Number(o.total_amount ?? 0),
+        status: String(o.status ?? 'pending'),
+        payment_method: String(o.payment_method ?? 'online'),
+        shipping_name: (o.shipping_name as string) ?? null,
+        shipping_address: safeAddress,
+        tracking_number: (o.tracking_number as string) ?? null,
+        tracking_url: (o.tracking_url as string) ?? null,
+        created_at: String(o.created_at ?? ''),
+      };
+    });
+
     return NextResponse.json({ orders });
   } catch (e) {
-    console.error('Orders lookup threw:', e instanceof Error ? e.message : e);
+    console.error('Orders lookup error:', e instanceof Error ? e.message : e);
     return NextResponse.json({ orders: [], error: 'Lookup failed' }, { status: 500 });
   }
 }
 
+// POST /api/orders — Create COD Order (Server-recalculated pricing & stock check)
 export async function POST(req: NextRequest) {
   const rl = checkRateLimit(`order_create:${clientIp(req.headers)}`, 10, 60_000);
   if (!rl.allowed) {
@@ -83,14 +107,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Valid email required' }, { status: 400 });
     }
 
-    const items = Array.isArray(body.items) ? body.items : [];
-    if (items.length === 0) {
-      return NextResponse.json({ error: 'Cart cannot be empty' }, { status: 400 });
+    // Validate checkout items schema and bounded quantities
+    const validatedItems = sanitizeCheckoutItems(body.items);
+    if (!validatedItems || validatedItems.length === 0) {
+      return NextResponse.json({ error: 'Invalid cart items or quantities (1–99)' }, { status: 400 });
+    }
+
+    // Address verification: line1, city, zip required
+    const addr = body.address || {};
+    if (!addr.line1 || !addr.city || !addr.zip) {
+      return NextResponse.json({ error: 'Complete delivery address (street, city, pincode) is required' }, { status: 400 });
     }
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key =
-      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
     if (!url || !key) {
       return NextResponse.json({ ok: true, mock: true, order_id: `mock_${Date.now()}` });
@@ -98,26 +128,59 @@ export async function POST(req: NextRequest) {
 
     const sb = createClient(url, key);
 
-    // Verify supplier stock availability
-    const itemIds = items.map((i: any) => i.id).filter(Boolean);
-    if (itemIds.length > 0) {
-      const { data: dbProducts } = await sb
-        .from('products')
-        .select('id, title, active')
-        .in('id', itemIds);
+    // Fetch product catalog to recalculate prices & verify stock server-side
+    const itemIds = validatedItems.map((i) => i.id);
+    const { data: dbProducts, error: prodErr } = await sb
+      .from('products')
+      .select('id, title, price_inr, price, active')
+      .in('id', itemIds);
 
-      if (dbProducts && dbProducts.length > 0) {
-        const outOfStockItem = dbProducts.find((p) => p.active === false);
-        if (outOfStockItem) {
-          return NextResponse.json(
-            { error: `"${outOfStockItem.title}" is currently out of stock at supplier. Order cannot be placed.` },
-            { status: 400 }
-          );
-        }
+    if (prodErr) {
+      console.error('Products fetch failed:', prodErr.message);
+      return NextResponse.json({ error: 'Unable to verify catalog prices' }, { status: 500 });
+    }
+
+    const prodMap = new Map((dbProducts ?? []).map((p) => [p.id, p]));
+
+    let calculatedSubtotal = 0;
+    const enrichedItems: Array<{ id: string; title: string; price: number; qty: number }> = [];
+
+    for (const item of validatedItems) {
+      const prod = prodMap.get(item.id) || fallbackCatalog.find((f) => f.id === item.id);
+      if (!prod) {
+        return NextResponse.json({ error: `Product "${item.id}" is not available in catalog` }, { status: 400 });
+      }
+      if ((prod as any).active === false) {
+        return NextResponse.json(
+          { error: `"${prod.title}" is currently out of stock. Order cannot be placed.` },
+          { status: 400 }
+        );
+      }
+
+      const unitPrice = Number((prod as any).price_inr ?? prod.price ?? 449);
+      calculatedSubtotal += unitPrice * item.qty;
+      enrichedItems.push({
+        id: item.id,
+        title: prod.title,
+        price: unitPrice,
+        qty: item.qty,
+      });
+    }
+
+    // Apply Coupon Code server-side only
+    let discountAmount = 0;
+    let verifiedCoupon = '';
+    if (body.coupon_code) {
+      const couponCheck = validateCouponCode(body.coupon_code, calculatedSubtotal);
+      if (couponCheck.valid) {
+        discountAmount = couponCheck.discountAmount;
+        verifiedCoupon = String(body.coupon_code).trim().toUpperCase();
       }
     }
-    
-    // Strict Idempotency Guard (Prevents double submission on slow network or double-clicks)
+
+    const finalTotal = Math.max(0, calculatedSubtotal - discountAmount);
+
+    // Strict Idempotency Guard
     const idempotencyKey = (req.headers.get('x-idempotency-key') || body.idempotency_key || '').trim();
     if (idempotencyKey) {
       const existing = await sb
@@ -129,12 +192,12 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ ok: true, order_id: existing.data.id, idempotent: true });
       }
     } else {
-      // Natural deduplication window (60s) for identical email + total + pending_cod
+      // Deduplication window (60s) for identical email + total + pending_cod
       const recent = await sb
         .from('orders')
         .select('id, created_at')
         .eq('user_email', email)
-        .eq('total_amount', Number(body.total_amount || 0))
+        .eq('total_amount', finalTotal)
         .eq('status', 'pending_cod')
         .order('created_at', { ascending: false })
         .limit(1)
@@ -147,55 +210,59 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const mockRef = idempotencyKey || `cod_${Date.now()}`;
-    const totalAmount = Number(body.total_amount || 0);
+    const orderRef = idempotencyKey || `cod_${Date.now()}`;
 
     const newOrder = {
       user_email: email,
-      user_id: body.user_id || null,
-      stripe_session_id: mockRef,
-      total_amount: totalAmount,
+      user_id: null, // Untrusted client user_id ignored
+      stripe_session_id: orderRef,
+      total_amount: finalTotal,
       status: body.payment_method === 'cod' ? 'pending_cod' : 'pending',
-      items,
-      subtotal: totalAmount,
+      items: enrichedItems,
+      subtotal: calculatedSubtotal,
       shipping: 0,
       shipping_name: typeof body.name === 'string' ? body.name.slice(0, 100) : null,
-      shipping_address: body.address || null,
+      shipping_address: {
+        line1: String(addr.line1).slice(0, 200),
+        city: String(addr.city).slice(0, 100),
+        state: String(addr.state || '').slice(0, 100),
+        zip: String(addr.zip).slice(0, 20),
+        country: 'India',
+        phone: String(addr.phone || body.phone || '').slice(0, 20),
+      },
     };
 
     const { data, error } = await sb.from('orders').insert([newOrder]).select('id').single();
 
     if (error) {
-      // Fallback to minimal schema if extension columns not yet applied
-      console.warn('Orders full insert failed, retrying minimal:', error.message);
+      console.warn('Orders insert retry minimal:', error.message);
       const minimal = {
         user_email: email,
-        user_id: body.user_id || null,
-        total_amount: totalAmount,
+        total_amount: finalTotal,
         status: body.payment_method === 'cod' ? 'pending_cod' : 'pending',
-        shipping_address: body.address || null,
+        shipping_address: newOrder.shipping_address,
       };
       const retry = await sb.from('orders').insert([minimal]).select('id').single();
       if (retry.error) {
         console.error('Order creation failed:', retry.error.message);
         return NextResponse.json({ error: 'Failed to record order' }, { status: 500 });
       }
-      return NextResponse.json({ ok: true, order_id: retry.data?.id || mockRef });
+      return NextResponse.json({ ok: true, order_id: retry.data?.id || orderRef });
     }
 
-    const finalOrderId = data?.id || mockRef;
+    const finalOrderId = data?.id || orderRef;
 
     // Automated Alert to Store Owner on Telegram
     notifyTelegramOrder({
       id: finalOrderId,
-      total: totalAmount,
+      total: finalTotal,
       paymentMethod: body.payment_method || 'cod',
       email,
       name: body.name,
-      itemsCount: items.length,
-      city: body.address?.city,
-      items,
-      address: body.address,
+      itemsCount: enrichedItems.length,
+      city: addr.city,
+      items: enrichedItems,
+      address: newOrder.shipping_address,
     }).catch((e) => console.error('Telegram background alert error:', e));
 
     return NextResponse.json({ ok: true, order_id: finalOrderId });
@@ -204,4 +271,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Internal order error' }, { status: 500 });
   }
 }
-

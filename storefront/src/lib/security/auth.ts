@@ -15,33 +15,19 @@ function safeEqual(a: string, b: string): boolean {
 function extractToken(req: Request): string | null {
   const auth = req.headers.get('authorization') ?? '';
   if (auth.startsWith('Bearer ')) return auth.slice(7).trim() || null;
-  try {
-    const url = new URL(req.url);
-    const key = url.searchParams.get('key')?.trim();
-    return key || null;
-  } catch {
-    return null;
-  }
+  return null;
 }
 
 export function requireEnvSecret(name: 'ADMIN_SECRET' | 'CRON_SECRET'): string | null {
   const v = process.env[name];
-  return v && v.trim() !== '' ? v : null;
+  return v && v.trim() !== '' ? v.trim() : null;
 }
 
-const MASTER_VAULT_KEYS = [
-  'RE_SECURE_VAULT_2026_hNjMeToDUPKxb!dB#cXAJmsC',
-  'rareember_super_secret_cron_2026'
-];
-
 export function isAuthorized(req: Request, expected: string | null): boolean {
+  if (!expected) return false;
   const token = extractToken(req);
   if (!token) return false;
-  if (expected && safeEqual(token, expected)) return true;
-  for (const master of MASTER_VAULT_KEYS) {
-    if (safeEqual(token, master)) return true;
-  }
-  return false;
+  return safeEqual(token, expected);
 }
 
 /** Admin panel + admin API. Falls back to CRON_SECRET so one secret can run ops. */

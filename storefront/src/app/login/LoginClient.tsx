@@ -28,7 +28,7 @@ export function LoginClient() {
     }
 
     // Listen for PASSWORD_RECOVERY auth state event from Supabase
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event: any) => {
       if (event === 'PASSWORD_RECOVERY') {
         setMode('reset');
       }

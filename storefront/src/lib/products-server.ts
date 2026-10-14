@@ -216,11 +216,14 @@ export async function getProductFromDB(id: string): Promise<Product | null> {
     return local;
   }
   try {
+    const cleanId = String(id).trim().replace(/[^a-zA-Z0-9_:-]/g, '').slice(0, 128);
+    if (!cleanId) return null;
+
     const sb = createClient<Database>(url, key);
     const { data, error } = await sb
       .from('products')
       .select('*')
-      .or(`id.eq.${id},slug.eq.${id}`)
+      .or(`id.eq.${cleanId},slug.eq.${cleanId}`)
       .eq('active', true)
       .maybeSingle();
     if (error || !data) {

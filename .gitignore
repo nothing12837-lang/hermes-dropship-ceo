@@ -1,11 +1,39 @@
+# Environment & Secrets
 .env
 .env.*
+*.pem
+*.key
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+
+# Instagram & Autopilot runtime
 session.json
 posted_history.json
 generated_posts/
+
+# Backups & Memory JSON state
 BOT_BACKUPS/
+HERMES_MEMORY/*.json
+
+# Next.js & Frontend runtime
 storefront/.next/
 storefront/node_modules/
+storefront/.vercel/
+storefront/*.tsbuildinfo
+storefront/test-results/
+storefront/coverage/
+storefront/playwright-report/
+.vercel/
+*.tsbuildinfo
+
+# Logs
+*.log
+logs/
+storefront/logs/
+
+# Local artifacts
 avatar_test.jpg
+CONNECTED

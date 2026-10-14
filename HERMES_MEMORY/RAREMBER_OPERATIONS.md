@@ -22,29 +22,29 @@ You have 100% full-stack access to monitor, fulfill, optimize, support, and scal
 * **Customer Accounts:** `https://rareember-store.vercel.app/login`
 
 ### 🗄️ Database (Supabase PostgreSQL)
-* **Project URL:** `https://qdkkxpfhwrwyoardlceo.supabase.co`
-* **Anon Key:** `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFka2t4cGZod3J3eW9hcmRsY2VvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4Njc2OTcsImV4cCI6MjEwNjQ0MzY5N30.qFvuYQ1G9NvYGYXWVtR6b9dPScOuUIfeVQ8yX3y1DJo`
+* **Project URL:** Stored in `.env` / Vercel as `NEXT_PUBLIC_SUPABASE_URL`
+* **Anon Key:** Stored in `.env` / Vercel as `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 * **Primary Tables:**
   - `orders` — `id`, `user_id`, `user_email`, `total_amount`, `status`, `payment_method`, `items`, `cj_order_id`, `tracking_number`, `tracking_url`, `shipping_name`, `shipping_address`, `created_at`
-  - `products` — `id`, `title`, `price`, `compare_at_price`, `category`, `image_url`, `rating`, `reviews`, `is_trending`
+  - `products` — `id`, `title`, `price_inr`, `price`, `compare_at_price`, `category`, `image_url`, `rating`, `reviews`, `is_trending`, `active`, `supplier`
 
-### 💳 Payment Gateway (Razorpay)
-* **Key ID:** `rzp_test_Tl2gNeId750imb`
-* **Key Secret:** `rPIFkf2KhLlHEzCj1Dapfv0N`
-* **Currency Support:** INR (Domestic India via UPI/Cards/NetBanking) + USD (Global conversion rate: 1 USD = 85 INR)
+### 💳 Payment Gateway (Razorpay LIVE)
+* **Key ID:** Stored in `.env` / Vercel as `NEXT_PUBLIC_RAZORPAY_KEY_ID`
+* **Key Secret:** Stored in `.env` / Vercel as `RAZORPAY_KEY_SECRET`
+* **Currency Support:** INR (Domestic India via UPI/Cards/NetBanking & COD)
 
-### 📦 Dropshipping & Fulfillment (CJ Dropshipping)
-* **API Token:** `CJ5887868@api@795f55f60d184f7bbca0fcfc16a4bb4a`
-* **API Gateway:** `https://developers.cjdropshipping.com/api2.0/v1`
+### 📦 Sourcing & Fulfillment (Direct Meesho India)
+* **Supplier:** Meesho Domestic Sourcing Hub (Gujarat & Pan-India)
+* **Delivery:** 2–4 business days via BlueDart, Delhivery, Xpressbees, India Post
 
 ### 📱 Telegram Command Center
-* **Bot Token:** `8898923626:AAEZTnurYzL70qpg42BgKKmLUBpW4g422aY`
+* **Bot Token:** Stored in `.env` / GitHub Secrets as `TELEGRAM_BOT_TOKEN`
 * **Ajay's Direct Chat ID:** `5238068527`
-* **Alerts Trigger:** Instant order placed (COD & Online), inventory warnings, high-priority customer requests
+* **Alerts Trigger:** Instant order placed (COD & Online), inventory warnings, customer inquiries
 
 ### 🔐 Administrative & Cron Secrets
-* **Admin Secret:** `rareember_super_secret_cron_2026`
-* **Cron Secret:** `rareember_super_secret_cron_2026`
+* **Admin Secret:** Stored in `.env` / GitHub Secrets / Vercel as `ADMIN_SECRET`
+* **Cron Secret:** Stored in `.env` / GitHub Secrets / Vercel as `CRON_SECRET`
 
 ---
 
@@ -52,7 +52,7 @@ You have 100% full-stack access to monitor, fulfill, optimize, support, and scal
 
 ### A. Order Monitoring & Lookup
 * **Method:** `GET https://rareember-store.vercel.app/api/admin/orders`
-* **Headers:** `Authorization: Bearer rareember_super_secret_cron_2026`
+* **Headers:** `Authorization: Bearer <ADMIN_SECRET>`
 * **Parameters:** `limit=50&status=paid` (or `status=pending_cod`)
 * **Hermes Action:** Reads real-time orders, checks payment status, checks customer contact details.
 

@@ -8,9 +8,7 @@ import Footer from "@/components/ui/Footer";
 import CartDrawer from "@/components/ui/CartDrawer";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { GeoProvider } from "@/context/GeoContext";
-import dynamic from "next/dynamic";
-
-const Chatbot = dynamic(() => import("@/components/ui/Chatbot"));
+import Chatbot from "@/components/ui/Chatbot";
 
 const inter = Inter({
   subsets: ["latin"],

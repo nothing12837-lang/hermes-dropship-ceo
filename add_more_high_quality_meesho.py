@@ -463,40 +463,17 @@ def main():
 
     print(f"\n📦 Adding {len(new_meesho_products)} new premium Meesho winning products...")
     for p in new_meesho_products:
-        con.run(f"""
+        con.run("""
             INSERT INTO products (
                 id, slug, title, description, short, story, details,
                 price_inr, price, compare_at_price, old_price, category,
                 image_url, rating, reviews, emoji, tag, tag_color, tag_bg,
                 cj_sku, is_trending, is_new, active, supplier, market, stock, chapter
             ) VALUES (
-                '{p['id']}',
-                '{p['id']}',
-                '{p['title'].replace("'", "''")}',
-                '{p['description'].replace("'", "''")}',
-                '{p['short'].replace("'", "''")}',
-                '{standard_story}',
-                '{standard_details}',
-                {p['price_inr']},
-                {round(p['price_inr'] / 85, 2)},
-                {p['compare_at_price']},
-                {round(p['compare_at_price'] / 85, 2)},
-                '{p['category']}',
-                '{p['image_url']}',
-                {p['rating']},
-                {p['reviews']},
-                '{p['emoji']}',
-                '{p['tag']}',
-                '{p['tag_color']}',
-                '{p['tag_bg']}',
-                '{p['cj_sku']}',
-                {str(p['is_trending']).lower()},
-                {str(p['is_new']).lower()},
-                true,
-                'Meesho',
-                'INDIA',
-                {p['stock']},
-                '{p['category'].upper()}'
+                :id, :slug, :title, :description, :short, :story, :details,
+                :price_inr, :price, :compare_at_price, :old_price, :category,
+                :image_url, :rating, :reviews, :emoji, :tag, :tag_color, :tag_bg,
+                :cj_sku, :is_trending, :is_new, true, 'Meesho', 'INDIA', :stock, :chapter
             )
             ON CONFLICT (id) DO UPDATE SET
                 title = EXCLUDED.title,
@@ -521,7 +498,32 @@ def main():
                 supplier = 'Meesho',
                 market = 'INDIA',
                 stock = EXCLUDED.stock
-        """)
+        """,
+            id=p['id'],
+            slug=p['id'],
+            title=p['title'],
+            description=p['description'],
+            short=p['short'],
+            story=standard_story,
+            details=standard_details,
+            price_inr=p['price_inr'],
+            price=round(p['price_inr'] / 85, 2),
+            compare_at_price=p['compare_at_price'],
+            old_price=round(p['compare_at_price'] / 85, 2),
+            category=p['category'],
+            image_url=p['image_url'],
+            rating=p['rating'],
+            reviews=p['reviews'],
+            emoji=p['emoji'],
+            tag=p['tag'],
+            tag_color=p['tag_color'],
+            tag_bg=p['tag_bg'],
+            cj_sku=p['cj_sku'],
+            is_trending=bool(p.get('is_trending', False)),
+            is_new=bool(p.get('is_new', False)),
+            stock=p['stock'],
+            chapter=p['category'].upper()
+        )
         print(f"  ✓ Added: {p['title']} (₹{p['price_inr']}, MRP ₹{p['compare_at_price']})")
 
     # Audit total

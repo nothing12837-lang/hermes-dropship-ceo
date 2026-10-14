@@ -1,42 +1,43 @@
 const { Client } = require('pg');
 
-const DB_URL = 'postgresql://postgres:(process.env.SUPABASE_DB_PASS || "")@db.qdkkxpfhwrwyoardlceo.supabase.co:5432/postgres';
+const DB_URL = process.env.DATABASE_URL || `postgresql://postgres:${process.env.SUPABASE_DB_PASS || ''}@db.qdkkxpfhwrwyoardlceo.supabase.co:5432/postgres`;
 
 async function main() {
-  console.log('🧹 Purging CJ Products & Test History for 100% Indian Focus...');
-  const client = new Client(DB_URL);
-  await client.connect();
-
-  // 1. Delete CJ / Global products
-  const delCJ = await client.query("DELETE FROM products WHERE market != 'INDIA' OR supplier = 'CJ'");
-  console.log(`✅ Removed ${delCJ.rowCount} CJ/Global products from database.`);
-
-  // 2. Clear test orders & order items
-  try {
-    const delItems = await client.query("DELETE FROM order_items");
-    console.log(`✅ Removed test order items: ${delItems.rowCount}`);
-  } catch (e) {
-    // If order_items table does not exist, ignore
+  if (process.env.CONFIRM_PURGE !== 'YES_I_REALLY_WANT_TO_PURGE') {
+    console.warn('⚠️ Safety Notice: Destructive cleanup script is locked. Set CONFIRM_PURGE=YES_I_REALLY_WANT_TO_PURGE to execute.');
+    return;
   }
 
-  const delOrders = await client.query("DELETE FROM orders");
-  console.log(`✅ Cleared ${delOrders.rowCount} test orders. Orders ledger is now 100% clean!`);
+  if (!process.env.SUPABASE_DB_PASS && !process.env.DATABASE_URL) {
+    console.error('Error: SUPABASE_DB_PASS or DATABASE_URL must be set in environment.');
+    return;
+  }
 
-  // 3. Verify remaining active catalog
-  const prods = await client.query("SELECT id, title, price_inr, compare_at_price, category, supplier, market FROM products ORDER BY price_inr ASC");
-  console.log(`\n🇮🇳 Total Indian Products Live in Store: ${prods.rows.length}`);
-  
-  console.log('\n--- Sample of Active Indian Catalog & Pricing ---');
-  prods.rows.slice(0, 10).forEach((p, idx) => {
-    const margin = p.compare_at_price ? Math.round((1 - p.price_inr / p.compare_at_price) * 100) : 40;
-    console.log(`${idx + 1}. [${p.category.toUpperCase()}] ${p.title.slice(0, 42)}... | ₹${p.price_inr} (MRP: ₹${p.compare_at_price}, ~${margin}% OFF)`);
-  });
+  console.log('🧹 Purging Non-Indian Products & Old Test Records safely...');
+  const client = new Client({ connectionString: DB_URL });
+  await client.connect();
 
-  await client.end();
-  console.log('\n✨ Database is now 100% focused on India domestic market!');
+  try {
+    await client.query('BEGIN');
+
+    // 1. Delete CJ / non-India products
+    const delCJ = await client.query("DELETE FROM products WHERE market != 'INDIA' AND supplier != 'Meesho'");
+    console.log(`✅ Removed ${delCJ.rowCount} non-India products from database.`);
+
+    // 2. Only clear test orders (never delete production customer orders)
+    const delOrders = await client.query("DELETE FROM orders WHERE user_email ILIKE '%test%' OR user_email ILIKE '%example.com%'");
+    console.log(`✅ Cleared ${delOrders.rowCount} dummy test orders.`);
+
+    await client.query('COMMIT');
+    console.log('✨ Transaction committed successfully.');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error('Error during cleanup, rolled back:', err);
+  } finally {
+    await client.end();
+  }
 }
 
 main().catch(err => {
   console.error('Error during cleanup:', err);
-  process.exit(1);
 });

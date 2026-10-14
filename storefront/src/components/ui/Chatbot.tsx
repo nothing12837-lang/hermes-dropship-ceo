@@ -43,6 +43,7 @@ const QUICK_PROMPTS = [
 
 export default function Chatbot() {
   const { formatPrice: geoFormatPrice } = useGeo();
+  const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [msgs, setMsgs] = useState<Msg[]>([
     {
@@ -55,6 +56,10 @@ export default function Chatbot() {
   const [busy, setBusy] = useState(false);
   const [minimized, setMinimized] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -102,6 +107,8 @@ export default function Chatbot() {
 
   const formatTime = (date: Date) =>
     date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  if (!mounted) return null;
 
   return (
     <>

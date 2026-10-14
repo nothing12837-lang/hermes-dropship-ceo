@@ -33,7 +33,7 @@ async function runBatch() {
     .from('orders')
     .select('id')
     .eq('status', 'paid')
-    .is('cj_order_id', null)
+    .or('cj_order_id.is.null,cj_order_id.eq.')
     .order('created_at', { ascending: true })
     .limit(BATCH);
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { normalizeCJUpdate } from '@/lib/fulfillment/cj';
+import crypto from 'crypto';
 
 /**
  * POST /api/webhooks/cj
@@ -10,8 +11,7 @@ import { normalizeCJUpdate } from '@/lib/fulfillment/cj';
  *   { cj_order_id: string, tracking_number?: string, tracking_url?: string,
  *     status?: 'processing'|'fulfilled'|'shipped'|'delivered'|'cancelled' }
  *
- * Auth: Bearer <CJ_WEBHOOK_SECRET> when configured. If CJ_WEBHOOK_SECRET
- * is unset, the route still works but logs a warning (demo mode).
+ * Auth: Bearer <CJ_WEBHOOK_SECRET> strictly enforced with timingSafeEqual.
  */
 
 function getAdminSupabase() {
@@ -28,14 +28,16 @@ export async function POST(req: NextRequest) {
   }
 
   const expected = process.env.CJ_WEBHOOK_SECRET;
-  if (expected) {
-    const auth = req.headers.get('authorization') ?? '';
-    const token = auth.startsWith('Bearer ') ? auth.slice(7) : auth;
-    if (token !== expected) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-  } else {
-    console.warn('CJ_WEBHOOK_SECRET not set — accepting unauthenticated CJ callbacks (demo).');
+  if (!expected || expected.trim() === '') {
+    return NextResponse.json({ error: 'Webhook secret not configured' }, { status: 503 });
+  }
+
+  const auth = req.headers.get('authorization') ?? '';
+  const token = auth.startsWith('Bearer ') ? auth.slice(7).trim() : auth.trim();
+  const aBuf = Buffer.from(token);
+  const bBuf = Buffer.from(expected);
+  if (aBuf.length !== bBuf.length || !crypto.timingSafeEqual(aBuf, bBuf)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   let body: unknown;

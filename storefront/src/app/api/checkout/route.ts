@@ -82,6 +82,12 @@ export async function POST(req: NextRequest) {
 
     const name = sanitizeMessage(body.name, 100);
     const address = parseAddress(body.address);
+    if (!address || !address.line1 || !address.city || !address.zip) {
+      return NextResponse.json(
+        { error: 'Complete delivery address (street address, city, and pincode/zip) is required' },
+        { status: 400 }
+      );
+    }
 
     const supabase = getSupabase();
     const razorpay = getRazorpay();
@@ -111,6 +117,11 @@ export async function POST(req: NextRequest) {
 
     for (const item of items) {
       const dbProd = byId.get(item.id);
+      const staticProd = staticCatalog.find((p) => p.id === item.id);
+      if (!dbProd && !staticProd) {
+        return NextResponse.json({ error: `Product "${item.id}" is no longer available in catalog` }, { status: 400 });
+      }
+
       let unitPrice = 0;
       if (dbProd) {
         if (isIndia) {
@@ -124,22 +135,17 @@ export async function POST(req: NextRequest) {
           const p = Number(dbProd.price);
           unitPrice = p >= 80 ? Number((p / 85).toFixed(2)) : p;
         }
-      } else {
-        const staticProd = staticCatalog.find((p) => p.id === item.id);
-        if (staticProd) {
-          if (isIndia) {
-            unitPrice = staticProd.price_inr || (staticProd.price >= 80 ? Math.round(staticProd.price) : Math.round(staticProd.price * 85));
-          } else {
-            unitPrice = staticProd.price >= 80 ? Number((staticProd.price / 85).toFixed(2)) : staticProd.price;
-          }
+      } else if (staticProd) {
+        if (isIndia) {
+          unitPrice = staticProd.price_inr || (staticProd.price >= 80 ? Math.round(staticProd.price) : Math.round(staticProd.price * 85));
         } else {
-          unitPrice = isIndia ? 449 : 29.99;
+          unitPrice = staticProd.price >= 80 ? Number((staticProd.price / 85).toFixed(2)) : staticProd.price;
         }
       }
       subtotal += unitPrice * item.qty;
     }
 
-    // Apply Coupon Code if provided
+    // Apply Coupon Code if verified
     let discountAmount = 0;
     let verifiedCoupon = '';
     if (body.coupon_code) {
@@ -148,8 +154,6 @@ export async function POST(req: NextRequest) {
         discountAmount = couponCheck.discountAmount;
         verifiedCoupon = body.coupon_code.trim().toUpperCase();
       }
-    } else if (typeof body.discount === 'number' && body.discount > 0) {
-      discountAmount = Math.min(body.discount, subtotal);
     }
 
     const finalTotal = Math.max(0, subtotal - discountAmount);
@@ -222,7 +226,7 @@ export async function POST(req: NextRequest) {
 
     const saved = await insertOrder({
       user_email: email,
-      user_id: body.user_id || null,
+      user_id: null,
       stripe_session_id: rzpOrder.id,
       total_amount: finalTotal,
       status: 'pending',

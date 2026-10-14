@@ -36,19 +36,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // Dynamic Product Pages fetched from Supabase
-  let liveProducts: Array<{ id: string; updated_at?: string }> = [];
+  let liveProducts: Array<{ id: string; title?: string; category?: string; updated_at?: string }> = [];
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://qdkkxpfhwrwyoardlceo.supabase.co';
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFka2t4cGZod3J3eW9hcmRsY2VvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4Njc2OTcsImV4cCI6MjEwNjQ0MzY5N30.qFvuYQ1G9NvYGYXWVtR6b9dPScOuUIfeVQ8yX3y1DJo';
-    const res = await fetch(`${supabaseUrl}/rest/v1/products?select=id,updated_at&market=eq.INDIA&limit=250`, {
-      headers: {
-        apikey: supabaseKey,
-        Authorization: `Bearer ${supabaseKey}`
-      },
-      next: { revalidate: 3600 }
-    });
-    if (res.ok) {
-      liveProducts = await res.json();
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (supabaseUrl && supabaseKey) {
+      const res = await fetch(`${supabaseUrl}/rest/v1/products?select=id,title,category,updated_at&active=eq.true&limit=250`, {
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`
+        },
+        next: { revalidate: 3600 }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          liveProducts = data.filter((p) => !isDisallowedProduct(p));
+        }
+      }
     }
   } catch (err) {
     console.error('Sitemap fetch live products error:', err);

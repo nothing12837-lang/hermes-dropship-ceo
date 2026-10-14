@@ -33,7 +33,8 @@ export default function CheckoutPage() {
   const [authChecking, setAuthChecking] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data }: any) => {
+      const session = data?.session;
       if (session?.user) {
         setUserId(session.user.id);
         setUserEmail(session.user.email || null);
@@ -42,7 +43,7 @@ export default function CheckoutPage() {
       setAuthChecking(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
       if (session?.user) {
         setUserId(session.user.id);
         setUserEmail(session.user.email || null);
@@ -218,12 +219,26 @@ export default function CheckoutPage() {
     // Razorpay Online Flow
     const rzWindow = window as unknown as RazorpayWindow;
     if (!rzWindow.Razorpay) {
-      await new Promise((resolve) => {
-        const script = document.createElement('script');
-        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-        script.onload = resolve;
-        document.body.appendChild(script);
-      });
+      const existingScript = document.querySelector('script[src*="checkout.razorpay.com"]');
+      if (existingScript) {
+        await new Promise((r) => setTimeout(r, 300));
+      } else {
+        try {
+          await new Promise<void>((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+            script.async = true;
+            script.onload = () => resolve();
+            script.onerror = () => reject(new Error('Razorpay SDK failed to load'));
+            document.body.appendChild(script);
+          });
+        } catch {
+          setError('Payment gateway failed to load. Please check your internet connection or ad blocker.');
+          setLoading(false);
+          setProcessing(false);
+          return;
+        }
+      }
     }
 
     try {

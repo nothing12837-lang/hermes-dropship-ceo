@@ -46,7 +46,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (raw) {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed)) {
-          setItems(parsed);
+          const validated = parsed
+            .filter((i): i is CartItem => Boolean(i && typeof i.id === 'string' && i.id.trim()))
+            .map((i) => ({
+              ...i,
+              id: i.id.trim(),
+              qty: Math.min(99, Math.max(1, Math.floor(Number(i.qty) || 1))),
+            }));
+          setItems(validated);
         }
       }
     } catch {}
@@ -69,22 +76,29 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       openCart: () => setIsOpen(true),
       closeCart: () => setIsOpen(false),
       add: (id, qty = 1, meta?: Partial<CartItem>) => {
+        const addQty = Math.max(1, Math.floor(qty));
         setItems((prev) => {
           const found = prev.find((i) => i.id === id);
-          if (found)
+          if (found) {
+            const nextQty = Math.min(99, found.qty + addQty);
             return prev.map((i) =>
-              i.id === id ? { ...i, qty: Math.min(99, i.qty + qty), ...meta } : i
+              i.id === id ? { ...i, ...meta, qty: nextQty } : i
             );
-          return [...prev, { id, qty, ...meta }];
+          }
+          const initialQty = Math.min(99, addQty);
+          return [...prev, { ...meta, id, qty: initialQty }];
         });
         setIsOpen(true);
       },
       remove: (id) => setItems((prev) => prev.filter((i) => i.id !== id)),
       setQty: (id, qty) => {
-        if (qty <= 0)
+        const q = Math.floor(qty);
+        if (q <= 0) {
           return setItems((prev) => prev.filter((i) => i.id !== id));
+        }
+        const clamped = Math.min(99, q);
         setItems((prev) =>
-          prev.map((i) => (i.id === id ? { ...i, qty } : i))
+          prev.map((i) => (i.id === id ? { ...i, qty: clamped } : i))
         );
       },
       clear: () => setItems([]),

@@ -50,7 +50,7 @@ def run_upgrade():
         "incense", "agarbatti"
     ]
     for kw in junk_keywords:
-        con.run(f"UPDATE products SET active = false, is_trending = false, is_new = false WHERE title ILIKE '%{kw}%'")
+        con.run("UPDATE products SET active = false, is_trending = false, is_new = false WHERE title ILIKE :kw", kw=f"%{kw}%")
     print("✅ Deactivated junk office stationery, markers, and cleaners from store.")
 
     # 2. Reset trending flag on all products first
@@ -66,14 +66,14 @@ def run_upgrade():
     ])
     standard_story = "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery."
 
-    con.run(f"""
+    con.run("""
         UPDATE products 
         SET supplier = 'Meesho', 
             market = 'INDIA',
-            details = '{standard_details}',
-            story = '{standard_story}'
+            details = :details,
+            story = :story
         WHERE active = true
-    """)
+    """, details=standard_details, story=standard_story)
     print("✅ Updated active products to supplier = 'Meesho' with express Indian logistics details.")
 
     # 4. Insert / Upsert Flagship High-Margin Meesho Drops
@@ -181,70 +181,87 @@ def run_upgrade():
     ]
 
     for p in flagship_products:
-        exists = con.run(f"SELECT id FROM products WHERE id = '{p['id']}'")
+        exists = con.run("SELECT id FROM products WHERE id = :id", id=p['id'])
         if exists:
-            con.run(f"""
+            con.run("""
                 UPDATE products SET
-                    title = '{p['title'].replace("'", "''")}',
-                    description = '{p['description'].replace("'", "''")}',
-                    short = '{p['short'].replace("'", "''")}',
-                    price_inr = {p['price_inr']},
-                    compare_at_price = {p['compare_at_price']},
-                    category = '{p['category']}',
-                    image_url = '{p['image_url']}',
-                    rating = {p['rating']},
-                    reviews = {p['reviews']},
-                    emoji = '{p['emoji']}',
-                    tag = '{p['tag']}',
-                    tag_color = '{p['tag_color']}',
-                    tag_bg = '{p['tag_bg']}',
-                    cj_sku = '{p['cj_sku']}',
+                    title = :title,
+                    description = :description,
+                    short = :short,
+                    price_inr = :price_inr,
+                    compare_at_price = :compare_at_price,
+                    category = :category,
+                    image_url = :image_url,
+                    rating = :rating,
+                    reviews = :reviews,
+                    emoji = :emoji,
+                    tag = :tag,
+                    tag_color = :tag_color,
+                    tag_bg = :tag_bg,
+                    cj_sku = :cj_sku,
                     is_trending = true,
                     is_new = true,
                     active = true,
                     supplier = 'Meesho',
                     market = 'INDIA',
-                    stock = {p['stock']}
-                WHERE id = '{p['id']}'
-            """)
+                    stock = :stock
+                WHERE id = :id
+            """,
+                title=p['title'],
+                description=p['description'],
+                short=p['short'],
+                price_inr=p['price_inr'],
+                compare_at_price=p['compare_at_price'],
+                category=p['category'],
+                image_url=p['image_url'],
+                rating=p['rating'],
+                reviews=p['reviews'],
+                emoji=p['emoji'],
+                tag=p['tag'],
+                tag_color=p['tag_color'],
+                tag_bg=p['tag_bg'],
+                cj_sku=p['cj_sku'],
+                stock=p['stock'],
+                id=p['id']
+            )
             print(f"  Updated flagship product: {p['title']}")
         else:
-            con.run(f"""
+            con.run("""
                 INSERT INTO products (
                     id, slug, title, description, short, story, details,
                     price_inr, price, compare_at_price, old_price, category,
                     image_url, rating, reviews, emoji, tag, tag_color, tag_bg,
                     cj_sku, is_trending, is_new, active, supplier, market, stock, chapter
                 ) VALUES (
-                    '{p['id']}',
-                    '{p['id']}',
-                    '{p['title'].replace("'", "''")}',
-                    '{p['description'].replace("'", "''")}',
-                    '{p['short'].replace("'", "''")}',
-                    '{standard_story}',
-                    '{standard_details}',
-                    {p['price_inr']},
-                    {round(p['price_inr'] / 85, 2)},
-                    {p['compare_at_price']},
-                    {round(p['compare_at_price'] / 85, 2)},
-                    '{p['category']}',
-                    '{p['image_url']}',
-                    {p['rating']},
-                    {p['reviews']},
-                    '{p['emoji']}',
-                    '{p['tag']}',
-                    '{p['tag_color']}',
-                    '{p['tag_bg']}',
-                    '{p['cj_sku']}',
-                    true,
-                    true,
-                    true,
-                    'Meesho',
-                    'INDIA',
-                    {p['stock']},
-                    '{p['category'].upper()}'
+                    :id, :slug, :title, :description, :short, :story, :details,
+                    :price_inr, :price, :compare_at_price, :old_price, :category,
+                    :image_url, :rating, :reviews, :emoji, :tag, :tag_color, :tag_bg,
+                    :cj_sku, true, true, true, 'Meesho', 'INDIA', :stock, :chapter
                 )
-            """)
+            """,
+                id=p['id'],
+                slug=p['id'],
+                title=p['title'],
+                description=p['description'],
+                short=p['short'],
+                story=standard_story,
+                details=standard_details,
+                price_inr=p['price_inr'],
+                price=round(p['price_inr'] / 85, 2),
+                compare_at_price=p['compare_at_price'],
+                old_price=round(p['compare_at_price'] / 85, 2),
+                category=p['category'],
+                image_url=p['image_url'],
+                rating=p['rating'],
+                reviews=p['reviews'],
+                emoji=p['emoji'],
+                tag=p['tag'],
+                tag_color=p['tag_color'],
+                tag_bg=p['tag_bg'],
+                cj_sku=p['cj_sku'],
+                stock=p['stock'],
+                chapter=p['category'].upper()
+            )
             print(f"  Inserted new flagship product: {p['title']}")
 
     # 5. Set trending = true on top existing winning products (Door mat, Lamps, Candles)
@@ -263,21 +280,29 @@ def run_upgrade():
     ]
 
     for item_id, price, mrp, title, rating, reviews in top_existing_ids:
-        con.run(f"""
+        con.run("""
             UPDATE products SET
-                price_inr = {price},
-                price = {round(price / 85, 2)},
-                compare_at_price = {mrp},
-                old_price = {round(mrp / 85, 2)},
-                rating = {rating},
-                reviews = {reviews},
+                price_inr = :price_inr,
+                price = :price,
+                compare_at_price = :compare_at_price,
+                old_price = :old_price,
+                rating = :rating,
+                reviews = :reviews,
                 is_trending = true,
                 is_new = true,
                 active = true,
                 supplier = 'Meesho',
                 market = 'INDIA'
-            WHERE id = '{item_id}'
-        """)
+            WHERE id = :id
+        """,
+            price_inr=price,
+            price=round(price / 85, 2),
+            compare_at_price=mrp,
+            old_price=round(mrp / 85, 2),
+            rating=rating,
+            reviews=reviews,
+            id=item_id
+        )
         print(f"  Activated trending item: {title} (₹{price})")
 
     # 6. Verify Final State

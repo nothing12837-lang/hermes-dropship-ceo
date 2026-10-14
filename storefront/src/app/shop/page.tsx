@@ -12,7 +12,7 @@ import { supabase, type ProductRow } from '@/lib/supabase';
 
 const TABS = [{ id: 'all', label: 'All', hint: 'Everything', emoji: '🛍️' }, ...SHOP_CATEGORIES, { id: 'new', label: 'New In', hint: 'Fresh drops', emoji: '✨' }];
 
-const DB_CATEGORIES = new Set(['electronics', 'fashion', 'home-garden', 'general']);
+const DB_CATEGORIES = new Set(['electronics', 'fashion', 'home-garden', 'home-living', 'general', 'decor', 'tech']);
 
 function isDisallowedRow(p: ProductRow): boolean {
   const text = `${p.id || ''} ${p.slug || ''} ${p.category || ''} ${p.title || ''} ${(p as any).description || ''} ${(p as any).short || ''}`.toLowerCase();
@@ -23,7 +23,8 @@ export function matchesCategory(cat: string, p: ProductRow): boolean {
   if (isDisallowedRow(p)) return false;
   if (cat === 'all') return true;
   if (cat === 'new') return p.is_new === true;
-  if (cat === 'home-garden') return p.category === 'home-garden' || p.category === 'home-living';
+  if (cat === 'home-garden') return p.category === 'home-garden' || p.category === 'home-living' || p.category === 'decor';
+  if (cat === 'electronics') return p.category === 'electronics' || p.category === 'tech';
   if (cat === 'general') return p.category === 'general' || p.category === 'lifestyle' || p.category === 'viral';
   return (p.category ?? 'general') === cat;
 }
@@ -48,12 +49,22 @@ function ShopInner() {
     let cancelled = false;
     let q = supabase.from('products').select('*').eq('active', true);
     if (DB_CATEGORIES.has(cat)) q = q.eq('category', cat);
-    q.order('created_at', { ascending: false }).then(({ data }) => {
-      if (!cancelled) {
-        const filtered = ((data ?? []) as ProductRow[]).filter((p) => !isDisallowedRow(p));
-        setProducts(filtered);
-      }
-    });
+    Promise.resolve(q.order('created_at', { ascending: false }))
+      .then(({ data, error }: any) => {
+        if (!cancelled) {
+          if (error) {
+            console.error('Shop fetch error:', error.message);
+            return;
+          }
+          const filtered = ((data ?? []) as ProductRow[]).filter((p) => !isDisallowedRow(p));
+          setProducts(filtered);
+        }
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) {
+          console.error('Shop promise error:', err);
+        }
+      });
     return () => {
       cancelled = true;
     };

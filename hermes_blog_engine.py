@@ -106,8 +106,51 @@ def update_store_blog():
     with open(PUBLISHED_LOG, "w", encoding="utf-8") as f:
         json.dump(history, f, indent=2)
 
-    print(f"✅ [Hermes Blog Engine] Successfully synced {len(TRENDING_ANGLES)} viral lifestyle & tech articles.")
+    # Sync to content.ts if target path exists
+    for target_path in candidate_content_paths:
+        if os.path.exists(os.path.dirname(target_path)):
+            try:
+                # Read existing faqs / lifestyleTips if available
+                faqs_block = ""
+                if os.path.exists(target_path):
+                    with open(target_path, "r", encoding="utf-8") as rf:
+                        existing = rf.read()
+                        if "export const faqs" in existing:
+                            faqs_block = existing[existing.index("export const faqs"):]
+
+                if not faqs_block:
+                    faqs_block = """export const faqs = [
+  { q: 'How fast is express delivery across India?', a: 'All orders qualify for Free Express Shipping Pan-India (2-4 business days via BlueDart & Delhivery).' },
+  { q: 'Can I pay via Cash on Delivery (COD)?', a: 'Yes! Cash on Delivery is available across 19,000+ PIN codes in India.' },
+  { q: 'What is your 7-Day Easy Replacement policy?', a: 'We offer a 7-day doorstep replacement for defective or damaged items.' },
+];
+"""
+
+                ts_code = [
+                    "export interface BlogPost {",
+                    "  slug: string;",
+                    "  emoji: string;",
+                    "  category: string;",
+                    "  title: string;",
+                    "  excerpt: string;",
+                    "  readTime: string;",
+                    "  wash: string;",
+                    "  body: string[];",
+                    "}",
+                    "",
+                    "export const blogPosts: BlogPost[] = " + json.dumps(TRENDING_ANGLES, indent=2) + ";",
+                    "",
+                    faqs_block
+                ]
+                with open(target_path, "w", encoding="utf-8") as wf:
+                    wf.write("\n".join(ts_code))
+                print(f"✅ [Hermes Blog Engine] Synced blog articles to {target_path}")
+            except Exception as e:
+                print(f"Notice syncing blog to {target_path}: {e}")
+
+    print(f"✅ [Hermes Blog Engine] Successfully processed {len(TRENDING_ANGLES)} viral lifestyle & tech articles.")
     return record
 
 if __name__ == "__main__":
     update_store_blog()
+
