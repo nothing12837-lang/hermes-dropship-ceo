@@ -83,6 +83,10 @@ export function ProductClient({ product }: Props) {
   const [customImage, setCustomImage] = useState<string | null>(null);
   const [customImageName, setCustomImageName] = useState<string>('');
   const [customPlacement, setCustomPlacement] = useState<string>('Front Print');
+  const [customTextColor, setCustomTextColor] = useState<string>('#ffffff');
+  const [customFont, setCustomFont] = useState<string>('font-sans font-black tracking-wider uppercase');
+  const [customPosition, setCustomPosition] = useState<'center' | 'pocket' | 'mural'>('center');
+  const [customScale, setCustomScale] = useState<number>(100);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -299,6 +303,143 @@ export function ProductClient({ product }: Props) {
                 <span style={{ fontSize: '6rem', filter: 'drop-shadow(0 12px 30px rgba(0,0,0,0.15))' }}>
                   {product.emoji}
                 </span>
+              )}
+
+              {/* LIVE QIKINK DESIGN CANVAS OVERLAY ON GARMENT */}
+              {isCustomizing && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    pointerEvents: 'none',
+                    zIndex: 10,
+                    transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    ...(customPosition === 'pocket'
+                      ? { top: '26%', left: '26%', width: '22%', height: '20%' }
+                      : customPosition === 'mural'
+                      ? { top: '20%', left: '18%', width: '64%', height: '58%' }
+                      : { top: '28%', left: '24%', width: '52%', height: '44%' }),
+                  }}
+                >
+                  {/* Print Safety Margin Frame */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      border: '1.5px dashed rgba(255, 77, 36, 0.8)',
+                      borderRadius: '0.75rem',
+                      background: 'rgba(255, 77, 36, 0.05)',
+                      boxShadow: '0 0 16px rgba(255, 77, 36, 0.2)',
+                    }}
+                  >
+                    <span
+                      style={{
+                        position: 'absolute',
+                        top: '-0.75rem',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        background: '#FF4D24',
+                        color: '#ffffff',
+                        fontSize: '9px',
+                        fontWeight: 900,
+                        padding: '2px 8px',
+                        borderRadius: '9999px',
+                        letterSpacing: '0.05em',
+                        whiteSpace: 'nowrap',
+                        boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
+                      }}
+                    >
+                      ⚡ QIKINK DTF PRINT ({customPlacement})
+                    </span>
+                  </div>
+
+                  {/* Live Text Overlay */}
+                  {customMode === 'text' && (
+                    <div
+                      className={customFont}
+                      style={{
+                        color: customTextColor,
+                        fontSize: `clamp(13px, ${(customScale / 100) * 3.5}vw, 36px)`,
+                        lineHeight: 1.15,
+                        textShadow:
+                          customTextColor.toLowerCase() === '#ffffff'
+                            ? '0 2px 8px rgba(0,0,0,0.85), 0 0 2px rgba(0,0,0,0.95)'
+                            : '0 2px 8px rgba(255,255,255,0.45)',
+                        maxWidth: '92%',
+                        wordBreak: 'break-word',
+                        userSelect: 'none',
+                        transform: `scale(${customScale / 100})`,
+                        transition: 'all 0.15s ease',
+                      }}
+                    >
+                      {customText.trim() || 'YOUR DESIGN'}
+                    </div>
+                  )}
+
+                  {/* Live Uploaded Image Overlay */}
+                  {customMode === 'image' && customImage && (
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transform: `scale(${customScale / 100})`,
+                        transition: 'all 0.15s ease',
+                      }}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={customImage}
+                        alt="Custom print design"
+                        style={{
+                          maxWidth: '90%',
+                          maxHeight: '90%',
+                          objectFit: 'contain',
+                          filter: 'drop-shadow(0 4px 14px rgba(0,0,0,0.45))',
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Live Status Simulation Pill */}
+              {isCustomizing && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: '1rem',
+                    right: '1rem',
+                    background: 'rgba(22, 19, 17, 0.92)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 77, 36, 0.45)',
+                    color: '#fff',
+                    padding: '0.4rem 0.85rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    zIndex: 12,
+                    boxShadow: '0 4px 14px rgba(0,0,0,0.25)',
+                  }}
+                >
+                  <span
+                    style={{
+                      width: '7px',
+                      height: '7px',
+                      borderRadius: '9999px',
+                      background: '#FF4D24',
+                    }}
+                  />
+                  <span>Live Qikink 3D Print Simulation</span>
+                </div>
               )}
 
               {/* Photo Count Pill */}
@@ -838,6 +979,80 @@ export function ProductClient({ product }: Props) {
                           boxSizing: 'border-box',
                         }}
                       />
+                      {/* Text Color Chips */}
+                      <div style={{ marginTop: '0.65rem' }}>
+                        <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#78716c', marginBottom: '0.35rem' }}>
+                          Print Ink Color
+                        </label>
+                        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                          {[
+                            { name: 'White', hex: '#FFFFFF', border: '#cbd5e1' },
+                            { name: 'Pitch Black', hex: '#111111', border: '#475569' },
+                            { name: 'Golden Amber', hex: '#F59E0B', border: '#d97706' },
+                            { name: 'Flame Red', hex: '#FF4D24', border: '#dc2626' },
+                            { name: 'Cyber Cyan', hex: '#06B6D4', border: '#0891b2' },
+                            { name: 'Neon Green', hex: '#10B981', border: '#059669' },
+                          ].map((col) => {
+                            const isSelected = customTextColor.toLowerCase() === col.hex.toLowerCase();
+                            return (
+                              <button
+                                key={col.hex}
+                                type="button"
+                                onClick={() => setCustomTextColor(col.hex)}
+                                title={col.name}
+                                style={{
+                                  width: '1.75rem',
+                                  height: '1.75rem',
+                                  borderRadius: '9999px',
+                                  background: col.hex,
+                                  border: isSelected ? '2.5px solid #FF4D24' : `1.5px solid ${col.border}`,
+                                  boxShadow: isSelected ? '0 0 8px rgba(255, 77, 36, 0.4)' : 'none',
+                                  cursor: 'pointer',
+                                  transform: isSelected ? 'scale(1.15)' : 'scale(1)',
+                                  transition: 'all 0.15s ease',
+                                }}
+                              />
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Font Typography Style */}
+                      <div style={{ marginTop: '0.65rem' }}>
+                        <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#78716c', marginBottom: '0.35rem' }}>
+                          Font Typography Style
+                        </label>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.4rem' }}>
+                          {[
+                            { label: 'Streetwear Heavy', font: 'font-sans font-black tracking-wider uppercase' },
+                            { label: 'Cyber Monospace', font: 'font-mono font-bold tracking-widest uppercase' },
+                            { label: 'Athletic Block', font: 'font-sans font-extrabold tracking-normal uppercase' },
+                            { label: 'Vintage Serif', font: 'font-serif font-bold italic tracking-wide' },
+                          ].map((f) => {
+                            const isSelected = customFont === f.font;
+                            return (
+                              <button
+                                key={f.label}
+                                type="button"
+                                onClick={() => setCustomFont(f.font)}
+                                className={f.font}
+                                style={{
+                                  padding: '0.45rem 0.6rem',
+                                  borderRadius: '0.65rem',
+                                  border: isSelected ? '1.5px solid #FF4D24' : '1px solid rgba(0,0,0,0.1)',
+                                  background: isSelected ? 'rgba(255,77,36,0.08)' : '#ffffff',
+                                  color: isSelected ? '#FF4D24' : '#161311',
+                                  fontSize: '0.72rem',
+                                  cursor: 'pointer',
+                                  transition: 'all 0.15s ease',
+                                }}
+                              >
+                                {f.label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
                     </div>
                   )}
 
@@ -968,6 +1183,79 @@ export function ProductClient({ product }: Props) {
                       </div>
                     </div>
                   )}
+
+                  {/* Print Position Selector */}
+                  <div style={{ marginTop: '0.35rem' }}>
+                    <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#57534e', marginBottom: '0.35rem' }}>
+                      Print Position on Garment
+                    </label>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem' }}>
+                      {[
+                        { id: 'center', label: '🎯 Center Chest' },
+                        { id: 'pocket', label: '👕 Pocket Badge' },
+                        { id: 'mural', label: '🖼️ Oversized Mural' },
+                      ].map((pos) => {
+                        const isSelected = customPosition === pos.id;
+                        return (
+                          <button
+                            key={pos.id}
+                            type="button"
+                            onClick={() => setCustomPosition(pos.id as any)}
+                            style={{
+                              padding: '0.5rem 0.4rem',
+                              borderRadius: '0.65rem',
+                              border: isSelected ? '1.5px solid #FF4D24' : '1px solid rgba(0,0,0,0.1)',
+                              background: isSelected ? '#161311' : '#ffffff',
+                              color: isSelected ? '#ffffff' : '#44403c',
+                              fontWeight: 800,
+                              fontSize: '0.75rem',
+                              cursor: 'pointer',
+                              transition: 'all 0.15s ease',
+                            }}
+                          >
+                            {pos.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Scale / Size Slider */}
+                  <div style={{ marginTop: '0.35rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                      <label style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#57534e' }}>
+                        Print Scale &amp; Proportion
+                      </label>
+                      <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#FF4D24' }}>
+                        {customScale}%
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      min={60}
+                      max={140}
+                      value={customScale}
+                      onChange={(e) => setCustomScale(Number(e.target.value))}
+                      style={{
+                        width: '100%',
+                        accentColor: '#FF4D24',
+                        cursor: 'pointer',
+                      }}
+                    />
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.65rem', color: '#a8a29e', marginTop: '0.15rem' }}>
+                      <span>Subtle (60%)</span>
+                      <span>Standard (100%)</span>
+                      <span>Oversized (140%)</span>
+                    </div>
+                  </div>
+
+                  {/* Live Simulation Notice */}
+                  <div style={{ padding: '0.65rem 0.85rem', borderRadius: '0.65rem', background: 'rgba(255, 77, 36, 0.06)', border: '1px solid rgba(255, 77, 36, 0.15)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <span style={{ fontSize: '1rem' }}>👁️</span>
+                    <span style={{ fontSize: '0.72rem', color: '#44403c', fontWeight: 600 }}>
+                      <strong>Live Visual Canvas:</strong> Look at the product image above to preview your design live on the garment in real-time!
+                    </span>
+                  </div>
 
                   {/* Live DTF Preview Card for Text */}
                   {customMode === 'text' && customText.trim() && (
