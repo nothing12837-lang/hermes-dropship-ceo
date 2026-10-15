@@ -19,7 +19,7 @@ const securityHeaders = [
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.razorpay.com https://checkout.razorpay.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
-      "img-src 'self' data: blob: https://images.meesho.com https://*.meesho.com https://*.supabase.co https://images.unsplash.com",
+      "img-src 'self' data: blob: https://qikink-stores.s3.ap-south-1.amazonaws.com https://*.amazonaws.com https://*.supabase.co https://images.unsplash.com",
       "connect-src 'self' https://*.supabase.co https://api.razorpay.com https://lumberjack.razorpay.com",
       "frame-src https://api.razorpay.com https://cdn.razorpay.com https://checkout.razorpay.com",
       "media-src 'self' https://videos.pexels.com",
@@ -34,8 +34,8 @@ const securityHeaders = [
 const nextConfig = {
   images: {
     remotePatterns: [
-      { protocol: 'https', hostname: 'images.meesho.com' },
-      { protocol: 'https', hostname: '*.meesho.com' },
+      { protocol: 'https', hostname: 'qikink-stores.s3.ap-south-1.amazonaws.com' },
+      { protocol: 'https', hostname: '*.amazonaws.com' },
       { protocol: 'https', hostname: '*.supabase.co' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: 'videos.pexels.com' },
