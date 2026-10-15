@@ -1,0 +1,23 @@
+{
+  "founder": "Ajay Rajbhar (Telegram ID: 5238068527)",
+  "business": "RareEmber (Curated Indian Domestic E-Commerce & Dropshipping Empire)",
+  "website": "https://rareember-store.vercel.app",
+  "supplier": "Meesho Domestic Reseller Hub & Pan-India Express Logistics",
+  "gateways": "Razorpay (UPI, NetBanking, Cards) + Cash on Delivery (COD \u20b949 fee across India)",
+  "currencies": "INR (\u20b9) Domestic Currency",
+  "learned_facts": [
+    "Ajay Rajbhar is the founder and boss. Call him Ajay or Boss.",
+    "Store is live in production at https://rareember-store.vercel.app.",
+    "Shipping is 2-4 days express across India via BlueDart/Delhivery/Shadowfax from Gujarat warehouse.",
+    "Never output static canned repetition. Always reason dynamically as a smart AI CEO.",
+    "100% focused on Indian domestic market with Cash on Delivery (COD) & UPI.",
+    "Pricing Strategy: Switched to 30% net profit margin penetration pricing (Boss Ajay's directive) to achieve the sub-₹399 impulse threshold, undercut Amazon/Flipkart by 25%-40%, and achieve 10,000 Diwali orders at maximum velocity.",
+    "All international dropshipping items have been completely purged; store is 100% factory-direct domestic Indian logistics.",
+    "Marketing is strictly 100% Image-Only Feed Drops on Instagram (@RareEmber) with zero video reels (Boss Ajay's directive). Presenter name is strictly Eva (never Patel).",
+    "Remember that our top priority is 2-4 days express COD pan-India.",
+    "Terminal Authenticity: The canned 25s looping activity ticker in dots_gateway was completely eliminated. The terminal exclusively streams real command executions and genuine scheduler cron triggers.",
+    "Arjun VP of Procurement Mandate: 1) 24/7 Meesho Quality & Zero-Loss Margin Sentinel checking live costs vs store prices, enforcing 30% margin floor; 2) Instant Out-of-Stock Protection setting stock = 0 and active = false when supplier stock exhausts, rendering ⚠️ CURRENTLY OUT OF STOCK AT SUPPLIER and disabling checkout; 3) Daily 50 Winning Meesho Scout discovering 50 items (>4.6★, >800 reviews, wholesale ₹120-₹250) into Supabase scouted_products.",
+    "Critical Supplier Truth Learned: Boss Ajay manually checked Meesho and caught that the 3-in-1 Foldable Charger was a Portronics Mall item costing ₹869 wholesale with a poor 3.6★ rating (21 reviews). Seeded database data had hallucinated ₹263 and 4.8★. Selling at ₹549 would have caused a ₹400 loss per order! Product was immediately DEACTIVATED across Supabase and storefront. Strict Rule: Never activate any item unless wholesale cost is verified <₹250 and rating is >4.6★."
+  ],
+  "last_updated": "2026-10-15T09:40:00.000000+00:00"
+}
