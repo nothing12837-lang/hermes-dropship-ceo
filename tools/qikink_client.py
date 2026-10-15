@@ -33,8 +33,8 @@ ENV = load_env()
 class QikinkClient:
     def __init__(self, client_id: Optional[str] = None, client_secret: Optional[str] = None, sandbox: Optional[bool] = None):
         self.client_id = client_id or ENV.get("QIKINK_CLIENT_ID", "964148691892386")
-        self.client_secret = client_secret or ENV.get("QIKINK_CLIENT_SECRET", "fe0d6ac80daf56ce8e0f5e969dc4c55d2fb6fd80ac20a4228419fe1e7612e2a8")
-        is_sandbox_str = ENV.get("QIKINK_SANDBOX", "true").lower()
+        self.client_secret = client_secret or ENV.get("QIKINK_CLIENT_SECRET", "c3793ffa3f2208fb63666c85750f5ee959bbd33f58d4daa0d07d6c57b780f468")
+        is_sandbox_str = ENV.get("QIKINK_SANDBOX", "false").lower()
         self.sandbox = sandbox if sandbox is not None else (is_sandbox_str in ["true", "1", "yes"])
         self.base_url = "https://sandbox.qikink.com" if self.sandbox else "https://api.qikink.com"
         self._token: Optional[str] = None
