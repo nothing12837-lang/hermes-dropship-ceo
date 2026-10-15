@@ -5,8 +5,8 @@
     "prompt": "Check RareEmber store health and Supabase database connection status",
     "interval_seconds": 1800,
     "enabled": true,
-    "last_run": 1792038695.4675083,
-    "next_run": 1792040495.4675083,
+    "last_run": 1792040498.5605507,
+    "next_run": 1792042298.5605507,
     "created_at": 1792019674.9867513
   },
   {
@@ -15,8 +15,8 @@
     "prompt": "Verify @rereemberbot heartbeat and queue status",
     "interval_seconds": 900,
     "enabled": true,
-    "last_run": 1792038720.514688,
-    "next_run": 1792039620.514688,
+    "last_run": 1792040523.624394,
+    "next_run": 1792041423.624394,
     "created_at": 1792019674.9867513
   },
   {
@@ -35,8 +35,8 @@
     "prompt": "run: python arjun_sentinel.py",
     "interval_seconds": 1800,
     "enabled": true,
-    "last_run": 1792038725.5177073,
-    "next_run": 1792040525.5177073,
+    "last_run": 1792040528.6270998,
+    "next_run": 1792042328.6270998,
     "created_at": 1792035120.0
   }
 ]
