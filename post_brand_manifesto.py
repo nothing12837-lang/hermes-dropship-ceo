@@ -206,8 +206,10 @@ def post_to_instagram(image_path, caption):
         cl.load_settings(SESSION_FILE)
     else:
         print("Logging in with username & password from environment...")
-        ig_user = os.environ.get("IG_USERNAME", "RareEmber").strip()
+        ig_user = os.environ.get("IG_USERNAME", "").strip()
         ig_pass = os.environ.get("IG_PASSWORD", "").strip()
+        if not ig_user or not ig_pass:
+            raise ValueError("IG_USERNAME and IG_PASSWORD must be configured in environment.")
         cl.login(ig_user, ig_pass)
         cl.dump_settings(SESSION_FILE)
         
