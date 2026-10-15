@@ -305,7 +305,7 @@ export async function POST(req: NextRequest) {
     const finalOrderId = orderId;
 
     // Automated Alert to Store Owner on Telegram
-    notifyTelegramOrder({
+    await notifyTelegramOrder({
       id: finalOrderId,
       total: finalTotal,
       paymentMethod: body.payment_method || 'cod',
@@ -318,9 +318,17 @@ export async function POST(req: NextRequest) {
     }).catch((e) => console.error('Telegram background alert error:', e));
 
     // Automated Order Dispatch to Qikink (Tirupur hub)
-    fulfillQikinkOrder(sb, finalOrderId, newOrder).catch((e) => console.error('Qikink auto-fulfillment background error:', e));
+    const fulfillment: any = await fulfillQikinkOrder(sb, finalOrderId, newOrder).catch((e) => {
+      console.error('Qikink auto-fulfillment background error:', e);
+      return { ok: false, reason: String(e) };
+    });
 
-    return NextResponse.json({ ok: true, order_id: finalOrderId });
+    return NextResponse.json({
+      ok: true,
+      order_id: finalOrderId,
+      qikink_order_id: fulfillment?.qikinkOrderId || null,
+      courier: fulfillment?.courier || null,
+    });
   } catch (err) {
     console.error('POST /api/orders error:', err);
     return NextResponse.json({ error: 'Internal order error' }, { status: 500 });
