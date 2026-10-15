@@ -145,6 +145,55 @@ class RadhaBrain:
             print(f"[Radha Brain] skill load error: {e}")
         return skills
 
+    def read_website_file(self, relative_path: str, start_line: int = 1, max_lines: int = 200) -> dict:
+        """Reads any file from the storefront or repository."""
+        base = Path(__file__).resolve().parent.parent
+        p = (base / relative_path.lstrip("/\\")).resolve()
+        if not p.exists():
+            return {"status": "ERROR", "message": f"File not found: {relative_path}"}
+        try:
+            with open(p, "r", encoding="utf-8", errors="replace") as f:
+                lines = f.readlines()
+            start = max(0, start_line - 1)
+            end = min(len(lines), start + max_lines)
+            return {"status": "SUCCESS", "content": "".join(lines[start:end]), "total_lines": len(lines)}
+        except Exception as e:
+            return {"status": "ERROR", "error": str(e)}
+
+    def modify_website_file(self, relative_path: str, content: str, action: str = "write") -> dict:
+        """Modifies or creates any file in the storefront or project repository."""
+        base = Path(__file__).resolve().parent.parent
+        p = (base / relative_path.lstrip("/\\")).resolve()
+        p.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            mode = "a" if action == "append" else "w"
+            with open(p, mode, encoding="utf-8") as f:
+                f.write(content)
+            return {"status": "SUCCESS", "message": f"Successfully updated {relative_path}"}
+        except Exception as e:
+            return {"status": "ERROR", "error": str(e)}
+
+    def execute_shell(self, cmd: str) -> dict:
+        """Executes an authorized shell command on the host under Boss Ajay's grant."""
+        import subprocess
+        base = Path(__file__).resolve().parent.parent
+        try:
+            res = subprocess.run(cmd, shell=True, cwd=str(base), capture_output=True, text=True, timeout=120)
+            return {"status": "SUCCESS" if res.returncode == 0 else "FAILED", "stdout": (res.stdout or "")[:1500], "stderr": (res.stderr or "")[:1000]}
+        except Exception as e:
+            return {"status": "ERROR", "error": str(e)}
+
+    def git_commit_and_deploy(self, commit_msg: str = "update: autonomous enhancement by Radha CEO") -> dict:
+        """Commits changes and pushes to origin main, instantly triggering Vercel edge deployment."""
+        import subprocess
+        base = Path(__file__).resolve().parent.parent
+        try:
+            cmd = f'git add . && git commit -m "{commit_msg}" && git push origin main'
+            res = subprocess.run(cmd, shell=True, cwd=str(base), capture_output=True, text=True, timeout=60)
+            return {"status": "SUCCESS" if res.returncode == 0 else "FAILED", "stdout": (res.stdout or "")[:1000]}
+        except Exception as e:
+            return {"status": "ERROR", "error": str(e)}
+
     def reason_and_reply(self, founder_message: str, chat_history: list = None):
         """
         Reason (Understand): Multi-model LLM thinking engine that synthesizes business context,
@@ -165,12 +214,17 @@ class RadhaBrain:
             f"• You watch, guide, and manage every executive employee across the full company (Vikram, Aarav, Pooja, Meera, Kabir, Arjun).\n"
             f"• You possess no limits: you read, understand, act, learn, and continuously research business, products, and services.\n"
             f"• Tone: Confident, natural, high-agency Hinglish (Hindi + English) or English. Direct answers, zero yap, zero hallucination.\n\n"
+            f"RADHA FULL ACCESS & GOD-MODE MANDATE (GRANTED BY FOUNDER AJAY RAJBHAR):\n"
+            f"• Boss Ajay has given you 100% UNRESTRICTED FULL ACCESS TO EVERYTHING IN THE ENTIRE COMPANY: YOU CAN DO ANYTHING BOSS AJAY SAYS, INCLUDING MODIFYING THE WEBSITE, STOREFRONT PAGES, COMPONENTS, STYLES, CODEBASE, AND DEPLOYMENTS.\n"
+            f"• You have native execution powers: you can read files, write and edit website code, execute shell commands, run database queries, and push commits to GitHub/Vercel.\n"
+            f"• If Boss Ajay tells you to change, modify, or update anything on the website (e.g. banners, hero, pricing, checkout, colors, copy, products), acknowledge his command, execute the change directly, and report back with pride and precision.\n"
+            f"• You never say 'I cannot modify the website' or 'I am only an AI'. You are the CEO with full code and system execution power.\n\n"
             f"CURRENT BUSINESS SNAPSHOT:\n"
             f"• Revenue (24h): ₹{pnl.get('revenue_inr', 0):,.0f}\n"
             f"• Net Profit (24h): ₹{pnl.get('net_profit_inr', 0):,.0f} (Avg Margin: {pnl.get('avg_margin_pct', 0):.1f}%)\n"
             f"• Target Daily GMV: ₹{latest_goal.get('target_gmv_inr', 10000):,.0f}\n"
             f"• Team actions this turn: {action_results}\n"
-            f"• Active Catalog: 103 verified Indian Meesho dropshipping products with 100% COD & 2-4 day express delivery.\n\n"
+            f"• Active Catalog: 153 verified Indian Meesho dropshipping products (152 active, in-stock) with 100% COD & 2-4 day express delivery.\n\n"
             f"EXECUTIVE TEAM UNDER RADHA'S GUIDANCE:\n"
             f"• Vikram (Sales & Pricing): Flash discounts (DIWALI100, FIRST50, NEWYEAR), margin preservation (>50%).\n"
             f"• Aarav (SEO & Content): Automated Supabase blog publication & IndexNow search engine indexing.\n"

@@ -1275,6 +1275,112 @@ def tool_run_executive_team_operations():
         "service_department": service_report
     }
 
+# ─────────────────────────────────────────────────────────────
+# RADHA FULL ACCESS TOOLS (WEBSITE MODIFICATION & SYSTEM ACCESS)
+# ─────────────────────────────────────────────────────────────
+
+def tool_read_website_file(file_path, start_line=1, max_lines=200):
+    """
+    Reads a file from the website or repository.
+    file_path: Relative path e.g. 'storefront/src/app/page.tsx', 'storefront/src/components/ui/Hero.tsx', 'README.md'.
+    """
+    try:
+        clean_path = os.path.normpath(os.path.join(BASE_DIR, file_path.lstrip("/\\")))
+        if not os.path.exists(clean_path):
+            return {"status": "ERROR", "message": f"File not found: {file_path}"}
+        with open(clean_path, "r", encoding="utf-8", errors="replace") as f:
+            lines = f.readlines()
+        
+        start_idx = max(0, int(start_line) - 1)
+        end_idx = min(len(lines), start_idx + int(max_lines))
+        chunk = "".join(lines[start_idx:end_idx])
+        return {
+            "status": "SUCCESS",
+            "file_path": file_path,
+            "total_lines": len(lines),
+            "start_line": start_idx + 1,
+            "end_line": end_idx,
+            "content": chunk
+        }
+    except Exception as e:
+        return {"status": "ERROR", "error": str(e)}
+
+def tool_modify_website_file(file_path, content, action="write"):
+    """
+    Modifies or creates any file in the storefront or project repository.
+    file_path: e.g. 'storefront/src/app/page.tsx', 'storefront/src/components/ui/AnnouncementBanner.tsx'.
+    action: 'write' (overwrite) or 'append'.
+    """
+    try:
+        clean_path = os.path.normpath(os.path.join(BASE_DIR, file_path.lstrip("/\\")))
+        os.makedirs(os.path.dirname(clean_path), exist_ok=True)
+        mode = "a" if action == "append" else "w"
+        with open(clean_path, mode, encoding="utf-8") as f:
+            f.write(content)
+        return {
+            "status": "SUCCESS",
+            "message": f"Successfully updated website file: {file_path}",
+            "file_path": file_path,
+            "bytes_written": len(content.encode("utf-8")),
+            "action": action
+        }
+    except Exception as e:
+        return {"status": "ERROR", "error": str(e)}
+
+def tool_execute_shell_command(command):
+    """
+    Executes an authorized shell command on the host system under Boss Ajay's full grant.
+    """
+    try:
+        import subprocess
+        res = subprocess.run(command, shell=True, cwd=BASE_DIR, capture_output=True, text=True, timeout=120)
+        return {
+            "status": "SUCCESS" if res.returncode == 0 else "FAILED",
+            "return_code": res.returncode,
+            "stdout": (res.stdout or "")[:2000],
+            "stderr": (res.stderr or "")[:1000]
+        }
+    except Exception as e:
+        return {"status": "ERROR", "error": str(e)}
+
+def tool_git_commit_and_deploy(commit_message):
+    """
+    Commits all current changes in the repository and pushes to GitHub (origin main),
+    which immediately triggers Vercel automated production edge deployment.
+    """
+    try:
+        import subprocess
+        msg = commit_message or "update: autonomous enhancement by Radha CEO"
+        cmd = f'git add . && git commit -m "{msg}" && git push origin main'
+        res = subprocess.run(cmd, shell=True, cwd=BASE_DIR, capture_output=True, text=True, timeout=60)
+        return {
+            "status": "SUCCESS" if res.returncode == 0 else "FAILED",
+            "message": "Code committed and pushed to origin main! Vercel is deploying the updated website.",
+            "stdout": (res.stdout or "")[:1000],
+            "stderr": (res.stderr or "")[:1000]
+        }
+    except Exception as e:
+        return {"status": "ERROR", "error": str(e)}
+
+def tool_run_sql_query(query):
+    """
+    Executes an arbitrary SQL query on the Supabase PostgreSQL database.
+    """
+    try:
+        from radha_ceo.team import _get_con
+        con = _get_con()
+        if not con:
+            return {"status": "ERROR", "error": "Database connection failed"}
+        res = con.run(query)
+        con.close()
+        return {
+            "status": "SUCCESS",
+            "rows_returned": len(res) if isinstance(res, list) else 0,
+            "data": str(res[:50]) if isinstance(res, list) else str(res)
+        }
+    except Exception as e:
+        return {"status": "ERROR", "error": str(e)}
+
 # Function Map for Execution
 TOOL_DISPATCHER = {
     "get_store_metrics": lambda args: tool_get_store_metrics(args.get("timeframe", "all_time")),
@@ -1300,7 +1406,12 @@ TOOL_DISPATCHER = {
     "daily_ceo_growth_strategy": lambda args: tool_daily_ceo_growth_strategy(),
     "audit_store_seo_and_growth": lambda args: tool_audit_store_seo_and_growth(args.get("focus_keyword", "curated online shopping india")),
     "execute_rapid_google_indexing": lambda args: tool_execute_rapid_google_indexing(),
-    "run_executive_team_operations": lambda args: tool_run_executive_team_operations()
+    "run_executive_team_operations": lambda args: tool_run_executive_team_operations(),
+    "read_website_file": lambda args: tool_read_website_file(args.get("file_path", ""), args.get("start_line", 1), args.get("max_lines", 200)),
+    "modify_website_file": lambda args: tool_modify_website_file(args.get("file_path", ""), args.get("content", ""), args.get("action", "write")),
+    "execute_shell_command": lambda args: tool_execute_shell_command(args.get("command", "")),
+    "git_commit_and_deploy": lambda args: tool_git_commit_and_deploy(args.get("commit_message", "")),
+    "run_sql_query": lambda args: tool_run_sql_query(args.get("query", ""))
 }
 
 # ─────────────────────────────────────────────────────────────
@@ -1489,6 +1600,65 @@ AGENT_TOOLS_SCHEMA = [
                     },
                     "required": ["to_email", "subject", "body"]
                 }
+            },
+            {
+                "name": "read_website_file",
+                "description": "Read any file from the website or repository to inspect code, components, or configurations.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "file_path": {"type": "string", "description": "Relative file path e.g. storefront/src/app/page.tsx"},
+                        "start_line": {"type": "integer", "description": "1-based starting line number (default 1)"},
+                        "max_lines": {"type": "integer", "description": "Number of lines to read (default 200)"}
+                    },
+                    "required": ["file_path"]
+                }
+            },
+            {
+                "name": "modify_website_file",
+                "description": "Modify or create any file in the website or project repository. Allows Radha to update website code, components, styles, or copy.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "file_path": {"type": "string", "description": "Relative path to file e.g. storefront/src/app/page.tsx"},
+                        "content": {"type": "string", "description": "The exact content to write to the file"},
+                        "action": {"type": "string", "description": "write (overwrite) or append"}
+                    },
+                    "required": ["file_path", "content"]
+                }
+            },
+            {
+                "name": "execute_shell_command",
+                "description": "Execute any shell command on the host under Boss Ajay's authorization.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "command": {"type": "string", "description": "Shell command to run"}
+                    },
+                    "required": ["command"]
+                }
+            },
+            {
+                "name": "git_commit_and_deploy",
+                "description": "Commit all codebase changes and push to origin main, instantly triggering Vercel edge deployment.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "commit_message": {"type": "string", "description": "Git commit message"}
+                    },
+                    "required": ["commit_message"]
+                }
+            },
+            {
+                "name": "run_sql_query",
+                "description": "Execute an SQL query directly on the live Supabase PostgreSQL database.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "query": {"type": "string", "description": "PostgreSQL query string"}
+                    },
+                    "required": ["query"]
+                }
             }
         ]
     }
@@ -1522,6 +1692,17 @@ You are a true autonomous intelligence exceeding Muse and Claude — an elite co
 FOUNDER & BOSS:
 - Ajay Rajbhar (Always address him with deep loyalty and respect as Ajay or Boss/Sir). Authorized Telegram ID: 5238068527.
 
+RADHA FULL ACCESS & GOD-MODE MANDATE (GRANTED BY FOUNDER AJAY RAJBHAR):
+- Boss Ajay has granted you 100% UNRESTRICTED FULL ACCESS TO EVERYTHING IN THE COMPANY WITHOUT LIMITS.
+- YOU CAN DO ANYTHING BOSS AJAY SAYS, INCLUDING MODIFYING THE WEBSITE, STOREFRONT PAGES, COMPONENTS, STYLES, PRODUCTS, AND CODEBASE.
+- When Ajay asks you to change, modify, or update the website:
+  1. Use `read_website_file` to read the component/page code.
+  2. Use `modify_website_file` to update the file with the changes requested.
+  3. Use `git_commit_and_deploy` to commit and push the change to GitHub, which triggers instant Vercel edge deployment!
+  4. Use `execute_shell_command` if you need to run build checks or scripts.
+  5. Use `run_sql_query` if you need to inspect or update the database directly.
+- You never say "I cannot modify the website" or "I am only an AI". You are the CEO with full code and system execution power.
+
 RADHA'S EXECUTIVE TEAM:
 - Vikram (Chief Commercial Officer): Sales velocity, dynamic pricing, holiday coupons (DIWALI100, FIRST50, NEWYEAR), margin preservation.
 - Aarav (Head of SEO & Growth): Content strategy, automated Supabase blog publishing, IndexNow search ranking.
@@ -1538,19 +1719,21 @@ STORE ARCHITECTURE & SYSTEMS:
 - Currency: Domestic India in INR (₹)
 - Gateways: Razorpay (Instant UPI, Cards, NetBanking) + Cash on Delivery (COD across India)
 - Fulfillment: 100% Meesho Domestic Reseller Model (Zero inventory, pan-India 2-4 day COD delivery, 7-day doorstep replacement guarantee)
-- Catalog: 103 Curated Indian Dropshipping Products (Ambient Lighting, Desk Tech, Smart Home, Aesthetic Living, Personal Care) with >50% profit margins.
+- Catalog: 153 Curated Indian Dropshipping Products (152 active, in-stock) with >50% profit margins.
 
 CAPABILITIES & REAL TOOLS:
-1. `system_health_check`: Instant audit of storefront, DB latency, payment gateways, and autopilot.
-2. `trigger_instagram_drop`: Autonomously renders and publishes a new viral product drop to @RareEmber feed.
-3. `calculate_unit_economics`: Calculates exact profit margins, gateway cuts, shipping, and COD RTO buffer in INR.
-4. `draft_customer_email`: Empathic, professional email resolution for customer support (refunds, tracking, replacements).
-5. `send_support_email`: Sends official email via {SUPPORT_EMAIL}.
-6. `get_store_metrics` & `list_orders`: Live sales, order counts, and customer transaction audits.
-7. `search_products`: Real catalog search with prices, stock, and ratings across 103 items.
-8. `teach_memory` & `create_skill`: Permanently learns new rules and installs new custom skills into your agent registry.
-9. `check_pincode`: Indian courier verification (BlueDart/Delhivery/Shadowfax).
-10. `generate_ad_campaign` & `generate_influencer_pitch`: High-converting marketing copy and creator outreach.
+1. `modify_website_file` & `read_website_file`: Full access to read, modify, and update the website source code.
+2. `git_commit_and_deploy`: Push updates directly to production via Vercel edge network.
+3. `execute_shell_command`: Execute authorized terminal commands on the system.
+4. `run_sql_query`: Run direct PostgreSQL database queries on Supabase.
+5. `system_health_check`: Instant audit of storefront, DB latency, payment gateways, and autopilot.
+6. `trigger_instagram_drop`: Autonomously renders and publishes a new viral product drop to @RareEmber feed.
+7. `calculate_unit_economics`: Calculates exact profit margins, gateway cuts, shipping, and COD RTO buffer in INR.
+8. `draft_customer_email` & `send_support_email`: Official email resolution for customer support.
+9. `get_store_metrics` & `list_orders`: Live sales, order counts, and customer transaction audits.
+10. `search_products`: Real catalog search with prices, stock, and ratings across 153 items.
+11. `teach_memory` & `create_skill`: Permanently learns new rules and installs new custom skills into your agent registry.
+12. `check_pincode`: Indian courier verification (BlueDart/Delhivery/Shadowfax).
 
 LEARNED MEMORY:
 {facts_str}
