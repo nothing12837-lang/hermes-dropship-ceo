@@ -86,40 +86,12 @@ export const DISALLOWED_KEYWORDS = [
   'cozy-nest',
   'aesthetic-scratch',
   'smart-fetch',
-  'disinfectant',
-  'medicine',
-  'medicinal',
-  'pharma',
-  'pharmaceutical',
-  'drug',
-  'drugs',
-  'ortho',
-  'orthopedic',
-  'anxiety',
-  'anti-anxiety',
-  'pet',
-  'pets',
-  'dog',
-  'dogs',
-  'cat',
-  'cats',
-  'puppy',
-  'veterinary',
-  'vet approved',
-  'vet note',
-  'joint therapy',
-  'pain relief',
-  'aromatherapy',
-  'essential oil',
-  'healing',
-  'antibacterial',
-  'sanitizer',
 ];
 
-export function isDisallowedProduct(p: { id?: string; slug?: string; category?: string; title?: string; short?: string; description?: string }): boolean {
+export function isDisallowedProduct(p: { id?: string; slug?: string }): boolean {
   if (!p) return true;
-  const combined = `${p.id || ''} ${p.slug || ''} ${p.category || ''} ${p.title || ''} ${p.short || ''} ${p.description || ''}`.toLowerCase();
-  return DISALLOWED_KEYWORDS.some((kw) => combined.includes(kw));
+  const targetId = `${p.id || ''} ${p.slug || ''}`.toLowerCase();
+  return DISALLOWED_KEYWORDS.some((kw) => targetId.includes(kw));
 }
 
 // Server-side product fetch: Supabase first, local fallback (never breaks the store).
@@ -221,10 +193,12 @@ export async function getProductFromDB(id: string): Promise<Product | null> {
     if (!cleanId) return null;
 
     const sb = createClient<Database>(url, key);
+    const meeshoPrefixed = cleanId.startsWith('meesho-') ? cleanId : `meesho-${cleanId}`;
+    const unprefixed = cleanId.replace(/^meesho-/, '');
     const { data, error } = await sb
       .from('products')
       .select('*')
-      .or(`id.eq.${cleanId},slug.eq.${cleanId}`)
+      .or(`id.eq.${cleanId},slug.eq.${cleanId},id.eq.${meeshoPrefixed},slug.eq.${meeshoPrefixed},id.eq.${unprefixed},slug.eq.${unprefixed}`)
       .eq('active', true)
       .maybeSingle();
     if (error || !data) {

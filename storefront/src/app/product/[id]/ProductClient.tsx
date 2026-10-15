@@ -51,9 +51,9 @@ export function ProductClient({ product }: Props) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [galleryImages.length]);
 
-  const fallbackSrc: string = galleryImages[0] || product.image_url || '';
-  const currentSrc: string = (!failedImages[selectedImgIndex] ? (galleryImages[selectedImgIndex] || fallbackSrc) : fallbackSrc) || '';
-  const showImage = Boolean(currentSrc);
+  const validImage = galleryImages.find((_, idx) => !failedImages[idx]) || product.image_url || '';
+  const currentSrc: string = !failedImages[selectedImgIndex] ? (galleryImages[selectedImgIndex] || validImage) : validImage;
+  const showImage = Boolean(currentSrc && !failedImages[selectedImgIndex] || validImage);
   const wished = has(product.id);
 
   const relatedIds = bundles[product.id] ?? [];

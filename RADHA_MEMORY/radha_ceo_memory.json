@@ -2,19 +2,19 @@
   "procedural": {
     "current_guidance": {
       "content": {
-        "directive": "Continuously improve business metrics, customer trust, and unit economics",
-        "issued_at": "2026-10-14T13:35:21.461053+00:00",
+        "directive": "Scale RareEmber as an authentic high-margin D2C Streetwear & Creator Lifestyle Brand powered 100% by Qikink Print-on-Demand & Dropshipping",
+        "issued_at": "2026-10-15T07:55:00+00:00",
         "departmental_goals": {
-          "Vikram": "Execute 30% net profit penetration pricing engine to unlock sub-\u20b9399 impulse conversion rate and beat Amazon/Flipkart.",
-          "Aarav": "Publish high-converting lifestyle guides to Supabase blog_posts targeting long-tail Indian keywords.",
-          "Pooja": "Maintain <10% RTO rate via pre-dispatch 1-click WhatsApp verification.",
-          "Meera": "Create high-converting 1080x1350 4:5 feed image drops highlighting 65%-73% discounts and DIWALI100 code (Zero reels).",
-          "Kabir": "Enforce strict 30% net profit margin floor, ensuring total landed costs remain \u226470% of retail price with positive cash flow.",
-          "Arjun": "24/7 Live Meesho Sentinel: continuously audit live supplier wholesale costs, enforce Zero-Loss shield (Store Price > Landed Cost), verify image/media asset reachability, and auto-deactivate out-of-stock/unreachable items."
+          "Vikram": "Curate and optimize RareEmber's flagship 10-piece Qikink collection (Heavyweight Oversized Tees @ ₹899, 380 GSM Hoodies @ ₹1,699, Ceramic Mugs @ ₹499) with 60%-70% gross margins.",
+          "Aarav": "Publish high-converting Indian streetwear style guides and desk setup inspiration to Supabase blog_posts targeting high-intent long-tail keywords.",
+          "Pooja": "Maintain <10% COD RTO rate via pre-dispatch 1-click WhatsApp verification, and manage Qikink's 100-day RTO warehouse cushion for zero inventory loss.",
+          "Meera": "Create high-converting 1080x1350 4:5 aesthetic streetwear feed drops featuring Eva modeling the drops with authentic lifestyle cues.",
+          "Kabir": "Enforce strict 55% net profit margin floor, ensuring average net profit of ₹500-₹1,000 per order with guaranteed positive unit economics.",
+          "Arjun": "24/7 Qikink API Dispatch Sentinel: manage automated order creation (Prepaid/COD) via Qikink Open API, monitor dispatch within 48-72h, and push real-time BlueDart/Delhivery tracking to customers."
         }
       },
       "confidence": 1.0,
-      "updated_at": "2026-10-14T13:35:24.404302+00:00"
+      "updated_at": "2026-10-15T07:55:00+00:00"
     }
   },
   "episodic": {
@@ -22,7 +22,7 @@
       "content": {
         "input": "Hello Radha, store ka target kitna pahucha?",
         "actions": [],
-        "reply_preview": "Namaste Boss! \n\nAaj ka 24-hour revenue abhi **\u20b9499** par hai, jisme net profit **\u20b9190** (margin 38.1%) hai. Hamara daily GMV target **\u20b910,000** hai, yaani abhi hum target se kaafi peeche hain. \n\nLekin chinta mat karo, team poori tarah action mode mei",
+        "reply_preview": "Namaste Boss! \n\nAaj ka 24-hour revenue abhi **₹499** par hai, jisme net profit **₹190** (margin 38.1%) hai. Hamara daily GMV target **₹10,000** hai, yaani abhi hum target se kaafi peeche hain. \n\nLekin chinta mat karo, team poori tarah action mode mei",
         "at": "2026-10-14T13:28:17.177688+00:00"
       },
       "confidence": 1.0,
@@ -35,7 +35,7 @@
           "vikram_pricing",
           "active_coupons"
         ],
-        "reply_preview": "Namaste Boss Ajay,\n\nAaj ka 24-hour sales report seedha aur clear hai:\n\n* **Total Revenue (GMV):** \u20b9499 (Target: \u20b910,000 \u2014 humein abhi aur zor lagana hai).\n* **Net Profit:** \u20b9190 (Healthy average margin: **38.1%**).\n* **Team Update:** Vikram ne catalo",
+        "reply_preview": "Namaste Boss Ajay,\n\nAaj ka 24-hour sales report seedha aur clear hai:\n\n* **Total Revenue (GMV):** ₹499 (Target: ₹10,000 — humein abhi aur zor lagana hai).\n* **Net Profit:** ₹190 (Healthy average margin: **38.1%**).\n* **Team Update:** Vikram ne catalo",
         "at": "2026-10-14T13:36:13.417376+00:00"
       },
       "confidence": 1.0,
@@ -58,7 +58,7 @@
         "summary": "Continuous deep research cycle completed.",
         "insights": [
           "High festive demand for ambient decorative lighting with water/sound sensors.",
-          "Maintaining \u20b9449-\u20b9599 price point yields optimal impulse purchases with >55% gross margin.",
+          "Maintaining ₹449-₹599 price point yields optimal impulse purchases with >55% gross margin.",
           "Pre-dispatch WhatsApp confirmation mitigates COD RTO rate below 10%."
         ],
         "cycle": 1,
@@ -72,7 +72,7 @@
         "summary": "Continuous deep research cycle completed.",
         "insights": [
           "High festive demand for ambient decorative lighting with water/sound sensors.",
-          "Maintaining \u20b9449-\u20b9599 price point yields optimal impulse purchases with >55% gross margin.",
+          "Maintaining ₹449-₹599 price point yields optimal impulse purchases with >55% gross margin.",
           "Pre-dispatch WhatsApp confirmation mitigates COD RTO rate below 10%."
         ],
         "cycle": 1,
@@ -86,7 +86,7 @@
         "summary": "Continuous deep research cycle completed.",
         "insights": [
           "High festive demand for ambient decorative lighting with water/sound sensors.",
-          "Maintaining \u20b9449-\u20b9599 price point yields optimal impulse purchases with >55% gross margin.",
+          "Maintaining ₹449-₹599 price point yields optimal impulse purchases with >55% gross margin.",
           "Pre-dispatch WhatsApp confirmation mitigates COD RTO rate below 10%."
         ],
         "cycle": 1,

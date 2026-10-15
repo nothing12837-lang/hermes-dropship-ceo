@@ -15,8 +15,8 @@ const TABS = [{ id: 'all', label: 'All', hint: 'Everything', emoji: '🛍️' },
 const DB_CATEGORIES = new Set(['electronics', 'fashion', 'home-garden', 'home-living', 'general', 'decor', 'tech']);
 
 function isDisallowedRow(p: ProductRow): boolean {
-  const text = `${p.id || ''} ${p.slug || ''} ${p.category || ''} ${p.title || ''} ${(p as any).description || ''} ${(p as any).short || ''}`.toLowerCase();
-  return /calmcloud|ember-glow|warm-paw|lickmat|pawtrack|cozy-nest|aesthetic-scratch|smart-fetch|disinfectant|medicine|medicinal|pharma|ortho|anxiety|pet|dog|cat|veterinary|therapy|healing|antibacterial|sanitizer/i.test(text);
+  const targetId = `${p.id || ''} ${p.slug || ''}`.toLowerCase();
+  return /calmcloud|ember-glow|warm-paw|lickmat|pawtrack|cozy-nest|aesthetic-scratch|smart-fetch/i.test(targetId);
 }
 
 export function matchesCategory(cat: string, p: ProductRow): boolean {
