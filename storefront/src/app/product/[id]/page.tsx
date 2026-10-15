@@ -7,6 +7,8 @@ interface Props {
   params: Promise<{ id: string }>;
 }
 
+export const revalidate = 120; // 2 min edge cache (ISR) for instant PDP loading
+
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://www.rareember.shop';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

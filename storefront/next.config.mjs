@@ -32,6 +32,8 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+  compress: true,
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'qikink-stores.s3.ap-south-1.amazonaws.com' },
@@ -41,7 +43,9 @@ const nextConfig = {
       { protocol: 'https', hostname: 'videos.pexels.com' },
     ],
     formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 60,
+    minimumCacheTTL: 86400, // 24 hours edge cache for responsive images
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   experimental: {
     optimizePackageImports: ['framer-motion', '@react-three/fiber', '@react-three/drei'],

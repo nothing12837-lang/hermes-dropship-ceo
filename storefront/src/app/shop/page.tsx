@@ -48,7 +48,10 @@ function ShopInner() {
 
   useEffect(() => {
     let cancelled = false;
-    let q = supabase.from('products').select('*').eq('active', true);
+    let q = supabase
+      .from('products')
+      .select('id, title, slug, price, price_inr, compare_at_price, category, image_url, images, rating, reviews, stock, active, is_new, short, gradient')
+      .eq('active', true);
     if (cat === 'home-garden') {
       q = q.in('category', ['home-garden', 'home-living', 'decor']);
     } else if (cat === 'electronics') {
@@ -277,6 +280,7 @@ function ShopInner() {
                   )}
                   inStock={p.active !== false && (p.stock == null || Number(p.stock) > 0)}
                   stock={p.stock != null ? Number(p.stock) : undefined}
+                  priority={i < 3}
                 />
               </motion.div>
             ))}

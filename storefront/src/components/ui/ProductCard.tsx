@@ -34,6 +34,7 @@ interface ProductCardProps {
   rank?: number;
   inStock?: boolean;
   stock?: number;
+  priority?: boolean;
 }
 
 export default function ProductCard({
@@ -54,6 +55,7 @@ export default function ProductCard({
   rank,
   inStock = true,
   stock,
+  priority = false,
 }: ProductCardProps) {
   const router = useRouter();
   const { add } = useCart();
@@ -90,8 +92,10 @@ export default function ProductCard({
     router.push('/checkout');
   };
 
+  const isLcpCandidate = priority || (typeof rank === 'number' && rank <= 2);
+
   return (
-    <div className="group flex flex-col h-full rounded-[1.75rem] bg-white border border-black/[0.06] shadow-[0_2px_12px_rgba(48,26,12,0.05)] hover:shadow-[0_22px_48px_rgba(48,26,12,0.14)] hover:-translate-y-2 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden relative ring-ember-animated">
+    <div className="group flex flex-col h-full rounded-[1.75rem] bg-white border border-black/[0.06] shadow-[0_2px_12px_rgba(48,26,12,0.05)] hover:shadow-[0_22px_48px_rgba(48,26,12,0.14)] hover:-translate-y-2 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden relative ring-ember-animated deferred-card gpu-smooth">
       <Link href={productHref} className="no-underline flex flex-col flex-1">
         <div
           className="relative aspect-square m-2.5 mb-0 rounded-2xl overflow-hidden shine-hover"
@@ -102,6 +106,8 @@ export default function ProductCard({
               src={resolvedSrc as string}
               alt={title}
               fill
+              priority={isLcpCandidate}
+              loading={isLcpCandidate ? undefined : 'lazy'}
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               style={{ objectFit: 'cover' }}
               className="group-hover:scale-110 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"

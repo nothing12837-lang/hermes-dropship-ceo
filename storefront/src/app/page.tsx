@@ -5,8 +5,7 @@ import { formatPrice, computeDiscount, type Product } from '@/lib/data/products'
 import { getNewProducts, getTrendingProducts, getProductsFromDB } from '@/lib/products-server';
 import { getFlag } from '@/lib/flags';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const revalidate = 60; // 60s ISR: Edge cached in Mumbai/Delhi CDN for ~15ms instant delivery
 
 export const metadata = {
   title: 'Rare Ember — Curated Streetwear, Drinkware & Creator Lifestyle',
@@ -201,15 +200,15 @@ export default async function Home() {
           {/* Product Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {trending.slice(0, 8).map((p, i) => (
-              <ScrollReveal key={p.id} delay={i * 60}>
-                <ProductCard {...toCard(p, i + 1)} />
+              <ScrollReveal key={p.id} delay={i * 50}>
+                <ProductCard {...toCard(p, i + 1)} priority={i < 2} />
               </ScrollReveal>
             ))}
           </div>
         </section>
 
-        {/* SECTION 2: NEW ARRIVALS & IN-HUB DROPS */}
-        <section className="rounded-[2rem] bg-gradient-to-b from-white via-white to-[#FF9A3D]/[0.05] border border-black/[0.06] p-6 md:p-8 shadow-[0_10px_40px_rgba(48,26,12,0.06)] relative overflow-hidden">
+        {/* SECTION 2: NEW ARRIVALS & IN-HUB DROPS (Deferred for instant LCP) */}
+        <section className="deferred-section rounded-[2rem] bg-gradient-to-b from-white via-white to-[#FF9A3D]/[0.05] border border-black/[0.06] p-6 md:p-8 shadow-[0_10px_40px_rgba(48,26,12,0.06)] relative overflow-hidden">
           <span aria-hidden className="aurora-blob" style={{ width: 300, height: 300, top: -120, right: -100, background: 'rgba(247,183,51,0.14)' }} />
           <div className="relative z-10">
             <div className="flex items-end justify-between gap-4 mb-6">
@@ -241,7 +240,7 @@ export default async function Home() {
         </section>
 
         {/* SECTION 3: ORGANIZED DEPARTMENT SHORTCUTS */}
-        <section>
+        <section className="deferred-section">
           <div className="mb-5">
             <h3 className="hero-rise text-lg md:text-xl font-black tracking-tight text-[#1C1310]">
               Browse By Department
@@ -253,7 +252,7 @@ export default async function Home() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
             {DEPARTMENTS.map((d, i) => (
-              <ScrollReveal key={d.href} delay={i * 70}>
+              <ScrollReveal key={d.href} delay={i * 50}>
                 <Link
                   href={d.href}
                   className="group p-5 rounded-2xl bg-white border border-black/[0.06] hover:border-transparent hover:-translate-y-1.5 hover:shadow-lg transition-all duration-500 text-[#161311] no-underline flex items-center gap-3.5 relative overflow-hidden ring-ember-animated"
@@ -275,7 +274,7 @@ export default async function Home() {
         </section>
 
         {/* SECTION 4: ASSURANCE BAR */}
-        <section className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-6 border-t border-black/[0.06] text-xs">
+        <section className="deferred-section grid grid-cols-2 md:grid-cols-4 gap-3 pt-6 border-t border-black/[0.06] text-xs">
           {ASSURANCES.map((a, i) => (
             <ScrollReveal key={a.title} delay={i * 70}>
               <div className="group h-full p-4 rounded-2xl bg-white border border-black/[0.05] flex items-center gap-3 hover:border-ember/30 hover:shadow-md transition-all duration-400">

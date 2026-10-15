@@ -5,10 +5,9 @@ import { CartProvider } from "@/lib/store/cart";
 import { WishlistProvider } from "@/lib/store/wishlist";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
-import CartDrawer from "@/components/ui/CartDrawer";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { GeoProvider } from "@/context/GeoContext";
-import Chatbot from "@/components/ui/Chatbot";
+import ClientOverlays from "@/components/ui/ClientOverlays";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -96,6 +95,8 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://qdkkxpfhwrwyoardlceo.supabase.co" />
         <link rel="dns-prefetch" href="https://qdkkxpfhwrwyoardlceo.supabase.co" />
+        <link rel="preconnect" href="https://qikink-stores.s3.ap-south-1.amazonaws.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://qikink-stores.s3.ap-south-1.amazonaws.com" />
       </head>
       <body className="font-sans antialiased bg-[#FFF9F1] text-neutral-900">
         <ErrorBoundary>
@@ -105,8 +106,7 @@ export default function RootLayout({
                 <Navbar />
                 {children}
                 <Footer />
-                <CartDrawer />
-                <Chatbot />
+                <ClientOverlays />
               </WishlistProvider>
             </CartProvider>
           </GeoProvider>
