@@ -753,12 +753,37 @@ def post_to_instagram(media_path, caption, product=None):
             stage = "auth"
         return {"ok": False, "stage": stage, "reason": msg[:300]}
 
-def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="post"):
+def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="post", product_id=None):
     print("=" * 60)
     print(f"🚀 RAREEMBER INSTAGRAM AUTOPILOT CYCLE | {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 60)
     
-    product = pick_next_product()
+    product = None
+    if product_id:
+        catalog = fetch_live_catalog()
+        p_query = product_id.lower()
+        for p in catalog:
+            if p_query in p["id"].lower() or p_query in p["title"].lower():
+                product = p
+                break
+        if product:
+            # Verify image reachability
+            img_url = product.get("image_url")
+            if img_url:
+                try:
+                    img_headers = {
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+                        "Accept": "image/*"
+                    }
+                    r = requests.get(img_url, headers=img_headers, timeout=5)
+                    if r.status_code == 200 and len(r.content) > 1000:
+                        product["_verified_img_bytes"] = r.content
+                except Exception:
+                    pass
+
+    if not product:
+        product = pick_next_product()
+        
     print(f"📦 Selected Product: {product['title']} (ID: {product['id']})")
     
     # 1. Resolve campaign angle
@@ -824,6 +849,7 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="Generate post and send preview to Telegram without uploading to IG")
     parser.add_argument("--campaign-type", choices=["auto", "catalog", "problem_solver", "festive_deal", "trust_builder"], default="auto", help="Campaign angle for post")
     parser.add_argument("--format", choices=["auto", "post"], default="post", help="Content format (100% feed image post)")
+    parser.add_argument("--product-id", type=str, default=None, help="Target specific product ID or title keyword")
     parser.add_argument("--daemon", action="store_true", help="Run continuously in background, auto-posting at set intervals")
     parser.add_argument("--interval-hours", type=float, default=12.0, help="Posting interval in hours for daemon mode (default: 12)")
     args = parser.parse_args()
@@ -832,14 +858,14 @@ def main():
         print(f"🔄 Daemon Mode Started: Posting every {args.interval_hours} hours...")
         while True:
             try:
-                run_autopilot_cycle(dry_run=args.dry_run, campaign_type=args.campaign_type, format_type=args.format)
+                run_autopilot_cycle(dry_run=args.dry_run, campaign_type=args.campaign_type, format_type=args.format, product_id=args.product_id)
             except Exception as e:
                 print(f"Cycle execution error: {e}")
             sleep_secs = int(args.interval_hours * 3600)
             print(f"⏳ Sleeping for {args.interval_hours} hours until next post...")
             time.sleep(sleep_secs)
     else:
-        run_autopilot_cycle(dry_run=args.dry_run, campaign_type=args.campaign_type, format_type=args.format)
+        run_autopilot_cycle(dry_run=args.dry_run, campaign_type=args.campaign_type, format_type=args.format, product_id=args.product_id)
 
 if __name__ == "__main__":
     main()

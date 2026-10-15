@@ -284,7 +284,8 @@ export const products: Product[] = [
       "Top Tech",
       "Pan-India COD"
     ],
-    "active": true
+    "stock": 0,
+    "active": false
   },
   {
     "id": "meesho-4-layer-rotating-jewelry-storage-box-mirror",

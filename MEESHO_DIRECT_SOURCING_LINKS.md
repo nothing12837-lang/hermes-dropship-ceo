@@ -12,7 +12,7 @@
 | 1 | **10-in-1 Multi-Tool Electronic Cleaning Kit for Earbuds, Phone & Keyboard** | ₹349 | ~₹167 | [Open Meesho Listing](https://www.meesho.com/s/p/a2nuc4) | `609133396` | `a2nuc4` / `s-609133396` |
 | 2 | **360° Rotating Acrylic Cosmetic & Makeup Carousel Organizer** | ₹599 | ~₹287 | [Open Meesho Listing](https://www.meesho.com/s/p/3ybnf9) | `239049045` | `3ybnf9` / `s-239049045` |
 | 3 | **360° Rotating Turntable Spice Rack Organizer for Kitchen & Fridge** | ₹499 | ~₹239 | [Open Meesho Listing](https://www.meesho.com/s/p/b9pryf) | `681447111` | `b9pryf` / `s-681447111` |
-| 4 | **3-in-1 Foldable Magnetic Fast Wireless Charging Pad** | ₹549 | ~₹263 | [Open Meesho Listing](https://www.meesho.com/s/p/a62v2o) | `614873040` | `a62v2o` / `s-614873040` |
+| 4 | ~~**3-in-1 Foldable Magnetic Fast Wireless Charging Pad**~~ | ⚠️ DEACTIVATED | ₹869 (Loss-Making) | [Open Meesho Listing](https://www.meesho.com/s/p/a62v2o) | `614873040` | `a62v2o` (Supplier ₹869 / 3.6★ Poor Quality — Removed) |
 | 5 | **360° Rotating 4-Layer Jewelry Storage Tower with Vanity Mirror Lid** | ₹399 | ~₹191 | [Open Meesho Listing](https://www.meesho.com/s/p/ctey2b) | `775000307` | `ctey2b` / `s-775000307` |
 | 6 | **4-in-1 Handheld Electric Vegetable Cutter & Meat Grinder Set** | ₹599 | ~₹287 | [Open Meesho Listing](https://www.meesho.com/s/p/8q6sbl) | `527716065` | `8q6sbl` / `s-527716065` |
 | 7 | **8-in-1 Aluminum USB-C Hub Adapter with 4K HDMI, SD Reader & 100W PD** | ₹899 | ~₹431 | [Open Meesho Listing](https://www.meesho.com/s/p/gsmlqx) | `1015542681` | `gsmlqx` / `s-1015542681` |
