@@ -1,13 +1,15 @@
 import json
 
-with open('tools/qikink_scraped_catalog.json', 'r', encoding='utf-8') as f:
+with open('tools/qikink_full_147_catalog.json', 'r', encoding='utf-8') as f:
     catalog = json.load(f)
+
+print(f"Loaded {len(catalog)} products from full 147 catalog.")
 
 # 1. Generate fallback-images.ts
 fallback_lines = [
     "/**",
     " * Curated image fallbacks for catalog items when image_url is missing.",
-    " * 100% Genuine Qikink Print-on-Demand Collection.",
+    " * 100% Genuine Qikink Print-on-Demand Collection (147 Products).",
     " */",
     "",
     "export const FALLBACK_IMAGES: Record<string, string> = {"
@@ -30,12 +32,13 @@ print("Updated storefront/src/lib/data/fallback-images.ts!")
 # 2. Generate product-gallery.ts
 gallery_lines = [
     "// ─── Rare Ember Multi-Angle Product Photo Galleries ───",
-    "// Authentic Qikink S3 mockups and variations.",
+    "// Authentic Qikink S3 mockups and variations for all 147 products.",
     "",
     "export const CURATED_PRODUCT_GALLERIES: Record<string, string[]> = {"
 ]
 for p in catalog:
-    imgs_json = json.dumps(p["images"] if p["images"] else [p["image_url"]], indent=4)
+    imgs = p["images"] if p.get("images") and len(p["images"]) > 0 else [p["image_url"]]
+    imgs_json = json.dumps(imgs, indent=4)
     indented = "\n".join("  " + line for line in imgs_json.split("\n"))
     gallery_lines.append(f'  "{p["id"]}": {indented.strip()},')
 gallery_lines.append("};")
@@ -78,6 +81,10 @@ with open('storefront/src/lib/data/product-gallery.ts', 'w', encoding='utf-8') a
 print("Updated storefront/src/lib/data/product-gallery.ts!")
 
 # 3. Generate products.ts
+cat_counts = {}
+for p in catalog:
+    cat_counts[p['category']] = cat_counts.get(p['category'], 0) + 1
+
 products_ts_lines = [
     "export type ProductCategory = 'general' | 'electronics' | 'fashion' | 'home-garden' | 'home-living' | 'pets' | 'beds' | 'toys' | 'tech' | 'decor' | 'lifestyle';",
     "export type PetType = 'dog' | 'cat' | 'both';",
@@ -167,10 +174,10 @@ products_ts_lines = [
     "}",
     "",
     "export const SHOP_CATEGORIES = [",
-    "  { id: 'fashion', label: 'Curated Streetwear', count: 14, hint: 'Style', emoji: '👕' },",
-    "  { id: 'home-garden', label: 'Drinkware & Living', count: 3, hint: 'Drinkware', emoji: '☕' },",
-    "  { id: 'electronics', label: 'Desk & Creator Gear', count: 3, hint: 'Workstation', emoji: '⚡' },",
-    "  { id: 'general', label: 'Lifestyle Drops', count: 5, hint: 'Accessories', emoji: '🔥' },",
+    f"  {{ id: 'fashion', label: 'Curated Streetwear', count: {cat_counts.get('fashion', 86)}, hint: 'Style', emoji: '👕' }},",
+    f"  {{ id: 'home-garden', label: 'Drinkware & Living', count: {cat_counts.get('home-garden', 30)}, hint: 'Drinkware', emoji: '☕' }},",
+    f"  {{ id: 'electronics', label: 'Desk & Creator Gear', count: {cat_counts.get('electronics', 5)}, hint: 'Workstation', emoji: '⚡' }},",
+    f"  {{ id: 'general', label: 'Lifestyle Drops', count: {cat_counts.get('general', 26)}, hint: 'Accessories', emoji: '🔥' }},",
     "];",
     "",
     "export const products: Product[] = ["
@@ -228,4 +235,4 @@ products_ts_lines.append("")
 
 with open('storefront/src/lib/data/products.ts', 'w', encoding='utf-8') as f:
     f.write("\n".join(products_ts_lines))
-print("Updated storefront/src/lib/data/products.ts with authentic Qikink catalog!")
+print(f"Updated storefront/src/lib/data/products.ts with all {len(catalog)} authentic Qikink products!")
