@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCart } from '@/lib/store/cart';
 import { useWishlist } from '@/lib/store/wishlist';
@@ -31,7 +31,12 @@ const drawerLinks = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const router = useRouter();
+
+  if (pathname?.startsWith('/dots')) {
+    return null;
+  }
   const { market, setMarket } = useGeo();
   const { count, openCart } = useCart();
   const { count: wishCount } = useWishlist();

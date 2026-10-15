@@ -340,10 +340,12 @@ export default function DotsDashboardPage() {
     fetchVidsProjects();
     fetchBrowserStatus();
     fetchMemory();
+    fetchTerminalLogs();
 
     const pollInterval = setInterval(() => {
       fetchHealth();
-    }, 5000);
+      fetchTerminalLogs();
+    }, 4000);
 
     return () => {
       if (reconnectTimeout) clearTimeout(reconnectTimeout);
@@ -544,6 +546,23 @@ export default function DotsDashboardPage() {
       if (res.ok) {
         const data = await res.json();
         setMemoryState(data);
+      }
+    } catch {}
+  };
+
+  const fetchTerminalLogs = async () => {
+    try {
+      const res = await fetch('/api/dots/api/v1/terminal/logs');
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          setLogs((prev) => {
+            const existingTexts = new Set(prev.map((l) => l.text));
+            const newLogs = data.filter((l: any) => !existingTexts.has(l.text));
+            if (newLogs.length === 0) return prev;
+            return [...prev, ...newLogs];
+          });
+        }
       }
     } catch {}
   };

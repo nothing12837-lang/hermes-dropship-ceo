@@ -19,10 +19,13 @@ from dots_gateway.virtual_browser import virtual_browser
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: Launch 24/7 background cron scheduler
+    # Startup: Launch 24/7 background cron scheduler & executive activity pulse
     await scheduler.start()
+    dot_engine._activity_task = asyncio.create_task(dot_engine.start_autonomous_activity_feed())
     yield
-    # Shutdown: Stop scheduler and virtual browser
+    # Shutdown: Stop scheduler, pulse, and virtual browser
+    if dot_engine._activity_task:
+        dot_engine._activity_task.cancel()
     await scheduler.stop()
     await virtual_browser.close()
 
@@ -136,6 +139,10 @@ async def set_backend(req: BackendSwitchRequest):
         f"\n⚙️ [HERMES TERMINAL] Switched execution backend to: {new_backend.upper()}\n"
     )
     return {"status": "updated", "backend": new_backend}
+
+@app.get("/api/v1/terminal/logs")
+async def get_terminal_logs(limit: int = 100):
+    return dot_engine.execution_logs[-limit:]
 
 # ----------------- WebSocket for Realtime Terminal & Approvals -----------------
 @app.websocket("/ws/terminal/{session_id}")

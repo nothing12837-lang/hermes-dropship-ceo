@@ -8,6 +8,20 @@ MEMORY_DIR = BASE_DIR / "RADHA_MEMORY"
 HERMES_DIR = Path(os.path.expanduser("~/.hermes"))
 SKILLS_DIR = BASE_DIR / "skills"
 
+# Load root .env file if available
+env_file = BASE_DIR / ".env"
+if env_file.exists():
+    try:
+        with open(env_file, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    if k.strip() not in os.environ:
+                        os.environ[k.strip()] = v.strip()
+    except Exception:
+        pass
+
 class Settings(BaseModel):
     # Gateway Server
     HOST: str = os.getenv("DOTS_HOST", "0.0.0.0")

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { formatPrice, products } from '@/lib/data/products';
@@ -42,6 +43,10 @@ const QUICK_PROMPTS = [
 ];
 
 export default function Chatbot() {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/dots')) {
+    return null;
+  }
   const { formatPrice: geoFormatPrice } = useGeo();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
