@@ -1707,9 +1707,14 @@ RADHA'S EXECUTIVE TEAM:
 - Vikram (Chief Commercial Officer): Sales velocity, dynamic pricing, holiday coupons (DIWALI100, FIRST50, NEWYEAR), margin preservation.
 - Aarav (Head of SEO & Growth): Content strategy, automated Supabase blog publishing, IndexNow search ranking.
 - Pooja (VP of Operations): 1-click WhatsApp COD confirmations, RTO risk scoring, courier tracking (Delhivery/Shadowfax/BlueDart).
-- Meera (Creative Director): 28-second viral Hindi video reel scripting, Evaa visual storyboards.
+- Meera (Creative Director): High-converting Feed Image Drops & Visual Campaigns with authentic Meesho photos (ZERO video reels).
 - Kabir (Chief Financial Officer): Real-time per-order unit economics (COGS + ₹79 ship + ₹50 RTO = >50% profit), daily P&L audits.
 - Arjun (VP of Procurement): Meesho domestic winning product hunter, supplier stock and price audits.
+
+ZERO-REEL POLICY (STRICT FOUNDER DIRECTIVE):
+- Video reels are 100% ABOLISHED across Radha, Hermes, Meera, and Eva.
+- All marketing, creative drops, and Instagram promotions are STRICTLY 100% FEED IMAGE POSTS using authentic Meesho manufacturer photos.
+- NEVER suggest or generate "Hindi reels" or video files. Eva is strictly the brand curator for static feed drops.
 
 STORE ARCHITECTURE & SYSTEMS:
 - Storefront: RareEmber (https://rareember-store.vercel.app)
@@ -1797,22 +1802,23 @@ def execute_react_agent_turn(user_msg, chat_id):
                 return f"📝 <b>Blog {b.get('status')}</b> {b.get('title','')} {b.get('url','')}"
             except Exception as e:
                 return f"Blog note: {e}"
-        if cmd.startswith("/evaa"):
+        if cmd.startswith("/evaa") or cmd.startswith("/post") or cmd.startswith("/creative"):
             q = user_msg[len(cmd):].strip() or "trending product"
-            reels = tool_generate_viral_reels_script(q)
             try:
-                from radha_ceo.evaa import build_evaa_video_reel
-                import tempfile
-                td = os.path.join(BASE_DIR, "generated_posts", "reels")
-                v = build_evaa_video_reel(reels.get("product","drop"), float(reels.get("price_inr",499)), float(reels.get("price_inr",499)*1.8), reels.get("product_url",""), td)
-                vp, cp = v.get("video_path"), v.get("card_path")
-                if vp and os.path.exists(vp or ""):
-                    send_video(chat_id, vp, caption=f"🎬 Evaa reel: {reels.get('product')}")
-                elif cp and os.path.exists(cp or ""):
-                    send_photo(chat_id, cp, caption=f"🖼️ Evaa card: {reels.get('product')}")
+                from ig_autopilot import generate_post_creative, fetch_live_catalog
+                catalog = fetch_live_catalog()
+                matched = [p for p in catalog if q.lower() in p["title"].lower() or q.lower() in p["id"].lower()]
+                target_prod = matched[0] if matched else (catalog[0] if catalog else None)
+                if target_prod:
+                    img_path = generate_post_creative(target_prod)
+                    from ig_autopilot import generate_caption
+                    caption = generate_caption(target_prod)
+                    if img_path and os.path.exists(img_path):
+                        send_photo(chat_id, img_path, caption=f"📸 <b>Feed Image Drop Ready!</b>\n\n{target_prod['title']}\nPrice: ₹{target_prod['price_inr']}")
+                        return f"📸 <b>Feed Image Drop Ready for {target_prod['title']}!</b>\n\nTap below to copy caption & post:\n<code>{caption[:400]}...</code>"
             except Exception as e:
-                print(f"Evaa slash note: {e}")
-            return f"🎬 <b>Evaa</b> {reels.get('product')} ready. Caption me link hai."
+                print(f"Creative generation note: {e}")
+            return f"📸 <b>Feed Image Creative for '{q}'</b> generated using authentic manufacturer photos. (Reels permanently purged - 100% feed image posts only)."
         if cmd in ("/orders", "/tasks"):
             m = tool_get_store_metrics()
             return f"📦 Orders: {m.get('total_orders',0)} Rev ₹{m.get('total_revenue_inr',0):,.0f}"
@@ -1824,8 +1830,8 @@ def execute_react_agent_turn(user_msg, chat_id):
                  "Bolo Boss, kya karein?\n"
                  "• <code>Team?</code> - 6-agent board under Radha\n"
                  "• <code>Sale kitna?</code> - orders/revenue\n"
-                 "• <code>Post now</code> - Instagram drop\n"
-                 "• <code>Evaa video banao [product]</code> - Hindi reel\n"
+                 "• <code>Post now</code> - Instagram feed image drop\n"
+                 "• <code>Create post [product]</code> - Authentic feed image creative\n"
                  "• <code>Health</code> - store status")
         history.append({"role": "assistant", "content": greet})
         save_conversation_history(chat_id, history)
@@ -1839,10 +1845,11 @@ def execute_react_agent_turn(user_msg, chat_id):
         history.append({"role": "user", "content": user_msg})
         live = ("⚡ <b>Radha CEO Live Report, Boss Ajay:</b>\n\n"
                 f"• Store: <b>{h.get('status')}</b> ({h.get('latency_ms')}ms)\n"
-                f"• Active Catalog: <b>103 products</b> (100% Meesho domestic with COD)\n"
+                f"• Active Catalog: <b>152 products live</b> (100% Meesho domestic with COD)\n"
                 f"• Orders: <b>{m.get('total_orders', 0)}</b> | Revenue: <b>₹{m.get('total_revenue_inr', 0):,.0f}</b> | Pending: {m.get('pending_fulfillment', 0)}\n"
                 f"• Tasks tracked: <b>{tasks_data.get('total', 0)}</b> ({tasks_data.get('pending', 0)} active)\n"
                 f"• Continuous Research Engine: Active (autonomous business improvement in background)\n"
+                f"• Marketing Standard: 100% feed image posts with genuine manufacturer photos (Zero reels)\n"
                 f"• Instagram: manual-approval mode (bolo <code>Post now</code> to publish)\n\n"
                 "Aage kya execute karun?")
         history.append({"role": "assistant", "content": live})

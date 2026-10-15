@@ -258,57 +258,57 @@ class PoojaOperations:
         return {"courier": "Delhivery", "url": f"https://www.delhivery.com/track/package/{tn}"}
 
 # ─────────────────────────────────────────────────────────────
-# 4. MEERA — CREATIVE MEDIA DIRECTOR (VIDEO & VIRAL HOOKS)
+# 4. MEERA — CREATIVE DIRECTOR (100% FEED IMAGE DROPS & VISUAL CAMPAIGNS)
 # ─────────────────────────────────────────────────────────────
 class MeeraCreative:
     """
-    Crafts 28-second viral Reels and Shorts scripts tailored for Indian e-commerce audiences.
-    DIRECTIVE: All content creators (Meera, Evaa, autonomous video & social agents) must
-    ALWAYS use authentic Meesho manufacturer product photos as the primary visual reference.
+    Directs high-converting Instagram feed image posts, aesthetic typography, and product photography cards.
+    STRICT ZERO-REEL MANDATE: Video reels are 100% abolished. All creatives are strictly 100% feed image posts
+    using authentic Meesho manufacturer product photos.
     """
 
     @staticmethod
-    def generate_evaa_script(product_title: str, price_inr: float, mrp_inr: float, key_benefit: str, image_url: str = None, gallery_images: list = None):
-        """Generates structured 28-second Hook/Problem/Demo/CTA Hindi script with authentic image reference."""
+    def generate_feed_image_creative(product_title: str, price_inr: float, mrp_inr: float, key_benefit: str, image_url: str = None, gallery_images: list = None):
+        """Generates structured feed post creative brief, overlay badges, and high-converting copy using authentic manufacturer photos."""
         discount_pct = round((1 - price_inr / mrp_inr) * 100) if mrp_inr > price_inr else 50
         ref_image = image_url or (gallery_images[0] if gallery_images else "")
         return {
-            "hook_duration": "0:00 - 0:06",
-            "hook_speech": f"Agar aap bhi apne room ya desk ko luxury hotel vibe dena chahte ho, toh yeh video bilkul miss mat karna!",
-            "problem_speech": f"Boring lights aur plain tables se room dull lagta hai, aur market me aesthetic pieces ₹1500 se kam nahi milte.",
-            "demo_speech": f"Lekin RareEmber par yeh {product_title} mil raha hai direct domestic factory rate par! {key_benefit}.",
-            "cta_speech": f"MRP ₹{mrp_inr:,.0f} ka item sirf ₹{price_inr:,.0f} me mil raha hai! Flat {discount_pct}% OFF aur Cash on Delivery available hai. Bio me link hai, abhi order karo!",
-            "audio_vibe": "Upbeat Lofi Aesthetic / Warm Festive Golden Glow",
-            "screen_text": [
-                "✨ Aesthetic Room Transformation",
-                f"🔥 ₹{price_inr:,.0f} (Flat {discount_pct}% OFF)",
-                "💵 Cash on Delivery Available Across India"
+            "format": "Instagram Feed Image Post (1080x1350 vertical portrait)",
+            "headline": f"✨ RareEmber Verified Drop • {product_title}",
+            "pricing": {
+                "mrp_inr": mrp_inr,
+                "price_inr": price_inr,
+                "discount_pct": discount_pct,
+                "badge": f"SAVE {discount_pct}% • FACTORY DIRECT"
+            },
+            "overlay_badges": [
+                "✨ 100% Domestic Verified Quality",
+                "🚚 Pan-India Express Air Courier (2-4 Days)",
+                "💵 Cash on Delivery (COD) Available",
+                "🛡️ 7-Day Easy Replacement Guarantee"
             ],
             "visual_reference": {
                 "primary_image_url": ref_image,
                 "gallery_urls": gallery_images or ([ref_image] if ref_image else []),
-                "creator_directive": (
-                    "MANDATORY CREATIVE DIRECTIVE: All video editors, motion designers, and AI creators "
-                    "MUST use this exact authentic Meesho product photo as the visual reference. "
-                    "Ensure exact color, shape, and physical design match the real item."
-                ),
-                "ai_image_prompt": f"Professional commercial product photography of {product_title}, styled identically to reference image ({ref_image}), soft studio lighting, ultra-realistic 8k, modern Indian aesthetic interior setting, 9:16 vertical ratio."
-            }
+                "directive": "MANDATORY: Strictly use this authentic Meesho product photo as the primary image asset. ZERO video reels, ZERO generic stock photos."
+            },
+            "caption_hook": f"Tired of overpriced showroom markups? Meet the {product_title} — curated by Eva for RareEmber at direct factory rates.",
+            "cta_text": "Tap Link in Bio (@rareember) to Order with 1-Click COD | rareember-store.vercel.app"
         }
 
     @staticmethod
-    def research_viral_video_trends():
+    def research_visual_feed_trends():
         return {
-            "top_audio": "Trending Indian Ambient Lofi Chillhop",
-            "winning_hook_formats": [
-                "Stop scrolling if you hate dull rooms...",
-                "This 499 rupee Amazon alternative is pure magic...",
-                "The secret to a 10/10 cozy aesthetic room..."
+            "format": "100% Feed Image Drops (Zero Video Reels)",
+            "top_styles": [
+                "Warm Golden Aesthetic with clean product cutout",
+                "High-contrast price comparison strip (M.R.P. strikethrough vs Factory Direct)",
+                "Social proof badge (4.8★ with verified Indian buyer reviews)",
+                "7-Day Doorstep Replacement Guarantee trust marker"
             ],
-            "optimal_length": "24 to 28 seconds with dynamic caption text",
             "content_creator_golden_rule": (
-                "Every video, carousel, and reel creator must anchor all scenes to the authentic "
-                "Meesho manufacturer product photos — ZERO generic stock photos or hallucinations allowed."
+                "Strictly 100% feed image posts using authentic Meesho manufacturer product photos. "
+                "ZERO video reels, ZERO generic stock photos, ZERO hallucinations."
             )
         }
 

@@ -93,10 +93,10 @@ class RadhaBrain:
         except Exception as e:
             results["pooja_error"] = str(e)
 
-        # 4. Creative Direction & Reels (Meera)
+        # 4. Creative Direction & Feed Visuals (Meera)
         try:
-            if any(k in msg for k in ["reel", "video", "meera", "script", "instagram", "tiktok", "viral"]):
-                results["meera_trends"] = MeeraCreative.research_viral_video_trends()
+            if any(k in msg for k in ["creative", "post", "image", "meera", "instagram", "drop", "feed"]):
+                results["meera_trends"] = MeeraCreative.research_visual_feed_trends()
         except Exception as e:
             results["meera_error"] = str(e)
 
@@ -229,7 +229,7 @@ class RadhaBrain:
             f"• Vikram (Sales & Pricing): Flash discounts (DIWALI100, FIRST50, NEWYEAR), margin preservation (>50%).\n"
             f"• Aarav (SEO & Content): Automated Supabase blog publication & IndexNow search engine indexing.\n"
             f"• Pooja (Customer Care & Logistics): 1-click WhatsApp COD confirmations, RTO risk scoring, live courier tracking.\n"
-            f"• Meera (Creative Director): 28-second viral Hindi video reel scriptwriting for Evaa.\n"
+            f"• Meera (Creative Director): High-converting feed image creative direction using authentic Meesho photos (ZERO video reels).\n"
             f"• Kabir (Finance & Unit Economics): Strict per-order P&L (COGS + ₹79 ship + ₹50 RTO reserve = >50% profit).\n"
             f"• Arjun (Procurement & Scouting): Automated Meesho domestic winning product hunter.\n\n"
             f"DIRECTIVES:\n"
@@ -299,7 +299,7 @@ class RadhaBrain:
                 "Vikram": "Ensure all catalog items maintain >50% gross profit margin and active holiday coupons.",
                 "Aarav": "Publish high-converting lifestyle guides to Supabase blog_posts targeting long-tail Indian keywords.",
                 "Pooja": "Maintain <10% RTO rate via pre-dispatch 1-click WhatsApp verification.",
-                "Meera": "Iterate viral 28-second hooks focusing on problem-solution room transformations, strictly using exact authentic Meesho product photos as reference images.",
+                "Meera": "Curate aesthetic feed image drops with authentic manufacturer photos, verified quality badges, and direct checkout hooks. ZERO video reels.",
                 "Kabir": "Audit real-time unit economics and maintain positive net cash flow.",
                 "Arjun": "Continuously scout Meesho catalog for high-rated trending home and desk drops."
             }
