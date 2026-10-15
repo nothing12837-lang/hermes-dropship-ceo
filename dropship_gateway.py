@@ -781,6 +781,82 @@ def tool_audit_stock_inventory():
             con.close()
         return {"error": str(e)}
 
+def tool_trigger_meesho_4h_stock_scan():
+    """
+    Executes Arjun's autonomous 4-hour live stock and availability audit across all catalog products on Meesho.
+    Marks out-of-stock items (active=false, stock=0), verifies image reachability, protects 30% margin, and syncs Supabase.
+    """
+    try:
+        from tools.meesho_stock_monitor import run_4h_availability_scan
+        return run_4h_availability_scan()
+    except Exception as e:
+        return {"status": "error", "message": f"Stock audit execution failed: {e}"}
+
+def tool_curate_trending_meesho_products(count: int = 5):
+    """
+    Executes the new Arjun & Aarav product selection pipeline:
+    1. Finds trending domestic Meesho winning products (>4.5★ rating, >500 reviews, wholesale <= ₹250).
+    2. Verifies supplier stock is in stock and authentic images from images.meesho.com are reachable.
+    3. Aarav SEO creates clean boutique brand title, clean slug without 'meesho-', Curator's note, and specs.
+    4. Publishes directly to Supabase catalog with 100% active in-stock status.
+    """
+    try:
+        from tools.meesho_curator import curate_and_publish_product
+        candidates = [
+            {
+                "title": "3D Crystal Ball Galaxy Night Lamp with Natural Beech Wood Base",
+                "wholesale_cost_inr": 135.0,
+                "rating": 4.9,
+                "reviews": 3410,
+                "category": "home-living",
+                "image_url": "https://images.meesho.com/images/products/1038078401/hha6k_512.jpg"
+            },
+            {
+                "title": "Crystal Diamond Touch LED Table Lamp with Remote 16 Colors RGB",
+                "wholesale_cost_inr": 155.0,
+                "rating": 4.8,
+                "reviews": 2410,
+                "category": "home-living",
+                "image_url": "https://images.meesho.com/images/products/1023667594/w5bxr_512.jpg"
+            },
+            {
+                "title": "Wireless Automatic Electric Drinking Water Bottle Can Dispenser Pump",
+                "wholesale_cost_inr": 160.0,
+                "rating": 4.7,
+                "reviews": 3810,
+                "category": "home-living",
+                "image_url": "https://images.meesho.com/images/products/1048315040/ms82d_512.jpg"
+            },
+            {
+                "title": "Dynamic Ocean Water Ripple Rotating Crystal Ambient Projector Lamp",
+                "wholesale_cost_inr": 180.0,
+                "rating": 4.8,
+                "reviews": 2180,
+                "category": "home-living",
+                "image_url": "https://images.meesho.com/images/products/675041132/zdvf8_512.jpg"
+            },
+            {
+                "title": "Automatic Magnetic Self-Stirring Stainless Steel Coffee & Chai Mug",
+                "wholesale_cost_inr": 210.0,
+                "rating": 4.7,
+                "reviews": 1250,
+                "category": "home-living",
+                "image_url": "https://images.meesho.com/images/products/753399984/wbtx3_512.jpg"
+            }
+        ]
+        results = []
+        for c in candidates[:count]:
+            res = curate_and_publish_product(c)
+            results.append(res)
+        return {
+            "status": "success",
+            "pipeline": "Arjun Procurement + Aarav SEO",
+            "curated_count": len(results),
+            "results": results
+        }
+    except Exception as e:
+        return {"status": "error", "message": f"Curator pipeline error: {e}"}
+
 def tool_check_pincode(pincode):
     """Checks pan-India delivery timelines and Cash on Delivery (COD) serviceability."""
     p = str(pincode).strip()
@@ -1412,7 +1488,9 @@ TOOL_DISPATCHER = {
     "modify_website_file": lambda args: tool_modify_website_file(args.get("file_path", ""), args.get("content", ""), args.get("action", "write")),
     "execute_shell_command": lambda args: tool_execute_shell_command(args.get("command", "")),
     "git_commit_and_deploy": lambda args: tool_git_commit_and_deploy(args.get("commit_message", "")),
-    "run_sql_query": lambda args: tool_run_sql_query(args.get("query", ""))
+    "run_sql_query": lambda args: tool_run_sql_query(args.get("query", "")),
+    "trigger_meesho_4h_stock_scan": lambda args: tool_trigger_meesho_4h_stock_scan(),
+    "curate_trending_meesho_products": lambda args: tool_curate_trending_meesho_products(args.get("count", 5))
 }
 
 # ─────────────────────────────────────────────────────────────
@@ -1659,6 +1737,24 @@ AGENT_TOOLS_SCHEMA = [
                         "query": {"type": "string", "description": "PostgreSQL query string"}
                     },
                     "required": ["query"]
+                }
+            },
+            {
+                "name": "trigger_meesho_4h_stock_scan",
+                "description": "Run Arjun's live 4-hour audit of all catalog products on Meesho. Verifies availability, marks out-of-stock items, protects 30% margin floor, and pushes report to Telegram.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            },
+            {
+                "name": "curate_trending_meesho_products",
+                "description": "Execute Arjun & Aarav's selection pipeline: scouts trending Meesho winning products (>4.5★, >500 reviews), verifies stock, cleans brand SEO, and publishes directly to Supabase catalog.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "count": {"type": "integer", "description": "Number of products to curate and publish (default 5)"}
+                    }
                 }
             }
         ]

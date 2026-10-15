@@ -1,0 +1,51 @@
+name: Meesho 4-Hour Stock & Availability Sentinel
+
+on:
+  schedule:
+    # Run autonomously every 4 hours (00:00, 04:00, 08:00, 12:00, 16:00, 20:00 UTC)
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
+    inputs:
+      auto_remediate:
+        description: 'Auto-remediate out-of-stock and loss-making items'
+        required: true
+        default: 'true'
+        type: boolean
+
+concurrency:
+  group: meesho-stock-sentinel-singleton
+  cancel-in-progress: true
+
+jobs:
+  stock_audit:
+    name: Arjun Live Meesho Stock Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pg8000 supabase python-dotenv
+
+      - name: Run Arjun 4-Hour Stock & Availability Monitor
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST || 'db.qdkkxpfhwrwyoardlceo.supabase.co' }}
+          SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER || 'postgres' }}
+          SUPABASE_DB_PASS: ${{ secrets.SUPABASE_DB_PASS }}
+          SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME || 'postgres' }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '5238068527' }}
+        run: |
+          python tools/meesho_stock_monitor.py

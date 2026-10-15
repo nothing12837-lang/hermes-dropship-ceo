@@ -5,8 +5,8 @@
     "prompt": "Check RareEmber store health and Supabase database connection status",
     "interval_seconds": 1800,
     "enabled": true,
-    "last_run": 1792042301.0206826,
-    "next_run": 1792044101.0206826,
+    "last_run": 1792045906.5942836,
+    "next_run": 1792047706.5942836,
     "created_at": 1792019674.9867513
   },
   {
@@ -15,8 +15,8 @@
     "prompt": "Verify @rereemberbot heartbeat and queue status",
     "interval_seconds": 900,
     "enabled": true,
-    "last_run": 1792043227.2224271,
-    "next_run": 1792044127.2224271,
+    "last_run": 1792045931.6690328,
+    "next_run": 1792046831.6690328,
     "created_at": 1792019674.9867513
   },
   {
@@ -35,8 +35,18 @@
     "prompt": "run: python arjun_sentinel.py",
     "interval_seconds": 1800,
     "enabled": true,
-    "last_run": 1792042331.0356357,
-    "next_run": 1792044131.0356357,
+    "last_run": 1792045936.6625319,
+    "next_run": 1792047736.6625319,
     "created_at": 1792035120.0
+  },
+  {
+    "id": "cron_meesho_4h_stock_monitor",
+    "name": "Arjun 4-Hour Live Meesho Availability & Margin Audit",
+    "prompt": "run: python tools/meesho_stock_monitor.py",
+    "interval_seconds": 14400,
+    "enabled": true,
+    "last_run": 1792045936.0,
+    "next_run": 1792060336.0,
+    "created_at": 1792045936.0
   }
 ]
