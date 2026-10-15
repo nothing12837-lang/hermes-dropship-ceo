@@ -52,7 +52,7 @@ export default function Footer() {
                 />
               </span>
               <span className="font-display text-2xl font-black tracking-tight text-white">
-                Rare Ember<span className="text-gradient-ember-animated">.</span>
+                Rare Ember
               </span>
             </Link>
             <p className="text-white/60 text-sm leading-relaxed max-w-sm">
@@ -100,7 +100,7 @@ export default function Footer() {
               WebkitTextFillColor: 'transparent',
             }}
           >
-            rareember
+            Rare Ember
           </div>
         </div>
 

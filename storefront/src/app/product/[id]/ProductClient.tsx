@@ -545,6 +545,24 @@ export function ProductClient({ product }: Props) {
                   </li>
                 ))}
               </ul>
+
+              {/* Dynamic Estimated Delivery Banner */}
+              <div style={{ marginTop: '1rem', padding: '0.85rem 1rem', borderRadius: '0.85rem', background: 'rgba(255, 77, 36, 0.05)', border: '1px solid rgba(255, 77, 36, 0.16)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <span style={{ fontSize: '1.25rem' }}>⚡</span>
+                <div style={{ fontSize: '0.8rem', color: '#443731' }}>
+                  <strong style={{ color: '#161311' }}>Order within next 3 hours for priority dispatch tomorrow!</strong>
+                  <div style={{ color: '#78716c', marginTop: '0.15rem' }}>
+                    Estimated Doorstep Delivery: <strong>{new Date(Date.now() + 3*86400000).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })} – {new Date(Date.now() + 5*86400000).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}</strong> via BlueDart / Delhivery Air
+                  </div>
+                </div>
+              </div>
+
+              {/* Garment & DTF Print Care Guide */}
+              {isApparel && (
+                <div style={{ marginTop: '0.65rem', padding: '0.75rem 1rem', borderRadius: '0.75rem', background: '#fafafa', border: '1px solid rgba(0,0,0,0.06)', fontSize: '0.75rem', color: '#78716c', lineHeight: 1.5 }}>
+                  <strong style={{ color: '#161311' }}>🫧 Garment & Print Care:</strong> Machine wash cold inside-out • Do not iron directly on print (iron reverse) • Tumble dry low or line dry in shade • 100% pre-shrunk bio-washed cotton.
+                </div>
+              )}
             </div>
 
             {/* Sizing Selector for Apparel */}
@@ -905,9 +923,9 @@ export function ProductClient({ product }: Props) {
                 <div className="text-base mb-1">🛡️</div>
                 <div className="font-bold text-neutral-950 flex items-center justify-between">
                   <span>7-Day Replacement</span>
-                  <span className="text-[10px] text-amber-600 font-bold">Policy →</span>
+                  <span className="text-[10px] text-amber-600 font-bold">Claim Portal →</span>
                 </div>
-                <div className="text-[11px] text-neutral-500">Free replacement for defects</div>
+                <div className="text-[11px] text-neutral-500">100% free doorstep reprint for sizing or defects</div>
               </Link>
               <div className="p-3 rounded-2xl bg-white border border-black/[0.06] shadow-xs">
                 <div className="text-base mb-1">🔒</div>

@@ -1,0 +1,318 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+
+export function ReturnsClient() {
+  const searchParams = useSearchParams();
+  const [orderId, setOrderId] = useState('');
+  const [contact, setContact] = useState('');
+  const [reason, setReason] = useState('Size Mismatch (Need Different Size)');
+  const [preference, setPreference] = useState('Free Doorstep Replacement (Recommended)');
+  const [notes, setNotes] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [claimResult, setClaimResult] = useState<{ claimId: string; message: string } | null>(null);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const qOrder = searchParams.get('order_id') || searchParams.get('orderId');
+    const qEmail = searchParams.get('email');
+    if (qOrder) setOrderId(qOrder);
+    if (qEmail) setContact(qEmail);
+  }, [searchParams]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    const cleanOrderId = orderId.trim();
+    const cleanContact = contact.trim();
+
+    if (!cleanOrderId) {
+      return setError('Please enter your Order ID (from your confirmation receipt or SMS).');
+    }
+    if (!cleanContact || (!cleanContact.includes('@') && cleanContact.replace(/\D/g, '').length < 10)) {
+      return setError('Please enter a valid Email address or 10-digit mobile number.');
+    }
+
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/returns', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId: cleanOrderId,
+          contact: cleanContact,
+          reason,
+          preference,
+          notes,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        setError(data.error || 'Failed to submit claim. Please try again.');
+        setSubmitting(false);
+        return;
+      }
+
+      setClaimResult({
+        claimId: data.claimId || 'RE-CLM-7842',
+        message: data.message || 'Claim received! We will process your replacement within 24 hours.',
+      });
+    } catch {
+      setError('Network error while submitting. Please email care@rareember.shop directly.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6">
+      {/* Header */}
+      <div className="text-center max-w-2xl mx-auto pt-6 pb-10">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-black/[0.08] text-xs font-bold text-neutral-800 shadow-xs mb-4">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          Zero-Hassle 7-Day Guarantee
+        </div>
+        <h1 className="text-3xl sm:text-5xl font-black text-neutral-950 tracking-tight leading-tight">
+          7-Day Easy Replacement & Return Policy
+        </h1>
+        <p className="text-sm text-neutral-600 mt-3 leading-relaxed">
+          Wrong size? Defective print? Damaged in courier? We make it right immediately with <b>100% Free Doorstep Replacement</b> or full refund.
+        </p>
+      </div>
+
+      {/* 3-Step Process Cards */}
+      <div className="grid sm:grid-cols-3 gap-4 mb-12">
+        <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-6 border border-black/[0.06] shadow-xs">
+          <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-900 flex items-center justify-center text-xl font-black mb-4">
+            01
+          </div>
+          <h3 className="text-base font-bold text-neutral-950 mb-2">1-Minute Claim</h3>
+          <p className="text-xs text-neutral-600 leading-relaxed">
+            Fill out the simple form below with your Order ID and issue reason within 7 days of package delivery.
+          </p>
+        </div>
+
+        <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-6 border border-black/[0.06] shadow-xs">
+          <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-900 flex items-center justify-center text-xl font-black mb-4">
+            02
+          </div>
+          <h3 className="text-base font-bold text-neutral-950 mb-2">Zero-Return Hassle</h3>
+          <p className="text-xs text-neutral-600 leading-relaxed">
+            No expensive courier return bookings or packaging errands. A quick photo verification via WhatsApp is all we need.
+          </p>
+        </div>
+
+        <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-6 border border-black/[0.06] shadow-xs">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-900 flex items-center justify-center text-xl font-black mb-4">
+            03
+          </div>
+          <h3 className="text-base font-bold text-neutral-950 mb-2">Free Fast Replacement</h3>
+          <p className="text-xs text-neutral-600 leading-relaxed">
+            Our Tamil Nadu factory triggers an instant reprint and dispatches via BlueDart Express with 0 extra cost.
+          </p>
+        </div>
+      </div>
+
+      {/* Interactive Replacement Claim Form */}
+      <div className="bg-white rounded-3xl p-6 sm:p-10 border border-black/[0.08] shadow-[0_8px_30px_rgba(0,0,0,0.04)] mb-12">
+        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-black/[0.06]">
+          <div className="w-10 h-10 rounded-2xl bg-[#FF4D24]/10 text-[#FF4D24] flex items-center justify-center text-lg font-black">
+            ⚡
+          </div>
+          <div>
+            <h2 className="text-lg font-black text-neutral-950">
+              Submit Replacement / Return Request
+            </h2>
+            <p className="text-xs text-neutral-500">
+              Directly connected to our warehouse dispatch queue for 24-hour turnaround.
+            </p>
+          </div>
+        </div>
+
+        {claimResult ? (
+          <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-4">
+            <span className="text-4xl block">🎉</span>
+            <h3 className="text-xl font-black text-emerald-900">
+              Claim Registered Successfully!
+            </h3>
+            <p className="text-xs text-emerald-800 max-w-md mx-auto leading-relaxed">
+              Ticket ID: <strong className="font-mono text-sm px-2 py-1 bg-white rounded-lg border border-emerald-400">{claimResult.claimId}</strong>
+            </p>
+            <p className="text-xs text-emerald-700 max-w-md mx-auto leading-relaxed">
+              {claimResult.message} Our support team has received your ticket and will verify via WhatsApp or email to dispatch your replacement.
+            </p>
+            <div className="pt-2 flex flex-wrap gap-3 justify-center">
+              <Link
+                href="/track"
+                className="px-5 py-2.5 rounded-full bg-[#161311] text-white text-xs font-bold no-underline hover:bg-neutral-800 transition-all"
+              >
+                Track Your Orders 📍
+              </Link>
+              <button
+                type="button"
+                onClick={() => setClaimResult(null)}
+                className="px-5 py-2.5 rounded-full bg-white text-neutral-800 text-xs font-bold border border-black/10 cursor-pointer"
+              >
+                File Another Request
+              </button>
+            </div>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {error && (
+              <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold flex items-center gap-2">
+                <span>⚠️</span> {error}
+              </div>
+            )}
+
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
+                  Order ID *
+                </label>
+                <input
+                  type="text"
+                  value={orderId}
+                  onChange={(e) => setOrderId(e.target.value)}
+                  placeholder="e.g. 6c7e6415 or from confirmation receipt"
+                  className="w-full px-4 py-3 text-sm rounded-xl border border-black/15 bg-neutral-50/70 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all font-medium"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
+                  Registered Email or Phone *
+                </label>
+                <input
+                  type="text"
+                  value={contact}
+                  onChange={(e) => setContact(e.target.value)}
+                  placeholder="you@email.com or 10-digit mobile number"
+                  className="w-full px-4 py-3 text-sm rounded-xl border border-black/15 bg-neutral-50/70 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all font-medium"
+                />
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
+                  Reason for Request *
+                </label>
+                <select
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                  className="w-full px-4 py-3 text-sm rounded-xl border border-black/15 bg-neutral-50/70 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all font-medium cursor-pointer"
+                >
+                  <option value="Size Mismatch (Need Different Size)">📏 Size Mismatch (Need 1 Size Up/Down)</option>
+                  <option value="Print Defect or Misalignment">🎨 Print Defect or Misalignment</option>
+                  <option value="Damaged in Courier Transit">📦 Damaged / Torn in Courier Transit</option>
+                  <option value="Received Wrong Item or Color">🏷️ Received Wrong Item or Color</option>
+                  <option value="Quality Concern or Stitching Issue">✨ Quality Concern or Stitching Issue</option>
+                  <option value="Other Issue">❓ Other Inquiry</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
+                  Preferred Resolution *
+                </label>
+                <select
+                  value={preference}
+                  onChange={(e) => setPreference(e.target.value)}
+                  className="w-full px-4 py-3 text-sm rounded-xl border border-black/15 bg-neutral-50/70 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all font-medium cursor-pointer"
+                >
+                  <option value="Free Doorstep Replacement (Recommended)">⚡ Free Doorstep Replacement / Reprint (Recommended)</option>
+                  <option value="Store Credit + 10% Extra Bonus">🎁 Store Credit + 10% Extra Bonus Coupon</option>
+                  <option value="Full Refund to Bank / UPI">💳 Full 100% Refund (to Bank / UPI)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
+                Issue Description & Details (Optional)
+              </label>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                rows={3}
+                placeholder="Tell us what went wrong (e.g., 'Ordered Size L, need Size XL for an oversized streetwear look' or 'Print is slightly tilted')."
+                className="w-full px-4 py-3 text-sm rounded-xl border border-black/15 bg-neutral-50/70 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all font-medium"
+              />
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-900 leading-relaxed">
+              💡 <b>Fast Verification Tip:</b> You don&apos;t have to pack the product back. Once submitted, our concierge Radha or care executive will ping you on WhatsApp to request a quick photo of the tag/print, and immediately trigger the free reprint!
+            </div>
+
+            <button
+              type="submit"
+              disabled={submitting}
+              className="w-full py-4 rounded-full font-black text-xs uppercase tracking-wider text-white bg-gradient-to-r from-[#FF4D24] to-[#E63900] hover:opacity-95 active:scale-[0.99] transition-all cursor-pointer border-none shadow-[0_8px_20px_rgba(255,77,36,0.3)] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {submitting ? 'Submitting Claim…' : 'Submit 7-Day Replacement Claim ⚡'}
+            </button>
+          </form>
+        )}
+      </div>
+
+      {/* Detailed Policy Accordion / Card */}
+      <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-8 border border-black/[0.06] shadow-xs mb-10 space-y-8">
+        <div>
+          <h2 className="text-lg font-black text-neutral-950 mb-2">
+            Why 7-Day Replacement instead of Traditional Returns?
+          </h2>
+          <p className="text-xs text-neutral-600 leading-relaxed">
+            All Rare Ember garments and creator drops are custom-produced on premium heavyweight blanks at our domestic print factory. Traditional returns take 10–14 days and cost customers reverse courier charges. Instead, our <b>Zero-Friction Replacement Guarantee</b> sends you a brand-new, freshly printed piece directly to your doorstep for free whenever there is a size mismatch, defect, or transit damage.
+          </p>
+        </div>
+
+        <div className="border-t border-black/[0.05] pt-6">
+          <h2 className="text-lg font-black text-neutral-950 mb-2">
+            Refund Processing Timelines
+          </h2>
+          <ul className="text-xs text-neutral-600 space-y-2 list-disc pl-5 leading-relaxed">
+            <li><b>Prepaid Orders (UPI, Cards, NetBanking):</b> Refunds are credited back to your original source account within 24–48 hours via Razorpay.</li>
+            <li><b>Cash on Delivery (COD) Orders:</b> Once your claim is approved, refunds are sent directly via instant UPI transfer (Google Pay, PhonePe, Paytm) or bank NEFT.</li>
+          </ul>
+        </div>
+
+        <div className="border-t border-black/[0.05] pt-6">
+          <h2 className="text-lg font-black text-neutral-950 mb-2">
+            Order Cancellations
+          </h2>
+          <p className="text-xs text-neutral-600 leading-relaxed">
+            Orders can be modified or cancelled within <b>12 hours of placement</b> before the blank enters the automated DTF print and silicone wash queue.
+          </p>
+        </div>
+
+        <div className="border-t border-black/[0.05] pt-6">
+          <h2 className="text-lg font-black text-neutral-950 mb-2">
+            Need Immediate Assistance?
+          </h2>
+          <p className="text-xs text-neutral-600 leading-relaxed">
+            Our 24/7 AI shopping concierge Radha is available in the bottom corner of your screen, or reach our executive care desk directly:
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <a
+              href="mailto:care@rareember.shop"
+              className="px-5 py-2.5 rounded-full bg-[#1d1d1f] text-white text-xs font-bold hover:bg-black transition-all no-underline shadow-xs"
+            >
+              Email Care Desk (care@rareember.shop) →
+            </a>
+            <Link
+              href="/track"
+              className="px-5 py-2.5 rounded-full bg-neutral-100 text-neutral-800 text-xs font-bold hover:bg-neutral-200 transition-all no-underline"
+            >
+              Track Active Delivery 📍
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

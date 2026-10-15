@@ -72,12 +72,12 @@ async function getLiveProducts(categoryFilter?: string, limit = 3) {
     }
   } catch {}
 
-  // Fallback verified Indian products
+  // Fallback verified Rare Ember drops
   return [
-    { id: 'meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base', title: '3D Crystal Ball Galaxy Night Lamp with Wooden Base', price: 399, emoji: '🔮' },
-    { id: 'meesho-water-sensor-led-diyas-pack-of-12', title: 'Water Sensor LED Diyas (Pack of 12 Smokeless)', price: 399, emoji: '🪔' },
-    { id: 'meesho-heavy-duty-welcome-textured-mesh-door-mat', title: 'Welcome Textured Mesh Entrance Door Mat', price: 449, emoji: '🚪' },
-    { id: 'meesho-galaxy-star-astronaut-projector-night-lamp', title: 'Astronaut Galaxy Star Projector LED Night Lamp', price: 899, emoji: '🚀' },
+    { id: 'rareember-heavyweight-oversized-graphic-tee', title: 'Rare Ember Heavyweight Oversized Graphic Tee (240 GSM)', price: 799, emoji: '🔥' },
+    { id: 'rareember-heavyweight-fleece-hoodie-onyx', title: 'Rare Ember Heavyweight 380 GSM Fleece Hoodie — Onyx Black', price: 1499, emoji: '🖤' },
+    { id: 'rareember-matte-black-ceramic-coffee-mug', title: 'Rare Ember Artisan Matte Black Ceramic Mug (330ml)', price: 449, emoji: '☕' },
+    { id: 'rareember-extended-desk-mat-gaming-mousepad', title: 'Rare Ember Extended Desk Mat & Speed Mousepad (900x400mm)', price: 699, emoji: '⚡' },
   ];
 }
 
@@ -206,15 +206,31 @@ async function processRadhaQuery(message: string) {
   if (wantsTrack) {
     return {
       reply:
-        "📦 **Track Your Order Securely:**\n\nFor your personal privacy and order security, please use our dedicated **[Live Tracking Portal](/track)**.\n\nSimply enter your **Order ID** along with your checkout **Email Address** to view real-time courier updates (BlueDart, Delhivery, Shadowfax) and tracking numbers.\n\nNeed urgent assistance or want to update your delivery address? Feel free to reach our priority support at **rareemberagency@gmail.com**.",
+        "📦 **Track Your Order Securely:**\n\nFor your personal privacy and order security, please use our dedicated **[Live Tracking Portal](/track)**.\n\nSimply enter your **Order ID** along with your checkout **Email Address** to view real-time courier updates (BlueDart, Delhivery, Shadowfax) and live tracking AWB numbers.\n\nNeed urgent assistance or want to update your delivery address? Feel free to reach our priority support at **care@rareember.shop**.",
+    };
+  }
+
+  // 3B. Returns, Replacements & Exchanges
+  if (/return|refund|exchange|replace|damaged|broken|size.*wrong|wrong.*size|fit.*issue/i.test(q)) {
+    return {
+      reply:
+        "🛡️ **Rare Ember 7-Day Free Replacement Guarantee:**\n\n• **Sizing or Fit Issues?** We send you a free replacement in your preferred size with zero reverse courier fees!\n• **Print Defect or Transit Damage?** Instant free doorstep reprint dispatched from our Tamil Nadu factory.\n• **File Claim in 60 Seconds:** Visit our **[7-Day Replacement Portal](/returns)** with your Order ID.\n• **Prepaid Refunds:** Credited back in 24–48 hours via Razorpay.\n• **COD Refunds:** Direct instant UPI transfer upon verification.\n\nNeed personal assistance? Contact our care desk at **care@rareember.shop**.",
+    };
+  }
+
+  // 3C. Streetwear Sizing & Fits
+  if (/size|sizing|measurement|chart|chest|length|fit|large|medium|small|xl/i.test(q)) {
+    return {
+      reply:
+        "📏 **Rare Ember Streetwear Sizing & Fit Advice:**\n\n• **Sizes Available:** S, M, L, XL, 2XL, 3XL (Pre-shrunk 100% combed cotton).\n• **Streetwear Drape:** Crafted with relaxed drop shoulders and an oversized boxy aesthetic.\n• **Fit Recommendation:** True to size for a classic relaxed streetwear look. If you prefer a tailored/regular fit, order 1 size down.\n• **Interactive Size Chart:** Click **'📏 Size Guide & Fit Advice'** on any **[Apparel Product Page](/shop?cat=fashion)** for exact chest & length measurements in inches and cm!",
     };
   }
 
   // 4. Exact Product Keyword Searches
-  if (/\b(lamp|lamps|light|lights|night lamp|desk lamp|night light|candle|candles)\b/i.test(q)) {
-    const prods = (await searchLiveProducts('lamp', 3)) || (await searchLiveProducts('light', 3)) || [];
+  if (/\b(tee|t-shirt|tshirt|hoodie|sweatshirt|jogger|streetwear|apparel|clothes)\b/i.test(q)) {
+    const prods = (await searchLiveProducts('tee', 3)) || (await searchLiveProducts('hoodie', 3)) || [];
     return {
-      reply: `✨ **Lamps & Ambient Lighting:** Here are our top trending LED desk lamps and ambient night lights, in stock and ready for fast 2–4 days express dispatch with COD:`,
+      reply: `🔥 **Streetwear Drops (240 GSM Tees & 380 GSM Hoodies):** Premium combed bio-washed cotton, high-density DTF prints, and size options S to 3XL:`,
       products: prods,
     };
   }

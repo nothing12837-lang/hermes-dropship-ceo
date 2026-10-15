@@ -119,7 +119,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Organization',
-              name: 'RareEmber',
+              name: 'Rare Ember',
               url: siteUrl,
               logo: `${siteUrl}/flame-icon.png`,
               sameAs: [
@@ -128,7 +128,7 @@ export default function RootLayout({
               ],
               contactPoint: {
                 '@type': 'ContactPoint',
-                email: 'rareemberagency@gmail.com',
+                email: 'care@rareember.shop',
                 contactType: 'customer service',
                 availableLanguage: ['English', 'Hindi'],
                 areaServed: ['IN', 'US', 'GB', 'CA', 'AU', 'AE']
@@ -142,7 +142,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'WebSite',
-              name: 'RareEmber',
+              name: 'Rare Ember',
               url: siteUrl,
               potentialAction: {
                 '@type': 'SearchAction',

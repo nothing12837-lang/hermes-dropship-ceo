@@ -200,6 +200,37 @@ export function TrackClient() {
               {loading ? 'Searching…' : '📍 Track Order →'}
             </button>
           </div>
+
+          <div className="mt-3.5 pt-3 border-t border-black/[0.04] flex items-center justify-between flex-wrap gap-2 text-[11px] text-neutral-500">
+            <span>💡 Need to test or preview tracking?</span>
+            <button
+              type="button"
+              onClick={() => {
+                setOrderId('RE-2026-BLUEDART');
+                setEmail('vip@rareember.shop');
+                setLooked(true);
+                setErrorMessage(null);
+                setOrders([
+                  {
+                    id: 'RE-2026-BLUEDART-8842',
+                    email: 'vip@rareember.shop',
+                    items: [{ id: 'rareember-heavyweight-oversized-graphic-tee', qty: 1, title: 'Rare Ember Heavyweight Oversized Graphic Tee (240 GSM)' }],
+                    subtotal: 799,
+                    shipping: 0,
+                    total: 799,
+                    status: 'shipped',
+                    payment_method: 'online',
+                    tracking_number: 'BLUEDART-AIR-782194012',
+                    tracking_url: 'https://www.bluedart.com',
+                    created_at: new Date(Date.now() - 36 * 3600 * 1000).toISOString(),
+                  },
+                ]);
+              }}
+              className="font-bold text-[#FF4D24] hover:underline cursor-pointer bg-transparent border-none p-0 inline-flex items-center gap-1"
+            >
+              <span>⚡</span> Preview Sample Live Courier Timeline →
+            </button>
+          </div>
         </div>
 
         {/* Results Section */}
@@ -374,7 +405,7 @@ export function TrackClient() {
                         </div>
                       </div>
 
-                      {/* Tracking link bar */}
+          {/* Tracking link bar */}
                       {(o.tracking_number || o.tracking_url) && (
                         <div className="mt-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex flex-wrap items-center justify-between gap-3">
                           <div className="flex items-center gap-2">
@@ -398,6 +429,20 @@ export function TrackClient() {
                           )}
                         </div>
                       )}
+
+                      {/* 7-Day Replacement CTA Button */}
+                      <div className="mt-5 pt-4 border-t border-black/[0.06] flex items-center justify-between flex-wrap gap-3">
+                        <div className="text-xs text-neutral-500 flex items-center gap-2">
+                          <span>🛡️</span>
+                          <span>Protected by Rare Ember 7-Day Free Replacement Guarantee</span>
+                        </div>
+                        <Link
+                          href={`/returns?order_id=${encodeURIComponent(o.id)}&email=${encodeURIComponent(o.email)}`}
+                          className="px-4 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-900 text-xs font-bold transition-all no-underline inline-flex items-center gap-1.5"
+                        >
+                          <span>🔄</span> Request Size Replacement or Issue Resolution →
+                        </Link>
+                      </div>
                     </div>
                   );
                 })}
@@ -412,7 +457,7 @@ export function TrackClient() {
           <div>
             <p className="font-bold text-neutral-900 text-sm">Need immediate assistance with your delivery?</p>
             <p className="mt-1 text-neutral-500 leading-relaxed">
-              Our concierge team at <a href="mailto:rareemberagency@gmail.com" className="font-bold text-[#FF4D24] no-underline hover:underline">rareemberagency@gmail.com</a> replies in under 12 hours. Please include your registered email address and Order ID for immediate priority lookup.
+              Our executive care desk at <a href="mailto:care@rareember.shop" className="font-bold text-[#FF4D24] no-underline hover:underline">care@rareember.shop</a> replies in under 12 hours. Please include your registered email address and Order ID for immediate priority lookup.
             </p>
           </div>
         </div>
