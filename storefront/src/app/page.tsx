@@ -60,13 +60,14 @@ const ASSURANCES = [
 ];
 
 const MARQUEE_ITEMS = [
-  '🪔 Festive Utsav Live',
-  '⚡ EMBER10 Flat 10% OFF',
-  '🚚 2–4 Day Express Pan-India',
-  '💵 Cash on Delivery 19,000+ PINs',
-  '🛡️ 7-Day Easy Replacement',
-  '⭐ 4.8 Rated Verified Catalog',
-  '🔒 Secure Razorpay UPI Checkout',
+  '🔥 Rare Ember Streetwear Drops Live',
+  '⚡ 240 GSM Heavyweight Combed Cotton',
+  '✨ Custom Name & Graphic Upload Studio',
+  '🚚 BlueDart Air Express Pan-India',
+  '💵 Cash on Delivery across 29,000+ PINs',
+  '🛡️ 7-Day Free Doorstep Replacement',
+  '🏷️ Use Code RARE100 for ₹100 OFF',
+  '⭐ 4.9 Rated Verified Architecture',
 ];
 
 export default async function Home() {
@@ -141,50 +142,50 @@ export default async function Home() {
             <span className="aurora-blob aurora-blob-c hero-rise hero-rise-3" style={{ width: 260, height: 260, top: 30, left: '40%', background: 'rgba(247,183,51,0.3)' }} />
           </div>
 
-          {/* Diya float accents */}
-          <span aria-hidden className="absolute top-6 right-8 text-3xl animate-float-y opacity-90 hero-rise hero-rise-3" style={{ '--float-rot': '8deg' } as React.CSSProperties}>🪔</span>
+          {/* Flame & Spark Accents */}
+          <span aria-hidden className="absolute top-6 right-8 text-3xl animate-float-y opacity-90 hero-rise hero-rise-3" style={{ '--float-rot': '8deg' } as React.CSSProperties}>🔥</span>
           <span aria-hidden className="absolute bottom-7 left-10 text-2xl animate-float-y opacity-70 hidden md:block hero-rise hero-rise-4" style={{ '--float-rot': '-10deg' } as React.CSSProperties}>✨</span>
 
           <div className="relative z-10 p-6 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="space-y-3 max-w-2xl">
-              <div className="hero-rise hero-rise-1 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-[#F7B733]/40 text-[#FFD36E] text-xs font-black uppercase tracking-[0.18em] backdrop-blur-md">
-                <span>🪔</span> Grand Indian Festive Utsav • Live Now
+              <div className="hero-rise hero-rise-1 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-[#FF4D24]/40 text-[#FF9A3D] text-xs font-black uppercase tracking-[0.18em] backdrop-blur-md">
+                <span>🔥</span> Signature Streetwear & Custom Drops Live
               </div>
               <h1 className="hero-rise hero-rise-2 text-[1.75rem] md:text-5xl font-black tracking-tight leading-[1.05]">
-                <span className="text-gradient-gold">Happy Navratri</span>{' '}
-                <span className="text-white/50">&</span>{' '}
-                <span className="text-gradient-ember-animated">Happy Diwali</span>
-                <br className="hidden md:block" /> Grand Festive Sale!
+                <span className="text-gradient-ember-animated">Rare Ember</span>
+                <br /> Heavyweight Streetwear & Custom Studio
               </h1>
               <p className="hero-rise hero-rise-3 text-sm md:text-base text-white/70 font-medium leading-relaxed max-w-xl">
-                Celebrate the auspicious season of lights! Enjoy verified domestic lifestyle and home upgrades. Express 2–4 days pan-India doorstep delivery with Cash on Delivery (COD).
+                Engineered with 240 GSM combed ring-spun cotton and 380 GSM brushed fleece. Personalize with your custom name, initials, or graphic art. Dispatched direct from Tirupur manufacturing floor in 2–4 business days with 1-Click Cash on Delivery.
               </p>
               <div className="hero-rise hero-rise-4 flex flex-wrap gap-x-5 gap-y-2 pt-1 text-xs font-bold text-white/75">
-                <span className="flex items-center gap-1.5"><span className="live-dot w-1.5 h-1.5 rounded-full bg-emerald-400 text-emerald-400" /> 103 Verified Products</span>
+                <span className="flex items-center gap-1.5"><span className="live-dot w-1.5 h-1.5 rounded-full bg-emerald-400 text-emerald-400" /> 240 GSM Combed Cotton</span>
                 <span className="text-white/25">•</span>
-                <span>Free Express Shipping</span>
+                <span>Custom Image & Text Studio</span>
                 <span className="text-white/25">•</span>
-                <span>7-Day Replacement</span>
+                <span>Free Doorstep 7-Day Replacement</span>
+                <span className="text-white/25">•</span>
+                <span>1-Click COD</span>
               </div>
             </div>
 
             <div className="hero-rise hero-rise-5 flex flex-col sm:flex-row md:flex-col lg:flex-row items-stretch sm:items-center gap-3 shrink-0 w-full md:w-auto">
-              <div className="relative overflow-hidden bg-black/40 backdrop-blur-xl border border-[#F7B733]/45 rounded-2xl p-3.5 px-5 flex flex-col justify-center text-center animate-glow-pulse">
+              <div className="relative overflow-hidden bg-black/40 backdrop-blur-xl border border-[#FF4D24]/45 rounded-2xl p-3.5 px-5 flex flex-col justify-center text-center animate-glow-pulse">
                 <span
                   aria-hidden
                   className="absolute inset-0 opacity-30 animate-shimmer-bg"
-                  style={{ background: 'linear-gradient(105deg, transparent 30%, rgba(247,183,51,0.35) 50%, transparent 70%)', backgroundSize: '220% 100%' }}
+                  style={{ background: 'linear-gradient(105deg, transparent 30%, rgba(255,77,36,0.35) 50%, transparent 70%)', backgroundSize: '220% 100%' }}
                 />
-                <span className="relative text-[11px] font-bold text-[#FFD36E] uppercase tracking-widest">Festive Coupon</span>
-                <span className="relative font-mono text-xl font-black text-[#F7B733] tracking-wider">DIWALI100</span>
-                <span className="relative text-[10px] text-white/65 font-medium">Flat ₹100 OFF above ₹499</span>
+                <span className="relative text-[11px] font-bold text-[#FF9A3D] uppercase tracking-widest">Exclusive Drop Code</span>
+                <span className="relative font-mono text-xl font-black text-[#FF4D24] tracking-wider">RARE100</span>
+                <span className="relative text-[10px] text-white/65 font-medium">Flat ₹100 OFF Your Order</span>
               </div>
               <Link
                 href="/shop"
                 className="no-underline inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl btn-ember font-black text-sm tracking-wide cursor-pointer"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  Shop Festive Deals <span>⚡</span>
+                  Explore Streetwear Drops <span>⚡</span>
                 </span>
               </Link>
             </div>
@@ -235,10 +236,10 @@ export default async function Home() {
             <div className="flex items-end justify-between gap-4 mb-6">
               <div>
                 <div className="hero-rise inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500/12 text-emerald-800 text-xs font-black uppercase tracking-wider mb-2 border border-emerald-500/20">
-                  <span>⚡</span> Just Landed In Warehouse
+                  <span>⚡</span> Direct From Tirupur Hub
                 </div>
                 <h2 className="hero-rise hero-rise-1 text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
-                  Fresh Factory <span className="text-gradient-ember">Drops</span>
+                  Fresh Streetwear & Creator <span className="text-gradient-ember">Drops</span>
                 </h2>
               </div>
               <Link
