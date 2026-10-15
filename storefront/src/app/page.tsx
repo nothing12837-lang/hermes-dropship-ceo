@@ -134,11 +134,11 @@ export default async function Home() {
           <div className="rounded-2xl glass-dark text-white px-5 py-4 flex items-center gap-4 overflow-hidden relative hero-rise">
             <span className="text-3xl relative z-10">👩‍🦰</span>
             <div className="relative z-10">
-              <p className="font-bold text-sm">Namaste! Main Evaa ✨</p>
+              <p className="font-bold text-sm">Namaste! Main Eva ✨</p>
               <p className="text-xs text-neutral-300">Hindi me curated drops, COD + 2-4 din delivery. Aaj ka hero: Water Sensor Diyas.</p>
             </div>
             <Link href="/shop" className="ml-auto relative z-10 px-4 py-2 rounded-full bg-gradient-ember text-white text-xs font-bold no-underline shadow-ember hover:shadow-ember-lg hover:-translate-y-0.5 transition-all">
-              Shop Evaa Picks →
+              Shop Eva's Picks →
             </Link>
           </div>
         )}

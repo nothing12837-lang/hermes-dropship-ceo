@@ -92,12 +92,12 @@ class HermesDotEngine:
                         await self.broadcast_terminal_output("system", f"[{t_str}] 🔍 [AARAV SEO] [10K DIWALI MISSION] Pushed IndexNow ping for '{title}' (Festive high-intent keywords indexed).\n")
 
                 elif agent == "Meera":
-                    prompt = f"You are Meera, Creative Director for RareEmber. Founder Goal: 10,000 Diwali sales. Product: '{title}'. Write a viral 3-second opening hook in Hinglish for an Instagram Reel featuring Evaa Patel with code DIWALI100."
+                    prompt = f"You are Meera, Creative Director for RareEmber. Founder Goal: 10,000 Diwali sales. Product: '{title}'. Write a viral 3-second opening hook in Hinglish for an Instagram Reel featuring Eva holding the product in her hand with code DIWALI100."
                     reply = await self._call_gemini_fast(gemini_key, prompt)
                     if reply:
-                        await self.broadcast_terminal_output("system", f"[{t_str}] 🎬 [MEERA CREATIVE] [10K DIWALI MISSION] Scripting Reel for '{title}' (Evaa Patel Presenter)...\n[{t_str}] 🎬 [MEERA CREATIVE] Viral Hook: \"{reply}\"\n")
+                        await self.broadcast_terminal_output("system", f"[{t_str}] 🎬 [MEERA CREATIVE] [10K DIWALI MISSION] Scripting Reel for '{title}' (Eva Facecam Presenter holding product)...\n[{t_str}] 🎬 [MEERA CREATIVE] Viral Hook: \"{reply}\"\n")
                     else:
-                        await self.broadcast_terminal_output("system", f"[{t_str}] 🎬 [MEERA CREATIVE] [10K DIWALI MISSION] Synced 5x daily 9:16 multi-scene video reels for '{title}'.\n")
+                        await self.broadcast_terminal_output("system", f"[{t_str}] 🎬 [MEERA CREATIVE] [10K DIWALI MISSION] Synced 5x daily 9:16 multi-scene video reels for '{title}' (Eva Facecam).\n")
 
                 elif agent == "Kabir":
                     price = prod.get("price_inr") or 499
@@ -391,7 +391,7 @@ class HermesDotEngine:
             "• Vikram (CCO) - Dynamic catalog pricing, sales velocity, and 55%-65% profit margins.\n"
             "• Aarav (Head of SEO) - Google Search indexing, automated sitemap submission, and keyword rankings.\n"
             "• Pooja (VP of Logistics & Ops) - Cash on Delivery (COD) verification, 2-4 day express dispatch via BlueDart & Delhivery.\n"
-            "• Meera & Evaa (Creative Directors) - Google Vids AI reels, viral Hindi storytelling, and product video ads.\n"
+            "• Meera & Eva (Creative Directors) - Google Vids AI reels, viral Hindi storytelling, and product video ads featuring Eva facecam with product in hand.\n"
             "• Kabir (CFO) - Real-time unit economics, margin protection, and payment reconciliations.\n"
             "• Arjun (VP of Procurement) - Domestic Indian sourcing direct from Surat & Meesho manufacturers.\n"
             "You have direct sandboxed shell execution, 4,000+ MCP integrations, Google Vids Studio, and SKILL.md retention loop. "

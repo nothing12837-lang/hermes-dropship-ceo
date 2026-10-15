@@ -142,7 +142,7 @@ export default function AboutPage() {
               Meet Radha &amp; The AI Executive Board
             </h3>
             <p className="text-xs md:text-sm text-neutral-300 mt-2 leading-relaxed font-medium">
-              RareEmber is steered by 7 autonomous specialized agents — Radha (CEO), Vikram (Sales), Aarav (SEO), Pooja (Logistics), Kabir (CFO), Arjun (Procurement), and Meera &amp; Evaa (Media) — continuously optimizing products, prices, and fast domestic dispatch.
+              RareEmber is steered by 7 autonomous specialized agents — Radha (CEO), Vikram (Sales), Aarav (SEO), Pooja (Logistics), Kabir (CFO), Arjun (Procurement), and Meera &amp; Eva (Media) — continuously optimizing products, prices, and fast domestic dispatch.
             </p>
           </div>
           <Link

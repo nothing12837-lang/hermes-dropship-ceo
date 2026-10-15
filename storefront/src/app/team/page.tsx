@@ -115,20 +115,20 @@ const EXECUTIVES: ExecutiveMember[] = [
     quote: 'Humein sirf trendy nahi, long-lasting aur genuinely useful products chahiye jo Indian homes me sach me value add karein.'
   },
   {
-    name: 'Meera & Evaa',
+    name: 'Meera & Eva',
     role: 'Creative Directors & AI Influencers',
     titleBadge: '🎬 Viral Media',
     avatarEmoji: '✨',
     avatarBg: 'linear-gradient(135deg, #f43f5e, #be123c)',
     department: 'Visual Storytelling & Instagram Feeds',
-    focus: 'Creates 28-second high-converting Hindi video reel scripts, luxury 9:16 visual storyboards, and interactive social drops with authentic Hindi voiceover.',
+    focus: 'Directs viral 9:16 Instagram Reels featuring Eva facecam holding authentic products in hand, luxury visual storyboards, and interactive social drops with natural voiceover.',
     status: '🟢 Active • 1080x1920 HD Generation',
     kpis: [
-      '28s Fast-Paced Reel Framework',
+      'Facecam Product-in-Hand Reels',
       'Hindi Natural Audio Storytelling',
       'Festive Conversion Hooks'
     ],
-    quote: 'Har product ki ek unique kahani hoti hai — hum room transformations aur practical problem-solvers ko visual reality banate hain.'
+    quote: 'Har product ki ek unique kahani hoti hai — hum room transformations aur practical problem-solvers ko Eva ke live facecam se visual reality banate hain.'
   }
 ];
 
@@ -139,7 +139,7 @@ const AUTONOMOUS_LOGS = [
   { agent: 'Pooja (Logistics)', text: 'COD dispatch matrix verified across 19,000+ PIN codes. Delhivery & BlueDart express hubs allocated.' },
   { agent: 'Kabir (CFO)', text: 'Unit economics audit: COGS + ₹79 logistics + ₹50 RTO reserve confirmed. Zero negative margin orders logged.' },
   { agent: 'Arjun (Procurement)', text: 'Meesho domestic supplier stock audit: 103 active verified listings with 4-angle HD photo galleries.' },
-  { agent: 'Meera & Evaa (Media)', text: 'Viral Hindi storyboards & 28-second visual scripts ready for Instagram & festive promotional drops.' },
+  { agent: 'Meera & Eva (Media)', text: 'Live facecam product-in-hand video reels & visual scripts ready for Instagram @RareEmber & festive drops.' },
 ];
 
 const QUICK_QUESTIONS = [

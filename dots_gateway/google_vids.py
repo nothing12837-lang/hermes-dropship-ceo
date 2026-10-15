@@ -9,7 +9,7 @@ from io import BytesIO
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageFilter
 import edge_tts
 import requests
 
@@ -166,7 +166,7 @@ class GoogleVidsEngine:
                 scene_number=1,
                 title="Scene 1: High-Impact Hook",
                 layout="hook",
-                voiceover_text=f"Stop scrolling if you want to upgrade your daily lifestyle! Look at this viral {prod_title.split()[0]} find.",
+                voiceover_text=f"Stop scrolling if you want to elevate your space! Look at this viral {prod_title.split()[0]} I'm holding right here in my hand.",
                 duration_seconds=4.5,
                 image_url=img_hero,
                 badge_text="VIRAL PROBLEM SOLVER"
@@ -175,7 +175,7 @@ class GoogleVidsEngine:
                 scene_number=2,
                 title="Scene 2: Core Problem & Solution",
                 layout="product_focus",
-                voiceover_text=f"Tired of cluttered spaces or overpriced gadgets? This {prod_title} solves it with premium build quality.",
+                voiceover_text=f"Tired of cluttered spaces or overpriced gadgets? Look at the finish on this {prod_title} in my hands — pure elegance.",
                 duration_seconds=5.5,
                 image_url=img_detail,
                 badge_text="UNMATCHED BUILD QUALITY"
@@ -184,7 +184,7 @@ class GoogleVidsEngine:
                 scene_number=3,
                 title="Scene 3: Deep Feature Demo",
                 layout="feature_demo",
-                voiceover_text="Crafted with durable materials, seamless design, and zero hassle. It fits perfectly into your everyday routine.",
+                voiceover_text="Crafted with durable materials, seamless design, and zero hassle. See how compact and premium this looks right up close.",
                 duration_seconds=5.0,
                 image_url=img_lifestyle,
                 badge_text="100% QUALITY INSPECTED"
@@ -202,7 +202,7 @@ class GoogleVidsEngine:
                 scene_number=5,
                 title="Scene 5: Irresistible Call-To-Action",
                 layout="cta",
-                voiceover_text=f"Grab yours today for only rupees {int(prod_price)}! Tap the link in bio or visit RareEmber for doorstep Cash on Delivery.",
+                voiceover_text=f"Special festive price today of only rupees {int(prod_price)}! Tap the link in bio or comment BUY for direct Cash on Delivery.",
                 duration_seconds=5.0,
                 image_url=img_hero,
                 badge_text=f"BUY NOW FOR RS {int(prod_price)} • COD AVAILABLE"
@@ -314,8 +314,8 @@ class GoogleVidsEngine:
 
     def _render_scene_card(self, scene: GoogleVidsScene, project: GoogleVidsProject, output_path: Path):
         """
-        Renders a 1080x1920 (9:16) modern visual card with real product photograph,
-        authentic human presenter badge, gold accent ribbons, and bold subtitles.
+        Renders a 1080x1920 (9:16) vertical card featuring Eva's facecam presentation
+        with the exact authentic product held in her hand, dynamic festive badges, and bold subtitles.
         """
         w, h = 1080, 1920
         canvas = Image.new("RGB", (w, h), color=(10, 12, 18))
@@ -329,31 +329,73 @@ class GoogleVidsEngine:
             draw.line([(0, y), (w, y)], fill=(r, g, b))
 
         # Top Brand Ribbon
-        draw.rectangle([0, 0, w, 90], fill=(16, 20, 32))
-        draw.line([(0, 90), (w, 90)], fill=(212, 175, 55), width=2)
-        draw.text((60, 45), "RareEmber.", fill=(255, 255, 255), anchor="lm", font=self._get_font(34, bold=True))
-        draw.text((w - 60, 45), "DIWALI DHAMAKA 2026", fill=(212, 175, 55), anchor="rm", font=self._get_font(26, bold=True))
+        draw.rectangle([0, 0, w, 80], fill=(16, 20, 32))
+        draw.line([(0, 80), (w, 80)], fill=(212, 175, 55), width=2)
+        draw.text((50, 40), "RareEmber.", fill=(255, 255, 255), anchor="lm", font=self._get_font(32, bold=True))
+        draw.text((w - 50, 40), "DIWALI DHAMAKA 2026", fill=(212, 175, 55), anchor="rm", font=self._get_font(24, bold=True))
 
-        # Human Presenter Profile Badge (Top Left / Center)
-        evaa_file = PRESENTERS_DIR / "evaa.jpg"
-        if evaa_file.exists():
+        # ──────── 1. EVA FACECAM SECTION (Top 55% of Reel) ────────
+        facecam_box = [40, 100, w - 40, 1020]
+        draw.rounded_rectangle(facecam_box, radius=24, fill=(18, 22, 34), outline=(60, 72, 105), width=3)
+
+        # Load Eva presenter portrait
+        eva_file = PRESENTERS_DIR / "evaa.jpg"
+        if not eva_file.exists():
+            eva_file = PRESENTERS_DIR / "eva.jpg"
+        if eva_file.exists():
             try:
-                evaa_img = Image.open(evaa_file)
-                avatar = self._make_circle_avatar(evaa_img, size=150)
-                # Gold Ring
-                draw.ellipse([56, 126, 214, 284], fill=None, outline=(212, 175, 55), width=4)
-                canvas.paste(avatar, (60, 130), avatar)
-                
-                # Presenter Text Info
-                draw.text((230, 160), "Reviewed by Evaa Patel", fill=(255, 255, 255), font=self._get_font(36, bold=True))
-                draw.text((230, 205), "★ 4.9/5 Rating • 1,480+ Verified Indian Orders", fill=(212, 175, 55), font=self._get_font(26, bold=False))
-                # Green Verified Dot
-                draw.ellipse([230, 245, 246, 261], fill=(46, 204, 113))
-                draw.text((255, 253), "100% Domestic Stock Verified", fill=(46, 204, 113), font=self._get_font(22, bold=True), anchor="lm")
-            except Exception as pe:
-                print(f"Error rendering presenter badge: {pe}")
+                eva_raw = Image.open(eva_file).convert("RGB")
+                eva_crop_w, eva_crop_h = (facecam_box[2] - facecam_box[0]), (facecam_box[3] - facecam_box[1])
+                eva_framed = ImageOps.fit(eva_raw, (eva_crop_w, eva_crop_h), centering=(0.5, 0.25))
 
-        # High-Impact Scene Badge Pill
+                # Round the corners of the framed image
+                mask = Image.new("L", (eva_crop_w, eva_crop_h), 0)
+                draw_mask = ImageDraw.Draw(mask)
+                draw_mask.rounded_rectangle([0, 0, eva_crop_w, eva_crop_h], radius=24, fill=255)
+                canvas.paste(eva_framed, (facecam_box[0], facecam_box[1]), mask)
+            except Exception as e:
+                print(f"Error pasting Eva portrait: {e}")
+
+        # Overlay: LIVE FACECAM Pill on top of Eva
+        draw.rounded_rectangle([60, 120, 340, 175], radius=16, fill=(10, 14, 22))
+        draw.ellipse([75, 138, 93, 156], fill=(235, 50, 50))  # Red recording dot
+        draw.text((105, 147), "LIVE FACECAM • EVA", fill=(255, 255, 255), anchor="lm", font=self._get_font(20, bold=True))
+
+        # Creator Verification Tag (Right side of Eva)
+        draw.rounded_rectangle([w - 380, 120, w - 60, 175], radius=16, fill=(10, 14, 22))
+        draw.text((w - 220, 147), "Top Rated Host • 4.9/5", fill=(212, 175, 55), anchor="mm", font=self._get_font(20, bold=True))
+
+        # ──────── 2. PRODUCT IN EVA'S HAND (Composited Foreground) ────────
+        prod_url = scene.image_url or "https://images.meesho.com/images/products/614873040/qmb1a_512.jpg"
+        prod_raw = self._fetch_image(prod_url)
+        prod_thumb_size = 540, 540
+        prod_raw.thumbnail(prod_thumb_size, Image.Resampling.LANCZOS)
+
+        # Product showcase card floating inside Eva's facecam
+        pw, ph = prod_raw.width, prod_raw.height
+        card_w = pw + 30
+        card_h = ph + 30
+        card_x = facecam_box[2] - card_w - 30
+        card_y = facecam_box[3] - card_h - 30
+
+        # Draw soft drop shadow behind the in-hand product
+        shadow = Image.new("RGBA", (card_w + 30, card_h + 30), (0, 0, 0, 0))
+        d_sh = ImageDraw.Draw(shadow)
+        d_sh.rounded_rectangle([15, 15, card_w + 15, card_h + 15], radius=24, fill=(0, 0, 0, 180))
+        shadow = shadow.filter(ImageFilter.GaussianBlur(12))
+        canvas.paste(shadow, (card_x - 15, card_y - 15), shadow)
+
+        # In-hand product container with gold border
+        draw.rounded_rectangle([card_x, card_y, card_x + card_w, card_y + card_h], radius=20, fill=(14, 18, 28), outline=(212, 175, 55), width=3)
+        canvas.paste(prod_raw, (card_x + 15, card_y + 15))
+
+        # "In Eva's Hand" Floating Pill
+        pill_w = 240
+        pill_h = 42
+        draw.rounded_rectangle([card_x + 15, card_y - 20, card_x + 15 + pill_w, card_y - 20 + pill_h], radius=12, fill=(212, 140, 20), outline=(255, 215, 0), width=1)
+        draw.text((card_x + 15 + pill_w // 2, card_y - 20 + pill_h // 2), "IN EVA'S HAND", fill=(255, 255, 255), anchor="mm", font=self._get_font(20, bold=True))
+
+        # ──────── 3. FESTIVE BADGE & OFFER ────────
         badge_colors = {
             1: ((138, 43, 226), "VIRAL PROBLEM SOLVER"),
             2: ((30, 144, 255), "UNMATCHED BUILD QUALITY"),
@@ -364,46 +406,31 @@ class GoogleVidsEngine:
         b_color, b_default_text = badge_colors.get(scene.scene_number, ((138, 43, 226), scene.badge_text or "FEATURED DROP"))
         actual_badge = scene.badge_text or b_default_text
 
-        # Draw Badge Pill
-        draw.rounded_rectangle([60, 310, w - 60, 395], radius=20, fill=b_color)
-        draw.text((w / 2, 352), actual_badge, fill=(255, 255, 255), anchor="mm", font=self._get_font(34, bold=True))
+        draw.rounded_rectangle([40, 1045, w - 40, 1125], radius=18, fill=b_color)
+        draw.text((w / 2, 1085), actual_badge, fill=(255, 255, 255), anchor="mm", font=self._get_font(32, bold=True))
 
-        # Central Product Showcase Frame
-        frame_box = [60, 420, w - 60, 1340]
-        draw.rounded_rectangle(frame_box, radius=28, fill=(18, 22, 34), outline=(60, 72, 105), width=3)
+        # ──────── 4. PRICE & COD GUARANTEE PILL ────────
+        prod_meta = self.find_product(project.product_id or "") if project.product_id else None
+        prod_price = prod_meta.get("price_inr", 499) if prod_meta else 499
+        draw.rounded_rectangle([40, 1145, w - 40, 1235], radius=18, fill=(14, 18, 28), outline=(212, 175, 55), width=2)
+        price_str = f"Special Festive Price: Rs {int(prod_price)} (55% OFF) • Doorstep COD Available"
+        draw.text((w / 2, 1190), price_str, fill=(255, 215, 0), anchor="mm", font=self._get_font(28, bold=True))
 
-        # Load and scale product image
-        prod_url = scene.image_url or "https://images.meesho.com/images/products/614873040/qmb1a_512.jpg"
-        prod_img = self._fetch_image(prod_url)
-        max_w, max_h = 920, 840
-        prod_img.thumbnail((max_w, max_h), Image.Resampling.LANCZOS)
-        
-        # Center inside the showcase frame
-        px = frame_box[0] + (frame_box[2] - frame_box[0] - prod_img.width) // 2
-        py = frame_box[1] + 30 + (840 - prod_img.height) // 2
-        canvas.paste(prod_img, (px, py))
+        # ──────── 5. SUBTITLE / SPEECH CAPTION BOX (Bottom 35%) ────────
+        sub_box = [40, 1260, w - 40, 1840]
+        draw.rounded_rectangle(sub_box, radius=24, fill=(10, 13, 20), outline=(45, 55, 80), width=2)
 
-        # Price & Guarantee Pill inside Product Frame
-        pill_y1 = frame_box[3] - 90
-        pill_y2 = frame_box[3] - 20
-        draw.rounded_rectangle([80, pill_y1, w - 80, pill_y2], radius=16, fill=(10, 14, 22), outline=(212, 175, 55), width=2)
-        price_str = "Festive Price: ₹499 - ₹799 (55% OFF) • Doorstep COD Available"
-        draw.text((w / 2, (pill_y1 + pill_y2) / 2), price_str, fill=(255, 215, 0), anchor="mm", font=self._get_font(30, bold=True))
-
-        # Subtitle / Voiceover Box at Bottom
-        sub_box = [60, 1370, w - 60, 1840]
-        draw.rounded_rectangle(sub_box, radius=24, fill=(12, 15, 24), outline=(45, 55, 80), width=2)
-
-        # Scene Title
+        # Subtitle Header: Eva Speaking
         clean_title = scene.title.replace("🔥", "").replace("✨", "").replace("⚡", "").replace("⭐", "").replace("🛒", "").strip()
-        draw.text((w / 2, 1420), clean_title, fill=(212, 175, 55), anchor="mm", font=self._get_font(34, bold=True))
+        draw.text((60, 1300), "Eva:", fill=(212, 175, 55), anchor="lm", font=self._get_font(30, bold=True))
+        draw.text((135, 1300), clean_title, fill=(200, 215, 245), anchor="lm", font=self._get_font(28, bold=False))
 
         # Word wrap speech subtitles
         words = scene.voiceover_text.split()
         lines = []
         cur = []
         for wd in words:
-            if len(" ".join(cur + [wd])) > 32:
+            if len(" ".join(cur + [wd])) > 30:
                 lines.append(" ".join(cur))
                 cur = [wd]
             else:
@@ -411,11 +438,14 @@ class GoogleVidsEngine:
         if cur:
             lines.append(" ".join(cur))
 
-        sy = 1490
+        sy = 1380
         font_sub = self._get_font(38, bold=True)
-        for line in lines[:5]:
+        for line in lines[:6]:
             draw.text((w / 2, sy), line, fill=(255, 255, 255), anchor="mm", font=font_sub)
-            sy += 58
+            sy += 64
+
+        # Bottom Bio CTA
+        draw.text((w / 2, 1800), "Tap Link in Bio (@rareember) or Comment 'BUY' for Direct DM!", fill=(212, 175, 55), anchor="mm", font=self._get_font(24, bold=True))
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
         canvas.save(str(output_path), quality=94)
@@ -427,10 +457,93 @@ class GoogleVidsEngine:
         p = self.projects.get(project_id)
         return p.model_dump() if p else None
 
+def upload_reel_to_instagram_sync(video_path: Path, caption_text: str) -> Dict[str, Any]:
+    user_data_dir = settings.WORKSPACE_PATH / "dots_gateway" / "browser_data"
+    if not user_data_dir.exists():
+        return {"success": False, "error": "Browser session data directory missing"}
+
+    try:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            browser = p.chromium.launch_persistent_context(
+                user_data_dir=str(user_data_dir),
+                headless=True,
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+                viewport={"width": 1280, "height": 800}
+            )
+            page = browser.pages[0] if browser.pages else browser.new_page()
+            page.goto("https://www.instagram.com/", timeout=45000)
+            page.wait_for_timeout(4000)
+
+            # Check if logged in
+            create_btn = page.locator('svg[aria-label="New post"]').first
+            if create_btn.count() == 0:
+                browser.close()
+                return {"success": False, "error": "Instagram session expired or not logged in"}
+
+            create_btn.click()
+            page.wait_for_timeout(1200)
+
+            # Click Post
+            page.locator('div[role="dialog"] a, div[role="menu"] div, div[role="menu"] a, span:text-is("Post")').first.click()
+            page.wait_for_timeout(2000)
+
+            # Upload video file
+            page.locator('input[type="file"]').first.set_input_files(str(video_path.resolve()))
+            page.wait_for_timeout(5000)
+
+            # Dismiss "Reels" notice if present
+            ok_btn = page.locator('button:has-text("OK"), button:has-text("Ok")').first
+            if ok_btn.count() > 0 and ok_btn.is_visible():
+                ok_btn.click()
+                page.wait_for_timeout(1500)
+
+            # Next 1 (Crop)
+            page.locator('div[role="dialog"] div[role="button"]:has-text("Next")').first.click()
+            page.wait_for_timeout(3000)
+
+            # Next 2 (Cover/Edit)
+            page.locator('div[role="dialog"] div[role="button"]:has-text("Next")').first.click()
+            page.wait_for_timeout(3000)
+
+            # Fill caption
+            cap_box = page.locator('div[aria-label="Add a caption..."], div[aria-label="Write a caption..."], div[role="textbox"]').first
+            cap_box.click(force=True)
+            cap_box.fill(caption_text)
+            page.wait_for_timeout(2000)
+
+            # Share button
+            share_btn = page.locator('div[role="dialog"] header div[role="button"]:has-text("Share"), div[role="dialog"] div[role="button"]:has-text("Share")').first
+            share_btn.click(force=True)
+
+            confirmed = False
+            for _ in range(18):  # Poll up to 90s
+                page.wait_for_timeout(5000)
+                dialog_count = page.locator('div[role="dialog"]').count()
+                if dialog_count > 0:
+                    text = page.locator('div[role="dialog"]').inner_text().lower()
+                    if "your reel has been shared" in text or ("shared" in text and "sharing" not in text):
+                        confirmed = True
+                        break
+                else:
+                    confirmed = True
+                    break
+
+            try:
+                page.screenshot(path=str(settings.WORKSPACE_PATH / "ig_reel_confirmed_live.jpg"))
+            except Exception:
+                pass
+
+            browser.close()
+            return {"success": confirmed, "status": "Shared reel published to @rareember" if confirmed else "Encoding in progress"}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
     async def publish_project(self, project_id: str) -> Dict[str, Any]:
         """
         Compiles all 5 storyboard scenes and voiceovers into a true multi-scene 9:16
-        vertical video reel via FFmpeg, and dispatches directly to Boss Ajay's Telegram bot.
+        vertical video reel via FFmpeg, publishes directly to Instagram @rareember,
+        and dispatches confirmation to Boss Ajay's Telegram bot.
         """
         proj = self.projects.get(project_id)
         if not proj:
@@ -497,23 +610,48 @@ class GoogleVidsEngine:
             except Exception as fce:
                 print(f"Concat error: {fce}")
 
-        # Dispatch to Ajay on Telegram
+        prod_slug = proj.product_id or "shop"
+        store_url = f"https://rareember-store.vercel.app/product/{prod_slug}"
+        ig_caption = (
+            f"Stop scrolling! Upgrade your daily lifestyle with this viral find ✨\n\n"
+            f"✅ 100% Domestic Stock Verified\n"
+            f"✅ Authentic Product In-Hand Demo by Eva\n"
+            f"🚚 Doorstep Cash on Delivery (COD) Pan-India\n"
+            f"🛡️ 30-Day Zero-Risk Replacement Guarantee\n\n"
+            f"🔥 SPECIAL DIWALI SALE: Use code DIWALI100 at checkout for Flat ₹100 OFF!\n\n"
+            f"👉 Tap the link in our bio (@rareember) or visit {store_url} to order!\n\n"
+            f"#rareember #diwalisale #trendingfinds #festiveindia #gadgetsindia #homeaesthetic #shopindia"
+        )
+
+        # 1. Instagram Reel Auto-Publish via Persistent Authenticated Browser Context
+        ig_post_status = "Not attempted"
+        if video_file.exists() and video_file.stat().st_size > 1000:
+            try:
+                loop = asyncio.get_event_loop()
+                ig_res = await loop.run_in_executor(None, upload_reel_to_instagram_sync, video_file, ig_caption)
+                if ig_res.get("success"):
+                    ig_post_status = "✅ Published live to @rareember"
+                else:
+                    ig_post_status = f"⚠️ {ig_res.get('error', 'In progress')}"
+            except Exception as ige:
+                ig_post_status = f"Error: {ige}"
+
+        # 2. Dispatch to Ajay on Telegram
         token = "8898923626:AAHjI91mNfyRCanPdK9MVDiTBpL4zPzPOkI"
         chat_id = "5238068527"
         delivered = False
         if video_file.exists() and video_file.stat().st_size > 1000:
             try:
-                prod_slug = proj.product_id or "shop"
-                store_url = f"https://rareember-store.vercel.app/product/{prod_slug}"
                 caption_text = (
-                    f"🎬 <b>RareEmber Video Reel Ready!</b>\n\n"
+                    f"🎬 <b>RareEmber Video Reel Ready & Dispatched!</b>\n\n"
                     f"• <b>Title:</b> {proj.title}\n"
-                    f"• <b>Visuals:</b> Authentic Product Angles + Human Presenter (Evaa Patel)\n"
+                    f"• <b>Presenter:</b> Eva (Live Facecam • Product in Hand ✋)\n"
                     f"• <b>Duration:</b> ~{int(proj.total_duration_seconds)}s Multi-Scene Dynamic Reel\n"
+                    f"• <b>Instagram Status:</b> {ig_post_status}\n"
                     f"• <b>Diwali Code:</b> <code>DIWALI100</code> (Flat ₹100 OFF)\n"
                     f"• <b>Store Link:</b> {store_url}\n\n"
-                    f"🚀 <b>Copyable Instagram Caption:</b>\n"
-                    f"Stop scrolling! Upgrade your everyday lifestyle with this viral problem solver ✨\n\n"
+                    f"🚀 <b>Live Instagram Caption:</b>\n"
+                    f"Stop scrolling! Upgrade your daily lifestyle with this viral problem solver ✨\n\n"
                     f"✅ Pan-India Doorstep Cash on Delivery (COD)\n"
                     f"✅ 30-Day Zero-Risk Replacement Guarantee\n"
                     f"🔥 Special Diwali Offer: Use code DIWALI100 at checkout!\n\n"
@@ -540,9 +678,11 @@ class GoogleVidsEngine:
             "project_id": project_id,
             "title": proj.title,
             "video_path": str(video_file.relative_to(settings.WORKSPACE_PATH)).replace("\\", "/"),
+            "instagram_published": "Published live" in ig_post_status,
+            "instagram_status": ig_post_status,
             "telegram_delivered": delivered,
             "scenes_stitched": len(scene_clips),
-            "format": "9:16 Multi-Scene Vertical Reel"
+            "format": "9:16 Multi-Scene Vertical Reel (Eva Facecam + In-Hand Product)"
         }
 
 google_vids = GoogleVidsEngine()

@@ -12,7 +12,24 @@ __pycache__/
 # Instagram & Autopilot runtime
 session.json
 posted_history.json
+browser_cookies.json
+dots_gateway/browser_data/
 generated_posts/
+
+# Temporary media & debug screenshots
+*.mp3
+*.mp4
+*.wav
+ig_*.jpg
+test_*.jpg
+test_*.py
+submit_ig_code.py
+debug_create_dialog.py
+browser_ig_login.py
+browser_ig_post.py
+ig_verify_final_profile.py
+post_test_reel_clean.py
+publish_reel_until_confirmed.py
 
 # Backups & Memory JSON state
 BOT_BACKUPS/

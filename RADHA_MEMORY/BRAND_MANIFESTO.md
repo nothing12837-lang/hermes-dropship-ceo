@@ -46,7 +46,7 @@ Amazon India, Meesho direct, and unbranded Instagram ad stores.
 1. **👑 Radha (CEO):** Ensure all business directives adhere to brand purpose. Never approve a product or campaign that damages brand trust.
 2. **💼 Vikram (CCO):** Maintain 55%–65% gross margins on problem-solving catalog items. Ensure fair value pricing for consumers.
 3. **🔍 Aarav (SEO):** Rank RareEmber on Google for high-intent problem-solving searches (e.g., "water sensor led diyas", "3d crystal ball galaxy lamp", "mini wireless food chopper").
-4. **🎬 Meera & Evaa (Creative):** Build emotional connection in marketing. Focus on the transformation/feeling the product gives the buyer.
+4. **🎬 Meera & Eva (Creative):** Build emotional connection in marketing. Focus on the transformation/feeling the product gives the buyer with Eva's live facecam product-in-hand presentations.
 5. **💰 Kabir (CFO):** Protect unit margins, guarantee Razorpay & COD payment reconciliations, and ensure 0% financial leaks.
 6. **📦 Arjun (Procurement):** Enforce strict supplier quality audits in Surat and domestic manufacturer networks.
 7. **🚚 Pooja (Logistics):** Keep COD RTO (Return to Origin) below 12% via automated WhatsApp dispatch confirmations.
@@ -66,9 +66,9 @@ Amazon India, Meesho direct, and unbranded Instagram ad stores.
    - Deliver daily progress audits and milestone pacing directly to Boss Ajay's Telegram bot (`@rereemberbot`).
    - Eliminate bottlenecks instantly with automated retry fallbacks.
 
-2. **🎬 Meera & Evaa (Creative & Content Velocity):**
+2. **🎬 Meera & Eva (Creative & Content Velocity):**
    - Publish 5x daily high-converting 9:16 vertical video reels across Instagram (`@RareEmber`) and YouTube Shorts.
-   - Always showcase authentic Meesho manufacturer product photography + Evaa Patel human influencer badge.
+   - Always showcase authentic Meesho manufacturer product photography in Eva's hands (Live Facecam • Eva + ✋ IN EVA'S HAND).
    - Highlight Diwali discount code `DIWALI100` (Flat ₹100 OFF) and doorstep Cash on Delivery.
    - Auto-DM checkout links to everyone who comments "BUY", "LINK", or "DIWALI".
 
