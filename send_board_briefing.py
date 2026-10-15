@@ -1,3 +1,4 @@
+import os
 import requests
 import sys
 
@@ -7,8 +8,10 @@ try:
 except Exception:
     pass
 
-token = '8898923626:AAHjI91mNfyRCanPdK9MVDiTBpL4zPzPOkI'
-chat_id = '5238068527'
+token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+chat_id = os.environ.get("TELEGRAM_ALLOWED_USERS", "5238068527").split(",")[0].strip()
+if not token:
+    raise ValueError("TELEGRAM_BOT_TOKEN must be configured in environment.")
 
 text = (
     "👑 <b>Radha CEO & Autonomous Executive Board Active</b>\n\n"

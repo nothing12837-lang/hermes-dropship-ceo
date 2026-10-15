@@ -622,10 +622,12 @@ class GoogleVidsEngine:
                 ig_post_status = f"Error: {ige}"
 
         # 2. Dispatch to Ajay on Telegram
-        token = "8898923626:AAHjI91mNfyRCanPdK9MVDiTBpL4zPzPOkI"
-        chat_id = "5238068527"
+        token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+        chat_id = os.environ.get("TELEGRAM_ALLOWED_USERS", "5238068527").split(",")[0].strip()
+        if not token:
+            print("⚠️ TELEGRAM_BOT_TOKEN not configured, skipping Telegram dispatch.")
         delivered = False
-        if video_file.exists() and video_file.stat().st_size > 1000:
+        if token and video_file.exists() and video_file.stat().st_size > 1000:
             try:
                 caption_text = (
                     f"🎬 <b>RareEmber Video Reel Ready & Dispatched!</b>\n\n"
