@@ -207,6 +207,7 @@ export default function CheckoutPage() {
               phoneModel: d.phoneModel,
               customText: d.customText,
               customPlacement: d.customPlacement,
+              customImageName: (d as any).customImageName,
             })),
             payment_method: 'cod',
             total_amount: total,
@@ -275,6 +276,7 @@ export default function CheckoutPage() {
             phoneModel: d.phoneModel,
             customText: d.customText,
             customPlacement: d.customPlacement,
+            customImageName: (d as any).customImageName,
           })),
           user_id: userId,
           market,
@@ -682,6 +684,11 @@ export default function CheckoutPage() {
                           {d.customText && (
                             <span className="px-1.5 py-0.5 rounded bg-[#FF4D24]/20 text-[#FF4D24] border border-[#FF4D24]/30 font-semibold">
                               &quot;{d.customText}&quot; {d.customPlacement ? `(${d.customPlacement})` : ''}
+                            </span>
+                          )}
+                          {((d as any).customImageName || (d as any).customImage) && (
+                            <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold">
+                              🖼️ {(d as any).customImageName || 'Graphic Attached'} {d.customPlacement ? `(${d.customPlacement})` : ''}
                             </span>
                           )}
                         </div>

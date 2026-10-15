@@ -41,7 +41,12 @@ export async function notifyTelegramOrder(order: {
     itemsSummary = itemsList
       .map((it, idx) => {
         const itemTitle = it.title || it.name || it.id || `Item ${idx + 1}`;
-        const variantParts = [it.size ? `Size: ${it.size}` : '', it.phoneModel, it.customText ? `Custom: "${it.customText}"` : ''].filter(Boolean).join(' • ');
+        const variantParts = [
+          it.size ? `Size: ${it.size}` : '',
+          it.phoneModel,
+          it.customText ? `Custom: "${it.customText}"` : '',
+          (it as any).customImageName ? `Graphic: ${(it as any).customImageName}` : ''
+        ].filter(Boolean).join(' • ');
         return `  ${idx + 1}. <b>${itemTitle}</b>${variantParts ? ` [${variantParts}]` : ''} (Qty: ${it.qty || 1})`;
       })
       .join('\n');

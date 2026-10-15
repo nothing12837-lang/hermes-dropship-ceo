@@ -250,7 +250,7 @@ export default function CartDrawer() {
                               {d.product.title}
                             </p>
                           </Link>
-                          {(d.size || d.phoneModel || d.customText) && (
+                          {(d.size || d.phoneModel || d.customText || (d as any).customImageName || (d as any).customImage) && (
                             <div className="flex flex-wrap gap-1 mt-1 text-[11px]">
                               {d.size && (
                                 <span className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-text-secondary border border-black/10 dark:border-white/10 font-bold">
@@ -265,6 +265,11 @@ export default function CartDrawer() {
                               {d.customText && (
                                 <span className="px-1.5 py-0.5 rounded bg-[#ff4d24]/10 text-[#ff4d24] border border-[#ff4d24]/20 font-bold">
                                   Custom: &quot;{d.customText}&quot; {d.customPlacement ? `(${d.customPlacement})` : ''}
+                                </span>
+                              )}
+                              {((d as any).customImageName || (d as any).customImage) && (
+                                <span className="px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20 font-bold">
+                                  🖼️ Graphic: {(d as any).customImageName || 'Artwork Attached'} {d.customPlacement ? `(${d.customPlacement})` : ''}
                                 </span>
                               )}
                             </div>

@@ -77,8 +77,31 @@ export function ProductClient({ product }: Props) {
   const [sizeUnit, setSizeUnit] = useState<'in' | 'cm'>('in');
   const [selectedPhoneModel, setSelectedPhoneModel] = useState<string>(PHONE_MODELS[0]);
   const [isCustomizing, setIsCustomizing] = useState(false);
+  const [customMode, setCustomMode] = useState<'text' | 'image'>('text');
   const [customText, setCustomText] = useState('');
+  const [customImage, setCustomImage] = useState<string | null>(null);
+  const [customImageName, setCustomImageName] = useState<string>('');
   const [customPlacement, setCustomPlacement] = useState<string>('Front Print');
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 15 * 1024 * 1024) {
+      alert('Please upload an image smaller than 15MB.');
+      return;
+    }
+    setCustomImageName(file.name);
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCustomImage(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemoveImage = () => {
+    setCustomImage(null);
+    setCustomImageName('');
+  };
   const [addedAlert, setAddedAlert] = useState(false);
   const galleryImages = resolveProductImages(
     product.id,
@@ -197,8 +220,10 @@ export function ProductClient({ product }: Props) {
     gradient: product.gradient,
     size: isApparel ? selectedSize : undefined,
     phoneModel: isPhoneCase ? selectedPhoneModel : undefined,
-    customText: isCustomizing && customText.trim() ? customText.trim() : undefined,
+    customText: isCustomizing && customMode === 'text' && customText.trim() ? customText.trim() : undefined,
     customPlacement: isCustomizing ? customPlacement : undefined,
+    customImage: isCustomizing && customMode === 'image' && customImage ? customImage : undefined,
+    customImageName: isCustomizing && customMode === 'image' && customImageName ? customImageName : undefined,
   });
 
   const handleAddToCart = () => {
@@ -731,35 +756,184 @@ export function ProductClient({ product }: Props) {
 
               {isCustomizing && (
                 <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+                  {/* Mode Switcher: Text vs Image Upload */}
                   <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
-                      <label style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#57534e' }}>
-                        Custom Text / Name / Monogram
-                      </label>
-                      <span style={{ fontSize: '0.68rem', color: '#a8a29e', fontFamily: 'monospace' }}>
-                        {customText.length}/30
-                      </span>
+                    <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#57534e', marginBottom: '0.45rem' }}>
+                      Choose Customization Type
+                    </label>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                      <button
+                        type="button"
+                        onClick={() => setCustomMode('text')}
+                        style={{
+                          padding: '0.65rem 0.5rem',
+                          borderRadius: '0.75rem',
+                          border: customMode === 'text' ? '1.5px solid #FF4D24' : '1px solid rgba(0,0,0,0.1)',
+                          background: customMode === 'text' ? 'rgba(255, 77, 36, 0.08)' : '#ffffff',
+                          color: customMode === 'text' ? '#FF4D24' : '#44403c',
+                          fontWeight: 800,
+                          fontSize: '0.8rem',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.4rem',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        <span>✏️</span> Add Text / Name
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCustomMode('image')}
+                        style={{
+                          padding: '0.65rem 0.5rem',
+                          borderRadius: '0.75rem',
+                          border: customMode === 'image' ? '1.5px solid #FF4D24' : '1px solid rgba(0,0,0,0.1)',
+                          background: customMode === 'image' ? 'rgba(255, 77, 36, 0.08)' : '#ffffff',
+                          color: customMode === 'image' ? '#FF4D24' : '#44403c',
+                          fontWeight: 800,
+                          fontSize: '0.8rem',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.4rem',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        <span>🖼️</span> Upload Image / Logo
+                      </button>
                     </div>
-                    <input
-                      type="text"
-                      value={customText}
-                      onChange={(e) => setCustomText(e.target.value.slice(0, 30))}
-                      placeholder="e.g. RARE EMBER, AJAY, 2026, LEVEL UP"
-                      style={{
-                        width: '100%',
-                        padding: '0.75rem 1rem',
-                        fontSize: '0.9rem',
-                        fontWeight: 700,
-                        borderRadius: '0.75rem',
-                        border: '1.5px solid rgba(0,0,0,0.12)',
-                        background: '#f5f5f4',
-                        color: '#161311',
-                        outline: 'none',
-                        boxSizing: 'border-box',
-                      }}
-                    />
                   </div>
 
+                  {/* Mode A: Custom Text */}
+                  {customMode === 'text' && (
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                        <label style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#57534e' }}>
+                          Custom Text / Name / Monogram
+                        </label>
+                        <span style={{ fontSize: '0.68rem', color: '#a8a29e', fontFamily: 'monospace' }}>
+                          {customText.length}/30
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        value={customText}
+                        onChange={(e) => setCustomText(e.target.value.slice(0, 30))}
+                        placeholder="e.g. RARE EMBER, AJAY, 2026, LEVEL UP"
+                        style={{
+                          width: '100%',
+                          padding: '0.75rem 1rem',
+                          fontSize: '0.9rem',
+                          fontWeight: 700,
+                          borderRadius: '0.75rem',
+                          border: '1.5px solid rgba(0,0,0,0.12)',
+                          background: '#f5f5f4',
+                          color: '#161311',
+                          outline: 'none',
+                          boxSizing: 'border-box',
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Mode B: Customer Image Upload */}
+                  {customMode === 'image' && (
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#57534e', marginBottom: '0.45rem' }}>
+                        Upload Your Graphic / Photo / Artwork
+                      </label>
+                      {!customImage ? (
+                        <label
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '1.25rem 1rem',
+                            borderRadius: '0.85rem',
+                            border: '2px dashed rgba(255, 77, 36, 0.4)',
+                            background: 'rgba(255, 77, 36, 0.03)',
+                            cursor: 'pointer',
+                            textAlign: 'center',
+                            transition: 'all 0.2s ease',
+                          }}
+                        >
+                          <span style={{ fontSize: '1.75rem', marginBottom: '0.35rem' }}>📁</span>
+                          <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#161311' }}>
+                            Click to Select Image from Device
+                          </span>
+                          <span style={{ fontSize: '0.7rem', color: '#78716c', marginTop: '0.2rem' }}>
+                            Supports PNG, JPG, WEBP, SVG up to 15MB
+                          </span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            style={{ display: 'none' }}
+                          />
+                        </label>
+                      ) : (
+                        <div
+                          style={{
+                            padding: '0.75rem 1rem',
+                            borderRadius: '0.85rem',
+                            background: '#f5f5f4',
+                            border: '1px solid rgba(0,0,0,0.1)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            gap: '0.75rem',
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', minWidth: 0 }}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={customImage}
+                              alt="Upload preview"
+                              style={{
+                                width: '3rem',
+                                height: '3rem',
+                                objectFit: 'contain',
+                                borderRadius: '0.5rem',
+                                background: '#18181b',
+                                border: '1px solid rgba(0,0,0,0.1)',
+                              }}
+                            />
+                            <div style={{ minWidth: 0 }}>
+                              <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#161311', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                {customImageName}
+                              </div>
+                              <div style={{ fontSize: '0.68rem', color: '#059669', fontWeight: 700, marginTop: '0.1rem' }}>
+                                ✓ Ready for High-Density DTF Print
+                              </div>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={handleRemoveImage}
+                            style={{
+                              padding: '0.4rem 0.75rem',
+                              borderRadius: '0.5rem',
+                              background: 'rgba(239, 68, 68, 0.1)',
+                              color: '#dc2626',
+                              border: 'none',
+                              fontSize: '0.72rem',
+                              fontWeight: 800,
+                              cursor: 'pointer',
+                              flexShrink: 0,
+                            }}
+                          >
+                            Remove ✕
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Print Placement Selector */}
                   {isApparel && (
                     <div>
                       <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#57534e', marginBottom: '0.45rem' }}>
@@ -793,7 +967,8 @@ export function ProductClient({ product }: Props) {
                     </div>
                   )}
 
-                  {customText.trim() && (
+                  {/* Live DTF Preview Card for Text */}
+                  {customMode === 'text' && customText.trim() && (
                     <div
                       style={{
                         padding: '0.85rem 1rem',
@@ -804,7 +979,7 @@ export function ProductClient({ product }: Props) {
                       }}
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.68rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#a1a1aa', marginBottom: '0.4rem' }}>
-                        <span>✨ Live DTF Print Preview</span>
+                        <span>✨ Live DTF Text Preview</span>
                         <span style={{ color: '#FF4D24' }}>{customPlacement}</span>
                       </div>
                       <div
@@ -824,6 +999,65 @@ export function ProductClient({ product }: Props) {
                       </div>
                     </div>
                   )}
+
+                  {/* Live DTF Preview Card for Image */}
+                  {customMode === 'image' && customImage && (
+                    <div
+                      style={{
+                        padding: '0.85rem 1rem',
+                        borderRadius: '0.75rem',
+                        background: '#09090b',
+                        color: '#ffffff',
+                        border: '1px solid rgba(255,255,255,0.12)',
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.68rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#a1a1aa', marginBottom: '0.4rem' }}>
+                        <span>✨ Live DTF Graphic Preview</span>
+                        <span style={{ color: '#FF4D24' }}>{customPlacement}</span>
+                      </div>
+                      <div
+                        style={{
+                          padding: '0.85rem',
+                          borderRadius: '0.5rem',
+                          background: 'rgba(255,255,255,0.06)',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={customImage}
+                          alt="DTF Placement Preview"
+                          style={{
+                            maxHeight: '120px',
+                            maxWidth: '100%',
+                            objectFit: 'contain',
+                            borderRadius: '0.35rem',
+                          }}
+                        />
+                        <div style={{ fontSize: '0.65rem', color: '#a1a1aa', marginTop: '0.5rem' }}>
+                          High-Density Direct-To-Film (DTF) Print • Pre-inspected by Tirupur Hub
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Post-Order Concierge Reassurance */}
+                  <div
+                    style={{
+                      padding: '0.65rem 0.85rem',
+                      borderRadius: '0.65rem',
+                      background: 'rgba(0,0,0,0.03)',
+                      border: '1px solid rgba(0,0,0,0.05)',
+                      fontSize: '0.72rem',
+                      color: '#57534e',
+                      lineHeight: 1.45,
+                    }}
+                  >
+                    💬 <strong>Prefer to send design later?</strong> Place order normally, then email your artwork to <a href="mailto:rareemberagency@gmail.com" style={{ color: '#FF4D24', fontWeight: 800, textDecoration: 'underline' }}>rareemberagency@gmail.com</a> with your Order ID!
+                  </div>
                 </div>
               )}
             </div>
