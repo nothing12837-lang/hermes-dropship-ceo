@@ -27,6 +27,11 @@ export function isValidSku(v: unknown): v is string {
 export interface CheckoutItemInput {
   id: string;
   qty: number;
+  size?: string;
+  phoneModel?: string;
+  customText?: string;
+  customPlacement?: string;
+  customImageName?: string;
 }
 
 export function sanitizeCheckoutItems(v: unknown): CheckoutItemInput[] | null {
@@ -34,11 +39,19 @@ export function sanitizeCheckoutItems(v: unknown): CheckoutItemInput[] | null {
   const out: CheckoutItemInput[] = [];
   for (const raw of v) {
     if (!raw || typeof raw !== 'object') return null;
-    const { id, qty } = raw as { id?: unknown; qty?: unknown };
+    const { id, qty, size, phoneModel, customText, customPlacement, customImageName } = raw as Record<string, unknown>;
     if (typeof id !== 'string' || id.length === 0 || id.length > 128) return null;
     const q = Math.floor(Number(qty));
     if (!Number.isFinite(q) || q < 1 || q > 99) return null;
-    out.push({ id: id.trim(), qty: q });
+    out.push({
+      id: id.trim(),
+      qty: q,
+      size: typeof size === 'string' && size.length <= 10 ? size.trim() : undefined,
+      phoneModel: typeof phoneModel === 'string' && phoneModel.length <= 50 ? phoneModel.trim() : undefined,
+      customText: typeof customText === 'string' && customText.length <= 100 ? customText.trim() : undefined,
+      customPlacement: typeof customPlacement === 'string' && customPlacement.length <= 50 ? customPlacement.trim() : undefined,
+      customImageName: typeof customImageName === 'string' && customImageName.length <= 100 ? customImageName.trim() : undefined,
+    });
   }
   return out;
 }

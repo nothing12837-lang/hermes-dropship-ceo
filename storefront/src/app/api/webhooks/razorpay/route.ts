@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import crypto from 'crypto';
-import { fulfillOrder } from '@/lib/fulfillment/cj';
+import { fulfillQikinkOrder } from '@/lib/fulfillment/qikink';
 import { notifyTelegramOrder } from '@/lib/notifications/telegram';
 
 export const runtime = 'nodejs';
@@ -109,9 +109,9 @@ export async function POST(req: NextRequest) {
       let fulfilled: { ok: boolean; cjOrderId?: string; reason?: string } = { ok: false };
       try {
         if (order) {
-          const result = await fulfillOrder(supabase, order.id);
+          const result = await fulfillQikinkOrder(supabase, order.id);
           fulfilled = result.ok
-            ? { ok: true, cjOrderId: result.cjOrderId }
+            ? { ok: true, cjOrderId: result.qikinkOrderId }
             : { ok: false, reason: result.reason };
         }
       } catch (err) {

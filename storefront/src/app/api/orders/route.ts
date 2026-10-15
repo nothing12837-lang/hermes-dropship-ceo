@@ -6,6 +6,7 @@ import { notifyTelegramOrder } from '@/lib/notifications/telegram';
 import { isAdmin } from '@/lib/security/auth';
 import { validateCouponCode } from '@/lib/festivals';
 import { products as fallbackCatalog } from '@/lib/data/products';
+import { fulfillQikinkOrder } from '@/lib/fulfillment/qikink';
 
 // GET /api/orders?email=x&orderId=y — Public /track read path & Admin lookup
 export async function GET(req: NextRequest) {
@@ -165,7 +166,17 @@ export async function POST(req: NextRequest) {
     const prodMap = new Map((dbProducts ?? []).map((p) => [p.id, p]));
 
     let calculatedSubtotal = 0;
-    const enrichedItems: Array<{ id: string; title: string; price: number; qty: number }> = [];
+    const enrichedItems: Array<{
+      id: string;
+      title: string;
+      price: number;
+      qty: number;
+      size?: string;
+      phoneModel?: string;
+      customText?: string;
+      customPlacement?: string;
+      customImageName?: string;
+    }> = [];
 
     for (const item of validatedItems) {
       const prod = prodMap.get(item.id) || fallbackCatalog.find((f) => f.id === item.id);
@@ -192,6 +203,11 @@ export async function POST(req: NextRequest) {
         title: prod.title,
         price: unitPrice,
         qty: item.qty,
+        size: item.size,
+        phoneModel: item.phoneModel,
+        customText: item.customText,
+        customPlacement: item.customPlacement,
+        customImageName: item.customImageName,
       });
     }
 
@@ -296,6 +312,9 @@ export async function POST(req: NextRequest) {
       items: enrichedItems,
       address: newOrder.shipping_address,
     }).catch((e) => console.error('Telegram background alert error:', e));
+
+    // Automated Order Dispatch to Qikink (Tirupur hub)
+    fulfillQikinkOrder(sb, finalOrderId).catch((e) => console.error('Qikink auto-fulfillment background error:', e));
 
     return NextResponse.json({ ok: true, order_id: finalOrderId });
   } catch (err) {
