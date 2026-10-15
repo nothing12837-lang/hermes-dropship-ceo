@@ -50,15 +50,21 @@ flowchart LR
 
 ---
 
-## 4. Eva's Facecam Content System
-**Directive:** *"Always create facecam video of Eva and same product in her hand. Only name Eva, not Patel."*
+## 4. 100% Image-Only Feed Post Architecture (Zero Reels Directive)
+**Directive:** *"Delete reels idea, only post images, remove completely, and ask our team they will manage."*
 
-1. **Presenter Identity:** The host and brand ambassador is strictly **Eva** (never "Patel").
-2. **Visual Format:**
-   - Top 55% of the reel features **Eva's live facecam perspective** with studio lighting, eye contact, and `🔴 LIVE FACECAM • EVA` badge.
-   - In Eva's hand: The **exact product** being reviewed is prominently composited into her hand with realistic angle, soft drop shadow, and floating `✋ IN EVA'S HAND` indicator.
-   - Lower section displays large, bold, high-contrast subtitle captions, festive Diwali discount code **`DIWALI100`** (Flat ₹100 OFF), and doorstep COD guarantee.
-3. **Publishing Cadence:** 5x daily reels published automatically to Instagram (`@RareEmber`) and delivered to Boss Ajay's Telegram (`@rereemberbot`).
+1. **Complete Reels Deprecation:** All video reels / FFmpeg rendering pipelines are fully removed and decommissioned. Marketing is 100% static, high-converting image creatives.
+2. **Visual Format Standard (1080x1350 4:5 & 1080x1080):**
+   - Authentic, high-resolution domestic Meesho product imagery fetched with verified browser headers.
+   - Distinctive RareEmber header branding with seasonal badge (e.g., `DIWALI SPECIAL • OFFICIAL DROP`).
+   - Prominent pricing hierarchy: Bold selling price (`Rs. 399`), strikethrough M.R.P. (`M.R.P. Rs. 899`), and instant savings pill (`SAVE 56%`).
+   - Festive discount voucher pill (`DIWALI DROP • CODE: DIWALI100` for Flat ₹100 OFF).
+   - Reassurance badges: `PAN-INDIA EXPRESS COURIER • CASH ON DELIVERY • 7-DAY EASY REPLACEMENT`.
+   - Call-to-action banner: Direct checkout URL and bio link directive.
+3. **Publishing Cadence & Autonomous Team Ownership:**
+   - Managed end-to-end by Radha CEO, Meera (Visual Merchandising), Aarav (SEO/Hashtags), and Kabir (Margin Control).
+   - Automated posting via persistent authenticated Chromium browser sessions directly to `@RareEmber` on Instagram.
+   - Instant preview, proof, and 1-tap copyable caption delivered to Boss Ajay on Telegram (`@rereemberbot`).
 
 ---
 

@@ -62,7 +62,7 @@ PRODUCTS_CATALOG = [
         "compare_at": 899,
         "rating": 4.8,
         "reviews": 1840,
-        "image_url": "https://images.meesho.com/images/products/431985757/756ycd_512.jpg",
+        "image_url": "https://images.meesho.com/images/products/431985757/t7ur4_512.jpg",
         "hook": "Pour a drop of water and they illuminate instantly! 🪔✨ No fire risk, 100% reusable.",
         "features": [
             "Water-activated automatic LED sensor",
@@ -78,7 +78,7 @@ PRODUCTS_CATALOG = [
         "compare_at": 1299,
         "rating": 4.7,
         "reviews": 2410,
-        "image_url": "https://images.meesho.com/images/products/1023667594/gxgqyy_512.jpg",
+        "image_url": "https://images.meesho.com/images/products/1023667594/w5bxr_512.jpg",
         "hook": "Tap the top and watch your room transform into a luxury hotel lounge 💎✨",
         "features": [
             "16 RGB color modes with remote controller",
@@ -94,7 +94,7 @@ PRODUCTS_CATALOG = [
         "compare_at": 899,
         "rating": 4.8,
         "reviews": 1250,
-        "image_url": "https://images.meesho.com/images/products/1038078401/h61mf5_512.jpg",
+        "image_url": "https://images.meesho.com/images/products/1038078401/hha6k_512.jpg",
         "hook": "Bring the entire Milky Way galaxy onto your bedroom desk 🌌✨",
         "features": [
             "K9 optical glass crystal ball with laser engraving",
@@ -110,7 +110,7 @@ PRODUCTS_CATALOG = [
         "compare_at": 1499,
         "rating": 4.8,
         "reviews": 920,
-        "image_url": "https://images.meesho.com/images/products/984668048/ga8uq8_512.jpg",
+        "image_url": "https://images.meesho.com/images/products/984668048/khohq_512.jpg",
         "hook": "Realistic fireplace flame effect with relaxing essential oil aroma 🔥✨",
         "features": [
             "Ultrasonic cool mist with realistic LED flame simulation",
@@ -126,7 +126,7 @@ PRODUCTS_CATALOG = [
         "compare_at": 999,
         "rating": 4.6,
         "reviews": 980,
-        "image_url": "https://images.meesho.com/images/products/1001131290/gk1pui_512.jpg",
+        "image_url": "https://images.meesho.com/images/products/1001131290/b8mad_512.jpg",
         "hook": "Chop garlic, ginger, and chilies in literally 5 seconds without tears 🧅⚡",
         "features": [
             "304 stainless steel food-grade reinforced blades",
@@ -142,7 +142,7 @@ PRODUCTS_CATALOG = [
         "compare_at": 1899,
         "rating": 4.9,
         "reviews": 1540,
-        "image_url": "https://images.meesho.com/images/products/759223858/ck0svm_512.jpg",
+        "image_url": "https://images.meesho.com/images/products/759223858/29bl5_512.jpg",
         "hook": "Transform your ceiling into a stunning starry nebula space adventure 👨‍🚀🚀",
         "features": [
             "360° rotating magnetic astronaut head",
@@ -153,12 +153,12 @@ PRODUCTS_CATALOG = [
 ]
 
 FALLBACK_IMAGES = {
-    'meesho-water-sensor-led-diyas-pack-of-12': 'https://images.meesho.com/images/products/431985757/756ycd_512.jpg',
-    'meesho-crystal-diamond-touch-led-table-lamp': 'https://images.meesho.com/images/products/1023667594/gxgqyy_512.jpg',
+    'meesho-water-sensor-led-diyas-pack-of-12': 'https://images.meesho.com/images/products/431985757/t7ur4_512.jpg',
+    'meesho-crystal-diamond-touch-led-table-lamp': 'https://images.meesho.com/images/products/1023667594/w5bxr_512.jpg',
     'meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base': 'https://images.meesho.com/images/products/1038078401/hha6k_512.jpg',
-    'meesho-ultrasonic-flame-mist-aroma-diffuser': 'https://images.meesho.com/images/products/984668048/ga8uq8_512.jpg',
-    'meesho-electric-mini-wireless-garlic-chopper': 'https://images.meesho.com/images/products/1001131290/gk1pui_512.jpg',
-    'meesho-galaxy-star-astronaut-projector-night-lamp': 'https://images.meesho.com/images/products/759223858/ck0svm_512.jpg',
+    'meesho-ultrasonic-flame-mist-aroma-diffuser': 'https://images.meesho.com/images/products/984668048/khohq_512.jpg',
+    'meesho-electric-mini-wireless-garlic-chopper': 'https://images.meesho.com/images/products/1001131290/b8mad_512.jpg',
+    'meesho-galaxy-star-astronaut-projector-night-lamp': 'https://images.meesho.com/images/products/759223858/29bl5_512.jpg',
 }
 
 SUPABASE_URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL", "").strip()
@@ -400,13 +400,26 @@ def render_post_image(product):
     draw.text((width - 365, 62), fest['banner'], fill=theme["badge_text"], font=font_tag)
     
     # 2. Main Product Image (Centered Card)
-    img_url = product["image_url"]
-    try:
-        resp = requests.get(img_url, timeout=10)
-        prod_img = Image.open(BytesIO(resp.content)).convert("RGB")
-    except Exception as e:
-        print(f"Image fetch error: {e}, using color placeholder")
-        prod_img = Image.new("RGB", (800, 800), color=(245, 240, 230))
+    img_url = product.get("image_url") or FALLBACK_IMAGES.get(product.get("id"), "")
+    img_headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+        "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8"
+    }
+    prod_img = None
+    for candidate_url in [img_url, FALLBACK_IMAGES.get(product.get("id"))]:
+        if not candidate_url:
+            continue
+        try:
+            resp = requests.get(candidate_url, headers=img_headers, timeout=12)
+            if resp.status_code == 200 and len(resp.content) > 1000:
+                prod_img = Image.open(BytesIO(resp.content)).convert("RGB")
+                break
+        except Exception:
+            continue
+            
+    if prod_img is None:
+        print(f"Image fetch error for {img_url}, using styled placeholder")
+        prod_img = Image.new("RGB", (800, 800), color=theme["card_bg"])
         
     # Crop to square 860x860 without squashing aspect ratio
     from PIL import ImageOps
@@ -485,30 +498,6 @@ def render_post_image(product):
     base.save(out_path, quality=95)
     print(f"✅ Rendered creative ({theme['id']}) post image: {out_path}")
     return out_path
-
-# Reel video via Evaa cloud pipeline (Hermes CEO MeeraCreative + edge-tts + ffmpeg)
-def try_build_evaa_reel(product):
-    try:
-        from hermes_ceo.evaa import build_evaa_video_reel
-        reels_dir = os.path.join(OUTPUT_DIR, "reels")
-        res = build_evaa_video_reel(
-            product_title=product.get("title", "RareEmber Drop"),
-            price_inr=float(product.get("price_inr", 499)),
-            mrp_inr=float(product.get("compare_at", 999)),
-            image_url=product.get("image_url", ""),
-            output_dir=reels_dir,
-        )
-        vp = res.get("video_path")
-        if vp and os.path.exists(vp) and os.path.getsize(vp) > 1000:
-            print(f"🎬 Evaa reel ready: {vp}")
-            return vp
-        cp = res.get("card_path")
-        if cp and os.path.exists(cp):
-            print(f"🖼️ Evaa card fallback (no ffmpeg/audio): {cp}")
-            return cp
-    except Exception as e:
-        print(f"Evaa reel note: {e}")
-    return None
 
 def resolve_campaign_type(requested_type="auto"):
     if requested_type and requested_type != "auto":
@@ -647,8 +636,23 @@ def diagnose_instagram():
     return issues
 
 def post_to_instagram(media_path, caption, product=None):
-    """Logs into Instagram using instagrapi and publishes the photo or video Reel.
-    Returns dict {ok, stage, reason} - stage is auth|upload|comment|done."""
+    """Logs into Instagram and publishes the feed photo.
+    Primary: Playwright browser persistent session (dots_gateway/browser_data).
+    Secondary fallback: instagrapi client if session/credentials exist."""
+    # 1. Primary: Playwright authenticated browser session
+    try:
+        from browser_photo_post import post_feed_photo
+        print("🌐 Dispatching feed photo via Playwright persistent browser session...")
+        b_res = post_feed_photo(media_path, caption)
+        if b_res.get("ok"):
+            print("🎉 SUCCESS! Published feed post to @RareEmber on Instagram via Playwright session!")
+            return {"ok": True, "stage": "done", "reason": ""}
+        else:
+            print(f"⚠️ Playwright posting note: {b_res.get('reason')}. Trying instagrapi fallback...")
+    except Exception as be:
+        print(f"⚠️ Playwright session notice: {be}. Trying instagrapi fallback...")
+
+    # 2. Secondary Fallback: instagrapi
     try:
         from instagrapi import Client
         cl = Client()
@@ -694,17 +698,11 @@ def post_to_instagram(media_path, caption, product=None):
             pass
         print("✅ Login authenticated successfully!")
         
-        is_video = media_path.lower().endswith(".mp4")
-        if is_video:
-            print("📤 Uploading video Reel to Instagram Reels (@rareember)...")
-            media = cl.clip_upload(media_path, caption=caption)
-            print(f"🎉 SUCCESS! Published Reel to Instagram! Media ID: {media.pk}")
-        else:
-            print("📤 Uploading photo to Instagram feed (@rareember)...")
-            media = cl.photo_upload(media_path, caption=caption)
-            print(f"🎉 SUCCESS! Published Post to Instagram! Media ID: {media.pk}")
+        print("📤 Uploading photo to Instagram feed (@rareember)...")
+        media = cl.photo_upload(media_path, caption=caption)
+        print(f"🎉 SUCCESS! Published Post to Instagram! Media ID: {media.pk}")
 
-        # Agency Enhancement: Auto-post 1st Comment with direct link & instant discount
+        # Auto-post 1st Comment with direct link & instant discount
         if product:
             try:
                 time.sleep(2)
@@ -729,7 +727,7 @@ def post_to_instagram(media_path, caption, product=None):
             stage = "auth"
         return {"ok": False, "stage": stage, "reason": msg[:300]}
 
-def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="auto"):
+def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="post"):
     print("=" * 60)
     print(f"🚀 RAREEMBER INSTAGRAM AUTOPILOT CYCLE | {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 60)
@@ -741,15 +739,9 @@ def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="auto")
     c_type = resolve_campaign_type(campaign_type)
     print(f"🎯 Active Campaign Angle: {c_type.upper()}")
 
-    # 2. Render Media (Post image default, Reel via Evaa when requested)
-    want_reel = (format_type or "auto").lower() == "reel" or ((format_type or "auto").lower() == "auto" and c_type in ("festive_deal", "problem_solver"))
-    media_path = None
-    if want_reel:
-        print("🎬 Trying Evaa Hindi reel (Meera + edge-tts + ffmpeg)...")
-        media_path = try_build_evaa_reel(product)
-    if not media_path:
-        print("🖼️ Rendering Vertical 4:5 Instagram Feed Image Creative...")
-        media_path = render_post_image(product)
+    # 2. Render Media (100% High-Converting Feed Image Creatives - No Reels)
+    print("🖼️ Rendering Vertical 4:5 Instagram Feed Image Creative...")
+    media_path = render_post_image(product)
     
     # 3. Generate Caption
     caption, _ = generate_caption(product, campaign_type=c_type)
@@ -763,8 +755,7 @@ def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="auto")
         print(caption)
         print("-" * 40)
         print(f"🖼️ Media Asset Saved at: {media_path}")
-        media_kind = "Reel Video (MP4)" if media_path.endswith(".mp4") else "Feed Image (JPG)"
-        send_telegram_alert(media_path, f"📸 *Dry-Run Preview Ready ({c_type.upper()} | {media_kind})*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Media generated and ready for broadcast.")
+        send_telegram_alert(media_path, f"📸 *Dry-Run Feed Image Ready ({c_type.upper()})*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Media generated and ready for broadcast.")
         send_telegram_caption_box(caption)
         return {**base_result, "ok": True, "reason": ""}
     else:
@@ -773,31 +764,29 @@ def run_autopilot_cycle(dry_run=False, campaign_type="auto", format_type="auto")
         reason = (res.get("reason", "") if isinstance(res, dict) else "")
         if ok:
             history = load_history()
-            media_kind = "reel" if media_path.endswith(".mp4") else "post"
             history.append({
                 "id": product["id"],
                 "title": product["title"],
                 "campaign_type": c_type,
-                "format": media_kind,
+                "format": "post",
                 "posted_at": datetime.now(timezone.utc).isoformat(),
                 "media_path": media_path
             })
             save_history(history)
-            send_telegram_alert(media_path, f"✅ *Auto-Posted {media_kind.upper()} to Instagram ({c_type.upper()})*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Live on @rareember with direct product link & bio link.")
+            send_telegram_alert(media_path, f"✅ *Auto-Posted Feed Image to Instagram ({c_type.upper()})*\n\n*Product:* {product['title']}\n*Price:* ₹{product['price_inr']:,}\n*Status:* Live on @rareember with direct product link & bio link.")
+            send_telegram_caption_box(caption)
             return {**base_result, "ok": True, "reason": ""}
         if not reason:
             reason = "upload failed. " + " | ".join(diagnose_instagram())
         
-        # When cloud upload is blocked by Meta, immediately deliver rendered asset to Ajay's Telegram
-        media_kind = "Reel (MP4)" if media_path.endswith(".mp4") else "Post (JPG)"
         send_telegram_alert(
             media_path,
             f"⚠️ *Instagram Direct Upload Blocked by Meta*\n\n"
             f"*Product:* {product['title']}\n"
             f"*Price:* ₹{product['price_inr']:,}\n"
-            f"*Status:* HD {media_kind} delivered to your chat above 👆\n"
+            f"*Status:* HD Post delivered to your chat above 👆\n"
             f"*Reason:* `{reason[:120]}`\n\n"
-            f"📱 *Action:* Meta cloud IP rate-limit block lagata hai. Aap is delivered media ko phone me save karke 1 tap me @RareEmber feed ya Reels par post kar sakte hain!"
+            f"📱 *Action:* Meta cloud IP rate-limit block lagata hai. Aap is delivered media ko phone me save karke 1 tap me @RareEmber feed par post kar sakte hain!"
         )
         send_telegram_caption_box(caption)
         return {**base_result, "ok": False,
@@ -808,7 +797,7 @@ def main():
     parser = argparse.ArgumentParser(description="RareEmber Instagram Autopilot")
     parser.add_argument("--dry-run", action="store_true", help="Generate post and send preview to Telegram without uploading to IG")
     parser.add_argument("--campaign-type", choices=["auto", "catalog", "problem_solver", "festive_deal", "trust_builder"], default="auto", help="Campaign angle for post")
-    parser.add_argument("--format", choices=["auto", "post", "reel"], default="auto", help="Content format (post image or video reel)")
+    parser.add_argument("--format", choices=["auto", "post"], default="post", help="Content format (100% feed image post)")
     parser.add_argument("--daemon", action="store_true", help="Run continuously in background, auto-posting at set intervals")
     parser.add_argument("--interval-hours", type=float, default=12.0, help="Posting interval in hours for daemon mode (default: 12)")
     args = parser.parse_args()
