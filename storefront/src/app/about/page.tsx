@@ -122,7 +122,7 @@ export default function AboutPage() {
           </div>
           <div className="p-5 rounded-2xl bg-white border border-black/[0.06] text-center">
             <span className="text-3xl block mb-2">👑</span>
-            <span className="font-bold text-sm text-neutral-900 block">24/7 Radha AI Care</span>
+            <span className="font-bold text-sm text-neutral-900 block">24/7 Dedicated Care</span>
             <span className="text-xs text-neutral-500">Instant tracking & specs help</span>
           </div>
           <div className="p-5 rounded-2xl bg-white border border-black/[0.06] text-center">
@@ -130,28 +130,6 @@ export default function AboutPage() {
             <span className="font-bold text-sm text-neutral-900 block">256-Bit SSL Razorpay</span>
             <span className="text-xs text-neutral-500">Bank-grade security gateway</span>
           </div>
-        </section>
-
-        {/* MEET RADHA CEO & EXECUTIVE BOARD BANNER */}
-        <section className="rounded-[2rem] bg-gradient-to-r from-[#161311] via-[#241a15] to-[#161311] border border-amber-500/20 p-8 md:p-10 shadow-xl text-white flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="max-w-xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-300 text-xs font-bold mb-3">
-              <span>👑 24/7 Autonomous Corporate Leadership</span>
-            </div>
-            <h3 className="text-2xl md:text-3xl font-black tracking-tight text-white">
-              Meet Radha &amp; The AI Executive Board
-            </h3>
-            <p className="text-xs md:text-sm text-neutral-300 mt-2 leading-relaxed font-medium">
-              Rare Ember is steered by 7 autonomous specialized agents — Radha (CEO), Vikram (Merchandising), Aarav (SEO), Pooja (Logistics), Kabir (CFO), Arjun (Procurement), and Meera (Marketing &amp; Creative) — continuously optimizing collections, premium quality, and fast domestic dispatch.
-            </p>
-          </div>
-          <Link
-            href="/team"
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-r from-[#FF4D24] to-[#FF8800] text-white font-extrabold text-xs tracking-tight shrink-0 shadow-lg hover:brightness-110 active:scale-95 transition-all"
-          >
-            <span>Explore Executive Board</span>
-            <span>➔</span>
-          </Link>
         </section>
 
         {/* CALL TO ACTION */}
