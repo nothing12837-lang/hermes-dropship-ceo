@@ -1,0 +1,90 @@
+{
+  "generated_at": "2026-10-15T10:48:37.888027+00:00",
+  "vp_agent": "Arjun \u2014 VP of Meta Ads & Paid Acquisition",
+  "brand": "Rare Ember",
+  "official_domain": "https://rareember.shop",
+  "growth_target": "Scaling to \u20b91 Crore in 12 Months",
+  "daily_test_budget_inr": 1500,
+  "campaigns": [
+    {
+      "id": "AD-01-FABRIC-REVEAL",
+      "funnel_stage": "TOF (Top of Funnel - Cold Traffic)",
+      "campaign_name": "RE_TOF_AESTHETIC_STREETWEAR_240GSM",
+      "target_audience": {
+        "age": "18 - 28",
+        "gender": "All (Unisex)",
+        "locations": "Tier 1 & 2 Metro Cities (Mumbai, Delhi NCR, Bangalore, Pune, Hyderabad, Kolkata)",
+        "interests": [
+          "Streetwear",
+          "Oversized clothing",
+          "Hypebeast fashion",
+          "Sneaker collecting",
+          "Anime culture"
+        ]
+      },
+      "hook_first_3s": "Stop buying flimsy 140 GSM t-shirts that shrink after two washes.",
+      "visual_concept": "Split screen comparison: Thin mall t-shirt curling at collar vs Rare Ember 240 GSM heavyweight combed cotton falling with structured boxy drop-shoulders.",
+      "primary_text": "Most fast-fashion brands charge \u20b91,499 for cheap polyester blends. Rare Ember is engineered with 240 GSM bio-washed French terry & combed cotton.\n\n\ud83d\udd25 Heavyweight structured drape\n\ud83d\udd25 Zero color fade (DTF high-density prints)\n\ud83d\udd25 Pre-shrunk & breathable for Indian summers\n\ud83d\udee1\ufe0f Protected by 7-Day Free Doorstep Replacement\n\nOrder today for 1-Click Cash on Delivery.",
+      "headline": "240 GSM Heavyweight Streetwear \u2022 Starting \u20b9799",
+      "cta": "Shop Now",
+      "destination_url": "https://rareember.shop/shop?cat=fashion",
+      "budget_recommended_daily_inr": 500,
+      "target_cpc_inr": 4.5,
+      "target_roas": "4.2x"
+    },
+    {
+      "id": "AD-02-CUSTOM-STUDIO",
+      "funnel_stage": "TOF / MOF (Customization Hook)",
+      "campaign_name": "RE_CUSTOM_STREETWEAR_INITIALS_DROP",
+      "target_audience": {
+        "age": "18 - 26",
+        "gender": "All",
+        "locations": "Pan-India",
+        "interests": [
+          "Personalized gifts",
+          "Custom sneakers",
+          "Graphic design",
+          "Minimalist aesthetics"
+        ]
+      },
+      "hook_first_3s": "You can now customize your own heavyweight streetwear drop in 30 seconds.",
+      "visual_concept": "Screen recording of typing name/initials on Rare Ember Customization Studio, live mockup preview updating in real-time, followed by unboxing parcel.",
+      "primary_text": "Wear something that actually belongs to you.\n\nWith Rare Ember's Custom Studio, personalize heavy drop-shoulder tees with your name, initials, or signature tagline.\n\n\u2728 Bio-washed 240 GSM pure combed cotton\n\u2728 Crisp archival DTF printing (lasts 50+ washes)\n\u2728 Custom branded neck tag & collector packaging\n\u2728 Fast 3-day doorstep dispatch via BlueDart\n\nCreate your custom one-of-one piece now.",
+      "headline": "Personalize Your Streetwear \u2022 Custom Name Drop",
+      "cta": "Customize Now",
+      "destination_url": "https://rareember.shop/product/rareember-custom-heavyweight-oversized-tee",
+      "budget_recommended_daily_inr": 700,
+      "target_cpc_inr": 6.0,
+      "target_roas": "3.8x"
+    },
+    {
+      "id": "AD-03-RETARGETING-ABANDONED-CART",
+      "funnel_stage": "BOF (Bottom of Funnel - Abandoned Cart)",
+      "campaign_name": "RE_BOF_RETARGETING_CART_RECOVERY",
+      "target_audience": {
+        "custom_audiences": [
+          "Website Visitors Last 14 Days",
+          "Add To Cart Not Purchased (14 Days)"
+        ],
+        "exclusions": [
+          "Purchasers Last 30 Days"
+        ]
+      },
+      "hook_first_3s": "Did you forget something in your Rare Ember cart?",
+      "visual_concept": "Close-up fabric texture macro shot + 5-star customer review overlay + \u20b9100 discount coupon code pulse animation.",
+      "primary_text": "We saved your streetwear pieces, but stock is limited in each batch.\n\nUse code: RARE100 at checkout for an instant flat \u20b9100 OFF your order.\n\n\u2705 100% Free 7-Day Doorstep Replacement\n\u2705 Cash on Delivery (COD) Available\n\u2705 Express Delivery via BlueDart Air\n\nClaim your drop before it sells out.",
+      "headline": "Use Code: RARE100 for Extra \u20b9100 OFF \u26a1",
+      "cta": "Complete Order",
+      "destination_url": "https://rareember.shop/cart",
+      "budget_recommended_daily_inr": 300,
+      "target_cpc_inr": 3.0,
+      "target_roas": "6.5x"
+    }
+  ],
+  "actionable_rules": [
+    "Rule 1: Kill any ad creative if Cost Per Link Click (CPC) > \u20b912 after 500 impressions.",
+    "Rule 2: Scale daily budget by 20% every 48 hours for ad sets maintaining ROAS > 3.5x.",
+    "Rule 3: Rotate video hooks every 7 days to prevent creative ad fatigue.",
+    "Rule 4: Always keep COD verification active to maintain delivery rate > 88%."
+  ]
+}

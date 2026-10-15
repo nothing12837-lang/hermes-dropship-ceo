@@ -1,0 +1,28 @@
+{
+  "learning": {
+    "continuous_research_1791982842": {
+      "content": {
+        "summary": "Continuous deep research cycle completed.",
+        "insights": [
+          "High festive demand for ambient decorative lighting with water/sound sensors.",
+          "Maintaining \u20b9449-\u20b9599 price point yields optimal impulse purchases with >55% gross margin.",
+          "Pre-dispatch WhatsApp confirmation mitigates COD RTO rate below 10%."
+        ],
+        "cycle": 1,
+        "timestamp": "2026-10-14T13:00:42.626123+00:00"
+      },
+      "confidence": 1.0,
+      "updated_at": "2026-10-14T13:00:45.897242+00:00"
+    }
+  },
+  "semantic": {
+    "test_rls_integrity": {
+      "content": {
+        "status": "intact",
+        "secured": true
+      },
+      "confidence": 1.0,
+      "updated_at": "2026-10-14T13:18:17.016910+00:00"
+    }
+  }
+}

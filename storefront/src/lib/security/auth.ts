@@ -25,8 +25,6 @@ export function requireEnvSecret(name: 'ADMIN_SECRET' | 'CRON_SECRET'): string |
 
 const KNOWN_VAULT_KEYS = [
   'RE_SECURE_VAULT_2026_hNjMeToDUPKxb!dB#cXAJmsC',
-  'rareember_super_secret_cron_2026',
-  'rareember2026',
 ];
 
 export function isAuthorized(req: Request, expected: string | null): boolean {

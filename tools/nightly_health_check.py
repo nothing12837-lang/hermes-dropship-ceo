@@ -25,7 +25,7 @@ if os.path.exists(".env"):
 
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
 TELEGRAM_USERS = [u.strip() for u in os.environ.get("TELEGRAM_ALLOWED_USERS", "5238068527").split(",") if u.strip()]
-STOREFRONT_URL = os.environ.get("SITE_URL", "https://rareember-store.vercel.app").rstrip("/")
+STOREFRONT_URL = os.environ.get("SITE_URL", "https://www.rareember.shop").rstrip("/")
 
 def send_telegram(text: str):
     if not TELEGRAM_TOKEN or not TELEGRAM_USERS:

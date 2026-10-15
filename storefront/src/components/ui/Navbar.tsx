@@ -33,9 +33,6 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  if (pathname?.startsWith('/dots')) {
-    return null;
-  }
   const { market, setMarket } = useGeo();
   const { count, openCart } = useCart();
   const { count: wishCount } = useWishlist();

@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import { COPY } from '@/lib/data/copy';
 
 function RareEmberLogo({ className = 'w-7 h-7' }: { className?: string }) {
@@ -18,10 +17,6 @@ function RareEmberLogo({ className = 'w-7 h-7' }: { className?: string }) {
 }
 
 export default function Footer() {
-  const pathname = usePathname();
-  if (pathname?.startsWith('/dots')) {
-    return null;
-  }
   return (
     <footer className="w-full relative overflow-hidden text-white grain bg-gradient-night">
       {/* Ambient aurora glow */}

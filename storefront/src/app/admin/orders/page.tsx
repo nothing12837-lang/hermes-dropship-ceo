@@ -288,13 +288,6 @@ export default function AdminOrdersPage() {
 
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
             <Link
-              href="/dots"
-              className="px-3.5 py-2 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/40 text-xs font-bold text-purple-200 transition-all flex items-center gap-1.5 shadow-md shadow-purple-900/20"
-            >
-              <span>⚡</span>
-              <span>Admin Cloud Terminal</span>
-            </Link>
-            <Link
               href="/"
               className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 transition-all"
             >
