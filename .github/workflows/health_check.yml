@@ -1,0 +1,44 @@
+name: RareEmber Cloud Health & Security Sentinel
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 18 * * *'  # 12:00 AM Midnight IST (Nightly Audit)
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rarember-health-sentinel
+  cancel-in-progress: true
+
+jobs:
+  cloud-health-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          pip install requests pg8000
+
+      - name: Run Nightly Cloud Health Sentinel
+        env:
+          SITE_URL: "https://rareember-store.vercel.app"
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALLOWED_USERS: ${{ secrets.TELEGRAM_ALLOWED_USERS }}
+          SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST || 'db.qdkkxpfhwrwyoardlceo.supabase.co' }}
+          SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER || 'postgres' }}
+          SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME || 'postgres' }}
+          SUPABASE_DB_PASS: ${{ secrets.SUPABASE_DB_PASS }}
+        run: |
+          python tools/nightly_health_check.py

@@ -1,26 +1,25 @@
-name: Radha Dropship 24x7 (Worker A)
+name: Radha Dropship Midnight Sync (Worker A)
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/30 * * * *'
-    - cron: '30 18 * * *'
+    - cron: '30 18 * * *'  # 12:00 AM Midnight IST (Clean Daily Sync)
 
 permissions:
-  contents: write
-  actions: write
+  contents: read
 
 concurrency:
   group: radha-dropship-singleton
   cancel-in-progress: true
 
 jobs:
-  run-radha-a:
+  run-radha-daily-sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 345
+    timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -28,54 +27,37 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
-          sudo apt-get update && sudo apt-get install -y ffmpeg
           pip install -r requirements.txt
 
-      - name: Nightly CEO reflection (11:30pm IST)
-        if: github.event.schedule == '30 18 * * *'
+      - name: Execute CEO Nightly Reflection & Strategy
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           SUPABASE_DB_PASS: ${{ secrets.SUPABASE_DB_PASS }}
           SITE_URL: "https://rareember-store.vercel.app"
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALLOWED_USERS: ${{ secrets.TELEGRAM_ALLOWED_USERS }}
         run: |
-          python -c "from radha_ceo.brain import RadhaBrain; print(RadhaBrain().execute_nightly_reflection())" || echo "reflection skipped"
+          python -c "from radha_ceo.brain import RadhaBrain; b = RadhaBrain(); print(b.perceive())"
 
-      - name: Run Radha Dropship CEO
+      - name: Execute Arjun Meesho Procurement Sentinel (Zero-Loss Audit)
+        env:
+          SUPABASE_DB_PASS: ${{ secrets.SUPABASE_DB_PASS }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ALLOWED_USERS: ${{ secrets.TELEGRAM_ALLOWED_USERS }}
+          SITE_URL: "https://rareember-store.vercel.app"
+        run: |
+          python arjun_sentinel.py
+
+      - name: Alert on Failure
+        if: failure()
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_ALLOWED_USERS: ${{ secrets.TELEGRAM_ALLOWED_USERS }}
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          SITE_URL: "https://rareember-store.vercel.app"
-          ADMIN_SECRET: ${{ secrets.ADMIN_SECRET }}
-          SUPABASE_DB_PASS: ${{ secrets.SUPABASE_DB_PASS }}
-          GH_TOKEN: ${{ secrets.GH_PAT }}
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-          IG_USERNAME: ${{ secrets.IG_USERNAME }}
-          IG_PASSWORD: ${{ secrets.IG_PASSWORD }}
-          IG_SESSIONID: ${{ secrets.IG_SESSIONID }}
         run: |
-          timeout 14400 python dropship_gateway.py || echo "Cycle completed gracefully"
-
-      - name: Sync Persistent State & Memory
-        if: always()
-        run: |
-          git config user.name "Radha CEO Bot"
-          git config user.email "radha@rareember.com"
-          git pull --rebase origin main || true
-          git add RADHA_MEMORY/*.json HERMES_MEMORY/*.json || true
-          git commit -m "chore(memory): persist seen orders and idempotency state" || true
-          git push origin main || true
-
-      - name: Trigger Continuous 24/7 Relay
-        if: always()
-        run: |
-          echo "Dispatched continuous 24/7 worker relay..."
-          curl -s -X POST \
-            -H "Authorization: token ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ github.repository }}/actions/workflows/worker_a.yml/dispatches \
-            -d '{"ref":"main"}' || true
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d "chat_id=${TELEGRAM_ALLOWED_USERS%%,*}" \
+            -d "parse_mode=HTML" \
+            -d "text=🚨 <b>RADHA MIDNIGHT SYNC FAILED</b>%0ACheck GitHub Actions run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" || true
