@@ -7,7 +7,7 @@ interface Props {
   params: Promise<{ id: string }>;
 }
 
-const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://rareember-store.vercel.app';
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://www.rareember.shop';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!product) notFound();
 
-  const cleanSlug = (product.slug || product.id).replace(/^meesho-/, '');
+  const cleanSlug = product.slug || product.id;
   const description =
     product.short || `Buy ${product.title} online at Rare Ember. Pan-India Express Delivery with Razorpay & Cash on Delivery.`;
 

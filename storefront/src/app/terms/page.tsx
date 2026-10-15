@@ -66,7 +66,7 @@ export default function TermsPage() {
                 <br />
                 <b>Email:</b> rareemberagency@gmail.com
                 <br />
-                <b>Website:</b> https://rareember-store.vercel.app
+                <b>Website:</b> https://www.rareember.shop
               </p>
             </section>
           </div>

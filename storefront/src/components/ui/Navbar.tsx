@@ -124,7 +124,7 @@ export default function Navbar() {
               />
             </span>
             <span className="whitespace-nowrap font-bold text-text-primary tracking-tight">
-              Rare Ember<span className="text-gradient-ember-animated">.</span>
+              Rare Ember
             </span>
           </Link>
 
@@ -258,8 +258,8 @@ export default function Navbar() {
 
               <div className="p-5 flex justify-between items-center relative z-10">
                 <span className="font-display text-2xl flex items-center gap-2 text-white">
-                  <Image src="/flame-icon.png" alt="RareEmber" width={24} height={24} className="object-contain" />
-                  <span>rareember<span className="text-gradient-ember-animated">.</span></span>
+                  <Image src="/flame-icon.png" alt="Rare Ember" width={24} height={24} className="object-contain" />
+                  <span>Rare Ember</span>
                 </span>
                 <button
                   onClick={() => setMenuOpen(false)}

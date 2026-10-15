@@ -130,9 +130,8 @@ export default function QuizPage() {
                     price={formatPrice(p.price)}
                     oldPrice={p.compareAtPrice ? formatPrice(p.compareAtPrice) : undefined}
                     rawPrice={p.price}
-                    rawComparePrice={p.compareAtPrice}
-                    gradient={p.gradient}
-                    chapter={p.chapter}
+                    gradient={p.gradient || 'linear-gradient(135deg, #18181b, #09090b)'}
+                    chapter={p.chapter || 'Curated'}
                   />
                 ))}
               </div>

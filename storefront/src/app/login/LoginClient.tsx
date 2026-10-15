@@ -47,7 +47,7 @@ export function LoginClient() {
 
     const origin = typeof window !== 'undefined' && window.location.origin
       ? window.location.origin
-      : 'https://rareember-store.vercel.app';
+      : 'https://www.rareember.shop';
 
     try {
       if (mode === 'signin') {
@@ -111,7 +111,7 @@ export function LoginClient() {
     try {
       const origin = typeof window !== 'undefined' && window.location.origin
         ? window.location.origin
-        : 'https://rareember-store.vercel.app';
+        : 'https://www.rareember.shop';
 
       const { error } = await supabase.auth.signInWithOtp({
         email,
@@ -133,7 +133,7 @@ export function LoginClient() {
     try {
       const origin = typeof window !== 'undefined' && window.location.origin
         ? window.location.origin
-        : 'https://rareember-store.vercel.app';
+        : 'https://www.rareember.shop';
       const target = redirectTarget && redirectTarget.startsWith('/') ? redirectTarget : '/profile';
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',

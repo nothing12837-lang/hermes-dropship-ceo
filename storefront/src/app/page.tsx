@@ -9,8 +9,8 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata = {
-  title: 'RareEmber | Handpicked Quality Catalog',
-  description: 'Verified dropshipping catalog with instant order checkout, pan-India & global express courier, and 7-day easy replacements.',
+  title: 'Rare Ember — Curated Streetwear, Drinkware & Creator Lifestyle',
+  description: 'Curated heavyweight streetwear, artisan drinkware & aesthetic desk gear. 100% Qikink Print-on-Demand domestic manufacturing, express dispatch & 7-day replacements.',
 };
 
 function toCard(p: Product, rank?: number) {
@@ -26,7 +26,7 @@ function toCard(p: Product, rank?: number) {
     oldPrice: p.compareAtPrice ? formatPrice(p.compareAtPrice) : undefined,
     rawPrice: p.price_inr || p.price,
     rawComparePrice: p.compareAtPrice,
-    gradient: p.gradient,
+    gradient: p.gradient || 'linear-gradient(135deg, #18181b, #09090b)',
     imageUrl: p.image_url,
     chapter: undefined,
     pet: undefined,
@@ -39,17 +39,17 @@ function toCard(p: Product, rank?: number) {
 
 const CATEGORY_TABS = [
   { id: 'all', label: 'All Catalog', emoji: '🛍️', href: '/shop' },
-  { id: 'electronics', label: 'Tech & Gadgets', emoji: '⚡', href: '/shop?cat=electronics' },
-  { id: 'general', label: 'Viral & Lifestyle', emoji: '🔥', href: '/shop?cat=general' },
-  { id: 'home-garden', label: 'Home & Living', emoji: '🪴', href: '/shop?cat=home-garden' },
-  { id: 'fashion', label: 'Curated Fashion', emoji: '✨', href: '/shop?cat=fashion' },
+  { id: 'fashion', label: 'Streetwear Apparel', emoji: '👕', href: '/shop?cat=fashion' },
+  { id: 'home-garden', label: 'Artisan Drinkware', emoji: '☕', href: '/shop?cat=home-garden' },
+  { id: 'electronics', label: 'Desk & Workstation', emoji: '🖥️', href: '/shop?cat=electronics' },
+  { id: 'general', label: 'Creator Lifestyle', emoji: '✨', href: '/shop?cat=general' },
 ];
 
 const DEPARTMENTS = [
-  { href: '/shop?cat=electronics', emoji: '💻', title: 'Electronics', sub: 'Tech & Gadgets' },
-  { href: '/shop?cat=fashion', emoji: '👕', title: 'Fashion', sub: 'Curated Apparel' },
-  { href: '/shop?cat=home-garden', emoji: '🪴', title: 'Home & Living', sub: 'Living & Garden' },
-  { href: '/shop?cat=general', emoji: '🔥', title: 'Viral Trends', sub: 'Lifestyle & Travel' },
+  { href: '/shop?cat=fashion', emoji: '👕', title: 'Streetwear', sub: 'Heavyweight Tees & Hoodies' },
+  { href: '/shop?cat=home-garden', emoji: '☕', title: 'Drinkware', sub: 'Ceramic Mugs & Tumblers' },
+  { href: '/shop?cat=electronics', emoji: '🖥️', title: 'Workstation', sub: 'Extended Mats & Sleeves' },
+  { href: '/shop?cat=general', emoji: '✨', title: 'Lifestyle', sub: 'Canvas Totes & Journals' },
 ];
 
 const ASSURANCES = [
@@ -61,7 +61,7 @@ const ASSURANCES = [
 
 const MARQUEE_ITEMS = [
   '🪔 Festive Utsav Live',
-  '⚡ DIWALI100 Flat ₹100 OFF',
+  '⚡ EMBER10 Flat 10% OFF',
   '🚚 2–4 Day Express Pan-India',
   '💵 Cash on Delivery 19,000+ PINs',
   '🛡️ 7-Day Easy Replacement',

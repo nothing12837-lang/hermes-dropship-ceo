@@ -67,7 +67,7 @@ export default function PrivacyPage() {
                 <br />
                 <b>Support Email:</b> rareemberagency@gmail.com
                 <br />
-                <b>Store:</b> RareEmber Store (https://rareember-store.vercel.app)
+                <b>Store:</b> Rare Ember (https://www.rareember.shop)
               </p>
             </section>
           </div>

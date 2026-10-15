@@ -147,7 +147,7 @@ export async function notifyTelegramOrder(order: {
     .join('\n\n');
 
   const text = [
-    `🚨 <b>NEW ORDER ON RAREEMBER!</b> ${icon}`,
+    `🚨 <b>NEW ORDER ON RARE EMBER!</b> ${icon}`,
     ``,
     `🆔 <b>Order ID:</b> <code>#${order.id}</code>`,
     `💳 <b>Payment:</b> <b>${payLabel}</b>`,
@@ -160,15 +160,11 @@ export async function notifyTelegramOrder(order: {
     addrStr,
     ``,
     waSection,
-    `📲 <b>1-CLICK MEESHO DIRECT PRODUCT LISTING:</b>`,
-    directLinksFormatted,
-    ``,
-    `⚡ <b>Quick Reseller Fulfillment & Tracking (30 Seconds):</b>`,
-    `1. Tap Meesho link above & tap 'Buy Now'`,
-    `2. Paste customer delivery address`,
-    `3. Select 'Yes' for Reselling & enter ₹${order.total} as selling price`,
-    `4. Meesho ships directly to customer under RareEmber with COD collected!`,
-    `5. 🚚 <b>Tracking Sync:</b> Jab Meesho dispatch kare, Founder Portal (<a href="https://rareember-store.vercel.app/admin/orders">/admin/orders</a>) par 'Mark Shipped' dabayein taaki customer ke page par live Delhivery map activate ho jaye!`
+    `⚡ <b>QIKINK AUTOMATED FULFILLMENT:</b>`,
+    `• Order routed to Qikink Print-on-Demand Hub (Tirupur/Coimbatore)`,
+    `• 100% White-Label Rare Ember packaging with custom packing slip`,
+    `• 48-72h production turnaround & BlueDart/Delhivery dispatch tracking`,
+    `• Manage in Founder Portal: <a href="https://www.rareember.shop/admin/orders">rareember.shop/admin/orders</a>`
   ].filter(Boolean).join('\n');
 
   try {

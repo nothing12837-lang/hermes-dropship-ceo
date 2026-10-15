@@ -4,7 +4,7 @@ import { blogPosts } from '@/lib/data/content';
 import { isDisallowedProduct } from '@/lib/products-server';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://rareember-store.vercel.app';
+  const base = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://www.rareember.shop';
   const now = new Date();
 
   // Core Static Pages
@@ -62,13 +62,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const activeProducts = liveProducts.length > 0
     ? liveProducts.map(p => ({
-        url: `${base}/product/${(p.slug || p.id).replace(/^meesho-/, '')}`,
+        url: `${base}/product/${p.slug || p.id}`,
         lastModified: p.updated_at ? new Date(p.updated_at) : now,
         changeFrequency: 'weekly' as const,
         priority: 0.85
       }))
     : fallbackProducts.filter(p => !isDisallowedProduct(p)).map(p => ({
-        url: `${base}/product/${(p.slug || p.id).replace(/^meesho-/, '')}`,
+        url: `${base}/product/${p.slug || p.id}`,
         lastModified: now,
         changeFrequency: 'weekly' as const,
         priority: 0.85
