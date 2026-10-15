@@ -172,7 +172,9 @@ export default function CheckoutPage() {
     // Guest checkout fully supported; user_id attached if signed in
     if (!email.includes('@')) return setError('Please enter a valid email address for tracking.');
     if (!name.trim()) return setError('Please enter your full name for courier delivery.');
-    if (!phone.trim() || phone.replace(/\D/g, '').length !== 10) return setError('Please enter a valid 10-digit phone for COD confirmation.');
+    const digits = phone.replace(/\D/g, '');
+    const normalizedPhone = digits.length === 12 && digits.startsWith('91') ? digits.slice(2) : (digits.length === 11 && digits.startsWith('0') ? digits.slice(1) : digits);
+    if (!normalizedPhone || normalizedPhone.length !== 10) return setError('Please enter a valid 10-digit mobile number for order & COD confirmation.');
     if (!address.trim()) return setError('Please enter your delivery street address.');
     if (!zip.trim()) return setError('Please enter your PIN / postal code.');
     if (detailed.length === 0) return setError('Your cart is empty. Add a product first.');
@@ -477,9 +479,14 @@ export default function CheckoutPage() {
                     <input
                       type="tel"
                       value={phone}
-                      onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                      onChange={(e) => {
+                        let d = e.target.value.replace(/\D/g, '');
+                        if (d.length === 11 && d.startsWith('0')) d = d.slice(1);
+                        if (d.length === 12 && d.startsWith('91')) d = d.slice(2);
+                        setPhone(d.slice(0, 10));
+                      }}
                       placeholder="98765 43210"
-                      maxLength={10}
+                      maxLength={14}
                       className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all"
                     />
                   </div>

@@ -322,22 +322,24 @@ export function ProductClient({ product }: Props) {
                 style={{
                   padding: '0.35rem 0.9rem',
                   borderRadius: '9999px',
-                  background: product.tagBg,
-                  color: product.tagColor,
+                  background: product.tagBg || 'rgba(255,107,53,0.12)',
+                  color: product.tagColor || '#ff6b35',
                   fontSize: '0.7rem',
                   fontWeight: 800,
                   textTransform: 'uppercase',
                   letterSpacing: '0.08em',
                 }}
               >
-                {product.tag}
+                {product.tag || 'HOT DEAL'}
               </span>
             </div>
 
             <h1 style={{ fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 900, letterSpacing: '-0.03em' }}>
               {product.title}
             </h1>
-            <p style={{ color: '#52453e', marginTop: '0.75rem', lineHeight: 1.7 }}>{product.short}</p>
+            <p style={{ color: '#52453e', marginTop: '0.75rem', lineHeight: 1.7 }}>
+              {product.short || product.title}
+            </p>
 
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
               <span style={{ fontSize: '2rem', fontWeight: 900, color: '#212121' }}>
@@ -382,10 +384,19 @@ export function ProductClient({ product }: Props) {
               );
             })()}
 
-            <p style={{ marginTop: '1.25rem', lineHeight: 1.8, color: '#1a1412' }}>{product.story}</p>
+            <p style={{ marginTop: '1.25rem', lineHeight: 1.8, color: '#1a1412' }}>
+              {product.story || product.short || product.title}
+            </p>
 
             <ul style={{ marginTop: '1rem', display: 'grid', gap: '0.4rem', color: '#52453e' }}>
-              {product.details.map((d) => (
+              {(product.details && product.details.length > 0
+                ? product.details
+                : [
+                    '100% Brand New & Verified Quality',
+                    'Includes Original Box & Accessories',
+                    'Inspected before Domestic Dispatch',
+                  ]
+              ).map((d) => (
                 <li key={d}>✓ {d}</li>
               ))}
             </ul>

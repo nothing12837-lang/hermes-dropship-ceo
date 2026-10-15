@@ -211,7 +211,7 @@ def fetch_live_catalog():
                         "features": [
                             "Handpicked verified build quality",
                             "Express dispatch from regional fulfillment hub",
-                            "30-day zero-risk return guarantee"
+                            "7-day easy replacement guarantee"
                         ]
                     })
             if valid:
@@ -566,7 +566,7 @@ def generate_caption(product, campaign_type="auto"):
     
     story_highlight = f"""⭐ Why shoppers across India love RareEmber:
 "Ordered with Cash on Delivery and delivered in 3 days! Exceptional build quality and fraction of mall showroom pricing."
-✨ Verified 4.9★ Quality • 30-Day Zero-Risk Return & Replacement Guarantee"""
+✨ Verified 4.9★ Quality • 7-Day Easy Replacement Guarantee"""
 
     caption = f"""{headline}
 
@@ -588,7 +588,7 @@ Meet the {product['title']} — curated by Eva for RareEmber.
 
 🚚 Pan-India Express Delivery (2–4 Days via BlueDart & Delhivery)
 💵 Cash on Delivery (COD) Available
-🛡️ 30-Day Zero-Risk Return & Replacement Guarantee
+🛡️ 7-Day Easy Replacement Guarantee
 
 🛒 DIRECT PRODUCT LINK (Tap or Copy):
 👉 https://rareember-store.vercel.app/product/{product['id']}

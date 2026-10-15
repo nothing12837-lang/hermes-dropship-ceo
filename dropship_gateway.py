@@ -905,12 +905,12 @@ Warm regards,
 Radha | Customer Care Concierge
 RareEmber (rareemberagency@gmail.com)"""
     elif "return" in issue_lower or "refund" in issue_lower or "damage" in issue_lower:
-        subject = "RareEmber: 30-Day Zero-Risk Return & Replacement Guarantee 🛡️"
+        subject = "RareEmber: 7-Day Easy Replacement Guarantee 🛡️"
         body = f"""Dear Valued Customer,
 
 We are truly sorry to hear that your item did not meet expectations or arrived with an issue.
 
-At RareEmber, you are 100% protected under our 30-Day Zero-Questions Return & Replacement Policy.
+At RareEmber, you are 100% protected under our 7-Day Easy Replacement Policy.
 
 Please reply to this email with a quick photo of the item received. Once verified, our team will immediately arrange:
 1. A free expedited replacement delivered to your doorstep, OR
@@ -1041,7 +1041,7 @@ def tool_generate_whatsapp_retention(customer_name="Customer", order_ref="108", 
             f"As a VIP gift, use secret festive code *{fest}* in the next 30 minutes for a Flat ₹100 discount + Free Pan-India Delivery!\n\n"
             f"🛒 Complete your order here:\n"
             f"👉 {SITE_URL}/checkout\n\n"
-            f"Cash on Delivery & 30-Day Zero Risk Returns available."
+            f"Cash on Delivery & 7-Day Easy Replacements available."
         )
     else:
         text = (
