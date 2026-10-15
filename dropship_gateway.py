@@ -1766,18 +1766,18 @@ def execute_react_agent_turn(user_msg, chat_id):
         if cmd in ("/start", "/help"):
             return ("⚡ <b>Radha God-CEO Online</b>\n\n"
                     "RareEmber dropshipping executive intelligence ready hai:\n"
-                    "Commands: <code>/team</code> <code>/evaa [product]</code> <code>/blog</code> "
+                    "Commands: <code>/team</code> <code>/post [product]</code> <code>/blog</code> "
                     "<code>/pnl</code> <code>/reflect</code> <code>/health</code> <code>/orders</code> <code>/tasks</code>\n"
-                    "Ya natural Hinglish me bolo: <i>video banao, sale kitna, price 499 karo</i>.")
+                    "Ya natural Hinglish me bolo: <i>post banao, sale kitna, price 499 karo</i>.")
         if cmd == "/team":
             ops = tool_run_executive_team_operations()
             return (f"🏛️ <b>Radha's Executive Team Status</b>\n"
                     f"• Vikram (Sales): {ops['sales_department'].get('focus_product')}\n"
                     f"• Aarav (SEO): {ops['seo_department'].get('indexed_products')} indexed\n"
                     f"• Pooja (Ops): {ops['service_department'].get('store_status')}\n"
-                    f"• Meera (Creative): Evaa video pipeline ready\n"
+                    f"• Meera (Creative): 100% Authentic Feed Image Drops active (Zero reels)\n"
                     f"• Kabir (Finance): Real-time unit economics active (>50% margin)\n"
-                    f"• Arjun (Procurement): 103 Meesho products synced")
+                    f"• Arjun (Procurement): 152 Meesho products synced (1 OOS protected)")
         if cmd == "/health":
             h = tool_system_health_check()
             return f"⚡ <b>{h.get('status')}</b> {h.get('latency_ms')}ms - <a href='{h.get('storefront_url')}'>store</a>"
