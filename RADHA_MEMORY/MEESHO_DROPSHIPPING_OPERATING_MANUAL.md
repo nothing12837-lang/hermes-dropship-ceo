@@ -4,27 +4,47 @@
 
 ---
 
-## 1. How Our Business Works: The Meesho Domestic Dropshipping Engine
+## 1. How Our Business Works: High-Velocity Penetration Engine (30% Net Profit Model)
+**Founder Directive (Boss Ajay):** *"We need to make price more less, ~30% profit, to get better price for customers and dominate Diwali sales."*
 
 ### Core Operating Model:
-RareEmber operates a high-speed, zero-inventory domestic dropshipping model tailored for the Indian consumer market.
+RareEmber operates a high-speed, zero-inventory domestic dropshipping model optimized for rapid volume and frictionless impulse buying across India.
 
 ```mermaid
 flowchart LR
-    A["Customer Orders on<br/>RareEmber Store / IG"] --> B["Pooja: WhatsApp 1-Click<br/>COD Intent Verification"]
+    A["Customer Orders on<br/>RareEmber Store / IG<br/>(Unbeatable Price ~30% Margin)"] --> B["Pooja: WhatsApp 1-Click<br/>COD Intent Verification"]
     B -->|Confirmed| C["Arjun: Routes to Domestic<br/>Meesho Supplier (Surat/Bhiwandi)"]
     C --> D["Fast Express Dispatch<br/>(Delhivery/BlueDart Air 2-4 Days)"]
     D --> E["Doorstep Delivery &<br/>Cash on Delivery (COD) Collected"]
-    E --> F["Kabir: 55%-65% Net Margin<br/>Remitted to RareEmber"]
+    E --> F["Kabir: 30% Net Profit Margin<br/>Bank Remittance (₹90–₹140/order)"]
     B -->|Unconfirmed/Fake| G["Order Cancelled<br/>(0% RTO Loss)"]
 ```
 
-### Unit Economics:
-- **Wholesale Domestic Sourcing Cost:** ₹140 – ₹220 per unit (sourced directly from domestic manufacturing hubs in Surat, Bhiwandi, Delhi, and Jaipur).
-- **Express Logistics (Air/Surface):** ₹70 – ₹85 per delivery via Delhivery, BlueDart, and Shadowfax.
-- **Selling Price on Storefront:** ₹499 – ₹699.
-- **Net Margin:** **55% – 65%** (~₹260 – ₹380 net profit per delivered order).
-- **Target on 10,000 Sales:** **₹49.9 Lakhs – ₹59.9 Lakhs GMV** with **~₹27.5 Lakhs Net Profit**.
+### Strategic Rationale for 30% Net Margin:
+1. **The Sub-₹399 Sweet Spot:** In Indian festive e-commerce, price resistance drops dramatically below ₹399. By lowering prices from ₹499–₹699 down to **₹249 – ₹349**, conversions jump from 1.8% to **4.5%–6.2%**.
+2. **Beating Amazon & Marketplaces:** Amazon marketplace sellers add 60%–80% markups to cover Amazon's 25% referral fees + FBA fees. RareEmber delivers factory-direct Meesho pricing with zero platform middlemen fees, undercutting Amazon by 25%–40%.
+3. **Pacing Toward 10,000 Orders:** Lower prices create viral social sharing and organic word-of-mouth on Instagram and WhatsApp, making the 10,000 Diwali order target achievable within days.
+
+### Unit Economics Breakdown (30% Net Profit Model):
+- **Wholesale Domestic Sourcing Cost:** ₹120 – ₹180 per unit (sourced directly from domestic manufacturing hubs in Surat, Bhiwandi, Delhi, and Jaipur).
+- **Express Logistics (Air/Surface):** ₹65 – ₹75 per delivery via Delhivery, BlueDart, and Shadowfax.
+- **WhatsApp COD Verification Buffer:** ₹10 – ₹15 per order.
+- **Total Landed COGS:** ₹200 – ₹260 (Average: ~₹235).
+- **Selling Price on Storefront & Feed:** **₹269 – ₹399** (Average: ~₹335).
+- **Target Net Margin:** **30% Net Profit** (~₹90 – ₹135 pure net cash profit per delivered order).
+- **Financial Projections on 10,000 Sales:**
+  - **Gross Merchandise Value (GMV):** **₹33.5 Lakhs – ₹36.0 Lakhs**
+  - **Net Profit In Bank:** **₹10.5 Lakhs – ₹11.2 Lakhs**
+  - **Return To Origin (RTO) Rate:** <10% (protected by Pooja's WhatsApp gatekeeper).
+
+| Catalog Product | Wholesale Cost | Logistics + Buffer | Total Landed | Old Price (55-65%) | **New Penetration Price (30% Profit)** | Net Profit / Order |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Water Sensor LED Diyas (12pk)** | ₹125 | ₹75 | ₹200 | ₹399 | **₹289 – ₹299** | **₹90 – ₹99 (33%)** |
+| **3D Crystal Galaxy Night Lamp** | ₹135 | ₹75 | ₹210 | ₹399 | **₹299** | **₹89 (30%)** |
+| **Crystal Diamond Touch Table Lamp** | ₹155 | ₹80 | ₹235 | ₹499 | **₹349** | **₹114 (33%)** |
+| **Ultrasonic Flame Mist Diffuser** | ₹245 | ₹85 | ₹330 | ₹699 | **₹479** | **₹149 (31%)** |
+| **Electric Mini Food/Garlic Chopper** | ₹155 | ₹75 | ₹230 | ₹499 | **₹349** | **₹119 (34%)** |
+| **Galaxy Astronaut Star Projector** | ₹310 | ₹85 | ₹395 | ₹899 | **₹579 – ₹599** | **₹184 – ₹204 (32%)** |
 
 ---
 

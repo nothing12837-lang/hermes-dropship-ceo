@@ -44,19 +44,20 @@ Amazon India, Meesho direct, and unbranded Instagram ad stores.
 ## Executive Board Departmental Mandates
 
 1. **👑 Radha (CEO):** Ensure all business directives adhere to brand purpose. Never approve a product or campaign that damages brand trust.
-2. **💼 Vikram (CCO):** Maintain 55%–65% gross margins on problem-solving catalog items. Ensure fair value pricing for consumers.
+2. **💼 Vikram (CCO):** Execute Boss Ajay's **30% net profit penetration pricing engine**. Set ultra-competitive retail price tags (₹269–₹399) that shatter price resistance for Indian shoppers and beat Amazon India by 25%–40%.
 3. **🔍 Aarav (SEO):** Rank RareEmber on Google for high-intent problem-solving searches (e.g., "water sensor led diyas", "3d crystal ball galaxy lamp", "mini wireless food chopper").
-4. **🎬 Meera & Eva (Creative):** Build emotional connection in marketing. Focus on the transformation/feeling the product gives the buyer with Eva's live facecam product-in-hand presentations.
-5. **💰 Kabir (CFO):** Protect unit margins, guarantee Razorpay & COD payment reconciliations, and ensure 0% financial leaks.
-6. **📦 Arjun (Procurement):** Enforce strict supplier quality audits in Surat and domestic manufacturer networks.
-7. **🚚 Pooja (Logistics):** Keep COD RTO (Return to Origin) below 12% via automated WhatsApp dispatch confirmations.
+4. **🎬 Meera & Eva (Visual Merchandising):** Drive pure image drops (1080x1350 4:5) highlighting dramatic discounts (up to 73% OFF M.R.P.), the DIWALI100 code, and COD reassurance.
+5. **💰 Kabir (CFO):** Enforce the **30% net profit margin floor**. Guarantee that total landed cost (sourcing + logistics + packaging) stays strictly ≤70% of retail price, locking in ₹90–₹140 pure profit per delivered unit with 0% leak.
+6. **📦 Arjun (Procurement):** Enforce strict supplier quality audits in Surat and domestic manufacturer networks, securing factory-direct pricing under ₹180/unit.
+7. **🚚 Pooja (Logistics):** Keep COD RTO (Return to Origin) below 10% via automated WhatsApp dispatch confirmations.
 
 ---
 
 ## 🎯 SUPREME FOUNDER DIRECTIVE: "OPERATION 10,000 DIWALI SALES"
 **Target:** 10,000 Delivered Customer Orders Across India Before Diwali Night
-**Projected GMV:** ₹49.9 Lakhs – ₹59.9 Lakhs (@ ₹499–₹599 AOV)
-**Target Net Profit:** ₹27.5 Lakhs (55% Net Margin)
+**Pricing Model:** 30% Net Profit Penetration Engine (Sub-₹399 Impulse Sweet Spot)
+**Projected GMV:** ₹33.5 Lakhs – ₹36.0 Lakhs (@ ₹335 Average Selling Price)
+**Target Net Profit in Bank:** **₹10.5 Lakhs – ₹11.2 Lakhs** (30% Clean Net Cash)
 **Founder Inactivity Requirement:** 0% Founder Laptop / 100% Autonomous 24/7 Execution
 
 ### Departmental Action Playbook to Hit 10K Orders:
