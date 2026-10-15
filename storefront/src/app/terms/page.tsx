@@ -3,8 +3,8 @@ import Navbar from '@/components/ui/Navbar';
 import Footer from '@/components/ui/Footer';
 
 export const metadata = {
-  title: 'Terms of Service | RareEmber',
-  description: 'Terms and conditions for purchasing and browsing on RareEmber.',
+  title: 'Terms of Service | Rare Ember',
+  description: 'Terms and conditions for purchasing and browsing on Rare Ember.',
 };
 
 export default function TermsPage() {
@@ -25,7 +25,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-lg font-bold text-neutral-950 mb-2">1. Overview & Agreement</h2>
               <p>
-                Welcome to RareEmber (https://rareember-store.vercel.app). By accessing our website, placing an order, or utilizing our services, you agree to be bound by these Terms of Service, our Privacy Policy, and our 7-Day Easy Replacement Policy.
+                Welcome to Rare Ember (https://www.rareember.shop). By accessing our website, placing an order, or utilizing our services, you agree to be bound by these Terms of Service, our Privacy Policy, and our 7-Day Easy Replacement Policy.
               </p>
             </section>
 

@@ -130,18 +130,7 @@ export default async function Home() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 pt-6 flex flex-col gap-10">
-        {getFlag('hero_evaa') && (
-          <div className="rounded-2xl glass-dark text-white px-5 py-4 flex items-center gap-4 overflow-hidden relative hero-rise">
-            <span className="text-3xl relative z-10">👩‍🦰</span>
-            <div className="relative z-10">
-              <p className="font-bold text-sm">Namaste! Main Eva ✨</p>
-              <p className="text-xs text-neutral-300">Hindi me curated drops, COD + 2-4 din delivery. Aaj ka hero: Heavyweight Streetwear Hoodie & Oversized Tees.</p>
-            </div>
-            <Link href="/shop" className="ml-auto relative z-10 px-4 py-2 rounded-full bg-gradient-ember text-white text-xs font-bold no-underline shadow-ember hover:shadow-ember-lg hover:-translate-y-0.5 transition-all">
-              Shop Eva's Picks →
-            </Link>
-          </div>
-        )}
+
 
         {/* FESTIVE GRAND UTSAV HERO BANNER */}
         <section className="relative overflow-hidden rounded-[2rem] text-white grain bg-gradient-night shadow-[0_30px_80px_rgba(48,26,12,0.28)] border border-white/10">

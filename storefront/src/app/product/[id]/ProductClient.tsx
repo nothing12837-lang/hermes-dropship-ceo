@@ -82,7 +82,7 @@ export function ProductClient({ product }: Props) {
       s = s.slice(t.length).replace(/^[\s\-–—:.]+/, '').trim();
     }
     if (!s || s.toLowerCase() === t.toLowerCase() || s.toLowerCase() === cleanSubtitle.toLowerCase()) {
-      return 'Inspected and certified by the RareEmber quality curation team. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
+      return 'Inspected and certified by the Rare Ember quality curation team. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
     }
     return s.charAt(0).toUpperCase() + s.slice(1);
   })();
@@ -94,41 +94,31 @@ export function ProductClient({ product }: Props) {
     const titleLower = (product.title || '').toLowerCase();
     const cat = (product.category || '').toLowerCase();
 
-    if (titleLower.includes('pump') || titleLower.includes('dispenser') || titleLower.includes('bottle')) {
+    if (titleLower.includes('tee') || titleLower.includes('t-shirt') || titleLower.includes('hoodie') || titleLower.includes('sweatshirt')) {
       return [
-        'One-Touch Automatic Dispensing with Instant Flow Rate',
-        'Food-Grade BPA-Free Silicone Hose & 304 Stainless Steel Spout',
-        'Long-Life USB Rechargeable Battery (Dispenses up to 4–6 20L Cans on Single Charge)',
-        'Universal Clamp-On Fit for Standard 20L, 15L & 10L Water Cans',
-        'Whisper-Quiet Motor & Lightweight Compact Portable Design',
-        'Pre-Inspected & Tested Before Domestic Express Dispatch',
+        '100% Combed Bio-Washed Heavyweight Cotton Fleece / French Terry',
+        'Pre-Shrunk Silicone Wash Treated for Flawless Long-Lasting Drape',
+        'High-Density Fade-Resistant Reactive Screen & DTF Printing',
+        'Double-Needled Hemming with Lycra-Ribbed Anti-Sag Collar',
+        'Pan-India Tracked 2–4 Day Express Delivery with White-Label Packaging',
       ];
     }
-    if (titleLower.includes('lamp') || titleLower.includes('light') || titleLower.includes('led')) {
+    if (titleLower.includes('mug') || titleLower.includes('tumbler') || titleLower.includes('sipper') || titleLower.includes('glass')) {
       return [
-        'Energy-Efficient Ambient Warm & Multi-Color Illumination',
-        'Precision-Crafted Durable Housing & Premium Tactile Finish',
-        'USB Powered / Rechargeable with Intuitive Touch Controls',
-        'Gentle Eye-Care Lighting (Zero Glare or Flickering)',
-        'Verified Authentic Build Tested Before Domestic Dispatch',
+        'Artisan High-Fired Ceramic Stoneware / Food-Grade 304 Stainless Steel',
+        'Superior Temperature Retention (Keeps Hot 8h, Cold 16h)',
+        '100% BPA-Free, Lead-Free & Eco-Friendly Construction',
+        'Multi-Layer Protective Cushion Box for Safe Doorstep Transit',
+        'Rare Ember 7-Day Zero-Risk Replacement Guarantee',
       ];
     }
-    if (titleLower.includes('cleaner') || titleLower.includes('vacuum') || titleLower.includes('shaver')) {
+    if (titleLower.includes('mat') || titleLower.includes('mousepad') || titleLower.includes('desk') || cat.includes('electronics')) {
       return [
-        'High-Torque Performance with Cordless Rechargeable Convenience',
-        'Precision Multi-Attachment Accessories Included in Box',
-        'Compact Ergonomic Grip Designed for Effortless One-Hand Operation',
-        'Fast USB Charging with Overcharge Safety Protection',
-        '100% Genuine Quality with 7-Day Replacement Guarantee',
-      ];
-    }
-    if (cat.includes('electronics') || titleLower.includes('wireless') || titleLower.includes('charger') || titleLower.includes('bluetooth')) {
-      return [
-        'Universal Device Compatibility with Smart Voltage Regulation',
-        'Ultra-Durable Heat-Dissipating Exterior Shell',
-        'Plug & Play Fast Response with Zero Driver Setup Required',
-        'Compact Travel-Friendly Lightweight Profile',
-        'Verified Authentic Hardware Inspected Before Dispatch',
+        'Massive Workspace Coverage with Ultra-Smooth Micro-Weave Cloth',
+        'Precision Tracking Sensor Compatible with All Optical & Laser Mice',
+        'Reinforced 360° Anti-Fray Stitched Edges for Multi-Year Durability',
+        'Non-Slip High-Density Natural Rubber Base (Prevents Desk Gliding)',
+        'Spill-Proof Coating: Liquid Beads Up and Wipes Clean in Seconds',
       ];
     }
     return [
@@ -136,7 +126,7 @@ export function ProductClient({ product }: Props) {
       'Carefully Packaged with Multi-Layer Protective Cushioning',
       'Inspected for Flawless Finish & Function Prior to Dispatch',
       'Pan-India Tracked 2–4 Day Express Delivery via BlueDart & Delhivery',
-      'Full RareEmber 7-Day Easy Replacement Guarantee',
+      'Full Rare Ember 7-Day Easy Replacement Guarantee',
     ];
   })();
 

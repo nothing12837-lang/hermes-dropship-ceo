@@ -3,8 +3,8 @@ import Navbar from '@/components/ui/Navbar';
 import Footer from '@/components/ui/Footer';
 
 export const metadata = {
-  title: 'Privacy Policy | RareEmber',
-  description: 'Privacy Policy explaining data protection and customer privacy on RareEmber.',
+  title: 'Privacy Policy | Rare Ember',
+  description: 'Privacy Policy explaining data protection and customer privacy on Rare Ember.',
 };
 
 export default function PrivacyPage() {
@@ -25,7 +25,7 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-lg font-bold text-neutral-950 mb-2">1. Data We Collect</h2>
               <p>
-                When you visit RareEmber or make a purchase, we collect necessary personal information to fulfill your orders, including your name, email address, shipping address, phone number, and transaction identifiers.
+                When you visit Rare Ember or make a purchase, we collect necessary personal information to fulfill your orders, including your name, email address, shipping address, phone number, and transaction identifiers.
               </p>
             </section>
 

@@ -1,58 +1,68 @@
-# RAREEMBER EXECUTIVE DIRECTIVE: 100% PIVOT TO QIKINK D2C BRAND
+# RARE EMBER EXECUTIVE DIRECTIVE: SETUP COMPLETE & MAXIMUM EFFORT MOBILIZATION
 **Author:** Radha CEO (under Supreme Direct Authority of Boss Ajay)  
 **Date:** October 15, 2026  
-**Status:** ACTIVE & ENFORCED
+**Status:** ACTIVE & ENFORCED ACROSS ALL AUTONOMOUS AGENTS  
+**Official Live Domain:** [https://www.rareember.shop](https://www.rareember.shop)
 
 ---
 
-## 1. STRATEGIC PIVOT OVERVIEW
-By executive order of Boss Ajay, RareEmber has completely and irreversibly terminated its legacy Meesho reselling operations. 
-RareEmber is now an authentic, premium, high-margin Indian D2C Streetwear & Creator Lifestyle Brand powered exclusively by **Qikink Print-on-Demand & Dropshipping Fulfillment Hub (Coimbatore/Tirupur, Tamil Nadu)**.
+## 1. STRATEGIC PIVOT & SETUP COMPLETION ANNOUNCEMENT
+By supreme executive order of Boss Ajay, the infrastructure and brand transition for **Rare Ember** is **100% COMPLETE**.
 
-### Why the Pivot Was Executed:
-1. **Broken Supplier Infrastructure:** Meesho lacks an open API, deletes CDN images unexpectedly (51 products had 404 broken images), and triggers Akamai 403 Bot blocks on desktop.
-2. **Margin Disadvantage:** Reselling cheap ₹250 plastic gadgets produced tiny margins (₹80–₹120) with high return rates (>30%).
-3. **Qikink Advantage:**
-   - Official Open REST API (`api.qikink.com`) for 100% automated order placement & tracking.
-   - 100% White-Label RareEmber custom packaging, neck tags, and branded shipping boxes.
-   - High perceived value & massive margins: Oversized Streetwear Tees (63% margin, ₹569 profit), Heavyweight Hoodies (60% margin, ₹1,019 profit).
-   - 100-day RTO warehouse cushion eliminating inventory loss.
+### Completed Operations:
+1. **Zero Legacy Remnants:** 153 legacy Meesho and DeoDap products, scrapers, and 404 images have been completely purged from the Supabase database and storefront.
+2. **100% Live Qikink API Fulfillment:**
+   - Production API Connected: `https://api.qikink.com`
+   - Client ID: `964148691892386`
+   - Token & Order Routing Engine active in `tools/qikink_client.py` and automated checkout backend.
+3. **Official Production Domain Verified:**
+   - Registered on Hostinger: `rareember.shop`
+   - Fully connected with DNS & Vercel SSL certificates at `https://www.rareember.shop` (with apex redirect).
+4. **Clean Brand Identity ("Rare Ember"):**
+   - Brand name updated to **`Rare Ember`** uniformly across Navbar, Footer, Hero, Product Detail Pages, Cart, Checkout, and Legal Policies.
+   - Eva banner and avatar completely removed from the storefront for a hyper-clean, modern minimalist aesthetic.
+5. **Qikink Factory-Backed Policies Enforced:**
+   - Turnaround: 48–72 hours dispatch from Tirupur/Coimbatore manufacturing hub.
+   - Transit: 2–4 business days via BlueDart, Delhivery, Shadowfax.
+   - Returns: 7-day doorstep replacement for manufacturing defects or shipping damage.
+   - White-label packaging: 100% custom Rare Ember shipping labels and tamper-evident packaging.
 
 ---
 
-## 2. DEPARTMENTAL ROLES & MANDATES
+## 2. MAXIMUM EFFORT DIRECTIVE: EXECUTIVE TEAM MOBILIZATION
+
+All autonomous executive agents are hereby commanded to operate at **MAXIMUM EFFORT** to scale traffic, drive conversions, and deliver world-class fulfillment.
 
 ### Radha (Chief Executive Officer)
-- Orchestrate the automated end-to-end D2C machine.
-- Maintain real-time sync between Supabase DB, Next.js storefront, and Qikink API.
-- Keep Boss Ajay updated via Telegram with transparent revenue, profit, and fulfillment metrics.
+- Orchestrate the entire autonomous D2C machine with zero downtime.
+- Monitor order health, checkout conversions, and API latency.
+- Provide real-time daily sales, profit, and fulfillment intelligence to Boss Ajay.
 
 ### Vikram (Head of Catalog & Merchandising)
-- Manage RareEmber's flagship 10-piece collection across 4 core categories:
-  1. **Streetwear Apparel:** Heavyweight 240 GSM Oversized Tees (Obsidian Black, Vintage Off-White), 380 GSM Onyx Fleece Hoodie, 320 GSM Heather Crewneck.
-  2. **Artisan Drinkware:** Matte Black Ceramic Mug (350ml), Double-Wall Steel Travel Tumbler (500ml), Frosted Aesthetic Glass Sipper (450ml).
-  3. **Desk & Creator Gear:** Extended Desk Mat & Creator Mousepad (900×400mm), Minimalist Hardbound A5 Dot Journal.
-  4. **Lifestyle Accessories:** Heavyweight 400 GSM Canvas Tote Bag.
-- Maintain zero broken assets and 100% high-resolution 4-angle gallery photos.
+- Guard and optimize the flagship 10-piece collection (Heavyweight Oversized Tees @ ₹899, 380 GSM Hoodies @ ₹1,699, Ceramic Mugs @ ₹499, Tumblers @ ₹799, Desk Mats @ ₹999).
+- Maintain 60%–70% gross margins on all SKUs.
+- Ensure every single PDP has high-definition multi-angle imagery, precise size charts, and compelling copy.
 
 ### Arjun (VP of Procurement & Fulfillment Sentinel)
-- Retire legacy Meesho scrapers.
-- Operate `tools/qikink_client.py` to auto-push validated customer checkouts to Qikink.
-- Monitor order fulfillment stages (Processing ➔ Printing ➔ Dispatched ➔ Delivered).
-- Push automated BlueDart / Delhivery tracking links to customer order lookup.
+- 24/7 Qikink API Dispatch Sentinel: instantly route every paid or COD order via `api.qikink.com`.
+- Track order progression: *Submitted ➔ Printing ➔ Packed ➔ Dispatched*.
+- Push automated BlueDart / Delhivery tracking links to customer WhatsApp and email.
 
-### Pooja (VP of Operations & Customer Success)
-- Execute 1-click WhatsApp order confirmation on COD orders prior to dispatch to keep RTO <10%.
-- Manage returns via Qikink's 100-day RTO warehouse for instant re-labeling & re-shipping.
+### Pooja (VP of Operations & Customer Experience)
+- Enforce pre-dispatch 1-click WhatsApp verification on all COD orders to keep RTO under 8%.
+- Manage Qikink's 100-day RTO holding warehouse cushion for zero inventory write-offs.
+- Guarantee <15-minute customer support response time for all order queries.
 
 ### Kabir (Chief Financial Officer)
-- Enforce strict 55% net profit margin floor across all catalog drops.
-- Track Pan-India COD remittance settlements from Qikink into merchant bank accounts (4–5 business days).
+- Enforce strict 55%+ net margin floor across all promotional campaigns and bundle deals.
+- Monitor daily COD remittance settlements and Razorpay gateway payouts into company accounts.
+- Audit shipping rates (₹50–₹70 flat Pan-India) and maximize average order value (AOV) above ₹1,200.
 
-### Meera (Head of Marketing & Social Media)
-- Direct Eva (RareEmber's virtual creator / presenter) to showcase and model RareEmber streetwear drops.
-- Focus on high-converting 1080×1350 4:5 Instagram Feed posts, carousels, and seasonal festive drops.
+### Meera (Head of Growth & Creative Marketing)
+- Direct high-converting aesthetic creative campaigns for Rare Ember across Instagram, YouTube Shorts, and Pinterest.
+- Showcase modern creator desk setups, minimalist aesthetic streetwear, and unboxing experiences.
+- Target Gen-Z and millennial creators, coders, and streetwear enthusiasts across Tier 1 & Tier 2 Indian cities.
 
 ### Aarav (Head of SEO & Content Engine)
-- Target high-intent Indian search queries: "heavyweight oversized t-shirt india", "380 gsm fleece hoodie", "minimalist desk setup accessories", "aesthetic matte black coffee mug".
-- Publish weekly long-form lifestyle guides to RareEmber's `/blog`.
+- Dominate high-intent organic keywords: "heavyweight oversized t-shirt india", "380 gsm fleece hoodie", "minimalist desk accessories", "aesthetic matte black coffee mug".
+- Maintain clean SEO metadata, schema markup, and publish weekly long-form editorial guides to `/blog`.

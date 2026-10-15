@@ -16,31 +16,29 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://rareember-store.vercel.app';
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://www.rareember.shop';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "RareEmber™ — Curated Tech, Fashion, Home & Lifestyle Essentials",
-    template: "%s | RareEmber",
+    default: "Rare Ember — Curated Streetwear, Drinkware & Creator Lifestyle",
+    template: "%s | Rare Ember",
   },
-  description: "Discover viral electronics, designer apparel, premium home aesthetics, and trending lifestyle essentials at RareEmber. Pan-India & Worldwide Express Delivery with Razorpay UPI & Cash on Delivery (COD).",
+  description: "Discover premium heavyweight streetwear, artisan drinkware, and creator desk essentials at Rare Ember. Pan-India 2–4 days express delivery with UPI, Cards & Cash on Delivery (COD).",
   keywords: [
-    "RareEmber",
-    "online shopping India",
-    "trending electronics",
-    "noise canceling headphones",
-    "curated fashion apparel",
-    "home and living essentials",
-    "smart gadgets online India",
-    "cash on delivery store",
-    "buy online UPI netbanking",
-    "viral TikTok products",
-    "fast shipping India"
+    "Rare Ember",
+    "Rare Ember store",
+    "streetwear India",
+    "oversized t-shirts online India",
+    "heavyweight hoodie 380 gsm",
+    "creator desk accessories",
+    "matte ceramic coffee mug",
+    "aesthetic lifestyle brand India",
+    "cash on delivery streetwear"
   ],
-  authors: [{ name: "RareEmber" }],
-  creator: "RareEmber",
-  publisher: "RareEmber",
+  authors: [{ name: "Rare Ember" }],
+  creator: "Rare Ember",
+  publisher: "Rare Ember",
   alternates: {
     canonical: siteUrl,
   },

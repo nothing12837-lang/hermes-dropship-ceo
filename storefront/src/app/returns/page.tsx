@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'Return & Replacement Policy | RareEmber',
+  title: 'Return & Replacement Policy | Rare Ember',
   description: 'Our 7-day easy replacement policy. Hassle-free doorstep resolution for damaged or defective items.',
 };
 

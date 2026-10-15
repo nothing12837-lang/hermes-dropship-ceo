@@ -242,7 +242,7 @@ export function LoyaltyBanner({ points = 0 }: { points?: number }) {
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [msgs, setMsgs] = useState<{ me: boolean; t: string }[]>([
-    { me: false, t: 'Hi! Welcome to RareEmber. Ask us about dispatch ETAs, Cash on Delivery, or product specifications!' },
+    { me: false, t: 'Hi! Welcome to Rare Ember. Ask us about dispatch ETAs, Cash on Delivery, or product specifications!' },
   ]);
   const [input, setInput] = useState('');
   const send = () => {

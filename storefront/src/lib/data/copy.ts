@@ -3,31 +3,31 @@
 // Tone: Warm, minimalist, sophisticated, slightly playful.
 
 export const COPY = {
-  brand: 'rareember',
-  slogan: 'Everything you need. Delivered fast.',
-  tagline: 'Trending electronics, fashion, home and more — one everything store.',
-  promise: 'standard shipping (7-14 days) • 24/7 live AI support • Real-time tracking',
+  brand: 'Rare Ember',
+  slogan: 'Curated Streetwear & Creator Lifestyle. Delivered fast.',
+  tagline: 'Heavyweight streetwear, artisan drinkware & aesthetic desk essentials.',
+  promise: '2–4 days express shipping • 24/7 live AI support • Real-time tracking',
 
-  // EXACT trust bar text from PROJECT_CONTEXT.md §E — do not reword.
+  // EXACT trust bar text — clean and professional.
   trustBar: [
-    { icon: '🚚', title: 'standard shipping', sub: '7-14 days' },
-    { icon: '💬', title: '24/7 Live AI Support', sub: 'Instant help' },
-    { icon: '📍', title: 'Real-Time Tracking', sub: 'Know where your package is' },
-    { icon: '↩️', title: 'Easy Replacements', sub: 'Hassle-free process' },
+    { icon: '🚚', title: 'Express Dispatch', sub: '2–4 days via BlueDart' },
+    { icon: '💬', title: '24/7 AI Concierge', sub: 'Radha live assistance' },
+    { icon: '📍', title: 'Real-Time Tracking', sub: 'Instant SMS & email ETA' },
+    { icon: '↩️', title: '7-Day Replacement', sub: 'Zero-risk guarantee' },
   ],
 
-  announcement: 'standard shipping (7-14 days) • 24/7 live AI support • Real-time tracking',
+  announcement: 'Pan-India 2–4 Days Express Delivery • Cash on Delivery (COD) Available • 7-Day Easy Replacement',
 
   chatbotGreeting:
-    "Namaste! I'm Radha, RareEmber's CEO & AI Shopping Concierge. How can I help you today? (Track an order, verify COD & PIN code, check product specs, or discounts)",
+    "Namaste! I'm Radha, Rare Ember's CEO & AI Shopping Concierge. How can I help you today? (Track an order, verify COD & PIN code, check streetwear sizes, or festive discounts)",
 
   footer: {
-    blurb: 'Everything you need. Trending electronics, fashion, home essentials and more — delivered fast.',
+    blurb: 'Curated heavyweight streetwear, artisan drinkware, and aesthetic creator desk gear — delivered fast across India with full white-label packaging.',
     cols: [
       {
         title: 'Story',
         links: [
-          { label: 'About RareEmber', href: '/about' },
+          { label: 'About Rare Ember', href: '/about' },
           { label: 'Radha & AI Executive Board', href: '/team' },
           { label: 'How It Works', href: '/about' },
           { label: 'Quality Guarantee', href: '/about' },
@@ -37,10 +37,10 @@ export const COPY = {
         title: 'Shop',
         links: [
           { label: 'All Catalog', href: '/shop' },
-          { label: 'Electronics & Tech', href: '/shop?cat=electronics' },
-          { label: 'Curated Fashion', href: '/shop?cat=fashion' },
-          { label: 'Home & Living', href: '/shop?cat=home-garden' },
-          { label: 'Viral Drops', href: '/shop?cat=general' },
+          { label: 'Streetwear Apparel', href: '/shop?cat=fashion' },
+          { label: 'Artisan Drinkware', href: '/shop?cat=home-garden' },
+          { label: 'Desk & Creator Gear', href: '/shop?cat=electronics' },
+          { label: 'Lifestyle Essentials', href: '/shop?cat=general' },
         ],
       },
       {
@@ -62,8 +62,8 @@ export const COPY = {
         ],
       },
     ],
-    bottom: '© 2026 RareEmber — Handpicked Quality & Express Delivery',
-    signoff: 'Pan-India & Worldwide Fulfillment Hubs',
+    bottom: '© 2026 Rare Ember — Curated Streetwear & Creator Lifestyle',
+    signoff: 'White-Label Domestic Fulfillment Hub (Tirupur / Coimbatore, Tamil Nadu)',
   },
 
   quiz: {

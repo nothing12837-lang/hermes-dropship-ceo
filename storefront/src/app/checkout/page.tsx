@@ -283,7 +283,7 @@ export default function CheckoutPage() {
         key: data.key_id,
         amount: data.amount,
         currency: data.currency,
-        name: 'RareEmber',
+        name: 'Rare Ember',
         description: 'Secure Store Purchase',
         order_id: data.order_id,
         handler: function () {

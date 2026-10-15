@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const cleanSlug = (product.slug || product.id).replace(/^meesho-/, '');
   const description =
-    product.short || `Buy ${product.title} online at RareEmber. Pan-India & Global Express Delivery with Razorpay & Cash on Delivery.`;
+    product.short || `Buy ${product.title} online at Rare Ember. Pan-India Express Delivery with Razorpay & Cash on Delivery.`;
 
   const canonicalUrl = `${siteUrl}/product/${cleanSlug}`;
 
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: `${product.title} | RareEmber`,
+      title: `${product.title} | Rare Ember`,
       description,
       url: canonicalUrl,
       type: 'website',
@@ -73,7 +73,7 @@ export default async function ProductPage({ params }: Props) {
     sku: product.id,
     brand: {
       '@type': 'Brand',
-      name: 'RareEmber',
+      name: 'Rare Ember',
     },
     offers: {
       '@type': 'Offer',
@@ -85,7 +85,7 @@ export default async function ProductPage({ params }: Props) {
       availability: 'https://schema.org/InStock',
       seller: {
         '@type': 'Organization',
-        name: 'RareEmber',
+        name: 'Rare Ember',
       },
       shippingDetails: {
         '@type': 'OfferShippingDetails',

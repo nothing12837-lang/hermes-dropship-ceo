@@ -102,7 +102,7 @@ export const products: Product[] = [
     "tag": "Bestseller",
     "tagColor": "#ffffff",
     "tagBg": "#d97706",
-    "title": "RareEmber Heavyweight Oversized Graphic Tee (240 GSM) \u2014 Obsidian Black",
+    "title": "Rare Ember Heavyweight Oversized Graphic Tee (240 GSM) \u2014 Obsidian Black",
     "short": "Heavyweight 240 GSM bio-washed French terry cotton with relaxed dropped shoulders and high-density chest typography.",
     "story": "Engineered for effortless street silhouettes. Tailored from 100% combed French terry with pre-shrunk bio-washing to ensure zero shrinkage and unmatched drape.",
     "details": [
@@ -149,9 +149,9 @@ export const products: Product[] = [
     "tag": "Trending",
     "tagColor": "#ffffff",
     "tagBg": "#b45309",
-    "title": "RareEmber Heavyweight Oversized Graphic Tee (240 GSM) \u2014 Vintage Off-White",
+    "title": "Rare Ember Heavyweight Oversized Graphic Tee (240 GSM) \u2014 Vintage Off-White",
     "short": "Premium 240 GSM combed cotton with minimal cyberpunk flame crest. Breathable, durable, and shrink-resistant.",
-    "story": "The signature RareEmber daily uniform. Subtle Japanese typography and minimal chest crest inspired by nocturnal Tokyo streets.",
+    "story": "The signature Rare Ember daily uniform. Subtle Japanese typography and minimal chest crest inspired by nocturnal Tokyo streets.",
     "details": [
       "240 GSM Heavyweight Premium Combed Cotton",
       "Ribbed Lycra Collar That Never Sags",
@@ -195,14 +195,14 @@ export const products: Product[] = [
     "tag": "Winter Drop",
     "tagColor": "#ffffff",
     "tagBg": "#dc2626",
-    "title": "RareEmber Heavyweight Streetwear Hoodie (380 GSM Fleece) \u2014 Onyx Black",
+    "title": "Rare Ember Heavyweight Streetwear Hoodie (380 GSM Fleece) \u2014 Onyx Black",
     "short": "Ultra-plush 380 GSM fleece hoodie with double-layered hood, kangaroo pocket, and ribbed cuffs. Built for winter warmth and street aesthetic.",
     "story": "Constructed from 380 GSM ultra-heavy combed cotton fleece. Features a structured double-layer hood that stands upright without collapsing.",
     "details": [
       "380 GSM Super-Heavyweight Cotton Fleece",
       "Double-Layered Self-Fabric Heavy Hood",
       "Spacious Kangaroo Pocket with Reinforced Bar-Tacks",
-      "Branded RareEmber Neck Tag & Custom White-Label Packaging",
+      "Branded Rare Ember Neck Tag & Custom White-Label Packaging",
       "7-Day Hassle-Free Replacement Guarantee"
     ],
     "price": 19.99,
@@ -242,8 +242,8 @@ export const products: Product[] = [
     "tag": "Limited Edition",
     "tagColor": "#ffffff",
     "tagBg": "#475569",
-    "title": "RareEmber Minimalist Essential Crewneck Sweatshirt (320 GSM) \u2014 Heather Charcoal",
-    "short": "Structured 320 GSM brushed fleece with tonal RareEmber insignia. Clean luxury lounge & street silhouette.",
+    "title": "Rare Ember Minimalist Essential Crewneck Sweatshirt (320 GSM) \u2014 Heather Charcoal",
+    "short": "Structured 320 GSM brushed fleece with tonal Rare Ember insignia. Clean luxury lounge & street silhouette.",
     "story": "Versatile minimalism at its peak. Pairs effortlessly over collared shirts or casual denim.",
     "details": [
       "320 GSM Brushed Interior Fleece",
@@ -288,7 +288,7 @@ export const products: Product[] = [
     "tag": "Desk Essential",
     "tagColor": "#ffffff",
     "tagBg": "#78350f",
-    "title": "RareEmber Artisan Matte Black Ceramic Coffee Mug (350ml)",
+    "title": "Rare Ember Artisan Matte Black Ceramic Coffee Mug (350ml)",
     "short": "Ceramic handcrafted coffee mug in matte stone black with golden ember deboss. Microwave & dishwasher safe.",
     "story": "Designed for long focus sessions and quiet morning rituals. High-fired stoneware retains heat significantly longer than standard mugs.",
     "details": [
@@ -335,7 +335,7 @@ export const products: Product[] = [
     "tag": "Everyday Carry",
     "tagColor": "#ffffff",
     "tagBg": "#0284c7",
-    "title": "RareEmber Double-Wall Insulated Steel Travel Tumbler with Straw (500ml)",
+    "title": "Rare Ember Double-Wall Insulated Steel Travel Tumbler with Straw (500ml)",
     "short": "Food-grade 304 stainless steel tumbler keeping beverages ice-cold for 16 hours or piping hot for 8 hours. Spill-proof lid with steel straw.",
     "story": "Double-wall vacuum insulation prevents condensation on your desk while preserving temperature from morning commute to late-night studio work.",
     "details": [
@@ -381,7 +381,7 @@ export const products: Product[] = [
     "tag": "Setup Upgrade",
     "tagColor": "#ffffff",
     "tagBg": "#4338ca",
-    "title": "RareEmber Extended Desk Mat & Creator Mousepad (900\u00d7400mm, 4mm)",
+    "title": "Rare Ember Extended Desk Mat & Creator Mousepad (900\u00d7400mm, 4mm)",
     "short": "Micro-textured aesthetic desk surface with anti-fray stitched edges and high-density non-slip natural rubber base.",
     "story": "Transform your desk into a curated battlestation. 4mm thick natural rubber dampens mechanical keyboard vibration and provides butter-smooth mouse gliding.",
     "details": [
@@ -428,7 +428,7 @@ export const products: Product[] = [
     "tag": "Eco Style",
     "tagColor": "#ffffff",
     "tagBg": "#059669",
-    "title": "RareEmber Heavyweight Canvas Everyday Tote Bag (400 GSM)",
+    "title": "Rare Ember Heavyweight Canvas Everyday Tote Bag (400 GSM)",
     "short": "Reinforced 400 GSM natural cotton canvas with inner zipper pocket. Durable, sustainable everyday companion.",
     "story": "Built to carry laptops, books, groceries, and creative gear without fraying. 400 GSM heavy weave stands up to daily city life.",
     "details": [
@@ -474,7 +474,7 @@ export const products: Product[] = [
     "tag": "Aesthetic Pick",
     "tagColor": "#ffffff",
     "tagBg": "#d97706",
-    "title": "RareEmber Frosted Aesthetic Glass Sipper with Natural Bamboo Lid (450ml)",
+    "title": "Rare Ember Frosted Aesthetic Glass Sipper with Natural Bamboo Lid (450ml)",
     "short": "Borosilicate frosted glass can with reusable glass straw and leak-resistant silicone-sealed bamboo lid. Ideal for iced matchas & cold brews.",
     "story": "The cafe experience at home. Temperature-resistant borosilicate glass accommodates both boiling hot beverages and ice-filled drinks without thermal shock.",
     "details": [
@@ -520,7 +520,7 @@ export const products: Product[] = [
     "tag": "Focus Tool",
     "tagColor": "#ffffff",
     "tagBg": "#0f766e",
-    "title": "RareEmber Minimalist Hardbound Dotted Journal / Notebook (A5)",
+    "title": "Rare Ember Minimalist Hardbound Dotted Journal / Notebook (A5)",
     "short": "160 GSM bleed-proof ivory paper with foil stamped ember emblem, ribbon bookmark, and elastic closure.",
     "story": "Designed for designers, builders, and thinkers. Thick 160 GSM pages ensure zero fountain pen or marker bleed-through.",
     "details": [

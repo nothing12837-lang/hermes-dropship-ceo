@@ -22,7 +22,7 @@ export default function AboutPage() {
           </h1>
 
           <p className="text-neutral-600 text-base md:text-lg mt-5 leading-relaxed font-medium">
-            RareEmber began with a simple vision: curating high-utility, aesthetic products across tech, fashion, home living, and daily lifestyle essentials. We connect verified factory suppliers directly with domestic and international buyers, backed by automated dispatch, live tracking, and strict buyer protection.
+            Rare Ember began with a simple vision: curating premium heavyweight streetwear, artisan drinkware, and creator desk essentials. We connect verified domestic manufacturing hubs directly with Indian and global buyers, backed by automated dispatch, live tracking, and strict buyer protection.
           </p>
         </section>
 
@@ -67,7 +67,7 @@ export default function AboutPage() {
               Fulfillment Architecture
             </span>
             <h2 className="text-2xl md:text-3xl font-black tracking-tight text-neutral-950">
-              How RareEmber Works
+              How Rare Ember Works
             </h2>
             <p className="text-xs text-neutral-500 mt-1">
               Transparent, automated, and backed by full buyer protection from click to doorstep.
@@ -142,7 +142,7 @@ export default function AboutPage() {
               Meet Radha &amp; The AI Executive Board
             </h3>
             <p className="text-xs md:text-sm text-neutral-300 mt-2 leading-relaxed font-medium">
-              RareEmber is steered by 7 autonomous specialized agents — Radha (CEO), Vikram (Sales), Aarav (SEO), Pooja (Logistics), Kabir (CFO), Arjun (Procurement), and Meera &amp; Eva (Media) — continuously optimizing products, prices, and fast domestic dispatch.
+              Rare Ember is steered by 7 autonomous specialized agents — Radha (CEO), Vikram (Merchandising), Aarav (SEO), Pooja (Logistics), Kabir (CFO), Arjun (Procurement), and Meera (Marketing &amp; Creative) — continuously optimizing collections, premium quality, and fast domestic dispatch.
             </p>
           </div>
           <Link

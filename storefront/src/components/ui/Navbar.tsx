@@ -123,8 +123,8 @@ export default function Navbar() {
                 style={{ background: 'radial-gradient(circle, rgba(255,77,36,0.55), transparent 70%)' }}
               />
             </span>
-            <span className="whitespace-nowrap font-bold">
-              rareember<span className="text-gradient-ember-animated">.</span>
+            <span className="whitespace-nowrap font-bold text-text-primary tracking-tight">
+              Rare Ember<span className="text-gradient-ember-animated">.</span>
             </span>
           </Link>
 

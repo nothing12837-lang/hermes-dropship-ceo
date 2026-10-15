@@ -100,51 +100,51 @@ const EXECUTIVES: ExecutiveMember[] = [
   },
   {
     name: 'Arjun',
-    role: 'VP of Procurement & Product Scouting',
-    titleBadge: '📦 Domestic Hunter',
+    role: 'VP of Procurement & Fulfillment Sentinel',
+    titleBadge: '📦 Qikink API Sentinel',
     avatarEmoji: '🎯',
     avatarBg: 'linear-gradient(135deg, #ec4899, #f43f5e)',
-    department: 'Supplier Audits & Quality Inspection',
-    focus: 'Continuously scouts verified domestic Indian manufacturers on Meesho. Enforces 4-hour live stock verification and strictly filters out non-qualifying goods.',
-    status: '🟢 Active • 103 Items Live & Verified',
+    department: 'Live API Routing & Print Hub Logistics',
+    focus: 'Directs 24/7 automated order routing via Qikink Live API, monitors print-on-demand production in Tirupur/Coimbatore, and syncs real-time BlueDart/Delhivery dispatch tracking.',
+    status: '🟢 Active • Qikink Live API Connected',
     kpis: [
-      '100% Domestic Indian Sourcing',
-      'Zero DeoDap / Zero CJ Policy',
-      '4-Hour Supplier Stock Polling'
+      '100% White-Label Rare Ember Packaging',
+      '48-72h Production Turnaround',
+      'Zero Inventory Risk / On-Demand'
     ],
-    quote: 'Humein sirf trendy nahi, long-lasting aur genuinely useful products chahiye jo Indian homes me sach me value add karein.'
+    quote: 'Hum standard quality aur 100% automated domestic fulfillment ensure karte hain — har parcel seedha Qikink print hub se customer ke doorstep tak safely pahunchta hai.'
   },
   {
-    name: 'Meera & Eva',
-    role: 'Creative Directors & AI Influencers',
-    titleBadge: '🎬 Viral Media',
+    name: 'Meera',
+    role: 'Creative Director & Growth Marketing',
+    titleBadge: '🎬 Visual Storytelling',
     avatarEmoji: '✨',
     avatarBg: 'linear-gradient(135deg, #f43f5e, #be123c)',
-    department: 'Visual Storytelling & Instagram Feeds',
-    focus: 'Directs viral 9:16 Instagram Reels featuring Eva facecam holding authentic products in hand, luxury visual storyboards, and interactive social drops with natural voiceover.',
+    department: 'Visual Campaigns & Creator Lifestyle Drops',
+    focus: 'Directs viral 9:16 reels, aesthetic creator desk setups, heavyweight streetwear drops, and lifestyle visual campaigns across Instagram and social feeds.',
     status: '🟢 Active • 1080x1920 HD Generation',
     kpis: [
-      'Facecam Product-in-Hand Reels',
-      'Hindi Natural Audio Storytelling',
-      'Festive Conversion Hooks'
+      'Creator Streetwear Lookbooks',
+      'Desk Setup & Lifestyle Drops',
+      'Aesthetic Brand Storytelling'
     ],
-    quote: 'Har product ki ek unique kahani hoti hai — hum room transformations aur practical problem-solvers ko Eva ke live facecam se visual reality banate hain.'
+    quote: 'Har collection ki ek unique kahani hoti hai — hum creator aesthetic aur authentic quality ko visual reality banate hain.'
   }
 ];
 
 const AUTONOMOUS_LOGS = [
-  { agent: 'Radha (CEO)', text: 'Cognitive cycle executed: Synchronized multi-agent objectives for 103 domestic SKUs. Zero laptop load.' },
-  { agent: 'Vikram (CCO)', text: 'Margin guard audit completed: 55%-65% target margin verified on all 103 products. Festive promo code DIWALI100 active.' },
-  { agent: 'Aarav (SEO)', text: 'Search pulse dispatched: 129 URLs verified in Google Search Console priority sitemap. Instant IndexNow ping sent.' },
+  { agent: 'Radha (CEO)', text: 'Cognitive cycle executed: Synchronized multi-agent objectives for Rare Ember flagship collection. Zero laptop load.' },
+  { agent: 'Vikram (CCO)', text: 'Margin guard audit completed: 60%-70% target margin verified on all flagship drops. Festive promo code EMBER10 active.' },
+  { agent: 'Aarav (SEO)', text: 'Search pulse dispatched: Priority URLs verified in Google Search Console priority sitemap. Instant IndexNow ping sent.' },
   { agent: 'Pooja (Logistics)', text: 'COD dispatch matrix verified across 19,000+ PIN codes. Delhivery & BlueDart express hubs allocated.' },
-  { agent: 'Kabir (CFO)', text: 'Unit economics audit: COGS + ₹79 logistics + ₹50 RTO reserve confirmed. Zero negative margin orders logged.' },
-  { agent: 'Arjun (Procurement)', text: 'Meesho domestic supplier stock audit: 103 active verified listings with 4-angle HD photo galleries.' },
-  { agent: 'Meera & Eva (Media)', text: 'Live facecam product-in-hand video reels & visual scripts ready for Instagram @RareEmber & festive drops.' },
+  { agent: 'Kabir (CFO)', text: 'Unit economics audit: COGS + express logistics + RTO cushion confirmed. Guaranteed 55%+ net margin logged.' },
+  { agent: 'Arjun (Procurement)', text: 'Qikink Live API Sentinel: Flagship drops synced with 100% white-label print-on-demand fulfillment hubs.' },
+  { agent: 'Meera (Growth & Media)', text: 'Aesthetic streetwear lookbooks & creator desk setup drop assets ready for social campaigns.' },
 ];
 
 const QUICK_QUESTIONS = [
-  'What is Radha’s vision for RareEmber?',
-  'How do we guarantee domestic Meesho quality?',
+  'What is Radha’s vision for Rare Ember?',
+  'How do we guarantee premium Qikink quality?',
   'How does 2-4 day COD express delivery work?',
   'What are our unit economics and profit margins?',
   'How does PostgreSQL Row-Level Security protect us?',
@@ -156,7 +156,7 @@ export default function TeamPage() {
   const [chatHistory, setChatHistory] = useState<Array<{ sender: 'user' | 'radha'; text: string }>>([
     {
       sender: 'radha',
-      text: 'Namaste! Main Radha hoon, RareEmber ki CEO. Hamari autonomous executive team 24/7 bina ruke operations, quality audits, pricing margins, aur domestic delivery ko guide karti hai. Aap hamare business models, unit economics ya supplier standards ke bare me kuch bhi pooch sakte hain.'
+      text: 'Namaste! Main Radha hoon, Rare Ember ki CEO. Hamari autonomous executive team 24/7 bina ruke operations, quality audits, pricing margins, aur domestic delivery ko guide karti hai. Aap hamare business models, unit economics ya supplier standards ke bare me kuch bhi pooch sakte hain.'
     }
   ]);
   const [isTyping, setIsTyping] = useState(false);
@@ -214,7 +214,7 @@ export default function TeamPage() {
         <section className="max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-black/[0.08] text-xs font-bold text-neutral-800 shadow-2xs mb-4">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>RareEmber Autonomous Corporate Leadership</span>
+            <span>Rare Ember Autonomous Corporate Leadership</span>
           </div>
 
           <h1 className="text-3xl md:text-5xl font-black tracking-tight text-neutral-950 leading-tight">
@@ -225,7 +225,7 @@ export default function TeamPage() {
           </h1>
 
           <p className="text-neutral-600 text-base md:text-lg mt-4 leading-relaxed font-medium">
-            RareEmber operates with human-grade corporate excellence driven by <b>Radha (CEO)</b> and 6 autonomous departmental leaders. Running 24/7 with zero laptop overhead, the team monitors dynamic pricing elasticity, domestic supplier quality, Google search indexing, and real-time unit economics without stopping.
+            Rare Ember operates with human-grade corporate excellence driven by <b>Radha (CEO)</b> and 6 autonomous departmental leaders. Running 24/7 with zero laptop overhead, the team monitors dynamic pricing elasticity, domestic supplier quality, Google search indexing, and real-time unit economics without stopping.
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
