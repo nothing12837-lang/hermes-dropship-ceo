@@ -50,6 +50,88 @@ class GoogleVidsProject(BaseModel):
     manifest_file: Optional[str] = None
     full_audio_path: Optional[str] = None
 
+def upload_reel_to_instagram_sync(video_path: Path, caption_text: str) -> Dict[str, Any]:
+    user_data_dir = settings.WORKSPACE_PATH / "dots_gateway" / "browser_data"
+    if not user_data_dir.exists():
+        return {"success": False, "error": "Browser session data directory missing"}
+
+    try:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            browser = p.chromium.launch_persistent_context(
+                user_data_dir=str(user_data_dir),
+                headless=True,
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+                viewport={"width": 1280, "height": 800}
+            )
+            page = browser.pages[0] if browser.pages else browser.new_page()
+            page.goto("https://www.instagram.com/", timeout=45000)
+            page.wait_for_timeout(4000)
+
+            # Check if logged in
+            create_btn = page.locator('svg[aria-label="New post"]').first
+            if create_btn.count() == 0:
+                browser.close()
+                return {"success": False, "error": "Instagram session expired or not logged in"}
+
+            create_btn.click()
+            page.wait_for_timeout(1200)
+
+            # Click Post
+            page.locator('div[role="dialog"] a, div[role="menu"] div, div[role="menu"] a, span:text-is("Post")').first.click()
+            page.wait_for_timeout(2000)
+
+            # Upload video file
+            page.locator('input[type="file"]').first.set_input_files(str(video_path.resolve()))
+            page.wait_for_timeout(5000)
+
+            # Dismiss "Reels" notice if present
+            ok_btn = page.locator('button:has-text("OK"), button:has-text("Ok")').first
+            if ok_btn.count() > 0 and ok_btn.is_visible():
+                ok_btn.click()
+                page.wait_for_timeout(1500)
+
+            # Next 1 (Crop)
+            page.locator('div[role="dialog"] div[role="button"]:has-text("Next")').first.click()
+            page.wait_for_timeout(3000)
+
+            # Next 2 (Cover/Edit)
+            page.locator('div[role="dialog"] div[role="button"]:has-text("Next")').first.click()
+            page.wait_for_timeout(3000)
+
+            # Fill caption
+            cap_box = page.locator('div[aria-label="Add a caption..."], div[aria-label="Write a caption..."], div[role="textbox"]').first
+            cap_box.click(force=True)
+            cap_box.fill(caption_text)
+            page.wait_for_timeout(2000)
+
+            # Share button
+            share_btn = page.locator('div[role="dialog"] header div[role="button"]:has-text("Share"), div[role="dialog"] div[role="button"]:has-text("Share")').first
+            share_btn.click(force=True)
+
+            confirmed = False
+            for _ in range(18):  # Poll up to 90s
+                page.wait_for_timeout(5000)
+                dialog_count = page.locator('div[role="dialog"]').count()
+                if dialog_count > 0:
+                    text = page.locator('div[role="dialog"]').inner_text().lower()
+                    if "your reel has been shared" in text or ("shared" in text and "sharing" not in text):
+                        confirmed = True
+                        break
+                else:
+                    confirmed = True
+                    break
+
+            try:
+                page.screenshot(path=str(settings.WORKSPACE_PATH / "ig_reel_confirmed_live.jpg"))
+            except Exception:
+                pass
+
+            browser.close()
+            return {"success": confirmed, "status": "Shared reel published to @rareember" if confirmed else "Encoding in progress"}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
 class GoogleVidsEngine:
     def __init__(self):
         self.projects: Dict[str, GoogleVidsProject] = {}
@@ -441,88 +523,6 @@ class GoogleVidsEngine:
     def get_project(self, project_id: str) -> Optional[Dict[str, Any]]:
         p = self.projects.get(project_id)
         return p.model_dump() if p else None
-
-def upload_reel_to_instagram_sync(video_path: Path, caption_text: str) -> Dict[str, Any]:
-    user_data_dir = settings.WORKSPACE_PATH / "dots_gateway" / "browser_data"
-    if not user_data_dir.exists():
-        return {"success": False, "error": "Browser session data directory missing"}
-
-    try:
-        from playwright.sync_api import sync_playwright
-        with sync_playwright() as p:
-            browser = p.chromium.launch_persistent_context(
-                user_data_dir=str(user_data_dir),
-                headless=True,
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
-                viewport={"width": 1280, "height": 800}
-            )
-            page = browser.pages[0] if browser.pages else browser.new_page()
-            page.goto("https://www.instagram.com/", timeout=45000)
-            page.wait_for_timeout(4000)
-
-            # Check if logged in
-            create_btn = page.locator('svg[aria-label="New post"]').first
-            if create_btn.count() == 0:
-                browser.close()
-                return {"success": False, "error": "Instagram session expired or not logged in"}
-
-            create_btn.click()
-            page.wait_for_timeout(1200)
-
-            # Click Post
-            page.locator('div[role="dialog"] a, div[role="menu"] div, div[role="menu"] a, span:text-is("Post")').first.click()
-            page.wait_for_timeout(2000)
-
-            # Upload video file
-            page.locator('input[type="file"]').first.set_input_files(str(video_path.resolve()))
-            page.wait_for_timeout(5000)
-
-            # Dismiss "Reels" notice if present
-            ok_btn = page.locator('button:has-text("OK"), button:has-text("Ok")').first
-            if ok_btn.count() > 0 and ok_btn.is_visible():
-                ok_btn.click()
-                page.wait_for_timeout(1500)
-
-            # Next 1 (Crop)
-            page.locator('div[role="dialog"] div[role="button"]:has-text("Next")').first.click()
-            page.wait_for_timeout(3000)
-
-            # Next 2 (Cover/Edit)
-            page.locator('div[role="dialog"] div[role="button"]:has-text("Next")').first.click()
-            page.wait_for_timeout(3000)
-
-            # Fill caption
-            cap_box = page.locator('div[aria-label="Add a caption..."], div[aria-label="Write a caption..."], div[role="textbox"]').first
-            cap_box.click(force=True)
-            cap_box.fill(caption_text)
-            page.wait_for_timeout(2000)
-
-            # Share button
-            share_btn = page.locator('div[role="dialog"] header div[role="button"]:has-text("Share"), div[role="dialog"] div[role="button"]:has-text("Share")').first
-            share_btn.click(force=True)
-
-            confirmed = False
-            for _ in range(18):  # Poll up to 90s
-                page.wait_for_timeout(5000)
-                dialog_count = page.locator('div[role="dialog"]').count()
-                if dialog_count > 0:
-                    text = page.locator('div[role="dialog"]').inner_text().lower()
-                    if "your reel has been shared" in text or ("shared" in text and "sharing" not in text):
-                        confirmed = True
-                        break
-                else:
-                    confirmed = True
-                    break
-
-            try:
-                page.screenshot(path=str(settings.WORKSPACE_PATH / "ig_reel_confirmed_live.jpg"))
-            except Exception:
-                pass
-
-            browser.close()
-            return {"success": confirmed, "status": "Shared reel published to @rareember" if confirmed else "Encoding in progress"}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
 
     async def publish_project(self, project_id: str) -> Dict[str, Any]:
         """

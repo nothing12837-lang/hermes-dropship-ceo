@@ -14,6 +14,7 @@ session.json
 posted_history.json
 browser_cookies.json
 dots_gateway/browser_data/
+dots_gateway/assets/cache/
 generated_posts/
 
 # Temporary media & debug screenshots
@@ -30,6 +31,7 @@ browser_ig_post.py
 ig_verify_final_profile.py
 post_test_reel_clean.py
 publish_reel_until_confirmed.py
+run_publish_new_reel.py
 
 # Backups & Memory JSON state
 BOT_BACKUPS/
