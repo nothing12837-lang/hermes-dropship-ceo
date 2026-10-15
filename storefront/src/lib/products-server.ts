@@ -172,6 +172,32 @@ export async function getNewProducts(limit = 8): Promise<Product[]> {
     .slice(0, limit);
 }
 
+/** Homepage: 50 viral trending drops across streetwear, hoodies, drinkware, desk gear */
+export async function getViralDrops50(): Promise<Product[]> {
+  const sb = await serverClient();
+  if (sb) {
+    try {
+      const { data, error } = await sb
+        .from('products')
+        .select('*')
+        .eq('active', true)
+        .ilike('id', 'drop-%')
+        .order('reviews', { ascending: false })
+        .limit(60);
+      if (!error && data && data.length > 0) {
+        return data.filter((r) => !isDisallowedProduct(r)).map(mapRowToProduct);
+      }
+    } catch {
+      // fall through
+    }
+  }
+  const all = await getProductsFromDB();
+  const drops = all.filter((p) => p.id.startsWith('drop-'));
+  if (drops.length > 0) return drops;
+  return all.slice(0, 50);
+}
+
+
 export async function getProductFromDB(id: string): Promise<Product | null> {
   if (!id) return null;
   const cleanId = id.trim().toLowerCase();
