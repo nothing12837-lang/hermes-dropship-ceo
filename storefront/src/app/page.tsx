@@ -130,71 +130,50 @@ export default async function Home() {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-6 flex flex-col gap-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-4 flex flex-col gap-8">
 
-
-        {/* FESTIVE GRAND UTSAV HERO BANNER */}
-        <section className="relative overflow-hidden rounded-[2rem] text-white grain bg-gradient-night shadow-[0_30px_80px_rgba(48,26,12,0.28)] border border-white/10">
-          {/* Aurora ambience */}
+        {/* NARROW & SLEEK STREETWEAR HERO BANNER */}
+        <section className="relative overflow-hidden rounded-2xl text-white grain bg-gradient-night shadow-[0_16px_40px_rgba(48,26,12,0.2)] border border-white/10">
+          {/* Subtle ambient glow */}
           <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none">
-            <span className="aurora-blob hero-rise" style={{ width: 420, height: 420, top: -140, right: -100, background: 'rgba(255,154,61,0.45)' }} />
-            <span className="aurora-blob aurora-blob-b hero-rise hero-rise-2" style={{ width: 340, height: 340, bottom: -150, left: -90, background: 'rgba(232,36,75,0.35)' }} />
-            <span className="aurora-blob aurora-blob-c hero-rise hero-rise-3" style={{ width: 260, height: 260, top: 30, left: '40%', background: 'rgba(247,183,51,0.3)' }} />
+            <span className="aurora-blob hero-rise" style={{ width: 280, height: 280, top: -100, right: -50, background: 'rgba(255,154,61,0.35)' }} />
+            <span className="aurora-blob aurora-blob-b hero-rise hero-rise-2" style={{ width: 220, height: 220, bottom: -80, left: -40, background: 'rgba(232,36,75,0.25)' }} />
           </div>
 
-          {/* Flame & Spark Accents */}
-          <span aria-hidden className="absolute top-6 right-8 text-3xl animate-float-y opacity-90 hero-rise hero-rise-3" style={{ '--float-rot': '8deg' } as React.CSSProperties}>🔥</span>
-          <span aria-hidden className="absolute bottom-7 left-10 text-2xl animate-float-y opacity-70 hidden md:block hero-rise hero-rise-4" style={{ '--float-rot': '-10deg' } as React.CSSProperties}>✨</span>
-
-          <div className="relative z-10 p-6 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="space-y-3 max-w-2xl">
-              <div className="hero-rise hero-rise-1 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-[#FF4D24]/40 text-[#FF9A3D] text-xs font-black uppercase tracking-[0.18em] backdrop-blur-md">
-                <span>🔥</span> Signature Streetwear & Custom Drops Live
+          <div className="relative z-10 px-5 py-4 md:py-4.5 md:px-7 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div className="space-y-1.5 max-w-2xl">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 border border-[#FF4D24]/40 text-[#FF9A3D] text-[10px] font-black uppercase tracking-widest backdrop-blur-md">
+                <span>🔥</span> Drops Live
               </div>
-              <h1 className="hero-rise hero-rise-2 text-[1.75rem] md:text-5xl font-black tracking-tight leading-[1.05]">
-                <span className="text-gradient-ember-animated">Rare Ember</span>
-                <br /> Heavyweight Streetwear & Custom Studio
+              <h1 className="text-lg md:text-2xl font-black tracking-tight leading-snug">
+                <span className="text-gradient-ember-animated">Rare Ember</span> — Heavyweight Streetwear &amp; Custom Studio
               </h1>
-              <p className="hero-rise hero-rise-3 text-sm md:text-base text-white/70 font-medium leading-relaxed max-w-xl">
-                Engineered with 240 GSM combed ring-spun cotton and 380 GSM brushed fleece. Personalize with your custom name, initials, or graphic art. Dispatched direct from Tirupur manufacturing floor in 2–4 business days with 1-Click Cash on Delivery.
+              <p className="text-xs md:text-sm text-white/70 font-medium leading-relaxed">
+                240 GSM Combed Cotton • 380 GSM Fleece • Custom Graphics &amp; Names • Dispatched direct from Tirupur Hub with 1-Click COD.
               </p>
-              <div className="hero-rise hero-rise-4 flex flex-wrap gap-x-5 gap-y-2 pt-1 text-xs font-bold text-white/75">
-                <span className="flex items-center gap-1.5"><span className="live-dot w-1.5 h-1.5 rounded-full bg-emerald-400 text-emerald-400" /> 240 GSM Combed Cotton</span>
-                <span className="text-white/25">•</span>
-                <span>Custom Image & Text Studio</span>
-                <span className="text-white/25">•</span>
-                <span>Free Doorstep 7-Day Replacement</span>
-                <span className="text-white/25">•</span>
-                <span>1-Click COD</span>
-              </div>
             </div>
 
-            <div className="hero-rise hero-rise-5 flex flex-col sm:flex-row md:flex-col lg:flex-row items-stretch sm:items-center gap-3 shrink-0 w-full md:w-auto">
-              <div className="relative overflow-hidden bg-black/40 backdrop-blur-xl border border-[#FF4D24]/45 rounded-2xl p-3.5 px-5 flex flex-col justify-center text-center animate-glow-pulse">
-                <span
-                  aria-hidden
-                  className="absolute inset-0 opacity-30 animate-shimmer-bg"
-                  style={{ background: 'linear-gradient(105deg, transparent 30%, rgba(255,77,36,0.35) 50%, transparent 70%)', backgroundSize: '220% 100%' }}
-                />
-                <span className="relative text-[11px] font-bold text-[#FF9A3D] uppercase tracking-widest">Exclusive Drop Code</span>
-                <span className="relative font-mono text-xl font-black text-[#FF4D24] tracking-wider">RARE100</span>
-                <span className="relative text-[10px] text-white/65 font-medium">Flat ₹100 OFF Your Order</span>
+            <div className="flex items-center gap-3 shrink-0 flex-wrap sm:flex-nowrap">
+              <div className="relative overflow-hidden bg-black/50 backdrop-blur-md border border-[#FF4D24]/45 rounded-xl px-3.5 py-2 flex items-center gap-2">
+                <span className="text-[10px] font-bold text-[#FF9A3D] uppercase tracking-wider">Code:</span>
+                <span className="font-mono text-sm font-black text-[#FF4D24] tracking-wider">RARE100</span>
+                <span className="text-[10px] text-white/60 font-medium">(₹100 OFF)</span>
               </div>
               <Link
                 href="/shop"
-                className="no-underline inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl btn-ember font-black text-sm tracking-wide cursor-pointer"
+                className="no-underline inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl btn-ember font-black text-xs md:text-sm tracking-wide cursor-pointer whitespace-nowrap shadow-ember"
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  Explore Streetwear Drops <span>⚡</span>
+                <span className="relative z-10 flex items-center gap-1.5">
+                  Explore Drops <span>⚡</span>
                 </span>
               </Link>
             </div>
           </div>
 
-          {/* Bottom gradient ribbon */}
+          {/* Bottom subtle gradient ribbon */}
           <div
             aria-hidden
-            className="absolute bottom-0 left-0 right-0 h-1.5"
+            className="absolute bottom-0 left-0 right-0 h-1"
             style={{ background: 'linear-gradient(90deg, #FF9A3D, #FF4D24 35%, #E8244B 65%, #F7B733)' }}
           />
         </section>
