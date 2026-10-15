@@ -64,9 +64,10 @@ export function ProductClient({ product }: Props) {
   const [qty, setQty] = useState(1);
 
   const isApparel =
-    product.category === 'fashion' ||
-    /tee|t-shirt|hoodie|sweatshirt|crop|jogger|tank|crewneck/i.test(product.title) ||
-    /tee|t-shirt|hoodie|sweatshirt|crop|jogger|tank|crewneck/i.test(product.id);
+    /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|shorts|jacket|vest|polo|dress|skirt|legging|romper/i.test(product.title + ' ' + product.id);
+
+  const supportsPrintPlacement =
+    /tee|t-shirt|hoodie|sweatshirt|jacket|polo|vest/i.test(product.title + ' ' + product.id);
 
   const isPhoneCase =
     /case|phone|iphone|samsung/i.test(product.title) ||
@@ -76,7 +77,7 @@ export function ProductClient({ product }: Props) {
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [sizeUnit, setSizeUnit] = useState<'in' | 'cm'>('in');
   const [selectedPhoneModel, setSelectedPhoneModel] = useState<string>(PHONE_MODELS[0]);
-  const [isCustomizing, setIsCustomizing] = useState(isApparel);
+  const [isCustomizing, setIsCustomizing] = useState(false);
   const [customMode, setCustomMode] = useState<'text' | 'image'>('text');
   const [customText, setCustomText] = useState('');
   const [customImage, setCustomImage] = useState<string | null>(null);
@@ -207,7 +208,7 @@ export function ProductClient({ product }: Props) {
   })();
 
   const baseInr = product.price_inr || (product.price >= 80 ? product.price : Math.round(product.price * 85));
-  const customizationFeeInr = isCustomizing && customPlacement.includes('Both Sides') ? 149 : 0;
+  const customizationFeeInr = isCustomizing && supportsPrintPlacement && customPlacement.includes('Both Sides') ? 149 : 0;
   const effectiveInr = baseInr + customizationFeeInr;
   const effectivePriceUsd = Number((effectiveInr / 85).toFixed(2));
 
@@ -221,7 +222,7 @@ export function ProductClient({ product }: Props) {
     size: isApparel ? selectedSize : undefined,
     phoneModel: isPhoneCase ? selectedPhoneModel : undefined,
     customText: isCustomizing && customMode === 'text' && customText.trim() ? customText.trim() : undefined,
-    customPlacement: isCustomizing ? customPlacement : undefined,
+    customPlacement: isCustomizing && supportsPrintPlacement ? customPlacement : undefined,
     customImage: isCustomizing && customMode === 'image' && customImage ? customImage : undefined,
     customImageName: isCustomizing && customMode === 'image' && customImageName ? customImageName : undefined,
   });
@@ -546,16 +547,6 @@ export function ProductClient({ product }: Props) {
                 </div>
               );
             })()}
-
-            {/* Product Story Card */}
-            <div style={{ marginTop: '1.25rem', padding: '1rem 1.25rem', background: '#ffffff', borderRadius: '1rem', border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
-              <div style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#ff6b35', marginBottom: '0.35rem' }}>
-                Curator&apos;s Note
-              </div>
-              <p style={{ lineHeight: 1.7, color: '#2d2522', fontSize: '0.92rem' }}>
-                {cleanStory}
-              </p>
-            </div>
 
             {/* Key Highlights */}
             <div style={{ marginTop: '1.25rem' }}>
@@ -934,7 +925,7 @@ export function ProductClient({ product }: Props) {
                   )}
 
                   {/* Print Placement Selector */}
-                  {isApparel && (
+                  {supportsPrintPlacement && (
                     <div>
                       <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#57534e', marginBottom: '0.45rem' }}>
                         Print Placement
@@ -980,7 +971,7 @@ export function ProductClient({ product }: Props) {
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.68rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#a1a1aa', marginBottom: '0.4rem' }}>
                         <span>✨ Live DTF Text Preview</span>
-                        <span style={{ color: '#FF4D24' }}>{customPlacement}</span>
+                        {supportsPrintPlacement && <span style={{ color: '#FF4D24' }}>{customPlacement}</span>}
                       </div>
                       <div
                         style={{
@@ -1013,7 +1004,7 @@ export function ProductClient({ product }: Props) {
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.68rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#a1a1aa', marginBottom: '0.4rem' }}>
                         <span>✨ Live DTF Graphic Preview</span>
-                        <span style={{ color: '#FF4D24' }}>{customPlacement}</span>
+                        {supportsPrintPlacement && <span style={{ color: '#FF4D24' }}>{customPlacement}</span>}
                       </div>
                       <div
                         style={{
