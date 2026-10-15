@@ -105,11 +105,12 @@ export default function CartDrawer() {
 
   const subtotal = detailed.reduce((a, b) => a + getItemPrice((b as any).product) * b.qty, 0);
 
-  const inCart = new Set(items.map((i) => i.id));
   const upsells = products
     .filter(
       (p) =>
         !inCart.has(p.id) &&
+        p.active !== false &&
+        !p.id.startsWith('meesho-') &&
         p.category !== 'pets' &&
         p.category !== 'beds' &&
         p.category !== 'toys' &&
