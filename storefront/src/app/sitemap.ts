@@ -37,12 +37,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // Dynamic Product Pages fetched from Supabase
-  let liveProducts: Array<{ id: string; title?: string; category?: string; updated_at?: string }> = [];
+  let liveProducts: Array<{ id: string; slug?: string; title?: string; category?: string; updated_at?: string }> = [];
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     if (supabaseUrl && supabaseKey) {
-      const res = await fetch(`${supabaseUrl}/rest/v1/products?select=id,title,category,updated_at&active=eq.true&limit=250`, {
+      const res = await fetch(`${supabaseUrl}/rest/v1/products?select=id,slug,title,category,updated_at&active=eq.true&limit=250`, {
         headers: {
           apikey: supabaseKey,
           Authorization: `Bearer ${supabaseKey}`
@@ -62,13 +62,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const activeProducts = liveProducts.length > 0
     ? liveProducts.map(p => ({
-        url: `${base}/product/${p.id}`,
+        url: `${base}/product/${(p.slug || p.id).replace(/^meesho-/, '')}`,
         lastModified: p.updated_at ? new Date(p.updated_at) : now,
         changeFrequency: 'weekly' as const,
         priority: 0.85
       }))
     : fallbackProducts.filter(p => !isDisallowedProduct(p)).map(p => ({
-        url: `${base}/product/${p.id}`,
+        url: `${base}/product/${(p.slug || p.id).replace(/^meesho-/, '')}`,
         lastModified: now,
         changeFrequency: 'weekly' as const,
         priority: 0.85

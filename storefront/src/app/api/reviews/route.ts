@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
         `📦 *Product:* ${data.product_id}\n` +
         `💬 *Feedback:* "${data.comment}"\n` +
         `📸 *Photo Attached:* ${data.image_url ? 'Yes' : 'No'}\n\n` +
-        `👉 View on Store: https://rareember-store.vercel.app/product/${data.product_id}`;
+        `👉 View on Store: https://rareember-store.vercel.app/product/${data.product_id.replace(/^meesho-/, '')}`;
 
       fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: 'POST',

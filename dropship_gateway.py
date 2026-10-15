@@ -1158,7 +1158,8 @@ def tool_execute_rapid_google_indexing():
             title = p.get("title")
             price = p.get("price_inr")
             if pid and title:
-                links_markdown += f"- [{title} - Buy Online India (₹{price:,})](https://rareember-store.vercel.app/product/{pid})\n"
+                clean_pid = (p.get("slug") or pid).replace("meesho-", "")
+                links_markdown += f"- [{title} - Buy Online India (₹{price:,})](https://rareember-store.vercel.app/product/{clean_pid})\n"
                 
         content = f"""# RareEmber™ - Curated Dropshipping Catalog & Google Index Directory
 > **Live Store:** [rareember-store.vercel.app](https://rareember-store.vercel.app)  

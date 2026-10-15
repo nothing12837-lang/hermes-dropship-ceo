@@ -118,7 +118,7 @@ export function PetMatchWidget({ compact = false }: { compact?: boolean }) {
             <div style={{ fontWeight: 900, color: '#161311' }}>{match.title}</div>
             <div style={{ fontSize: '0.85rem', color: '#8a7b6b' }}>{match.short.slice(0, 60)}…</div>
           </div>
-          <Link href={`/product/${match.id}`} style={{ background: '#ff4d24', color: 'white', padding: '0.7rem 1.2rem', borderRadius: '9999px', fontWeight: 800, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+          <Link href={`/product/${((match as any)?.slug || match.id).replace(/^meesho-/, '')}`} style={{ background: '#ff4d24', color: 'white', padding: '0.7rem 1.2rem', borderRadius: '9999px', fontWeight: 800, textDecoration: 'none', whiteSpace: 'nowrap' }}>
             View Drop →
           </Link>
         </div>

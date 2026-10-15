@@ -134,7 +134,7 @@ export default function ProductReviews({ productId, productTitle }: ProductRevie
   });
 
   return (
-    <section className="mt-16 pt-10 border-t border-neutral-200">
+    <section className="mt-8 md:mt-16 pt-6 md:pt-10 border-t border-neutral-200">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <h2 className="text-2xl font-black tracking-tight text-neutral-900">

@@ -234,7 +234,7 @@ export default function Chatbot() {
                           {m.products.map((p) => (
                             <Link
                               key={p.id}
-                              href={`/product/${p.id}`}
+                              href={`/product/${((p as any)?.slug || p.id).replace(/^meesho-/, '')}`}
                               className="flex items-center gap-3 p-2.5 rounded-xl bg-white border border-black/[0.06] hover:border-amber-500/50 shadow-xs hover:shadow-md transition-all text-neutral-900 no-underline"
                             >
                               <span className="text-2xl">{p.emoji}</span>

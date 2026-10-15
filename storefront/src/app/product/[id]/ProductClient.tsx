@@ -61,6 +61,85 @@ export function ProductClient({ product }: Props) {
     .map((id) => getProduct(id))
     .filter((p): p is Product => Boolean(p));
 
+  const cleanSubtitle = (() => {
+    if (!product.short) return 'Handpicked verified domestic quality with fast express dispatch across India.';
+    let s = product.short.trim();
+    const t = (product.title || '').trim();
+    if (t && s.toLowerCase().startsWith(t.toLowerCase())) {
+      s = s.slice(t.length).replace(/^[\s\-–—:.]+/, '').trim();
+    }
+    if (!s || s.toLowerCase() === t.toLowerCase()) {
+      return 'Handpicked verified domestic quality with fast express dispatch across India.';
+    }
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  })();
+
+  const cleanStory = (() => {
+    const story = product.story || '';
+    let s = story.trim();
+    const t = (product.title || '').trim();
+    if (t && s.toLowerCase().startsWith(t.toLowerCase())) {
+      s = s.slice(t.length).replace(/^[\s\-–—:.]+/, '').trim();
+    }
+    if (!s || s.toLowerCase() === t.toLowerCase() || s.toLowerCase() === cleanSubtitle.toLowerCase()) {
+      return 'Inspected and certified by the RareEmber quality curation team. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
+    }
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  })();
+
+  const featureHighlights = (() => {
+    if (product.details && product.details.length > 0) {
+      return product.details;
+    }
+    const titleLower = (product.title || '').toLowerCase();
+    const cat = (product.category || '').toLowerCase();
+
+    if (titleLower.includes('pump') || titleLower.includes('dispenser') || titleLower.includes('bottle')) {
+      return [
+        'One-Touch Automatic Dispensing with Instant Flow Rate',
+        'Food-Grade BPA-Free Silicone Hose & 304 Stainless Steel Spout',
+        'Long-Life USB Rechargeable Battery (Dispenses up to 4–6 20L Cans on Single Charge)',
+        'Universal Clamp-On Fit for Standard 20L, 15L & 10L Water Cans',
+        'Whisper-Quiet Motor & Lightweight Compact Portable Design',
+        'Pre-Inspected & Tested Before Domestic Express Dispatch',
+      ];
+    }
+    if (titleLower.includes('lamp') || titleLower.includes('light') || titleLower.includes('led')) {
+      return [
+        'Energy-Efficient Ambient Warm & Multi-Color Illumination',
+        'Precision-Crafted Durable Housing & Premium Tactile Finish',
+        'USB Powered / Rechargeable with Intuitive Touch Controls',
+        'Gentle Eye-Care Lighting (Zero Glare or Flickering)',
+        'Verified Authentic Build Tested Before Domestic Dispatch',
+      ];
+    }
+    if (titleLower.includes('cleaner') || titleLower.includes('vacuum') || titleLower.includes('shaver')) {
+      return [
+        'High-Torque Performance with Cordless Rechargeable Convenience',
+        'Precision Multi-Attachment Accessories Included in Box',
+        'Compact Ergonomic Grip Designed for Effortless One-Hand Operation',
+        'Fast USB Charging with Overcharge Safety Protection',
+        '100% Genuine Quality with 7-Day Replacement Guarantee',
+      ];
+    }
+    if (cat.includes('electronics') || titleLower.includes('wireless') || titleLower.includes('charger') || titleLower.includes('bluetooth')) {
+      return [
+        'Universal Device Compatibility with Smart Voltage Regulation',
+        'Ultra-Durable Heat-Dissipating Exterior Shell',
+        'Plug & Play Fast Response with Zero Driver Setup Required',
+        'Compact Travel-Friendly Lightweight Profile',
+        'Verified Authentic Hardware Inspected Before Dispatch',
+      ];
+    }
+    return [
+      '100% Brand New & Verified Authentic Factory Build',
+      'Carefully Packaged with Multi-Layer Protective Cushioning',
+      'Inspected for Flawless Finish & Function Prior to Dispatch',
+      'Pan-India Tracked 2–4 Day Express Delivery via BlueDart & Delhivery',
+      'Full RareEmber 7-Day Easy Replacement Guarantee',
+    ];
+  })();
+
   const handleOrderNow = () => {
     const inr = product.price_inr || (product.price >= 80 ? product.price : Math.round(product.price * 85));
     add(product.id, qty, {
@@ -76,7 +155,7 @@ export function ProductClient({ product }: Props) {
 
   return (
     <main className="page-top" style={{ background: '#fffbf5', minHeight: '100vh' }}>
-      <div style={{ maxWidth: '72rem', margin: '0 auto', padding: '2rem' }}>
+      <div style={{ maxWidth: '72rem', margin: '0 auto', padding: 'clamp(1rem, 3vw, 2rem)' }}>
         <Link href="/shop" style={{ color: '#8a7b6b', fontWeight: 700, textDecoration: 'none' }}>
           ← All chapters
         </Link>
@@ -84,9 +163,9 @@ export function ProductClient({ product }: Props) {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))',
-            gap: '2.5rem',
-            marginTop: '1.5rem',
+            gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%, 320px),1fr))',
+            gap: 'clamp(1.25rem, 3vw, 2.5rem)',
+            marginTop: '1.25rem',
             alignItems: 'start',
           }}
         >
@@ -334,11 +413,11 @@ export function ProductClient({ product }: Props) {
               </span>
             </div>
 
-            <h1 style={{ fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 900, letterSpacing: '-0.03em' }}>
+            <h1 style={{ fontSize: 'clamp(1.75rem,3.5vw,2.75rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.25 }}>
               {product.title}
             </h1>
-            <p style={{ color: '#52453e', marginTop: '0.75rem', lineHeight: 1.7 }}>
-              {product.short || product.title}
+            <p style={{ color: '#52453e', marginTop: '0.6rem', lineHeight: 1.6, fontSize: '0.98rem', fontWeight: 500 }}>
+              {cleanSubtitle}
             </p>
 
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
@@ -384,22 +463,30 @@ export function ProductClient({ product }: Props) {
               );
             })()}
 
-            <p style={{ marginTop: '1.25rem', lineHeight: 1.8, color: '#1a1412' }}>
-              {product.story || product.short || product.title}
-            </p>
+            {/* Product Story Card */}
+            <div style={{ marginTop: '1.25rem', padding: '1rem 1.25rem', background: '#ffffff', borderRadius: '1rem', border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+              <div style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#ff6b35', marginBottom: '0.35rem' }}>
+                Curator&apos;s Note
+              </div>
+              <p style={{ lineHeight: 1.7, color: '#2d2522', fontSize: '0.92rem' }}>
+                {cleanStory}
+              </p>
+            </div>
 
-            <ul style={{ marginTop: '1rem', display: 'grid', gap: '0.4rem', color: '#52453e' }}>
-              {(product.details && product.details.length > 0
-                ? product.details
-                : [
-                    '100% Brand New & Verified Quality',
-                    'Includes Original Box & Accessories',
-                    'Inspected before Domestic Dispatch',
-                  ]
-              ).map((d) => (
-                <li key={d}>✓ {d}</li>
-              ))}
-            </ul>
+            {/* Key Highlights */}
+            <div style={{ marginTop: '1.25rem' }}>
+              <div style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#8a7b6b', marginBottom: '0.6rem' }}>
+                Product Highlights & Specs
+              </div>
+              <ul style={{ display: 'grid', gap: '0.45rem', color: '#443731', fontSize: '0.88rem' }}>
+                {featureHighlights.map((d) => (
+                  <li key={d} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
+                    <span style={{ color: '#059669', fontWeight: 900, flexShrink: 0 }}>✓</span>
+                    <span>{d}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             {((product as any).active === false || ((product as any).stock != null && Number((product as any).stock) <= 0)) ? (
               <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginTop: '1.75rem', flexWrap: 'wrap' }}>
@@ -499,7 +586,7 @@ export function ProductClient({ product }: Props) {
         <ProductReviews productId={product.id} productTitle={product.title} />
 
         {related.length > 0 && (
-          <section style={{ marginTop: '4rem' }}>
+          <section style={{ marginTop: 'clamp(2rem, 5vw, 3.5rem)' }}>
             <h2 style={{ fontWeight: 900, fontSize: '1.6rem', marginBottom: '1.5rem' }}>
               Pairs well with
             </h2>
@@ -514,6 +601,7 @@ export function ProductClient({ product }: Props) {
                 <ProductCard
                   key={p.id}
                   id={p.id}
+                  slug={p.slug}
                   emoji={p.emoji}
                   tag={p.tag}
                   tagColor={p.tagColor}

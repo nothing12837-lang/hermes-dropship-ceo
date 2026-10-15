@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getProductFromDB } from '@/lib/products-server';
 import { ProductClient } from './ProductClient';
@@ -15,10 +15,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!product) notFound();
 
+  const cleanSlug = (product.slug || product.id).replace(/^meesho-/, '');
   const description =
     product.short || `Buy ${product.title} online at RareEmber. Pan-India & Global Express Delivery with Razorpay & Cash on Delivery.`;
 
-  const canonicalUrl = `${siteUrl}/product/${product.id}`;
+  const canonicalUrl = `${siteUrl}/product/${cleanSlug}`;
 
   return {
     title: `${product.title} — Buy Online`,
@@ -55,7 +56,13 @@ export default async function ProductPage({ params }: Props) {
 
   if (!product) notFound();
 
-  const canonicalUrl = `${siteUrl}/product/${product.id}`;
+  const cleanSlug = (product.slug || product.id).replace(/^meesho-/, '');
+  // Automatically redirect legacy or raw supplier links to clean brand URL
+  if (id.startsWith('meesho-') && cleanSlug && cleanSlug !== id) {
+    redirect(`/product/${cleanSlug}`);
+  }
+
+  const canonicalUrl = `${siteUrl}/product/${cleanSlug}`;
 
   const productSchema = {
     '@context': 'https://schema.org',

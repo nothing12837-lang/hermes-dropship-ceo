@@ -2,11 +2,12 @@ import urllib.request
 import re
 
 urls_to_test = [
-    'https://rareember-store.vercel.app/product/meesho-10in1-electronic-cleaner-kit-keyboard-earbuds',
-    'https://rareember-store.vercel.app/product/meesho-galaxy-star-astronaut-projector-night-lamp',
-    'https://rareember-store.vercel.app/product/meesho-rechargeable-motion-sensor-led-cabinet-stair-light',
-    'https://rareember-store.vercel.app/product/meesho-360-rotating-makeup-cosmetic-organizer-acrylic',
-    'https://rareember-store.vercel.app/product/meesho-portable-mini-thermal-bluetooth-pocket-printer'
+    'https://rareember-store.vercel.app/product/10in1-electronic-cleaner-kit-keyboard-earbuds',
+    'https://rareember-store.vercel.app/product/galaxy-star-astronaut-projector-night-lamp',
+    'https://rareember-store.vercel.app/product/rechargeable-motion-sensor-led-cabinet-stair-light',
+    'https://rareember-store.vercel.app/product/360-rotating-makeup-cosmetic-organizer-acrylic',
+    'https://rareember-store.vercel.app/product/portable-mini-thermal-bluetooth-pocket-printer',
+    'https://rareember-store.vercel.app/product/wireless-water-bottle-pump-usb'
 ]
 
 print("=== LIVE PRODUCTION STOREFRONT VERIFICATION ===")

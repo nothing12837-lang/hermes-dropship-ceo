@@ -242,7 +242,7 @@ export default function CartDrawer() {
                           )}
                         </motion.div>
                         <div className="flex-1 min-w-0">
-                          <Link href={`/product/${d.id}`} className="no-inherit">
+                          <Link href={`/product/${((d.product as any)?.slug || d.id).replace(/^meesho-/, '')}`} className="no-inherit">
                             <p className="font-extrabold text-sm text-text-primary truncate">
                               {d.product.title}
                             </p>
@@ -313,7 +313,7 @@ export default function CartDrawer() {
                             )}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <Link href={`/product/${u.id}`} className="no-underline">
+                            <Link href={`/product/${((u as any)?.slug || u.id).replace(/^meesho-/, '')}`} className="no-underline">
                               <p className="font-bold text-xs text-neutral-900 truncate">{u.title}</p>
                             </Link>
                             <p className="text-xs text-amber-600 font-extrabold mt-0.5">

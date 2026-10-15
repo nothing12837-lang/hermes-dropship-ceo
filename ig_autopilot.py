@@ -615,6 +615,7 @@ def generate_caption(product, campaign_type="auto"):
 "Ordered with Cash on Delivery and delivered in 3 days! Exceptional build quality and fraction of mall showroom pricing."
 ✨ Verified 4.9★ Quality • 7-Day Easy Replacement Guarantee"""
 
+    clean_slug = (product.get('slug') or product.get('id', '')).replace('meesho-', '')
     caption = f"""{headline}
 
 {hook}
@@ -638,7 +639,7 @@ Meet the {product['title']} — curated by Eva for RareEmber.
 🛡️ 7-Day Easy Replacement Guarantee
 
 🛒 DIRECT PRODUCT LINK (Tap or Copy):
-👉 https://rareember-store.vercel.app/product/{product['id']}
+👉 https://rareember-store.vercel.app/product/{clean_slug}
 
 📱 INSTANT CHECKOUT: Tap the link in our bio (@rareember) for 1-Click COD!
 💬 INSTANT DM: Comment "LINK" or "BUY" below and we'll immediately DM you the direct checkout link + VIP discount!
@@ -780,9 +781,10 @@ def post_to_instagram(media_path, caption, product=None):
             try:
                 time.sleep(2)
                 fest = get_current_festival()
+                comment_clean_slug = (product.get('slug') or product.get('id', '')).replace('meesho-', '')
                 comment_text = (
                     f"⚡ DIRECT ORDER LINK (Cash on Delivery available):\n"
-                    f"🔗 https://rareember-store.vercel.app/product/{product.get('id', '')}\n\n"
+                    f"🔗 https://rareember-store.vercel.app/product/{comment_clean_slug}\n\n"
                     f"🎉 Use coupon code {fest['coupon']} for {fest['discount_desc']}!\n"
                     f"📦 Express 2-4 day delivery across 19,000+ PIN codes in India."
                 )

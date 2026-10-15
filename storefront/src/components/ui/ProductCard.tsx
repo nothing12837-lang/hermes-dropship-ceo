@@ -13,6 +13,7 @@ import { useGeo } from '@/context/GeoContext';
 
 interface ProductCardProps {
   id: string;
+  slug?: string;
   emoji: string;
   tag: string;
   tagColor: string;
@@ -37,6 +38,7 @@ interface ProductCardProps {
 
 export default function ProductCard({
   id,
+  slug,
   emoji,
   tag,
   title,
@@ -62,6 +64,7 @@ export default function ProductCard({
   const resolvedSrc = resolveProductImage(id, imageUrl);
   const showImage = Boolean(resolvedSrc) && !imgFailed;
   const isInStock = inStock !== false && (stock == null || stock > 0);
+  const productHref = `/product/${(slug || id).replace(/^meesho-/, '')}`;
 
   const displayPrice = rawPrice ? geoFormatPrice(rawPrice) : price;
   const displayOldPrice = rawComparePrice ? geoFormatPrice(rawComparePrice) : oldPrice;
@@ -89,7 +92,7 @@ export default function ProductCard({
 
   return (
     <div className="group flex flex-col h-full rounded-[1.75rem] bg-white border border-black/[0.06] shadow-[0_2px_12px_rgba(48,26,12,0.05)] hover:shadow-[0_22px_48px_rgba(48,26,12,0.14)] hover:-translate-y-2 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden relative ring-ember-animated">
-      <Link href={`/product/${id}`} className="no-underline flex flex-col flex-1">
+      <Link href={productHref} className="no-underline flex flex-col flex-1">
         <div
           className="relative aspect-square m-2.5 mb-0 rounded-2xl overflow-hidden shine-hover"
           style={{ background: gradient }}
@@ -207,7 +210,7 @@ export default function ProductCard({
           </button>
         ) : (
           <Link
-            href={`/product/${id}`}
+            href={productHref}
             className="w-full py-3 rounded-full font-bold text-sm tracking-tight border border-rose-200 cursor-pointer bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-300 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 no-underline"
           >
             <span>NOTIFY ME WHEN RESTOCKED 🔔</span>
