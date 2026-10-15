@@ -17,6 +17,41 @@ import { useGeo } from '@/context/GeoContext';
 
 const PERSPECTIVE_LABELS = ['Hero Front', 'Detail Macro', 'In-Room Setup', 'Unboxed & Scale'];
 
+const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL'] as const;
+
+const SIZE_GUIDE_ROWS = [
+  { size: 'S', chestIn: 38, chestCm: 96, lengthIn: 27, lengthCm: 68, shoulderIn: 18, shoulderCm: 46 },
+  { size: 'M', chestIn: 40, chestCm: 101, lengthIn: 28, lengthCm: 71, shoulderIn: 19, shoulderCm: 48 },
+  { size: 'L', chestIn: 42, chestCm: 106, lengthIn: 29, lengthCm: 74, shoulderIn: 20, shoulderCm: 51 },
+  { size: 'XL', chestIn: 44, chestCm: 112, lengthIn: 30, lengthCm: 76, shoulderIn: 21, shoulderCm: 53 },
+  { size: '2XL', chestIn: 46, chestCm: 117, lengthIn: 31, lengthCm: 79, shoulderIn: 22, shoulderCm: 56 },
+  { size: '3XL', chestIn: 48, chestCm: 122, lengthIn: 32, lengthCm: 81, shoulderIn: 23, shoulderCm: 58 },
+];
+
+const PHONE_MODELS = [
+  'iPhone 16 Pro Max',
+  'iPhone 16 Pro',
+  'iPhone 16',
+  'iPhone 15 Pro Max',
+  'iPhone 15 Pro',
+  'iPhone 15',
+  'iPhone 14 Pro Max',
+  'iPhone 14',
+  'iPhone 13',
+  'Samsung Galaxy S24 Ultra',
+  'Samsung Galaxy S24+',
+  'Samsung Galaxy S24',
+  'Samsung Galaxy S23 Ultra',
+  'OnePlus 12',
+  'OnePlus 11',
+];
+
+const PLACEMENT_OPTIONS = [
+  { id: 'Front Print', label: 'Front Print', sub: 'Classic Chest / Center' },
+  { id: 'Back Print', label: 'Back Print', sub: 'Oversized Streetwear Back' },
+  { id: 'Both Sides (+₹149)', label: 'Both Sides (+₹149)', sub: 'Dual Placement (Front & Back)' },
+];
+
 interface Props {
   product: Product;
 }
@@ -27,6 +62,24 @@ export function ProductClient({ product }: Props) {
   const { has, toggle } = useWishlist();
   const { formatPrice: geoFormatPrice } = useGeo();
   const [qty, setQty] = useState(1);
+
+  const isApparel =
+    product.category === 'fashion' ||
+    /tee|t-shirt|hoodie|sweatshirt|crop|jogger|tank|crewneck/i.test(product.title) ||
+    /tee|t-shirt|hoodie|sweatshirt|crop|jogger|tank|crewneck/i.test(product.id);
+
+  const isPhoneCase =
+    /case|phone|iphone|samsung/i.test(product.title) ||
+    /case|phone|iphone|samsung/i.test(product.id);
+
+  const [selectedSize, setSelectedSize] = useState<string>('L');
+  const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [sizeUnit, setSizeUnit] = useState<'in' | 'cm'>('in');
+  const [selectedPhoneModel, setSelectedPhoneModel] = useState<string>(PHONE_MODELS[0]);
+  const [isCustomizing, setIsCustomizing] = useState(false);
+  const [customText, setCustomText] = useState('');
+  const [customPlacement, setCustomPlacement] = useState<string>('Front Print');
+  const [addedAlert, setAddedAlert] = useState(false);
   const galleryImages = resolveProductImages(
     product.id,
     product.image_url,
@@ -130,16 +183,32 @@ export function ProductClient({ product }: Props) {
     ];
   })();
 
+  const baseInr = product.price_inr || (product.price >= 80 ? product.price : Math.round(product.price * 85));
+  const customizationFeeInr = isCustomizing && customPlacement.includes('Both Sides') ? 149 : 0;
+  const effectiveInr = baseInr + customizationFeeInr;
+  const effectivePriceUsd = Number((effectiveInr / 85).toFixed(2));
+
+  const getItemMeta = () => ({
+    title: product.title,
+    price: effectivePriceUsd,
+    price_inr: effectiveInr,
+    emoji: product.emoji,
+    imageUrl: currentSrc || product.image_url,
+    gradient: product.gradient,
+    size: isApparel ? selectedSize : undefined,
+    phoneModel: isPhoneCase ? selectedPhoneModel : undefined,
+    customText: isCustomizing && customText.trim() ? customText.trim() : undefined,
+    customPlacement: isCustomizing ? customPlacement : undefined,
+  });
+
+  const handleAddToCart = () => {
+    add(product.id, qty, getItemMeta());
+    setAddedAlert(true);
+    setTimeout(() => setAddedAlert(false), 2500);
+  };
+
   const handleOrderNow = () => {
-    const inr = product.price_inr || (product.price >= 80 ? product.price : Math.round(product.price * 85));
-    add(product.id, qty, {
-      title: product.title,
-      price: Number((inr / 85).toFixed(2)),
-      price_inr: inr,
-      emoji: product.emoji,
-      imageUrl: currentSrc || product.image_url,
-      gradient: product.gradient,
-    });
+    add(product.id, qty, getItemMeta());
     router.push('/checkout');
   };
 
@@ -147,7 +216,7 @@ export function ProductClient({ product }: Props) {
     <main className="page-top" style={{ background: '#fffbf5', minHeight: '100vh' }}>
       <div style={{ maxWidth: '72rem', margin: '0 auto', padding: 'clamp(1rem, 3vw, 2rem)' }}>
         <Link href="/shop" style={{ color: '#8a7b6b', fontWeight: 700, textDecoration: 'none' }}>
-          ← All chapters
+          ← Explore Catalog
         </Link>
 
         <div
@@ -478,6 +547,290 @@ export function ProductClient({ product }: Props) {
               </ul>
             </div>
 
+            {/* Sizing Selector for Apparel */}
+            {isApparel && (
+              <div style={{ marginTop: '1.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
+                  <span style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#8a7b6b' }}>
+                    Select Size
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setShowSizeGuide(true)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#FF4D24',
+                      fontSize: '0.82rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      padding: 0,
+                    }}
+                  >
+                    📏 Size Guide & Fit Advice
+                  </button>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '0.5rem' }}>
+                  {SIZES.map((s) => {
+                    const isSelected = selectedSize === s;
+                    return (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => setSelectedSize(s)}
+                        style={{
+                          padding: '0.75rem 0',
+                          borderRadius: '0.85rem',
+                          border: isSelected ? '2px solid #FF4D24' : '1.5px solid rgba(0,0,0,0.1)',
+                          background: isSelected ? '#161311' : '#ffffff',
+                          color: isSelected ? '#ffffff' : '#161311',
+                          fontWeight: 900,
+                          fontSize: '0.9rem',
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease',
+                          boxShadow: isSelected ? '0 4px 12px rgba(0,0,0,0.12)' : 'none',
+                        }}
+                      >
+                        {s}
+                      </button>
+                    );
+                  })}
+                </div>
+                <p style={{ fontSize: '0.75rem', color: '#78716c', marginTop: '0.45rem' }}>
+                  ⚡ Selected: <strong>{selectedSize}</strong> • Oversized drop-shoulder streetwear fit. 100% combed bio-washed cotton.
+                </p>
+              </div>
+            )}
+
+            {/* Phone Model Selector for Phone Cases */}
+            {isPhoneCase && (
+              <div style={{ marginTop: '1.5rem' }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#8a7b6b', marginBottom: '0.6rem' }}>
+                  Select Phone Model
+                </label>
+                <select
+                  value={selectedPhoneModel}
+                  onChange={(e) => setSelectedPhoneModel(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '0.85rem 1rem',
+                    borderRadius: '0.85rem',
+                    border: '1.5px solid rgba(0,0,0,0.12)',
+                    background: '#ffffff',
+                    color: '#161311',
+                    fontWeight: 700,
+                    fontSize: '0.9rem',
+                    outline: 'none',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {PHONE_MODELS.map((m) => (
+                    <option key={m} value={m}>
+                      {m}
+                    </option>
+                  ))}
+                </select>
+                <p style={{ fontSize: '0.75rem', color: '#78716c', marginTop: '0.45rem' }}>
+                  ⚡ Impact-resistant polycarbonate with raised camera ring and wireless charging support.
+                </p>
+              </div>
+            )}
+
+            {/* Qikink Customization & Personalization Studio */}
+            <div
+              style={{
+                marginTop: '1.5rem',
+                borderRadius: '1.1rem',
+                border: isCustomizing ? '1.5px solid #FF4D24' : '1px solid rgba(0,0,0,0.08)',
+                background: isCustomizing ? '#ffffff' : '#fafafa',
+                padding: '1rem 1.15rem',
+                boxShadow: isCustomizing ? '0 8px 24px rgba(255, 77, 36, 0.08)' : '0 2px 6px rgba(0,0,0,0.02)',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <div
+                onClick={() => setIsCustomizing((prev) => !prev)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <div
+                    style={{
+                      width: '2.25rem',
+                      height: '2.25rem',
+                      borderRadius: '0.75rem',
+                      background: 'linear-gradient(135deg, #FF4D24 0%, #f59e0b 100%)',
+                      color: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1rem',
+                      fontWeight: 900,
+                      boxShadow: '0 4px 10px rgba(255, 77, 36, 0.25)',
+                    }}
+                  >
+                    ✨
+                  </div>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: 800, fontSize: '0.92rem', color: '#161311' }}>
+                        Custom Personalization Studio
+                      </span>
+                      <span style={{ fontSize: '0.65rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.06em', padding: '0.15rem 0.5rem', borderRadius: '9999px', background: 'rgba(5, 150, 105, 0.12)', color: '#059669' }}>
+                        Qikink POD
+                      </span>
+                    </div>
+                    <p style={{ fontSize: '0.78rem', color: '#78716c', margin: '0.15rem 0 0 0' }}>
+                      Add your custom name, monogram, quote or gamertag.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    width: '1.75rem',
+                    height: '1.75rem',
+                    borderRadius: '9999px',
+                    background: isCustomizing ? '#161311' : 'rgba(0,0,0,0.05)',
+                    color: isCustomizing ? '#ffffff' : '#78716c',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '0.7rem',
+                    fontWeight: 900,
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  {isCustomizing ? '▲' : '▼'}
+                </div>
+              </div>
+
+              {isCustomizing && (
+                <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                      <label style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#57534e' }}>
+                        Custom Text / Name / Monogram
+                      </label>
+                      <span style={{ fontSize: '0.68rem', color: '#a8a29e', fontFamily: 'monospace' }}>
+                        {customText.length}/30
+                      </span>
+                    </div>
+                    <input
+                      type="text"
+                      value={customText}
+                      onChange={(e) => setCustomText(e.target.value.slice(0, 30))}
+                      placeholder="e.g. RARE EMBER, AJAY, 2026, LEVEL UP"
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem 1rem',
+                        fontSize: '0.9rem',
+                        fontWeight: 700,
+                        borderRadius: '0.75rem',
+                        border: '1.5px solid rgba(0,0,0,0.12)',
+                        background: '#f5f5f4',
+                        color: '#161311',
+                        outline: 'none',
+                        boxSizing: 'border-box',
+                      }}
+                    />
+                  </div>
+
+                  {isApparel && (
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#57534e', marginBottom: '0.45rem' }}>
+                        Print Placement
+                      </label>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem' }}>
+                        {PLACEMENT_OPTIONS.map((opt) => {
+                          const isSelected = customPlacement === opt.id;
+                          return (
+                            <button
+                              key={opt.id}
+                              type="button"
+                              onClick={() => setCustomPlacement(opt.id)}
+                              style={{
+                                padding: '0.65rem 0.5rem',
+                                borderRadius: '0.75rem',
+                                border: isSelected ? '1.5px solid #FF4D24' : '1px solid rgba(0,0,0,0.1)',
+                                background: isSelected ? 'rgba(255, 77, 36, 0.08)' : '#ffffff',
+                                color: isSelected ? '#FF4D24' : '#44403c',
+                                textAlign: 'left',
+                                cursor: 'pointer',
+                                transition: 'all 0.15s ease',
+                              }}
+                            >
+                              <div style={{ fontWeight: 800, fontSize: '0.78rem' }}>{opt.label}</div>
+                              <div style={{ fontSize: '0.65rem', color: '#78716c', marginTop: '0.15rem' }}>{opt.sub}</div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {customText.trim() && (
+                    <div
+                      style={{
+                        padding: '0.85rem 1rem',
+                        borderRadius: '0.75rem',
+                        background: '#09090b',
+                        color: '#ffffff',
+                        border: '1px solid rgba(255,255,255,0.12)',
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.68rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#a1a1aa', marginBottom: '0.4rem' }}>
+                        <span>✨ Live DTF Print Preview</span>
+                        <span style={{ color: '#FF4D24' }}>{customPlacement}</span>
+                      </div>
+                      <div
+                        style={{
+                          padding: '0.85rem',
+                          borderRadius: '0.5rem',
+                          background: 'rgba(255,255,255,0.06)',
+                          textAlign: 'center',
+                        }}
+                      >
+                        <span style={{ fontSize: '1.15rem', fontWeight: 900, letterSpacing: '0.12em', color: '#fed7aa', textTransform: 'uppercase' }}>
+                          {customText}
+                        </span>
+                        <div style={{ fontSize: '0.65rem', color: '#71717a', marginTop: '0.25rem' }}>
+                          Archival 1200 DPI Reactive Ink • Zero Cracking Wash Durability
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Added to Bag Toast Alert */}
+            {addedAlert && (
+              <div
+                style={{
+                  marginTop: '1rem',
+                  padding: '0.75rem 1.25rem',
+                  borderRadius: '0.85rem',
+                  background: '#059669',
+                  color: '#ffffff',
+                  fontWeight: 800,
+                  fontSize: '0.85rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  boxShadow: '0 4px 14px rgba(5, 150, 105, 0.3)',
+                }}
+              >
+                <span>✓</span> Added {product.title} {isApparel ? `(Size ${selectedSize})` : ''} to your bag!
+              </div>
+            )}
+
             {((product as any).active === false || ((product as any).stock != null && Number((product as any).stock) <= 0)) ? (
               <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginTop: '1.75rem', flexWrap: 'wrap' }}>
                 <div style={{ padding: '0.85rem 1.75rem', borderRadius: '9999px', background: '#fef2f2', border: '1.5px solid #fecaca', color: '#dc2626', fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -523,8 +876,11 @@ export function ProductClient({ product }: Props) {
                     +
                   </button>
                 </div>
+                <button onClick={handleAddToCart} style={secondaryAddBtn}>
+                  🛍️ Add to Bag
+                </button>
                 <button onClick={handleOrderNow} style={addBtn}>
-                  ORDER NOW ⚡ • {geoFormatPrice(product.price * qty, product.price_inr ? product.price_inr * qty : undefined)}
+                  ORDER NOW ⚡ • {geoFormatPrice(effectivePriceUsd * qty, effectiveInr * qty)}
                 </button>
                 <button
                   onClick={() => toggle(product.id)}
@@ -613,6 +969,178 @@ export function ProductClient({ product }: Props) {
             </div>
           </section>
         )}
+        {/* Size Guide & Fit Advice Modal */}
+        {showSizeGuide && (
+          <div
+            onClick={() => setShowSizeGuide(false)}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(0,0,0,0.65)',
+              backdropFilter: 'blur(6px)',
+              zIndex: 999,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '1rem',
+            }}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: '#ffffff',
+                borderRadius: '1.5rem',
+                padding: 'clamp(1.25rem, 3vw, 2rem)',
+                maxWidth: '32rem',
+                width: '100%',
+                boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
+                border: '1px solid rgba(0,0,0,0.08)',
+                position: 'relative',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid rgba(0,0,0,0.08)', paddingBottom: '0.85rem' }}>
+                <div>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#161311', margin: 0 }}>
+                    📏 Apparel Sizing & Fit Guide
+                  </h3>
+                  <p style={{ fontSize: '0.78rem', color: '#78716c', margin: '0.2rem 0 0 0' }}>
+                    Rare Ember Official Garment Specifications
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowSizeGuide(false)}
+                  style={{
+                    width: '2rem',
+                    height: '2rem',
+                    borderRadius: '9999px',
+                    border: 'none',
+                    background: 'rgba(0,0,0,0.06)',
+                    color: '#161311',
+                    fontSize: '0.9rem',
+                    fontWeight: 900,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Units toggle */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '1rem 0 0.75rem 0' }}>
+                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#57534e' }}>
+                  Measurements in:
+                </span>
+                <div style={{ display: 'flex', background: '#f5f5f4', padding: '0.2rem', borderRadius: '0.65rem' }}>
+                  <button
+                    type="button"
+                    onClick={() => setSizeUnit('in')}
+                    style={{
+                      padding: '0.35rem 0.75rem',
+                      borderRadius: '0.5rem',
+                      border: 'none',
+                      background: sizeUnit === 'in' ? '#ffffff' : 'transparent',
+                      color: sizeUnit === 'in' ? '#161311' : '#78716c',
+                      fontWeight: 800,
+                      fontSize: '0.75rem',
+                      cursor: 'pointer',
+                      boxShadow: sizeUnit === 'in' ? '0 2px 6px rgba(0,0,0,0.06)' : 'none',
+                    }}
+                  >
+                    Inches (&quot;)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSizeUnit('cm')}
+                    style={{
+                      padding: '0.35rem 0.75rem',
+                      borderRadius: '0.5rem',
+                      border: 'none',
+                      background: sizeUnit === 'cm' ? '#ffffff' : 'transparent',
+                      color: sizeUnit === 'cm' ? '#161311' : '#78716c',
+                      fontWeight: 800,
+                      fontSize: '0.75rem',
+                      cursor: 'pointer',
+                      boxShadow: sizeUnit === 'cm' ? '0 2px 6px rgba(0,0,0,0.06)' : 'none',
+                    }}
+                  >
+                    Centimeters (cm)
+                  </button>
+                </div>
+              </div>
+
+              {/* Sizing Table */}
+              <div style={{ overflowX: 'auto', borderRadius: '0.85rem', border: '1px solid rgba(0,0,0,0.08)' }}>
+                <table style={{ width: '100%', fontSize: '0.8rem', borderCollapse: 'collapse', textAlign: 'left' }}>
+                  <thead>
+                    <tr style={{ background: '#f5f5f4', color: '#78716c', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                      <th style={{ padding: '0.65rem 0.85rem' }}>Size</th>
+                      <th style={{ padding: '0.65rem 0.85rem' }}>Chest</th>
+                      <th style={{ padding: '0.65rem 0.85rem' }}>Length</th>
+                      <th style={{ padding: '0.65rem 0.85rem' }}>Shoulder</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {SIZE_GUIDE_ROWS.map((row) => {
+                      const isRowSelected = selectedSize === row.size;
+                      return (
+                        <tr
+                          key={row.size}
+                          onClick={() => setSelectedSize(row.size)}
+                          style={{
+                            borderTop: '1px solid rgba(0,0,0,0.06)',
+                            background: isRowSelected ? 'rgba(255, 77, 36, 0.08)' : 'transparent',
+                            cursor: 'pointer',
+                            fontWeight: isRowSelected ? 800 : 500,
+                          }}
+                        >
+                          <td style={{ padding: '0.65rem 0.85rem', fontWeight: 900, color: isRowSelected ? '#FF4D24' : '#161311' }}>
+                            {row.size} {isRowSelected ? '✓' : ''}
+                          </td>
+                          <td style={{ padding: '0.65rem 0.85rem' }}>
+                            {sizeUnit === 'in' ? `${row.chestIn}"` : `${row.chestCm} cm`}
+                          </td>
+                          <td style={{ padding: '0.65rem 0.85rem' }}>
+                            {sizeUnit === 'in' ? `${row.lengthIn}"` : `${row.lengthCm} cm`}
+                          </td>
+                          <td style={{ padding: '0.65rem 0.85rem' }}>
+                            {sizeUnit === 'in' ? `${row.shoulderIn}"` : `${row.shoulderCm} cm`}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              <div style={{ marginTop: '0.85rem', padding: '0.75rem 0.95rem', borderRadius: '0.75rem', background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.25)', fontSize: '0.75rem', color: '#92400e', lineHeight: 1.5 }}>
+                <strong>💡 Streetwear Fit Note:</strong> Our tees and hoodies feature a relaxed, dropped-shoulder boxy silhouette. If you prefer a tailored/regular fit, order 1 size down.
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setShowSizeGuide(false)}
+                style={{
+                  marginTop: '1rem',
+                  width: '100%',
+                  padding: '0.85rem',
+                  borderRadius: '9999px',
+                  border: 'none',
+                  background: '#161311',
+                  color: '#ffffff',
+                  fontWeight: 800,
+                  fontSize: '0.85rem',
+                  cursor: 'pointer',
+                }}
+              >
+                Done • Select Size {selectedSize}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );
@@ -633,19 +1161,39 @@ const qtyBtn: React.CSSProperties = {
   boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
 };
 
-const addBtn: React.CSSProperties = {
+const secondaryAddBtn: React.CSSProperties = {
   flex: 1,
-  minWidth: '220px',
-  padding: '1.1rem 2.2rem',
-  background: 'linear-gradient(135deg, #1d1d1f 0%, #000000 100%)',
+  minWidth: '150px',
+  padding: '1.05rem 1.4rem',
+  background: '#ffffff',
+  color: '#161311',
+  border: '1.5px solid rgba(0,0,0,0.14)',
+  borderRadius: '9999px',
+  fontWeight: 800,
+  fontSize: '0.95rem',
+  letterSpacing: '-0.01em',
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '0.45rem',
+  transition: 'all 0.18s ease',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+};
+
+const addBtn: React.CSSProperties = {
+  flex: 1.3,
+  minWidth: '190px',
+  padding: '1.05rem 1.6rem',
+  background: 'linear-gradient(135deg, #FF4D24 0%, #E63900 100%)',
   color: 'white',
   border: 'none',
   borderRadius: '9999px',
   fontWeight: 900,
-  fontSize: '1rem',
+  fontSize: '0.98rem',
   letterSpacing: '-0.01em',
   cursor: 'pointer',
-  boxShadow: '0 10px 30px rgba(0,0,0,0.18)',
+  boxShadow: '0 10px 24px rgba(255, 77, 36, 0.32)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

@@ -400,7 +400,7 @@ export const products: Product[] = [
     compare_at_price: 32.93,
     category: 'fashion',
     emoji: '✨',
-    tag: 'Women's Drop',
+    tag: "Women's Drop",
     tagColor: '#d946ef',
     tagBg: 'rgba(217, 70, 239, 0.12)',
     stock: 500,

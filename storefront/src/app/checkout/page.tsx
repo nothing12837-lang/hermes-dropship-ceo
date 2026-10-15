@@ -75,7 +75,7 @@ export default function CheckoutPage() {
     () =>
       items
         .map((i) => {
-          const found = products.find((p) => p.id === i.id);
+          const found = products.find((p) => p.id === i.id || p.id === i.id.split('__')[0]);
           if (found) {
             return {
               ...i,
@@ -198,7 +198,16 @@ export default function CheckoutPage() {
             email,
             name,
             address: { line1: address, city, zip },
-            items: detailed.map((d) => ({ id: d.id, qty: d.qty })),
+            items: detailed.map((d) => ({
+              id: d.id,
+              product_id: d.id.split('__')[0],
+              title: d.product.title,
+              qty: d.qty,
+              size: d.size,
+              phoneModel: d.phoneModel,
+              customText: d.customText,
+              customPlacement: d.customPlacement,
+            })),
             payment_method: 'cod',
             total_amount: total,
             user_id: userId,
@@ -257,7 +266,16 @@ export default function CheckoutPage() {
           email,
           name,
           address: { line1: address, city, zip },
-          items: detailed.map((d) => ({ id: d.id, qty: d.qty })),
+          items: detailed.map((d) => ({
+            id: d.id,
+            product_id: d.id.split('__')[0],
+            title: d.product.title,
+            qty: d.qty,
+            size: d.size,
+            phoneModel: d.phoneModel,
+            customText: d.customText,
+            customPlacement: d.customPlacement,
+          })),
           user_id: userId,
           market,
           coupon_code: appliedCouponCode || undefined,
@@ -649,6 +667,25 @@ export default function CheckoutPage() {
                       <span className="block font-bold text-xs text-white truncate">
                         {d.product.title}
                       </span>
+                      {(d.size || d.phoneModel || d.customText) && (
+                        <div className="flex flex-wrap gap-1 mt-0.5 mb-0.5 text-[10px]">
+                          {d.size && (
+                            <span className="px-1.5 py-0.5 rounded bg-white/10 text-neutral-300 border border-white/15 font-semibold">
+                              Size: {d.size}
+                            </span>
+                          )}
+                          {d.phoneModel && (
+                            <span className="px-1.5 py-0.5 rounded bg-white/10 text-neutral-300 border border-white/15">
+                              {d.phoneModel}
+                            </span>
+                          )}
+                          {d.customText && (
+                            <span className="px-1.5 py-0.5 rounded bg-[#FF4D24]/20 text-[#FF4D24] border border-[#FF4D24]/30 font-semibold">
+                              &quot;{d.customText}&quot; {d.customPlacement ? `(${d.customPlacement})` : ''}
+                            </span>
+                          )}
+                        </div>
+                      )}
                       <span className="text-[11px] text-neutral-400">
                         Qty: {d.qty} × {formatCheckoutPrice(getProductItemPrice(d.product))}
                       </span>

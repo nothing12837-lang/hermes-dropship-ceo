@@ -58,7 +58,7 @@ export default function CartDrawer() {
 
   const detailed = items
     .map((i) => {
-      const found = products.find((p) => p.id === i.id);
+      const found = products.find((p) => p.id === i.id || p.id === i.id.split('__')[0]);
       if (found) {
         return {
           ...i,
@@ -200,15 +200,15 @@ export default function CartDrawer() {
                     transition={{ duration: 2, repeat: Infinity }}
                     className="text-5xl"
                   >
-                    🐾
+                    🛍️
                   </motion.div>
                   <p className="font-extrabold text-lg text-text-primary">
-                    {COPY.emptyCart.title}
+                    Your cart is empty
                   </p>
-                  <p className="text-sm">{COPY.emptyCart.sub}</p>
+                  <p className="text-sm">Discover our latest streetwear and creator drops.</p>
                   <Link href="/shop" onClick={closeCart}>
                     <MagneticButton variant="primary" size="md" iconRight="→">
-                      Explore Chapters
+                      Explore Collection
                     </MagneticButton>
                   </Link>
                 </motion.div>
@@ -245,11 +245,30 @@ export default function CartDrawer() {
                           )}
                         </motion.div>
                         <div className="flex-1 min-w-0">
-                          <Link href={`/product/${((d.product as any)?.slug || d.id).replace(/^meesho-/, '')}`} className="no-inherit">
+                          <Link href={`/product/${((d.product as any)?.slug || d.id.split('__')[0]).replace(/^meesho-/, '')}`} className="no-inherit">
                             <p className="font-extrabold text-sm text-text-primary truncate">
                               {d.product.title}
                             </p>
                           </Link>
+                          {(d.size || d.phoneModel || d.customText) && (
+                            <div className="flex flex-wrap gap-1 mt-1 text-[11px]">
+                              {d.size && (
+                                <span className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-text-secondary border border-black/10 dark:border-white/10 font-bold">
+                                  Size: {d.size}
+                                </span>
+                              )}
+                              {d.phoneModel && (
+                                <span className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-text-secondary border border-black/10 dark:border-white/10 font-medium">
+                                  {d.phoneModel}
+                                </span>
+                              )}
+                              {d.customText && (
+                                <span className="px-1.5 py-0.5 rounded bg-[#ff4d24]/10 text-[#ff4d24] border border-[#ff4d24]/20 font-bold">
+                                  Custom: &quot;{d.customText}&quot; {d.customPlacement ? `(${d.customPlacement})` : ''}
+                                </span>
+                              )}
+                            </div>
+                          )}
                           <p className="text-ember font-extrabold mt-1">
                             {formatCartPrice(getItemPrice((d as any).product))}
                           </p>

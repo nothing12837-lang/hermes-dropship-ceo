@@ -17,6 +17,11 @@ export interface CartItem {
   emoji?: string;
   imageUrl?: string;
   gradient?: string;
+  size?: string;
+  color?: string;
+  customText?: string;
+  customPlacement?: string;
+  phoneModel?: string;
 }
 
 interface CartCtx {
@@ -77,16 +82,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       closeCart: () => setIsOpen(false),
       add: (id, qty = 1, meta?: Partial<CartItem>) => {
         const addQty = Math.max(1, Math.floor(qty));
+        const variantSuffix = [meta?.size, meta?.phoneModel, meta?.customText].filter(Boolean).join('-');
+        const cartItemId = variantSuffix ? `${id}__${variantSuffix}` : id;
+
         setItems((prev) => {
-          const found = prev.find((i) => i.id === id);
+          const found = prev.find((i) => i.id === cartItemId);
           if (found) {
             const nextQty = Math.min(99, found.qty + addQty);
             return prev.map((i) =>
-              i.id === id ? { ...i, ...meta, qty: nextQty } : i
+              i.id === cartItemId ? { ...i, ...meta, qty: nextQty } : i
             );
           }
           const initialQty = Math.min(99, addQty);
-          return [...prev, { ...meta, id, qty: initialQty }];
+          return [...prev, { ...meta, id: cartItemId, qty: initialQty }];
         });
         setIsOpen(true);
       },
