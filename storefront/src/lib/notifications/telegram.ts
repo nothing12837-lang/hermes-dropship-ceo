@@ -44,8 +44,10 @@ export async function notifyTelegramOrder(order: {
         const variantParts = [
           it.size ? `Size: ${it.size}` : '',
           it.phoneModel,
+          (it as any).selectedStyle ? `Style: ${(it as any).selectedStyle}` : '',
           it.customText ? `Custom: "${it.customText}"` : '',
-          (it as any).customImageName ? `Graphic: ${(it as any).customImageName}` : ''
+          (it as any).customImageName ? `Graphic: ${(it as any).customImageName}` : '',
+          (it as any).imageUrl ? `<a href="${(it as any).imageUrl}">Selected Photo</a>` : '',
         ].filter(Boolean).join(' • ');
         return `  ${idx + 1}. <b>${itemTitle}</b>${variantParts ? ` [${variantParts}]` : ''} (Qty: ${it.qty || 1})`;
       })

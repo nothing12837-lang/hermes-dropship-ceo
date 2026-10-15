@@ -171,6 +171,8 @@ export async function POST(req: NextRequest) {
       title: string;
       price: number;
       qty: number;
+      imageUrl?: string;
+      selectedStyle?: string;
       size?: string;
       phoneModel?: string;
       customText?: string;
@@ -203,6 +205,8 @@ export async function POST(req: NextRequest) {
         title: prod.title,
         price: unitPrice,
         qty: item.qty,
+        imageUrl: item.imageUrl || (prod as any).image_url,
+        selectedStyle: item.selectedStyle || (item.imageUrl ? 'Selected Design' : undefined),
         size: item.size,
         phoneModel: item.phoneModel,
         customText: item.customText,

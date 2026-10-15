@@ -218,6 +218,7 @@ export function ProductClient({ product }: Props) {
     price_inr: effectiveInr,
     emoji: product.emoji,
     imageUrl: currentSrc || product.image_url,
+    selectedStyle: galleryImages.length > 1 ? `Design #${selectedImgIndex + 1}` : undefined,
     gradient: product.gradient,
     size: isApparel ? selectedSize : undefined,
     phoneModel: isPhoneCase ? selectedPhoneModel : undefined,
@@ -413,15 +414,24 @@ export function ProductClient({ product }: Props) {
 
             {/* Clickable Thumbnail Strip */}
             {galleryImages.length > 1 && (
-              <div
-                style={{
-                  display: 'flex',
-                  gap: '0.75rem',
-                  overflowX: 'auto',
-                  padding: '0.25rem 0.1rem',
-                  scrollbarWidth: 'none',
-                }}
-              >
+              <div style={{ marginTop: '0.85rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.45rem', padding: '0 0.15rem' }}>
+                  <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#161311' }}>
+                    Choose Design / Shade: <span style={{ color: '#FF4D24' }}>Design #{selectedImgIndex + 1}</span>
+                  </span>
+                  <span style={{ fontSize: '0.7rem', color: '#059669', fontWeight: 700 }}>
+                    Tap photo to choose
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '0.75rem',
+                    overflowX: 'auto',
+                    padding: '0.25rem 0.1rem',
+                    scrollbarWidth: 'none',
+                  }}
+                >
                 {galleryImages.map((imgUrl: string, idx: number) => {
                   if (failedImages[idx]) return null;
                   const isSelected = idx === selectedImgIndex;
@@ -477,7 +487,8 @@ export function ProductClient({ product }: Props) {
                   );
                 })}
               </div>
-            )}
+            </div>
+          )}
           </div>
 
           <div>
@@ -1101,7 +1112,19 @@ export function ProductClient({ product }: Props) {
                 </button>
               </div>
             ) : (
-              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginTop: '1.75rem', flexWrap: 'wrap' }}>
+              <div style={{ marginTop: '1.5rem' }}>
+                {galleryImages.length > 1 && (
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.65rem', padding: '0.45rem 0.85rem', borderRadius: '0.75rem', background: '#f5f5f4', border: '1px solid rgba(0,0,0,0.08)', marginBottom: '0.85rem' }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={currentSrc} alt="Selected design" style={{ width: '28px', height: '28px', objectFit: 'cover', borderRadius: '0.35rem', border: '1px solid rgba(0,0,0,0.1)' }} />
+                    <div style={{ fontSize: '0.78rem' }}>
+                      <span style={{ color: '#78716c' }}>Selected: </span>
+                      <strong style={{ color: '#161311' }}>Design #{selectedImgIndex + 1}</strong>
+                      <span style={{ color: '#059669', fontWeight: 700, marginLeft: '0.4rem' }}>✓ Pack this design</span>
+                    </div>
+                  </div>
+                )}
+                <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                   <button
                     onClick={() => setQty((q) => Math.max(1, q - 1))}
@@ -1133,7 +1156,8 @@ export function ProductClient({ product }: Props) {
                   {wished ? '♥' : '♡'}
                 </button>
               </div>
-            )}
+            </div>
+          )}
 
             <div style={{ marginTop: '1.5rem' }}>
               <PincodeChecker />

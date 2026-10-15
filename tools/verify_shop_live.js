@@ -1,27 +1,24 @@
 const https = require('https');
 
-function checkURL(url, name) {
+function check(url) {
   https.get(url, (res) => {
     let data = '';
-    res.on('data', chunk => data += chunk);
+    res.on('data', c => data += c);
     res.on('end', () => {
-      console.log(`\n=== Checking ${name} (${url}) ===`);
-      console.log('Status code:', res.statusCode);
-      const titleMatch = data.match(/<title>([^<]+)<\/title>/);
-      console.log('Title:', titleMatch ? titleMatch[1] : 'None');
-
-      // Check S3 mockups
-      const rawS3 = (data.match(/qikink-stores\.s3\.ap-south-1\.amazonaws\.com/gi) || []).length;
-      console.log('Qikink S3 occurrences (raw/encoded):', rawS3);
-
-      const ogImage = data.match(/property="og:image"[^>]+content="([^"]+)"/);
-      console.log('OG Image:', ogImage ? ogImage[1] : 'None');
+      console.log(`\n=== Checking: ${url} ===`);
+      console.log('Status:', res.statusCode);
+      const hasCurator = data.includes("Curator's Note") || data.includes("Curator&apos;s Note");
+      console.log('Curator Note present:', hasCurator);
+      const hasDTF = data.includes("Compatible with DTF");
+      console.log('Supplier text ("Compatible with DTF") present:', hasDTF);
+      const hasMOQ = data.includes("No minimum order quantity");
+      console.log('Supplier text ("No minimum order quantity") present:', hasMOQ);
+      const s3Matches = data.match(/qikink-stores\.s3\.ap-south-1\.amazonaws\.com/gi) || [];
+      console.log('Total S3 mockup references on page:', s3Matches.length);
     });
   }).on('error', console.error);
 }
 
-checkURL('https://www.rareember.shop', 'Homepage');
-checkURL('https://www.rareember.shop/product/qikink-hoodies-unisex-acid-wash-hoodie-uh62', 'PDP: Acid Wash Hoodie UH62');
-checkURL('https://www.rareember.shop/product/qikink-hoodies-varsity-jacket-uj31', 'PDP: Varsity Jacket UJ31');
-checkURL('https://www.rareember.shop/product/qikink-bottomwear-terry-shorts-mt45', 'PDP: Terry Shorts MT45');
-checkURL('https://www.rareember.shop/product/qikink-headwear-bucket-hat-bh35', 'PDP: Bucket Hat BH35');
+check('https://www.rareember.shop/product/qikink-t-shirts-tie-and-dye-oversized-t-shirt-ut58');
+check('https://www.rareember.shop/product/qikink-bottomwear-joggers-uj29');
+check('https://www.rareember.shop/product/qikink-accessories-desk-mat');
