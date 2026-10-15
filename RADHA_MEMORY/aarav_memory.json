@@ -23,6 +23,38 @@
       },
       "confidence": 1.0,
       "updated_at": "2026-10-14T13:35:41.834975+00:00"
+    },
+    "blog_festive-dining-decor-guide-india": {
+      "content": {
+        "title": "Festive Indian Dining & Living Room Decor: Complete Buyer Guide",
+        "slug": "festive-dining-decor-guide-india"
+      },
+      "confidence": 1.0,
+      "updated_at": "2026-10-15T16:08:32.894222+00:00"
+    },
+    "blog_ambient-lighting-sleep-wellness": {
+      "content": {
+        "title": "The Art of Ambient Living: How Soft Lighting Improves Sleep and Mood",
+        "slug": "ambient-lighting-sleep-wellness"
+      },
+      "confidence": 1.0,
+      "updated_at": "2026-10-15T16:17:13.442548+00:00"
+    },
+    "blog_smart-kitchen-organizers-india": {
+      "content": {
+        "title": "Smart Kitchen Organizers That Save 2 Hours Every Day",
+        "slug": "smart-kitchen-organizers-india"
+      },
+      "confidence": 1.0,
+      "updated_at": "2026-10-15T16:18:11.809022+00:00"
+    },
+    "blog_budget-wfh-desk-setup-guide": {
+      "content": {
+        "title": "Minimalist Work From Home Desk Setup on a Budget",
+        "slug": "budget-wfh-desk-setup-guide"
+      },
+      "confidence": 1.0,
+      "updated_at": "2026-10-15T16:24:06.534205+00:00"
     }
   }
 }

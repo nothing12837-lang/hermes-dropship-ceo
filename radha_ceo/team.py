@@ -29,7 +29,7 @@ except Exception:
 import pg8000.native
 from radha_ceo.memory import save_memory, get_memory
 
-SITE_URL = os.environ.get("SITE_URL", "https://rareember-store.vercel.app").strip()
+SITE_URL = os.environ.get("SITE_URL", "https://www.rareember.shop").strip()
 
 def _get_con():
     db_pass = os.environ.get("SUPABASE_DB_PASS", "").strip()
@@ -37,6 +37,8 @@ def _get_con():
         return None
     try:
         ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
         return pg8000.native.Connection(
             user=(os.environ.get("SUPABASE_DB_USER") or "postgres").strip(),
             host=(os.environ.get("SUPABASE_DB_HOST") or "db.qdkkxpfhwrwyoardlceo.supabase.co").strip(),
@@ -143,8 +145,22 @@ class AaravSEO:
                     break
 
             if not chosen:
-                con.close()
-                return {"status": "skipped", "message": "All default topics currently published"}
+                # Dynamic continuous expansion: generate unique seasonal & keyword-focused articles
+                import random
+                angles = [
+                    ("Top Budget Tech Upgrades For Your Work Setup", "tech-upgrades-work-setup", "tech"),
+                    ("Aesthetic Tableware & Dining Essentials For Festive Hosting", "festive-tableware-dining-guide", "home-living"),
+                    ("Minimalist Smart Living Accessories That Simplify Daily Routines", "smart-living-accessories-daily-routine", "home-living"),
+                    ("Creating A Relaxing Bedroom Sanctuary With Warm Ambient Lighting", "relaxing-bedroom-sanctuary-warm-lighting", "decor"),
+                    ("Eco-Friendly & Safe Home Accents For Families & Pet Owners", "safe-home-accents-families-pets", "home-living"),
+                    ("Modern Studio Apartment Organization Tips Under 1000 Rupees", "studio-apartment-organization-under-1000", "home-living"),
+                    ("How Modern Desk Accessories Boost Daily Productivity & Focus", "desk-accessories-boost-productivity-focus", "tech")
+                ]
+                base_title, base_slug, cat = angles[int(time.time()) % len(angles)]
+                stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M")
+                title = f"{base_title} (2026 Edition)"
+                slug = f"{base_slug}-{stamp}"
+                chosen = (title, slug, cat)
 
             title, slug, cat = chosen
             excerpt = f"Explore curated styling tips and verified Indian home aesthetics for {title.lower()}."
@@ -309,6 +325,8 @@ class MeeraCreative:
                 "ZERO video reels, ZERO generic stock photos, ZERO hallucinations."
             )
         }
+
+    research_viral_video_trends = research_visual_feed_trends
 
 # ─────────────────────────────────────────────────────────────
 # 5. KABIR — CHIEF FINANCIAL OFFICER (UNIT ECONOMICS)

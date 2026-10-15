@@ -61,13 +61,21 @@ KNOWN_WHOLESALE_BENCHMARKS = {
 
 def load_env() -> Dict[str, str]:
     env = {}
-    if os.path.exists(ENV_FILE):
-        with open(ENV_FILE, "r", encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if line and not line.startswith("#") and "=" in line:
-                    k, v = line.split("=", 1)
-                    env[k.strip()] = v.strip().strip('"').strip("'")
+    paths = [
+        os.path.join(WORKSPACE_PATH, "storefront", ".env.local"),
+        ENV_FILE,
+        os.path.join(WORKSPACE_PATH, ".env.production"),
+    ]
+    for p in paths:
+        if os.path.exists(p):
+            with open(p, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith("#") and "=" in line:
+                        k, v = line.split("=", 1)
+                        clean_k = k.strip()
+                        if clean_k not in env:
+                            env[clean_k] = v.strip().strip('"').strip("'")
     return env
 
 ENV = load_env()
@@ -95,12 +103,12 @@ class ArjunProcurementSentinel:
         }
 
     def fetch_all_products(self) -> List[Dict[str, Any]]:
-        """Fetches catalog from Supabase with fallback to storefront products.ts."""
+        """Fetches catalog from Supabase REST API or direct DB connection."""
         if SUPABASE_URL and SUPABASE_KEY:
             try:
                 headers = {"apikey": SUPABASE_KEY, "Authorization": f"Bearer {SUPABASE_KEY}"}
                 r = requests.get(
-                    f"{SUPABASE_URL}/rest/v1/products?select=id,title,price_inr,price,compare_at_price,active,stock,image_url,images&limit=200",
+                    f"{SUPABASE_URL}/rest/v1/products?select=id,title,price_inr,price,compare_at_price,active,stock,image_url&limit=200",
                     headers=headers,
                     timeout=10
                 )
@@ -111,16 +119,29 @@ class ArjunProcurementSentinel:
             except Exception as e:
                 print(f"⚠️ [ARJUN] Supabase fetch fallback: {e}")
 
-        # Fallback to products.ts
-        if os.path.exists(PRODUCTS_TS):
-            try:
-                with open(PRODUCTS_TS, "r", encoding="utf-8") as f:
-                    text = f.read()
-                m = re.search(r"export const products: Product\[\] = (\[.*?\]);", text, re.DOTALL)
-                if m:
-                    return json.loads(m.group(1))
-            except Exception as e:
-                print(f"⚠️ [ARJUN] products.ts parse error: {e}")
+        # Fallback to direct DB connection
+        try:
+            from radha_ceo.team import _get_con
+            con = _get_con()
+            if con:
+                rows = con.run("SELECT id, title, price_inr, price, compare_at_price, active, stock, image_url FROM products LIMIT 200")
+                con.close()
+                items = []
+                for row in rows:
+                    items.append({
+                        "id": row[0],
+                        "title": row[1],
+                        "price_inr": row[2],
+                        "price": row[3],
+                        "compare_at_price": row[4],
+                        "active": row[5],
+                        "stock": row[6],
+                        "image_url": row[7]
+                    })
+                if items:
+                    return items
+        except Exception as e:
+            print(f"⚠️ [ARJUN] Direct DB fetch fallback: {e}")
 
         return []
 

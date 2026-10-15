@@ -27,7 +27,7 @@ if os.path.exists(env_path):
     except Exception:
         pass
 
-SITE_URL = os.environ.get("SITE_URL", "https://rareember-store.vercel.app").strip()
+SITE_URL = os.environ.get("SITE_URL", "https://www.rareember.shop").strip()
 ADMIN_SECRET = os.environ.get("ADMIN_SECRET", "").strip()
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_ALLOWED_USERS", "5238068527").split(",")[0].strip()
