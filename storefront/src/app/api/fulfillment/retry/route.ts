@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { fulfillOrder } from '@/lib/fulfillment/cj';
+import { fulfillQikinkOrder } from '@/lib/fulfillment/qikink';
 import { isCron } from '@/lib/security/auth';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { clientIp } from '@/lib/security/validation';
@@ -32,8 +32,8 @@ async function runBatch() {
   const { data, error } = await supabase
     .from('orders')
     .select('id')
-    .eq('status', 'paid')
-    .or('cj_order_id.is.null,cj_order_id.eq.')
+    .in('status', ['paid', 'pending_cod', 'processing'])
+    .or('cj_order_id.is.null,cj_order_id.eq.,cj_order_id.ilike.QUEUE_%')
     .order('created_at', { ascending: true })
     .limit(BATCH);
 
@@ -46,9 +46,9 @@ async function runBatch() {
   const failed: Array<{ orderId: string; reason: string }> = [];
 
   for (const id of ids) {
-    const result = await fulfillOrder(supabase, id);
+    const result = await fulfillQikinkOrder(supabase, id);
     if (result.ok) fulfilled.push(id);
-    else failed.push({ orderId: id, reason: result.reason });
+    else failed.push({ orderId: id, reason: result.reason || 'Failed' });
   }
 
   return NextResponse.json({ processed: ids.length, fulfilled, failed });

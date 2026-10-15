@@ -121,6 +121,27 @@ export default function AdminOrdersPage() {
     void updateOrderStatus(orderId, 'shipped', tracking.trim() || undefined);
   };
 
+  const handleTriggerQikink = async (orderId: string) => {
+    setUpdatingId(orderId);
+    setError('');
+    setActionSuccess('');
+    try {
+      const res = await fetch('/api/admin/orders', {
+        method: 'POST',
+        headers: { ...headers(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || data.reason || 'Qikink dispatch failed');
+      setActionSuccess(`Order dispatched to Qikink floor! ID: #${data.qikinkOrderId || 'Success'}`);
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Dispatch failed');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     setActionSuccess(`Copied ${label} to clipboard!`);
@@ -411,15 +432,10 @@ export default function AdminOrdersPage() {
                         📍 Courier Tracking: {o.tracking_number}
                       </p>
                     )}
-                    {(o as any).meesho_order_id && (
-                      <p className="text-amber-400 font-mono font-bold">
-                        🛍️ Meesho Order: {(o as any).meesho_order_id}
+                    {o.cj_order_id && (
+                      <p className="text-emerald-400 font-mono font-bold flex items-center gap-1.5">
+                        <span>⚡</span> Qikink Order ID: #{o.cj_order_id}
                       </p>
-                    )}
-                    {(o as any).meesho_url && (
-                      <a href={(o as any).meesho_url} target="_blank" rel="noopener noreferrer" className="text-orange-400 underline text-xs font-bold">
-                        👉 1-Click Meesho Buy Now (Semi-Auto A)
-                      </a>
                     )}
                   </div>
                 </div>
@@ -427,6 +443,15 @@ export default function AdminOrdersPage() {
                 {/* Operational Quick Actions */}
                 <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                   <div className="flex flex-wrap items-center gap-2">
+                    {/* Qikink Dispatch Action */}
+                    <button
+                      onClick={() => handleTriggerQikink(o.id)}
+                      disabled={updatingId === o.id}
+                      className="px-3 py-1.5 rounded-lg bg-orange-600/20 hover:bg-orange-600/30 border border-orange-500/40 text-orange-400 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
+                    >
+                      <span>🏭</span> {o.cj_order_id && /^\d+$/.test(o.cj_order_id) ? '⚡ Qikink Synced' : '🚀 Send to Qikink'}
+                    </button>
+
                     {/* WhatsApp Action */}
                     {phone && (
                       <a

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { fulfillOrder } from '@/lib/fulfillment/cj';
+import { fulfillQikinkOrder } from '@/lib/fulfillment/qikink';
 import { isAdmin } from '@/lib/security/auth';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { clientIp } from '@/lib/security/validation';
@@ -137,10 +137,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'orderId required' }, { status: 400 });
   }
 
-  const result = await fulfillOrder(supabase, orderId);
-  if (result.ok) return NextResponse.json({ ok: true, cjOrderId: result.cjOrderId });
+  const result = await fulfillQikinkOrder(supabase, orderId);
+  if (result.ok) return NextResponse.json({ ok: true, qikinkOrderId: result.qikinkOrderId, trackingUrl: result.trackingUrl });
   return NextResponse.json(
-    { ok: false, reason: result.reason, retryable: result.retryable },
-    { status: result.retryable ? 502 : 400 }
+    { ok: false, reason: result.reason },
+    { status: 400 }
   );
 }
