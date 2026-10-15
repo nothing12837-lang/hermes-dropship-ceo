@@ -18,9 +18,6 @@ export const COPY = {
 
   announcement: 'Pan-India 2–4 Days Express Delivery • Cash on Delivery (COD) Available • 7-Day Easy Replacement',
 
-  chatbotGreeting:
-    "Namaste! Welcome to Rare Ember Customer Care. How can I help you today? (Track an order, verify COD & PIN code, check streetwear sizes, or festive discounts)",
-
   footer: {
     blurb: 'Curated heavyweight streetwear, artisan drinkware, and aesthetic creator desk gear — delivered fast across India with full white-label packaging.',
     cols: [
