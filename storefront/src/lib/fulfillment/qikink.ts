@@ -140,21 +140,31 @@ function cleanShippingAddress(shippingName: string | null, addr: Record<string, 
  */
 export async function fulfillQikinkOrder(
   supabase: SupabaseClient,
-  orderId: string
+  orderId: string,
+  providedOrder?: any
 ): Promise<QikinkFulfillmentResult> {
   const clientId = process.env.QIKINK_CLIENT_ID || '964148691892386';
   const clientSecret = process.env.QIKINK_CLIENT_SECRET;
   const apiUrl = process.env.QIKINK_API_URL || 'https://api.qikink.com';
 
-  // 1. Fetch order details from Supabase
-  const { data: order, error } = await supabase
-    .from('orders')
-    .select('id, user_email, total_amount, shipping_name, shipping_address, items, payment_method, status, cj_order_id')
-    .eq('id', orderId)
-    .single();
+  // 1. Fetch order details from memory, RPC, or Supabase table
+  let order = providedOrder;
+  if (!order) {
+    const rpcRes = await supabase.rpc('get_order_for_fulfillment', { p_order_id: orderId });
+    if (rpcRes.data && Array.isArray(rpcRes.data) && rpcRes.data.length > 0) {
+      order = rpcRes.data[0];
+    } else {
+      const { data: dbOrder } = await supabase
+        .from('orders')
+        .select('id, user_email, total_amount, shipping_name, shipping_address, items, payment_method, status, cj_order_id')
+        .eq('id', orderId)
+        .maybeSingle();
+      order = dbOrder;
+    }
+  }
 
-  if (error || !order) {
-    return { ok: false, reason: `Order ${orderId} not found in database: ${error?.message}` };
+  if (!order) {
+    return { ok: false, reason: `Order ${orderId} not found for fulfillment` };
   }
 
   // Idempotency: Don't re-transmit if already successfully fulfilled with a numeric Qikink order ID
@@ -250,13 +260,25 @@ export async function fulfillQikinkOrder(
 
   // 4. Update order in Supabase
   if (qikinkRef) {
+    const newStatus = isCod ? 'pending_cod' : 'processing';
+    const trackingNum = `BD-${qikinkRef}`;
+    const trackingLink = 'https://courierupdates.com/?awb=';
+
+    await supabase.rpc('update_order_fulfillment', {
+      p_order_id: String(order.id),
+      p_qikink_order_id: qikinkRef,
+      p_tracking_number: trackingNum,
+      p_tracking_url: trackingLink,
+      p_status: newStatus,
+    });
+
     await supabase
       .from('orders')
       .update({
         cj_order_id: qikinkRef,
-        tracking_number: `BD-${qikinkRef}`,
-        tracking_url: 'https://courierupdates.com/?awb=',
-        status: isCod ? 'pending_cod' : 'processing',
+        tracking_number: trackingNum,
+        tracking_url: trackingLink,
+        status: newStatus,
       })
       .eq('id', order.id);
 
@@ -267,15 +289,26 @@ export async function fulfillQikinkOrder(
       ok: true,
       qikinkOrderId: qikinkRef,
       courier: 'BlueDart Express (Qikink)',
-      trackingUrl: 'https://courierupdates.com/?awb=',
+      trackingUrl: trackingLink,
     };
   } else {
     // Graceful queue: Save status for admin review / auto-retry so order is never lost
+    const queueId = `QUEUE_${cleanOrderNum}`;
+    const queueStatus = isCod ? 'pending_cod' : 'paid';
+
+    await supabase.rpc('update_order_fulfillment', {
+      p_order_id: String(order.id),
+      p_qikink_order_id: queueId,
+      p_tracking_number: '',
+      p_tracking_url: '',
+      p_status: queueStatus,
+    });
+
     await supabase
       .from('orders')
       .update({
-        cj_order_id: `QUEUE_${cleanOrderNum}`,
-        status: isCod ? 'pending_cod' : 'paid',
+        cj_order_id: queueId,
+        status: queueStatus,
       })
       .eq('id', order.id);
 

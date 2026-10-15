@@ -318,7 +318,7 @@ export async function POST(req: NextRequest) {
     }).catch((e) => console.error('Telegram background alert error:', e));
 
     // Automated Order Dispatch to Qikink (Tirupur hub)
-    fulfillQikinkOrder(sb, finalOrderId).catch((e) => console.error('Qikink auto-fulfillment background error:', e));
+    fulfillQikinkOrder(sb, finalOrderId, newOrder).catch((e) => console.error('Qikink auto-fulfillment background error:', e));
 
     return NextResponse.json({ ok: true, order_id: finalOrderId });
   } catch (err) {
