@@ -92,10 +92,7 @@ export const SHOP_CATEGORIES = [
   { id: 'general', label: 'Lifestyle Drops', count: 26, hint: 'Accessories', emoji: '🔥' },
 ];
 
-import { VIRAL_DROPS_50 } from './viral-drops';
-
 export const products: Product[] = [
-  ...VIRAL_DROPS_50,
   {
   "id": "qikink-accessories-desk-mat",
   "slug": "qikink-accessories-desk-mat",

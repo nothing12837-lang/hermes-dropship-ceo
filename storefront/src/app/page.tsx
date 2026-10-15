@@ -1,9 +1,8 @@
 import Link from 'next/link';
 import ProductCard from '@/components/ui/ProductCard';
-import ViralDropsSection from '@/components/ui/ViralDropsSection';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { formatPrice, computeDiscount, type Product } from '@/lib/data/products';
-import { getNewProducts, getTrendingProducts, getProductsFromDB, getViralDrops50 } from '@/lib/products-server';
+import { getNewProducts, getTrendingProducts, getProductsFromDB } from '@/lib/products-server';
 import { getFlag } from '@/lib/flags';
 
 export const revalidate = 60; // 60s ISR: Edge cached in Mumbai/Delhi CDN for ~15ms instant delivery
@@ -71,11 +70,10 @@ const MARQUEE_ITEMS = [
 ];
 
 export default async function Home() {
-  const [trending, freshRaw, allProducts, viralDrops] = await Promise.all([
+  const [trending, freshRaw, allProducts] = await Promise.all([
     getTrendingProducts(8),
     getNewProducts(16),
     getProductsFromDB(),
-    getViralDrops50(),
   ]);
 
   // Ensure 100% unique products across homepage sections (zero duplicates)
@@ -178,9 +176,6 @@ export default async function Home() {
             style={{ background: 'linear-gradient(90deg, #FF9A3D, #FF4D24 35%, #E8244B 65%, #F7B733)' }}
           />
         </section>
-
-        {/* 50 VIRAL TRENDING DROPS (ANIME, CYBER-INDIC, GYM, STOIC, SYNTHWAVE, CREATOR) */}
-        <ViralDropsSection products={viralDrops} />
 
         {/* SECTION 1: TOP BEST SELLERS (HIGH DEMAND) */}
         <section>

@@ -5,8 +5,8 @@
     "prompt": "Check RareEmber store health and Supabase database connection status",
     "interval_seconds": 1800,
     "enabled": true,
-    "last_run": 1792083187.0380752,
-    "next_run": 1792084987.0380752,
+    "last_run": 1792084990.6725123,
+    "next_run": 1792086790.6725123,
     "created_at": 1792019674.9867513
   },
   {
@@ -15,8 +15,8 @@
     "prompt": "Verify @rereemberbot heartbeat and queue status",
     "interval_seconds": 900,
     "enabled": true,
-    "last_run": 1792084093.7906404,
-    "next_run": 1792084993.7906404,
+    "last_run": 1792084995.6980078,
+    "next_run": 1792085895.6980078,
     "created_at": 1792019674.9867513
   },
   {
@@ -25,8 +25,8 @@
     "prompt": "run: python -c \"print('Scraping viral dropshipping trends for electronics and home decor...')\"",
     "interval_seconds": 7200,
     "enabled": true,
-    "last_run": 1792077287.3952203,
-    "next_run": 1792084487.3952203,
+    "last_run": 1792084489.6184351,
+    "next_run": 1792091689.6184351,
     "created_at": 1792019674.9867513
   },
   {
@@ -35,8 +35,8 @@
     "prompt": "run: python arjun_sentinel.py",
     "interval_seconds": 1800,
     "enabled": true,
-    "last_run": 1792083188.301787,
-    "next_run": 1792084988.301787,
+    "last_run": 1792084991.7954113,
+    "next_run": 1792086791.7954113,
     "created_at": 1792035120.0
   },
   {
