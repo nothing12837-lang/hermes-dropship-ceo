@@ -15,14 +15,16 @@ from dots_gateway.scheduler import scheduler, CronJobModel
 from dots_gateway.mcp_manager import mcp_manager, MCPServerConfig
 from dots_gateway.skills_manager import skills_manager
 from dots_gateway.google_vids import google_vids
+from dots_gateway.virtual_browser import virtual_browser
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup: Launch 24/7 background cron scheduler
     await scheduler.start()
     yield
-    # Shutdown: Stop scheduler
+    # Shutdown: Stop scheduler and virtual browser
     await scheduler.stop()
+    await virtual_browser.close()
 
 app = FastAPI(
     title="Hermes Dots Gateway API",
@@ -89,6 +91,12 @@ class GenerateVidsRequest(BaseModel):
     prompt_or_product: str
     aspect_ratio: str = "9:16"
     voice_id: str = "en-IN-NeerjaNeural"
+
+class BrowserNavigateRequest(BaseModel):
+    url: str
+
+class BrowserClickRequest(BaseModel):
+    selector: str
 
 # ----------------- Health & Status -----------------
 @app.get("/health")
@@ -314,6 +322,37 @@ async def generate_vids_project(req: GenerateVidsRequest):
         f"✅ [GOOGLE VIDS STUDIO] Project '{project.title}' synthesized! Manifest: {project.manifest_file}\n"
     )
     return project.model_dump()
+
+# ----------------- Virtual Browser Laptop Engine (OpenAI Dots Browser) -----------------
+@app.get("/api/v1/browser/status")
+async def get_browser_status():
+    return virtual_browser.get_status()
+
+@app.post("/api/v1/browser/navigate")
+async def navigate_browser(req: BrowserNavigateRequest):
+    await dot_engine.broadcast_terminal_output(
+        "system",
+        f"\n💻 [VIRTUAL LAPTOP] Navigating browser to: {req.url}\n"
+    )
+    res = await virtual_browser.navigate(req.url)
+    await dot_engine.broadcast_terminal_output(
+        "system",
+        f"💻 [VIRTUAL LAPTOP] Loaded: '{res.get('title', req.url)}' (Status: {res.get('status')})\n"
+    )
+    return res
+
+@app.post("/api/v1/browser/click")
+async def click_browser_element(req: BrowserClickRequest):
+    return await virtual_browser.click(req.selector)
+
+@app.get("/api/v1/browser/extract")
+async def extract_browser_data():
+    return await virtual_browser.extract_data()
+
+@app.get("/api/v1/browser/screenshot")
+async def get_browser_screenshot():
+    screenshot = await virtual_browser.take_screenshot()
+    return {"screenshot": screenshot, "url": virtual_browser.current_url, "title": virtual_browser.current_title}
 
 # ----------------- Cron Scheduler -----------------
 @app.get("/api/v1/crons")

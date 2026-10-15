@@ -37,7 +37,12 @@ import {
   Film,
   Video,
   Volume2,
-  PlayCircle
+  PlayCircle,
+  Globe,
+  Lock,
+  Camera,
+  MousePointer,
+  Maximize2
 } from 'lucide-react';
 
 type DotState = 'Sleeping' | 'Thinking' | 'Running Code' | 'Awaiting Approval' | 'Completed';
@@ -151,7 +156,7 @@ export default function DotsDashboardPage() {
   const [selectedExecutive, setSelectedExecutive] = useState<string>('radha');
   const [backend, setBackend] = useState<ExecutionBackend>('local');
   const [sessionId, setSessionId] = useState<string>('dots_session');
-  const [activeTab, setActiveTab] = useState<'terminal' | 'mcp' | 'skills' | 'vids' | 'canvas' | 'files' | 'crons' | 'memory'>('terminal');
+  const [activeTab, setActiveTab] = useState<'terminal' | 'browser' | 'mcp' | 'skills' | 'vids' | 'canvas' | 'files' | 'crons' | 'memory'>('terminal');
   
   // Realtime & Connection
   const [wsConnected, setWsConnected] = useState<boolean>(false);
@@ -227,6 +232,20 @@ export default function DotsDashboardPage() {
     memory_md: '',
     user_md: ''
   });
+
+  // Virtual Laptop / Agent Browser State
+  const [browserUrl, setBrowserUrl] = useState<string>('https://rareember-store.vercel.app');
+  const [browserInputUrl, setBrowserInputUrl] = useState<string>('https://rareember-store.vercel.app');
+  const [browserTitle, setBrowserTitle] = useState<string>('RareEmber | Rare finds, daily drops');
+  const [browserScreenshot, setBrowserScreenshot] = useState<string>('');
+  const [isBrowserLoading, setIsBrowserLoading] = useState<boolean>(false);
+  const [browserLogs, setBrowserLogs] = useState<Array<{ time_str: string; action: string; details: string; level?: string }>>([
+    { time_str: '05:25:00', action: 'init_success', details: 'Chromium 128 Virtual Laptop initialized (1280x800)' },
+    { time_str: '05:25:02', action: 'navigate_success', details: "Loaded 'RareEmber | Rare finds, daily drops'" }
+  ]);
+  const [browserExtractedData, setBrowserExtractedData] = useState<any>(null);
+  const [showDomDrawer, setShowDomDrawer] = useState<boolean>(false);
+  const [virtualCursorPos, setVirtualCursorPos] = useState<{ x: number; y: number }>({ x: 48, y: 32 });
 
   // Auto-scroll terminal
   useEffect(() => {
@@ -319,6 +338,7 @@ export default function DotsDashboardPage() {
     fetchMcpServers();
     fetchSkills();
     fetchVidsProjects();
+    fetchBrowserStatus();
     fetchMemory();
 
     const pollInterval = setInterval(() => {
@@ -428,6 +448,73 @@ export default function DotsDashboardPage() {
       console.error('Error generating Google Vid:', err);
     } finally {
       setIsGeneratingVid(false);
+    }
+  };
+
+  const fetchBrowserStatus = async () => {
+    try {
+      const res = await fetch('/api/dots/api/v1/browser/status');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.current_url) {
+          setBrowserUrl(data.current_url);
+          setBrowserInputUrl(data.current_url);
+        }
+        if (data.current_title) setBrowserTitle(data.current_title);
+        if (data.recent_logs) setBrowserLogs(data.recent_logs);
+      }
+    } catch {}
+  };
+
+  const handleBrowserNavigate = async (urlToNavigate?: string) => {
+    const target = urlToNavigate || browserInputUrl;
+    if (!target.trim()) return;
+    setIsBrowserLoading(true);
+    setVirtualCursorPos({ x: 25 + Math.random() * 50, y: 25 + Math.random() * 45 });
+    try {
+      const res = await fetch('/api/dots/api/v1/browser/navigate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: target })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const finalUrl = data.url || target;
+        setBrowserUrl(finalUrl);
+        setBrowserInputUrl(finalUrl);
+        if (data.title) setBrowserTitle(data.title);
+        if (data.screenshot) setBrowserScreenshot(data.screenshot);
+        fetchBrowserStatus();
+      }
+    } catch (err) {
+      console.error('Browser navigate error:', err);
+    } finally {
+      setIsBrowserLoading(false);
+    }
+  };
+
+  const handleBrowserExtract = async () => {
+    try {
+      const res = await fetch('/api/dots/api/v1/browser/extract');
+      if (res.ok) {
+        const data = await res.json();
+        setBrowserExtractedData(data.data || data);
+        setShowDomDrawer(true);
+      }
+    } catch {}
+  };
+
+  const handleTakeScreenshot = async () => {
+    setIsBrowserLoading(true);
+    try {
+      const res = await fetch('/api/dots/api/v1/browser/screenshot');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.screenshot) setBrowserScreenshot(data.screenshot);
+      }
+    } catch {}
+    finally {
+      setIsBrowserLoading(false);
     }
   };
 
@@ -1053,6 +1140,25 @@ export default function DotsDashboardPage() {
               </button>
 
               <button
+                onClick={() => {
+                  setActiveTab('browser');
+                  fetchBrowserStatus();
+                }}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  activeTab === 'browser'
+                    ? 'bg-[#161824] text-white border border-[#25283B]'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-[#10121C]'
+                }`}
+              >
+                <Laptop className="w-3.5 h-3.5 text-blue-400" />
+                <span>Virtual Laptop</span>
+                <span className="text-[10px] px-1 rounded bg-blue-950 text-blue-300 font-mono flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+                  Live Browser
+                </span>
+              </button>
+
+              <button
                 onClick={() => setActiveTab('mcp')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                   activeTab === 'mcp'
@@ -1157,6 +1263,27 @@ export default function DotsDashboardPage() {
                 Clear
               </button>
             )}
+            {activeTab === 'browser' && (
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={handleTakeScreenshot}
+                  disabled={isBrowserLoading}
+                  className="flex items-center gap-1 text-[11px] bg-[#161824] hover:bg-[#202336] text-slate-300 px-2.5 py-1 rounded-md border border-[#25283B] transition-colors"
+                  title="Capture live screenshot from Chromium"
+                >
+                  <Camera className="w-3 h-3 text-blue-400" />
+                  <span>Snapshot</span>
+                </button>
+                <button
+                  onClick={handleBrowserExtract}
+                  className="flex items-center gap-1 text-[11px] bg-blue-600 hover:bg-blue-500 text-white px-2.5 py-1 rounded-md transition-colors"
+                  title="Extract DOM headings and supplier prices"
+                >
+                  <Search className="w-3 h-3" />
+                  <span>Scrape DOM</span>
+                </button>
+              </div>
+            )}
             {activeTab === 'skills' && (
               <button
                 onClick={() => setShowRetainModal(true)}
@@ -1211,6 +1338,267 @@ export default function DotsDashboardPage() {
                   </div>
                 ))}
                 <div ref={terminalEndRef} />
+              </div>
+            </div>
+          )}
+
+          {/* TAB: VIRTUAL BROWSER LAPTOP (OPENAI DOTS BROWSER CANVAS) */}
+          {activeTab === 'browser' && (
+            <div className="flex-1 flex flex-col bg-[#050608] overflow-hidden p-3 sm:p-4">
+              {/* Virtual Laptop Device Frame */}
+              <div className="flex-1 flex flex-col rounded-2xl border-2 border-[#202438] bg-[#0E1019] shadow-2xl overflow-hidden">
+                {/* Top Laptop Bezel with Camera & Sensor */}
+                <div className="h-6 bg-[#0B0D14] flex items-center justify-center relative border-b border-[#1A1D2B]">
+                  {/* Laptop Camera Notch & LED */}
+                  <div className="flex items-center gap-2 px-3 py-0.5 rounded-full bg-[#141622] border border-[#23273A]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-slate-900 border border-slate-700" title="HD Webcam" />
+                    <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" title="Camera Sensor Active" />
+                  </div>
+                  <div className="absolute right-3 text-[10px] text-slate-500 font-mono flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    <span>Radha Executive Virtual Display</span>
+                  </div>
+                </div>
+
+                {/* Chrome Window Header: Controls, Tabs & Title */}
+                <div className="bg-[#12141F] px-3 pt-2 pb-1.5 border-b border-[#1E2235] flex items-center justify-between gap-3">
+                  {/* Traffic Light Dots */}
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <span className="w-3 h-3 rounded-full bg-red-500/80 inline-block hover:opacity-100 cursor-pointer" />
+                    <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block hover:opacity-100 cursor-pointer" />
+                    <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block hover:opacity-100 cursor-pointer" />
+                  </div>
+
+                  {/* Browser Tab Pill */}
+                  <div className="flex-1 max-w-sm flex items-center gap-2 bg-[#0C0E16] px-3 py-1.5 rounded-t-lg border-t border-x border-[#23273C] text-xs text-slate-200">
+                    <Globe className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                    <span className="truncate font-medium">{browserTitle}</span>
+                    <button
+                      onClick={() => handleBrowserNavigate('https://rareember-store.vercel.app')}
+                      className="ml-auto text-slate-500 hover:text-slate-300 text-xs"
+                    >
+                      ×
+                    </button>
+                  </div>
+
+                  {/* Sandbox Spec Pill */}
+                  <div className="hidden sm:flex items-center gap-2 text-[10px] text-slate-400 font-mono">
+                    <span className="px-1.5 py-0.5 rounded bg-[#181B28] text-slate-300">1280×800</span>
+                    <span className="px-1.5 py-0.5 rounded bg-blue-950/80 text-blue-300 border border-blue-900/40">Playwright 128</span>
+                  </div>
+                </div>
+
+                {/* Omnibar & Navigation Bar */}
+                <div className="bg-[#0F111A] px-3 py-2 border-b border-[#1A1D2B] flex items-center gap-2">
+                  <div className="flex items-center gap-1 text-slate-400">
+                    <button
+                      onClick={() => handleBrowserNavigate('https://rareember-store.vercel.app')}
+                      className="p-1 rounded hover:bg-[#1A1D2B] hover:text-slate-200"
+                      title="Back / Home"
+                    >
+                      <ArrowRight className="w-3.5 h-3.5 rotate-180" />
+                    </button>
+                    <button
+                      onClick={() => handleBrowserNavigate()}
+                      className={`p-1 rounded hover:bg-[#1A1D2B] hover:text-slate-200 ${isBrowserLoading ? 'animate-spin text-blue-400' : ''}`}
+                      title="Reload Page"
+                    >
+                      <RefreshCw className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  {/* URL Input Bar */}
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleBrowserNavigate();
+                    }}
+                    className="flex-1 flex items-center gap-2 bg-[#090A10] border border-[#222638] focus-within:border-blue-500 rounded-lg px-2.5 py-1 text-xs"
+                  >
+                    <Lock className="w-3 h-3 text-emerald-400 shrink-0" />
+                    <input
+                      type="text"
+                      value={browserInputUrl}
+                      onChange={(e) => setBrowserInputUrl(e.target.value)}
+                      placeholder="Enter URL to navigate agent (e.g. https://www.meesho.com or rareember-store.vercel.app)..."
+                      className="flex-1 bg-transparent text-slate-200 focus:outline-none font-mono text-[11px]"
+                    />
+                    <button
+                      type="submit"
+                      disabled={isBrowserLoading}
+                      className="text-[10px] bg-blue-600 hover:bg-blue-500 text-white px-2 py-0.5 rounded font-semibold transition-colors shrink-0"
+                    >
+                      {isBrowserLoading ? 'Loading...' : 'Go'}
+                    </button>
+                  </form>
+                </div>
+
+                {/* Quick Bookmarks Bar */}
+                <div className="bg-[#0A0C13] px-3 py-1 border-b border-[#161824] flex items-center gap-1.5 overflow-x-auto no-scrollbar text-[11px]">
+                  <span className="text-slate-500 text-[10px] font-mono mr-1">Bookmarks:</span>
+                  {[
+                    { label: '🛒 RareEmber Store (Live)', url: 'https://rareember-store.vercel.app' },
+                    { label: '📦 Meesho Viral Sourcing', url: 'https://www.meesho.com' },
+                    { label: '🚚 CJ Dropshipping', url: 'https://cjdropshipping.com' },
+                    { label: '⚡ Admin Orders Console', url: 'https://rareember-store.vercel.app/admin/orders' },
+                    { label: '📈 Google Trends India', url: 'https://trends.google.com/trends/trendingsearches/daily?geo=IN' },
+                  ].map((bm) => (
+                    <button
+                      key={bm.url}
+                      onClick={() => {
+                        setBrowserInputUrl(bm.url);
+                        handleBrowserNavigate(bm.url);
+                      }}
+                      className="px-2 py-0.5 rounded bg-[#131520] hover:bg-[#1E2235] text-slate-300 hover:text-white border border-[#1E2233] transition-colors whitespace-nowrap text-[10px]"
+                    >
+                      {bm.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Screen Viewport & Live Canvas */}
+                <div className="flex-1 relative bg-[#06070B] overflow-auto flex items-center justify-center p-2">
+                  {/* Simulated Floating Agent Mouse Cursor */}
+                  <div
+                    className="absolute z-20 pointer-events-none transition-all duration-700 ease-out flex items-center gap-1.5"
+                    style={{ left: `${virtualCursorPos.x}%`, top: `${virtualCursorPos.y}%` }}
+                  >
+                    <MousePointer className="w-4 h-4 text-amber-400 drop-shadow-md" />
+                    <span className="px-2 py-0.5 rounded-full bg-amber-500 text-black text-[9px] font-black shadow-lg">
+                      👑 Radha Browsing
+                    </span>
+                  </div>
+
+                  {/* Loading Overlay */}
+                  {isBrowserLoading && (
+                    <div className="absolute inset-0 z-30 bg-black/60 backdrop-blur-xs flex flex-col items-center justify-center text-white">
+                      <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin mb-2" />
+                      <span className="text-xs font-mono text-slate-300">Playwright Chromium Navigating...</span>
+                      <span className="text-[10px] font-mono text-slate-500 mt-1">{browserUrl}</span>
+                    </div>
+                  )}
+
+                  {/* Browser Screen Content */}
+                  {browserScreenshot ? (
+                    <div className="max-w-full max-h-full flex items-center justify-center overflow-auto">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={browserScreenshot}
+                        alt="Virtual Laptop Screen Viewport"
+                        className="rounded-lg shadow-xl max-w-full max-h-[520px] object-contain border border-[#1C1F30]"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-full h-full max-w-4xl flex flex-col rounded-lg border border-[#1E2233] bg-[#0A0C14] overflow-hidden">
+                      <div className="p-4 border-b border-[#161824] bg-[#0E101B] flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Globe className="w-4 h-4 text-blue-400" />
+                          <span className="text-xs font-semibold text-white">{browserTitle}</span>
+                        </div>
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-900/40">
+                          Live Active Session
+                        </span>
+                      </div>
+
+                      <div className="flex-1 p-6 flex flex-col items-center justify-center text-center">
+                        <div className="w-16 h-16 rounded-2xl bg-blue-950/40 border border-blue-900/50 flex items-center justify-center mb-4 text-blue-400">
+                          <Laptop className="w-8 h-8" />
+                        </div>
+                        <h4 className="text-sm font-bold text-white mb-1">
+                          Radha Executive Virtual Laptop Online
+                        </h4>
+                        <p className="text-xs text-slate-400 max-w-md mb-4 leading-relaxed">
+                          Your self-hosted Hermes Dot executive team possesses its own headless Chromium browser laptop for live supplier product scraping, competitor price intelligence, and automated checkout validation.
+                        </p>
+                        <div className="flex flex-wrap gap-2 justify-center">
+                          <button
+                            onClick={() => handleBrowserNavigate('https://rareember-store.vercel.app')}
+                            className="text-xs bg-blue-600 hover:bg-blue-500 text-white font-medium px-3.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            <span>Browse RareEmber Live Store</span>
+                          </button>
+                          <button
+                            onClick={() => handleBrowserNavigate('https://www.meesho.com')}
+                            className="text-xs bg-[#161824] hover:bg-[#202336] text-slate-200 border border-[#25283B] font-medium px-3.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5"
+                          >
+                            <Search className="w-3.5 h-3.5 text-pink-400" />
+                            <span>Scrape Meesho Suppliers</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* DOM Extractor Drawer Overlay */}
+                  {showDomDrawer && browserExtractedData && (
+                    <div className="absolute right-4 bottom-4 w-96 max-h-72 bg-[#0E101B]/95 backdrop-blur-md border border-[#25283E] rounded-xl shadow-2xl p-3 overflow-y-auto text-xs z-30">
+                      <div className="flex items-center justify-between pb-2 border-b border-[#1E2235] mb-2">
+                        <span className="font-semibold text-white flex items-center gap-1.5">
+                          <Search className="w-3.5 h-3.5 text-blue-400" />
+                          <span>Extracted Page Data</span>
+                        </span>
+                        <button
+                          onClick={() => setShowDomDrawer(false)}
+                          className="text-slate-400 hover:text-white text-xs"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      {browserExtractedData.headings && browserExtractedData.headings.length > 0 && (
+                        <div className="mb-2">
+                          <span className="text-[10px] text-slate-500 uppercase font-mono block">Key Headings</span>
+                          <ul className="list-disc pl-4 text-slate-300 space-y-0.5 text-[11px] mt-1">
+                            {browserExtractedData.headings.slice(0, 5).map((h: string, idx: number) => (
+                              <li key={idx} className="truncate">{h}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {browserExtractedData.prices && browserExtractedData.prices.length > 0 && (
+                        <div className="mb-2">
+                          <span className="text-[10px] text-slate-500 uppercase font-mono block">Detected Supplier Prices</span>
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            {browserExtractedData.prices.slice(0, 6).map((p: string, idx: number) => (
+                              <span key={idx} className="px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 font-mono text-[10px]">
+                                {p}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {browserExtractedData.bodySnippet && (
+                        <div>
+                          <span className="text-[10px] text-slate-500 uppercase font-mono block">Text Snippet</span>
+                          <p className="text-[10px] text-slate-400 font-mono line-clamp-3 mt-0.5">
+                            {browserExtractedData.bodySnippet}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Bottom Laptop Chassis Bar & Hardware Metrics */}
+                <div className="h-8 bg-[#090A11] px-4 border-t border-[#181A26] flex items-center justify-between text-[10px] font-mono text-slate-400">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                    <span>Chromium 128 (Playwright Sandbox)</span>
+                    <span className="text-slate-600">|</span>
+                    <span>1280×800 Viewport</span>
+                  </div>
+
+                  {/* Centered Trackpad Indent */}
+                  <div className="w-28 h-1 bg-[#1E2235] rounded-full hidden md:block" />
+
+                  <div className="flex items-center gap-3">
+                    <span className="text-blue-300">Residential Proxy (India)</span>
+                    <span className="text-emerald-400">⚡ 100% Battery (Cloud Relay)</span>
+                  </div>
+                </div>
               </div>
             </div>
           )}
