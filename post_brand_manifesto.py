@@ -27,8 +27,8 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 SESSION_FILE = os.path.join(BASE_DIR, "session.json")
 OUTPUT_IMAGE = os.path.join(OUTPUT_DIR, "brand_manifesto_post.jpg")
 
-TELEGRAM_BOT_TOKEN = "8898923626:AAHjI91mNfyRCanPdK9MVDiTBpL4zPzPOkI"
-TELEGRAM_CHAT_ID = "5238068527"
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_ALLOWED_USERS", "5238068527").split(",")[0].strip()
 
 CAPTION_TEXT = """Want to build a brand from scratch? Start with these 5 things.
 
@@ -205,8 +205,10 @@ def post_to_instagram(image_path, caption):
         print("Loading authenticated session from session.json...")
         cl.load_settings(SESSION_FILE)
     else:
-        print("Logging in with username & password...")
-        cl.login("RareEmber", "Ajay@j@y#1860")
+        print("Logging in with username & password from environment...")
+        ig_user = os.environ.get("IG_USERNAME", "RareEmber").strip()
+        ig_pass = os.environ.get("IG_PASSWORD", "").strip()
+        cl.login(ig_user, ig_pass)
         cl.dump_settings(SESSION_FILE)
         
     print("Uploading Brand Manifesto post to Instagram (@RareEmber)...")

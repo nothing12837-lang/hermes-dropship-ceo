@@ -222,6 +222,24 @@ def fetch_live_catalog():
     return PRODUCTS_CATALOG
 
 def load_history():
+    # 1. Try Supabase cloud memory first (persists across ephemeral GitHub Actions runners)
+    try:
+        supabase_url = os.environ.get("NEXT_PUBLIC_SUPABASE_URL", "").strip()
+        supabase_key = (os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY", "")).strip()
+        if supabase_url and supabase_key:
+            res = requests.get(
+                f"{supabase_url}/rest/v1/agent_memory?key=eq.ig_autopilot_posted_history&select=content",
+                headers={"apikey": supabase_key, "Authorization": f"Bearer {supabase_key}"},
+                timeout=5
+            )
+            if res.ok:
+                data = res.json()
+                if data and len(data) > 0 and isinstance(data[0].get("content"), list):
+                    return data[0]["content"]
+    except Exception:
+        pass
+
+    # 2. Local fallback
     if os.path.exists(HISTORY_FILE):
         try:
             with open(HISTORY_FILE, "r", encoding="utf-8") as f:
@@ -231,8 +249,37 @@ def load_history():
     return []
 
 def save_history(history):
-    with open(HISTORY_FILE, "w", encoding="utf-8") as f:
-        json.dump(history, f, indent=2)
+    # 1. Save to Supabase cloud memory
+    try:
+        supabase_url = os.environ.get("NEXT_PUBLIC_SUPABASE_URL", "").strip()
+        supabase_key = (os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY", "")).strip()
+        if supabase_url and supabase_key:
+            requests.post(
+                f"{supabase_url}/rest/v1/agent_memory",
+                headers={
+                    "apikey": supabase_key,
+                    "Authorization": f"Bearer {supabase_key}",
+                    "Content-Type": "application/json",
+                    "Prefer": "resolution=merge-duplicates"
+                },
+                json={
+                    "agent_name": "MeeraCreative",
+                    "memory_type": "procedural",
+                    "key": "ig_autopilot_posted_history",
+                    "content": history[-100:],
+                    "confidence": 1.0
+                },
+                timeout=5
+            )
+    except Exception:
+        pass
+
+    # 2. Local fallback
+    try:
+        with open(HISTORY_FILE, "w", encoding="utf-8") as f:
+            json.dump(history, f, indent=2)
+    except Exception:
+        pass
 
 def pick_next_product():
     catalog = fetch_live_catalog()

@@ -76,6 +76,7 @@ create table if not exists orders (
   shipping numeric not null default 0,
   shipping_name text,
   shipping_address jsonb,
+  payment_method text not null default 'online',
   tracking_url text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -84,6 +85,32 @@ create table if not exists orders (
 create index if not exists orders_email_idx on orders (user_email);
 create index if not exists orders_status_idx on orders (status);
 create index if not exists orders_created_idx on orders (created_at desc);
+
+-- ── reviews (customer feedback & verified purchase badges) ──
+create table if not exists reviews (
+  id uuid primary key default gen_random_uuid(),
+  product_id text not null,
+  user_name text not null,
+  rating integer not null check (rating >= 1 and rating <= 5),
+  comment text not null,
+  image_url text,
+  verified_buyer boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists reviews_product_idx on reviews (product_id);
+create index if not exists reviews_created_idx on reviews (created_at desc);
+
+-- ── restock_alerts (out-of-stock back-in-stock notification queue) ──
+create table if not exists restock_alerts (
+  id uuid primary key default gen_random_uuid(),
+  product_id text not null,
+  contact text not null,
+  notified boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists restock_alerts_prod_idx on restock_alerts (product_id);
 
 -- keep updated_at fresh
 create or replace function touch_updated_at()

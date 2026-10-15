@@ -3,7 +3,7 @@ import os
 import time
 from contextlib import asynccontextmanager
 from typing import Any, Dict, List, Optional
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Query, BackgroundTasks
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect, HTTPException, Query, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
@@ -213,7 +213,17 @@ async def chat_endpoint(req: ChatRequest):
 
 # ----------------- Direct Sandbox Execution -----------------
 @app.post("/api/v1/execute")
-async def execute_endpoint(req: ExecuteRequest):
+async def execute_endpoint(req: ExecuteRequest, request: Request):
+    # Defense in depth: Check admin secret if non-local or configured
+    admin_secret = os.environ.get("ADMIN_SECRET")
+    client_host = request.client.host if request.client else ""
+    is_local = client_host in ("127.0.0.1", "::1", "localhost", "testclient")
+    if admin_secret and not is_local:
+        auth_header = request.headers.get("authorization") or request.headers.get("x-admin-secret", "")
+        expected = f"Bearer {admin_secret}"
+        if auth_header != expected and auth_header != admin_secret:
+            raise HTTPException(status_code=401, detail="Unauthorized execution request")
+
     exit_code, stdout, stderr = await dot_engine.execute_sandboxed_command(req.command, req.cwd)
     return {
         "exit_code": exit_code,
