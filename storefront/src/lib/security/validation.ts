@@ -31,6 +31,11 @@ export interface CheckoutItemInput {
   phoneModel?: string;
   customText?: string;
   customPlacement?: string;
+  customPosition?: string;
+  customScale?: number;
+  customTextColor?: string;
+  customFont?: string;
+  customImage?: string;
   customImageName?: string;
   imageUrl?: string;
   selectedStyle?: string;
@@ -41,7 +46,22 @@ export function sanitizeCheckoutItems(v: unknown): CheckoutItemInput[] | null {
   const out: CheckoutItemInput[] = [];
   for (const raw of v) {
     if (!raw || typeof raw !== 'object') return null;
-    const { id, qty, size, phoneModel, customText, customPlacement, customImageName, imageUrl, selectedStyle } = raw as Record<string, unknown>;
+    const {
+      id,
+      qty,
+      size,
+      phoneModel,
+      customText,
+      customPlacement,
+      customPosition,
+      customScale,
+      customTextColor,
+      customFont,
+      customImage,
+      customImageName,
+      imageUrl,
+      selectedStyle,
+    } = raw as Record<string, unknown>;
     if (typeof id !== 'string' || id.length === 0 || id.length > 128) return null;
     const q = Math.floor(Number(qty));
     if (!Number.isFinite(q) || q < 1 || q > 99) return null;
@@ -52,8 +72,13 @@ export function sanitizeCheckoutItems(v: unknown): CheckoutItemInput[] | null {
       phoneModel: typeof phoneModel === 'string' && phoneModel.length <= 50 ? phoneModel.trim() : undefined,
       customText: typeof customText === 'string' && customText.length <= 100 ? customText.trim() : undefined,
       customPlacement: typeof customPlacement === 'string' && customPlacement.length <= 50 ? customPlacement.trim() : undefined,
+      customPosition: typeof customPosition === 'string' && ['center', 'pocket', 'mural'].includes(customPosition) ? customPosition : undefined,
+      customScale: typeof customScale === 'number' && Number.isFinite(customScale) && customScale >= 50 && customScale <= 200 ? Math.round(customScale) : undefined,
+      customTextColor: typeof customTextColor === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(customTextColor) ? customTextColor : undefined,
+      customFont: typeof customFont === 'string' && customFont.length <= 100 ? customFont.trim() : undefined,
+      customImage: typeof customImage === 'string' && customImage.length <= 500_000 ? customImage : undefined,
       customImageName: typeof customImageName === 'string' && customImageName.length <= 100 ? customImageName.trim() : undefined,
-      imageUrl: typeof imageUrl === 'string' && imageUrl.length <= 500 ? imageUrl.trim() : undefined,
+      imageUrl: typeof imageUrl === 'string' && imageUrl.length <= 1000 ? imageUrl.trim() : undefined,
       selectedStyle: typeof selectedStyle === 'string' && selectedStyle.length <= 50 ? selectedStyle.trim() : undefined,
     });
   }

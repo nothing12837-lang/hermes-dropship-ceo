@@ -177,6 +177,11 @@ export async function POST(req: NextRequest) {
       phoneModel?: string;
       customText?: string;
       customPlacement?: string;
+      customPosition?: string;
+      customScale?: number;
+      customTextColor?: string;
+      customFont?: string;
+      customImage?: string;
       customImageName?: string;
     }> = [];
 
@@ -211,6 +216,11 @@ export async function POST(req: NextRequest) {
         phoneModel: item.phoneModel,
         customText: item.customText,
         customPlacement: item.customPlacement,
+        customPosition: item.customPosition,
+        customScale: item.customScale,
+        customTextColor: item.customTextColor,
+        customFont: item.customFont,
+        customImage: item.customImage,
         customImageName: item.customImageName,
       });
     }

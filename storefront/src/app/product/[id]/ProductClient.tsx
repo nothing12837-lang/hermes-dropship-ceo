@@ -228,6 +228,10 @@ export function ProductClient({ product }: Props) {
     phoneModel: isPhoneCase ? selectedPhoneModel : undefined,
     customText: isCustomizing && customMode === 'text' && customText.trim() ? customText.trim() : undefined,
     customPlacement: isCustomizing && supportsPrintPlacement ? customPlacement : undefined,
+    customPosition: isCustomizing ? customPosition : undefined,
+    customScale: isCustomizing ? customScale : undefined,
+    customTextColor: isCustomizing && customMode === 'text' ? customTextColor : undefined,
+    customFont: isCustomizing && customMode === 'text' ? customFont : undefined,
     customImage: isCustomizing && customMode === 'image' && customImage ? customImage : undefined,
     customImageName: isCustomizing && customMode === 'image' && customImageName ? customImageName : undefined,
   });

@@ -248,8 +248,75 @@ export async function fulfillQikinkOrder(
       it.customImage ||
       'https://rareember.shop/flame-icon.png';
 
-    const placement = it.customPlacement === 'Back Print' ? 'bk' : 'fr';
-    const designCode = `RE${idx + 1}${cleanOrderNum.slice(-6)}`.slice(0, 15);
+    // Resolve exact Qikink placement SKU and dimensions
+    const scaleFactor = it.customScale ? Number(it.customScale) / 100 : 1.0;
+    let primaryPlacement = 'fr'; // default front center
+    let baseWidth = 10;
+    let baseHeight = 12;
+
+    if (it.customPosition === 'pocket') {
+      primaryPlacement = 'lch'; // Qikink official Left Chest (pocket) placement
+      baseWidth = 4;
+      baseHeight = 4;
+    } else if (it.customPosition === 'mural') {
+      baseWidth = 14;
+      baseHeight = 16;
+    }
+
+    const calculatedWidth = String(Math.max(3, Math.min(16, Math.round(baseWidth * scaleFactor))));
+    const calculatedHeight = String(Math.max(3, Math.min(18, Math.round(baseHeight * scaleFactor))));
+
+    const designs: Array<{
+      design_code: string;
+      width_inches: string;
+      height_inches: string;
+      placement_sku: string;
+      design_link: string;
+      mockup_link: string;
+    }> = [];
+
+    const isBackOnly = it.customPlacement === 'Back Print' || it.placement === 'Back Print';
+    const isBothSides = it.customPlacement?.includes('Both Sides') || it.placement?.includes('Both Sides');
+
+    if (isBothSides) {
+      // Front placement
+      designs.push({
+        design_code: `RE${idx + 1}F${cleanOrderNum.slice(-5)}`.slice(0, 15),
+        width_inches: calculatedWidth,
+        height_inches: calculatedHeight,
+        placement_sku: primaryPlacement,
+        design_link: selectedDesignUrl,
+        mockup_link: selectedDesignUrl,
+      });
+      // Back placement
+      designs.push({
+        design_code: `RE${idx + 1}B${cleanOrderNum.slice(-5)}`.slice(0, 15),
+        width_inches: '12',
+        height_inches: '14',
+        placement_sku: 'bk',
+        design_link: selectedDesignUrl,
+        mockup_link: selectedDesignUrl,
+      });
+    } else if (isBackOnly) {
+      designs.push({
+        design_code: `RE${idx + 1}B${cleanOrderNum.slice(-5)}`.slice(0, 15),
+        width_inches: '12',
+        height_inches: '14',
+        placement_sku: 'bk',
+        design_link: selectedDesignUrl,
+        mockup_link: selectedDesignUrl,
+      });
+    } else {
+      // Front placement
+      designs.push({
+        design_code: `RE${idx + 1}${cleanOrderNum.slice(-6)}`.slice(0, 15),
+        width_inches: calculatedWidth,
+        height_inches: calculatedHeight,
+        placement_sku: primaryPlacement,
+        design_link: selectedDesignUrl,
+        mockup_link: selectedDesignUrl,
+      });
+    }
 
     return {
       search_from_my_products: 0, // Dynamic POD injection
@@ -257,16 +324,7 @@ export async function fulfillQikinkOrder(
       quantity: String(it.qty || 1),
       price: String(Math.round(Number(it.price || order.total_amount / Math.max(1, items.length)))),
       print_type_id: 1, // DTG Direct-to-Garment print
-      designs: [
-        {
-          design_code: designCode,
-          width_inches: '10',
-          height_inches: '10',
-          placement_sku: placement,
-          design_link: selectedDesignUrl,
-          mockup_link: selectedDesignUrl,
-        },
-      ],
+      designs,
     };
   });
 
