@@ -5,8 +5,8 @@
     "prompt": "Check RareEmber store health and Supabase database connection status",
     "interval_seconds": 1800,
     "enabled": true,
-    "last_run": 1792033286.9942832,
-    "next_run": 1792035086.9942832,
+    "last_run": 1792035090.0674512,
+    "next_run": 1792036890.0674512,
     "created_at": 1792019674.9867513
   },
   {
@@ -15,8 +15,8 @@
     "prompt": "Verify @rereemberbot heartbeat and queue status",
     "interval_seconds": 900,
     "enabled": true,
-    "last_run": 1792033307.0412116,
-    "next_run": 1792034207.0412116,
+    "last_run": 1792035110.1278176,
+    "next_run": 1792036010.1278176,
     "created_at": 1792019674.9867513
   },
   {
@@ -25,8 +25,18 @@
     "prompt": "run: python -c \"print('Scraping viral dropshipping trends for electronics and home decor...')\"",
     "interval_seconds": 7200,
     "enabled": true,
-    "last_run": 1792026876.0635664,
-    "next_run": 1792034076.0635664,
+    "last_run": 1792034078.2705052,
+    "next_run": 1792041278.2705052,
     "created_at": 1792019674.9867513
+  },
+  {
+    "id": "cron_arjun_meesho_sentinel",
+    "name": "Arjun 24/7 Meesho Quality & Zero-Loss Margin Sentinel",
+    "prompt": "run: python arjun_sentinel.py",
+    "interval_seconds": 1800,
+    "enabled": true,
+    "last_run": 1792035120.0,
+    "next_run": 1792036920.0,
+    "created_at": 1792035120.0
   }
 ]

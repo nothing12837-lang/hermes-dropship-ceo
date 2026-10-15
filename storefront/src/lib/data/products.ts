@@ -100,7 +100,7 @@ export const products: Product[] = [
   {
     "id": "meesho-10in1-electronic-cleaner-kit-keyboard-earbuds",
     "slug": "meesho-10in1-electronic-cleaner-kit-keyboard-earbuds",
-    "emoji": "🎧",
+    "emoji": "\ud83c\udfa7",
     "tag": "Viral Utility",
     "tagColor": "#3b82f6",
     "tagBg": "rgba(59,130,246,0.12)",
@@ -108,11 +108,11 @@ export const products: Product[] = [
     "short": "All-in-one 10-piece electronics cleaner kit with spray, keyboard brush and earbud cleaning pen.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 349.0,
     "price_inr": 349.0,
@@ -146,19 +146,19 @@ export const products: Product[] = [
   {
     "id": "meesho-360-rotating-makeup-cosmetic-organizer-acrylic",
     "slug": "meesho-360-rotating-makeup-cosmetic-organizer-acrylic",
-    "emoji": "💄",
+    "emoji": "\ud83d\udc84",
     "tag": "Vanity Essential",
     "tagColor": "#ec4899",
     "tagBg": "rgba(236,72,153,0.12)",
-    "title": "360° Rotating Acrylic Cosmetic & Makeup Carousel Organizer",
-    "short": "Large capacity 360° rotating diamond-cut acrylic vanity cosmetic and skincare organizer.",
+    "title": "360\u00b0 Rotating Acrylic Cosmetic & Makeup Carousel Organizer",
+    "short": "Large capacity 360\u00b0 rotating diamond-cut acrylic vanity cosmetic and skincare organizer.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 599.0,
     "price_inr": 599.0,
@@ -192,19 +192,19 @@ export const products: Product[] = [
   {
     "id": "meesho-360-rotating-spice-rack-turntable-lazy-susan",
     "slug": "meesho-360-rotating-spice-rack-turntable-lazy-susan",
-    "emoji": "🔄",
+    "emoji": "\ud83d\udd04",
     "tag": "Space Saver",
     "tagColor": "#14b8a6",
     "tagBg": "rgba(20,184,166,0.12)",
-    "title": "360° Rotating Turntable Spice Rack Organizer for Kitchen & Fridge",
-    "short": "Smooth 360° rotating turntable organizer tray for kitchen cabinets, pantry, and fridge.",
+    "title": "360\u00b0 Rotating Turntable Spice Rack Organizer for Kitchen & Fridge",
+    "short": "Smooth 360\u00b0 rotating turntable organizer tray for kitchen cabinets, pantry, and fridge.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 499.0,
     "price_inr": 499.0,
@@ -238,7 +238,7 @@ export const products: Product[] = [
   {
     "id": "meesho-3in1-foldable-magnetic-wireless-charging-pad",
     "slug": "meesho-3in1-foldable-magnetic-wireless-charging-pad",
-    "emoji": "⚡",
+    "emoji": "\u26a1",
     "tag": "Fast Charging",
     "tagColor": "#2563eb",
     "tagBg": "rgba(37,99,235,0.1)",
@@ -248,7 +248,7 @@ export const products: Product[] = [
     "details": [
       "Simultaneous 3-device 15W charging",
       "Strong magnetic alignment",
-      "Foldable 180° travel design",
+      "Foldable 180\u00b0 travel design",
       "Universal Qi compatibility"
     ],
     "price": 549.0,
@@ -274,7 +274,7 @@ export const products: Product[] = [
     ],
     "benefits": [
       "Zero wire clutter",
-      "180° Foldable pocket travel"
+      "180\u00b0 Foldable pocket travel"
     ],
     "safety": "Overheat & surge protection",
     "vetNote": "",
@@ -289,11 +289,11 @@ export const products: Product[] = [
   {
     "id": "meesho-4-layer-rotating-jewelry-storage-box-mirror",
     "slug": "meesho-4-layer-rotating-jewelry-storage-box-mirror",
-    "emoji": "💍",
+    "emoji": "\ud83d\udc8d",
     "tag": "360 Rotating",
     "tagColor": "#db2777",
     "tagBg": "rgba(219,39,119,0.1)",
-    "title": "360° Rotating 4-Layer Jewelry Storage Tower with Vanity Mirror Lid",
+    "title": "360\u00b0 Rotating 4-Layer Jewelry Storage Tower with Vanity Mirror Lid",
     "short": "Space-saving cylindrical tower that smoothly spins out 4 separate trays for rings, earrings, and trinkets.",
     "story": "Compact dressing table organizer with built-in high-definition mirror inside the top lid.",
     "details": [
@@ -340,7 +340,7 @@ export const products: Product[] = [
   {
     "id": "meesho-4in1-handheld-electric-vegetable-cutter-set",
     "slug": "meesho-4in1-handheld-electric-vegetable-cutter-set",
-    "emoji": "🥒",
+    "emoji": "\ud83e\udd52",
     "tag": "Viral Gadget",
     "tagColor": "#10b981",
     "tagBg": "rgba(16,185,129,0.12)",
@@ -348,11 +348,11 @@ export const products: Product[] = [
     "short": "Multi-function 4-in-1 handheld electric cutter with direct slicer port and cleaning brush.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 599.0,
     "price_inr": 599.0,
@@ -386,7 +386,7 @@ export const products: Product[] = [
   {
     "id": "meesho-8in1-type-c-hub-hdmi-sd-card-usb3",
     "slug": "meesho-8in1-type-c-hub-hdmi-sd-card-usb3",
-    "emoji": "🔌",
+    "emoji": "\ud83d\udd0c",
     "tag": "Power User",
     "tagColor": "#3b82f6",
     "tagBg": "rgba(59,130,246,0.12)",
@@ -394,11 +394,11 @@ export const products: Product[] = [
     "short": "Compact 8-in-1 machined aluminum USB-C multiport adapter hub with 4K HDMI and 100W PD.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 899.0,
     "price_inr": 899.0,
@@ -440,7 +440,7 @@ export const products: Product[] = [
   {
     "id": "meesho-acrylic-led-glow-message-note-board",
     "slug": "meesho-acrylic-led-glow-message-note-board",
-    "emoji": "📝",
+    "emoji": "\ud83d\udcdd",
     "tag": "Trending",
     "tagColor": "#f59e0b",
     "tagBg": "rgba(245,158,11,0.12)",
@@ -486,12 +486,12 @@ export const products: Product[] = [
       "Hot Trend",
       "COD Available"
     ],
-    "active": true
+    "active": false
   },
   {
     "id": "meesho-adhesive-bathroom-corner-shower-caddy-2pk",
     "slug": "meesho-adhesive-bathroom-corner-shower-caddy-2pk",
-    "emoji": "🚿",
+    "emoji": "\ud83d\udebf",
     "tag": "Spa Bathroom",
     "tagColor": "#1e293b",
     "tagBg": "rgba(30,41,59,0.12)",
@@ -499,11 +499,11 @@ export const products: Product[] = [
     "short": "Pack of 2 matte black rustproof corner shower organizer racks with no-drill adhesive pads.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 499.0,
     "price_inr": 499.0,
@@ -545,7 +545,7 @@ export const products: Product[] = [
   {
     "id": "meesho-anti-blue-light-blocking-computer-glasses",
     "slug": "meesho-anti-blue-light-blocking-computer-glasses",
-    "emoji": "👓",
+    "emoji": "\ud83d\udc53",
     "tag": "Digital Wellness",
     "tagColor": "#0284c7",
     "tagBg": "rgba(2,132,199,0.12)",
@@ -553,11 +553,11 @@ export const products: Product[] = [
     "short": "Lightweight stylish anti-blue light computer glasses for fatigue-free screen work.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 399.0,
     "price_inr": 399.0,
@@ -599,7 +599,7 @@ export const products: Product[] = [
   {
     "id": "meesho-astronaut-magnetic-cable-organizer-desk-clips",
     "slug": "meesho-astronaut-magnetic-cable-organizer-desk-clips",
-    "emoji": "🧑‍🚀",
+    "emoji": "\ud83e\uddd1\u200d\ud83d\ude80",
     "tag": "Desk Aesthetic",
     "tagColor": "#6366f1",
     "tagBg": "rgba(99,102,241,0.1)",
@@ -650,7 +650,7 @@ export const products: Product[] = [
   {
     "id": "meesho-automatic-magnetic-self-stirring-mug",
     "slug": "meesho-automatic-magnetic-self-stirring-mug",
-    "emoji": "☕",
+    "emoji": "\u2615",
     "tag": "Office Favorite",
     "tagColor": "#78350f",
     "tagBg": "rgba(120,53,15,0.12)",
@@ -701,7 +701,7 @@ export const products: Product[] = [
   {
     "id": "meesho-automatic-wall-toothpaste-dispenser-cup-holder",
     "slug": "meesho-automatic-wall-toothpaste-dispenser-cup-holder",
-    "emoji": "🪥",
+    "emoji": "\ud83e\udea5",
     "tag": "Bathroom Smart",
     "tagColor": "#06b6d4",
     "tagBg": "rgba(6,182,212,0.12)",
@@ -709,11 +709,11 @@ export const products: Product[] = [
     "short": "Hygienic automatic toothpaste squeezer with magnetic draining cups and toothbrush slots.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 449.0,
     "price_inr": 449.0,
@@ -747,7 +747,7 @@ export const products: Product[] = [
   {
     "id": "meesho-boho-macrame-woven-wall-hanging-shelf",
     "slug": "meesho-boho-macrame-woven-wall-hanging-shelf",
-    "emoji": "🧶",
+    "emoji": "\ud83e\uddf6",
     "tag": "Boho Chic",
     "tagColor": "#d97706",
     "tagBg": "rgba(217,119,6,0.12)",
@@ -755,11 +755,11 @@ export const products: Product[] = [
     "short": "Handwoven macrame rope hanging wall shelf with solid wood plank for small succulents and decor.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 549.0,
     "price_inr": 549.0,
@@ -801,7 +801,7 @@ export const products: Product[] = [
   {
     "id": "meesho-capsule-mini-pocket-uv-sun-umbrella",
     "slug": "meesho-capsule-mini-pocket-uv-sun-umbrella",
-    "emoji": "☂️",
+    "emoji": "\u2602\ufe0f",
     "tag": "UV Shield",
     "tagColor": "#e11d48",
     "tagBg": "rgba(225,29,72,0.12)",
@@ -809,11 +809,11 @@ export const products: Product[] = [
     "short": "Pocket-sized 18cm capsule sun and rain folding umbrella with UPF 50+ anti-UV vinyl coating.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 499.0,
     "price_inr": 499.0,
@@ -855,7 +855,7 @@ export const products: Product[] = [
   {
     "id": "meesho-ceramic-aroma-diffuser-electric-touch-lamp",
     "slug": "meesho-ceramic-aroma-diffuser-electric-touch-lamp",
-    "emoji": "🪔",
+    "emoji": "\ud83e\ude94",
     "tag": "Pooja & Decor",
     "tagColor": "#f97316",
     "tagBg": "rgba(249,115,22,0.12)",
@@ -863,11 +863,11 @@ export const products: Product[] = [
     "short": "Touch-dimmable ceramic aroma lamp that gently diffuses fragrant essential oils and camphor.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 599.0,
     "price_inr": 599.0,
@@ -901,7 +901,7 @@ export const products: Product[] = [
   {
     "id": "meesho-collapsible-silicone-leakproof-water-bottle",
     "slug": "meesho-collapsible-silicone-leakproof-water-bottle",
-    "emoji": "🍶",
+    "emoji": "\ud83c\udf76",
     "tag": "Travel Smart",
     "tagColor": "#0284c7",
     "tagBg": "rgba(2,132,199,0.12)",
@@ -909,11 +909,11 @@ export const products: Product[] = [
     "short": "Foldable 600ml leakproof silicone travel water bottle that collapses down to pocket size.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 399.0,
     "price_inr": 399.0,
@@ -955,7 +955,7 @@ export const products: Product[] = [
   {
     "id": "meesho-cordless-fabric-lint-shaver-rechargeable",
     "slug": "meesho-cordless-fabric-lint-shaver-rechargeable",
-    "emoji": "🧶",
+    "emoji": "\ud83e\uddf6",
     "tag": "Fabric Care",
     "tagColor": "#7c3aed",
     "tagBg": "rgba(124,58,237,0.12)",
@@ -963,11 +963,11 @@ export const products: Product[] = [
     "short": "Rechargeable electric lint fuzz remover shaver for sweaters, coats, blankets, and upholstery.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 399.0,
     "price_inr": 399.0,
@@ -1009,7 +1009,7 @@ export const products: Product[] = [
   {
     "id": "meesho-cordless-mini-portable-vacuum-cleaner-usb",
     "slug": "meesho-cordless-mini-portable-vacuum-cleaner-usb",
-    "emoji": "🧹",
+    "emoji": "\ud83e\uddf9",
     "tag": "Car & Desk",
     "tagColor": "#475569",
     "tagBg": "rgba(71,85,105,0.12)",
@@ -1017,11 +1017,11 @@ export const products: Product[] = [
     "short": "Portable high-power cordless handheld vacuum cleaner with washable HEPA filter for car & desk.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 599.0,
     "price_inr": 599.0,
@@ -1055,7 +1055,7 @@ export const products: Product[] = [
   {
     "id": "meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base",
     "slug": "meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base",
-    "emoji": "🔮",
+    "emoji": "\ud83d\udd2e",
     "tag": "Bestseller",
     "tagColor": "#8b5cf6",
     "tagBg": "rgba(139,92,246,0.12)",
@@ -1106,7 +1106,7 @@ export const products: Product[] = [
   {
     "id": "meesho-crystal-diamond-touch-led-table-lamp",
     "slug": "meesho-crystal-diamond-touch-led-table-lamp",
-    "emoji": "💎",
+    "emoji": "\ud83d\udc8e",
     "tag": "Viral Hit",
     "tagColor": "#06b6d4",
     "tagBg": "rgba(6,182,212,0.1)",
@@ -1157,7 +1157,7 @@ export const products: Product[] = [
   {
     "id": "meesho-crystal-rose-diamond-touch-lamp-16rgb",
     "slug": "meesho-crystal-rose-diamond-touch-lamp-16rgb",
-    "emoji": "💎",
+    "emoji": "\ud83d\udc8e",
     "tag": "Bestseller",
     "tagColor": "#ec4899",
     "tagBg": "rgba(236,72,153,0.12)",
@@ -1165,11 +1165,11 @@ export const products: Product[] = [
     "short": "16 RGB color rechargeable crystal touch lamp casting blooming rose light shadows.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 499.0,
     "price_inr": 499.0,
@@ -1211,7 +1211,7 @@ export const products: Product[] = [
   {
     "id": "meesho-digital-kitchen-food-scale-10kg-lcd",
     "slug": "meesho-digital-kitchen-food-scale-10kg-lcd",
-    "emoji": "⚖️",
+    "emoji": "\u2696\ufe0f",
     "tag": "Fitness Pick",
     "tagColor": "#0284c7",
     "tagBg": "rgba(2,132,199,0.12)",
@@ -1219,11 +1219,11 @@ export const products: Product[] = [
     "short": "High-precision 10kg digital kitchen scale with Tare function for accurate diet & cooking measurement.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 399.0,
     "price_inr": 399.0,
@@ -1257,7 +1257,7 @@ export const products: Product[] = [
   {
     "id": "meesho-digital-kitchen-gram-weighing-scale",
     "slug": "meesho-digital-kitchen-gram-weighing-scale",
-    "emoji": "⚖️",
+    "emoji": "\u2696\ufe0f",
     "tag": "Kitchen Scale",
     "tagColor": "#0ea5e9",
     "tagBg": "rgba(14,165,233,0.12)",
@@ -1265,11 +1265,11 @@ export const products: Product[] = [
     "short": "Electronic kitchen gram scale with 10kg capacity, 1g precision, and instant tare button.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 349.0,
     "price_inr": 349.0,
@@ -1311,7 +1311,7 @@ export const products: Product[] = [
   {
     "id": "meesho-digital-wooden-led-alarm-clock-temp",
     "slug": "meesho-digital-wooden-led-alarm-clock-temp",
-    "emoji": "⏰",
+    "emoji": "\u23f0",
     "tag": "Nordic Desk",
     "tagColor": "#d97706",
     "tagBg": "rgba(217,119,6,0.12)",
@@ -1319,11 +1319,11 @@ export const products: Product[] = [
     "short": "Modern wooden LED desk clock featuring temperature display and sound-activated wake.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 449.0,
     "price_inr": 449.0,
@@ -1365,7 +1365,7 @@ export const products: Product[] = [
   {
     "id": "meesho-egg-boiler-poacher-steamer-7eggs",
     "slug": "meesho-egg-boiler-poacher-steamer-7eggs",
-    "emoji": "🥚",
+    "emoji": "\ud83e\udd5a",
     "tag": "Breakfast Fast",
     "tagColor": "#f59e0b",
     "tagBg": "rgba(245,158,11,0.12)",
@@ -1373,11 +1373,11 @@ export const products: Product[] = [
     "short": "Automatic 7-egg electric boiler and food steamer with auto shut-off safety protection.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 449.0,
     "price_inr": 449.0,
@@ -1419,7 +1419,7 @@ export const products: Product[] = [
   {
     "id": "meesho-electric-dry-spice-nut-coffee-grinder",
     "slug": "meesho-electric-dry-spice-nut-coffee-grinder",
-    "emoji": "🌶️",
+    "emoji": "\ud83c\udf36\ufe0f",
     "tag": "Masala Magic",
     "tagColor": "#dc2626",
     "tagBg": "rgba(220,38,38,0.12)",
@@ -1427,11 +1427,11 @@ export const products: Product[] = [
     "short": "Compact 300W high-speed stainless steel grinder for spices, coffee beans, and nuts.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 649.0,
     "price_inr": 649.0,
@@ -1473,7 +1473,7 @@ export const products: Product[] = [
   {
     "id": "meesho-electric-fabric-shaver-lint-remover-usb",
     "slug": "meesho-electric-fabric-shaver-lint-remover-usb",
-    "emoji": "🧥",
+    "emoji": "\ud83e\udde5",
     "tag": "Wardrobe Reviver",
     "tagColor": "#0284c7",
     "tagBg": "rgba(2,132,199,0.1)",
@@ -1524,7 +1524,7 @@ export const products: Product[] = [
   {
     "id": "meesho-electric-manicure-pedicure-nail-drill-kit",
     "slug": "meesho-electric-manicure-pedicure-nail-drill-kit",
-    "emoji": "💅",
+    "emoji": "\ud83d\udc85",
     "tag": "Salon at Home",
     "tagColor": "#f43f5e",
     "tagBg": "rgba(244,63,94,0.12)",
@@ -1532,11 +1532,11 @@ export const products: Product[] = [
     "short": "Portable 5-in-1 electric manicure and pedicure drill polisher with 5 interchangeable heads.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 399.0,
     "price_inr": 399.0,
@@ -1578,7 +1578,7 @@ export const products: Product[] = [
   {
     "id": "meesho-electric-milk-frother-coffee-whisk",
     "slug": "meesho-electric-milk-frother-coffee-whisk",
-    "emoji": "🥛",
+    "emoji": "\ud83e\udd5b",
     "tag": "Coffee Lover",
     "tagColor": "#b45309",
     "tagBg": "rgba(180,83,9,0.12)",
@@ -1586,11 +1586,11 @@ export const products: Product[] = [
     "short": "Cordless 3-speed electric milk frother and egg whisk with dual stainless steel spiral heads.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 349.0,
     "price_inr": 349.0,
@@ -1632,7 +1632,7 @@ export const products: Product[] = [
   {
     "id": "meesho-electric-mini-wireless-garlic-chopper",
     "slug": "meesho-electric-mini-wireless-garlic-chopper",
-    "emoji": "🧄",
+    "emoji": "\ud83e\uddc4",
     "tag": "Kitchen Must-Have",
     "tagColor": "#16a34a",
     "tagBg": "rgba(22,163,74,0.1)",
@@ -1683,7 +1683,7 @@ export const products: Product[] = [
   {
     "id": "meesho-ergonomic-aluminum-folding-laptop-stand",
     "slug": "meesho-ergonomic-aluminum-folding-laptop-stand",
-    "emoji": "💻",
+    "emoji": "\ud83d\udcbb",
     "tag": "Ergonomic Essential",
     "tagColor": "#3b82f6",
     "tagBg": "rgba(59,130,246,0.12)",
@@ -1691,11 +1691,11 @@ export const products: Product[] = [
     "short": "All-aluminum 6-level adjustable folding laptop stand for ergonomic posture and cooling.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 549.0,
     "price_inr": 549.0,
@@ -1737,7 +1737,7 @@ export const products: Product[] = [
   {
     "id": "meesho-extended-rgb-gaming-desk-mat-mousepad",
     "slug": "meesho-extended-rgb-gaming-desk-mat-mousepad",
-    "emoji": "🎮",
+    "emoji": "\ud83c\udfae",
     "tag": "Desk Setup",
     "tagColor": "#8b5cf6",
     "tagBg": "rgba(139,92,246,0.12)",
@@ -1745,11 +1745,11 @@ export const products: Product[] = [
     "short": "XXL 800x300mm waterproof desk mouse pad with customizable RGB edge perimeter glow.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 499.0,
     "price_inr": 499.0,
@@ -1791,7 +1791,7 @@ export const products: Product[] = [
   {
     "id": "meesho-eyewear-multi-tier-sunglasses-display-case",
     "slug": "meesho-eyewear-multi-tier-sunglasses-display-case",
-    "emoji": "🕶️",
+    "emoji": "\ud83d\udd76\ufe0f",
     "tag": "Eyewear Organizer",
     "tagColor": "#78716c",
     "tagBg": "rgba(120,113,108,0.12)",
@@ -1799,11 +1799,11 @@ export const products: Product[] = [
     "short": "Foldable 5-slot hanging sunglasses organizer case that rolls into a compact travel box.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 449.0,
     "price_inr": 449.0,
@@ -1845,7 +1845,7 @@ export const products: Product[] = [
   {
     "id": "meesho-flameless-rechargeable-led-tealights-6pk",
     "slug": "meesho-flameless-rechargeable-led-tealights-6pk",
-    "emoji": "🕯️",
+    "emoji": "\ud83d\udd6f\ufe0f",
     "tag": "Festive Safe",
     "tagColor": "#f59e0b",
     "tagBg": "rgba(245,158,11,0.12)",
@@ -1853,11 +1853,11 @@ export const products: Product[] = [
     "short": "Pack of 6 rechargeable flameless flickering LED tea lights with charging base and frosted cups.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 499.0,
     "price_inr": 499.0,
@@ -1899,7 +1899,7 @@ export const products: Product[] = [
   {
     "id": "meesho-floating-water-lotus-led-candles-6pk",
     "slug": "meesho-floating-water-lotus-led-candles-6pk",
-    "emoji": "🌸",
+    "emoji": "\ud83c\udf38",
     "tag": "Urli Decor",
     "tagColor": "#ec4899",
     "tagBg": "rgba(236,72,153,0.12)",
@@ -1907,11 +1907,11 @@ export const products: Product[] = [
     "short": "Pack of 6 waterproof floating lotus LED lights that glow automatically in water urlis.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 349.0,
     "price_inr": 349.0,
@@ -1945,7 +1945,7 @@ export const products: Product[] = [
   {
     "id": "meesho-foldable-heavy-base-mobile-tablet-desk-stand",
     "slug": "meesho-foldable-heavy-base-mobile-tablet-desk-stand",
-    "emoji": "📱",
+    "emoji": "\ud83d\udcf1",
     "tag": "Sturdy Metal",
     "tagColor": "#0284c7",
     "tagBg": "rgba(2,132,199,0.1)",
@@ -1954,7 +1954,7 @@ export const products: Product[] = [
     "story": "Engineered with dual rotating hinges so you can adjust viewing angles perfectly with zero wobbling.",
     "details": [
       "Heavy alloy weighted base for zero tipping",
-      "Dual 180° hinge height & angle adjustment",
+      "Dual 180\u00b0 hinge height & angle adjustment",
       "Reserved charging cable cutout",
       "Folds completely flat for pocket portability"
     ],
@@ -1996,7 +1996,7 @@ export const products: Product[] = [
   {
     "id": "meesho-foldable-linen-laundry-hamper-basket",
     "slug": "meesho-foldable-linen-laundry-hamper-basket",
-    "emoji": "🧺",
+    "emoji": "\ud83e\uddfa",
     "tag": "Laundry Neat",
     "tagColor": "#78716c",
     "tagBg": "rgba(120,113,108,0.12)",
@@ -2004,11 +2004,11 @@ export const products: Product[] = [
     "short": "Freestanding 75L waterproof linen laundry basket with comfortable natural bamboo carry handles.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 499.0,
     "price_inr": 499.0,
@@ -2050,19 +2050,19 @@ export const products: Product[] = [
   {
     "id": "meesho-foldable-wooden-accordion-book-lamp",
     "slug": "meesho-foldable-wooden-accordion-book-lamp",
-    "emoji": "📖",
+    "emoji": "\ud83d\udcd6",
     "tag": "Editor's Choice",
     "tagColor": "#b45309",
     "tagBg": "rgba(180,83,9,0.12)",
     "title": "Magnetic Foldable Wooden Accordion Book Lamp (3 Color Temperatures)",
-    "short": "Magical folding book lamp with walnut wooden cover and soft ambient 360° illuminating pages.",
+    "short": "Magical folding book lamp with walnut wooden cover and soft ambient 360\u00b0 illuminating pages.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 549.0,
     "price_inr": 549.0,
@@ -2104,15 +2104,15 @@ export const products: Product[] = [
   {
     "id": "meesho-galaxy-star-astronaut-projector-night-lamp",
     "slug": "meesho-galaxy-star-astronaut-projector-night-lamp",
-    "emoji": "🚀",
+    "emoji": "\ud83d\ude80",
     "tag": "Trending",
     "tagColor": "#2563eb",
     "tagBg": "rgba(37,99,235,0.1)",
-    "title": "Astronaut Galaxy Star Projector LED Night Lamp (360° Rotating)",
-    "short": "Magnetic 360° rotating astronaut head projecting HD galaxy nebula clouds and twinkling green stars.",
+    "title": "Astronaut Galaxy Star Projector LED Night Lamp (360\u00b0 Rotating)",
+    "short": "Magnetic 360\u00b0 rotating astronaut head projecting HD galaxy nebula clouds and twinkling green stars.",
     "story": "Immerse your bedroom or gaming desk in vibrant high-definition cosmos effects with remote control.",
     "details": [
-      "360° Magnetic head swivel",
+      "360\u00b0 Magnetic head swivel",
       "8 Vivid nebula color modes",
       "Wireless remote control included",
       "Timer auto shut-off (45m/90m)"
@@ -2155,7 +2155,7 @@ export const products: Product[] = [
   {
     "id": "meesho-gold-hexagonal-geometric-wall-shelf",
     "slug": "meesho-gold-hexagonal-geometric-wall-shelf",
-    "emoji": "⬡",
+    "emoji": "\u2b21",
     "tag": "Wall Decor",
     "tagColor": "#eab308",
     "tagBg": "rgba(234,179,8,0.12)",
@@ -2163,11 +2163,11 @@ export const products: Product[] = [
     "short": "Set of 3 modern gold hexagonal metal wire floating wall display shelves with wooden base.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 649.0,
     "price_inr": 649.0,
@@ -2209,7 +2209,7 @@ export const products: Product[] = [
   {
     "id": "meesho-heated-eyelash-curler-rechargeable",
     "slug": "meesho-heated-eyelash-curler-rechargeable",
-    "emoji": "👁️",
+    "emoji": "\ud83d\udc41\ufe0f",
     "tag": "Beauty Tech",
     "tagColor": "#ec4899",
     "tagBg": "rgba(236,72,153,0.12)",
@@ -2217,11 +2217,11 @@ export const products: Product[] = [
     "short": "Rechargeable electric heated eyelash curler with 10s fast heating and thermal silicone pad.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 349.0,
     "price_inr": 349.0,
@@ -2258,12 +2258,12 @@ export const products: Product[] = [
       "Pan-India COD",
       "Express Dispatch"
     ],
-    "active": true
+    "active": false
   },
   {
     "id": "meesho-heavy-duty-welcome-textured-mesh-door-mat",
     "slug": "meesho-heavy-duty-welcome-textured-mesh-door-mat",
-    "emoji": "🚪",
+    "emoji": "\ud83d\udeaa",
     "tag": "High Margin",
     "tagColor": "#16a34a",
     "tagBg": "rgba(22,163,74,0.1)",
@@ -2314,7 +2314,7 @@ export const products: Product[] = [
   {
     "id": "meesho-himalayan-rock-salt-lamp-wooden-base",
     "slug": "meesho-himalayan-rock-salt-lamp-wooden-base",
-    "emoji": "🧂",
+    "emoji": "\ud83e\uddc2",
     "tag": "Air Purifying",
     "tagColor": "#e11d48",
     "tagBg": "rgba(225,29,72,0.12)",
@@ -2322,11 +2322,11 @@ export const products: Product[] = [
     "short": "Pure natural Himalayan pink rock salt crystal night lamp mounted on solid polished wood base.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 699.0,
     "price_inr": 699.0,
@@ -2368,7 +2368,7 @@ export const products: Product[] = [
   {
     "id": "meesho-honeycomb-drawer-divider-organizer-8pk",
     "slug": "meesho-honeycomb-drawer-divider-organizer-8pk",
-    "emoji": "🧦",
+    "emoji": "\ud83e\udde6",
     "tag": "Drawer Bliss",
     "tagColor": "#10b981",
     "tagBg": "rgba(16,185,129,0.12)",
@@ -2376,11 +2376,11 @@ export const products: Product[] = [
     "short": "8-piece customizable honeycomb drawer separator grid for organizing socks and accessories.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 349.0,
     "price_inr": 349.0,
@@ -2417,12 +2417,12 @@ export const products: Product[] = [
       "Pan-India COD",
       "Express Dispatch"
     ],
-    "active": true
+    "active": false
   },
   {
     "id": "meesho-instant-water-pump-dispenser-5gallon",
     "slug": "meesho-instant-water-pump-dispenser-5gallon",
-    "emoji": "🚰",
+    "emoji": "\ud83d\udeb0",
     "tag": "Everyday Hero",
     "tagColor": "#0284c7",
     "tagBg": "rgba(2,132,199,0.12)",
@@ -2430,11 +2430,11 @@ export const products: Product[] = [
     "short": "Rechargeable electric water can dispenser pump for 20L Indian standard mineral water cans.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 349.0,
     "price_inr": 349.0,
@@ -2476,7 +2476,7 @@ export const products: Product[] = [
   {
     "id": "meesho-insulated-stainless-steel-coffee-tumbler",
     "slug": "meesho-insulated-stainless-steel-coffee-tumbler",
-    "emoji": "🥤",
+    "emoji": "\ud83e\udd64",
     "tag": "On The Go",
     "tagColor": "#0f766e",
     "tagBg": "rgba(15,118,110,0.12)",
@@ -2484,11 +2484,11 @@ export const products: Product[] = [
     "short": "510ml double-wall stainless steel vacuum insulated travel coffee tumbler with silicone grip.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 449.0,
     "price_inr": 449.0,
@@ -2530,7 +2530,7 @@ export const products: Product[] = [
   {
     "id": "meesho-leather-desk-pad-blotter-dual-sided",
     "slug": "meesho-leather-desk-pad-blotter-dual-sided",
-    "emoji": "💼",
+    "emoji": "\ud83d\udcbc",
     "tag": "Desk Aesthetic",
     "tagColor": "#9a3412",
     "tagBg": "rgba(154,52,18,0.12)",
@@ -2538,11 +2538,11 @@ export const products: Product[] = [
     "short": "Large 90x45cm waterproof dual-sided vegan leather desk blotter mat with non-slip edge.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 499.0,
     "price_inr": 499.0,
@@ -2584,7 +2584,7 @@ export const products: Product[] = [
   {
     "id": "meesho-leather-travel-passport-wallet-rfid",
     "slug": "meesho-leather-travel-passport-wallet-rfid",
-    "emoji": "🛂",
+    "emoji": "\ud83d\udec2",
     "tag": "Travel Safe",
     "tagColor": "#1e3a8a",
     "tagBg": "rgba(30,58,138,0.12)",
@@ -2592,11 +2592,11 @@ export const products: Product[] = [
     "short": "Slim RFID-blocking vegan leather travel wallet with dedicated passport and boarding pass slots.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 399.0,
     "price_inr": 399.0,
@@ -2633,12 +2633,12 @@ export const products: Product[] = [
       "Pan-India COD",
       "Express Dispatch"
     ],
-    "active": true
+    "active": false
   },
   {
     "id": "meesho-luxury-travel-jewelry-organizer-box",
     "slug": "meesho-luxury-travel-jewelry-organizer-box",
-    "emoji": "💍",
+    "emoji": "\ud83d\udc8d",
     "tag": "Luxury Style",
     "tagColor": "#ec4899",
     "tagBg": "rgba(236,72,153,0.1)",
@@ -2689,7 +2689,7 @@ export const products: Product[] = [
   {
     "id": "meesho-magnetic-desk-cable-cord-organizer-hub",
     "slug": "meesho-magnetic-desk-cable-cord-organizer-hub",
-    "emoji": "🧲",
+    "emoji": "\ud83e\uddf2",
     "tag": "Cable Clean",
     "tagColor": "#64748b",
     "tagBg": "rgba(100,116,139,0.12)",
@@ -2697,11 +2697,11 @@ export const products: Product[] = [
     "short": "Pack of 3 magnetic desk cable organizer clips with damage-free adhesive mounting docks.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 299.0,
     "price_inr": 299.0,
@@ -2738,12 +2738,12 @@ export const products: Product[] = [
       "Pan-India COD",
       "Express Dispatch"
     ],
-    "active": true
+    "active": false
   },
   {
     "id": "meesho-magnetic-kitchen-knife-strip-16inch",
     "slug": "meesho-magnetic-kitchen-knife-strip-16inch",
-    "emoji": "🔪",
+    "emoji": "\ud83d\udd2a",
     "tag": "Chef Wall",
     "tagColor": "#475569",
     "tagBg": "rgba(71,85,105,0.12)",
@@ -2751,11 +2751,11 @@ export const products: Product[] = [
     "short": "Sleek 16-inch stainless steel magnetic kitchen knife rack strip for backsplash walls.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 449.0,
     "price_inr": 449.0,
@@ -2792,12 +2792,12 @@ export const products: Product[] = [
       "Pan-India COD",
       "Express Dispatch"
     ],
-    "active": true
+    "active": false
   },
   {
     "id": "meesho-magnetic-levitation-floating-moon-lamp",
     "slug": "meesho-magnetic-levitation-floating-moon-lamp",
-    "emoji": "🌕",
+    "emoji": "\ud83c\udf15",
     "tag": "Luxury Tech",
     "tagColor": "#8b5cf6",
     "tagBg": "rgba(139,92,246,0.12)",
@@ -2805,11 +2805,11 @@ export const products: Product[] = [
     "short": "Futuristic magnetic levitation lamp featuring a realistic 3D moon sphere floating and spinning in mid-air.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 1299.0,
     "price_inr": 1299.0,
@@ -2846,12 +2846,12 @@ export const products: Product[] = [
       "Pan-India COD",
       "Express Dispatch"
     ],
-    "active": true
+    "active": false
   },
   {
     "id": "meesho-mandir-om-trishul-illusion-3d-acrylic-lamp",
     "slug": "meesho-mandir-om-trishul-illusion-3d-acrylic-lamp",
-    "emoji": "🕉️",
+    "emoji": "\ud83d\udd49\ufe0f",
     "tag": "Mandir Sacred",
     "tagColor": "#d97706",
     "tagBg": "rgba(217,119,6,0.12)",
@@ -2859,11 +2859,11 @@ export const products: Product[] = [
     "short": "Aesthetic 3D illusion OM and Trishul LED night lamp on warm wooden illuminated base.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 399.0,
     "price_inr": 399.0,
@@ -2900,12 +2900,12 @@ export const products: Product[] = [
       "Pan-India COD",
       "Express Dispatch"
     ],
-    "active": true
+    "active": false
   },
   {
     "id": "meesho-metal-headphone-stand-desk-hanger",
     "slug": "meesho-metal-headphone-stand-desk-hanger",
-    "emoji": "🎧",
+    "emoji": "\ud83c\udfa7",
     "tag": "Audio Desk",
     "tagColor": "#475569",
     "tagBg": "rgba(71,85,105,0.12)",
@@ -2913,11 +2913,11 @@ export const products: Product[] = [
     "short": "Solid aluminum alloy gaming headset display stand with weighted anti-slip round base.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 349.0,
     "price_inr": 349.0,
@@ -2959,7 +2959,7 @@ export const products: Product[] = [
   {
     "id": "meesho-mini-desktop-ultrasonic-mist-humidifier",
     "slug": "meesho-mini-desktop-ultrasonic-mist-humidifier",
-    "emoji": "💧",
+    "emoji": "\ud83d\udca7",
     "tag": "Air Comfort",
     "tagColor": "#06b6d4",
     "tagBg": "rgba(6,182,212,0.12)",
@@ -2967,11 +2967,11 @@ export const products: Product[] = [
     "short": "Quiet 300ml personal desk mist humidifier with built-in warm LED soothing night lamp.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 399.0,
     "price_inr": 399.0,
@@ -3008,12 +3008,12 @@ export const products: Product[] = [
       "Pan-India COD",
       "Express Dispatch"
     ],
-    "active": true
+    "active": false
   },
   {
     "id": "meesho-mini-thermal-bag-sealer-cutter",
     "slug": "meesho-mini-thermal-bag-sealer-cutter",
-    "emoji": "🍟",
+    "emoji": "\ud83c\udf5f",
     "tag": "Kitchen Lifehack",
     "tagColor": "#16a34a",
     "tagBg": "rgba(22,163,74,0.12)",
@@ -3021,11 +3021,11 @@ export const products: Product[] = [
     "short": "Handheld magnetic heat bag sealer with built-in parcel unboxing cutter blade.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 299.0,
     "price_inr": 299.0,
@@ -3067,7 +3067,7 @@ export const products: Product[] = [
   {
     "id": "meesho-monitor-screenbar-light-eye-care",
     "slug": "meesho-monitor-screenbar-light-eye-care",
-    "emoji": "🖥️",
+    "emoji": "\ud83d\udda5\ufe0f",
     "tag": "Eye Comfort",
     "tagColor": "#0ea5e9",
     "tagBg": "rgba(14,165,233,0.12)",
@@ -3075,11 +3075,11 @@ export const products: Product[] = [
     "short": "Asymmetric optical monitor screen light bar with touch stepless dimming and USB power.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 899.0,
     "price_inr": 899.0,
@@ -3121,7 +3121,7 @@ export const products: Product[] = [
   {
     "id": "meesho-moroccan-golden-metal-fairy-lantern-string",
     "slug": "meesho-moroccan-golden-metal-fairy-lantern-string",
-    "emoji": "🏮",
+    "emoji": "\ud83c\udfee",
     "tag": "Festive Special",
     "tagColor": "#d97706",
     "tagBg": "rgba(217,119,6,0.12)",
@@ -3167,12 +3167,12 @@ export const products: Product[] = [
       "Festive Hot Pick",
       "COD Available"
     ],
-    "active": true
+    "active": false
   },
   {
     "id": "meesho-moving-sand-art-round-glass-deep-sea",
     "slug": "meesho-moving-sand-art-round-glass-deep-sea",
-    "emoji": "⏳",
+    "emoji": "\u23f3",
     "tag": "Zen Desk",
     "tagColor": "#0284c7",
     "tagBg": "rgba(2,132,199,0.12)",
@@ -3180,11 +3180,11 @@ export const products: Product[] = [
     "short": "Mesmerizing 3D cascading moving sand art desktop frame with smooth circular wooden stand.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 499.0,
     "price_inr": 499.0,
@@ -3226,7 +3226,7 @@ export const products: Product[] = [
   {
     "id": "meesho-multi-blade-mandoline-vegetable-slicer-cutter",
     "slug": "meesho-multi-blade-mandoline-vegetable-slicer-cutter",
-    "emoji": "🥗",
+    "emoji": "\ud83e\udd57",
     "tag": "Kitchen Pro",
     "tagColor": "#16a34a",
     "tagBg": "rgba(22,163,74,0.1)",
@@ -3277,7 +3277,7 @@ export const products: Product[] = [
   {
     "id": "meesho-multi-device-bluetooth-wireless-keyboard",
     "slug": "meesho-multi-device-bluetooth-wireless-keyboard",
-    "emoji": "⌨️",
+    "emoji": "\u2328\ufe0f",
     "tag": "Multi-Device",
     "tagColor": "#6366f1",
     "tagBg": "rgba(99,102,241,0.12)",
@@ -3285,11 +3285,11 @@ export const products: Product[] = [
     "short": "Whisper-quiet ultra-slim wireless keyboard with instant 3-device Bluetooth switching.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 699.0,
     "price_inr": 699.0,
@@ -3326,12 +3326,12 @@ export const products: Product[] = [
       "Pan-India COD",
       "Express Dispatch"
     ],
-    "active": true
+    "active": false
   },
   {
     "id": "meesho-neon-led-coffee-aesthetic-wall-sign",
     "slug": "meesho-neon-led-coffee-aesthetic-wall-sign",
-    "emoji": "☕",
+    "emoji": "\u2615",
     "tag": "Neon Vibe",
     "tagColor": "#ea580c",
     "tagBg": "rgba(234,88,12,0.12)",
@@ -3339,11 +3339,11 @@ export const products: Product[] = [
     "short": "Chic warm neon flex sign on clear acrylic plate with inline brightness dimmer switch.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 599.0,
     "price_inr": 599.0,
@@ -3385,7 +3385,7 @@ export const products: Product[] = [
   {
     "id": "meesho-nordic-ceramic-donut-vase-minimalist",
     "slug": "meesho-nordic-ceramic-donut-vase-minimalist",
-    "emoji": "🏺",
+    "emoji": "\ud83c\udffa",
     "tag": "Ceramic Art",
     "tagColor": "#a8a29e",
     "tagBg": "rgba(168,162,158,0.12)",
@@ -3393,11 +3393,11 @@ export const products: Product[] = [
     "short": "Minimalist matte off-white circular ceramic hollow donut vase for modern tabletop styling.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 499.0,
     "price_inr": 499.0,
@@ -3439,7 +3439,7 @@ export const products: Product[] = [
   {
     "id": "meesho-nordic-insulated-coffee-tumbler-straw-500ml",
     "slug": "meesho-nordic-insulated-coffee-tumbler-straw-500ml",
-    "emoji": "🥤",
+    "emoji": "\ud83e\udd64",
     "tag": "Daily Aesthetic",
     "tagColor": "#10b981",
     "tagBg": "rgba(16,185,129,0.12)",
@@ -3485,12 +3485,12 @@ export const products: Product[] = [
       "Top Pick",
       "COD Available"
     ],
-    "active": true
+    "active": false
   },
   {
     "id": "meesho-nordic-minimalist-corner-rgb-floor-lamp",
     "slug": "meesho-nordic-minimalist-corner-rgb-floor-lamp",
-    "emoji": "🏮",
+    "emoji": "\ud83c\udfee",
     "tag": "Smart Floor Lamp",
     "tagColor": "#6366f1",
     "tagBg": "rgba(99,102,241,0.12)",
@@ -3498,11 +3498,11 @@ export const products: Product[] = [
     "short": "Sleek corner standing RGB LED floor light bar with music sync and wireless smartphone control.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 1199.0,
     "price_inr": 1199.0,
@@ -3544,7 +3544,7 @@ export const products: Product[] = [
   {
     "id": "meesho-oil-dispenser-bottle-silicone-basting-brush",
     "slug": "meesho-oil-dispenser-bottle-silicone-basting-brush",
-    "emoji": "🍳",
+    "emoji": "\ud83c\udf73",
     "tag": "Healthy Cooking",
     "tagColor": "#ea580c",
     "tagBg": "rgba(234,88,12,0.1)",
@@ -3553,7 +3553,7 @@ export const products: Product[] = [
     "story": "No more over-pouring oil or dirty sticky spoons. High borosilicate glass with heat-resistant silicone bristles.",
     "details": [
       "High borosilicate clear glass bottle (250ml)",
-      "Food-grade heat resistant silicone brush (250°C)",
+      "Food-grade heat resistant silicone brush (250\u00b0C)",
       "Measured pipette suction top",
       "Easy one-piece disassembly for washing"
     ],
@@ -3595,7 +3595,7 @@ export const products: Product[] = [
   {
     "id": "meesho-orthopedic-memory-foam-lumbar-cushion",
     "slug": "meesho-orthopedic-memory-foam-lumbar-cushion",
-    "emoji": "🪑",
+    "emoji": "\ud83e\ude91",
     "tag": "Posture Support",
     "tagColor": "#2563eb",
     "tagBg": "rgba(37,99,235,0.12)",
@@ -3603,11 +3603,11 @@ export const products: Product[] = [
     "short": "Orthopedic contoured memory foam lumbar cushion with adjustable chair strap.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 699.0,
     "price_inr": 699.0,
@@ -3644,24 +3644,24 @@ export const products: Product[] = [
       "Pan-India COD",
       "Express Dispatch"
     ],
-    "active": true
+    "active": false
   },
   {
     "id": "meesho-portable-hanging-neck-bladeless-fan",
     "slug": "meesho-portable-hanging-neck-bladeless-fan",
-    "emoji": "🌬️",
+    "emoji": "\ud83c\udf2c\ufe0f",
     "tag": "Summer Hit",
     "tagColor": "#0284c7",
     "tagBg": "rgba(2,132,199,0.12)",
-    "title": "Bladeless 360° Hands-Free Portable Rechargeable Neck Fan (3 Speeds)",
+    "title": "Bladeless 360\u00b0 Hands-Free Portable Rechargeable Neck Fan (3 Speeds)",
     "short": "Hands-free bladeless rechargeable neck fan with 3-speed 360-degree surrounding airflow.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 549.0,
     "price_inr": 549.0,
@@ -3698,12 +3698,12 @@ export const products: Product[] = [
       "Pan-India COD",
       "Express Dispatch"
     ],
-    "active": true
+    "active": false
   },
   {
     "id": "meesho-portable-mini-thermal-bluetooth-pocket-printer",
     "slug": "meesho-portable-mini-thermal-bluetooth-pocket-printer",
-    "emoji": "🖨️",
+    "emoji": "\ud83d\udda8\ufe0f",
     "tag": "Viral Study Tool",
     "tagColor": "#7c3aed",
     "tagBg": "rgba(124,58,237,0.1)",
@@ -3754,7 +3754,7 @@ export const products: Product[] = [
   {
     "id": "meesho-press-type-olive-oil-spray-bottle",
     "slug": "meesho-press-type-olive-oil-spray-bottle",
-    "emoji": "🫒",
+    "emoji": "\ud83e\uded2",
     "tag": "Healthy Cooking",
     "tagColor": "#65a30d",
     "tagBg": "rgba(101,163,13,0.12)",
@@ -3762,11 +3762,11 @@ export const products: Product[] = [
     "short": "200ml clear glass continuous oil mister spray dispenser bottle for healthy cooking.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 349.0,
     "price_inr": 349.0,
@@ -3808,7 +3808,7 @@ export const products: Product[] = [
   {
     "id": "meesho-punch-free-mop-broom-holder-wall-mount",
     "slug": "meesho-punch-free-mop-broom-holder-wall-mount",
-    "emoji": "🧹",
+    "emoji": "\ud83e\uddf9",
     "tag": "Tidy Home",
     "tagColor": "#0ea5e9",
     "tagBg": "rgba(14,165,233,0.12)",
@@ -3816,11 +3816,11 @@ export const products: Product[] = [
     "short": "Pack of 4 damage-free adhesive wall clips for storing brooms, mops, and cleaning tools.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 299.0,
     "price_inr": 299.0,
@@ -3862,7 +3862,7 @@ export const products: Product[] = [
   {
     "id": "meesho-rechargeable-automatic-hair-curler-cordless",
     "slug": "meesho-rechargeable-automatic-hair-curler-cordless",
-    "emoji": "💇‍♀️",
+    "emoji": "\ud83d\udc87\u200d\u2640\ufe0f",
     "tag": "Salon Curls",
     "tagColor": "#e11d48",
     "tagBg": "rgba(225,29,72,0.12)",
@@ -3870,11 +3870,11 @@ export const products: Product[] = [
     "short": "Rechargeable cordless automatic hair curler with anti-tangle ceramic heating chamber.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 999.0,
     "price_inr": 999.0,
@@ -3916,7 +3916,7 @@ export const products: Product[] = [
   {
     "id": "meesho-rechargeable-motion-sensor-led-cabinet-stair-light",
     "slug": "meesho-rechargeable-motion-sensor-led-cabinet-stair-light",
-    "emoji": "💡",
+    "emoji": "\ud83d\udca1",
     "tag": "Home Essential",
     "tagColor": "#059669",
     "tagBg": "rgba(5,150,105,0.1)",
@@ -3967,7 +3967,7 @@ export const products: Product[] = [
   {
     "id": "meesho-retractable-foldable-balcony-clothes-drying-rack",
     "slug": "meesho-retractable-foldable-balcony-clothes-drying-rack",
-    "emoji": "👕",
+    "emoji": "\ud83d\udc55",
     "tag": "Balcony Smart",
     "tagColor": "#3b82f6",
     "tagBg": "rgba(59,130,246,0.12)",
@@ -3975,11 +3975,11 @@ export const products: Product[] = [
     "short": "Foldable window & balcony clothes drying rack with heavy duty rustproof stainless rods.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 499.0,
     "price_inr": 499.0,
@@ -4013,7 +4013,7 @@ export const products: Product[] = [
   {
     "id": "meesho-reusable-silicone-food-storage-bags-4pk",
     "slug": "meesho-reusable-silicone-food-storage-bags-4pk",
-    "emoji": "🥦",
+    "emoji": "\ud83e\udd66",
     "tag": "Eco Fresh",
     "tagColor": "#15803d",
     "tagBg": "rgba(21,128,61,0.12)",
@@ -4021,11 +4021,11 @@ export const products: Product[] = [
     "short": "Pack of 4 reusable thick silicone ziplock food storage pouches for fridge and freezer.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 449.0,
     "price_inr": 449.0,
@@ -4067,19 +4067,19 @@ export const products: Product[] = [
   {
     "id": "meesho-rotating-wall-hook-6claws-kitchen",
     "slug": "meesho-rotating-wall-hook-6claws-kitchen",
-    "emoji": "⚓",
+    "emoji": "\u2693",
     "tag": "Space Saver",
     "tagColor": "#0284c7",
     "tagBg": "rgba(2,132,199,0.12)",
-    "title": "360° Rotating 6-Claw Adhesive Ceiling & Cabinet Kitchen Hook (Pack of 2)",
+    "title": "360\u00b0 Rotating 6-Claw Adhesive Ceiling & Cabinet Kitchen Hook (Pack of 2)",
     "short": "Pack of 2 under-cabinet rotating 6-claw adhesive utility hooks for utensils and kitchen tools.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 299.0,
     "price_inr": 299.0,
@@ -4121,7 +4121,7 @@ export const products: Product[] = [
   {
     "id": "meesho-scented-soy-wax-bubble-cube-candle-set",
     "slug": "meesho-scented-soy-wax-bubble-cube-candle-set",
-    "emoji": "🕯️",
+    "emoji": "\ud83d\udd6f\ufe0f",
     "tag": "Aesthetic Candle",
     "tagColor": "#f43f5e",
     "tagBg": "rgba(244,63,94,0.12)",
@@ -4129,11 +4129,11 @@ export const products: Product[] = [
     "short": "Set of 2 hand-poured geometric soy wax bubble candles with natural vanilla aromatherapy.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 399.0,
     "price_inr": 399.0,
@@ -4175,7 +4175,7 @@ export const products: Product[] = [
   {
     "id": "meesho-silent-rechargeable-dual-mode-mouse",
     "slug": "meesho-silent-rechargeable-dual-mode-mouse",
-    "emoji": "🖱️",
+    "emoji": "\ud83d\uddb1\ufe0f",
     "tag": "Quiet Click",
     "tagColor": "#10b981",
     "tagBg": "rgba(16,185,129,0.12)",
@@ -4183,11 +4183,11 @@ export const products: Product[] = [
     "short": "Ultra-quiet slim rechargeable mouse with dual Bluetooth and 2.4GHz USB nano receiver.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 399.0,
     "price_inr": 399.0,
@@ -4229,7 +4229,7 @@ export const products: Product[] = [
   {
     "id": "meesho-silicone-heat-resistant-pinch-mitts-pair",
     "slug": "meesho-silicone-heat-resistant-pinch-mitts-pair",
-    "emoji": "🧤",
+    "emoji": "\ud83e\udde4",
     "tag": "Daily Must-Have",
     "tagColor": "#e11d48",
     "tagBg": "rgba(225,29,72,0.12)",
@@ -4237,11 +4237,11 @@ export const products: Product[] = [
     "short": "Pair of heat-resistant silicone oven pinch gloves for safe pot and microwave handling.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 249.0,
     "price_inr": 249.0,
@@ -4275,7 +4275,7 @@ export const products: Product[] = [
   {
     "id": "meesho-silicone-microwave-popcorn-maker-bowl",
     "slug": "meesho-silicone-microwave-popcorn-maker-bowl",
-    "emoji": "🍿",
+    "emoji": "\ud83c\udf7f",
     "tag": "Snack Time",
     "tagColor": "#eab308",
     "tagBg": "rgba(234,179,8,0.12)",
@@ -4283,11 +4283,11 @@ export const products: Product[] = [
     "short": "Collapsible silicone bowl for making oil-free hot healthy popcorn in minutes in microwave.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 399.0,
     "price_inr": 399.0,
@@ -4329,7 +4329,7 @@ export const products: Product[] = [
   {
     "id": "meesho-smart-automatic-motion-sensor-trash-can",
     "slug": "meesho-smart-automatic-motion-sensor-trash-can",
-    "emoji": "🗑️",
+    "emoji": "\ud83d\uddd1\ufe0f",
     "tag": "Smart Home",
     "tagColor": "#475569",
     "tagBg": "rgba(71,85,105,0.12)",
@@ -4337,11 +4337,11 @@ export const products: Product[] = [
     "short": "12L touchless automatic infrared sensor bin with silent odor-sealing motorized lid.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 799.0,
     "price_inr": 799.0,
@@ -4383,7 +4383,7 @@ export const products: Product[] = [
   {
     "id": "meesho-solar-firefly-garden-lights-pack-of-4",
     "slug": "meesho-solar-firefly-garden-lights-pack-of-4",
-    "emoji": "✨",
+    "emoji": "\u2728",
     "tag": "Garden Glow",
     "tagColor": "#16a34a",
     "tagBg": "rgba(22,163,74,0.12)",
@@ -4391,11 +4391,11 @@ export const products: Product[] = [
     "short": "Pack of 4 solar stake lights with swaying bendable branches that mimic dancing fireflies at night.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 599.0,
     "price_inr": 599.0,
@@ -4437,7 +4437,7 @@ export const products: Product[] = [
   {
     "id": "meesho-sonic-facial-cleansing-silicone-brush",
     "slug": "meesho-sonic-facial-cleansing-silicone-brush",
-    "emoji": "✨",
+    "emoji": "\u2728",
     "tag": "Self Care",
     "tagColor": "#f43f5e",
     "tagBg": "rgba(244,63,94,0.12)",
@@ -4445,11 +4445,11 @@ export const products: Product[] = [
     "short": "Cordless IPX7 waterproof sonic vibrating silicone facial brush and contour massager.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 449.0,
     "price_inr": 449.0,
@@ -4491,7 +4491,7 @@ export const products: Product[] = [
   {
     "id": "meesho-stackable-clear-shoe-storage-boxes-3pk",
     "slug": "meesho-stackable-clear-shoe-storage-boxes-3pk",
-    "emoji": "👟",
+    "emoji": "\ud83d\udc5f",
     "tag": "Sneaker Display",
     "tagColor": "#dc2626",
     "tagBg": "rgba(220,38,38,0.12)",
@@ -4499,11 +4499,11 @@ export const products: Product[] = [
     "short": "Pack of 3 heavy-duty transparent stackable shoe organizer boxes with magnetic front doors.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 799.0,
     "price_inr": 799.0,
@@ -4545,7 +4545,7 @@ export const products: Product[] = [
   {
     "id": "meesho-stainless-steel-garlic-rocker-crusher",
     "slug": "meesho-stainless-steel-garlic-rocker-crusher",
-    "emoji": "🧄",
+    "emoji": "\ud83e\uddc4",
     "tag": "Chef's Hack",
     "tagColor": "#52525b",
     "tagBg": "rgba(82,82,91,0.12)",
@@ -4553,11 +4553,11 @@ export const products: Product[] = [
     "short": "Heavy stainless steel garlic press rocker with silicone roller peeler and cleaning brush.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 299.0,
     "price_inr": 299.0,
@@ -4599,19 +4599,19 @@ export const products: Product[] = [
   {
     "id": "meesho-sunset-projection-lamp-16-colors",
     "slug": "meesho-sunset-projection-lamp-16-colors",
-    "emoji": "🌅",
+    "emoji": "\ud83c\udf05",
     "tag": "Trending Glow",
     "tagColor": "#f97316",
     "tagBg": "rgba(249,115,22,0.12)",
-    "title": "Sunset Projection Lamp (16 RGB Colors with Remote & 360° Rotation)",
-    "short": "16-color RGB aesthetic sunset projection lamp with wireless remote control and 360° rotating gimbal.",
+    "title": "Sunset Projection Lamp (16 RGB Colors with Remote & 360\u00b0 Rotation)",
+    "short": "16-color RGB aesthetic sunset projection lamp with wireless remote control and 360\u00b0 rotating gimbal.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 499.0,
     "price_inr": 499.0,
@@ -4653,7 +4653,7 @@ export const products: Product[] = [
   {
     "id": "meesho-super-absorbent-quick-dry-hair-towel-wrap-2pk",
     "slug": "meesho-super-absorbent-quick-dry-hair-towel-wrap-2pk",
-    "emoji": "🧖‍♀️",
+    "emoji": "\ud83e\uddd6\u200d\u2640\ufe0f",
     "tag": "Self Care",
     "tagColor": "#a855f7",
     "tagBg": "rgba(168,85,247,0.12)",
@@ -4661,11 +4661,11 @@ export const products: Product[] = [
     "short": "Pack of 2 plush quick-dry microfiber hair turbans with secure button lock for frizz-free drying.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 299.0,
     "price_inr": 299.0,
@@ -4699,7 +4699,7 @@ export const products: Product[] = [
   {
     "id": "meesho-travel-velvet-jewelry-organizer-box",
     "slug": "meesho-travel-velvet-jewelry-organizer-box",
-    "emoji": "💍",
+    "emoji": "\ud83d\udc8d",
     "tag": "Travel Luxe",
     "tagColor": "#ec4899",
     "tagBg": "rgba(236,72,153,0.12)",
@@ -4707,11 +4707,11 @@ export const products: Product[] = [
     "short": "Mini travel velvet jewelry organizer box with zipper closure and interior vanity mirror.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 349.0,
     "price_inr": 349.0,
@@ -4753,7 +4753,7 @@ export const products: Product[] = [
   {
     "id": "meesho-tulip-cloud-mirror-diy-night-lamp",
     "slug": "meesho-tulip-cloud-mirror-diy-night-lamp",
-    "emoji": "🌷",
+    "emoji": "\ud83c\udf37",
     "tag": "Viral TikTok",
     "tagColor": "#ec4899",
     "tagBg": "rgba(236,72,153,0.12)",
@@ -4761,11 +4761,11 @@ export const products: Product[] = [
     "short": "Viral 2-in-1 cloud vanity mirror that transforms into an endless sea of illuminated tulips.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 449.0,
     "price_inr": 449.0,
@@ -4807,7 +4807,7 @@ export const products: Product[] = [
   {
     "id": "meesho-ultrasonic-flame-mist-aroma-diffuser",
     "slug": "meesho-ultrasonic-flame-mist-aroma-diffuser",
-    "emoji": "🕯️",
+    "emoji": "\ud83d\udd6f\ufe0f",
     "tag": "Top Rated",
     "tagColor": "#ea580c",
     "tagBg": "rgba(234,88,12,0.1)",
@@ -4858,7 +4858,7 @@ export const products: Product[] = [
   {
     "id": "meesho-under-desk-cable-management-tray-clamp",
     "slug": "meesho-under-desk-cable-management-tray-clamp",
-    "emoji": "🗄️",
+    "emoji": "\ud83d\uddc4\ufe0f",
     "tag": "Clean Desk",
     "tagColor": "#1e293b",
     "tagBg": "rgba(30,41,59,0.12)",
@@ -4866,11 +4866,11 @@ export const products: Product[] = [
     "short": "Clamp-on under-desk steel cable organizer tray requiring zero drilling or wall holes.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 599.0,
     "price_inr": 599.0,
@@ -4912,7 +4912,7 @@ export const products: Product[] = [
   {
     "id": "meesho-underbed-dustproof-storage-bag-2pk",
     "slug": "meesho-underbed-dustproof-storage-bag-2pk",
-    "emoji": "🧳",
+    "emoji": "\ud83e\uddf3",
     "tag": "Decluttering",
     "tagColor": "#475569",
     "tagBg": "rgba(71,85,105,0.12)",
@@ -4920,11 +4920,11 @@ export const products: Product[] = [
     "short": "Pack of 2 large moisture-resistant under-bed storage organizer bags with clear view windows.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 449.0,
     "price_inr": 449.0,
@@ -4966,19 +4966,19 @@ export const products: Product[] = [
   {
     "id": "meesho-universal-360-magnetic-car-phone-mount",
     "slug": "meesho-universal-360-magnetic-car-phone-mount",
-    "emoji": "🚗",
+    "emoji": "\ud83d\ude97",
     "tag": "Car Gear",
     "tagColor": "#64748b",
     "tagBg": "rgba(100,116,139,0.12)",
-    "title": "Universal 360° Magnetic Car Phone Mount Dashboard Holder",
-    "short": "Heavy duty 360° rotating magnetic car dashboard phone mount with ultra-strong N52 grip.",
+    "title": "Universal 360\u00b0 Magnetic Car Phone Mount Dashboard Holder",
+    "short": "Heavy duty 360\u00b0 rotating magnetic car dashboard phone mount with ultra-strong N52 grip.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 299.0,
     "price_inr": 299.0,
@@ -5012,19 +5012,19 @@ export const products: Product[] = [
   {
     "id": "meesho-usb-heated-coffee-mug-warmer-plate",
     "slug": "meesho-usb-heated-coffee-mug-warmer-plate",
-    "emoji": "☕",
+    "emoji": "\u2615",
     "tag": "Daily Essential",
     "tagColor": "#d97706",
     "tagBg": "rgba(217,119,6,0.12)",
-    "title": "Smart Constant Temperature (55°C) USB Ceramic Mug Warmer Plate",
-    "short": "Smart gravity-induction 55°C constant temperature hot drink warmer for coffee and tea.",
+    "title": "Smart Constant Temperature (55\u00b0C) USB Ceramic Mug Warmer Plate",
+    "short": "Smart gravity-induction 55\u00b0C constant temperature hot drink warmer for coffee and tea.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 399.0,
     "price_inr": 399.0,
@@ -5066,7 +5066,7 @@ export const products: Product[] = [
   {
     "id": "meesho-usb-heated-steam-eye-mask-sleep-therapy",
     "slug": "meesho-usb-heated-steam-eye-mask-sleep-therapy",
-    "emoji": "😴",
+    "emoji": "\ud83d\ude34",
     "tag": "Sleep Therapy",
     "tagColor": "#6366f1",
     "tagBg": "rgba(99,102,241,0.12)",
@@ -5074,11 +5074,11 @@ export const products: Product[] = [
     "short": "Thermal heated electric eye mask with 4 heat settings and timer for eye fatigue & sleep therapy.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 499.0,
     "price_inr": 499.0,
@@ -5112,7 +5112,7 @@ export const products: Product[] = [
   {
     "id": "meesho-vacuum-wine-bottle-stopper-airtight",
     "slug": "meesho-vacuum-wine-bottle-stopper-airtight",
-    "emoji": "🍾",
+    "emoji": "\ud83c\udf7e",
     "tag": "Kitchen Tool",
     "tagColor": "#9f1239",
     "tagBg": "rgba(159,18,57,0.12)",
@@ -5120,11 +5120,11 @@ export const products: Product[] = [
     "short": "Stainless steel vacuum preservation bottle stopper with integrated date dial tracker.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 299.0,
     "price_inr": 299.0,
@@ -5166,7 +5166,7 @@ export const products: Product[] = [
   {
     "id": "meesho-vintage-amber-edison-decorative-led-filament-bulb",
     "slug": "meesho-vintage-amber-edison-decorative-led-filament-bulb",
-    "emoji": "💡",
+    "emoji": "\ud83d\udca1",
     "tag": "Warm Vintage",
     "tagColor": "#d97706",
     "tagBg": "rgba(217,119,6,0.1)",
@@ -5217,7 +5217,7 @@ export const products: Product[] = [
   {
     "id": "meesho-vintage-edison-filament-table-lamp",
     "slug": "meesho-vintage-edison-filament-table-lamp",
-    "emoji": "💡",
+    "emoji": "\ud83d\udca1",
     "tag": "Vintage Warmth",
     "tagColor": "#d97706",
     "tagBg": "rgba(217,119,6,0.12)",
@@ -5225,11 +5225,11 @@ export const products: Product[] = [
     "short": "Retro industrial desk lamp crafted from natural solid wood with warm spiral filament Edison bulb.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 649.0,
     "price_inr": 649.0,
@@ -5271,7 +5271,7 @@ export const products: Product[] = [
   {
     "id": "meesho-water-ripple-dynamic-crystal-flame-lamp",
     "slug": "meesho-water-ripple-dynamic-crystal-flame-lamp",
-    "emoji": "🌊",
+    "emoji": "\ud83c\udf0a",
     "tag": "Relaxation",
     "tagColor": "#06b6d4",
     "tagBg": "rgba(6,182,212,0.12)",
@@ -5279,11 +5279,11 @@ export const products: Product[] = [
     "short": "Rotating dynamic crystal projector lamp creating moving water ripple reflections on ceilings.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 399.0,
     "price_inr": 399.0,
@@ -5325,7 +5325,7 @@ export const products: Product[] = [
   {
     "id": "meesho-water-sensor-led-diyas-pack-of-12",
     "slug": "meesho-water-sensor-led-diyas-pack-of-12",
-    "emoji": "🪔",
+    "emoji": "\ud83e\ude94",
     "tag": "Festive Winner",
     "tagColor": "#ea580c",
     "tagBg": "rgba(234,88,12,0.1)",
@@ -5338,9 +5338,9 @@ export const products: Product[] = [
       "Zero oil or flames",
       "Long-life replaceable button cells"
     ],
-    "price": 299.0,
-    "price_inr": 299.0,
-    "compareAtPrice": 699.0,
+    "price": 349.0,
+    "price_inr": 349.0,
+    "compareAtPrice": 799.0,
     "rating": 4.8,
     "reviews": 890,
     "category": "home-garden",
@@ -5376,7 +5376,7 @@ export const products: Product[] = [
   {
     "id": "meesho-waterproof-silicone-sink-splash-guard",
     "slug": "meesho-waterproof-silicone-sink-splash-guard",
-    "emoji": "🚰",
+    "emoji": "\ud83d\udeb0",
     "tag": "Dry Counter",
     "tagColor": "#64748b",
     "tagBg": "rgba(100,116,139,0.12)",
@@ -5384,11 +5384,11 @@ export const products: Product[] = [
     "short": "Sloped food-grade silicone faucet splash guard mat with automatic dual sink drainage spouts.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 299.0,
     "price_inr": 299.0,
@@ -5430,7 +5430,7 @@ export const products: Product[] = [
   {
     "id": "meesho-wireless-bluetooth-smart-gps-tag-tracker",
     "slug": "meesho-wireless-bluetooth-smart-gps-tag-tracker",
-    "emoji": "🏷️",
+    "emoji": "\ud83c\udff7\ufe0f",
     "tag": "Smart Tag",
     "tagColor": "#0ea5e9",
     "tagBg": "rgba(14,165,233,0.12)",
@@ -5438,11 +5438,11 @@ export const products: Product[] = [
     "short": "Smart Bluetooth anti-loss item finder tag for keys, luggage, wallets, and pet collars.",
     "story": "Curated direct from verified domestic Indian manufacturers on Meesho with strict quality checks, authentic materials, and lightning-fast express delivery.",
     "details": [
-      "⚡ 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
-      "💵 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
-      "🛡️ 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
-      "✅ 100% Quality Checked & Sealed",
-      "📦 Express Dispatched from Domestic Logistics Hub"
+      "\u26a1 2-4 Days Express All-India Delivery (Delhivery / Shadowfax / BlueDart)",
+      "\ud83d\udcb5 Cash on Delivery (COD) Available Across All 19,000+ PIN Codes",
+      "\ud83d\udee1\ufe0f 7-Day Easy Doorstep Replacement Guarantee (Meesho Domestic Reseller Hub)",
+      "\u2705 100% Quality Checked & Sealed",
+      "\ud83d\udce6 Express Dispatched from Domestic Logistics Hub"
     ],
     "price": 299.0,
     "price_inr": 299.0,

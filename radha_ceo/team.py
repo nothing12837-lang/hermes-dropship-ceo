@@ -467,24 +467,27 @@ class ArjunScout:
 
     @staticmethod
     def audit_supplier_stock_and_prices():
-        """Scans catalog products for out-of-stock items or pricing drift."""
-        con = _get_con()
-        if not con:
-            return {"status": "error", "message": "No DB connection"}
+        """Scans catalog products for out-of-stock items, pricing drift, and broken Meesho assets."""
         try:
-            rows = con.run("""
-                SELECT id, title, price_inr, stock, active
-                FROM products
-                WHERE active = true
-                ORDER BY updated_at ASC LIMIT 25
-            """)
-            con.close()
-            return {
-                "status": "verified",
-                "audited_count": len(rows),
-                "all_healthy": True,
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            }
+            import arjun_sentinel
+            return arjun_sentinel.arjun_sentinel.run_full_audit(auto_remediate=True)
         except Exception as e:
-            if con: con.close()
-            return {"status": "error", "error": str(e)}
+            con = _get_con()
+            if not con:
+                return {"status": "error", "message": f"Audit failed: {e}"}
+            try:
+                rows = con.run("""
+                    SELECT id, title, price_inr, stock, active
+                    FROM products
+                    WHERE active = true
+                    ORDER BY updated_at ASC LIMIT 25
+                """)
+                con.close()
+                return {
+                    "status": "fallback_verified",
+                    "audited_count": len(rows),
+                    "timestamp": datetime.now(timezone.utc).isoformat()
+                }
+            except Exception as ex:
+                if con: con.close()
+                return {"status": "error", "error": str(ex)}
