@@ -1021,6 +1021,19 @@ export default function DotsDashboardPage() {
             ))}
           </div>
 
+          {/* Mission 10,000 Diwali Sales Founder Goal Bar */}
+          <div className="px-3.5 py-1.5 bg-gradient-to-r from-amber-950/60 via-[#13110A] to-amber-950/40 border-b border-amber-600/30 flex items-center justify-between text-xs">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
+              <span className="font-semibold text-amber-300">🎯 MISSION 10,000 DIWALI SALES</span>
+              <span className="text-[10px] text-amber-200/70 hidden sm:inline">• Target GMV: ₹49.9L</span>
+            </div>
+            <div className="flex items-center gap-3 text-[11px] text-amber-200/80 font-mono">
+              <span className="bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 text-amber-300">0% Laptop / 24/7 Cloud</span>
+              <span className="text-emerald-400 font-semibold">COD &lt;12% RTO</span>
+            </div>
+          </div>
+
           {/* Chat Messages Feed */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((msg) => (

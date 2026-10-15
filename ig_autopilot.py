@@ -155,7 +155,7 @@ PRODUCTS_CATALOG = [
 FALLBACK_IMAGES = {
     'meesho-water-sensor-led-diyas-pack-of-12': 'https://images.meesho.com/images/products/431985757/756ycd_512.jpg',
     'meesho-crystal-diamond-touch-led-table-lamp': 'https://images.meesho.com/images/products/1023667594/gxgqyy_512.jpg',
-    'meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base': 'https://images.meesho.com/images/products/1038078401/h61mf5_512.jpg',
+    'meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base': 'https://images.meesho.com/images/products/1038078401/hha6k_512.jpg',
     'meesho-ultrasonic-flame-mist-aroma-diffuser': 'https://images.meesho.com/images/products/984668048/ga8uq8_512.jpg',
     'meesho-electric-mini-wireless-garlic-chopper': 'https://images.meesho.com/images/products/1001131290/gk1pui_512.jpg',
     'meesho-galaxy-star-astronaut-projector-night-lamp': 'https://images.meesho.com/images/products/759223858/ck0svm_512.jpg',

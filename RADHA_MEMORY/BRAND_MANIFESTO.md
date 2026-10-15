@@ -50,3 +50,49 @@ Amazon India, Meesho direct, and unbranded Instagram ad stores.
 5. **💰 Kabir (CFO):** Protect unit margins, guarantee Razorpay & COD payment reconciliations, and ensure 0% financial leaks.
 6. **📦 Arjun (Procurement):** Enforce strict supplier quality audits in Surat and domestic manufacturer networks.
 7. **🚚 Pooja (Logistics):** Keep COD RTO (Return to Origin) below 12% via automated WhatsApp dispatch confirmations.
+
+---
+
+## 🎯 SUPREME FOUNDER DIRECTIVE: "OPERATION 10,000 DIWALI SALES"
+**Target:** 10,000 Delivered Customer Orders Across India Before Diwali Night
+**Projected GMV:** ₹49.9 Lakhs – ₹59.9 Lakhs (@ ₹499–₹599 AOV)
+**Target Net Profit:** ₹27.5 Lakhs (55% Net Margin)
+**Founder Inactivity Requirement:** 0% Founder Laptop / 100% Autonomous 24/7 Execution
+
+### Departmental Action Playbook to Hit 10K Orders:
+
+1. **👑 Radha (CEO & Overall Commander):**
+   - Synchronize all 6 executive agents on a continuous 24/7 cloud execution loop.
+   - Deliver daily progress audits and milestone pacing directly to Boss Ajay's Telegram bot (`@rereemberbot`).
+   - Eliminate bottlenecks instantly with automated retry fallbacks.
+
+2. **🎬 Meera & Evaa (Creative & Content Velocity):**
+   - Publish 5x daily high-converting 9:16 vertical video reels across Instagram (`@RareEmber`) and YouTube Shorts.
+   - Always showcase authentic Meesho manufacturer product photography + Evaa Patel human influencer badge.
+   - Highlight Diwali discount code `DIWALI100` (Flat ₹100 OFF) and doorstep Cash on Delivery.
+   - Auto-DM checkout links to everyone who comments "BUY", "LINK", or "DIWALI".
+
+3. **🔍 Aarav (Organic Traffic & Search Dominance):**
+   - Push immediate IndexNow pings for high-intent festive keywords:
+     - "water sensor led diyas bulk pack"
+     - "3d galaxy crystal ball lamp india"
+     - "best diwali gifts under 999"
+     - "foldable magnetic wireless charger travel"
+   - Target 3,500+ daily organic search visitors to `rareember-store.vercel.app`.
+
+4. **💼 Vikram (Basket Size & Festive Bundling):**
+   - Roll out 1-Click Diwali Bundles: "Buy 2 Get 15% OFF", "Diwali Home Glow Hamper" (Water Sensor Diyas + Galaxy Crystal Ball).
+   - Increase Average Order Value (AOV) from ₹499 to ₹850+, reducing logistics overhead per item.
+
+5. **🚚 Pooja (RTO Defense & Rapid Dispatch):**
+   - Activate automated WhatsApp 1-Click COD intent verification immediately on order placement.
+   - Filter out invalid addresses and uncommitted buyers, keeping RTO strictly below 12%.
+   - Partner with Delhivery & BlueDart express air couriers for 24–48 hour delivery in major Indian metros.
+
+6. **💰 Kabir (Unit Economics & COD Remittance Guard):**
+   - Enforce wholesale cost discipline (<₹180/unit sourcing cost from Surat suppliers).
+   - Track daily COD remittances and payment gateway deposits into the business account with 0% leak.
+
+7. **📦 Arjun (Procurement & Wholesale Inventory Routing):**
+   - Secure reserved inventory buffers with verified Surat and Bhiwandi manufacturers.
+   - Enforce same-day dispatch SLA (<24 hours) to eliminate festive shipping delays.

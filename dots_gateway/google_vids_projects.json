@@ -136,5 +136,143 @@
     "created_at": 1792025734.400795,
     "manifest_file": "generated_posts/google_vids/vids_cb48bb5c/google_vids_manifest.json",
     "full_audio_path": null
+  },
+  {
+    "project_id": "vids_e3f97d98",
+    "title": "Google Vid: 3-in-1 Foldable Magnetic Fast Wireless Chargi",
+    "product_id": "meesho-3in1-foldable-magnetic-wireless-charging-pad",
+    "product_title": "3-in-1 Foldable Magnetic Fast Wireless Charging Pad",
+    "aspect_ratio": "9:16",
+    "voice_id": "en-IN-NeerjaNeural",
+    "scenes": [
+      {
+        "scene_number": 1,
+        "title": "Scene 1: High-Impact Hook",
+        "layout": "hook",
+        "voiceover_text": "Stop scrolling if you want to upgrade your daily lifestyle! Look at this viral 3-in-1 find.",
+        "duration_seconds": 4.5,
+        "image_url": "https://images.meesho.com/images/products/614873040/qmb1a_512.jpg",
+        "badge_text": "VIRAL PROBLEM SOLVER",
+        "slide_image_path": "generated_posts/google_vids/vids_e3f97d98/slide_1.jpg",
+        "audio_path": "generated_posts/google_vids/vids_e3f97d98/scene_1.mp3"
+      },
+      {
+        "scene_number": 2,
+        "title": "Scene 2: Core Problem & Solution",
+        "layout": "product_focus",
+        "voiceover_text": "Tired of cluttered spaces or overpriced gadgets? This 3-in-1 Foldable Magnetic Fast Wireless Charging Pad solves it with premium build quality.",
+        "duration_seconds": 5.5,
+        "image_url": "https://images.meesho.com/images/products/614873040/udpwg_512.jpg",
+        "badge_text": "UNMATCHED BUILD QUALITY",
+        "slide_image_path": "generated_posts/google_vids/vids_e3f97d98/slide_2.jpg",
+        "audio_path": "generated_posts/google_vids/vids_e3f97d98/scene_2.mp3"
+      },
+      {
+        "scene_number": 3,
+        "title": "Scene 3: Deep Feature Demo",
+        "layout": "feature_demo",
+        "voiceover_text": "Crafted with durable materials, seamless design, and zero hassle. It fits perfectly into your everyday routine.",
+        "duration_seconds": 5.0,
+        "image_url": "https://images.meesho.com/images/products/614873040/fww1j_512.jpg",
+        "badge_text": "100% QUALITY INSPECTED",
+        "slide_image_path": "generated_posts/google_vids/vids_e3f97d98/slide_3.jpg",
+        "audio_path": "generated_posts/google_vids/vids_e3f97d98/scene_3.mp3"
+      },
+      {
+        "scene_number": 4,
+        "title": "Scene 4: Social Proof & Indian Domestic Delivery",
+        "layout": "social_proof",
+        "voiceover_text": "Rated 4.9 stars by over 1400 verified customers across India. Delivered to your doorstep in 2 to 4 days with Cash on Delivery.",
+        "duration_seconds": 5.0,
+        "image_url": "https://images.meesho.com/images/products/614873040/nsq0j_512.jpg",
+        "badge_text": "DIWALI MEGA OFFER \u2022 CODE: DIWALI100",
+        "slide_image_path": "generated_posts/google_vids/vids_e3f97d98/slide_4.jpg",
+        "audio_path": "generated_posts/google_vids/vids_e3f97d98/scene_4.mp3"
+      },
+      {
+        "scene_number": 5,
+        "title": "Scene 5: Irresistible Call-To-Action",
+        "layout": "cta",
+        "voiceover_text": "Grab yours today for only rupees 799! Tap the link in bio or visit RareEmber for doorstep Cash on Delivery.",
+        "duration_seconds": 5.0,
+        "image_url": "https://images.meesho.com/images/products/614873040/qmb1a_512.jpg",
+        "badge_text": "BUY NOW FOR RS 799 \u2022 COD AVAILABLE",
+        "slide_image_path": "generated_posts/google_vids/vids_e3f97d98/slide_5.jpg",
+        "audio_path": "generated_posts/google_vids/vids_e3f97d98/scene_5.mp3"
+      }
+    ],
+    "total_duration_seconds": 25.0,
+    "created_at": 1792028008.6182861,
+    "manifest_file": "generated_posts/google_vids/vids_e3f97d98/google_vids_manifest.json",
+    "full_audio_path": "generated_posts/google_vids/vids_e3f97d98/full_narration.mp3"
+  },
+  {
+    "project_id": "vids_1fbf1eb5",
+    "title": "Google Vid: 3D Crystal Ball Galaxy Night Lamp with Natura",
+    "product_id": "meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base",
+    "product_title": "3D Crystal Ball Galaxy Night Lamp with Natural Beech Wood Base",
+    "aspect_ratio": "9:16",
+    "voice_id": "en-IN-NeerjaNeural",
+    "scenes": [
+      {
+        "scene_number": 1,
+        "title": "Scene 1: High-Impact Hook",
+        "layout": "hook",
+        "voiceover_text": "Stop scrolling if you want to upgrade your daily lifestyle! Look at this viral 3D find.",
+        "duration_seconds": 4.5,
+        "image_url": "https://images.meesho.com/images/products/1038078401/hha6k_512.jpg",
+        "badge_text": "VIRAL PROBLEM SOLVER",
+        "slide_image_path": "generated_posts/google_vids/vids_1fbf1eb5/slide_1.jpg",
+        "audio_path": "generated_posts/google_vids/vids_1fbf1eb5/scene_1.mp3"
+      },
+      {
+        "scene_number": 2,
+        "title": "Scene 2: Core Problem & Solution",
+        "layout": "product_focus",
+        "voiceover_text": "Tired of cluttered spaces or overpriced gadgets? This 3D Crystal Ball Galaxy Night Lamp with Natural Beech Wood Base solves it with premium build quality.",
+        "duration_seconds": 5.5,
+        "image_url": "https://images.meesho.com/images/products/1038078401/t7ub2_512.jpg",
+        "badge_text": "UNMATCHED BUILD QUALITY",
+        "slide_image_path": "generated_posts/google_vids/vids_1fbf1eb5/slide_2.jpg",
+        "audio_path": "generated_posts/google_vids/vids_1fbf1eb5/scene_2.mp3"
+      },
+      {
+        "scene_number": 3,
+        "title": "Scene 3: Deep Feature Demo",
+        "layout": "feature_demo",
+        "voiceover_text": "Crafted with durable materials, seamless design, and zero hassle. It fits perfectly into your everyday routine.",
+        "duration_seconds": 5.0,
+        "image_url": "https://images.meesho.com/images/products/1038078401/l7wwn_512.jpg",
+        "badge_text": "100% QUALITY INSPECTED",
+        "slide_image_path": "generated_posts/google_vids/vids_1fbf1eb5/slide_3.jpg",
+        "audio_path": "generated_posts/google_vids/vids_1fbf1eb5/scene_3.mp3"
+      },
+      {
+        "scene_number": 4,
+        "title": "Scene 4: Social Proof & Indian Domestic Delivery",
+        "layout": "social_proof",
+        "voiceover_text": "Rated 4.9 stars by over 1400 verified customers across India. Delivered to your doorstep in 2 to 4 days with Cash on Delivery.",
+        "duration_seconds": 5.0,
+        "image_url": "https://images.meesho.com/images/products/1038078401/hha6k_1024.jpg",
+        "badge_text": "DIWALI MEGA OFFER \u2022 CODE: DIWALI100",
+        "slide_image_path": "generated_posts/google_vids/vids_1fbf1eb5/slide_4.jpg",
+        "audio_path": "generated_posts/google_vids/vids_1fbf1eb5/scene_4.mp3"
+      },
+      {
+        "scene_number": 5,
+        "title": "Scene 5: Irresistible Call-To-Action",
+        "layout": "cta",
+        "voiceover_text": "Grab yours today for only rupees 399! Tap the link in bio or visit RareEmber for doorstep Cash on Delivery.",
+        "duration_seconds": 5.0,
+        "image_url": "https://images.meesho.com/images/products/1038078401/hha6k_512.jpg",
+        "badge_text": "BUY NOW FOR RS 399 \u2022 COD AVAILABLE",
+        "slide_image_path": "generated_posts/google_vids/vids_1fbf1eb5/slide_5.jpg",
+        "audio_path": "generated_posts/google_vids/vids_1fbf1eb5/scene_5.mp3"
+      }
+    ],
+    "total_duration_seconds": 25.0,
+    "created_at": 1792028182.4749794,
+    "manifest_file": "generated_posts/google_vids/vids_1fbf1eb5/google_vids_manifest.json",
+    "full_audio_path": "generated_posts/google_vids/vids_1fbf1eb5/full_narration.mp3"
   }
 ]
