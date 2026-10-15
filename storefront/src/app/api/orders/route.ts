@@ -6,7 +6,7 @@ import { notifyTelegramOrder } from '@/lib/notifications/telegram';
 import { isAdmin } from '@/lib/security/auth';
 import { validateCouponCode } from '@/lib/festivals';
 import { products as fallbackCatalog } from '@/lib/data/products';
-import { fulfillQikinkOrder } from '@/lib/fulfillment/qikink';
+import { fulfillQikinkOrder, isTestOrder } from '@/lib/fulfillment/qikink';
 
 // GET /api/orders?email=x&orderId=y — Public /track read path & Admin lookup
 export async function GET(req: NextRequest) {
@@ -318,10 +318,16 @@ export async function POST(req: NextRequest) {
     }).catch((e) => console.error('Telegram background alert error:', e));
 
     // Automated Order Dispatch to Qikink (Tirupur hub)
-    const fulfillment: any = await fulfillQikinkOrder(sb, finalOrderId, newOrder).catch((e) => {
-      console.error('Qikink auto-fulfillment background error:', e);
-      return { ok: false, reason: String(e) };
-    });
+    // ONLY dispatch genuine customer orders; test/temp orders are strictly blocked to prevent physical printing.
+    let fulfillment: any = null;
+    if (isTestOrder(newOrder)) {
+      console.log(`[Orders API] Order ${finalOrderId} identified as test/temp order. Skipping Qikink factory dispatch.`);
+    } else {
+      fulfillment = await fulfillQikinkOrder(sb, finalOrderId, newOrder).catch((e) => {
+        console.error('Qikink auto-fulfillment background error:', e);
+        return { ok: false, reason: String(e) };
+      });
+    }
 
     return NextResponse.json({
       ok: true,

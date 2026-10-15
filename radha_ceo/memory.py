@@ -34,8 +34,6 @@ def _get_con():
         return None
     try:
         ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
         return pg8000.native.Connection(
             user=os.environ.get("SUPABASE_DB_USER", "postgres").strip(),
             host=os.environ.get("SUPABASE_DB_HOST", "db.qdkkxpfhwrwyoardlceo.supabase.co").strip(),

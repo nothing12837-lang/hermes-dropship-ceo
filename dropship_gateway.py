@@ -63,10 +63,18 @@ if os.path.exists(env_path):
         with open(env_path, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
+                if line.startswith("export "):
+                    line = line[len("export "):].strip()
                 if line and not line.startswith("#") and "=" in line:
                     k, v = line.split("=", 1)
-                    if k.strip() not in os.environ:
-                        os.environ[k.strip()] = v.strip()
+                    k = k.strip()
+                    if k.startswith("export "):
+                        k = k[len("export "):].strip()
+                    v = v.strip()
+                    if len(v) >= 2 and ((v[0] == '"' and v[-1] == '"') or (v[0] == "'" and v[-1] == "'")):
+                        v = v[1:-1]
+                    if k not in os.environ:
+                        os.environ[k] = v
     except Exception:
         pass
 
@@ -77,7 +85,7 @@ if "5238068527" not in ALLOWED_USERS:
     ALLOWED_USERS.append("5238068527")
 
 SITE_URL = os.environ.get("SITE_URL", "https://rareember-store.vercel.app").strip()
-ADMIN_SECRET = os.environ.get("ADMIN_SECRET", "rareember_super_secret_cron_2026").strip()
+ADMIN_SECRET = os.environ.get("ADMIN_SECRET", "").strip()
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "").strip()
 
@@ -321,8 +329,6 @@ def get_supabase_connection():
         import pg8000.native
         import ssl
         ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
         return pg8000.native.Connection(
             user=os.environ.get("SUPABASE_DB_USER", "postgres").strip(),
             host=os.environ.get("SUPABASE_DB_HOST", "db.qdkkxpfhwrwyoardlceo.supabase.co").strip(),

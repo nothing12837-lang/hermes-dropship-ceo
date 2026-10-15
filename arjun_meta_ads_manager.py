@@ -42,7 +42,7 @@ if os.path.exists(env_path):
                 if k.strip() not in os.environ:
                     os.environ[k.strip()] = v.strip()
 
-TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "8898923626:AAHjI91mNfyRCanPdK9MVDiTBpL4zPzPOkI")
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "5238068527")
 
 # High-Converting Ad Creative Templates for Rare Ember

@@ -69,9 +69,10 @@ class FileManager:
         return results
 
     def read_file_content(self, relative_path: str) -> dict[str, Any]:
+        root = self.root_dir.resolve()
         target = (self.root_dir / relative_path).resolve()
-        # Security: Prevent Directory Traversal
-        if not str(target).startswith(str(self.root_dir)):
+        # Security: Prevent Directory Traversal (require separator to block sibling-prefix bypass)
+        if target != root and not str(target).startswith(str(root) + os.sep):
             return {"error": "Access Denied: Path outside workspace sandbox"}
         if not target.exists() or not target.is_file():
             return {"error": "File not found"}

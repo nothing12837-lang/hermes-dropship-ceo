@@ -31,7 +31,7 @@ if os.path.exists(env_path):
 SITE_URL = os.environ.get("SITE_URL", "https://rareember-store.vercel.app").strip()
 SUPABASE_URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL", "").strip()
 SUPABASE_ANON_KEY = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY", "").strip()
-INDEXNOW_KEY = os.environ.get("INDEXNOW_KEY", "rareember2026indexnowkey").strip()
+INDEXNOW_KEY = os.environ.get("INDEXNOW_KEY", "").strip()
 
 def fetch_all_live_products():
     """Gently fetches all live products from Supabase database."""

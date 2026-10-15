@@ -135,13 +135,59 @@ function cleanShippingAddress(shippingName: string | null, addr: Record<string, 
 }
 
 /**
+ * Detects if an order is a test/temp order so it is NEVER submitted to Qikink manufacturing floor.
+ */
+export function isTestOrder(order: any): boolean {
+  if (!order) return false;
+  if (order.is_test === true || order.test === true) return true;
+
+  const email = (order.user_email || order.email || '').toLowerCase().trim();
+  const addr = (order.shipping_address as Record<string, string>) || {};
+  const phone = String(addr.phone || order.phone || '').replace(/\D/g, '');
+  const name = (order.shipping_name || addr.name || '').toLowerCase().trim();
+  const addressLine = `${addr.line1 || ''} ${addr.address || ''} ${addr.city || ''}`.toLowerCase();
+
+  // Test emails
+  if (
+    email.includes('test_') ||
+    email.includes('_test') ||
+    email.endsWith('@rareember.com') ||
+    email.includes('test@') ||
+    email.includes('example.com') ||
+    email.includes('dummy') ||
+    email === 'rareemberagency@gmail.com'
+  ) {
+    return true;
+  }
+
+  // Dummy / test phone numbers
+  const dummyPhones = ['9876543210', '1234567890', '0000000000', '1111111111', '9999999999'];
+  if (dummyPhones.includes(phone) || (phone.length > 0 && phone.length < 10)) {
+    return true;
+  }
+
+  // Test address strings
+  if (
+    name.includes('test') ||
+    name.includes('dummy') ||
+    addressLine.includes('test') ||
+    addressLine.includes('dummy')
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
  * Automates order transmission directly to Qikink Dropshipping & Fulfillment API.
  * Uses Direct-to-Garment (DTG) print on demand with customer-selected mockup & design link.
  */
 export async function fulfillQikinkOrder(
   supabase: SupabaseClient,
   orderId: string,
-  providedOrder?: any
+  providedOrder?: any,
+  options?: { force?: boolean }
 ): Promise<QikinkFulfillmentResult> {
   const clientId = process.env.QIKINK_CLIENT_ID || '964148691892386';
   const clientSecret = process.env.QIKINK_CLIENT_SECRET;
@@ -165,6 +211,16 @@ export async function fulfillQikinkOrder(
 
   if (!order) {
     return { ok: false, reason: `Order ${orderId} not found for fulfillment` };
+  }
+
+  // Safety Gate: Block test / temp orders from physical printing
+  if (isTestOrder(order) && !options?.force) {
+    console.log(`[Qikink] Test/temp order ${orderId} detected (${order.user_email}). Skipped Qikink factory transmission.`);
+    return {
+      ok: false,
+      reason: 'Test/temp order detected. Qikink factory transmission blocked to prevent unwanted printing/shipping.',
+      status: 'test_order_blocked',
+    };
   }
 
   // Idempotency: Don't re-transmit if already successfully fulfilled with a numeric Qikink order ID

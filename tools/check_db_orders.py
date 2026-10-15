@@ -1,9 +1,9 @@
 import os
 import pg8000.native
 
-DB_HOST = os.environ.get('SUPABASE_DB_HOST', 'db.dhmfefvjeyvmtovtuehh.supabase.co')
+DB_HOST = os.environ.get('SUPABASE_DB_HOST', 'db.qdkkxpfhwrwyoardlceo.supabase.co')
 DB_USER = os.environ.get('SUPABASE_DB_USER', 'postgres')
-DB_PASS = os.environ.get('SUPABASE_DB_PASSWORD', 'CEO_Harmeen_2026_Secure!')
+DB_PASS = os.environ.get('SUPABASE_DB_PASS', '')
 DB_NAME = os.environ.get('SUPABASE_DB_NAME', 'postgres')
 
 conn = pg8000.native.Connection(

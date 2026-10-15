@@ -36,7 +36,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -217,8 +217,10 @@ async def execute_endpoint(req: ExecuteRequest, request: Request):
     # Defense in depth: Check admin secret if non-local or configured
     admin_secret = os.environ.get("ADMIN_SECRET")
     client_host = request.client.host if request.client else ""
-    is_local = client_host in ("127.0.0.1", "::1", "localhost", "testclient")
-    if admin_secret and not is_local:
+    is_local = client_host in ("127.0.0.1", "::1", "localhost")
+    if not is_local:
+        if not admin_secret:
+            raise HTTPException(status_code=401, detail="execution disabled for remote")
         auth_header = request.headers.get("authorization") or request.headers.get("x-admin-secret", "")
         expected = f"Bearer {admin_secret}"
         if auth_header != expected and auth_header != admin_secret:

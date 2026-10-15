@@ -74,8 +74,11 @@ class SkillsManager:
         return meta
 
     def get_skill_content(self, relative_path: str) -> Dict[str, Any]:
+        root = self.root_dir.resolve()
         target = (self.root_dir / relative_path).resolve()
-        if not str(target).startswith(str(self.root_dir)) or not target.exists():
+        if target != root and not str(target).startswith(str(root) + os.sep):
+            return {"error": "Skill file not found"}
+        if not target.is_file():
             return {"error": "Skill file not found"}
         return {
             "path": relative_path,
@@ -98,8 +101,10 @@ class SkillsManager:
         slug = re.sub(r"[^a-z0-9_-]", "-", task_name.lower().strip()).strip("-")
         if not slug:
             slug = f"skill-{int(time.time())}"
+        slug = slug[:60].strip("-") or f"skill-{int(time.time())}"
+        cat = re.sub(r"[^a-z0-9_-]", "-", category.lower().strip()).strip("-") or "custom"
 
-        skill_folder = self.root_dir / category / slug
+        skill_folder = self.root_dir / cat / slug
         skill_folder.mkdir(parents=True, exist_ok=True)
         skill_file = skill_folder / "SKILL.md"
 
@@ -129,7 +134,7 @@ retained_at: {time.strftime("%Y-%m-%d %H:%M:%S")}
         frontmatter += f"""
 ## Verification Standard
 - Task marked as completed with 0 errors.
-- Version-controlled under skills/{category}/{slug}/SKILL.md.
+- Version-controlled under skills/{cat}/{slug}/SKILL.md.
 """
 
         skill_file.write_text(frontmatter, encoding="utf-8")
@@ -137,8 +142,8 @@ retained_at: {time.strftime("%Y-%m-%d %H:%M:%S")}
         return {
             "status": "retained",
             "skill_name": slug,
-            "category": category,
-            "path": f"{category}/{slug}/SKILL.md",
+            "category": cat,
+            "path": f"{cat}/{slug}/SKILL.md",
             "content": frontmatter
         }
 

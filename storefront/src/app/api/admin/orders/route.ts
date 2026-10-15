@@ -128,8 +128,11 @@ export async function POST(req: NextRequest) {
   if (!supabase) return NextResponse.json({ error: 'Supabase not configured' }, { status: 503 });
 
   let orderId: unknown;
+  let force = false;
   try {
-    orderId = ((await req.json()) as { orderId?: unknown }).orderId;
+    const body = (await req.json()) as { orderId?: unknown; force?: boolean };
+    orderId = body.orderId;
+    force = Boolean(body.force);
   } catch {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
@@ -137,10 +140,37 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'orderId required' }, { status: 400 });
   }
 
-  const result = await fulfillQikinkOrder(supabase, orderId);
+  const result = await fulfillQikinkOrder(supabase, orderId, undefined, { force });
   if (result.ok) return NextResponse.json({ ok: true, qikinkOrderId: result.qikinkOrderId, trackingUrl: result.trackingUrl });
   return NextResponse.json(
     { ok: false, reason: result.reason },
     { status: 400 }
   );
+}
+
+export async function DELETE(req: NextRequest) {
+  const denied = guard(req);
+  if (denied) return denied;
+  const supabase = getAdminSupabase();
+  if (!supabase) return NextResponse.json({ error: 'Supabase not configured' }, { status: 503 });
+
+  const params = new URL(req.url).searchParams;
+  let orderId = params.get('orderId')?.trim();
+  if (!orderId) {
+    try {
+      const body = (await req.json()) as { orderId?: string };
+      orderId = body.orderId?.trim();
+    } catch {
+      // ignore
+    }
+  }
+  if (!orderId) {
+    return NextResponse.json({ error: 'orderId required' }, { status: 400 });
+  }
+
+  const { error } = await supabase.from('orders').delete().eq('id', orderId);
+  if (error) {
+    return NextResponse.json({ error: `Delete failed: ${error.message}` }, { status: 500 });
+  }
+  return NextResponse.json({ ok: true, deleted: orderId });
 }

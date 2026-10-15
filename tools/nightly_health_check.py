@@ -75,8 +75,6 @@ def run_health_check():
         try:
             import pg8000.native
             ctx = ssl.create_default_context()
-            ctx.check_hostname = False
-            ctx.verify_mode = ssl.CERT_NONE
             conn = pg8000.native.Connection(
                 user=db_user,
                 host=db_host,

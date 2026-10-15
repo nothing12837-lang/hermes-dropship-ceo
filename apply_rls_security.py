@@ -17,8 +17,6 @@ if os.path.exists(env_path):
                 os.environ[k.strip()] = v.strip().strip('"').strip("'")
 
 ctx = ssl.create_default_context()
-ctx.check_hostname = False
-ctx.verify_mode = ssl.CERT_NONE
 conn = pg8000.native.Connection(
     user=os.environ.get("SUPABASE_DB_USER", "postgres").strip(),
     host=os.environ.get("SUPABASE_DB_HOST", "db.qdkkxpfhwrwyoardlceo.supabase.co").strip(),
@@ -84,7 +82,7 @@ $$;
 conn.run("GRANT EXECUTE ON FUNCTION track_order(text, text) TO anon, authenticated")
 print("✓ track_order: RPC function created & granted to anon/authenticated")
 
-admin_sec = os.environ.get("ADMIN_SECRET", "RareEmberAdmin2026").strip()
+admin_sec = os.environ.get("ADMIN_SECRET", "").strip()
 conn.run(f"""
 CREATE OR REPLACE FUNCTION admin_lookup_orders(p_admin_secret text, p_order_id text DEFAULT NULL, p_email text DEFAULT NULL)
 RETURNS SETOF orders

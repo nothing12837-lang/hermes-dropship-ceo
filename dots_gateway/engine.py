@@ -1,6 +1,8 @@
 import asyncio
+import json
 import os
 import re
+import shlex
 import time
 import uuid
 from typing import Any, AsyncGenerator, Callable, Dict, List, Optional
@@ -118,7 +120,14 @@ class HermesDotEngine:
 
     def is_destructive(self, command: str) -> tuple[bool, str]:
         cmd_lower = command.lower()
-        for pat in settings.DESTRUCTIVE_COMMAND_PATTERNS:
+        extra_patterns = [
+            r"rm\s*\$\{IFS\}",
+            r";\s*rm\b",
+            r"\bmkfs\b",
+            r"\bdd\b.*of=",
+            r":\(\)\s*\{",
+        ]
+        for pat in list(settings.DESTRUCTIVE_COMMAND_PATTERNS) + extra_patterns:
             if re.search(pat, cmd_lower):
                 return True, f"Command matches protected policy pattern: '{pat}'"
         return False, ""
@@ -184,9 +193,9 @@ class HermesDotEngine:
         backend_tag = f"[{self.execution_backend.upper()} SANDBOX]"
 
         if self.execution_backend == "docker":
-            actual_cmd = f"docker exec -i {settings.DOCKER_CONTAINER_NAME} sh -c \"{command}\""
+            actual_cmd = f"docker exec -i {settings.DOCKER_CONTAINER_NAME} sh -c {shlex.quote(command)}"
         elif self.execution_backend == "modal":
-            actual_cmd = f"modal run modal_sandbox.py --cmd \"{command}\""
+            actual_cmd = f"modal run modal_sandbox.py --cmd {shlex.quote(command)}"
 
         await self.broadcast_terminal_output("stdin", f"$ {backend_tag} {command}\n")
 
@@ -213,12 +222,23 @@ class HermesDotEngine:
                         stderr_chunks.append(decoded)
                     await self.broadcast_terminal_output(kind, decoded)
 
-            await asyncio.gather(
-                read_stream(proc.stdout, "stdout"),
-                read_stream(proc.stderr, "stderr")
-            )
-
-            exit_code = await proc.wait()
+            try:
+                await asyncio.wait_for(
+                    asyncio.gather(
+                        read_stream(proc.stdout, "stdout"),
+                        read_stream(proc.stderr, "stderr")
+                    ),
+                    timeout=120
+                )
+                exit_code = await asyncio.wait_for(proc.wait(), timeout=120)
+            except asyncio.TimeoutError:
+                try:
+                    proc.kill()
+                except Exception:
+                    pass
+                await self.broadcast_terminal_output("stderr", "Command timed out after 120s and was killed.\n")
+                self.set_state(DotState.COMPLETED)
+                return -1, "".join(stdout_chunks), "".join(stderr_chunks) + "\nError: Command timed out after 120s"
             await self.broadcast_terminal_output("system", f"[Process exited with code {exit_code}]\n")
             self.set_state(DotState.COMPLETED)
             return exit_code, "".join(stdout_chunks), "".join(stderr_chunks)
@@ -274,8 +294,9 @@ class HermesDotEngine:
             self.chat_history.append({"role": "assistant", "content": response_text})
             yield {"type": "message", "content": response_text, "exit_code": code}
             self.set_state(DotState.SLEEPING)
+            return
         # Direct trigger for Instagram Autopilot
-        if any(term in user_prompt.lower() for term in ["instagram", "ig_autopilot", "post to ig", "run ig", "autopilot"]):
+        elif any(term in user_prompt.lower() for term in ["instagram", "ig_autopilot", "post to ig", "run ig", "autopilot"]):
             yield {"type": "status", "state": DotState.RUNNING_CODE.value}
             await self.broadcast_terminal_output("system", "\n📸 [MEERA & RADHA] Launching Instagram Autopilot with verified credentials (@RareEmber)...\n")
             code, out, err = await self.execute_sandboxed_command("python ig_autopilot.py --dry-run")
@@ -291,8 +312,9 @@ class HermesDotEngine:
             self.chat_history.append({"role": "assistant", "content": response_text})
             yield {"type": "message", "content": response_text, "exit_code": code}
             self.set_state(DotState.SLEEPING)
+            return
         # Direct trigger for Google Vids publishing
-        if "publish google vid" in user_prompt.lower() or "publish vid" in user_prompt.lower():
+        elif "publish google vid" in user_prompt.lower() or "publish vid" in user_prompt.lower():
             yield {"type": "status", "state": DotState.RUNNING_CODE.value}
             await self.broadcast_terminal_output("system", "\n🎬 [MEERA & GOOGLE VIDS] Initiating FFmpeg Reel rendering & Telegram dispatch...\n")
             import re

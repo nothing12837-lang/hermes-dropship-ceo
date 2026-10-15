@@ -121,7 +121,7 @@ export default function AdminOrdersPage() {
     void updateOrderStatus(orderId, 'shipped', tracking.trim() || undefined);
   };
 
-  const handleTriggerQikink = async (orderId: string) => {
+  const handleTriggerQikink = async (orderId: string, force = false) => {
     setUpdatingId(orderId);
     setError('');
     setActionSuccess('');
@@ -129,14 +129,47 @@ export default function AdminOrdersPage() {
       const res = await fetch('/api/admin/orders', {
         method: 'POST',
         headers: { ...headers(), 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId }),
+        body: JSON.stringify({ orderId, force }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || data.reason || 'Qikink dispatch failed');
+      if (!res.ok) {
+        if (data.reason && data.reason.includes('Test/temp order') && !force) {
+          const reallyForce = window.confirm(
+            '⚠️ Warning: This order was identified as a test/temp order.\n\nDo you really want to force-send it to the Qikink factory floor? (This may initiate real manufacturing and courier dispatch).'
+          );
+          if (reallyForce) {
+            return void handleTriggerQikink(orderId, true);
+          }
+        }
+        throw new Error(data.error || data.reason || 'Qikink dispatch failed');
+      }
       setActionSuccess(`Order dispatched to Qikink floor! ID: #${data.qikinkOrderId || 'Success'}`);
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Dispatch failed');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
+  const handleDeleteOrder = async (orderId: string) => {
+    if (!window.confirm(`Permanently delete order #${orderId.slice(0, 8)}? This cannot be undone.`)) {
+      return;
+    }
+    setUpdatingId(orderId);
+    setError('');
+    setActionSuccess('');
+    try {
+      const res = await fetch(`/api/admin/orders?orderId=${encodeURIComponent(orderId)}`, {
+        method: 'DELETE',
+        headers: headers(),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Delete failed');
+      setActionSuccess(`Order #${orderId.slice(0, 8)} deleted successfully.`);
+      setOrders((prev) => prev.filter((o) => o.id !== orderId));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Delete failed');
     } finally {
       setUpdatingId(null);
     }
@@ -472,6 +505,16 @@ export default function AdminOrdersPage() {
                       className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-all cursor-pointer"
                     >
                       📋 Copy Shipping Label
+                    </button>
+
+                    {/* Delete Order Action */}
+                    <button
+                      onClick={() => void handleDeleteOrder(o.id)}
+                      disabled={updatingId === o.id}
+                      className="px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/50 border border-red-500/30 text-red-400 text-xs font-bold flex items-center gap-1 transition-all cursor-pointer disabled:opacity-50"
+                      title="Permanently delete this order"
+                    >
+                      <span>🗑️</span> Delete
                     </button>
                   </div>
 

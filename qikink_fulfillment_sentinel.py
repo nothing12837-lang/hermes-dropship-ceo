@@ -46,12 +46,12 @@ if os.path.exists(env_path):
                 k, v = line.split("=", 1)
                 env_vars[k.strip()] = v.strip()
 
-QIKINK_CLIENT_ID = env_vars.get("QIKINK_CLIENT_ID", "964148691892386")
-QIKINK_CLIENT_SECRET = env_vars.get("QIKINK_CLIENT_SECRET", "c3793ffa3f2208fb63666c85750f5ee959bbd33f58d4daa0d07d6c57b780f468")
+QIKINK_CLIENT_ID = env_vars.get("QIKINK_CLIENT_ID", "")
+QIKINK_CLIENT_SECRET = env_vars.get("QIKINK_CLIENT_SECRET", "")
 QIKINK_API_URL = env_vars.get("QIKINK_API_URL", "https://api.qikink.com")
 SUPABASE_URL = env_vars.get("NEXT_PUBLIC_SUPABASE_URL", "https://qdkkxpfhwrwyoardlceo.supabase.co")
 SUPABASE_ANON_KEY = env_vars.get("NEXT_PUBLIC_SUPABASE_ANON_KEY", "")
-TELEGRAM_BOT_TOKEN = env_vars.get("TELEGRAM_BOT_TOKEN", "8898923626:AAHjI91mNfyRCanPdK9MVDiTBpL4zPzPOkI")
+TELEGRAM_BOT_TOKEN = env_vars.get("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID = env_vars.get("TELEGRAM_CHAT_ID", "5238068527")
 
 # Qikink Product SKU & Blank Catalog Mapping
