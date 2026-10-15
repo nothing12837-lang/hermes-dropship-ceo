@@ -43,7 +43,7 @@ function SuccessInner() {
           )}
         </p>
         <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link href={`/track?email=${encodeURIComponent(email)}`} style={{ textDecoration: 'none' }}>
+          <Link href={`/track?email=${encodeURIComponent(email)}${session ? `&orderId=${encodeURIComponent(session)}` : ''}`} style={{ textDecoration: 'none' }}>
             <MagneticButton>Track this order 📍</MagneticButton>
           </Link>
           <Link href="/shop" style={{ textDecoration: 'none' }}>

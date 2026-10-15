@@ -182,7 +182,7 @@ class RadhaBrain:
             f"1. Acknowledge Ajay directly as 'Ajay' or 'Boss'. Answer his exact question or command.\n"
             f"2. Confirm actions executed across the business.\n"
             f"3. 100% domestic Indian Meesho sourcing with 7-day doorstep replacement guarantee.\n"
-            f"4. CONTENT CREATOR STANDARD: Enforce that all content creators (Meera, Evaa, video & social agents) strictly use exact authentic Meesho product photos ({product_image_url}) as mandatory reference images for all reels, storyboards, and creatives — ZERO generic stock photos."
+            f"4. CONTENT CREATOR STANDARD: Enforce that all content creators (Meera, Eva, social agents) strictly use exact authentic Meesho product photos as mandatory reference images for all feed posts, storyboards, and creatives — ZERO generic stock photos and ZERO video reels."
         )
 
         prompt = (

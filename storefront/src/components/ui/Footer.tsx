@@ -39,7 +39,7 @@ export default function Footer() {
       />
 
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-10">
           {/* Brand Col */}
           <div className="col-span-2 md:col-span-2 flex flex-col gap-4">
             <Link href="/" className="inline-flex items-center gap-2.5 no-underline group">
@@ -69,7 +69,7 @@ export default function Footer() {
           </div>
 
           {/* Links Cols */}
-          {COPY.footer.cols.slice(0, 3).map((c) => (
+          {COPY.footer.cols.map((c) => (
             <div key={c.title} className="flex flex-col gap-3">
               <div className="font-extrabold text-[11px] tracking-[0.18em] uppercase text-[#F7B733]/85">
                 {c.title}

@@ -104,6 +104,7 @@ export function TrackClient() {
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState<Order[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const qEmail = searchParams.get('email');
@@ -116,21 +117,41 @@ export function TrackClient() {
   }, [searchParams]);
 
   const executeLookup = async (targetEmail: string, targetOrderId: string) => {
-    if (!targetEmail.includes('@') && !targetOrderId.trim()) {
+    setErrorMessage(null);
+    const cleanEmail = targetEmail.trim();
+    const cleanOrderId = targetOrderId.trim();
+
+    if (!cleanEmail && !cleanOrderId) {
       setLooked(true);
+      setErrorMessage('Please enter both your Order ID and registered Email address.');
+      setOrders([]);
       return;
     }
+
+    if (!cleanOrderId || !cleanEmail.includes('@')) {
+      setLooked(true);
+      setErrorMessage('Security verification: Please enter BOTH your Order ID and registered Email address to view tracking milestones.');
+      setOrders([]);
+      return;
+    }
+
     setLoading(true);
     setLooked(true);
     try {
       const params = new URLSearchParams();
-      if (targetEmail.includes('@')) params.set('email', targetEmail);
-      if (targetOrderId.trim()) params.set('orderId', targetOrderId.trim());
+      params.set('email', cleanEmail);
+      params.set('orderId', cleanOrderId);
       const res = await fetch(`/api/orders?${params.toString()}`);
       const data = await res.json();
-      setOrders(data.orders ?? []);
+      if (!res.ok) {
+        setOrders([]);
+        setErrorMessage(data.error || 'Unable to locate order tracking details.');
+      } else {
+        setOrders(data.orders ?? []);
+      }
     } catch {
       setOrders([]);
+      setErrorMessage('Network error while looking up order. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -151,7 +172,7 @@ export function TrackClient() {
       <div className="max-w-3xl mx-auto px-4 md:px-6">
         <ChapterHeading index="📍" label="Order tracking" title="Where is" accent="my order?" />
         <p className="text-neutral-500 text-sm -mt-6 mb-8">
-          Enter your Order ID or registered Email for real-time live package tracking with door-to-door courier milestones.
+          Enter your Order ID and registered Email for real-time live package tracking with door-to-door courier milestones.
         </p>
 
         {/* Search Card */}
@@ -168,7 +189,7 @@ export function TrackClient() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleManualLookup()}
-              placeholder="you@email.com"
+              placeholder="Registered Email (you@email.com)"
               className="flex-1 px-4 py-3.5 text-sm rounded-full border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all"
             />
             <button
@@ -184,16 +205,16 @@ export function TrackClient() {
         {/* Results Section */}
         {looked && (
           <div>
-            {!email.includes('@') && !orderId.trim() ? (
-              <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold">
-                Please enter a valid email address or Order ID to inspect live milestones.
+            {errorMessage ? (
+              <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold mb-6 flex items-center gap-2">
+                <span>⚠️</span> {errorMessage}
               </div>
             ) : orders.length === 0 ? (
               <div className="rounded-[1.75rem] bg-white border border-black/[0.06] p-8 text-center shadow-sm">
                 <span className="text-4xl block mb-3">🔍</span>
                 <h3 className="font-bold text-base text-neutral-900 mb-1">No orders located</h3>
                 <p className="text-xs text-neutral-500 max-w-sm mx-auto mb-5">
-                  We couldn&apos;t find an order matching <span className="font-bold text-neutral-800">{orderId || email}</span>. Double-check your confirmation receipt or try searching by email.
+                  We couldn&apos;t find an order matching <span className="font-bold text-neutral-800">{orderId}</span> and <span className="font-bold text-neutral-800">{email}</span>. Double-check your confirmation receipt or try searching by email.
                 </p>
                 <Link
                   href="/shop"

@@ -66,7 +66,7 @@ create table if not exists orders (
   stripe_session_id text unique,
   total_amount numeric not null default 0,
   status text not null default 'pending'
-    check (status in ('pending','paid','processing','fulfilled','shipped','delivered','cancelled','refunded')),
+    check (status in ('pending','pending_cod','paid','processing','fulfilled','shipped','delivered','cancelled','refunded')),
   cj_order_id text,
   tracking_number text,
   user_id uuid references auth.users(id),

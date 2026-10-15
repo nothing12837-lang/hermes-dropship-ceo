@@ -56,7 +56,10 @@ export async function GET(req: NextRequest) {
         data = res.data;
         error = res.error;
       } else {
-        const adminSecret = process.env.ADMIN_SECRET || 'RareEmberAdmin2026';
+        const adminSecret = process.env.ADMIN_SECRET;
+        if (!adminSecret) {
+          return NextResponse.json({ error: 'Server admin configuration missing' }, { status: 500 });
+        }
         const res = await sb.rpc('admin_lookup_orders', {
           p_admin_secret: adminSecret,
           p_order_id: orderId || null,

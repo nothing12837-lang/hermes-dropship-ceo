@@ -190,20 +190,23 @@ export async function POST(req: NextRequest) {
     }
 
     if (!razorpay || !supabase) {
-      const mockOrderId = `mock_${Date.now()}`;
-      if (supabase) {
-        await insertOrder({
-          user_email: email,
-          user_id: body.user_id || null,
-          stripe_session_id: mockOrderId,
-          total_amount: finalTotal,
-          status: 'paid',
-          items,
-          subtotal,
-          shipping: 0,
-        });
+      if (process.env.NODE_ENV !== 'production' && process.env.ALLOW_MOCK_CHECKOUT === 'true') {
+        const mockOrderId = `mock_${Date.now()}`;
+        if (supabase) {
+          await insertOrder({
+            user_email: email,
+            user_id: body.user_id || null,
+            stripe_session_id: mockOrderId,
+            total_amount: finalTotal,
+            status: 'pending',
+            items,
+            subtotal,
+            shipping: 0,
+          });
+        }
+        return NextResponse.json({ mock: true, url: `/success?mock=1&email=${encodeURIComponent(email)}&total=${finalTotal.toFixed(2)}` });
       }
-      return NextResponse.json({ mock: true, url: `/success?mock=1&email=${encodeURIComponent(email)}&total=${finalTotal.toFixed(2)}` });
+      return NextResponse.json({ error: 'Payment gateway configuration unavailable' }, { status: 503 });
     }
 
     if (finalTotal === 0) {

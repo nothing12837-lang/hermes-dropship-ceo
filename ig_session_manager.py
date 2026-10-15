@@ -4,6 +4,11 @@ import sys
 import time
 from pathlib import Path
 from playwright.sync_api import sync_playwright
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except Exception:
+    pass
 
 USER_DATA_DIR = Path("dots_gateway/browser_data")
 USER_DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -61,16 +66,23 @@ def start_login_or_verify(verification_code: str = None):
             browser.close()
             return True
 
-        # Enter credentials
-        print("Filling credentials for @RareEmber...")
+        # Enter credentials from secure environment
+        ig_user = os.environ.get("IG_USERNAME", "").strip()
+        ig_pass = os.environ.get("IG_PASSWORD", "").strip()
+        if not ig_user or not ig_pass:
+            print("⚠️ IG_USERNAME or IG_PASSWORD not set in environment.")
+            browser.close()
+            return False
+
+        print(f"Filling credentials for @{ig_user}...")
         email_inp = page.locator('input[name="email"]')
         if email_inp.count() > 0:
-            email_inp.fill("RareEmber")
-            page.locator('input[name="pass"]').fill("Ajay@j@y#1860")
+            email_inp.fill(ig_user)
+            page.locator('input[name="pass"]').fill(ig_pass)
             page.locator('input[name="pass"]').press("Enter")
         else:
-            page.locator('input[name="username"]').fill("RareEmber")
-            page.locator('input[name="password"]').fill("Ajay@j@y#1860")
+            page.locator('input[name="username"]').fill(ig_user)
+            page.locator('input[name="password"]').fill(ig_pass)
             page.locator('input[name="password"]').press("Enter")
 
         page.wait_for_timeout(8000)

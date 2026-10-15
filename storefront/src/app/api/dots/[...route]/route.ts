@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isAdmin } from '@/lib/security/auth';
 
 const GATEWAY_URL = process.env.DOTS_GATEWAY_URL || 'http://127.0.0.1:8000';
 
 async function proxyRequest(req: NextRequest, { params }: { params: Promise<{ route: string[] }> }) {
+  if (!isAdmin(req)) {
+    return NextResponse.json(
+      { error: 'Unauthorized: Admin authorization required to access Dots Gateway.' },
+      { status: 401 }
+    );
+  }
+
   const resolvedParams = await params;
   const path = resolvedParams.route.join('/');
   const targetUrl = new URL(`/${path}${req.nextUrl.search}`, GATEWAY_URL);
