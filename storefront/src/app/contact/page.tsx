@@ -29,10 +29,10 @@ export default function ContactPage() {
               <h3 className="text-base font-bold text-neutral-950 mb-1">Email Care Desk</h3>
               <p className="text-xs text-neutral-500 mb-3">Direct reply in under 12 hours for all order inquiries.</p>
               <a
-                href="mailto:care@rareember.shop"
+                href="mailto:rareemberagency@gmail.com"
                 className="text-sm font-bold text-[#FF4D24] hover:underline"
               >
-                care@rareember.shop
+                rareemberagency@gmail.com
               </a>
             </div>
 

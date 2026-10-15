@@ -128,7 +128,7 @@ export default function RootLayout({
               ],
               contactPoint: {
                 '@type': 'ContactPoint',
-                email: 'care@rareember.shop',
+                email: 'rareemberagency@gmail.com',
                 contactType: 'customer service',
                 availableLanguage: ['English', 'Hindi'],
                 areaServed: ['IN', 'US', 'GB', 'CA', 'AU', 'AE']

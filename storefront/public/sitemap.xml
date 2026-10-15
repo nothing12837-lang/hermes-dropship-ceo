@@ -1,973 +1,211 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://rareember-store.vercel.app/</loc>
+    <loc>https://rareember.shop/</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/shop</loc>
+    <loc>https://rareember.shop/shop</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/about</loc>
+    <loc>https://rareember.shop/about</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/team</loc>
+    <loc>https://rareember.shop/team</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/contact</loc>
+    <loc>https://rareember.shop/contact</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/returns</loc>
+    <loc>https://rareember.shop/returns</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/track</loc>
+    <loc>https://rareember.shop/track</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/shop?cat=home-living</loc>
+    <loc>https://rareember.shop/shop?cat=home-living</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/shop?cat=electronics</loc>
+    <loc>https://rareember.shop/shop?cat=electronics</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/shop?cat=fashion</loc>
+    <loc>https://rareember.shop/shop?cat=fashion</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/smart-bluetooth-tracker-tag</loc>
+    <loc>https://rareember.shop/product/rareember-waterproof-vinyl-sticker-pack</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/vintage-amber-edison-bulb</loc>
+    <loc>https://rareember.shop/product/rareember-wooden-framed-streetwear-art-poster</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/vacuum-wine-bottle-stopper</loc>
+    <loc>https://rareember.shop/product/rareember-padded-creator-laptop-sleeve</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/heated-steam-eye-mask-usb</loc>
+    <loc>https://rareember.shop/product/rareember-shockproof-matte-iphone-case</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/magnetic-car-phone-mount</loc>
+    <loc>https://rareember.shop/product/rareember-compact-microfiber-desk-mousepad</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/electric-vegetable-cutter-4in1</loc>
+    <loc>https://rareember.shop/product/rareember-stainless-sports-insulated-flask</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/rotary-drum-mandoline-slicer</loc>
+    <loc>https://rareember.shop/product/rareember-magic-thermochromic-ceramic-mug</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/underbed-clothes-storage-bag-2pk</loc>
+    <loc>https://rareember.shop/product/rareember-womens-boxy-heavyweight-crop-tee</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/underdesk-cable-mesh-tray</loc>
+    <loc>https://rareember.shop/product/rareember-womens-cropped-fleece-hoodie</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/velvet-travel-jewelry-case</loc>
+    <loc>https://rareember.shop/product/rareember-sleeveless-athletic-tank-top</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/smart-motion-sensor-trash-can</loc>
+    <loc>https://rareember.shop/product/rareember-premium-matty-polo-tshirt</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/silent-slim-rechargeable-mouse</loc>
+    <loc>https://rareember.shop/product/rareember-streetwear-heavyweight-cargo-joggers</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/vanilla-soy-wax-bubble-candles</loc>
+    <loc>https://rareember.shop/product/rareember-heavyweight-zip-up-hoodie-bone</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/rotating-6claw-adhesive-hook-2pk</loc>
+    <loc>https://rareember.shop/product/rareember-supima-luxury-minimalist-tee</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/reusable-silicone-food-bags-4pk</loc>
+    <loc>https://rareember.shop/product/rareember-acid-wash-vintage-oversized-tee</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/standing-linen-laundry-hamper</loc>
+    <loc>https://rareember.shop/product/rareember-hardbound-minimalist-dot-journal</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/solar-swaying-firefly-lights</loc>
+    <loc>https://rareember.shop/product/rareember-frosted-glass-sipper-bamboo-lid</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/om-trishul-3d-led-lamp</loc>
+    <loc>https://rareember.shop/product/rareember-heavyweight-canvas-tote-bag</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/boho-macrame-hanging-wall-shelf</loc>
+    <loc>https://rareember.shop/product/rareember-extended-desk-mat-gaming-mousepad</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/rapid-350w-electric-egg-boiler</loc>
+    <loc>https://rareember.shop/product/rareember-thermal-insulated-travel-tumbler-straw</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/electric-coffee-spice-grinder</loc>
+    <loc>https://rareember.shop/product/rareember-matte-black-ceramic-coffee-mug</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/rotating-lazy-susan-turntable</loc>
+    <loc>https://rareember.shop/product/rareember-essential-crewneck-sweatshirt-heather</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/foldable-balcony-clothes-rack</loc>
+    <loc>https://rareember.shop/product/rareember-heavyweight-fleece-hoodie-onyx</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/10in1-electronic-cleaning-kit</loc>
+    <loc>https://rareember.shop/product/rareember-oversized-streetwear-tee-offwhite</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://rareember-store.vercel.app/product/silicone-faucet-splash-draining-mat</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/usb-ceramic-mug-warmer-plate</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/infinite-tulip-cloud-mirror-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/cordless-fabric-lint-remover</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/wooden-accordion-book-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/water-sensor-led-diyas-12pk</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/metal-hexagonal-floating-shelf</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/wireless-water-bottle-pump-usb</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/moving-sand-art-round-frame</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/floating-lotus-candles-6pk</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/curtain-fairy-rice-lights-300led</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/heavy-base-foldable-desk-stand</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/smart-motion-sensor-light-bar</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/sunset-projection-lamp-rgb</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/portable-bluetooth-thermal-printer</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/glass-oil-dispenser-silicone-brush</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/rotating-4layer-jewelry-box-tower</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/magnetic-self-stirring-coffee-mug</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/ocean-water-ripple-crystal-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/3in1-foldable-wireless-charger</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/welcome-mesh-entrance-door-mat</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/electric-mini-garlic-chopper</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/ultrasonic-flame-mist-diffuser</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/astronaut-galaxy-star-projector</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/crystal-diamond-touch-table-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/crystal-ball-3d-galaxy-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/orthopedic-memory-foam-lumbar-cushion</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/rechargeable-automatic-hair-curler-cordless</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/eyewear-multi-tier-sunglasses-display-case</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/leather-travel-passport-wallet-rfid</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/capsule-mini-pocket-uv-sun-umbrella</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/insulated-stainless-steel-coffee-tumbler</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/electric-manicure-pedicure-nail-drill-kit</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/heated-eyelash-curler-rechargeable</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/anti-blue-light-blocking-computer-glasses</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/travel-velvet-jewelry-organizer-box</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/sonic-facial-cleansing-silicone-brush</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/waterproof-silicone-sink-splash-guard</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/gold-hexagonal-geometric-wall-shelf</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/foldable-linen-laundry-hamper-basket</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/rotating-wall-hook-6claws-kitchen</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/nordic-ceramic-donut-vase-minimalist</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/boho-macrame-woven-wall-hanging-shelf</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/scented-soy-wax-bubble-cube-candle-set</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/honeycomb-drawer-divider-organizer-8pk</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/magnetic-kitchen-knife-strip-16inch</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/adhesive-bathroom-corner-shower-caddy-2pk</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/stackable-clear-shoe-storage-boxes-3pk</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/punch-free-mop-broom-holder-wall-mount</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/underbed-dustproof-storage-bag-2pk</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/stainless-steel-garlic-rocker-crusher</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/egg-boiler-poacher-steamer-7eggs</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/instant-water-pump-dispenser-5gallon</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/electric-dry-spice-nut-coffee-grinder</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/vacuum-wine-bottle-stopper-airtight</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/silicone-microwave-popcorn-maker-bowl</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/smart-automatic-motion-sensor-trash-can</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/digital-kitchen-gram-weighing-scale</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/reusable-silicone-food-storage-bags-4pk</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/collapsible-silicone-leakproof-water-bottle</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/press-type-olive-oil-spray-bottle</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/mini-thermal-bag-sealer-cutter</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/cordless-fabric-lint-shaver-rechargeable</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/electric-milk-frother-coffee-whisk</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/metal-headphone-stand-desk-hanger</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/usb-heated-coffee-mug-warmer-plate</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/leather-desk-pad-blotter-dual-sided</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/portable-hanging-neck-bladeless-fan</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/under-desk-cable-management-tray-clamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/magnetic-desk-cable-cord-organizer-hub</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/mini-desktop-ultrasonic-mist-humidifier</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/digital-wooden-led-alarm-clock-temp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/8in1-type-c-hub-hdmi-sd-card-usb3</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/silent-rechargeable-dual-mode-mouse</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/multi-device-bluetooth-wireless-keyboard</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/monitor-screenbar-light-eye-care</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/extended-rgb-gaming-desk-mat-mousepad</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/ergonomic-aluminum-folding-laptop-stand</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/mandir-om-trishul-illusion-3d-acrylic-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/nordic-minimalist-corner-rgb-floor-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/flameless-rechargeable-led-tealights-6pk</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/water-ripple-dynamic-crystal-flame-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/crystal-rose-diamond-touch-lamp-16rgb</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/foldable-wooden-accordion-book-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/moving-sand-art-round-glass-deep-sea</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/neon-led-coffee-aesthetic-wall-sign</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/vintage-edison-filament-table-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/solar-firefly-garden-lights-pack-of-4</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/magnetic-levitation-floating-moon-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/tulip-cloud-mirror-diy-night-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/himalayan-rock-salt-lamp-wooden-base</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/sunset-projection-lamp-16-colors</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/usb-heated-steam-eye-mask-sleep-therapy</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/wireless-bluetooth-smart-gps-tag-tracker</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/10in1-electronic-cleaner-kit-keyboard-earbuds</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/cordless-mini-portable-vacuum-cleaner-usb</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/universal-360-magnetic-car-phone-mount</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/retractable-foldable-balcony-clothes-drying-rack</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/super-absorbent-quick-dry-hair-towel-wrap-2pk</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/automatic-wall-toothpaste-dispenser-cup-holder</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/360-rotating-makeup-cosmetic-organizer-acrylic</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/silicone-heat-resistant-pinch-mitts-pair</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/360-rotating-spice-rack-turntable-lazy-susan</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/digital-kitchen-food-scale-10kg-lcd</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/4in1-handheld-electric-vegetable-cutter-set</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/floating-water-lotus-led-candles-6pk</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/ceramic-aroma-diffuser-electric-touch-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/nordic-insulated-coffee-tumbler-straw-500ml</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/foldable-heavy-base-mobile-tablet-desk-stand</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/4-layer-rotating-jewelry-storage-box-mirror</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/vintage-amber-edison-decorative-led-filament-bulb</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/astronaut-magnetic-cable-organizer-desk-clips</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/electric-fabric-shaver-lint-remover-usb</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/oil-dispenser-bottle-silicone-basting-brush</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/multi-blade-mandoline-vegetable-slicer-cutter</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/portable-mini-thermal-bluetooth-pocket-printer</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/rechargeable-motion-sensor-led-cabinet-stair-light</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/automatic-magnetic-self-stirring-mug</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/moroccan-golden-metal-fairy-lantern-string</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/electric-mini-wireless-garlic-chopper</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/luxury-travel-jewelry-organizer-box</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/ultrasonic-flame-mist-aroma-diffuser</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/crystal-diamond-touch-led-table-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/acrylic-led-glow-message-note-board</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/galaxy-star-astronaut-projector-night-lamp</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/heavy-duty-welcome-textured-mesh-door-mat</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/water-sensor-led-diyas-pack-of-12</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://rareember-store.vercel.app/product/crystal-ball-3d-galaxy-led-lamp-wooden-base</loc>
+    <loc>https://rareember.shop/product/rareember-oversized-streetwear-tee-obsidian</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>

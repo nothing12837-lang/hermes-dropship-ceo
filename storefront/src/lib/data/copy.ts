@@ -49,7 +49,7 @@ export const COPY = {
           { label: 'Live Order Tracking', href: '/track' },
           { label: '7-Day Easy Replacements', href: '/returns' },
           { label: 'Contact Us', href: '/contact' },
-          { label: 'care@rareember.shop', href: 'mailto:care@rareember.shop' },
+          { label: 'rareemberagency@gmail.com', href: 'mailto:rareemberagency@gmail.com' },
         ],
       },
       {

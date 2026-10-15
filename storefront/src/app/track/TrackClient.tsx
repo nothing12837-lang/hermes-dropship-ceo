@@ -457,7 +457,7 @@ export function TrackClient() {
           <div>
             <p className="font-bold text-neutral-900 text-sm">Need immediate assistance with your delivery?</p>
             <p className="mt-1 text-neutral-500 leading-relaxed">
-              Our executive care desk at <a href="mailto:care@rareember.shop" className="font-bold text-[#FF4D24] no-underline hover:underline">care@rareember.shop</a> replies in under 12 hours. Please include your registered email address and Order ID for immediate priority lookup.
+              Our executive care desk at <a href="mailto:rareemberagency@gmail.com" className="font-bold text-[#FF4D24] no-underline hover:underline">rareemberagency@gmail.com</a> replies in under 12 hours. Please include your registered email address and Order ID for immediate priority lookup.
             </p>
           </div>
         </div>

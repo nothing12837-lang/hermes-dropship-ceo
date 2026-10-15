@@ -206,7 +206,7 @@ async function processRadhaQuery(message: string) {
   if (wantsTrack) {
     return {
       reply:
-        "📦 **Track Your Order Securely:**\n\nFor your personal privacy and order security, please use our dedicated **[Live Tracking Portal](/track)**.\n\nSimply enter your **Order ID** along with your checkout **Email Address** to view real-time courier updates (BlueDart, Delhivery, Shadowfax) and live tracking AWB numbers.\n\nNeed urgent assistance or want to update your delivery address? Feel free to reach our priority support at **care@rareember.shop**.",
+        "📦 **Track Your Order Securely:**\n\nFor your personal privacy and order security, please use our dedicated **[Live Tracking Portal](/track)**.\n\nSimply enter your **Order ID** along with your checkout **Email Address** to view real-time courier updates (BlueDart, Delhivery, Shadowfax) and live tracking AWB numbers.\n\nNeed urgent assistance or want to update your delivery address? Feel free to reach our priority support at **rareemberagency@gmail.com**.",
     };
   }
 
@@ -214,7 +214,7 @@ async function processRadhaQuery(message: string) {
   if (/return|refund|exchange|replace|damaged|broken|size.*wrong|wrong.*size|fit.*issue/i.test(q)) {
     return {
       reply:
-        "🛡️ **Rare Ember 7-Day Free Replacement Guarantee:**\n\n• **Sizing or Fit Issues?** We send you a free replacement in your preferred size with zero reverse courier fees!\n• **Print Defect or Transit Damage?** Instant free doorstep reprint dispatched from our Tamil Nadu factory.\n• **File Claim in 60 Seconds:** Visit our **[7-Day Replacement Portal](/returns)** with your Order ID.\n• **Prepaid Refunds:** Credited back in 24–48 hours via Razorpay.\n• **COD Refunds:** Direct instant UPI transfer upon verification.\n\nNeed personal assistance? Contact our care desk at **care@rareember.shop**.",
+        "🛡️ **Rare Ember 7-Day Free Replacement Guarantee:**\n\n• **Sizing or Fit Issues?** We send you a free replacement in your preferred size with zero reverse courier fees!\n• **Print Defect or Transit Damage?** Instant free doorstep reprint dispatched from our Tamil Nadu factory.\n• **File Claim in 60 Seconds:** Visit our **[7-Day Replacement Portal](/returns)** with your Order ID.\n• **Prepaid Refunds:** Credited back in 24–48 hours via Razorpay.\n• **COD Refunds:** Direct instant UPI transfer upon verification.\n\nNeed personal assistance? Contact our care desk at **rareemberagency@gmail.com**.",
     };
   }
 

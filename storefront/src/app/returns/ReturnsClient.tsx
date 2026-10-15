@@ -62,7 +62,7 @@ export function ReturnsClient() {
         message: data.message || 'Claim received! We will process your replacement within 24 hours.',
       });
     } catch {
-      setError('Network error while submitting. Please email care@rareember.shop directly.');
+      setError('Network error while submitting. Please email rareemberagency@gmail.com directly.');
     } finally {
       setSubmitting(false);
     }
@@ -299,10 +299,10 @@ export function ReturnsClient() {
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <a
-              href="mailto:care@rareember.shop"
+              href="mailto:rareemberagency@gmail.com"
               className="px-5 py-2.5 rounded-full bg-[#1d1d1f] text-white text-xs font-bold hover:bg-black transition-all no-underline shadow-xs"
             >
-              Email Care Desk (care@rareember.shop) →
+              Email Care Desk (rareemberagency@gmail.com) →
             </a>
             <Link
               href="/track"

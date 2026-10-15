@@ -5,8 +5,8 @@
     "prompt": "Check RareEmber store health and Supabase database connection status",
     "interval_seconds": 1800,
     "enabled": true,
-    "last_run": 1792058529.1630702,
-    "next_run": 1792060329.1630702,
+    "last_run": 1792060332.2437177,
+    "next_run": 1792062132.2437177,
     "created_at": 1792019674.9867513
   },
   {
@@ -15,38 +15,38 @@
     "prompt": "Verify @rereemberbot heartbeat and queue status",
     "interval_seconds": 900,
     "enabled": true,
-    "last_run": 1792058554.2118492,
-    "next_run": 1792059454.2118492,
+    "last_run": 1792061258.7158113,
+    "next_run": 1792062158.7158113,
     "created_at": 1792019674.9867513
   },
   {
-    "id": "cron_market_scrape",
-    "name": "Viral Winning Products Scrape",
-    "prompt": "run: python -c \"print('Scraping viral dropshipping trends for electronics and home decor...')\"",
-    "interval_seconds": 7200,
-    "enabled": true,
-    "last_run": 1792055684.0558605,
-    "next_run": 1792062884.0558605,
-    "created_at": 1792019674.9867513
-  },
-  {
-    "id": "cron_arjun_meesho_sentinel",
-    "name": "Arjun 24/7 Meesho Quality & Zero-Loss Margin Sentinel",
-    "prompt": "run: python arjun_sentinel.py",
-    "interval_seconds": 1800,
-    "enabled": true,
-    "last_run": 1792058559.2068434,
-    "next_run": 1792060359.2068434,
-    "created_at": 1792035120.0
-  },
-  {
-    "id": "cron_81accb",
-    "name": "Arjun 4-Hour Live Meesho Availability & Margin Audit",
-    "prompt": "run: python tools/meesho_stock_monitor.py",
+    "id": "cron_arjun_meta_ads",
+    "name": "Arjun Autonomous Meta Ads & High-ROAS Growth Engine",
+    "prompt": "run: python arjun_meta_ads_manager.py",
     "interval_seconds": 14400,
     "enabled": true,
     "last_run": null,
-    "next_run": 1792061740.9359758,
+    "next_run": 1792062162.3378837,
+    "created_at": 1792035120.0
+  },
+  {
+    "id": "cron_qikink_fulfillment",
+    "name": "Dev Autonomous Qikink Order Fulfillment & AWB Sync",
+    "prompt": "run: python qikink_fulfillment_sentinel.py",
+    "interval_seconds": 1800,
+    "enabled": true,
+    "last_run": null,
+    "next_run": 1792062162.3378837,
+    "created_at": 1792047340.9359758
+  },
+  {
+    "id": "cron_hermes_seo",
+    "name": "Vikram Autonomous SEO & IndexNow Submitter",
+    "prompt": "run: python hermes_seo_engine.py",
+    "interval_seconds": 21600,
+    "enabled": true,
+    "last_run": null,
+    "next_run": 1792063000.0,
     "created_at": 1792047340.9359758
   }
 ]
