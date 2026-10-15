@@ -824,6 +824,12 @@ export default function CheckoutPage() {
                 <p className="text-[10px] text-neutral-500">
                   Instant order confirmation & tracking details sent to your email.
                 </p>
+                <p className="text-[10px] text-neutral-400">
+                  By placing your order, you agree to our{' '}
+                  <Link href="/terms" className="text-neutral-300 underline hover:text-white">Terms</Link> &{' '}
+                  <Link href="/privacy" className="text-neutral-300 underline hover:text-white">Privacy Policy</Link>{' '}
+                  (in compliance with India&apos;s DPDP Act, 2023).
+                </p>
               </div>
             </div>
           </div>
