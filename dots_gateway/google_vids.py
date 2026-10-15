@@ -314,8 +314,8 @@ class GoogleVidsEngine:
 
     def _render_scene_card(self, scene: GoogleVidsScene, project: GoogleVidsProject, output_path: Path):
         """
-        Renders a 1080x1920 (9:16) vertical card featuring Eva's facecam presentation
-        with the exact authentic product held in her hand, dynamic festive badges, and bold subtitles.
+        Renders a 1080x1920 (9:16) vertical card featuring Eva's completely unobstructed facecam presentation,
+        a dedicated authentic in-hand product showcase, dynamic festive badges, and bold subtitles.
         """
         w, h = 1080, 1920
         canvas = Image.new("RGB", (w, h), color=(10, 12, 18))
@@ -334,68 +334,35 @@ class GoogleVidsEngine:
         draw.text((50, 40), "RareEmber.", fill=(255, 255, 255), anchor="lm", font=self._get_font(32, bold=True))
         draw.text((w - 50, 40), "DIWALI DHAMAKA 2026", fill=(212, 175, 55), anchor="rm", font=self._get_font(24, bold=True))
 
-        # ──────── 1. EVA FACECAM SECTION (Top 55% of Reel) ────────
-        facecam_box = [40, 100, w - 40, 1020]
-        draw.rounded_rectangle(facecam_box, radius=24, fill=(18, 22, 34), outline=(60, 72, 105), width=3)
+        # ──────── 1. EVA FACECAM SECTION (Top Module: y = 95 to 790) ────────
+        # 100% UNOBSTRUCTED: Eva's entire face, eyes, smile, and expression are completely clear
+        top_box = [40, 95, w - 40, 790]
+        draw.rounded_rectangle(top_box, radius=24, fill=(18, 22, 34), outline=(60, 72, 105), width=3)
+        tb_w, tb_h = top_box[2] - top_box[0], top_box[3] - top_box[1]
 
-        # Load Eva presenter portrait
         eva_file = PRESENTERS_DIR / "evaa.jpg"
         if not eva_file.exists():
             eva_file = PRESENTERS_DIR / "eva.jpg"
         if eva_file.exists():
             try:
                 eva_raw = Image.open(eva_file).convert("RGB")
-                eva_crop_w, eva_crop_h = (facecam_box[2] - facecam_box[0]), (facecam_box[3] - facecam_box[1])
-                eva_framed = ImageOps.fit(eva_raw, (eva_crop_w, eva_crop_h), centering=(0.5, 0.25))
-
-                # Round the corners of the framed image
-                mask = Image.new("L", (eva_crop_w, eva_crop_h), 0)
-                draw_mask = ImageDraw.Draw(mask)
-                draw_mask.rounded_rectangle([0, 0, eva_crop_w, eva_crop_h], radius=24, fill=255)
-                canvas.paste(eva_framed, (facecam_box[0], facecam_box[1]), mask)
+                eva_tb = ImageOps.fit(eva_raw, (tb_w, tb_h), centering=(0.5, 0.22))
+                mask_tb = Image.new("L", (tb_w, tb_h), 0)
+                ImageDraw.Draw(mask_tb).rounded_rectangle([0, 0, tb_w, tb_h], radius=24, fill=255)
+                canvas.paste(eva_tb, (top_box[0], top_box[1]), mask_tb)
             except Exception as e:
                 print(f"Error pasting Eva portrait: {e}")
 
-        # Overlay: LIVE FACECAM Pill on top of Eva
-        draw.rounded_rectangle([60, 120, 340, 175], radius=16, fill=(10, 14, 22))
-        draw.ellipse([75, 138, 93, 156], fill=(235, 50, 50))  # Red recording dot
-        draw.text((105, 147), "LIVE FACECAM • EVA", fill=(255, 255, 255), anchor="lm", font=self._get_font(20, bold=True))
+        # LIVE FACECAM Pill (Upper Left corner of Facecam frame)
+        draw.rounded_rectangle([60, 115, 340, 170], radius=16, fill=(10, 14, 22))
+        draw.ellipse([75, 133, 93, 151], fill=(235, 50, 50))  # Red recording dot
+        draw.text((105, 142), "LIVE FACECAM • EVA", fill=(255, 255, 255), anchor="lm", font=self._get_font(20, bold=True))
 
-        # Creator Verification Tag (Right side of Eva)
-        draw.rounded_rectangle([w - 380, 120, w - 60, 175], radius=16, fill=(10, 14, 22))
-        draw.text((w - 220, 147), "Top Rated Host • 4.9/5", fill=(212, 175, 55), anchor="mm", font=self._get_font(20, bold=True))
+        # Creator Verification Tag (Upper Right corner of Facecam frame)
+        draw.rounded_rectangle([w - 360, 115, w - 60, 170], radius=16, fill=(10, 14, 22))
+        draw.text((w - 210, 142), "Top Rated Host • 4.9/5", fill=(212, 175, 55), anchor="mm", font=self._get_font(20, bold=True))
 
-        # ──────── 2. PRODUCT IN EVA'S HAND (Composited Foreground) ────────
-        prod_url = scene.image_url or "https://images.meesho.com/images/products/614873040/qmb1a_512.jpg"
-        prod_raw = self._fetch_image(prod_url)
-        prod_thumb_size = 540, 540
-        prod_raw.thumbnail(prod_thumb_size, Image.Resampling.LANCZOS)
-
-        # Product showcase card floating inside Eva's facecam
-        pw, ph = prod_raw.width, prod_raw.height
-        card_w = pw + 30
-        card_h = ph + 30
-        card_x = facecam_box[2] - card_w - 30
-        card_y = facecam_box[3] - card_h - 30
-
-        # Draw soft drop shadow behind the in-hand product
-        shadow = Image.new("RGBA", (card_w + 30, card_h + 30), (0, 0, 0, 0))
-        d_sh = ImageDraw.Draw(shadow)
-        d_sh.rounded_rectangle([15, 15, card_w + 15, card_h + 15], radius=24, fill=(0, 0, 0, 180))
-        shadow = shadow.filter(ImageFilter.GaussianBlur(12))
-        canvas.paste(shadow, (card_x - 15, card_y - 15), shadow)
-
-        # In-hand product container with gold border
-        draw.rounded_rectangle([card_x, card_y, card_x + card_w, card_y + card_h], radius=20, fill=(14, 18, 28), outline=(212, 175, 55), width=3)
-        canvas.paste(prod_raw, (card_x + 15, card_y + 15))
-
-        # "In Eva's Hand" Floating Pill
-        pill_w = 240
-        pill_h = 42
-        draw.rounded_rectangle([card_x + 15, card_y - 20, card_x + 15 + pill_w, card_y - 20 + pill_h], radius=12, fill=(212, 140, 20), outline=(255, 215, 0), width=1)
-        draw.text((card_x + 15 + pill_w // 2, card_y - 20 + pill_h // 2), "IN EVA'S HAND", fill=(255, 255, 255), anchor="mm", font=self._get_font(20, bold=True))
-
-        # ──────── 3. FESTIVE BADGE & OFFER ────────
+        # ──────── 2. FESTIVE BADGE PILL (Middle Ribbon: y = 810 to 880) ────────
         badge_colors = {
             1: ((138, 43, 226), "VIRAL PROBLEM SOLVER"),
             2: ((30, 144, 255), "UNMATCHED BUILD QUALITY"),
@@ -406,24 +373,42 @@ class GoogleVidsEngine:
         b_color, b_default_text = badge_colors.get(scene.scene_number, ((138, 43, 226), scene.badge_text or "FEATURED DROP"))
         actual_badge = scene.badge_text or b_default_text
 
-        draw.rounded_rectangle([40, 1045, w - 40, 1125], radius=18, fill=b_color)
-        draw.text((w / 2, 1085), actual_badge, fill=(255, 255, 255), anchor="mm", font=self._get_font(32, bold=True))
+        draw.rounded_rectangle([40, 810, w - 40, 880], radius=16, fill=b_color)
+        draw.text((w // 2, 845), actual_badge, fill=(255, 255, 255), anchor="mm", font=self._get_font(30, bold=True))
 
-        # ──────── 4. PRICE & COD GUARANTEE PILL ────────
+        # ──────── 3. DEDICATED PRODUCT IN-HAND SHOWCASE (y = 900 to 1420) ────────
+        prod_box = [40, 900, w - 40, 1420]
+        draw.rounded_rectangle(prod_box, radius=24, fill=(14, 18, 28), outline=(212, 175, 55), width=3)
+
+        # Floating Pill on top border of product box
+        p_pill_w = 340
+        p_pill_h = 42
+        draw.rounded_rectangle([(w - p_pill_w) // 2, 880, (w + p_pill_w) // 2, 880 + p_pill_h], radius=12, fill=(212, 140, 20), outline=(255, 215, 0), width=1)
+        draw.text((w // 2, 880 + p_pill_h // 2), "IN EVA'S HAND • LIVE DEMO", fill=(255, 255, 255), anchor="mm", font=self._get_font(18, bold=True))
+
+        # Load authentic Meesho product photograph
+        prod_url = scene.image_url or "https://images.meesho.com/images/products/614873040/qmb1a_512.jpg"
+        prod_large = self._fetch_image(prod_url)
+        prod_large.thumbnail((460, 400), Image.Resampling.LANCZOS)
+        pl_x = prod_box[0] + (tb_w - prod_large.width) // 2
+        pl_y = 935 + (380 - prod_large.height) // 2
+        canvas.paste(prod_large, (pl_x, pl_y))
+
+        # Price & COD Guarantee Pill inside product card
         prod_meta = self.find_product(project.product_id or "") if project.product_id else None
         prod_price = prod_meta.get("price_inr", 499) if prod_meta else 499
-        draw.rounded_rectangle([40, 1145, w - 40, 1235], radius=18, fill=(14, 18, 28), outline=(212, 175, 55), width=2)
+        draw.rounded_rectangle([60, 1335, w - 60, 1405], radius=16, fill=(10, 14, 22), outline=(212, 175, 55), width=2)
         price_str = f"Special Festive Price: Rs {int(prod_price)} (55% OFF) • Doorstep COD Available"
-        draw.text((w / 2, 1190), price_str, fill=(255, 215, 0), anchor="mm", font=self._get_font(28, bold=True))
+        draw.text((w // 2, 1370), price_str, fill=(255, 215, 0), anchor="mm", font=self._get_font(26, bold=True))
 
-        # ──────── 5. SUBTITLE / SPEECH CAPTION BOX (Bottom 35%) ────────
-        sub_box = [40, 1260, w - 40, 1840]
+        # ──────── 4. SUBTITLE & SPEECH BOX (Bottom Module: y = 1440 to 1860) ────────
+        sub_box = [40, 1440, w - 40, 1860]
         draw.rounded_rectangle(sub_box, radius=24, fill=(10, 13, 20), outline=(45, 55, 80), width=2)
 
         # Subtitle Header: Eva Speaking
         clean_title = scene.title.replace("🔥", "").replace("✨", "").replace("⚡", "").replace("⭐", "").replace("🛒", "").strip()
-        draw.text((60, 1300), "Eva:", fill=(212, 175, 55), anchor="lm", font=self._get_font(30, bold=True))
-        draw.text((135, 1300), clean_title, fill=(200, 215, 245), anchor="lm", font=self._get_font(28, bold=False))
+        draw.text((60, 1480), "Eva:", fill=(212, 175, 55), anchor="lm", font=self._get_font(30, bold=True))
+        draw.text((135, 1480), clean_title, fill=(200, 215, 245), anchor="lm", font=self._get_font(28, bold=False))
 
         # Word wrap speech subtitles
         words = scene.voiceover_text.split()
@@ -438,17 +423,17 @@ class GoogleVidsEngine:
         if cur:
             lines.append(" ".join(cur))
 
-        sy = 1380
-        font_sub = self._get_font(38, bold=True)
-        for line in lines[:6]:
+        sy = 1560
+        font_sub = self._get_font(36, bold=True)
+        for line in lines[:5]:
             draw.text((w / 2, sy), line, fill=(255, 255, 255), anchor="mm", font=font_sub)
-            sy += 64
+            sy += 60
 
         # Bottom Bio CTA
-        draw.text((w / 2, 1800), "Tap Link in Bio (@rareember) or Comment 'BUY' for Direct DM!", fill=(212, 175, 55), anchor="mm", font=self._get_font(24, bold=True))
+        draw.text((w / 2, 1810), "Tap Link in Bio (@rareember) or Comment 'BUY' for Direct DM!", fill=(212, 175, 55), anchor="mm", font=self._get_font(24, bold=True))
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        canvas.save(str(output_path), quality=94)
+        canvas.save(str(output_path), quality=95)
 
     def list_projects(self) -> List[Dict[str, Any]]:
         return [p.model_dump() for p in sorted(self.projects.values(), key=lambda x: x.created_at, reverse=True)]
