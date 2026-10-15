@@ -222,7 +222,7 @@ export function ProductClient({ product }: Props) {
     price_inr: effectiveInr,
     emoji: product.emoji,
     imageUrl: currentSrc || product.image_url,
-    selectedStyle: galleryImages.length > 1 ? `Design #${selectedImgIndex + 1}` : undefined,
+    selectedStyle: undefined,
     gradient: product.gradient,
     size: isApparel ? selectedSize : undefined,
     phoneModel: isPhoneCase ? selectedPhoneModel : undefined,
@@ -562,10 +562,10 @@ export function ProductClient({ product }: Props) {
               <div style={{ marginTop: '0.85rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.45rem', padding: '0 0.15rem' }}>
                   <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#161311' }}>
-                    Choose Design / Shade: <span style={{ color: '#FF4D24' }}>Design #{selectedImgIndex + 1}</span>
+                    Product Photos &amp; Angles
                   </span>
-                  <span style={{ fontSize: '0.7rem', color: '#059669', fontWeight: 700 }}>
-                    Tap photo to choose
+                  <span style={{ fontSize: '0.7rem', color: '#78716c', fontWeight: 600 }}>
+                    Tap to preview angle
                   </span>
                 </div>
                 <div
@@ -983,44 +983,6 @@ export function ProductClient({ product }: Props) {
                           boxSizing: 'border-box',
                         }}
                       />
-                      {/* Text Color Chips */}
-                      <div style={{ marginTop: '0.65rem' }}>
-                        <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#78716c', marginBottom: '0.35rem' }}>
-                          Print Ink Color
-                        </label>
-                        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                          {[
-                            { name: 'White', hex: '#FFFFFF', border: '#cbd5e1' },
-                            { name: 'Pitch Black', hex: '#111111', border: '#475569' },
-                            { name: 'Golden Amber', hex: '#F59E0B', border: '#d97706' },
-                            { name: 'Flame Red', hex: '#FF4D24', border: '#dc2626' },
-                            { name: 'Cyber Cyan', hex: '#06B6D4', border: '#0891b2' },
-                            { name: 'Neon Green', hex: '#10B981', border: '#059669' },
-                          ].map((col) => {
-                            const isSelected = customTextColor.toLowerCase() === col.hex.toLowerCase();
-                            return (
-                              <button
-                                key={col.hex}
-                                type="button"
-                                onClick={() => setCustomTextColor(col.hex)}
-                                title={col.name}
-                                style={{
-                                  width: '1.75rem',
-                                  height: '1.75rem',
-                                  borderRadius: '9999px',
-                                  background: col.hex,
-                                  border: isSelected ? '2.5px solid #FF4D24' : `1.5px solid ${col.border}`,
-                                  boxShadow: isSelected ? '0 0 8px rgba(255, 77, 36, 0.4)' : 'none',
-                                  cursor: 'pointer',
-                                  transform: isSelected ? 'scale(1.15)' : 'scale(1)',
-                                  transition: 'all 0.15s ease',
-                                }}
-                              />
-                            );
-                          })}
-                        </div>
-                      </div>
-
                       {/* Font Typography Style */}
                       <div style={{ marginTop: '0.65rem' }}>
                         <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#78716c', marginBottom: '0.35rem' }}>
@@ -1405,17 +1367,6 @@ export function ProductClient({ product }: Props) {
               </div>
             ) : (
               <div style={{ marginTop: '1.5rem' }}>
-                {galleryImages.length > 1 && (
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.65rem', padding: '0.45rem 0.85rem', borderRadius: '0.75rem', background: '#f5f5f4', border: '1px solid rgba(0,0,0,0.08)', marginBottom: '0.85rem' }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={currentSrc} alt="Selected design" style={{ width: '28px', height: '28px', objectFit: 'cover', borderRadius: '0.35rem', border: '1px solid rgba(0,0,0,0.1)' }} />
-                    <div style={{ fontSize: '0.78rem' }}>
-                      <span style={{ color: '#78716c' }}>Selected: </span>
-                      <strong style={{ color: '#161311' }}>Design #{selectedImgIndex + 1}</strong>
-                      <span style={{ color: '#059669', fontWeight: 700, marginLeft: '0.4rem' }}>✓ Pack this design</span>
-                    </div>
-                  </div>
-                )}
                 <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                   <button
