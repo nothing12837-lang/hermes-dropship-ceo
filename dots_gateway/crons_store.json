@@ -5,8 +5,8 @@
     "prompt": "Check RareEmber store health and Supabase database connection status",
     "interval_seconds": 1800,
     "enabled": true,
-    "last_run": 1792022473.3199148,
-    "next_run": 1792024273.3199148,
+    "last_run": 1792024274.0886202,
+    "next_run": 1792026074.0886202,
     "created_at": 1792019674.9867513
   },
   {
@@ -15,8 +15,8 @@
     "prompt": "Verify @rereemberbot heartbeat and queue status",
     "interval_seconds": 900,
     "enabled": true,
-    "last_run": 1792023385.9815185,
-    "next_run": 1792024285.9815185,
+    "last_run": 1792024289.1127095,
+    "next_run": 1792025189.1127095,
     "created_at": 1792019674.9867513
   },
   {

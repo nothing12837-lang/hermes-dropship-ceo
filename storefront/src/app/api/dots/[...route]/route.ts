@@ -28,6 +28,14 @@ async function proxyRequest(req: NextRequest, { params }: { params: Promise<{ ro
       resHeaders.set(key, value);
     });
 
+    const contentType = res.headers.get('content-type') || '';
+    if (contentType.includes('text/event-stream') && res.body) {
+      return new NextResponse(res.body as any, {
+        status: res.status,
+        headers: resHeaders,
+      });
+    }
+
     const data = await res.arrayBuffer();
     return new NextResponse(data, {
       status: res.status,

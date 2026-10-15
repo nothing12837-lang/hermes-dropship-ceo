@@ -1115,6 +1115,12 @@ export default function DotsDashboardPage() {
             >
               $ Test Sandbox
             </button>
+            <button
+              onClick={() => setInputPrompt('$ python ig_autopilot.py --dry-run')}
+              className="px-2 py-1 rounded bg-rose-950/60 hover:bg-rose-900/80 text-rose-300 whitespace-nowrap border border-rose-800/40 transition-colors"
+            >
+              📸 Instagram Autopilot (@RareEmber)
+            </button>
           </div>
 
           {/* Bottom Chat Input Form */}

@@ -37,6 +37,13 @@ export function middleware(req: NextRequest) {
     });
   }
 
+  // Allow unrestricted access to Hermes Dots cockpit & internal gateway proxy
+  if (pathname.startsWith('/dots') || pathname.startsWith('/api/dots')) {
+    const res = NextResponse.next();
+    res.headers.set('X-Content-Type-Options', 'nosniff');
+    return res;
+  }
+
   // Newsletter + checkout abuse guard (stricter bucket)
   if (req.nextUrl.pathname.startsWith('/api/')) {
     const key = `api:${ip}`;
