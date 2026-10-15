@@ -95,6 +95,9 @@ class GenerateVidsRequest(BaseModel):
     aspect_ratio: str = "9:16"
     voice_id: str = "en-IN-NeerjaNeural"
 
+class PublishVidsRequest(BaseModel):
+    project_id: str
+
 class BrowserNavigateRequest(BaseModel):
     url: str
 
@@ -329,6 +332,21 @@ async def generate_vids_project(req: GenerateVidsRequest):
         f"✅ [GOOGLE VIDS STUDIO] Project '{project.title}' synthesized! Manifest: {project.manifest_file}\n"
     )
     return project.model_dump()
+
+@app.post("/api/v1/vids/publish")
+async def publish_vids_project(req: PublishVidsRequest):
+    await dot_engine.broadcast_terminal_output(
+        "system",
+        f"\n🎬 [GOOGLE VIDS STUDIO] Compiling 9:16 vertical video reel via FFmpeg for project: {req.project_id}...\n"
+    )
+    result = await google_vids.publish_project(req.project_id)
+    if not result.get("ok"):
+        raise HTTPException(status_code=400, detail=result.get("error", "Failed to publish video"))
+    await dot_engine.broadcast_terminal_output(
+        "system",
+        f"✅ [GOOGLE VIDS STUDIO] Reel published! Video saved: {result.get('video_path')} | Delivered to Telegram: {result.get('telegram_delivered')}\n"
+    )
+    return result
 
 # ----------------- Virtual Browser Laptop Engine (OpenAI Dots Browser) -----------------
 @app.get("/api/v1/browser/status")

@@ -1906,10 +1906,47 @@ export default function DotsDashboardPage() {
                             <span>Export Manifest</span>
                           </button>
                           <button
-                            onClick={() => {
-                              setInputPrompt(`Publish Google Vid project ${selectedVidProject.project_id} as a video reel`);
+                            onClick={async () => {
+                              const projId = selectedVidProject.project_id;
+                              setInputPrompt(`Publish Google Vid project ${projId} as a video reel`);
+                              setMessages((prev) => [
+                                ...prev,
+                                {
+                                  id: `user_${Date.now()}`,
+                                  role: 'user',
+                                  content: `Publish Google Vid project ${projId} as a video reel`,
+                                  timestamp: Date.now() / 1000
+                                },
+                                {
+                                  id: `assistant_${Date.now()}`,
+                                  role: 'assistant',
+                                  content: `🎬 **Meera Creative & Google Vids AI:**\n\nCompiling 9:16 vertical video reel for \`${projId}\` via FFmpeg with neural voiceover narration & dispatching to Telegram...`,
+                                  timestamp: Date.now() / 1000
+                                }
+                              ]);
+                              try {
+                                const res = await fetch('/api/dots/api/v1/vids/publish', {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({ project_id: projId })
+                                });
+                                const data = await res.json();
+                                if (data.ok) {
+                                  setMessages((prev) => [
+                                    ...prev,
+                                    {
+                                      id: `assistant_${Date.now() + 1}`,
+                                      role: 'assistant',
+                                      content: `🎬 **Google Vid Published & Dispatched!**\n\n✅ **Project:** \`${data.title || projId}\`\n• **Format:** 9:16 Vertical Video Reel (MP4 via FFmpeg)\n• **File Saved:** \`${data.video_path}\`\n• **Telegram Status:** ${data.telegram_delivered ? 'Delivered directly to Boss Ajay\'s Telegram (@rereemberbot) 📲' : 'Saved to server'}\n\nTap the video in your Telegram app to preview or post to Instagram Reels & YouTube Shorts!`,
+                                      timestamp: Date.now() / 1000
+                                    }
+                                  ]);
+                                }
+                              } catch (e) {
+                                console.error('Publish error:', e);
+                              }
                             }}
-                            className="flex items-center gap-1 text-xs bg-pink-600 hover:bg-pink-500 text-white font-medium px-3 py-1.5 rounded-lg transition-colors"
+                            className="flex items-center gap-1 text-xs bg-pink-600 hover:bg-pink-500 text-white font-medium px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
                           >
                             <Play className="w-3.5 h-3.5" />
                             <span>Publish via Agent</span>

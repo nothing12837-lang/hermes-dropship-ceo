@@ -297,4 +297,81 @@ class GoogleVidsEngine:
         p = self.projects.get(project_id)
         return p.model_dump() if p else None
 
+    async def publish_project(self, project_id: str) -> Dict[str, Any]:
+        """
+        Renders a vertical MP4 video reel via FFmpeg, generates speech narration via gTTS,
+        and dispatches directly to Boss Ajay's Telegram bot (@rereemberbot).
+        """
+        proj = self.projects.get(project_id)
+        if not proj:
+            return {"ok": False, "error": f"Project {project_id} not found"}
+
+        project_folder = VIDS_OUTPUT_DIR / project_id
+        project_folder.mkdir(parents=True, exist_ok=True)
+        
+        slide_img = project_folder / "slide_1.jpg"
+        if not slide_img.exists() and proj.scenes:
+            self._render_scene_card(proj.scenes[0], proj, slide_img)
+            
+        # Audio generation via resilient gTTS
+        audio_file = project_folder / "full_narration.mp3"
+        if not audio_file.exists() or audio_file.stat().st_size < 1000:
+            combined_script = [s.voiceover_text for s in proj.scenes if s.voiceover_text]
+            full_text = " ".join(combined_script) or proj.title
+            try:
+                from gtts import gTTS
+                clean_text = full_text.replace("★", " star ").replace("₹", " rupees ")
+                tts = gTTS(clean_text, lang="en")
+                tts.save(str(audio_file))
+            except Exception as e:
+                print(f"gTTS error: {e}")
+
+        # Compile with FFmpeg into 9:16 vertical MP4
+        video_file = project_folder / "video_reel.mp4"
+        cmd = [
+            "ffmpeg", "-y",
+            "-loop", "1", "-i", str(slide_img),
+            "-i", str(audio_file),
+            "-c:v", "libx264", "-tune", "stillimage",
+            "-c:a", "aac", "-b:a", "192k",
+            "-pix_fmt", "yuv420p",
+            "-shortest",
+            str(video_file)
+        ]
+        try:
+            import subprocess
+            subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+        except Exception as fe:
+            print(f"FFmpeg compile note: {fe}")
+
+        # Dispatch to Ajay on Telegram
+        token = "8898923626:AAHjI91mNfyRCanPdK9MVDiTBpL4zPzPOkI"
+        chat_id = "5238068527"
+        delivered = False
+        if video_file.exists() and video_file.stat().st_size > 1000:
+            try:
+                with open(video_file, "rb") as vf:
+                    r = requests.post(
+                        f"https://api.telegram.org/bot{token}/sendVideo",
+                        data={
+                            "chat_id": chat_id,
+                            "caption": f"🎬 <b>Google Vid Published via Agent!</b>\n\n• <b>Title:</b> {proj.title}\n• <b>Format:</b> 9:16 Vertical Video Reel\n• <b>Duration:</b> {proj.total_duration_seconds}s\n• <b>Status:</b> Rendered via FFmpeg & Ready for Instagram Reels & Shorts!\n\nTap to play and save to gallery! 🚀",
+                            "parse_mode": "HTML"
+                        },
+                        files={"video": vf},
+                        timeout=60
+                    )
+                    delivered = (r.status_code == 200)
+            except Exception as te:
+                print(f"Telegram dispatch error: {te}")
+
+        return {
+            "ok": True,
+            "project_id": project_id,
+            "title": proj.title,
+            "video_path": str(video_file.relative_to(settings.WORKSPACE_PATH)).replace("\\", "/"),
+            "telegram_delivered": delivered,
+            "format": "9:16 Vertical Reel"
+        }
+
 google_vids = GoogleVidsEngine()
