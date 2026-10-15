@@ -53,7 +53,7 @@ export default function Chatbot() {
   const [msgs, setMsgs] = useState<Msg[]>([
     {
       me: false,
-      text: "👋 Namaste! I am **Radha**, RareEmber's AI Shopping Concierge.\n\nI can track your order in real time, verify 2–4 day express delivery & COD for your Indian PIN code, or recommend top trending products. How can I assist you today?",
+      text: "👋 Namaste! I am **Radha**, Rare Ember's AI Shopping Concierge.\n\nI can track your order in real time, verify 2–4 day express delivery & COD for your Indian PIN code, or recommend top trending products. How can I assist you today?",
       timestamp: new Date(),
     },
   ]);
@@ -178,7 +178,7 @@ export default function Chatbot() {
                   </div>
                   <div className="flex items-center gap-1.5 text-[11px] text-neutral-400">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>RareEmber AI Support • Online</span>
+                    <span>Rare Ember AI Support • Online</span>
                   </div>
                 </div>
               </div>

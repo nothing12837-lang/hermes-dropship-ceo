@@ -343,7 +343,7 @@ export default function ProductReviews({ productId, productTitle }: ProductRevie
             <span className="text-3xl mb-2 block">✨</span>
             <p className="text-sm font-bold text-neutral-800">Be the first to review this product!</p>
             <p className="text-xs text-neutral-500 mt-1">
-              Share your feedback, upload a photo, and help the RareEmber community.
+              Share your feedback, upload a photo, and help the Rare Ember community.
             </p>
             <button
               onClick={() => setShowForm(true)}

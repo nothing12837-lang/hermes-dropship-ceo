@@ -228,7 +228,7 @@ export function LoyaltyBanner({ points = 0 }: { points?: number }) {
     <div style={{ background: 'linear-gradient(135deg,#fff3e0,#fed7aa)', borderRadius: '1.6rem', padding: '2rem', display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
       <div style={{ fontSize: '2.5rem' }}>🎁</div>
       <div style={{ flex: 1, minWidth: '220px' }}>
-        <div style={{ fontWeight: 900, fontSize: '1.2rem', color: '#161311' }}>RareEmber Club — earn {points} VIP pts today</div>
+        <div style={{ fontWeight: 900, fontSize: '1.2rem', color: '#161311' }}>Rare Ember Club — earn {points} VIP pts today</div>
         <div style={{ color: '#52453e', fontSize: '0.92rem' }}>1 pt per ₹10 • 100 pts = ₹100 off • Secret Festive Codes • Priority Dispatch</div>
       </div>
       <Link href="/shop" style={{ background: '#161311', color: 'white', padding: '0.9rem 1.8rem', borderRadius: '9999px', fontWeight: 800, textDecoration: 'none' }}>
@@ -272,7 +272,7 @@ export function ChatWidget() {
       </button>
       {open && (
         <div style={{ position: 'fixed', bottom: '5.2rem', right: '1.4rem', zIndex: 180, width: 'min(340px,90vw)', background: 'white', borderRadius: '1.2rem', border: '1px solid #ebebeb', boxShadow: '0 20px 60px rgba(0,0,0,0.18)', overflow: 'hidden', display: 'flex', flexDirection: 'column', maxHeight: '440px' }}>
-          <div style={{ background: '#161311', color: 'white', padding: '1rem 1.2rem', fontWeight: 800 }}>RareEmber Support <span style={{ opacity: 0.6, fontWeight: 400, fontSize: '0.8rem' }}>• online</span></div>
+          <div style={{ background: '#161311', color: 'white', padding: '1rem 1.2rem', fontWeight: 800 }}>Rare Ember Support <span style={{ opacity: 0.6, fontWeight: 400, fontSize: '0.8rem' }}>• online</span></div>
           <div style={{ flex: 1, overflowY: 'auto', padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
             {msgs.map((m, i) => (
               <div key={i} style={{ alignSelf: m.me ? 'flex-end' : 'flex-start', background: m.me ? '#ff4d24' : '#f9f9f9', color: m.me ? 'white' : '#161311', padding: '0.7rem 1rem', borderRadius: '1rem', maxWidth: '85%', fontSize: '0.88rem', lineHeight: 1.5 }}>

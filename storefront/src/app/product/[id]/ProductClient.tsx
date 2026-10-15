@@ -76,7 +76,7 @@ export function ProductClient({ product }: Props) {
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [sizeUnit, setSizeUnit] = useState<'in' | 'cm'>('in');
   const [selectedPhoneModel, setSelectedPhoneModel] = useState<string>(PHONE_MODELS[0]);
-  const [isCustomizing, setIsCustomizing] = useState(false);
+  const [isCustomizing, setIsCustomizing] = useState(isApparel);
   const [customMode, setCustomMode] = useState<'text' | 'image'>('text');
   const [customText, setCustomText] = useState('');
   const [customImage, setCustomImage] = useState<string | null>(null);
