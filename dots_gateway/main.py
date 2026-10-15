@@ -19,13 +19,10 @@ from dots_gateway.virtual_browser import virtual_browser
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: Launch 24/7 background cron scheduler & executive activity pulse
+    # Startup: Launch 24/7 background cron scheduler for REAL tasks only
     await scheduler.start()
-    dot_engine._activity_task = asyncio.create_task(dot_engine.start_autonomous_activity_feed())
     yield
-    # Shutdown: Stop scheduler, pulse, and virtual browser
-    if dot_engine._activity_task:
-        dot_engine._activity_task.cancel()
+    # Shutdown: Stop scheduler and virtual browser
     await scheduler.stop()
     await virtual_browser.close()
 

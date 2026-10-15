@@ -62,75 +62,8 @@ class HermesDotEngine:
         return None
 
     async def start_autonomous_activity_feed(self):
-        gemini_key = os.environ.get("GEMINI_API_KEY", "") or settings.GEMINI_API_KEY
-        products_path = settings.WORKSPACE_PATH / "all_103_products.json"
-        catalog = []
-        if products_path.exists():
-            try:
-                catalog = json.loads(products_path.read_text(encoding="utf-8"))
-            except Exception:
-                pass
-                
-        agents = ["Aarav", "Meera", "Kabir", "Arjun", "Pooja", "Radha"]
-        idx = 0
-        
-        while True:
-            await asyncio.sleep(25)
-            agent = agents[idx % len(agents)]
-            idx += 1
-            t_str = time.strftime("%H:%M:%S")
-            prod = catalog[random.randint(0, len(catalog) - 1)] if catalog else {"title": "3D Crystal Ball Galaxy Lamp", "price_inr": 299, "id": "crystal_ball"}
-            title = prod.get("title", "Curated Lifestyle Drop")
-            
-            try:
-                if agent == "Aarav":
-                    prompt = f"You are Aarav, Head of SEO for RareEmber D2C. Founder Goal: 10,000 sales before Diwali. Product: '{title}'. In 2 short lines, give 3 festive search keywords and 1 high-converting Google Shopping title to capture buyers."
-                    reply = await self._call_gemini_fast(gemini_key, prompt)
-                    if reply:
-                        await self.broadcast_terminal_output("system", f"[{t_str}] 🔍 [AARAV SEO] [10K DIWALI MISSION] Indexing '{title}' for Google Shopping & Search Console...\n[{t_str}] 🔍 [AARAV SEO] Strategy: {reply}\n")
-                    else:
-                        await self.broadcast_terminal_output("system", f"[{t_str}] 🔍 [AARAV SEO] [10K DIWALI MISSION] Pushed IndexNow ping for '{title}' (Festive high-intent keywords indexed).\n")
-
-                elif agent == "Meera":
-                    prompt = f"You are Meera, Creative Director for RareEmber. Founder Goal: 10,000 Diwali sales. Product: '{title}'. Note: ZERO video reels (Boss Ajay strictly mandated 100% feed image posts). Write a high-converting 1-line caption hook and promo angle for an Instagram feed photo drop featuring Eva and code DIWALI100."
-                    reply = await self._call_gemini_fast(gemini_key, prompt)
-                    if reply:
-                        await self.broadcast_terminal_output("system", f"[{t_str}] 🎬 [MEERA CREATIVE] [10K DIWALI MISSION] Generating Feed Photo Drop for '{title}' (Eva Presenter & COD Reassurance)...\n[{t_str}] 🎬 [MEERA CREATIVE] Visual Hook: \"{reply}\"\n")
-                    else:
-                        await self.broadcast_terminal_output("system", f"[{t_str}] 🎬 [MEERA CREATIVE] [10K DIWALI MISSION] Synced high-converting 4:5 feed image drop for '{title}' (100% Image-Only, Zero Reels).\n")
-
-                elif agent == "Kabir":
-                    price = int(prod.get("price_inr") or 299)
-                    cost = int(price * 0.50)
-                    logistics_and_buffer = 80
-                    net_profit = price - cost - logistics_and_buffer
-                    margin = round((net_profit / price) * 100, 1) if price > 0 else 30.0
-                    await self.broadcast_terminal_output("system", f"[{t_str}] 💰 [KABIR CFO] [10K DIWALI PACING] Unit Audit: '{title}' | Cost: ₹{cost + logistics_and_buffer} (Landed) | Sell: ₹{price} | Net Margin: {margin}% (~₹{net_profit}/order) | Goal: 10,000 Orders (Target GMV: ₹33.5L | Target Net Profit: ₹10.5L)\n")
-
-                elif agent == "Arjun":
-                    log_file = settings.WORKSPACE_PATH / "RADHA_MEMORY" / "ARJUN_PROCUREMENT_LOG.json"
-                    stat_str = "Surat & Bhiwandi domestic hubs verified"
-                    if log_file.exists():
-                        try:
-                            l_data = json.loads(log_file.read_text(encoding="utf-8"))
-                            stat_str = f"Live Catalog: {l_data.get('healthy_count')} Verified In-Stock, {l_data.get('broken_assets_count', 0)} Broken Deactivated, 0% Loss Risk"
-                        except Exception:
-                            pass
-                    await self.broadcast_terminal_output("system", f"[{t_str}] 📦 [ARJUN PROCUREMENT] [24/7 MEESHO SENTINEL] Audit for '{title}' | {stat_str} | <24h dispatch SLA locked.\n")
-
-                elif agent == "Pooja":
-                    await self.broadcast_terminal_output("system", f"[{t_str}] 🚚 [POOJA OPS] [10K DIWALI MISSION] COD RTO Shield: Automated WhatsApp 1-Click verification active across 28,450 PIN codes. RTO suppressed to 11.4% (Saving ₹15L+ in return freight).\n")
-
-                elif agent == "Radha":
-                    prompt = "You are Radha CEO, leading RareEmber autonomous board. Founder Ajay set a non-negotiable target: 10,000 sales before Diwali with 0% laptop required. Give a sharp 1-line executive status update on pacing toward this goal."
-                    reply = await self._call_gemini_fast(gemini_key, prompt)
-                    if reply:
-                        await self.broadcast_terminal_output("system", f"[{t_str}] 👑 [RADHA CEO] [OPERATION 10K DIWALI] Executive Pacing: {reply}\n")
-                    else:
-                        await self.broadcast_terminal_output("system", f"[{t_str}] 👑 [RADHA CEO] [OPERATION 10K DIWALI] 24/7 Autonomous Cloud Loop Active: Target 10,000 Orders across Instagram, Google & WhatsApp COD.\n")
-
-            except Exception as e:
-                await self.broadcast_terminal_output("system", f"[{t_str}] 👑 [RADHA CEO] Autonomous pulse active: {e}\n")
+        # Fake looping ticker eliminated - output is strictly reserved for real command executions & crons
+        pass
 
     def set_execution_backend(self, backend: str) -> str:
         if backend in ["local", "docker", "modal"]:

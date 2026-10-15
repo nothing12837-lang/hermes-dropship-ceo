@@ -165,9 +165,9 @@ SUPABASE_URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL", "").strip()
 SUPABASE_ANON_KEY = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY", "").strip()
 
 def fetch_live_catalog():
-    """Dynamically fetches all active products from Supabase store database."""
+    """Dynamically fetches all active, in-stock products with verified assets from Supabase store database."""
     try:
-        url = f"{SUPABASE_URL}/rest/v1/products?select=id,title,price,price_inr,compare_at_price,rating,reviews,category,image_url,short,story&order=created_at.desc&limit=100"
+        url = f"{SUPABASE_URL}/rest/v1/products?select=id,title,price,price_inr,compare_at_price,rating,reviews,category,image_url,short,story,active,stock&active=eq.true&order=created_at.desc&limit=100"
         headers = {
             "apikey": SUPABASE_ANON_KEY,
             "Authorization": f"Bearer {SUPABASE_ANON_KEY}"
@@ -177,6 +177,10 @@ def fetch_live_catalog():
             db_products = res.json()
             valid = []
             for p in db_products:
+                if p.get("active") is False:
+                    continue
+                if p.get("stock") is not None and int(p.get("stock", 1)) <= 0:
+                    continue
                 p_id = (p.get("id") or "").lower()
                 title = (p.get("title") or "").strip()
                 cat = (p.get("category") or "").lower()
@@ -184,7 +188,7 @@ def fetch_live_catalog():
                 if any(bk in p_id or bk in title.lower() or bk in cat for bk in disallowed_blacklist):
                     continue
                 img = (p.get("image_url") or "").strip() or FALLBACK_IMAGES.get(p.get("id"))
-                if title and img:
+                if title and img and img.startswith("http"):
                     if p.get("price_inr"):
                         price_inr = int(round(float(p["price_inr"])))
                     else:
@@ -211,7 +215,7 @@ def fetch_live_catalog():
                         ]
                     })
             if valid:
-                print(f"📦 Successfully fetched {len(valid)} live products from store database!")
+                print(f"📦 Successfully fetched {len(valid)} live in-stock products from store database!")
                 return valid
     except Exception as e:
         print(f"Notice: Supabase fetch ({e}), falling back to curated catalog.")
@@ -247,8 +251,23 @@ def pick_next_product():
     fresh_category_candidates = [p for p in unposted if p.get("category", "").lower() not in recent_posted_categories]
     candidates = fresh_category_candidates if fresh_category_candidates else unposted
     
-    # Shuffle with seed based on date to ensure stable rotation without repeating same item
     random.shuffle(candidates)
+
+    img_headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+        "Accept": "image/*"
+    }
+    for cand in candidates:
+        img_url = cand.get("image_url")
+        if img_url:
+            try:
+                r = requests.get(img_url, headers=img_headers, timeout=5)
+                if r.status_code == 200 and len(r.content) > 1000:
+                    cand["_verified_img_bytes"] = r.content
+                    return cand
+            except Exception:
+                continue
+
     return candidates[0]
 
 def get_font(size, bold=False):
@@ -406,16 +425,23 @@ def render_post_image(product):
         "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8"
     }
     prod_img = None
-    for candidate_url in [img_url, FALLBACK_IMAGES.get(product.get("id"))]:
-        if not candidate_url:
-            continue
+    if product.get("_verified_img_bytes"):
         try:
-            resp = requests.get(candidate_url, headers=img_headers, timeout=12)
-            if resp.status_code == 200 and len(resp.content) > 1000:
-                prod_img = Image.open(BytesIO(resp.content)).convert("RGB")
-                break
+            prod_img = Image.open(BytesIO(product["_verified_img_bytes"])).convert("RGB")
         except Exception:
-            continue
+            pass
+
+    if prod_img is None:
+        for candidate_url in [img_url, FALLBACK_IMAGES.get(product.get("id"))]:
+            if not candidate_url:
+                continue
+            try:
+                resp = requests.get(candidate_url, headers=img_headers, timeout=12)
+                if resp.status_code == 200 and len(resp.content) > 1000:
+                    prod_img = Image.open(BytesIO(resp.content)).convert("RGB")
+                    break
+            except Exception:
+                continue
             
     if prod_img is None:
         print(f"Image fetch error for {img_url}, using styled placeholder")
@@ -548,7 +574,7 @@ def generate_caption(product, campaign_type="auto"):
 
 {story_highlight}
 
-Meet the {product['title']} — in stock now at RareEmber.
+Meet the {product['title']} — curated by Eva for RareEmber.
 
 {badge}
 
