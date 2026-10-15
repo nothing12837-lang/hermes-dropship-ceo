@@ -11,7 +11,7 @@ export const COPY = {
   // EXACT trust bar text — clean and professional.
   trustBar: [
     { icon: '🚚', title: 'Express Dispatch', sub: '2–4 days via BlueDart' },
-    { icon: '💬', title: '24/7 AI Concierge', sub: 'Radha live assistance' },
+    { icon: '💬', title: '24/7 Live Support', sub: 'Instant tracking & help' },
     { icon: '📍', title: 'Real-Time Tracking', sub: 'Instant SMS & email ETA' },
     { icon: '↩️', title: '7-Day Replacement', sub: 'Zero-risk guarantee' },
   ],
@@ -19,7 +19,7 @@ export const COPY = {
   announcement: 'Pan-India 2–4 Days Express Delivery • Cash on Delivery (COD) Available • 7-Day Easy Replacement',
 
   chatbotGreeting:
-    "Namaste! I'm Radha, Rare Ember's CEO & AI Shopping Concierge. How can I help you today? (Track an order, verify COD & PIN code, check streetwear sizes, or festive discounts)",
+    "Namaste! Welcome to Rare Ember Customer Care. How can I help you today? (Track an order, verify COD & PIN code, check streetwear sizes, or festive discounts)",
 
   footer: {
     blurb: 'Curated heavyweight streetwear, artisan drinkware, and aesthetic creator desk gear — delivered fast across India with full white-label packaging.',

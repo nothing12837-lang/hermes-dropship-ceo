@@ -10,7 +10,7 @@ import { formatPrice, computeDiscount, SHOP_CATEGORIES, products as localProduct
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { supabase, type ProductRow } from '@/lib/supabase';
 
-const TABS = [{ id: 'all', label: 'All', hint: 'Everything', emoji: '🛍️' }, ...SHOP_CATEGORIES, { id: 'new', label: 'New In', hint: 'Fresh drops', emoji: '✨' }];
+const TABS = [{ id: 'all', label: 'All Catalog', hint: 'All 147 Verified Domestic Drops', emoji: '🛍️' }, ...SHOP_CATEGORIES, { id: 'new', label: 'Fresh Drops', hint: 'Latest In-Hub Arrivals', emoji: '✨' }];
 
 const DB_CATEGORIES = new Set(['electronics', 'fashion', 'home-garden', 'home-living', 'general', 'decor', 'tech']);
 
@@ -137,17 +137,54 @@ function ShopInner() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="inline-block px-5 py-2 rounded-full glass text-xs font-extrabold tracking-[0.2em] uppercase text-text-secondary shadow-xs">
-              The Everything Store
+              What We Craft &amp; Deliver
             </div>
-            <h1 className="font-display text-5xl md:text-8xl text-text-primary mt-5">
-              Everything. <span className="text-gradient-ember-animated">Everyday.</span>
+            <h1 className="font-display text-4xl md:text-7xl text-text-primary mt-4 tracking-tight">
+              Curated Streetwear &amp; <span className="text-gradient-ember-animated">Creator Living.</span>
             </h1>
-            <p className="text-text-secondary text-base leading-relaxed max-w-xl mx-auto mt-4">
-              Every rare find in one place — filter by vibe or search the whole stash.
+            <p className="text-text-secondary text-sm md:text-base leading-relaxed max-w-2xl mx-auto mt-3">
+              Heavyweight bio-washed tees, 380 GSM fleece hoodies, artisan ceramic mugs, extended desk mats &amp; canvas totes — 100% genuine domestic build with Pan-India 2–4 day COD express delivery.
             </p>
           </motion.div>
 
-          <div className="flex gap-3 flex-wrap justify-center mt-9">
+          {/* Quick Department Showcase Cards */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto mt-7 text-left">
+            {[
+              { id: 'fashion', emoji: '👕', title: 'Streetwear Apparel', count: '86 Drops', desc: '240 GSM Tees • 380 GSM Hoodies' },
+              { id: 'home-garden', emoji: '☕', title: 'Artisan Drinkware', count: '30 Drops', desc: 'Stoneware Mugs • Table Coasters' },
+              { id: 'electronics', emoji: '🖥️', title: 'Desk & Workstation', count: '5 Drops', desc: 'Extended Mats • Gaming Pads' },
+              { id: 'general', emoji: '🎒', title: 'Bags & Lifestyle', count: '26 Drops', desc: 'Heavy Canvas Totes • Scarves' },
+            ].map((d) => {
+              const isSelected = cat === d.id;
+              return (
+                <button
+                  key={d.id}
+                  type="button"
+                  onClick={() => setCat(d.id)}
+                  className={`p-3.5 rounded-2xl border transition-all duration-300 text-left cursor-pointer flex flex-col justify-between gap-2.5 ${
+                    isSelected
+                      ? 'bg-[#161311] text-white border-[#FF4D24] shadow-lg -translate-y-1'
+                      : 'bg-white/80 hover:bg-white border-black/[0.06] text-[#161311] hover:border-black/15 hover:-translate-y-0.5 shadow-xs'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl">{d.emoji}</span>
+                    <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${isSelected ? 'bg-[#FF4D24] text-white' : 'bg-black/[0.05] text-neutral-600'}`}>
+                      {d.count}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="block font-black text-xs md:text-sm">{d.title}</span>
+                    <span className={`text-[10px] font-medium leading-tight block mt-0.5 ${isSelected ? 'text-neutral-300' : 'text-neutral-500'}`}>
+                      {d.desc}
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="flex gap-2 flex-wrap justify-center mt-7">
             {TABS.map((c) => (
               <motion.button
                 key={c.id}

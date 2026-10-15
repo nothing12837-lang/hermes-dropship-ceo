@@ -86,10 +86,10 @@ export function computeDiscount(rawPrice: number, rawCompare?: number, priceInr?
 }
 
 export const SHOP_CATEGORIES = [
-  { id: 'fashion', label: 'Curated Streetwear', count: 86, hint: 'Style', emoji: '👕' },
-  { id: 'home-garden', label: 'Drinkware & Living', count: 30, hint: 'Drinkware', emoji: '☕' },
-  { id: 'electronics', label: 'Desk & Creator Gear', count: 5, hint: 'Workstation', emoji: '⚡' },
-  { id: 'general', label: 'Lifestyle Drops', count: 26, hint: 'Accessories', emoji: '🔥' },
+  { id: 'fashion', label: 'Streetwear Apparel', count: 86, hint: 'Heavyweight Tees, 380 GSM Hoodies & Sweatshirts', emoji: '👕' },
+  { id: 'home-garden', label: 'Artisan Drinkware & Living', count: 30, hint: 'Ceramic Stoneware, Mugs & Coasters', emoji: '☕' },
+  { id: 'electronics', label: 'Desk & Creator Setup', count: 5, hint: 'Extended Gaming Desk Mats & Precision Pads', emoji: '🖥️' },
+  { id: 'general', label: 'Bags & Everyday Essentials', count: 26, hint: 'Reinforced Canvas Totes, Scarves & Accessories', emoji: '🎒' },
 ];
 
 export const products: Product[] = [

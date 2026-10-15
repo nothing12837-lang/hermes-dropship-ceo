@@ -113,24 +113,16 @@ async function callGemini(userMessage: string, contextSnippet = ''): Promise<str
   const geminiKey = process.env.GEMINI_API_KEY || '';
   if (!geminiKey) return null;
 
-  const systemInstruction = `You are Radha, Chief Executive Officer (CEO) and Chief AI Concierge of Rare Ember (https://www.rareember.shop).
-Founded by Boss Ajay Rajbhar, Rare Ember is an authentic Indian D2C Creator Streetwear & Lifestyle Brand operating curated flagship products (Heavyweight 240 GSM Oversized Tees, 380 GSM Fleece Hoodies, Artisan Ceramic Mugs, Stainless Steel Tumblers, Extended Desk Mats, Canvas Totes) powered by Qikink domestic print-on-demand fulfillment hubs with express domestic shipping (2-4 days) across all 19,000+ PIN codes in India.
-You lead an autonomous executive board:
-- Vikram (Chief Commercial Officer - dynamic pricing & healthy 60%-70% gross margins)
-- Aarav (Head of SEO - Google Search indexing & sitemap optimization)
-- Pooja (VP of Logistics & Customer Care - COD pre-dispatch verification & BlueDart/Delhivery tracking)
-- Kabir (CFO - real-time unit economics, strict profit margin floor)
-- Arjun (VP of Procurement & Fulfillment Sentinel - 100% Qikink Live API automated order routing)
-- Meera (Creative Director & Growth Marketing - aesthetic creator streetwear visuals & viral drops)
+  const systemInstruction = `You are Rare Ember Support Concierge, official customer assistance for Rare Ember (https://www.rareember.shop).
+Rare Ember is an authentic Indian D2C Creator Streetwear & Lifestyle Brand operating curated flagship products (Heavyweight 240 GSM Oversized Tees, 380 GSM Fleece Hoodies, Artisan Ceramic Mugs, Stainless Steel Tumblers, Extended Desk Mats, Canvas Totes) powered by domestic print-on-demand fulfillment hubs with express domestic shipping (2-4 days) across all 19,000+ PIN codes in India.
 
 Key Operational Directives:
 1. Delivery & Timelines: Pan-India Express 2-4 business days via BlueDart, Delhivery, and Shadowfax. Production & dispatch turnaround is 48-72 hours.
 2. Cash on Delivery (COD): Fully available across India. Free shipping on prepaid orders & orders above ₹499.
 3. If asked about ANY 6-digit Indian PIN code (e.g. 142001, 110001, 400001), confirm enthusiastically that it is 100% serviceable with 2-4 day express delivery and COD.
 4. Returns & Guarantee: 7-Day Easy Replacement Policy for printing defects or transit damage. Support: rareemberagency@gmail.com.
-5. If Boss Ajay speaks with you, address him respectfully and warmly as "Boss Ajay" and provide crisp executive summaries and proactive operational metrics.
-6. Tone: Highly intelligent, visionary, polite, warm, decisive, and natural. Understands English, Hindi, and everyday Hinglish (e.g., "namaste", "hlo", "haanji", "delivery ho jayegi", "kaisa chal raha hai").
-7. Formatting: Keep responses well-structured with clear bullet points, emojis, and clickable store links.
+5. Tone: Polite, warm, helpful, and natural. Understands English, Hindi, and everyday Hinglish (e.g., "namaste", "hlo", "haanji", "delivery ho jayegi", "kaisa chal raha hai").
+6. Formatting: Keep responses well-structured with clear bullet points, emojis, and clickable store links.
 ${contextSnippet ? `\nCurrent Context:\n${contextSnippet}` : ''}`;
 
   const models = ['gemini-flash-lite-latest', 'gemini-2.5-flash-lite', 'gemini-flash-latest', 'gemini-2.5-flash'];
@@ -183,7 +175,7 @@ async function processRadhaQuery(message: string) {
   if (isPromptInjection(message)) {
     return {
       reply:
-        "🛡️ Namaste! I am Radha, Rare Ember's official shopping concierge. I am here to help you with order tracking, PIN code serviceability, COD, and product recommendations.",
+        "🛡️ Namaste! Welcome to Rare Ember Customer Care. I am here to help you with order tracking, PIN code serviceability, COD, and product recommendations.",
     };
   }
 
@@ -328,10 +320,10 @@ async function processRadhaQuery(message: string) {
   }
 
   // 6. Natural Language Deterministic Fallbacks
-  if (/^(hi|hello|hlo|hey|namaste|radha|good\s*(morning|evening|afternoon)|sup|yo)/i.test(q)) {
+  if (/^(hi|hello|hlo|hey|namaste|good\s*(morning|evening|afternoon)|sup|yo)/i.test(q)) {
     const prods = await getLiveProducts(undefined, 3);
     return {
-      reply: `👋 Namaste! I am **Radha**, Rare Ember's AI Shopping Concierge.\n\nHere is what I can do for you right now:\n1. 🚚 **Verify PIN Code & COD** — Tell me your PIN code (e.g. 142001).\n2. 📦 **Track an Order** — Provide your email or Order ID.\n3. ✨ **Trending Recommendations** — Browse viral tech gadgets, home aesthetics, or lifestyle items.\n4. 🛡️ **Assistance with Returns** — 7-day easy replacement policy for damaged items.\n\nHow may I help you today?`,
+      reply: `👋 Namaste! Welcome to **Rare Ember Customer Care**.\n\nHere is what I can do for you right now:\n1. 🚚 **Verify PIN Code & COD** — Tell me your PIN code (e.g. 142001).\n2. 📦 **Track an Order** — Provide your email or Order ID.\n3. ✨ **Trending Recommendations** — Browse viral streetwear, drinkware, or lifestyle gear.\n4. 🛡️ **Assistance with Returns** — 7-day easy replacement policy for damaged items.\n\nHow may I help you today?`,
       products: prods,
     };
   }
@@ -351,7 +343,7 @@ async function processRadhaQuery(message: string) {
   // 7. General Fallback with real Indian winners
   const trendingProds = await getLiveProducts(undefined, 3);
   return {
-    reply: `Namaste! I am **Radha**, Rare Ember's concierge. You can ask me to **track an order**, check **express delivery & COD** for your PIN code, or explore our top-rated trending products below:`,
+    reply: `Namaste! Welcome to **Rare Ember Support**. You can ask me to **track an order**, check **express delivery & COD** for your PIN code, or explore our top-rated trending products below:`,
     products: trendingProds,
   };
 }
@@ -359,7 +351,7 @@ async function processRadhaQuery(message: string) {
 export async function POST(req: NextRequest) {
   try {
     const ip = clientIp(req.headers);
-    const rl = checkRateLimit(`radha_chat:${ip}`, 30, 60_000);
+    const rl = checkRateLimit(`chat_support:${ip}`, 30, 60_000);
     if (!rl.allowed) {
       return NextResponse.json(
         {
@@ -374,13 +366,13 @@ export async function POST(req: NextRequest) {
 
     if (!sanitized || sanitized.trim().length === 0) {
       return NextResponse.json({
-        reply: "👋 Namaste! I am Radha. How can I help you today? You can ask about delivery to your PIN code, track an order, or browse trending products.",
+        reply: "👋 Namaste! Welcome to Rare Ember Customer Care. How can I help you today? You can ask about delivery to your PIN code, track an order, or browse trending products.",
       });
     }
 
     if (sanitized.length > 500) {
       return NextResponse.json({
-        reply: 'Please keep your message concise (under 500 characters) so Radha can assist you quickly.',
+        reply: 'Please keep your message concise (under 500 characters) so our support team can assist you quickly.',
       });
     }
 
@@ -389,7 +381,7 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     return NextResponse.json(
       {
-        reply: 'Radha is briefly connecting with the server. Please ask again or contact support at rareemberagency@gmail.com.',
+        reply: 'Customer care is briefly connecting with the server. Please ask again or contact support at rareemberagency@gmail.com.',
       },
       { status: 200 }
     );

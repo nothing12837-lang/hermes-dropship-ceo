@@ -20,7 +20,7 @@ export default function ContactPage() {
             Contact RareEmber
           </h1>
           <p className="text-sm text-neutral-500 mb-8 max-w-xl">
-            Have a question about your order, tracking status, returns, or our catalog? Our support team and 24/7 CEO & AI concierge Radha are here to help.
+            Have a question about your order, tracking status, returns, or our catalog? Our dedicated customer care desk and 24/7 support team are here to help.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">

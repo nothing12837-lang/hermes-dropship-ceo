@@ -246,7 +246,7 @@ export function ReturnsClient() {
             </div>
 
             <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-900 leading-relaxed">
-              💡 <b>Fast Verification Tip:</b> You don&apos;t have to pack the product back. Once submitted, our concierge Radha or care executive will ping you on WhatsApp to request a quick photo of the tag/print, and immediately trigger the free reprint!
+              💡 <b>Fast Verification Tip:</b> You don&apos;t have to pack the product back. Once submitted, our customer care executive will ping you on WhatsApp to request a quick photo of the tag/print, and immediately trigger the free reprint!
             </div>
 
             <button
@@ -295,7 +295,7 @@ export function ReturnsClient() {
             Need Immediate Assistance?
           </h2>
           <p className="text-xs text-neutral-600 leading-relaxed">
-            Our 24/7 AI shopping concierge Radha is available in the bottom corner of your screen, or reach our executive care desk directly:
+            Our 24/7 customer care concierge is available in the bottom corner of your screen, or reach our direct care desk:
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <a

@@ -38,17 +38,17 @@ function toCard(p: Product, rank?: number) {
 
 const CATEGORY_TABS = [
   { id: 'all', label: 'All Catalog', emoji: '🛍️', href: '/shop' },
-  { id: 'fashion', label: 'Streetwear Apparel', emoji: '👕', href: '/shop?cat=fashion' },
-  { id: 'home-garden', label: 'Artisan Drinkware', emoji: '☕', href: '/shop?cat=home-garden' },
-  { id: 'electronics', label: 'Desk & Workstation', emoji: '🖥️', href: '/shop?cat=electronics' },
-  { id: 'general', label: 'Creator Lifestyle', emoji: '✨', href: '/shop?cat=general' },
+  { id: 'fashion', label: 'Streetwear Apparel (86)', emoji: '👕', href: '/shop?cat=fashion' },
+  { id: 'home-garden', label: 'Artisan Drinkware (30)', emoji: '☕', href: '/shop?cat=home-garden' },
+  { id: 'electronics', label: 'Desk & Workstation (5)', emoji: '🖥️', href: '/shop?cat=electronics' },
+  { id: 'general', label: 'Bags & Accessories (26)', emoji: '🎒', href: '/shop?cat=general' },
 ];
 
 const DEPARTMENTS = [
-  { href: '/shop?cat=fashion', emoji: '👕', title: 'Streetwear', sub: 'Heavyweight Tees & Hoodies' },
-  { href: '/shop?cat=home-garden', emoji: '☕', title: 'Drinkware', sub: 'Ceramic Mugs & Tumblers' },
-  { href: '/shop?cat=electronics', emoji: '🖥️', title: 'Workstation', sub: 'Extended Mats & Sleeves' },
-  { href: '/shop?cat=general', emoji: '✨', title: 'Lifestyle', sub: 'Canvas Totes & Journals' },
+  { href: '/shop?cat=fashion', emoji: '👕', title: 'Streetwear Apparel', sub: '240 GSM Tees & 380 GSM Hoodies', count: '86 Drops' },
+  { href: '/shop?cat=home-garden', emoji: '☕', title: 'Artisan Drinkware', sub: 'Stoneware Mugs & Table Accents', count: '30 Drops' },
+  { href: '/shop?cat=electronics', emoji: '🖥️', title: 'Desk & Workstation', sub: 'Extended Mats & Gaming Pads', count: '5 Drops' },
+  { href: '/shop?cat=general', emoji: '🎒', title: 'Bags & Accessories', sub: 'Heavy Canvas Totes & Scarves', count: '26 Drops' },
 ];
 
 const ASSURANCES = [
@@ -241,13 +241,24 @@ export default async function Home() {
 
         {/* SECTION 3: ORGANIZED DEPARTMENT SHORTCUTS */}
         <section className="deferred-section">
-          <div className="mb-5">
-            <h3 className="hero-rise text-lg md:text-xl font-black tracking-tight text-[#1C1310]">
-              Browse By Department
-            </h3>
-            <p className="hero-rise hero-rise-1 text-xs text-neutral-500 mt-1">
-              Instant catalog filtering by category
-            </p>
+          <div className="mb-5 flex items-end justify-between">
+            <div>
+              <div className="hero-rise inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/[0.05] text-neutral-800 text-[11px] font-black uppercase tracking-wider mb-2">
+                <span>✨</span> Curated Brand Pillars
+              </div>
+              <h3 className="hero-rise text-xl md:text-3xl font-black tracking-tight text-[#1C1310]">
+                What We Craft &amp; Deliver
+              </h3>
+              <p className="hero-rise hero-rise-1 text-xs md:text-sm text-neutral-500 mt-1">
+                Explore our 4 domestic product pillars — all made on-demand with 1-click COD
+              </p>
+            </div>
+            <Link
+              href="/shop"
+              className="text-xs font-bold text-[#FF4D24] hover:underline hidden sm:inline-block"
+            >
+              Explore All Categories →
+            </Link>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
@@ -255,17 +266,22 @@ export default async function Home() {
               <ScrollReveal key={d.href} delay={i * 50}>
                 <Link
                   href={d.href}
-                  className="group p-5 rounded-2xl bg-white border border-black/[0.06] hover:border-transparent hover:-translate-y-1.5 hover:shadow-lg transition-all duration-500 text-[#161311] no-underline flex items-center gap-3.5 relative overflow-hidden ring-ember-animated"
+                  className="group p-5 rounded-2xl bg-white border border-black/[0.06] hover:border-[#FF4D24]/40 hover:-translate-y-1.5 hover:shadow-lg transition-all duration-500 text-[#161311] no-underline flex flex-col justify-between gap-3 relative overflow-hidden"
                 >
                   <span
                     aria-hidden
                     className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    style={{ background: 'linear-gradient(135deg, rgba(255,154,61,0.10), rgba(232,36,75,0.06))' }}
+                    style={{ background: 'linear-gradient(135deg, rgba(255,154,61,0.08), rgba(232,36,75,0.04))' }}
                   />
-                  <span className="text-3xl relative z-10 transition-transform duration-500 group-hover:scale-115 group-hover:-rotate-6">{d.emoji}</span>
+                  <div className="flex items-center justify-between relative z-10">
+                    <span className="text-3xl transition-transform duration-500 group-hover:scale-115 group-hover:-rotate-6">{d.emoji}</span>
+                    <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-black/[0.05] text-neutral-600 group-hover:bg-[#FF4D24] group-hover:text-white transition-colors">
+                      {d.count}
+                    </span>
+                  </div>
                   <div className="relative z-10">
-                    <span className="block font-black text-sm">{d.title}</span>
-                    <span className="text-[11px] text-neutral-400 font-semibold">{d.sub}</span>
+                    <span className="block font-black text-sm group-hover:text-[#FF4D24] transition-colors">{d.title}</span>
+                    <span className="text-[11px] text-neutral-500 font-medium leading-tight block mt-0.5">{d.sub}</span>
                   </div>
                 </Link>
               </ScrollReveal>

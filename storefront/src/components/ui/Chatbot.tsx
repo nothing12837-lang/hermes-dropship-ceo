@@ -53,7 +53,7 @@ export default function Chatbot() {
   const [msgs, setMsgs] = useState<Msg[]>([
     {
       me: false,
-      text: "👋 Namaste! I am **Radha**, Rare Ember's AI Shopping Concierge.\n\nI can track your order in real time, verify 2–4 day express delivery & COD for your Indian PIN code, or recommend top trending products. How can I assist you today?",
+      text: "👋 Namaste! Welcome to **Rare Ember Customer Care**.\n\nI can track your order in real time, verify 2–4 day express delivery & COD for your Indian PIN code, or recommend top trending products. How can I assist you today?",
       timestamp: new Date(),
     },
   ]);
@@ -127,7 +127,7 @@ export default function Chatbot() {
             className="hidden md:flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/95 backdrop-blur-xl border border-black/[0.08] shadow-[0_8px_30px_rgba(0,0,0,0.12)] cursor-pointer text-xs font-bold text-neutral-900 hover:shadow-lg hover:-translate-y-0.5 active:scale-95 transition-all"
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Ask Radha AI</span>
+            <span>Customer Care</span>
           </motion.button>
         )}
 
@@ -139,7 +139,7 @@ export default function Chatbot() {
           whileHover={{ scale: 1.06 }}
           whileTap={{ scale: 0.94 }}
           transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-          aria-label={open ? 'Close Radha AI Concierge' : 'Open Radha AI Concierge'}
+          aria-label={open ? 'Close Customer Concierge' : 'Open Customer Concierge'}
           className="relative w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#161311] border border-amber-500/40 text-white flex items-center justify-center cursor-pointer shadow-[0_12px_40px_rgba(0,0,0,0.35),0_0_24px_rgba(255,100,0,0.25)] hover:border-amber-400 active:scale-95 transition-all"
         >
           {open ? (
@@ -173,12 +173,12 @@ export default function Chatbot() {
                 </div>
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <span className="font-bold text-sm tracking-tight text-white">Radha Concierge</span>
+                    <span className="font-bold text-sm tracking-tight text-white">Rare Ember Concierge</span>
                     <span className="text-amber-400 text-xs">✨</span>
                   </div>
                   <div className="flex items-center gap-1.5 text-[11px] text-neutral-400">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>Rare Ember AI Support • Online</span>
+                    <span>Live Customer Support • Online</span>
                   </div>
                 </div>
               </div>
@@ -263,7 +263,7 @@ export default function Chatbot() {
                   {busy && (
                     <div className="self-start p-3 rounded-2xl bg-white border border-black/[0.06] text-neutral-500 text-xs flex items-center gap-2 shadow-xs">
                       <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping" />
-                      <span>Radha is checking live inventory…</span>
+                      <span>Checking live inventory…</span>
                     </div>
                   )}
 
@@ -290,7 +290,7 @@ export default function Chatbot() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && send()}
-                    placeholder="Ask Radha about PIN code, orders, or products..."
+                    placeholder="Ask about PIN code, orders, or products..."
                     className="flex-1 px-3.5 py-2.5 text-xs rounded-full border border-black/10 bg-neutral-50 text-neutral-900 outline-none focus:border-amber-500 focus:bg-white transition-all placeholder:text-neutral-400"
                   />
                   <button
