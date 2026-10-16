@@ -90,7 +90,7 @@ export default async function Home() {
     'qikink-t-shirts-oversized-t-shirt-standard-us22',
     'qikink-t-shirts-terry-oversized-t-shirt-ut27',
     'qikink-t-shirts-tie-and-dye-oversized-t-shirt-ut58',
-    'qikink-t-shirts-all-over-print-oversized-t-shirt-ua22',
+    'qikink-t-shirts-oversized-jersey-t-shirt-uj35',
     'qikink-t-shirts-oversized-raglan-t-shirt-ur50',
     // 3 380 GSM Fleece Hoodies
     'qikink-hoodies-oversized-hoodie-uh32',

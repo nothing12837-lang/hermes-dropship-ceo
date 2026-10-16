@@ -133,7 +133,12 @@ export async function getProductsFromDB(): Promise<Product[]> {
       .eq('active', true)
       .order('chapter', { ascending: true });
     if (error || !data || data.length === 0) return localProducts.filter((p) => !isDisallowedProduct(p)).map(sanitizeLocalProduct);
-    return data.filter((r) => !isDisallowedProduct(r)).map(mapRowToProduct);
+    const dbProducts = data.filter((r) => !isDisallowedProduct(r)).map(mapRowToProduct);
+    const existingIds = new Set(dbProducts.map((p) => p.id));
+    const extraLocal = localProducts
+      .filter((p) => !existingIds.has(p.id) && !isDisallowedProduct(p))
+      .map(sanitizeLocalProduct);
+    return [...dbProducts, ...extraLocal];
   } catch {
     return localProducts.filter((p) => !isDisallowedProduct(p)).map(sanitizeLocalProduct);
   }

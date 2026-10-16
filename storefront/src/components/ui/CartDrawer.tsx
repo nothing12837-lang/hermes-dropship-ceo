@@ -146,18 +146,9 @@ export default function CartDrawer() {
 
   const router = useRouter();
 
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
     closeCart();
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session?.user) {
-        router.push('/login?redirect=/checkout');
-      } else {
-        router.push('/checkout');
-      }
-    } catch {
-      router.push('/checkout');
-    }
+    router.push('/checkout');
   };
 
   return (

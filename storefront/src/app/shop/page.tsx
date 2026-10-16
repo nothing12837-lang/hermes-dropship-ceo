@@ -222,7 +222,7 @@ function ShopInner() {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search everything… e.g. earbuds, lamp, sneakers"
+            placeholder="Search oversized tees, fleece hoodies, desk mats..."
             className="flex-1 min-w-[220px] max-w-[420px] px-5 py-3.5 rounded-full border border-border-subtle bg-bg-surface text-text-primary outline-none min-h-[44px] placeholder:text-text-muted/50 focus:border-ember transition-colors"
           />
           <select

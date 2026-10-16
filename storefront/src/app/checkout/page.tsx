@@ -181,7 +181,9 @@ export default function CheckoutPage() {
     if (loading || processing) return;
     if (paymentMethod === 'cod') {
       const rto = scoreRtoRisk({ phone, pincode: zip, totalInr: 0 });
-      if (rto.recommendation === 'PREPAID_ONLY') return setError(`High RTO risk (${rto.risk_score}). Please pay online (UPI) for this pincode.`);
+      if (rto.recommendation === 'PREPAID_ONLY') {
+        return setError(`Cash on Delivery is currently unavailable for PIN code ${zip}. Please select Instant Online Payment (UPI / Cards) for priority doorstep delivery.`);
+      }
     }
 
     localStorage.setItem('rareember_email', email);
@@ -360,7 +362,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <main className="page-top min-h-screen bg-[#FFFBF5] text-[#161311] py-8 md:py-12">
+    <main className="page-top min-h-screen bg-[#FFFBF5] text-[#161311] pt-28 md:pt-32 pb-16">
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         {/* Top bar breadcrumb & guarantee */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
@@ -554,14 +556,16 @@ export default function CheckoutPage() {
                     />
                   </div>
                   <div className="flex items-end">
-                    {(() => {
-                      const r = scoreRtoRisk({ phone, pincode: zip, totalInr: 0 });
-                      return (
-                        <p className={`text-[11px] font-bold px-2.5 py-1.5 rounded-full ${r.recommendation === 'ALLOW_COD' ? 'bg-emerald-50 text-emerald-700' : r.recommendation === 'CONFIRM_FIRST' ? 'bg-amber-50 text-amber-700' : 'bg-rose-50 text-rose-700'}`}>
-                          {r.recommendation === 'ALLOW_COD' ? `✅ COD OK (risk ${r.risk_score})` : r.recommendation === 'CONFIRM_FIRST' ? `⚠️ Confirm first (risk ${r.risk_score})` : `🛑 Prepaid only (risk ${r.risk_score})`}
-                        </p>
-                      );
-                    })()}
+                    {zip.trim().length >= 6 ? (
+                      <p className="text-[11px] font-bold px-2.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 flex items-center gap-1">
+                        <span>⚡</span>
+                        <span>Express Delivery Serviceable</span>
+                      </p>
+                    ) : (
+                      <p className="text-[11px] font-medium text-neutral-400 py-1.5">
+                        Free delivery across India
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

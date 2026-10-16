@@ -358,21 +358,7 @@ export default function ProductReviews({ productId, productTitle }: ProductRevie
           <div className="text-center py-12 text-sm text-neutral-400">
             Loading verified reviews...
           </div>
-        ) : reviews.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-2xl border border-neutral-200/80 p-6">
-            <span className="text-3xl mb-2 block">✨</span>
-            <p className="text-sm font-bold text-neutral-800">Be the first to review this product!</p>
-            <p className="text-xs text-neutral-500 mt-1">
-              Share your feedback, upload a photo, and help the Rare Ember community.
-            </p>
-            <button
-              onClick={() => setShowForm(true)}
-              className="mt-4 px-4 py-2 rounded-full bg-neutral-900 text-white font-bold text-xs hover:bg-neutral-800"
-            >
-              Write First Review
-            </button>
-          </div>
-        ) : (
+        ) : reviews.length === 0 ? null : (
           reviews.map((rev) => (
             <div
               key={rev.id}
