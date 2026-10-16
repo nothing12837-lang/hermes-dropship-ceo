@@ -4,6 +4,10 @@
  */
 
 export const FALLBACK_IMAGES: Record<string, string> = {
+  "bundle-streetwear-duo": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
+  "bundle-creator-workstation": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
+  "bundle-winter-heavyweight": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
+  "bundle-founding-50": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
   "qikink-accessories-desk-mat": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
   "qikink-accessories-mobile-clear-phone-case": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/325/c0b869cd-33d3-4167-a9ec-365dbc0860fd.webp",
   "qikink-accessories-mouse-pad": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/52/1da2d780-a6a8-4fab-9eb2-c7fbd75c37ef.jpg",

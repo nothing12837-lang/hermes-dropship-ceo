@@ -125,11 +125,13 @@ export const products: Product[] = [
     ],
     rating: 4.9,
     reviews: 48,
-    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/b842ae90-50b3-4fe8-b5b1-d57cf84fcce9.jpg",
+    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
     images: [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/b842ae90-50b3-4fe8-b5b1-d57cf84fcce9.jpg",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/fe9c1c5e-ff1d-407d-94d0-c3d31fc3c86c.jpg",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/5ffbda8e-ee9c-4ecf-a89a-05186b51bfd4.jpg"
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/44/df1b411b-46ec-4c8f-aa0d-75b796bcda00.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/286/84f8f6ae-6521-4be1-9e33-07110cf93ec9.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/81a7a11e-3c00-41c3-b8ad-4cf2b229ebfe.webp"
     ],
     category: "fashion",
     market: "IN",
@@ -164,11 +166,13 @@ export const products: Product[] = [
     ],
     rating: 4.9,
     reviews: 62,
-    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/176/6ee3be87-73e4-41e9-a3bf-9273c09b69b3.webp",
+    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
     images: [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/176/6ee3be87-73e4-41e9-a3bf-9273c09b69b3.webp",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/176/b0ec719f-b98a-4467-b5bf-7ad3eaecf3ee.webp",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/26/d72a1bba-ecbc-4e6f-a578-095173a92382.webp"
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/26/b10e9b51-65a6-43f7-9e93-0e184c5853e9.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/64/11d5d1cf-4777-4ae1-b624-9a9b2ed95a13.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/9456a71d-f6bb-47fd-b346-760f349e79d3.webp"
     ],
     category: "electronics",
     market: "IN",
@@ -203,11 +207,13 @@ export const products: Product[] = [
     ],
     rating: 5.0,
     reviews: 39,
-    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/17/1c676d65-4f46-444a-93be-fc98f98c8cb6.webp",
+    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
     images: [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/17/1c676d65-4f46-444a-93be-fc98f98c8cb6.webp",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/17/633c7674-bfef-4b40-9e5c-7ad358055a40.webp",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/17/e98322c3-42bf-4638-aa2e-ce4c5477d9c6.webp"
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/323/1f4a0177-315c-4dd0-ad0a-395c38aa4f83.webp",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg"
     ],
     category: "fashion",
     market: "IN",
@@ -242,11 +248,13 @@ export const products: Product[] = [
     ],
     rating: 5.0,
     reviews: 50,
-    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/176/6ee3be87-73e4-41e9-a3bf-9273c09b69b3.webp",
+    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
     images: [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/176/6ee3be87-73e4-41e9-a3bf-9273c09b69b3.webp",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/b842ae90-50b3-4fe8-b5b1-d57cf84fcce9.jpg",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/176/b0ec719f-b98a-4467-b5bf-7ad3eaecf3ee.webp"
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/49daf0c3-ce13-4184-beb7-d237d8b0a168.webp",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/52/1da2d780-a6a8-4fab-9eb2-c7fbd75c37ef.jpg"
     ],
     category: "electronics",
     market: "IN",

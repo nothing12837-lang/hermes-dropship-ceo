@@ -205,12 +205,16 @@ export async function getNewProducts(limit = 8): Promise<Product[]> {
 
 
 function sanitizeLocalProduct(p: Product): Product {
+  const resolvedImg = resolveProductImage(p.id, p.image_url);
+  const resolvedImgs = resolveProductImages(p.id, resolvedImg, p.category, p.images);
   return {
     ...p,
     title: cleanBrandTitle(p.title),
     short: cleanSentence(p.short),
     story: cleanSentence(p.story),
     details: cleanDetailsArray(p.details || []),
+    image_url: resolvedImg,
+    images: resolvedImgs && resolvedImgs.length > 0 ? resolvedImgs : (p.images || [resolvedImg || '']),
   };
 }
 
