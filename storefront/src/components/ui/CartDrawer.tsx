@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCart } from '@/lib/store/cart';
-import { formatPrice, products } from '@/lib/data/products';
+import { formatPrice, products, type Product } from '@/lib/data/products';
 import { COPY } from '@/lib/data/copy';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -105,6 +105,17 @@ export default function CartDrawer() {
 
   const subtotal = detailed.reduce((a, b) => a + getItemPrice((b as any).product) * b.qty, 0);
 
+  const isAddOn = (p: Product) => {
+    const t = p.title.toLowerCase();
+    return (
+      t.includes('mug') ||
+      t.includes('coaster') ||
+      t.includes('tote') ||
+      t.includes('pad') ||
+      t.includes('mat')
+    );
+  };
+
   const inCart = new Set(items.map((i) => i.id));
 
   const upsells = products
@@ -112,6 +123,7 @@ export default function CartDrawer() {
       (p) =>
         !inCart.has(p.id) &&
         p.active !== false &&
+        !p.id.startsWith('bundle-') &&
         !p.id.startsWith('meesho-') &&
         p.category !== 'pets' &&
         p.category !== 'beds' &&
@@ -120,8 +132,13 @@ export default function CartDrawer() {
         !p.id.toLowerCase().includes('cat') &&
         !p.id.toLowerCase().includes('paw')
     )
-    .sort((a, b) => b.rating * b.reviews - a.rating * a.reviews)
-    .slice(0, 2)
+    .sort((a, b) => {
+      const aAdd = isAddOn(a) ? 1 : 0;
+      const bAdd = isAddOn(b) ? 1 : 0;
+      if (aAdd !== bAdd) return bAdd - aAdd;
+      return (a.price_inr || a.price) - (b.price_inr || b.price);
+    })
+    .slice(0, 3)
     .map((p) => ({
       ...p,
       image_url: resolveProductImage(p.id, p.image_url),
@@ -315,7 +332,7 @@ export default function CartDrawer() {
                       className="mt-6"
                     >
                       <p className="font-bold text-xs uppercase tracking-wider text-neutral-500 mb-3">
-                        ✨ Trending Add-Ons
+                        ✨ Complete Your Drop (1-Click Add-Ons)
                       </p>
                       {upsells.map((u) => (
                         <motion.div

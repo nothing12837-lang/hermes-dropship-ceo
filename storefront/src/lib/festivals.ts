@@ -136,6 +136,12 @@ export const EVERGREEN_COUPONS: Record<
     minOrder: 899,
     desc: 'Flat ₹99 OFF on Streetwear Duo Bundles (₹899+)',
   },
+  BUILDER99: {
+    type: 'flat',
+    value: 99,
+    minOrder: 899,
+    desc: 'Flat ₹99 OFF on Founding 50 Builder Pack (₹899+)',
+  },
   BUNDLE150: {
     type: 'flat',
     value: 150,

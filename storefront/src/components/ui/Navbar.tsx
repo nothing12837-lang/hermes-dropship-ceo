@@ -14,6 +14,7 @@ import FestiveEffects from './FestiveEffects';
 
 const links = [
   { href: '/shop', label: 'Shop' },
+  { href: '/custom-drops', label: 'Custom Merch ⚡' },
   { href: '/quiz', label: 'Quiz' },
   { href: '/blog', label: 'Journal' },
   { href: '/track', label: 'Track' },
@@ -22,6 +23,7 @@ const links = [
 const drawerLinks = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'Shop all' },
+  { href: '/custom-drops', label: 'Custom Merch (B2B)' },
   { href: '/shop?cat=new', label: 'New drops' },
   { href: '/quiz', label: 'Find my match' },
   { href: '/blog', label: 'Journal' },

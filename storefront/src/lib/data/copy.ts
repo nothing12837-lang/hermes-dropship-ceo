@@ -25,6 +25,7 @@ export const COPY = {
         title: 'Story',
         links: [
           { label: 'About Rare Ember', href: '/about' },
+          { label: 'Custom Merch (B2B)', href: '/custom-drops' },
           { label: 'How It Works', href: '/about' },
           { label: 'Quality Guarantee', href: '/about' },
         ],

@@ -211,6 +211,45 @@ export const products: Product[] = [
     active: true
   },
   {
+    id: "bundle-founding-50",
+    slug: "bundle-founding-50",
+    title: "The Founding 50 Builder Pack — 240 GSM Tee + 900x400mm Desk Mat",
+    price: 899,
+    price_inr: 899,
+    compareAtPrice: 1398,
+    compare_at_price: 1398,
+    emoji: "⚡",
+    tag: "FOUNDING 50",
+    tagColor: "#0EA5E9",
+    tagBg: "bg-sky-500/10 text-sky-500",
+    short: "Strictly limited to 50 verified builders. 1x 240 GSM combed cotton oversized graphic tee + 1x 900x400mm extended gaming desk mat. Numbered collector card included.",
+    story: "Engineered specifically for late-night builders, developers, and tech setup enthusiasts. The Founding 50 Builder Pack combines our signature 240 GSM bio-washed heavyweight streetwear tee with an extended 900x400x4mm micro-weave anti-slip desk mat. Every order includes an authentic numbered RareEmber Founding Member card.",
+    details: [
+      "1x 240 GSM 100% Combed Bio-Washed Heavyweight Drop-Shoulder Tee",
+      "1x 900x400x4mm Precision Micro-Weave Desk Mat (Water-Repellent)",
+      "Numbered Physical RareEmber Founding Builder Card",
+      "Priority Air Dispatch via BlueDart/Delhivery direct from Tirupur Hub",
+      "Saves ₹499 vs buying individual drops"
+    ],
+    rating: 5.0,
+    reviews: 50,
+    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/176/6ee3be87-73e4-41e9-a3bf-9273c09b69b3.webp",
+    images: [
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/176/6ee3be87-73e4-41e9-a3bf-9273c09b69b3.webp",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/b842ae90-50b3-4fe8-b5b1-d57cf84fcce9.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/176/b0ec719f-b98a-4467-b5bf-7ad3eaecf3ee.webp"
+    ],
+    category: "electronics",
+    market: "IN",
+    supplier: "Qikink Domestic Hub",
+    is_trending: true,
+    is_new: true,
+    gradient: "from-sky-500/20 to-blue-500/20",
+    badges: ["Limited 50 Packs", "Save ₹499", "Tee + Desk Mat", "Collector Card"],
+    stock: 50,
+    active: true
+  },
+  {
   "id": "qikink-accessories-desk-mat",
   "slug": "qikink-accessories-desk-mat",
   "title": "Rare Ember Gaming Pad",
