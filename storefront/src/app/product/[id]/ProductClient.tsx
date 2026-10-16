@@ -52,6 +52,66 @@ const PLACEMENT_OPTIONS = [
   { id: 'Both Sides (+₹149)', label: 'Both Sides (+₹149)', sub: 'Dual Placement (Front & Back)' },
 ];
 
+export interface TrendingGraphic {
+  id: string;
+  title: string;
+  tag: string;
+  style: string;
+  emoji: string;
+  mockUrl: string;
+}
+
+export const TRENDING_GRAPHICS_VAULT: TrendingGraphic[] = [
+  {
+    id: 'cyber-kanji',
+    title: 'Tokyo Cyber Mecha',
+    tag: 'NEO-TOKYO',
+    style: 'Cyberpunk Kanji & Mecha Core',
+    emoji: '⚡',
+    mockUrl: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/b842ae90-50b3-4fe8-b5b1-d57cf84fcce9.jpg',
+  },
+  {
+    id: 'acid-vintage-flame',
+    title: 'Vintage Acid Flame',
+    tag: 'HEAVY METAL',
+    style: 'Washed Gothic Typography',
+    emoji: '🔥',
+    mockUrl: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg',
+  },
+  {
+    id: 'late-night-builder',
+    title: 'Git Commit Dreams',
+    tag: 'DEV MODE',
+    style: 'Minimal Terminal Code Aesthetic',
+    emoji: '💻',
+    mockUrl: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/93/fb09bc1b-f0dd-4a3f-b538-46bcd407ef19.jpg',
+  },
+  {
+    id: 'y2k-dark-angel',
+    title: 'Y2K Dark Angel',
+    tag: 'STREET NOSTALGIA',
+    style: 'Liquid Metal Grunge Aesthetic',
+    emoji: '✨',
+    mockUrl: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/88/7a810370-e3f7-4151-939d-12c5c6966b2c.jpg',
+  },
+  {
+    id: 'ink-samurai-splash',
+    title: 'Monochrome Ronin',
+    tag: 'JAPANESE INK',
+    style: 'Ukiyo-e Brush Splatter',
+    emoji: '⚔️',
+    mockUrl: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/274/b4d525d7-4286-4dc2-9260-057ebadb7a62.jpg',
+  },
+  {
+    id: 'minimal-creator-wave',
+    title: 'The Great Ember Wave',
+    tag: 'CREATOR DESK',
+    style: 'Geometric Waveform Art',
+    emoji: '🌊',
+    mockUrl: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/350/1fe3c23a-b035-4215-b44a-42966c9936c7.webp',
+  },
+];
+
 interface Props {
   product: Product;
 }
@@ -78,7 +138,7 @@ export function ProductClient({ product }: Props) {
   const [sizeUnit, setSizeUnit] = useState<'in' | 'cm'>('in');
   const [selectedPhoneModel, setSelectedPhoneModel] = useState<string>(PHONE_MODELS[0]);
   const [isCustomizing, setIsCustomizing] = useState(false);
-  const [customMode, setCustomMode] = useState<'text' | 'image'>('text');
+  const [customMode, setCustomMode] = useState<'trending' | 'text' | 'image'>('trending');
   const [customText, setCustomText] = useState('');
   const [customImage, setCustomImage] = useState<string | null>(null);
   const [customImageName, setCustomImageName] = useState<string>('');
@@ -232,8 +292,8 @@ export function ProductClient({ product }: Props) {
     customScale: isCustomizing ? customScale : undefined,
     customTextColor: isCustomizing && customMode === 'text' ? customTextColor : undefined,
     customFont: isCustomizing && customMode === 'text' ? customFont : undefined,
-    customImage: isCustomizing && customMode === 'image' && customImage ? customImage : undefined,
-    customImageName: isCustomizing && customMode === 'image' && customImageName ? customImageName : undefined,
+    customImage: isCustomizing && (customMode === 'image' || customMode === 'trending') && customImage ? customImage : undefined,
+    customImageName: isCustomizing && (customMode === 'image' || customMode === 'trending') && customImageName ? customImageName : undefined,
   });
 
   const handleAddToCart = () => {
@@ -383,8 +443,8 @@ export function ProductClient({ product }: Props) {
                     </div>
                   )}
 
-                  {/* Live Uploaded Image Overlay */}
-                  {customMode === 'image' && customImage && (
+                  {/* Live Uploaded or Trending Image Overlay */}
+                  {(customMode === 'image' || customMode === 'trending') && customImage && (
                     <div
                       style={{
                         width: '100%',
@@ -903,56 +963,139 @@ export function ProductClient({ product }: Props) {
 
               {isCustomizing && (
                 <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
-                  {/* Mode Switcher: Text vs Image Upload */}
+                  {/* Mode Switcher: Trending Graphics vs Text vs Image Upload */}
                   <div>
                     <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#57534e', marginBottom: '0.45rem' }}>
                       Choose Customization Type
                     </label>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem' }}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCustomMode('trending');
+                          if (!customImage && TRENDING_GRAPHICS_VAULT[0]) {
+                            setCustomImage(TRENDING_GRAPHICS_VAULT[0].mockUrl);
+                            setCustomImageName(TRENDING_GRAPHICS_VAULT[0].title);
+                          }
+                        }}
+                        style={{
+                          padding: '0.65rem 0.35rem',
+                          borderRadius: '0.75rem',
+                          border: customMode === 'trending' ? '1.5px solid #FF4D24' : '1px solid rgba(0,0,0,0.1)',
+                          background: customMode === 'trending' ? 'rgba(255, 77, 36, 0.08)' : '#ffffff',
+                          color: customMode === 'trending' ? '#FF4D24' : '#44403c',
+                          fontWeight: 800,
+                          fontSize: '0.75rem',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.3rem',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        <span>🔥</span> Trending Drops
+                      </button>
                       <button
                         type="button"
                         onClick={() => setCustomMode('text')}
                         style={{
-                          padding: '0.65rem 0.5rem',
+                          padding: '0.65rem 0.35rem',
                           borderRadius: '0.75rem',
                           border: customMode === 'text' ? '1.5px solid #FF4D24' : '1px solid rgba(0,0,0,0.1)',
                           background: customMode === 'text' ? 'rgba(255, 77, 36, 0.08)' : '#ffffff',
                           color: customMode === 'text' ? '#FF4D24' : '#44403c',
                           fontWeight: 800,
-                          fontSize: '0.8rem',
+                          fontSize: '0.75rem',
                           cursor: 'pointer',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          gap: '0.4rem',
+                          gap: '0.3rem',
                           transition: 'all 0.15s ease',
                         }}
                       >
-                        <span>✏️</span> Add Text / Name
+                        <span>✏️</span> Custom Text
                       </button>
                       <button
                         type="button"
                         onClick={() => setCustomMode('image')}
                         style={{
-                          padding: '0.65rem 0.5rem',
+                          padding: '0.65rem 0.35rem',
                           borderRadius: '0.75rem',
                           border: customMode === 'image' ? '1.5px solid #FF4D24' : '1px solid rgba(0,0,0,0.1)',
                           background: customMode === 'image' ? 'rgba(255, 77, 36, 0.08)' : '#ffffff',
                           color: customMode === 'image' ? '#FF4D24' : '#44403c',
                           fontWeight: 800,
-                          fontSize: '0.8rem',
+                          fontSize: '0.75rem',
                           cursor: 'pointer',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          gap: '0.4rem',
+                          gap: '0.3rem',
                           transition: 'all 0.15s ease',
                         }}
                       >
-                        <span>🖼️</span> Upload Image / Logo
+                        <span>🖼️</span> Upload Logo
                       </button>
                     </div>
                   </div>
+
+                  {/* Mode 0: Curated Trending Graphics Vault */}
+                  {customMode === 'trending' && (
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.45rem' }}>
+                        <label style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#57534e' }}>
+                          Select Curated Streetwear Graphic
+                        </label>
+                        <span style={{ fontSize: '0.68rem', color: '#FF4D24', fontWeight: 800 }}>
+                          1200 DPI Vector HD
+                        </span>
+                      </div>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem' }}>
+                        {TRENDING_GRAPHICS_VAULT.map((g) => {
+                          const isSelected = customImageName === g.title;
+                          return (
+                            <button
+                              key={g.id}
+                              type="button"
+                              onClick={() => {
+                                setCustomImage(g.mockUrl);
+                                setCustomImageName(g.title);
+                              }}
+                              style={{
+                                padding: '0.6rem',
+                                borderRadius: '0.75rem',
+                                border: isSelected ? '2px solid #FF4D24' : '1px solid rgba(0,0,0,0.08)',
+                                background: isSelected ? 'rgba(255, 77, 36, 0.06)' : '#ffffff',
+                                textAlign: 'left',
+                                cursor: 'pointer',
+                                transition: 'all 0.15s ease',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                              }}
+                            >
+                              <span style={{ fontSize: '1.4rem' }}>{g.emoji}</span>
+                              <div style={{ minWidth: 0, flex: 1 }}>
+                                <div style={{ fontSize: '0.62rem', fontWeight: 800, textTransform: 'uppercase', color: '#FF4D24', letterSpacing: '0.04em' }}>
+                                  {g.tag}
+                                </div>
+                                <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#161311', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                  {g.title}
+                                </div>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      {customImageName && (
+                        <div style={{ marginTop: '0.5rem', fontSize: '0.7rem', color: '#059669', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                          <span>✅</span> Selected: <b>{customImageName}</b> (Rendered on 3D Garment Preview)
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   {/* Mode A: Custom Text */}
                   {customMode === 'text' && (
@@ -1256,8 +1399,8 @@ export function ProductClient({ product }: Props) {
                     </div>
                   )}
 
-                  {/* Live DTF Preview Card for Image */}
-                  {customMode === 'image' && customImage && (
+                  {/* Live DTF Preview Card for Image or Trending */}
+                  {(customMode === 'image' || customMode === 'trending') && customImage && (
                     <div
                       style={{
                         padding: '0.85rem 1rem',
