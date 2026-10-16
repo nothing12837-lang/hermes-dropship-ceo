@@ -180,6 +180,87 @@ export function isTestOrder(order: any): boolean {
 }
 
 /**
+ * Automatically disaggregates curated bundles into individual printable Qikink garment/accessory blanks.
+ * Ensures the factory prints each physical piece inside one combined parcel.
+ */
+export function expandBundleItems(items: any[]): any[] {
+  const expanded: any[] = [];
+  for (const it of items) {
+    const id = (it.id || '').toLowerCase();
+    const size = it.size || 'L';
+
+    if (id.includes('bundle-streetwear-duo')) {
+      expanded.push({
+        ...it,
+        id: 'qikink-t-shirts-oversized-t-shirt-standard-us22',
+        title: 'Rare Ember Unisex Oversized Heavyweight Tee (Duo Piece 1)',
+        qty: it.qty || 1,
+        size,
+      });
+      expanded.push({
+        ...it,
+        id: 'qikink-t-shirts-acid-wash-oversized-t-shirt-uc61',
+        title: 'Rare Ember Unisex Acid Wash Oversized Tee (Duo Piece 2)',
+        qty: it.qty || 1,
+        size,
+      });
+    } else if (id.includes('bundle-founding-50')) {
+      expanded.push({
+        ...it,
+        id: 'qikink-t-shirts-oversized-t-shirt-standard-us22',
+        title: 'Rare Ember Founding Builder 240 GSM Heavyweight Tee',
+        qty: it.qty || 1,
+        size,
+      });
+      expanded.push({
+        ...it,
+        id: 'qikink-accessories-desk-mat',
+        title: 'Rare Ember 900x400mm Precision Gaming Desk Mat',
+        qty: it.qty || 1,
+      });
+    } else if (id.includes('bundle-creator-workstation')) {
+      expanded.push({
+        ...it,
+        id: 'qikink-accessories-desk-mat',
+        title: 'Rare Ember 900x400mm Extended Gaming Desk Mat',
+        qty: it.qty || 1,
+      });
+      expanded.push({
+        ...it,
+        id: 'qikink-t-shirts-oversized-t-shirt-standard-us22',
+        title: 'Rare Ember 240 GSM Creator Graphic Tee',
+        qty: it.qty || 1,
+        size,
+      });
+      expanded.push({
+        ...it,
+        id: 'qikink-drinkware-coffee-mug-black-mug',
+        title: 'Rare Ember Artisan Ceramic Coffee Mug',
+        qty: it.qty || 1,
+      });
+    } else if (id.includes('bundle-winter-heavyweight')) {
+      expanded.push({
+        ...it,
+        id: 'qikink-hoodies-oversized-hoodie-uh32',
+        title: 'Rare Ember 380 GSM French Terry Fleece Hoodie',
+        qty: it.qty || 1,
+        size,
+      });
+      expanded.push({
+        ...it,
+        id: 'qikink-t-shirts-oversized-t-shirt-standard-us22',
+        title: 'Rare Ember 240 GSM Combed Bio-Washed Tee',
+        qty: it.qty || 1,
+        size,
+      });
+    } else {
+      expanded.push(it);
+    }
+  }
+  return expanded;
+}
+
+/**
  * Automates order transmission directly to Qikink Dropshipping & Fulfillment API.
  * Uses Direct-to-Garment (DTG) print on demand with customer-selected mockup & design link.
  */
@@ -233,7 +314,8 @@ export async function fulfillQikinkOrder(
     };
   }
 
-  const items = Array.isArray(order.items) ? order.items : [];
+  const rawItems = Array.isArray(order.items) ? order.items : [];
+  const items = expandBundleItems(rawItems);
   const isCod = order.payment_method === 'cod';
   const addr = (order.shipping_address as Record<string, string>) || {};
 
