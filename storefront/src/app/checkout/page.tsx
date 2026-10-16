@@ -131,7 +131,16 @@ export default function CheckoutPage() {
     return p.price >= 80 ? p.price / 85 : p.price;
   };
   const subtotal = detailed.reduce((a, b) => a + getProductItemPrice(b.product) * b.qty, 0);
-  const codFee = paymentMethod === 'cod' ? (isIndia ? 49 : 2) : 0;
+  const isAboveCodThreshold = isIndia && subtotal >= 3000;
+
+  // Auto-switch away from COD if cart crosses ₹3,000 threshold
+  useEffect(() => {
+    if (isAboveCodThreshold && paymentMethod === 'cod') {
+      setPaymentMethod('online');
+    }
+  }, [isAboveCodThreshold, paymentMethod]);
+
+  const codFee = paymentMethod === 'cod' && !isAboveCodThreshold ? (isIndia ? 49 : 2) : 0;
   const rawTotal = subtotal + codFee - discount;
   const total = Math.max(0, rawTotal);
 
@@ -180,6 +189,9 @@ export default function CheckoutPage() {
     if (detailed.length === 0) return setError('Your cart is empty. Add a product first.');
     if (loading || processing) return;
     if (paymentMethod === 'cod') {
+      if (isAboveCodThreshold) {
+        return setError('Cash on Delivery is limited to orders up to ₹2,999. Please select Instant Online Payment (UPI / Cards) for priority doorstep dispatch.');
+      }
       const rto = scoreRtoRisk({ phone, pincode: zip, totalInr: 0 });
       if (rto.recommendation === 'PREPAID_ONLY') {
         return setError(`Cash on Delivery is currently unavailable for PIN code ${zip}. Please select Instant Online Payment (UPI / Cards) for priority doorstep delivery.`);
@@ -609,41 +621,68 @@ export default function CheckoutPage() {
                       </span>
                     </div>
                     <p className="text-xs text-neutral-500 mt-1">
-                      Instant 1-click payment via Google Pay, PhonePe, Paytm, Cards & NetBanking. Fastest dispatch queue.
+                      Instant 1-click payment via Google Pay, PhonePe, Paytm, Cards &amp; NetBanking. Fastest dispatch queue.
                     </p>
+                    {isAboveCodThreshold && (
+                      <div className="mt-2 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60 inline-flex items-center gap-1.5">
+                        <span>⚡</span>
+                        <span>Zero COD Fee • Free Insured Air Express Dispatch Pan-India</span>
+                      </div>
+                    )}
                   </div>
                 </label>
 
                 {/* Option 2: Cash on Delivery */}
-                <label
-                  onClick={() => setPaymentMethod('cod')}
-                  className={`flex items-start gap-3.5 p-4 rounded-2xl border cursor-pointer transition-all ${
-                    paymentMethod === 'cod'
-                      ? 'border-[#FF4D24] bg-amber-500/[0.04] ring-1 ring-[#FF4D24]/20'
-                      : 'border-black/10 hover:border-black/20 bg-white'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="payment"
-                    checked={paymentMethod === 'cod'}
-                    onChange={() => setPaymentMethod('cod')}
-                    className="mt-1 accent-[#FF4D24]"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-sm text-neutral-900">
-                        Cash on Delivery (COD)
-                      </span>
-                      {market === 'IN' && (
-                        <span className="text-xs font-bold text-neutral-600">+₹49 fee</span>
-                      )}
+                {isAboveCodThreshold ? (
+                  <div className="p-4 rounded-2xl border border-dashed border-amber-300 bg-amber-500/[0.04] opacity-85">
+                    <div className="flex items-start gap-3">
+                      <span className="text-xl">🛡️</span>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-sm text-neutral-800">
+                            Cash on Delivery (Capped at ₹2,999)
+                          </span>
+                          <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-900 border border-amber-500/30">
+                            High-Value Order Protection
+                          </span>
+                        </div>
+                        <p className="text-xs text-neutral-600 mt-1.5 leading-relaxed">
+                          To protect against courier transit damages and guarantee doorstep air delivery, orders of <b>₹3,000 and above</b> require Instant Online Payment (UPI / Cards). Enjoy <b>zero COD fees</b> and priority domestic fulfillment.
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-xs text-neutral-500 mt-1">
-                      Pay cash or UPI directly to the courier agent upon doorstep arrival.
-                    </p>
                   </div>
-                </label>
+                ) : (
+                  <label
+                    onClick={() => setPaymentMethod('cod')}
+                    className={`flex items-start gap-3.5 p-4 rounded-2xl border cursor-pointer transition-all ${
+                      paymentMethod === 'cod'
+                        ? 'border-[#FF4D24] bg-amber-500/[0.04] ring-1 ring-[#FF4D24]/20'
+                        : 'border-black/10 hover:border-black/20 bg-white'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="payment"
+                      checked={paymentMethod === 'cod'}
+                      onChange={() => setPaymentMethod('cod')}
+                      className="mt-1 accent-[#FF4D24]"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-sm text-neutral-900">
+                          Cash on Delivery (COD)
+                        </span>
+                        {market === 'IN' && (
+                          <span className="text-xs font-bold text-neutral-600">+₹49 fee</span>
+                        )}
+                      </div>
+                      <p className="text-xs text-neutral-500 mt-1">
+                        Pay cash or UPI directly to the courier agent upon doorstep arrival.
+                      </p>
+                    </div>
+                  </label>
+                )}
               </div>
 
               {/* Error box */}

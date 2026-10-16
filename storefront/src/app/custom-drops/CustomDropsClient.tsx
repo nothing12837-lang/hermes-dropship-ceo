@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { MerchAgentModal } from '@/components/ai/MerchAgentModal';
 
 type ProductType = 'tee' | 'hoodie' | 'mat';
 
@@ -29,6 +30,7 @@ export function CustomDropsClient() {
   const [phone, setPhone] = useState<string>('');
   const [eventDate, setEventDate] = useState<string>('');
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isAiAgentOpen, setIsAiAgentOpen] = useState<boolean>(false);
 
   // Calculate pricing based on tier
   const tier = PRICING_TIERS.find((t) => quantity >= t.min && quantity <= t.max) || PRICING_TIERS[0];
@@ -115,11 +117,27 @@ export function CustomDropsClient() {
               🚚 Pan-India Express Door Delivery
             </span>
           </div>
+
+          <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => setIsAiAgentOpen(true)}
+              className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF4D24] via-[#ff3b0f] to-[#E8244B] text-white font-black text-xs uppercase tracking-wider shadow-[0_8px_25px_rgba(255,77,36,0.4)] hover:scale-105 active:scale-95 transition-all cursor-pointer border-none flex items-center justify-center gap-2"
+            >
+              <span>🤖 Talk to B2B Merch AI • Instant Quote &amp; 20% Advance</span>
+            </button>
+            <a
+              href="#estimator"
+              className="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider backdrop-blur-md transition-all no-underline text-center"
+            >
+              Bulk Calculator ↓
+            </a>
+          </div>
         </div>
       </section>
 
       {/* CALCULATOR & ESTIMATOR */}
-      <section className="max-w-5xl mx-auto px-4 md:px-8 -mt-8 relative z-20">
+      <section id="estimator" className="max-w-5xl mx-auto px-4 md:px-8 -mt-8 relative z-20">
         <div className="bg-white rounded-3xl p-6 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-black/[0.08]">
           <div className="border-b border-black/[0.06] pb-6 mb-8">
             <h2 className="text-xl md:text-3xl font-black text-[#161311] tracking-tight">
@@ -294,6 +312,15 @@ export function CustomDropsClient() {
 
               {/* CTAs */}
               <div className="space-y-2.5 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsAiAgentOpen(true)}
+                  className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-[#FF4D24] via-[#ff3b0f] to-[#f59e0b] hover:opacity-95 text-white font-black text-xs md:text-sm tracking-wide flex items-center justify-center gap-2 transition-all cursor-pointer border-none shadow-xl active:scale-95"
+                >
+                  <span>🤖</span>
+                  <span>Negotiate &amp; Lock 20% Advance via AI Agent</span>
+                </button>
+
                 <a
                   href={generateWhatsAppUrl()}
                   target="_blank"
@@ -305,7 +332,7 @@ export function CustomDropsClient() {
                 </a>
 
                 <p className="text-[10px] text-center text-white/50">
-                  ⚡ Connects directly with Founder Ajay for design proof &amp; billing.
+                  ⚡ 20% advance booking reserves fabric batch. Remaining 80% on dispatch.
                 </p>
               </div>
             </div>
@@ -442,6 +469,27 @@ export function CustomDropsClient() {
           </div>
         </div>
       </section>
+
+      {/* FLOATING AI AGENT BUTTON */}
+      <div className="fixed bottom-6 right-6 z-40">
+        <button
+          type="button"
+          onClick={() => setIsAiAgentOpen(true)}
+          className="px-5 py-3 rounded-full bg-[#161311] text-white hover:bg-black font-black text-xs uppercase tracking-wider shadow-2xl border border-white/20 flex items-center gap-2 cursor-pointer transition-all hover:scale-105 active:scale-95 ring-2 ring-[#FF4D24]/50"
+        >
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span>🤖 AI Merch Specialist</span>
+          <span className="text-[#FF9A3D]">⚡</span>
+        </button>
+      </div>
+
+      {/* AI AGENT MODAL */}
+      <MerchAgentModal
+        isOpen={isAiAgentOpen}
+        onClose={() => setIsAiAgentOpen(false)}
+        defaultProduct={productType}
+        defaultQty={quantity}
+      />
     </main>
   );
 }

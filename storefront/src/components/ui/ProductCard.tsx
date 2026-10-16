@@ -36,6 +36,7 @@ interface ProductCardProps {
   inStock?: boolean;
   stock?: number;
   priority?: boolean;
+  images?: string[];
 }
 
 export default function ProductCard({
@@ -57,6 +58,7 @@ export default function ProductCard({
   inStock = true,
   stock,
   priority = false,
+  images,
 }: ProductCardProps) {
   const router = useRouter();
   const { add } = useCart();
@@ -69,6 +71,13 @@ export default function ProductCard({
   const isInStock = inStock !== false && (stock == null || stock > 0);
   const productHref = `/product/${(slug || id).replace(/^meesho-/, '')}`;
   const cleanTitle = cleanBrandTitle(title);
+
+  const isBundle = id.startsWith('bundle-');
+  const rawBundleImgs = images && images.length > 1 ? images : [];
+  const bundleResolvedImages = rawBundleImgs
+    .map((img, idx) => resolveProductImage(`${id}__${idx}`, img))
+    .filter(Boolean) as string[];
+  const hasMultipleImages = isBundle && bundleResolvedImages.length >= 2;
 
   const inr = rawPrice ?? (parseFloat(price.replace(/[^0-9.]/g, '')) || 449);
   const displayPrice = rawPrice ? geoFormatPrice(rawPrice) : price;
@@ -112,10 +121,61 @@ export default function ProductCard({
     <div className="group flex flex-col h-full rounded-[1.75rem] bg-white border border-black/[0.06] shadow-[0_2px_12px_rgba(48,26,12,0.05)] hover:shadow-[0_22px_48px_rgba(48,26,12,0.14)] hover:-translate-y-2 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden relative ring-ember-animated deferred-card gpu-smooth">
       <Link href={productHref} className="no-underline flex flex-col flex-1">
         <div
-          className="relative aspect-square m-2.5 mb-0 rounded-2xl overflow-hidden shine-hover"
+          className="relative aspect-square m-2.5 mb-0 rounded-2xl overflow-hidden shine-hover bg-neutral-900/5"
           style={{ background: gradient }}
         >
-          {showImage ? (
+          {hasMultipleImages ? (
+            /* MULTI-IMAGE COMPOSITE BUNDLE SHOWCASE */
+            <div className="relative w-full h-full p-2.5 flex items-center justify-center">
+              {/* Layer 2: Secondary Garment/Item (Bottom-Right) */}
+              <div className="absolute right-2 bottom-2 w-[65%] h-[65%] rounded-xl overflow-hidden shadow-lg border-2 border-white/90 transition-transform duration-500 ease-out group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:rotate-1">
+                <Image
+                  src={bundleResolvedImages[1]}
+                  alt={`${cleanTitle} - Item 2`}
+                  fill
+                  sizes="(max-width: 640px) 40vw, 20vw"
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+
+              {/* Layer 3: Accessory / Mug (if 3 items) */}
+              {bundleResolvedImages.length >= 3 && (
+                <div className="absolute top-2 right-2 w-[42%] h-[42%] rounded-xl overflow-hidden shadow-xl border-2 border-white/95 z-10 transition-transform duration-500 ease-out group-hover:scale-105">
+                  <Image
+                    src={bundleResolvedImages[2]}
+                    alt={`${cleanTitle} - Item 3`}
+                    fill
+                    sizes="(max-width: 640px) 25vw, 15vw"
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+              )}
+
+              {/* Layer 1: Primary Garment/Item (Top-Left) */}
+              <div className="absolute left-2 top-2 w-[70%] h-[70%] rounded-xl overflow-hidden shadow-2xl border-2 border-white z-20 transition-transform duration-500 ease-out group-hover:scale-105 group-hover:-rotate-1">
+                <Image
+                  src={bundleResolvedImages[0] || (resolvedSrc as string)}
+                  alt={`${cleanTitle} - Item 1`}
+                  fill
+                  priority={isLcpCandidate}
+                  sizes="(max-width: 640px) 50vw, 25vw"
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+
+              {/* Multi-Item Included Floating Pill */}
+              <div className="absolute z-30 bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-[#161311]/92 backdrop-blur-md text-white text-[10px] font-black tracking-wider uppercase border border-white/20 shadow-xl flex items-center gap-1.5 whitespace-nowrap">
+                <span className="text-[#FF9A3D]">⚡</span>
+                <span>
+                  {bundleResolvedImages.length >= 3
+                    ? '3 ITEMS INCLUDED'
+                    : id.includes('streetwear-duo')
+                    ? '2x TEES INCLUDED'
+                    : '2 ITEMS INCLUDED'}
+                </span>
+              </div>
+            </div>
+          ) : showImage ? (
             <Image
               src={resolvedSrc as string}
               alt={cleanTitle}
@@ -203,6 +263,21 @@ export default function ProductCard({
           >
             {cleanTitle}
           </h3>
+
+          {isBundle && (
+            <div className="text-[11px] font-bold text-[#FF4D24] bg-[#FF4D24]/10 px-2.5 py-1 rounded-lg inline-flex items-center gap-1.5 mb-2 w-fit border border-[#FF4D24]/20">
+              <span>📦</span>
+              <span>
+                {id.includes('streetwear-duo')
+                  ? '2x Heavyweight Tees Included'
+                  : id.includes('winter-heavyweight')
+                  ? '380 GSM Hoodie + Heavyweight Tee'
+                  : id.includes('creator-workstation')
+                  ? 'Desk Mat + Tee + Ceramic Mug'
+                  : '240 GSM Tee + 900x400 Desk Mat'}
+              </span>
+            </div>
+          )}
           <div className="flex flex-col mt-auto pt-1">
             <div className="flex items-baseline gap-2 flex-wrap">
               <span className="text-lg font-black tracking-tight text-[#1d1d1f]">{displayPrice}</span>

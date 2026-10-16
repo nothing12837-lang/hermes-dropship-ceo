@@ -28,6 +28,15 @@ const SIZE_GUIDE_ROWS = [
   { size: '3XL', chestIn: 48, chestCm: 122, lengthIn: 32, lengthCm: 81, shoulderIn: 23, shoulderCm: 58 },
 ];
 
+const SIZE_SPECS: Record<string, { chest: string; length: string }> = {
+  S: { chest: '38"', length: '27"' },
+  M: { chest: '40"', length: '28"' },
+  L: { chest: '42"', length: '29"' },
+  XL: { chest: '44"', length: '30"' },
+  '2XL': { chest: '46"', length: '31"' },
+  '3XL': { chest: '48"', length: '32"' },
+};
+
 const PHONE_MODELS = [
   'iPhone 16 Pro Max',
   'iPhone 16 Pro',
@@ -322,7 +331,7 @@ export function ProductClient({ product }: Props) {
   };
 
   return (
-    <main className="page-top" style={{ background: '#fffbf5', minHeight: '100vh' }}>
+    <main className="page-top pb-28 md:pb-12" style={{ background: '#fffbf5', minHeight: '100vh' }}>
       <div style={{ maxWidth: '72rem', margin: '0 auto', padding: 'clamp(1rem, 3vw, 2rem)' }}>
         <Link href="/shop" style={{ color: '#8a7b6b', fontWeight: 700, textDecoration: 'none' }}>
           ← Explore Catalog
@@ -835,7 +844,7 @@ export function ProductClient({ product }: Props) {
                     📏 Size Guide & Fit Advice
                   </button>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '0.5rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '0.45rem' }}>
                   {SIZES.map((s) => {
                     const isSelected = selectedSize === s;
                     return (
@@ -844,25 +853,35 @@ export function ProductClient({ product }: Props) {
                         type="button"
                         onClick={() => setSelectedSize(s)}
                         style={{
-                          padding: '0.75rem 0',
+                          padding: '0.55rem 0',
+                          minHeight: '48px',
                           borderRadius: '0.85rem',
                           border: isSelected ? '2px solid #FF4D24' : '1.5px solid rgba(0,0,0,0.1)',
                           background: isSelected ? '#161311' : '#ffffff',
                           color: isSelected ? '#ffffff' : '#161311',
-                          fontWeight: 900,
-                          fontSize: '0.9rem',
                           cursor: 'pointer',
                           transition: 'all 0.15s ease',
-                          boxShadow: isSelected ? '0 4px 12px rgba(0,0,0,0.12)' : 'none',
+                          boxShadow: isSelected ? '0 4px 12px rgba(255,77,36,0.2)' : 'none',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '1px',
                         }}
                       >
-                        {s}
+                        <span style={{ fontSize: '0.92rem', fontWeight: 900 }}>{s}</span>
+                        <span style={{ fontSize: '0.62rem', fontWeight: 700, opacity: isSelected ? 0.95 : 0.65 }}>
+                          {SIZE_SPECS[s]?.chest || ''}
+                        </span>
                       </button>
                     );
                   })}
                 </div>
-                <p style={{ fontSize: '0.75rem', color: '#78716c', marginTop: '0.45rem' }}>
-                  ⚡ Selected: <strong>{selectedSize}</strong> • 240 GSM Super Combed Bio-Washed Cotton (Pre-Shrunk Drop-Shoulder Fit).
+                <p style={{ fontSize: '0.75rem', color: '#78716c', marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                  <span style={{ color: '#FF4D24', fontWeight: 800 }}>⚡ Fit:</span>
+                  <span>
+                    Size <strong>{selectedSize}</strong> ({SIZE_SPECS[selectedSize]?.chest} Chest / {SIZE_SPECS[selectedSize]?.length} Length) • 240 GSM Bio-Washed Combed Cotton (Pre-Shrunk Drop Shoulder).
+                  </span>
                 </p>
               </div>
             )}
@@ -1056,6 +1075,67 @@ export function ProductClient({ product }: Props) {
                   {/* Mode 0: Curated Trending Graphics Vault */}
                   {customMode === 'trending' && (
                     <div>
+                      {/* Mobile Live Garment Canvas (Directly Visible on Phones) */}
+                      <div className="md:hidden mb-4 p-3 rounded-2xl bg-[#09090b] text-white border border-white/10 shadow-2xl">
+                        <div className="flex items-center justify-between mb-2 pb-2 border-b border-white/10">
+                          <div className="flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-[#FF4D24] animate-pulse" />
+                            <span className="text-[11px] font-black uppercase tracking-wider text-[#FF9A3D]">Live Garment Preview</span>
+                          </div>
+                          <span className="text-[10px] text-neutral-400 font-bold">Updates in Real-Time ⚡</span>
+                        </div>
+
+                        <div className="relative aspect-square w-full max-w-[240px] mx-auto rounded-xl overflow-hidden bg-neutral-900 border border-white/10 flex items-center justify-center">
+                          {/* Garment Base */}
+                          {showImage && currentSrc ? (
+                            <Image
+                              src={currentSrc}
+                              alt="Live Garment Preview"
+                              fill
+                              sizes="240px"
+                              style={{ objectFit: 'cover' }}
+                            />
+                          ) : (
+                            <span className="text-6xl">{product.emoji}</span>
+                          )}
+
+                          {/* Live Overlaid Design on Garment */}
+                          {customImage && (
+                            <div
+                              className="absolute pointer-events-none z-10 flex items-center justify-center"
+                              style={{
+                                ...(customPosition === 'pocket'
+                                  ? { top: '26%', left: '26%', width: '22%', height: '20%' }
+                                  : customPosition === 'mural'
+                                  ? { top: '20%', left: '18%', width: '64%', height: '58%' }
+                                  : { top: '28%', left: '24%', width: '52%', height: '44%' }),
+                                transform: `scale(${customScale / 100})`,
+                              }}
+                            >
+                              <img
+                                src={customImage}
+                                alt="Preview Graphic"
+                                className="max-w-[90%] max-h-[90%] object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.65)]"
+                              />
+                            </div>
+                          )}
+
+                          {/* Garment placement badge */}
+                          <span className="absolute bottom-2 left-2 z-20 px-2 py-0.5 rounded-full bg-black/80 text-[10px] font-bold text-white/90 backdrop-blur-md">
+                            📍 {customPlacement} • {customPosition.toUpperCase()}
+                          </span>
+                        </div>
+
+                        <div className="mt-2.5 flex items-center justify-between text-xs text-neutral-300">
+                          <span className="font-bold truncate max-w-[170px]">
+                            {customImageName || 'Select a graphic below'}
+                          </span>
+                          <span className="text-[10px] font-black text-[#FF9A3D] bg-white/10 px-2 py-0.5 rounded-full">
+                            Scale: {customScale}%
+                          </span>
+                        </div>
+                      </div>
+
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.45rem' }}>
                         <label style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#57534e' }}>
                           Select Curated Streetwear Graphic
@@ -1928,6 +2008,64 @@ export function ProductClient({ product }: Props) {
           </div>
         )}
       </div>
+
+      {/* MOBILE STICKY FLOATING BUY BAR */}
+      {((product as any).active !== false && ((product as any).stock == null || Number((product as any).stock) > 0)) && (
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-black/10 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] px-4 py-2.5 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0 flex-1">
+            {/* Live Mini Preview Icon */}
+            <div className="relative w-11 h-11 rounded-lg overflow-hidden bg-neutral-100 border border-black/10 shrink-0">
+              {currentSrc ? (
+                <Image
+                  src={currentSrc}
+                  alt={product.title}
+                  fill
+                  sizes="44px"
+                  style={{ objectFit: 'cover' }}
+                />
+              ) : (
+                <span className="text-xl flex items-center justify-center h-full">{product.emoji}</span>
+              )}
+              {/* If custom graphic selected, overlay mini preview */}
+              {((customMode === 'trending' || customMode === 'image') && customImage) && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={customImage}
+                    alt=""
+                    className="w-5 h-5 object-contain drop-shadow"
+                  />
+                </div>
+              )}
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5">
+                <span className="text-sm font-black text-[#161311]">
+                  {geoFormatPrice(effectivePriceUsd * qty, effectiveInr * qty)}
+                </span>
+                {isApparel && (
+                  <span className="text-[10px] font-black uppercase bg-[#161311] text-white px-2 py-0.5 rounded-md">
+                    {selectedSize}
+                  </span>
+                )}
+              </div>
+              <div className="text-[10px] text-neutral-500 truncate font-semibold">
+                {displayTitle}
+              </div>
+            </div>
+          </div>
+
+          {/* 1-Tap CTA */}
+          <button
+            onClick={handleOrderNow}
+            className="shrink-0 px-5 py-3 rounded-xl bg-gradient-to-r from-[#FF4D24] to-[#E8244B] text-white font-black text-xs uppercase tracking-wider shadow-lg active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer border-none"
+          >
+            <span>ORDER NOW</span>
+            <span>⚡</span>
+          </button>
+        </div>
+      )}
     </main>
   );
 }

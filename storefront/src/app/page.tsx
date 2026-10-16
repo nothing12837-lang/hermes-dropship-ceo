@@ -26,6 +26,7 @@ function toCard(p: Product, rank?: number) {
     rawComparePrice: p.compareAtPrice,
     gradient: p.gradient || 'linear-gradient(135deg, #18181b, #09090b)',
     imageUrl: p.image_url,
+    images: p.images,
     chapter: undefined,
     pet: undefined,
     rating: p.rating,
@@ -246,16 +247,16 @@ export default async function Home() {
               </h3>
               <p className="text-xs md:text-sm text-white/70 leading-relaxed">
                 Zero setup fees. Bulk 240 GSM Heavyweight Tees &amp; 380 GSM Hoodies from <b>₹269/unit</b>. 
-                Free 3D mockups in 2 hours with 4-day express door delivery.
+                Chat with our <b>B2B Merch AI</b> for instant tier quotes, 20% advance booking, and free 3D mockups in 2 hours.
               </p>
             </div>
 
             <div className="shrink-0 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <Link
                 href="/custom-drops"
-                className="px-6 py-3 rounded-xl bg-white text-[#161311] hover:bg-neutral-100 font-black text-xs uppercase tracking-wider text-center no-underline transition-all shadow-md active:scale-95"
+                className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#FF4D24] to-[#f59e0b] hover:opacity-95 text-white font-black text-xs uppercase tracking-wider text-center no-underline transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5"
               >
-                Calculate Bulk Pricing ➔
+                <span>🤖</span> Talk to Merch AI Desk ➔
               </Link>
               <Link
                 href={process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ? `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER.replace(/\D/g, '')}?text=Hi%20Ajay%2C%20I%20need%20custom%20merch%20for%20our%20team` : '/custom-drops'}

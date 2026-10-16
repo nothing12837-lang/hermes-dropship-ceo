@@ -238,6 +238,17 @@ export async function POST(req: NextRequest) {
 
     const finalTotal = Math.max(0, calculatedSubtotal - discountAmount);
 
+    // Server-side COD Threshold Protection: COD capped strictly under ₹3,000 to prevent RTO courier fraud
+    if (body.payment_method === 'cod' && finalTotal >= 3000) {
+      return NextResponse.json(
+        {
+          error:
+            'Cash on Delivery is limited to orders up to ₹2,999. For high-value orders of ₹3,000 and above, please complete payment via Instant UPI or Cards for insured express air dispatch.',
+        },
+        { status: 400 }
+      );
+    }
+
     // Strict Idempotency Guard
     const idempotencyKey = (req.headers.get('x-idempotency-key') || body.idempotency_key || '').trim();
     if (idempotencyKey) {
