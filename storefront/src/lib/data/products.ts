@@ -280,7 +280,7 @@ export const products: Product[] = [
   {
   "id": "qikink-accessories-mobile-clear-phone-case",
   "slug": "qikink-accessories-mobile-clear-phone-case",
-  "title": "Rare Ember Hard Clear Case | CC32",
+  "title": "Rare Ember Hard Clear Case",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -336,7 +336,7 @@ export const products: Product[] = [
   {
   "id": "qikink-accessories-mobile-phone-grip",
   "slug": "qikink-accessories-mobile-phone-grip",
-  "title": "Rare Ember Phone Grip | MS65",
+  "title": "Rare Ember Phone Grip",
   "price": 3.52,
   "price_inr": 299,
   "old_price": 549,
@@ -396,7 +396,7 @@ export const products: Product[] = [
   {
   "id": "qikink-tops-all-over-print-full-sleeve-crop-top-fc38",
   "slug": "qikink-tops-all-over-print-full-sleeve-crop-top-fc38",
-  "title": "Rare Ember AOP Full Sleeve Crop Top | FC38",
+  "title": "Rare Ember AOP Full Sleeve Crop Top",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -426,7 +426,7 @@ export const products: Product[] = [
   {
   "id": "qikink-accessories-arm-sleeves",
   "slug": "qikink-accessories-arm-sleeves",
-  "title": "Rare Ember Arm Sleeves | AS12",
+  "title": "Rare Ember Arm Sleeves",
   "price": 3.52,
   "price_inr": 299,
   "old_price": 549,
@@ -456,7 +456,7 @@ export const products: Product[] = [
   {
   "id": "qikink-accessories-balaclava",
   "slug": "qikink-accessories-balaclava",
-  "title": "Rare Ember Balaclava | UB39",
+  "title": "Rare Ember Balaclava",
   "price": 3.52,
   "price_inr": 299,
   "old_price": 549,
@@ -512,7 +512,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-dry-fit-t-shirts-ud15",
   "slug": "qikink-t-shirts-dry-fit-t-shirts-ud15",
-  "title": "Rare Ember Dry Fit T-Shirt | UD15",
+  "title": "Rare Ember Dry Fit T-Shirt",
   "price": 3.52,
   "price_inr": 299,
   "old_price": 549,
@@ -569,7 +569,7 @@ export const products: Product[] = [
   {
   "id": "qikink-dresses-all-over-print-a-line-dress-fd16",
   "slug": "qikink-dresses-all-over-print-a-line-dress-fd16",
-  "title": "Rare Ember Female AOP A Line Dress | FD16",
+  "title": "Rare Ember Female AOP A Line Dress",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -597,7 +597,7 @@ export const products: Product[] = [
   {
   "id": "qikink-dresses-all-over-print-bodycon-dress-fd74",
   "slug": "qikink-dresses-all-over-print-bodycon-dress-fd74",
-  "title": "Rare Ember Female AOP Bodycon Dress | FD74",
+  "title": "Rare Ember Female AOP Bodycon Dress",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -625,7 +625,7 @@ export const products: Product[] = [
   {
   "id": "qikink-hoodies-bomber-jacket-women-fa30",
   "slug": "qikink-hoodies-bomber-jacket-women-fa30",
-  "title": "Rare Ember Female AOP Bomber Jacket | FA30",
+  "title": "Rare Ember Female AOP Bomber Jacket",
   "price": 15.28,
   "price_inr": 1299,
   "old_price": 2349,
@@ -654,7 +654,7 @@ export const products: Product[] = [
   {
   "id": "qikink-tops-all-over-print-crop-tank-fa33",
   "slug": "qikink-tops-all-over-print-crop-tank-fa33",
-  "title": "Rare Ember Female AOP Crop Tank | FA33",
+  "title": "Rare Ember Female AOP Crop Tank",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -682,7 +682,7 @@ export const products: Product[] = [
   {
   "id": "qikink-tops-all-over-print-crop-top-fa32",
   "slug": "qikink-tops-all-over-print-crop-top-fa32",
-  "title": "Rare Ember Female AOP Crop Top | FA32",
+  "title": "Rare Ember Female AOP Crop Top",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -710,7 +710,7 @@ export const products: Product[] = [
   {
   "id": "qikink-bottomwear-womens-gym-leggings-fa41",
   "slug": "qikink-bottomwear-womens-gym-leggings-fa41",
-  "title": "Rare Ember Female AOP Gym legging | FA41",
+  "title": "Rare Ember Female AOP Gym legging",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -725,10 +725,10 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/107/60f56f07-a7f0-446d-995b-75d71f473733.jpg",
   "supplier": "qikink",
-  "short": "Female AOP Gym legging Made from 180 GSM Lycra polyester with a slim fit, stretchable construction, double-stitched seams, and fade-proof pr",
+  "short": "Female AOP Gym legging Made from 180 GSM Lycra polyester with a slim fit, stretchable construction, double-stitched seams, and fade-proof ",
   "story": "Female AOP Gym legging Made from 180 GSM Lycra polyester with a slim fit, stretchable construction, double-stitched seams, and fade-proof print. Compatible with all-over printing.",
   "details": [
-    "Female AOP Gym legging with custom printing on Rare Ember Studio, order as a Rare Ember pr",
+    "Female AOP Gym legging with custom printing on Rare Ember Studio, order as a Rare Ember ",
     "Made from 180 GSM Lycra polyester with a slim fit, stretchable construction, double-stitch",
     "Compatible with all-over printing"
   ],
@@ -738,7 +738,7 @@ export const products: Product[] = [
   {
   "id": "qikink-dresses-all-over-print-pencil-skirt-fs58",
   "slug": "qikink-dresses-all-over-print-pencil-skirt-fs58",
-  "title": "Rare Ember Female AOP Pencil Skirt | FS58",
+  "title": "Rare Ember Female AOP Pencil Skirt",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -766,7 +766,7 @@ export const products: Product[] = [
   {
   "id": "qikink-tops-all-over-print-sports-bra-fa50",
   "slug": "qikink-tops-all-over-print-sports-bra-fa50",
-  "title": "Rare Ember Female AOP Sports Bra | FA50",
+  "title": "Rare Ember Female AOP Sports Bra",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -794,7 +794,7 @@ export const products: Product[] = [
   {
   "id": "qikink-dresses-all-over-print-t-shirt-dress-fa35",
   "slug": "qikink-dresses-all-over-print-t-shirt-dress-fa35",
-  "title": "Rare Ember Female AOP T-Shirt Dress | FA35",
+  "title": "Rare Ember Female AOP T-Shirt Dress",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -822,7 +822,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-all-over-print-womens-t-shirt-fa21",
   "slug": "qikink-t-shirts-all-over-print-womens-t-shirt-fa21",
-  "title": "Rare Ember Female AOP T-Shirt | FA21",
+  "title": "Rare Ember Female AOP T-Shirt",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -850,7 +850,7 @@ export const products: Product[] = [
   {
   "id": "qikink-tops-all-over-print-tank-top-fa37",
   "slug": "qikink-tops-all-over-print-tank-top-fa37",
-  "title": "Rare Ember Female AOP Tank Top | FA37",
+  "title": "Rare Ember Female AOP Tank Top",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -878,7 +878,7 @@ export const products: Product[] = [
   {
   "id": "qikink-tops-all-over-print-tube-top-ft12",
   "slug": "qikink-tops-all-over-print-tube-top-ft12",
-  "title": "Rare Ember Female AOP Tube Top | FT12",
+  "title": "Rare Ember Female AOP Tube Top",
   "price": 3.52,
   "price_inr": 299,
   "old_price": 549,
@@ -906,7 +906,7 @@ export const products: Product[] = [
   {
   "id": "qikink-tops-baby-tee-ft47",
   "slug": "qikink-tops-baby-tee-ft47",
-  "title": "Rare Ember Female Baby Tee | FT47",
+  "title": "Rare Ember Female Baby Tee",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -964,7 +964,7 @@ export const products: Product[] = [
   {
   "id": "qikink-tops-crop-tank-fc40",
   "slug": "qikink-tops-crop-tank-fc40",
-  "title": "Rare Ember Female Crop Tank | FC40",
+  "title": "Rare Ember Female Crop Tank",
   "price": 3.52,
   "price_inr": 299,
   "old_price": 549,
@@ -992,7 +992,7 @@ export const products: Product[] = [
   {
   "id": "qikink-tops-crop-top-fc39",
   "slug": "qikink-tops-crop-top-fc39",
-  "title": "Rare Ember Female Crop Top | FC39",
+  "title": "Rare Ember Female Crop Top",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -1020,7 +1020,7 @@ export const products: Product[] = [
   {
   "id": "qikink-hoodies-cropped-hoodie-fc32",
   "slug": "qikink-hoodies-cropped-hoodie-fc32",
-  "title": "Rare Ember Female Cropped Hoodie | FC32",
+  "title": "Rare Ember Female Cropped Hoodie",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -1038,7 +1038,7 @@ export const products: Product[] = [
   "short": "Cropped Hoodie Made from 300 GSM 90% cotton and 10% polyester fabric with a cropped fit, hooded construction, derby ribbed cuffs and hem, su",
   "story": "Cropped Hoodie Made from 300 GSM 90% cotton and 10% polyester fabric with a cropped fit, hooded construction, derby ribbed cuffs and hem, super combed, pre-shrunk and bio-washed finish.",
   "details": [
-    "Cropped Hoodie with custom printing on Rare Ember Studio, order as a Rare Ember premium pr",
+    "Cropped Hoodie with custom printing on Rare Ember Studio, order as a Rare Ember premium ",
     "Made from 300 GSM 90% cotton and 10% polyester fabric with a cropped fit, hooded construct",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -1050,7 +1050,7 @@ export const products: Product[] = [
   {
   "id": "qikink-dresses-maternity-dresses-fm44",
   "slug": "qikink-dresses-maternity-dresses-fm44",
-  "title": "Rare Ember Female Maternity Dress | FM44",
+  "title": "Rare Ember Female Maternity Dress",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -1078,7 +1078,7 @@ export const products: Product[] = [
   {
   "id": "qikink-dresses-t-shirt-dress-fc43",
   "slug": "qikink-dresses-t-shirt-dress-fc43",
-  "title": "Rare Ember Female T-Shirt Dress | FC43",
+  "title": "Rare Ember Female T-Shirt Dress",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -1106,7 +1106,7 @@ export const products: Product[] = [
   {
   "id": "qikink-tops-tank-top-ft37",
   "slug": "qikink-tops-tank-top-ft37",
-  "title": "Rare Ember Female Tank Top | FT37",
+  "title": "Rare Ember Female Tank Top",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -1162,7 +1162,7 @@ export const products: Product[] = [
   {
   "id": "qikink-accessories-all-over-print-headband",
   "slug": "qikink-accessories-all-over-print-headband",
-  "title": "Rare Ember Headband | UB58",
+  "title": "Rare Ember Headband",
   "price": 3.52,
   "price_inr": 299,
   "old_price": 549,
@@ -1190,7 +1190,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-jersey-t-shirt-us02",
   "slug": "qikink-t-shirts-jersey-t-shirt-us02",
-  "title": "Rare Ember Jersey T-Shirt | US02",
+  "title": "Rare Ember Jersey T-Shirt",
   "price": 3.52,
   "price_inr": 299,
   "old_price": 549,
@@ -1248,7 +1248,7 @@ export const products: Product[] = [
   {
   "id": "qikink-kids-clothes-kids-bomber-jacket-ka30",
   "slug": "qikink-kids-clothes-kids-bomber-jacket-ka30",
-  "title": "Rare Ember Kids AOP Bomber Jacket | KA30",
+  "title": "Rare Ember Kids AOP Bomber Jacket",
   "price": 15.28,
   "price_inr": 1299,
   "old_price": 2349,
@@ -1266,7 +1266,7 @@ export const products: Product[] = [
   "short": "Kids AOP Bomber Jacket Made from 240 GSM premium poly brushed fleece with lycra ribbed hem and cuffs, YKK zipper closure, and fade-proof all",
   "story": "Kids AOP Bomber Jacket Made from 240 GSM premium poly brushed fleece with lycra ribbed hem and cuffs, YKK zipper closure, and fade-proof all-over printing using OEKO-TEX certified inks. Compatible with sublimation printing.",
   "details": [
-    "Kids AOP Bomber Jacket with custom printing on Rare Ember Studio, order as a Rare Ember pr",
+    "Kids AOP Bomber Jacket with custom printing on Rare Ember Studio, order as a Rare Ember ",
     "Made from 240 GSM premium poly brushed fleece with lycra ribbed hem and cuffs, YKK zipper",
     "Compatible with sublimation printing"
   ],
@@ -1276,7 +1276,7 @@ export const products: Product[] = [
   {
   "id": "qikink-kids-clothes-all-over-print-sports-shorts-ka52",
   "slug": "qikink-kids-clothes-all-over-print-sports-shorts-ka52",
-  "title": "Rare Ember Kids AOP Sports Shorts | KA52",
+  "title": "Rare Ember Kids AOP Sports Shorts",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -1294,7 +1294,7 @@ export const products: Product[] = [
   "short": "Kids AOP Sports Shorts Made from 170 GSM poly mesh fabric with Dri-FIT technology, an inner drawstring cord, unisex styling, and slip-on poc",
   "story": "Kids AOP Sports Shorts Made from 170 GSM poly mesh fabric with Dri-FIT technology, an inner drawstring cord, unisex styling, and slip-on pockets for everyday comfort. Features fade-proof all-over prints and is compatible with sublimation printing.",
   "details": [
-    "Kids AOP Sports Shorts with custom printing on Rare Ember Studio, order as a Rare Ember pr",
+    "Kids AOP Sports Shorts with custom printing on Rare Ember Studio, order as a Rare Ember ",
     "Made from 170 GSM poly mesh fabric with Dri-FIT technology, an inner drawstring cord, unis",
     "Features fade-proof all-over prints and is compatible with sublimation printing"
   ],
@@ -1304,7 +1304,7 @@ export const products: Product[] = [
   {
   "id": "qikink-kids-clothes-all-over-print-sports-t-shirt-ka51",
   "slug": "qikink-kids-clothes-all-over-print-sports-t-shirt-ka51",
-  "title": "Rare Ember Kids AOP Sports T-Shirt | KA51",
+  "title": "Rare Ember Kids AOP Sports T-Shirt",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -1332,7 +1332,7 @@ export const products: Product[] = [
   {
   "id": "qikink-kids-clothes-all-over-print-sweatshirt-ka35",
   "slug": "qikink-kids-clothes-all-over-print-sweatshirt-ka35",
-  "title": "Rare Ember Kids AOP Sweatshirt | KA35",
+  "title": "Rare Ember Kids AOP Sweatshirt",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -1360,7 +1360,7 @@ export const products: Product[] = [
   {
   "id": "qikink-kids-clothes-all-over-print-t-shirt-ka71",
   "slug": "qikink-kids-clothes-all-over-print-t-shirt-ka71",
-  "title": "Rare Ember Kids AOP T-Shirt | KA71",
+  "title": "Rare Ember Kids AOP T-Shirt",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -1416,7 +1416,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-all-over-print-full-sleeve-t-shirt-ma27",
   "slug": "qikink-t-shirts-all-over-print-full-sleeve-t-shirt-ma27",
-  "title": "Rare Ember Male AOP Full Sleeve Tee | MA27",
+  "title": "Rare Ember Male AOP Full Sleeve Tee",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -1444,7 +1444,7 @@ export const products: Product[] = [
   {
   "id": "qikink-tops-all-over-print-vest-ma29",
   "slug": "qikink-tops-all-over-print-vest-ma29",
-  "title": "Rare Ember Male AOP Sleeveless Tee | MA29",
+  "title": "Rare Ember Male AOP Sleeveless Tee",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -1463,7 +1463,7 @@ export const products: Product[] = [
   "story": "Male AOP Sleeveless Tee Made from 180 GSM 100% spun polyester fabric with a regular fit, folded edges, and fade-proof print. Compatible with sublimation printing.",
   "details": [
     "Male AOP Sleeveless Tee with custom printing on Rare Ember Studio, order as a Rare Ember p",
-    "Made from 180 GSM 100% spun polyester fabric with a regular fit, folded edges, and fade-pr",
+    "Made from 180 GSM 100% spun polyester fabric with a regular fit, folded edges, and fade-",
     "Compatible with sublimation printing"
   ],
   "gradient": "linear-gradient(135deg, #18181b, #09090b)",
@@ -1472,7 +1472,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-all-over-print-t-shirt-ua21",
   "slug": "qikink-t-shirts-all-over-print-t-shirt-ua21",
-  "title": "Rare Ember Male AOP T-Shirt | UA21",
+  "title": "Rare Ember Male AOP T-Shirt",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -1500,7 +1500,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-bike-rider-t-shirt-ma39",
   "slug": "qikink-t-shirts-bike-rider-t-shirt-ma39",
-  "title": "Rare Ember Male Bike Rider T-Shirt | MA39",
+  "title": "Rare Ember Male Bike Rider T-Shirt",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -1547,7 +1547,7 @@ export const products: Product[] = [
   "story": "Round Neck T-Shirt Classic Made from 180 GSM cotton fabric with a regular fit, ribbed neck, double-stitched seams, pre-shrunk and bio-washed construction.",
   "details": [
     "Round Neck T-Shirt Classic with custom printing on Rare Ember Studio, order as a Rare Embe",
-    "Made from 180 GSM cotton fabric with a regular fit, ribbed neck, double-stitched seams, pr",
+    "Made from 180 GSM cotton fabric with a regular fit, ribbed neck, double-stitched seams",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
   "gradient": "linear-gradient(135deg, #18181b, #09090b)",
@@ -1584,7 +1584,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-polo-t-shirts-mp25",
   "slug": "qikink-t-shirts-polo-t-shirts-mp25",
-  "title": "Rare Ember Male Polo | MP25",
+  "title": "Rare Ember Male Polo",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -1614,7 +1614,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-raglan-t-shirt-ur37",
   "slug": "qikink-t-shirts-raglan-t-shirt-ur37",
-  "title": "Rare Ember Male Raglan T-Shirt | UR37",
+  "title": "Rare Ember Male Raglan T-Shirt",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -1633,7 +1633,7 @@ export const products: Product[] = [
   "story": "Unisex Raglan T-Shirt Made from 180 GSM 100% cotton with a regular fit, contrast raglan sleeves, ribbed neck, pre-shrunk and bio-washed fabric.",
   "details": [
     "Unisex Raglan T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember pre",
-    "Made from 180 GSM 100% cotton with a regular fit, contrast raglan sleeves, ribbed neck, pr",
+    "Made from 180 GSM 100% cotton with a regular fit, contrast raglan sleeves, ribbed neck",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
   "gradient": "linear-gradient(135deg, #18181b, #09090b)",
@@ -1642,7 +1642,7 @@ export const products: Product[] = [
   {
   "id": "qikink-tops-gym-vest-men-ms36",
   "slug": "qikink-tops-gym-vest-men-ms36",
-  "title": "Rare Ember Male Sleeveless T-Shirt | MS36",
+  "title": "Rare Ember Male Sleeveless T-Shirt",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -1661,7 +1661,7 @@ export const products: Product[] = [
   "story": "Gym Vest Men Made from 180 GSM 100% cotton with a regular fit, sleeveless construction, folded neck, pre-shrunk and bio-washed fabric.",
   "details": [
     "Gym Vest Men with custom printing on Rare Ember Studio, order as a Rare Ember premium priv",
-    "Made from 180 GSM 100% cotton with a regular fit, sleeveless construction, folded neck, pr",
+    "Made from 180 GSM 100% cotton with a regular fit, sleeveless construction, folded neck",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
   "gradient": "linear-gradient(135deg, #18181b, #09090b)",
@@ -1670,7 +1670,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-round-neck-t-shirt-standard-us21",
   "slug": "qikink-t-shirts-round-neck-t-shirt-standard-us21",
-  "title": "Rare Ember Male Standard Crew T-Shirt | US21",
+  "title": "Rare Ember Male Standard Crew T-Shirt",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -1688,7 +1688,7 @@ export const products: Product[] = [
   "short": "Round Neck T-Shirt Standard custom printing on Rare Ember Studio, Made from 180 GSM 100% cotton, super combed, pre-shrunk, bio-washed fabric",
   "story": "Round Neck T-Shirt Standard custom printing on Rare Ember Studio, Made from 180 GSM 100% cotton, super combed, pre-shrunk, bio-washed fabric with a regular fit and folded neck.",
   "details": [
-    "Round Neck T-Shirt Standard custom printing on Rare Ember Studio, order as a Rare Ember pr",
+    "Round Neck T-Shirt Standard custom printing on Rare Ember Studio, order as a Rare Ember ",
     "Made from 180 GSM 100% cotton, super combed, pre-shrunk, bio-washed fabric with a regular",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -1698,7 +1698,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-v-neck-t-shirts-uv34",
   "slug": "qikink-t-shirts-v-neck-t-shirts-uv34",
-  "title": "Rare Ember Male V Neck T-Shirt | UV34",
+  "title": "Rare Ember Male V Neck T-Shirt",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -1716,7 +1716,7 @@ export const products: Product[] = [
   "short": "V-Neck T-Shirt Made from 180 GSM 100% cotton with a regular fit, V-neck collar, super combed, pre-shrunk and bio-washed fabric.",
   "story": "V-Neck T-Shirt Made from 180 GSM 100% cotton with a regular fit, V-neck collar, super combed, pre-shrunk and bio-washed fabric.",
   "details": [
-    "V-Neck T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember premium pr",
+    "V-Neck T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember premium ",
     "Made from 180 GSM 100% cotton with a regular fit, V-neck collar, super combed, pre-shrunk",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -1726,7 +1726,7 @@ export const products: Product[] = [
   {
   "id": "qikink-dresses-all-over-print-mini-skirt-fs59",
   "slug": "qikink-dresses-all-over-print-mini-skirt-fs59",
-  "title": "Rare Ember Mini Skirt | FS59",
+  "title": "Rare Ember Mini Skirt",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -1754,7 +1754,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-oversized-jersey-t-shirt-uj35",
   "slug": "qikink-t-shirts-oversized-jersey-t-shirt-uj35",
-  "title": "Rare Ember Oversized Jersey T-Shirt | UJ35",
+  "title": "Rare Ember Oversized Jersey T-Shirt",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -1783,7 +1783,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-oversized-raglan-t-shirt-ur50",
   "slug": "qikink-t-shirts-oversized-raglan-t-shirt-ur50",
-  "title": "Rare Ember Oversized Raglan T-Shirt | UR50",
+  "title": "Rare Ember Oversized Raglan T-Shirt",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -1813,7 +1813,7 @@ export const products: Product[] = [
   {
   "id": "qikink-hoodies-pullover-hoodie-uh83",
   "slug": "qikink-hoodies-pullover-hoodie-uh83",
-  "title": "Rare Ember Pullover Hoodie | UH83",
+  "title": "Rare Ember Pullover Hoodie",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -1843,7 +1843,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-ringer-t-shirt-ur39",
   "slug": "qikink-t-shirts-ringer-t-shirt-ur39",
-  "title": "Rare Ember Ringer T-Shirt | UR39",
+  "title": "Rare Ember Ringer T-Shirt",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -1871,7 +1871,7 @@ export const products: Product[] = [
   {
   "id": "qikink-tops-sports-crop-top",
   "slug": "qikink-tops-sports-crop-top",
-  "title": "Rare Ember Sports Crop top | FC34",
+  "title": "Rare Ember Sports Crop top",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -1901,7 +1901,7 @@ export const products: Product[] = [
   {
   "id": "qikink-hoodies-all-over-print-bomber-jacket-ua30",
   "slug": "qikink-hoodies-all-over-print-bomber-jacket-ua30",
-  "title": "Rare Ember Unisex AOP Bomber Jacket | UA30",
+  "title": "Rare Ember Unisex AOP Bomber Jacket",
   "price": 15.28,
   "price_inr": 1299,
   "old_price": 2349,
@@ -1929,7 +1929,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-all-over-print-oversized-t-shirt-ua22",
   "slug": "qikink-t-shirts-all-over-print-oversized-t-shirt-ua22",
-  "title": "Rare Ember Unisex AOP Oversized Tee | UA22",
+  "title": "Rare Ember Unisex AOP Oversized Tee",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -1957,7 +1957,7 @@ export const products: Product[] = [
   {
   "id": "qikink-bottomwear-all-over-print-shorts-ma45",
   "slug": "qikink-bottomwear-all-over-print-shorts-ma45",
-  "title": "Rare Ember Unisex AOP Shorts | MA45",
+  "title": "Rare Ember Unisex AOP Shorts",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -1985,7 +1985,7 @@ export const products: Product[] = [
   {
   "id": "qikink-bottomwear-all-over-print-sports-shorts-ua52",
   "slug": "qikink-bottomwear-all-over-print-sports-shorts-ua52",
-  "title": "Rare Ember Unisex AOP Sports Shorts | UA52",
+  "title": "Rare Ember Unisex AOP Sports Shorts",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -2013,7 +2013,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-all-over-print-sports-t-shirt-ua51",
   "slug": "qikink-t-shirts-all-over-print-sports-t-shirt-ua51",
-  "title": "Rare Ember Unisex AOP Sports T-Shirt | UA51",
+  "title": "Rare Ember Unisex AOP Sports T-Shirt",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -2041,7 +2041,7 @@ export const products: Product[] = [
   {
   "id": "qikink-hoodies-all-over-print-sweatshirt-ua26",
   "slug": "qikink-hoodies-all-over-print-sweatshirt-ua26",
-  "title": "Rare Ember Unisex AOP Sweatshirt | UA26",
+  "title": "Rare Ember Unisex AOP Sweatshirt",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -2069,7 +2069,7 @@ export const products: Product[] = [
   {
   "id": "qikink-hoodies-acid-wash-hoodie-uh62",
   "slug": "qikink-hoodies-acid-wash-hoodie-uh62",
-  "title": "Rare Ember Unisex Acid Wash Hoodie | UH62",
+  "title": "Rare Ember Unisex Acid Wash Hoodie",
   "price": 15.28,
   "price_inr": 1299,
   "old_price": 2349,
@@ -2099,7 +2099,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-acid-wash-oversized-t-shirt-uc61",
   "slug": "qikink-t-shirts-acid-wash-oversized-t-shirt-uc61",
-  "title": "Rare Ember Unisex Acid Wash Oversized Tee | UC61",
+  "title": "Rare Ember Unisex Acid Wash Oversized Tee",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -2127,7 +2127,7 @@ export const products: Product[] = [
   {
   "id": "qikink-headwear-baseball-ottoman-cap-bc50",
   "slug": "qikink-headwear-baseball-ottoman-cap-bc50",
-  "title": "Rare Ember Unisex Baseball Ottoman Cap | BC50",
+  "title": "Rare Ember Unisex Baseball Ottoman Cap",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -2157,7 +2157,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-basic-t-shirt-ub73",
   "slug": "qikink-t-shirts-basic-t-shirt-ub73",
-  "title": "Rare Ember Unisex Basic T-Shirt PC | UB73",
+  "title": "Rare Ember Unisex Basic T-Shirt PC",
   "price": 3.52,
   "price_inr": 299,
   "old_price": 549,
@@ -2186,7 +2186,7 @@ export const products: Product[] = [
   {
   "id": "qikink-headwear-bucket-hat-bh35",
   "slug": "qikink-headwear-bucket-hat-bh35",
-  "title": "Rare Ember Unisex Classic Bucket Hat | BH35",
+  "title": "Rare Ember Unisex Classic Bucket Hat",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -2216,7 +2216,7 @@ export const products: Product[] = [
   {
   "id": "qikink-headwear-snapback-cap-sb30",
   "slug": "qikink-headwear-snapback-cap-sb30",
-  "title": "Rare Ember Unisex Classic Snapback Cap | SB30",
+  "title": "Rare Ember Unisex Classic Snapback Cap",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -2246,7 +2246,7 @@ export const products: Product[] = [
   {
   "id": "qikink-headwear-trucker-cap-tc55",
   "slug": "qikink-headwear-trucker-cap-tc55",
-  "title": "Rare Ember Unisex Classic Trucker Cap | TC55",
+  "title": "Rare Ember Unisex Classic Trucker Cap",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -2276,7 +2276,7 @@ export const products: Product[] = [
   {
   "id": "qikink-headwear-baseball-cap-bc33",
   "slug": "qikink-headwear-baseball-cap-bc33",
-  "title": "Rare Ember Unisex Classic baseball Cap |  BC33",
+  "title": "Rare Ember Unisex Classic baseball Cap",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -2306,7 +2306,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-stretch-t-shirt-uc48",
   "slug": "qikink-t-shirts-stretch-t-shirt-uc48",
-  "title": "Rare Ember Unisex Cotton Stretch T-Shirt | UC48",
+  "title": "Rare Ember Unisex Cotton Stretch T-Shirt",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -2336,7 +2336,7 @@ export const products: Product[] = [
   {
   "id": "qikink-pet-products-dog-t-shirt-dt59",
   "slug": "qikink-pet-products-dog-t-shirt-dt59",
-  "title": "Rare Ember Unisex Dog T-Shirts | DT59",
+  "title": "Rare Ember Unisex Dog T-Shirts",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -2394,7 +2394,7 @@ export const products: Product[] = [
   {
   "id": "qikink-bottomwear-joggers-uj29",
   "slug": "qikink-bottomwear-joggers-uj29",
-  "title": "Rare Ember Unisex Joggers | UJ29",
+  "title": "Rare Ember Unisex Joggers",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -2412,7 +2412,7 @@ export const products: Product[] = [
   "short": "Unisex Joggers Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex regular fit, super combed, pre-shrunk, bio-washed finish,",
   "story": "Unisex Joggers Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex regular fit, super combed, pre-shrunk, bio-washed finish, derby ribbed waist and legs, and back and side pockets.",
   "details": [
-    "Unisex Joggers with custom printing on Rare Ember Studio, order as a Rare Ember premium pr",
+    "Unisex Joggers with custom printing on Rare Ember Studio, order as a Rare Ember premium ",
     "Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex regular fit, super com",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2424,7 +2424,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-oversized-t-shirt-uc22",
   "slug": "qikink-t-shirts-oversized-t-shirt-uc22",
-  "title": "Rare Ember Unisex Oversized Classic T-Shirt | UC22",
+  "title": "Rare Ember Unisex Oversized Classic T-Shirt",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -2452,7 +2452,7 @@ export const products: Product[] = [
   {
   "id": "qikink-hoodies-oversized-hoodie-uh32",
   "slug": "qikink-hoodies-oversized-hoodie-uh32",
-  "title": "Rare Ember Unisex Oversized Hoodie | UH32",
+  "title": "Rare Ember Unisex Oversized Hoodie",
   "price": 15.28,
   "price_inr": 1299,
   "old_price": 2349,
@@ -2482,7 +2482,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-short-sleeve-oversized-shirt-uc28",
   "slug": "qikink-t-shirts-short-sleeve-oversized-shirt-uc28",
-  "title": "Rare Ember Unisex Oversized Shirt | UC28",
+  "title": "Rare Ember Unisex Oversized Shirt",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -2510,7 +2510,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-oversized-t-shirt-standard-us22",
   "slug": "qikink-t-shirts-oversized-t-shirt-standard-us22",
-  "title": "Rare Ember Unisex Oversized Standard T-Shirt | US22",
+  "title": "Rare Ember Unisex Oversized Standard T-Shirt",
   "price": 5.87,
   "price_inr": 499,
   "old_price": 899,
@@ -2538,7 +2538,7 @@ export const products: Product[] = [
   {
   "id": "qikink-hoodies-oversized-sweatshirt-uh35",
   "slug": "qikink-hoodies-oversized-sweatshirt-uh35",
-  "title": "Rare Ember Unisex Oversized Sweatshirt | UH35",
+  "title": "Rare Ember Unisex Oversized Sweatshirt",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -2568,7 +2568,7 @@ export const products: Product[] = [
   {
   "id": "qikink-headwear-sports-cap-sp45",
   "slug": "qikink-headwear-sports-cap-sp45",
-  "title": "Rare Ember Unisex Sports Cap | SP45",
+  "title": "Rare Ember Unisex Sports Cap",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -2598,7 +2598,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-supima-cotton-t-shirts-uc23",
   "slug": "qikink-t-shirts-supima-cotton-t-shirts-uc23",
-  "title": "Rare Ember Unisex Supima T-Shirt | UC23",
+  "title": "Rare Ember Unisex Supima T-Shirt",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -2626,7 +2626,7 @@ export const products: Product[] = [
   {
   "id": "qikink-bottomwear-sweatpants-us52",
   "slug": "qikink-bottomwear-sweatpants-us52",
-  "title": "Rare Ember Unisex Sweatpants | US52",
+  "title": "Rare Ember Unisex Sweatpants",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -2656,7 +2656,7 @@ export const products: Product[] = [
   {
   "id": "qikink-hoodies-sweatshirt-uh26",
   "slug": "qikink-hoodies-sweatshirt-uh26",
-  "title": "Rare Ember Unisex Sweatshirt | UH26",
+  "title": "Rare Ember Unisex Sweatshirt",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -2686,7 +2686,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-terry-oversized-t-shirt-ut27",
   "slug": "qikink-t-shirts-terry-oversized-t-shirt-ut27",
-  "title": "Rare Ember Unisex Terry Oversized Tee | UT27",
+  "title": "Rare Ember Unisex Terry Oversized Tee",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -2714,7 +2714,7 @@ export const products: Product[] = [
   {
   "id": "qikink-bottomwear-terry-shorts-mt45",
   "slug": "qikink-bottomwear-terry-shorts-mt45",
-  "title": "Rare Ember Unisex Terry Shorts | MT45",
+  "title": "Rare Ember Unisex Terry Shorts",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -2729,7 +2729,7 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/45/b0082153-be94-4108-90a0-f0f5852aa260.jpg",
   "supplier": "qikink",
-  "short": "Unisex Terry Shorts Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex fit, drawcord elastic waist, slip-in pockets, and pr",
+  "short": "Unisex Terry Shorts Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex fit, drawcord elastic waist, slip-in pockets, and ",
   "story": "Unisex Terry Shorts Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex fit, drawcord elastic waist, slip-in pockets, and pre-shrunk finish.",
   "details": [
     "Unisex Terry Shorts with custom printing on Rare Ember Studio, order as a Rare Ember premi",
@@ -2744,7 +2744,7 @@ export const products: Product[] = [
   {
   "id": "qikink-t-shirts-tie-and-dye-oversized-t-shirt-ut58",
   "slug": "qikink-t-shirts-tie-and-dye-oversized-t-shirt-ut58",
-  "title": "Rare Ember Unisex Tie Dye Oversized T-Shirt | UT58",
+  "title": "Rare Ember Unisex Tie Dye Oversized T-Shirt",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -2762,8 +2762,8 @@ export const products: Product[] = [
   "short": "Unisex Tie Dye Oversized T-Shirt Made from 260 GSM 90% cotton and 10% polyester with a drop shoulder, lycra ribbed neck, pre-shrunk and bio-",
   "story": "Unisex Tie Dye Oversized T-Shirt Made from 260 GSM 90% cotton and 10% polyester with a drop shoulder, lycra ribbed neck, pre-shrunk and bio-washed fabric.",
   "details": [
-    "Unisex Tie Dye Oversized T-Shirt with custom printing on Rare Ember Studio, order as a Rar",
-    "Made from 260 GSM 90% cotton and 10% polyester with a drop shoulder, lycra ribbed neck, pr",
+    "Unisex Tie Dye Oversized T-Shirt with custom printing on Rare Ember Studio, order ",
+    "Made from 260 GSM 90% cotton and 10% polyester with a drop shoulder, lycra ribbed neck",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
     "Cash on Delivery & 1-Click UPI Available Pan-India"
@@ -2774,7 +2774,7 @@ export const products: Product[] = [
   {
   "id": "qikink-bottomwear-tie-dye-shorts-ut68",
   "slug": "qikink-bottomwear-tie-dye-shorts-ut68",
-  "title": "Rare Ember Unisex Tie Dye Shorts | UT68",
+  "title": "Rare Ember Unisex Tie Dye Shorts",
   "price": 10.58,
   "price_inr": 899,
   "old_price": 1599,
@@ -2804,7 +2804,7 @@ export const products: Product[] = [
   {
   "id": "qikink-hoodies-varsity-jacket-uj31",
   "slug": "qikink-hoodies-varsity-jacket-uj31",
-  "title": "Rare Ember Unisex Varsity Jacket | UJ31",
+  "title": "Rare Ember Unisex Varsity Jacket",
   "price": 15.28,
   "price_inr": 1299,
   "old_price": 2349,
@@ -2834,7 +2834,7 @@ export const products: Product[] = [
   {
   "id": "qikink-hoodies-unisex-fleece-heavyweight-zip-hoodie-uh38",
   "slug": "qikink-hoodies-unisex-fleece-heavyweight-zip-hoodie-uh38",
-  "title": "Rare Ember Unisex Zip Hoodie | UH38",
+  "title": "Rare Ember Unisex Zip Hoodie",
   "price": 15.28,
   "price_inr": 1299,
   "old_price": 2349,
@@ -2864,7 +2864,7 @@ export const products: Product[] = [
   {
   "id": "qikink-bags-all-over-print-large-tote-bag",
   "slug": "qikink-bags-all-over-print-large-tote-bag",
-  "title": "Rare Ember AOP Large Tote Bag | UT20",
+  "title": "Rare Ember AOP Large Tote Bag",
   "price": 8.22,
   "price_inr": 699,
   "old_price": 1249,
@@ -3005,7 +3005,7 @@ export const products: Product[] = [
   {
   "id": "qikink-accessories-bar-pendant",
   "slug": "qikink-accessories-bar-pendant",
-  "title": "Rare Ember Bar Pendant | UP11",
+  "title": "Rare Ember Bar Pendant",
   "price": 3.52,
   "price_inr": 299,
   "old_price": 549,
@@ -3080,7 +3080,7 @@ export const products: Product[] = [
   "story": "Bookmark Made from 3 mm acrylic with a glossy finish, lightweight and waterproof construction, and high-resolution UV printing for vibrant, fade-proof designs. Available in Classic and Curved Top variants.",
   "details": [
     "Bookmark with custom printing on Rare Ember Studio, order as a Rare Ember premium private",
-    "Made from 3 mm acrylic with a glossy finish, lightweight and waterproof construction, and",
+    "Made from 3 mm acrylic with a glossy finish, lightweight and waterproof construction",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
     "Cash on Delivery & 1-Click UPI Available Pan-India"
@@ -3091,7 +3091,7 @@ export const products: Product[] = [
   {
   "id": "qikink-accessories-all-over-print-bow-scrunchie",
   "slug": "qikink-accessories-all-over-print-bow-scrunchie",
-  "title": "Rare Ember Bow Scrunchies | FS37",
+  "title": "Rare Ember Bow Scrunchies",
   "price": 3.52,
   "price_inr": 299,
   "old_price": 549,
@@ -3109,7 +3109,7 @@ export const products: Product[] = [
   "short": "Bow Scrunchies Made from satin poly woven fabric with a lightweight finish, durable, soft texture, and removable bow tail design. Compatible",
   "story": "Bow Scrunchies Made from satin poly woven fabric with a lightweight finish, durable, soft texture, and removable bow tail design. Compatible with sublimation printing for all-over edge-to-edge prints.",
   "details": [
-    "Bow Scrunchies with custom printing on Rare Ember Studio, order as a Rare Ember premium pr",
+    "Bow Scrunchies with custom printing on Rare Ember Studio, order as a Rare Ember premium ",
     "Made from satin poly woven fabric with a lightweight finish, durable, soft texture, and re",
     "Compatible with sublimation printing for all-over edge-to-edge prints"
   ],
@@ -3224,7 +3224,7 @@ export const products: Product[] = [
   "short": "Greeting Cards Printed on premium A5 folded artboard paper with four printable pages, a matching envelope, and high-quality digital printing",
   "story": "Greeting Cards Printed on premium A5 folded artboard paper with four printable pages, a matching envelope, and high-quality digital printing using OEKO-TEX certified inks. Suitable for birthdays, weddings, anniversaries, festivals, and gifting.",
   "details": [
-    "Greeting Cards with custom printing on Rare Ember Studio, order as a Rare Ember premium pr",
+    "Greeting Cards with custom printing on Rare Ember Studio, order as a Rare Ember premium ",
     "Printed on premium A5 folded artboard paper with four printable pages, a matching envelope",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3251,7 +3251,7 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/298/6e2700dd-b309-4962-abb8-3311298064c3.jpg",
   "supplier": "qikink",
-  "short": "Keychain Made from 3 mm acrylic with a glossy finish, attached metal chain, and vibrant fade-proof UV printing for logos, photos, names, and",
+  "short": "Keychain Made from 3 mm acrylic with a glossy finish, attached metal chain, and vibrant fade-proof UV printing for logos, photos, names",
   "story": "Keychain Made from 3 mm acrylic with a glossy finish, attached metal chain, and vibrant fade-proof UV printing for logos, photos, names, and artwork. Available in Rectangle, Square, and Slim variants.",
   "details": [
     "Keychain with custom printing on Rare Ember Studio, order as a Rare Ember premium private",
@@ -3266,7 +3266,7 @@ export const products: Product[] = [
   {
   "id": "qikink-kids-clothes-baby-romper-kr23",
   "slug": "qikink-kids-clothes-baby-romper-kr23",
-  "title": "Rare Ember Kids Rompers | KR23",
+  "title": "Rare Ember Kids Rompers",
   "price": 3.52,
   "price_inr": 299,
   "old_price": 549,
@@ -3400,7 +3400,7 @@ export const products: Product[] = [
   "story": "Stickers Made from 100-micron material with a matte laminated finish, custom shape die-cutting, and fade-proof digital printing using OEKO-TEX certified inks. Suitable for both indoor and outdoor applications. Available in multiple sizes.",
   "details": [
     "Stickers with custom printing on Rare Ember Studio, order as a Rare Ember premium private",
-    "Made from 100-micron material with a matte laminated finish, custom shape die-cutting, and",
+    "Made from 100-micron material with a matte laminated finish, custom shape die-cutting",
     "Available in multiple sizes"
   ],
   "gradient": "linear-gradient(135deg, #18181b, #09090b)",
@@ -3601,7 +3601,7 @@ export const products: Product[] = [
   "short": "Unisex Tote Bag Zipper Made from minimum 200 GSM 100% cotton canvas with double-stitched side seams and long self-handles.",
   "story": "Unisex Tote Bag Zipper Made from minimum 200 GSM 100% cotton canvas with double-stitched side seams and long self-handles.",
   "details": [
-    "Unisex Tote Bag Zipper with custom printing on Rare Ember Studio, order as a Rare Ember pr",
+    "Unisex Tote Bag Zipper with custom printing on Rare Ember Studio, order as a Rare Ember ",
     "Made from minimum 200 GSM 100% cotton canvas with double-stitched side seams and long self",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3802,7 +3802,7 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/108/95278267-a588-44b8-b7c6-b7239e7e3ed1.jpg",
   "supplier": "qikink",
-  "short": "Cloth Napkins Made from 100% polyester fabric with a lightweight woven structure, hemmed edges on all sides, soft finish, and sublimation pr",
+  "short": "Cloth Napkins Made from 100% polyester fabric with a lightweight woven structure, hemmed edges on all sides, soft finish, and sublimation ",
   "story": "Cloth Napkins Made from 100% polyester fabric with a lightweight woven structure, hemmed edges on all sides, soft finish, and sublimation printing using OEKO-TEX certified inks. Designed for reusable dining and table use with fade-proof output.",
   "details": [
     "Cloth Napkins with custom printing on Rare Ember Studio for print-on-demand and dropshippi",
@@ -3836,7 +3836,7 @@ export const products: Product[] = [
   "story": "Coaster Made from 3 mm thick MDF board with a glossy finish and square or circle variants, fade-proof sublimation printing using OEKO-TEX certified inks, and water-resistant surface. Designed with lightweight rigid construction for tabletop use.",
   "details": [
     "Coaster with custom printing on Rare Ember Studio for print-on-demand and dropshipping in",
-    "Made from 3 mm thick MDF board with a glossy finish and square or circle variants, fade-pr",
+    "Made from 3 mm thick MDF board with a glossy finish and square or circle variants, fade-",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
     "Cash on Delivery & 1-Click UPI Available Pan-India"
@@ -4354,7 +4354,7 @@ export const products: Product[] = [
   "short": "Tumbler Bottle Made from 20 Oz 304 stainless steel with double-wall insulated construction, a splash-proof lid, reusable metal straw, and fa",
   "story": "Tumbler Bottle Made from 20 Oz 304 stainless steel with double-wall insulated construction, a splash-proof lid, reusable metal straw, and fade-proof sublimation printing using OEKO-TEX certified inks. Suitable for hot and cold beverages.",
   "details": [
-    "Tumbler Bottle with custom printing on Rare Ember Studio, order as a Rare Ember premium pr",
+    "Tumbler Bottle with custom printing on Rare Ember Studio, order as a Rare Ember premium ",
     "Made from 20 Oz 304 stainless steel with double-wall insulated construction, a splash-proo",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -4441,7 +4441,7 @@ export const products: Product[] = [
   "story": "White Coffee Mug Made from premium ceramic in an 11 Oz size with a glossy finish, fade-proof sublimation printing using OEKO-TEX certified inks, and individual box packing for secure delivery. Microwave and dishwasher safe.",
   "details": [
     "White Coffee Mug with custom printing on Rare Ember Studio, order as a Rare Ember premium",
-    "Made from premium ceramic in an 11 Oz size with a glossy finish, fade-proof sublimation pr",
+    "Made from premium ceramic in an 11 Oz size with a glossy finish, fade-proof sublimation ",
     "Microwave and dishwasher safe"
   ],
   "gradient": "linear-gradient(135deg, #18181b, #09090b)",

@@ -140,8 +140,8 @@ export function ProductClient({ product }: Props) {
   const [isCustomizing, setIsCustomizing] = useState(false);
   const [customMode, setCustomMode] = useState<'trending' | 'text' | 'image'>('trending');
   const [customText, setCustomText] = useState('');
-  const [customImage, setCustomImage] = useState<string | null>(null);
-  const [customImageName, setCustomImageName] = useState<string>('');
+  const [customImage, setCustomImage] = useState<string | null>(isApparel ? TRENDING_GRAPHICS_VAULT[0].mockUrl : null);
+  const [customImageName, setCustomImageName] = useState<string>(isApparel ? TRENDING_GRAPHICS_VAULT[0].title : '');
   const [customPlacement, setCustomPlacement] = useState<string>('Front Print');
   const [customTextColor, setCustomTextColor] = useState<string>('#ffffff');
   const [customFont, setCustomFont] = useState<string>('font-sans font-black tracking-wider uppercase');
@@ -202,72 +202,73 @@ export function ProductClient({ product }: Props) {
     .map((id) => getProduct(id))
     .filter((p): p is Product => Boolean(p));
 
+  const displayTitle = (product.title || '')
+    .replace(/\|\s*[A-Z0-9]{2,6}/gi, '')
+    .replace(/\b(qikink|ut58|cc32|ms65|fc38|fa30|uj31|fd16|ur50|ua22|ut27|mt45|ut68)\b/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
   const cleanSubtitle = (() => {
-    if (!product.short) return 'Handpicked verified domestic quality with fast express dispatch across India.';
-    let s = product.short.trim();
-    const t = (product.title || '').trim();
-    if (t && s.toLowerCase().startsWith(t.toLowerCase())) {
-      s = s.slice(t.length).replace(/^[\s\-–—:.]+/, '').trim();
-    }
-    if (!s || s.toLowerCase() === t.toLowerCase()) {
+    const raw = product.short?.trim() || '';
+    if (!raw) {
+      if (isApparel) return '240 GSM Super Combed Bio-Washed Cotton with Archival DTF Screen Print.';
       return 'Handpicked verified domestic quality with fast express dispatch across India.';
     }
-    return s.charAt(0).toUpperCase() + s.slice(1);
+    let s = raw.replace(/[-–—\s]+$/, '').replace(/,\s*(?:pr|pre|bio|and|with|for)$/i, '').replace(/\s+(?:bio|Rar|pr|as a Rar)$/i, '');
+    if (s && !/[.!?]$/.test(s)) s += '.';
+    return s;
   })();
 
   const cleanStory = (() => {
-    const story = product.story || '';
-    let s = story.trim();
-    const t = (product.title || '').trim();
-    if (t && s.toLowerCase().startsWith(t.toLowerCase())) {
-      s = s.slice(t.length).replace(/^[\s\-–—:.]+/, '').trim();
+    const story = product.story?.trim() || '';
+    if (!story) {
+      return 'Crafted in Tirupur with premium 240 GSM bio-washed cotton and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
     }
-    if (!s || s.toLowerCase() === t.toLowerCase() || s.toLowerCase() === cleanSubtitle.toLowerCase()) {
-      return 'Inspected and certified by the Rare Ember quality curation team. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
-    }
-    return s.charAt(0).toUpperCase() + s.slice(1);
+    let s = story.replace(/[-–—\s]+$/, '').replace(/,\s*(?:pr|pre|bio|and|with|for)$/i, '').replace(/\s+(?:bio|Rar|pr|as a Rar)$/i, '');
+    if (s && !/[.!?]$/.test(s)) s += '.';
+    return s;
   })();
 
   const featureHighlights = (() => {
-    if (product.details && product.details.length > 0) {
-      return product.details;
-    }
-    const titleLower = (product.title || '').toLowerCase();
-    const cat = (product.category || '').toLowerCase();
+    const titleLower = (displayTitle || '').toLowerCase();
+    const idLower = (product.id || '').toLowerCase();
 
-    if (titleLower.includes('tee') || titleLower.includes('t-shirt') || titleLower.includes('hoodie') || titleLower.includes('sweatshirt')) {
+    if (titleLower.includes('hoodie') || titleLower.includes('sweatshirt') || titleLower.includes('jacket') || idLower.includes('hoodie')) {
       return [
-        '100% Combed Bio-Washed Heavyweight Cotton Fleece / French Terry',
-        'Pre-Shrunk Silicone Wash Treated for Flawless Long-Lasting Drape',
-        'High-Density Fade-Resistant Reactive Screen & DTF Printing',
-        'Double-Needled Hemming with Lycra-Ribbed Anti-Sag Collar',
-        'Pan-India Tracked 2–4 Day Express Delivery with White-Label Packaging',
+        '380 GSM Heavyweight 100% Combed Cotton French Terry Fleece',
+        'Double-Lined Structured Hood with Heavy-Duty Matching Drawcords',
+        'Derby Ribbed Anti-Sag Hem & Cuffs with Reinforced Stitching',
+        '1200 DPI High-Density Archival DTF Screen Print (50+ Wash Tested)',
+        'Pre-Shrunk Silicone Soft-Wash Treated for Zero Shrinkage',
+        'Pan-India Tracked 2–4 Day Express Delivery via BlueDart & Delhivery',
       ];
     }
-    if (titleLower.includes('mug') || titleLower.includes('tumbler') || titleLower.includes('sipper') || titleLower.includes('glass')) {
+    if (titleLower.includes('tee') || titleLower.includes('t-shirt') || titleLower.includes('top') || idLower.includes('t-shirt') || idLower.includes('tee')) {
       return [
-        'Artisan High-Fired Ceramic Stoneware / Food-Grade 304 Stainless Steel',
-        'Superior Temperature Retention (Keeps Hot 8h, Cold 16h)',
-        '100% BPA-Free, Lead-Free & Eco-Friendly Construction',
-        'Multi-Layer Protective Cushion Box for Safe Doorstep Transit',
-        'Rare Ember 7-Day Zero-Risk Replacement Guarantee',
+        '240 GSM Super Combed 100% Bio-Washed Cotton Heavyweight Jersey',
+        'Relaxed Drop-Shoulder Oversized Streetwear Silhouette',
+        '1.25-Inch Lycra Ribbed Anti-Sag Neckband with Reinforced Collar',
+        '1200 DPI Direct-to-Film (DTF) Archival Print with Zero Cracking',
+        'Pre-Shrunk & Colorfast Treated for 50+ Wash Color Longevity',
+        'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
       ];
     }
-    if (titleLower.includes('mat') || titleLower.includes('mousepad') || titleLower.includes('desk') || cat.includes('electronics')) {
+    if (titleLower.includes('desk') || titleLower.includes('pad') || titleLower.includes('mat') || idLower.includes('desk-mat')) {
       return [
-        'Massive Workspace Coverage with Ultra-Smooth Micro-Weave Cloth',
-        'Precision Tracking Sensor Compatible with All Optical & Laser Mice',
-        'Reinforced 360° Anti-Fray Stitched Edges for Multi-Year Durability',
-        'Non-Slip High-Density Natural Rubber Base (Prevents Desk Gliding)',
-        'Spill-Proof Coating: Liquid Beads Up and Wipes Clean in Seconds',
+        '900x400mm Extended Workstation & Gaming Format (4mm Ultra-Thick)',
+        'High-Density Micro-Weave Polyester Glide Surface for Precision Tracking',
+        'Anti-Slip Natural Textured Vulcanized Rubber Base',
+        '360° Anti-Fray Reinforced Double-Stitched Edges',
+        'Spill-Resistant Water-Repellent Coating (Easy Wipe Clean)',
+        'Dispatched in Heavy-Duty Triangular Protective Tube Packaging',
       ];
     }
     return [
-      '100% Brand New & Verified Authentic Factory Build',
-      'Carefully Packaged with Multi-Layer Protective Cushioning',
-      'Inspected for Flawless Finish & Function Prior to Dispatch',
-      'Pan-India Tracked 2–4 Day Express Delivery via BlueDart & Delhivery',
-      'Full Rare Ember 7-Day Easy Replacement Guarantee',
+      'Premium Heavy-Duty Grade Materials Inspected for Everyday Durability',
+      'Fade-Resistant Archival Print Execution with Deep Contrast',
+      'Strict Quality Control Inspected by Rare Ember Studio',
+      'Pan-India 2–4 Day Express Delivery with Live Real-Time Tracking',
+      'Hassle-Free 7-Day Replacement Guarantee & 100% Doorstep Delivery',
     ];
   })();
 
@@ -276,8 +277,21 @@ export function ProductClient({ product }: Props) {
   const effectiveInr = baseInr + customizationFeeInr;
   const effectivePriceUsd = Number((effectiveInr / 85).toFixed(2));
 
+  // Anchor M.R.P. mathematically so it is never broken, never divides by 100 or passes small USD numbers
+  const mrpInr = (() => {
+    if (product.old_price && product.old_price > baseInr) return Math.round(product.old_price);
+    if (product.compare_at_price && product.compare_at_price > baseInr) return Math.round(product.compare_at_price);
+    if (product.compareAtPrice && product.compareAtPrice > baseInr) return Math.round(product.compareAtPrice);
+    if (product.compareAtPrice && product.compareAtPrice * 85 > baseInr) return Math.round(product.compareAtPrice * 85);
+    if (product.compare_at_price && product.compare_at_price * 85 > baseInr) return Math.round(product.compare_at_price * 85);
+    const raw = Math.round(baseInr / 0.56);
+    return Math.round(raw / 100) * 100 - 1; // e.g. 1599, 999, 2199
+  })();
+  const mrpUsd = Number((mrpInr / 85).toFixed(2));
+  const discountPercent = Math.max(15, Math.min(75, Math.round((1 - baseInr / mrpInr) * 100)));
+
   const getItemMeta = () => ({
-    title: product.title,
+    title: displayTitle,
     price: effectivePriceUsd,
     price_inr: effectiveInr,
     emoji: product.emoji,
@@ -292,8 +306,8 @@ export function ProductClient({ product }: Props) {
     customScale: isCustomizing ? customScale : undefined,
     customTextColor: isCustomizing && customMode === 'text' ? customTextColor : undefined,
     customFont: isCustomizing && customMode === 'text' ? customFont : undefined,
-    customImage: isCustomizing && (customMode === 'image' || customMode === 'trending') && customImage ? customImage : undefined,
-    customImageName: isCustomizing && (customMode === 'image' || customMode === 'trending') && customImageName ? customImageName : undefined,
+    customImage: (customMode === 'image' || customMode === 'trending') && customImage ? customImage : undefined,
+    customImageName: (customMode === 'image' || customMode === 'trending') && customImageName ? customImageName : undefined,
   });
 
   const handleAddToCart = () => {
@@ -323,8 +337,8 @@ export function ProductClient({ product }: Props) {
             alignItems: 'start',
           }}
         >
-          {/* Multi-Image Interactive Gallery */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {/* Multi-Image Interactive Gallery (Sticky on Desktop Scroll) */}
+          <div className="lg:sticky lg:top-24 lg:self-start" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div
               style={{
                 aspectRatio: '1',
@@ -369,8 +383,8 @@ export function ProductClient({ product }: Props) {
                 </span>
               )}
 
-              {/* LIVE QIKINK DESIGN CANVAS OVERLAY ON GARMENT */}
-              {isCustomizing && (
+              {/* LIVE FINISHED STREETWEAR GRAPHIC & PERSONALIZATION OVERLAY */}
+              {(isCustomizing || (isApparel && customImage)) && (
                 <div
                   style={{
                     position: 'absolute',
@@ -388,40 +402,42 @@ export function ProductClient({ product }: Props) {
                       : { top: '28%', left: '24%', width: '52%', height: '44%' }),
                   }}
                 >
-                  {/* Print Safety Margin Frame */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      border: '1.5px dashed rgba(255, 77, 36, 0.8)',
-                      borderRadius: '0.75rem',
-                      background: 'rgba(255, 77, 36, 0.05)',
-                      boxShadow: '0 0 16px rgba(255, 77, 36, 0.2)',
-                    }}
-                  >
-                    <span
+                  {/* Print Safety Margin Frame (Only visible when actively tweaking in customizer) */}
+                  {isCustomizing && (
+                    <div
                       style={{
                         position: 'absolute',
-                        top: '-0.75rem',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        background: '#FF4D24',
-                        color: '#ffffff',
-                        fontSize: '9px',
-                        fontWeight: 900,
-                        padding: '2px 8px',
-                        borderRadius: '9999px',
-                        letterSpacing: '0.05em',
-                        whiteSpace: 'nowrap',
-                        boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
+                        inset: 0,
+                        border: '1.5px dashed rgba(255, 77, 36, 0.8)',
+                        borderRadius: '0.75rem',
+                        background: 'rgba(255, 77, 36, 0.05)',
+                        boxShadow: '0 0 16px rgba(255, 77, 36, 0.2)',
                       }}
                     >
-                      ⚡ QIKINK DTF PRINT ({customPlacement})
-                    </span>
-                  </div>
+                      <span
+                        style={{
+                          position: 'absolute',
+                          top: '-0.75rem',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          background: '#FF4D24',
+                          color: '#ffffff',
+                          fontSize: '9px',
+                          fontWeight: 900,
+                          padding: '2px 8px',
+                          borderRadius: '9999px',
+                          letterSpacing: '0.05em',
+                          whiteSpace: 'nowrap',
+                          boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
+                        }}
+                      >
+                        ⚡ RareEmber™ Archival DTF ({customPlacement})
+                      </span>
+                    </div>
+                  )}
 
                   {/* Live Text Overlay */}
-                  {customMode === 'text' && (
+                  {customMode === 'text' && isCustomizing && (
                     <div
                       className={customFont}
                       style={{
@@ -439,12 +455,12 @@ export function ProductClient({ product }: Props) {
                         transition: 'all 0.15s ease',
                       }}
                     >
-                      {customText.trim() || 'YOUR DESIGN'}
+                      {customText.trim() || 'RARE EMBER'}
                     </div>
                   )}
 
-                  {/* Live Uploaded or Trending Image Overlay */}
-                  {(customMode === 'image' || customMode === 'trending') && customImage && (
+                  {/* Live Uploaded or Curated Trending Image Overlay */}
+                  {(customMode === 'image' || customMode === 'trending' || !isCustomizing) && customImage && (
                     <div
                       style={{
                         width: '100%',
@@ -464,7 +480,7 @@ export function ProductClient({ product }: Props) {
                           maxWidth: '90%',
                           maxHeight: '90%',
                           objectFit: 'contain',
-                          filter: 'drop-shadow(0 4px 14px rgba(0,0,0,0.45))',
+                          filter: 'drop-shadow(0 4px 14px rgba(0,0,0,0.5))',
                         }}
                       />
                     </div>
@@ -502,7 +518,7 @@ export function ProductClient({ product }: Props) {
                       background: '#FF4D24',
                     }}
                   />
-                  <span>Live Qikink 3D Print Simulation</span>
+                  <span>Live RareEmber™ Studio 3D Simulation</span>
                 </div>
               )}
 
@@ -686,7 +702,7 @@ export function ProductClient({ product }: Props) {
                           letterSpacing: '0.01em',
                         }}
                       >
-                        {PERSPECTIVE_LABELS[idx] || `Angle ${idx + 1}`}
+                        {idx === 0 ? 'Hero View' : `Angle ${idx + 1}`}
                       </span>
                     </div>
                   );
@@ -710,12 +726,12 @@ export function ProductClient({ product }: Props) {
                   letterSpacing: '0.08em',
                 }}
               >
-                {product.tag || 'HOT DEAL'}
+                {product.tag || (isApparel ? '240 GSM HEAVYWEIGHT' : 'FLAGSHIP DROP')}
               </span>
             </div>
 
             <h1 style={{ fontSize: 'clamp(1.75rem,3.5vw,2.75rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.25 }}>
-              {product.title}
+              {displayTitle}
             </h1>
             <p style={{ color: '#52453e', marginTop: '0.6rem', lineHeight: 1.6, fontSize: '0.98rem', fontWeight: 500 }}>
               {cleanSubtitle}
@@ -723,18 +739,14 @@ export function ProductClient({ product }: Props) {
 
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
               <span style={{ fontSize: '2rem', fontWeight: 900, color: '#212121' }}>
-                {geoFormatPrice(product.price, product.price_inr)}
+                {geoFormatPrice(effectivePriceUsd, effectiveInr)}
               </span>
-              {product.compareAtPrice && (
-                <span style={{ color: '#8a7b6b', textDecoration: 'line-through', fontSize: '1rem', fontWeight: 500 }}>
-                  M.R.P.: {geoFormatPrice(product.compareAtPrice, product.compareAtPrice)}
-                </span>
-              )}
-              {computeDiscount(product.price, product.compareAtPrice, product.price_inr) && (
-                <span style={{ color: '#059669', fontWeight: 800, fontSize: '1rem' }}>
-                  ({computeDiscount(product.price, product.compareAtPrice, product.price_inr)}% OFF)
-                </span>
-              )}
+              <span style={{ color: '#8a7b6b', textDecoration: 'line-through', fontSize: '1.05rem', fontWeight: 500 }}>
+                M.R.P.: {geoFormatPrice(mrpUsd, mrpInr)}
+              </span>
+              <span style={{ color: '#059669', fontWeight: 800, fontSize: '0.95rem', background: '#ecfdf5', padding: '0.2rem 0.55rem', borderRadius: '0.5rem', border: '1px solid #a7f3d0' }}>
+                {discountPercent}% OFF
+              </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-bold text-xs border border-emerald-200">
                 ✓ 100% Genuine Quality
               </span>
@@ -850,7 +862,7 @@ export function ProductClient({ product }: Props) {
                   })}
                 </div>
                 <p style={{ fontSize: '0.75rem', color: '#78716c', marginTop: '0.45rem' }}>
-                  ⚡ Selected: <strong>{selectedSize}</strong> • Oversized drop-shoulder streetwear fit. 100% combed bio-washed cotton.
+                  ⚡ Selected: <strong>{selectedSize}</strong> • 240 GSM Super Combed Bio-Washed Cotton (Pre-Shrunk Drop-Shoulder Fit).
                 </p>
               </div>
             )}
@@ -889,7 +901,7 @@ export function ProductClient({ product }: Props) {
               </div>
             )}
 
-            {/* Qikink Customization & Personalization Studio */}
+            {/* RareEmber Personalization Studio (Optional Expandable) */}
             <div
               style={{
                 marginTop: '1.5rem',
@@ -931,14 +943,14 @@ export function ProductClient({ product }: Props) {
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
                       <span style={{ fontWeight: 800, fontSize: '0.92rem', color: '#161311' }}>
-                        Custom Personalization Studio
+                        Personalize This Drop (Optional)
                       </span>
                       <span style={{ fontSize: '0.65rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.06em', padding: '0.15rem 0.5rem', borderRadius: '9999px', background: 'rgba(5, 150, 105, 0.12)', color: '#059669' }}>
-                        Qikink POD
+                        RareEmber™ Studio
                       </span>
                     </div>
                     <p style={{ fontSize: '0.78rem', color: '#78716c', margin: '0.15rem 0 0 0' }}>
-                      Add your custom name, monogram, quote or gamertag.
+                      Tap to switch graphic, add custom text, or upload your logo.
                     </p>
                   </div>
                 </div>
@@ -1588,41 +1600,83 @@ export function ProductClient({ product }: Props) {
                 </button>
               </div>
             ) : (
-              <div style={{ marginTop: '1.5rem' }}>
-                <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+              <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                {/* Primary High-Converting 1-Tap CTA */}
+                <button
+                  onClick={handleOrderNow}
+                  style={{
+                    ...addBtn,
+                    width: '100%',
+                    padding: '1rem 1.5rem',
+                    fontSize: '1rem',
+                    fontWeight: 900,
+                    letterSpacing: '0.02em',
+                    borderRadius: '1rem',
+                    background: 'linear-gradient(135deg, #FF4D24 0%, #E8244B 100%)',
+                    boxShadow: '0 8px 24px -4px rgba(255, 77, 36, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                  }}
+                >
+                  <span>ORDER NOW ⚡</span>
+                  <span>•</span>
+                  <span>{geoFormatPrice(effectivePriceUsd * qty, effectiveInr * qty)}</span>
+                </button>
+
+                {/* Secondary Row: Quantity, Add to Bag, Wishlist */}
+                <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', background: '#f5f5f4', padding: '0.35rem 0.55rem', borderRadius: '0.85rem', border: '1px solid rgba(0,0,0,0.06)' }}>
+                    <button
+                      onClick={() => setQty((q) => Math.max(1, q - 1))}
+                      aria-label="Decrease quantity"
+                      style={qtyBtn}
+                    >
+                      −
+                    </button>
+                    <span style={{ fontWeight: 800, minWidth: '1.5rem', textAlign: 'center', fontSize: '0.9rem' }}>{qty}</span>
+                    <button
+                      onClick={() => setQty((q) => Math.min(99, q + 1))}
+                      aria-label="Increase quantity"
+                      style={qtyBtn}
+                    >
+                      +
+                    </button>
+                  </div>
+
                   <button
-                    onClick={() => setQty((q) => Math.max(1, q - 1))}
-                    aria-label="Decrease quantity"
-                    style={qtyBtn}
+                    onClick={handleAddToCart}
+                    style={{
+                      ...secondaryAddBtn,
+                      flex: 1,
+                      padding: '0.85rem 1rem',
+                      borderRadius: '0.85rem',
+                    }}
                   >
-                    −
+                    🛍️ Add to Bag
                   </button>
-                  <span style={{ fontWeight: 800, minWidth: '2rem', textAlign: 'center' }}>{qty}</span>
+
                   <button
-                    onClick={() => setQty((q) => Math.min(99, q + 1))}
-                    aria-label="Increase quantity"
-                    style={qtyBtn}
+                    onClick={() => toggle(product.id)}
+                    aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
+                    style={{
+                      ...wishBtn,
+                      width: '48px',
+                      height: '48px',
+                      borderRadius: '0.85rem',
+                      flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1.25rem',
+                    }}
                   >
-                    +
+                    {wished ? '♥' : '♡'}
                   </button>
                 </div>
-                <button onClick={handleAddToCart} style={secondaryAddBtn}>
-                  🛍️ Add to Bag
-                </button>
-                <button onClick={handleOrderNow} style={addBtn}>
-                  ORDER NOW ⚡ • {geoFormatPrice(effectivePriceUsd * qty, effectiveInr * qty)}
-                </button>
-                <button
-                  onClick={() => toggle(product.id)}
-                  aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
-                  style={wishBtn}
-                >
-                  {wished ? '♥' : '♡'}
-                </button>
               </div>
-            </div>
-          )}
+            )}
 
             <div style={{ marginTop: '1.5rem' }}>
               <PincodeChecker />

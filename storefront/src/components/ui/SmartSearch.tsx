@@ -5,14 +5,14 @@ import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const TRENDING_SEARCHES = [
-  'wireless earbuds',
-  'led lamp',
-  'sneakers',
-  'smart watch',
-  'cookware set',
-  'hoodie',
-  'bluetooth speaker',
-  'throw blanket',
+  '240 GSM Oversized Tee',
+  '380 GSM Heavyweight Hoodie',
+  'Tokyo Cyber Mecha',
+  'Vintage Acid Flame',
+  '900x400 Desk Mat',
+  'Founding 50 Pack',
+  'Git Commit Dreams',
+  'Custom Drops B2B',
 ];
 
 /**
@@ -98,7 +98,7 @@ export default function SmartSearch() {
         )}
       </AnimatePresence>
 
-      <div ref={boxRef} style={{ position: 'relative', zIndex: focused ? 151 : 1, flex: 1, maxWidth: focused ? '560px' : '340px', transition: 'max-width 0.35s cubic-bezier(0.16,1,0.3,1)' }}>
+      <div ref={boxRef} style={{ position: 'relative', zIndex: focused ? 151 : 1, flex: 1, maxWidth: focused ? '580px' : '420px', transition: 'max-width 0.35s cubic-bezier(0.16,1,0.3,1)' }}>
         <motion.div
           animate={{ scale: focused ? 1.02 : 1 }}
           transition={{ type: 'spring', stiffness: 350, damping: 28 }}
@@ -116,7 +116,7 @@ export default function SmartSearch() {
             onChange={(e) => setValue(e.target.value)}
             onFocus={() => setFocused(true)}
             onKeyDown={(e) => e.key === 'Enter' && go(value)}
-            placeholder="Search products, brands and more…"
+            placeholder="Search oversized tees, hoodies, desk mats…"
             aria-label="Search products"
             style={{
               flex: 1, border: 'none', outline: 'none', background: 'transparent',

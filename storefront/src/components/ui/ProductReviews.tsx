@@ -153,47 +153,67 @@ export default function ProductReviews({ productId, productTitle }: ProductRevie
         </button>
       </div>
 
-      {/* Review Summary Breakdown */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 rounded-2xl bg-white border border-neutral-200/80 shadow-xs mb-8">
-        {/* Rating Score */}
-        <div className="flex flex-col items-center justify-center text-center p-4 border-b md:border-b-0 md:border-r border-neutral-100">
-          <div className="text-5xl font-black text-neutral-900">{avgRating}</div>
-          <div className="flex text-amber-400 text-lg my-1">
-            {'★'.repeat(Math.round(Number(avgRating)))}
-            {'☆'.repeat(5 - Math.round(Number(avgRating)))}
+      {/* Review Summary Breakdown or First Review Invite */}
+      {totalReviews > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 rounded-2xl bg-white border border-neutral-200/80 shadow-xs mb-8">
+          {/* Rating Score */}
+          <div className="flex flex-col items-center justify-center text-center p-4 border-b md:border-b-0 md:border-r border-neutral-100">
+            <div className="text-5xl font-black text-neutral-900">{avgRating}</div>
+            <div className="flex text-amber-400 text-lg my-1">
+              {'★'.repeat(Math.round(Number(avgRating)))}
+              {'☆'.repeat(5 - Math.round(Number(avgRating)))}
+            </div>
+            <p className="text-xs font-semibold text-neutral-500">
+              Based on {totalReviews} {totalReviews === 1 ? 'verified review' : 'verified reviews'}
+            </p>
+            <div className="mt-3 text-xs font-medium text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+              ✓ 100% Verified Purchases
+            </div>
           </div>
-          <p className="text-xs font-semibold text-neutral-500">
-            Based on {totalReviews} {totalReviews === 1 ? 'verified review' : 'verified reviews'}
-          </p>
-          <div className="mt-3 text-xs font-medium text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-            ✓ 100% Verified Purchases
-          </div>
-        </div>
 
-        {/* Rating Bars */}
-        <div className="space-y-2 md:col-span-2 flex flex-col justify-center">
-          {[5, 4, 3, 2, 1].map((stars) => {
-            const count = ratingCounts[stars] || 0;
-            const percentage = totalReviews > 0 ? (count / totalReviews) * 100 : (stars === 5 ? 100 : 0);
-            return (
-              <div key={stars} className="flex items-center gap-3 text-xs">
-                <span className="w-10 font-bold text-neutral-700 flex items-center justify-end">
-                  {stars} ★
-                </span>
-                <div className="flex-1 h-2 rounded-full bg-neutral-100 overflow-hidden">
-                  <div
-                    className="h-full bg-amber-400 rounded-full transition-all duration-500"
-                    style={{ width: `${percentage}%` }}
-                  />
+          {/* Rating Bars */}
+          <div className="space-y-2 md:col-span-2 flex flex-col justify-center">
+            {[5, 4, 3, 2, 1].map((stars) => {
+              const count = ratingCounts[stars] || 0;
+              const percentage = (count / totalReviews) * 100;
+              return (
+                <div key={stars} className="flex items-center gap-3 text-xs">
+                  <span className="w-10 font-bold text-neutral-700 flex items-center justify-end">
+                    {stars} ★
+                  </span>
+                  <div className="flex-1 h-2 rounded-full bg-neutral-100 overflow-hidden">
+                    <div
+                      className="h-full bg-amber-400 rounded-full transition-all duration-500"
+                      style={{ width: `${percentage}%` }}
+                    />
+                  </div>
+                  <span className="w-12 text-neutral-400 text-right font-medium">
+                    {count} ({Math.round(percentage)}%)
+                  </span>
                 </div>
-                <span className="w-12 text-neutral-400 text-right font-medium">
-                  {count} ({Math.round(percentage)}%)
-                </span>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="p-8 text-center rounded-2xl bg-stone-50 border border-stone-200 mb-8">
+          <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xl shadow-xs">
+            ✨
+          </div>
+          <h3 className="text-base font-black text-stone-900 mb-1">
+            Be the First to Review This Drop
+          </h3>
+          <p className="text-xs text-stone-600 max-w-md mx-auto mb-4 leading-relaxed">
+            Order this piece today, share your honest fit & fabric photo feedback, and get <span className="font-bold text-orange-600">₹100 OFF</span> your next drop with code <span className="font-mono font-bold text-stone-900 bg-stone-200/80 px-1.5 py-0.5 rounded">FIRST100</span>.
+          </p>
+          <button
+            onClick={() => setShowForm(true)}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs shadow-sm transition-all"
+          >
+            <span>✍️</span> Write First Verified Review
+          </button>
+        </div>
+      )}
 
       {/* Write a Review Modal / Form Accordion */}
       {showForm && (

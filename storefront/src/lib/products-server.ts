@@ -39,19 +39,51 @@ function toPet(value: string): PetType {
   return value === 'dog' || value === 'cat' || value === 'both' ? value : 'both';
 }
 
+export function cleanBrandTitle(rawTitle: string): string {
+  if (!rawTitle) return '';
+  return rawTitle
+    .replace(/\|\s*[A-Z0-9]{2,6}/gi, '')
+    .replace(/\b(qikink|ut58|cc32|ms65|fc38|fa30|uj31|fd16|ur50|ua22|ut27|mt45|ut68)\b/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function cleanSentence(text: string): string {
+  if (!text) return '';
+  let s = text.trim();
+  s = s.replace(/[-–—\s]+$/, '');
+  s = s.replace(/,\s*(?:pr|pre|bio|and|with|for)$/i, '');
+  s = s.replace(/\s+(?:bio|Rar|pr|as a Rar)$/i, '');
+  if (s && !/[.!?]$/.test(s)) s += '.';
+  return s;
+}
+
+function cleanDetailsArray(details: string[]): string[] {
+  return details
+    .map((d) => cleanSentence(d))
+    .filter((d) => d.length > 10 && !/^(compatible with|order as a|unisex .* with custom printing)/i.test(d));
+}
+
 function mapRowToProduct(r: ProductRow): Product {
   const description = r.description ?? '';
+  const cleanedTitle = cleanBrandTitle(r.title ?? '');
+  
+  // Extract clean complete first sentence for short description instead of slicing at 140 chars
+  const shortText = r.short && r.short.trim().length > 0
+    ? cleanSentence(r.short)
+    : (description.split(/[.!?]\s+/)[0]?.trim() || 'Premium domestic heavyweight quality with fast express dispatch across India.');
+
   return {
     id: r.id,
     slug: r.slug ?? r.id,
-    emoji: r.emoji ?? '🐾',
+    emoji: r.emoji ?? '🔥',
     tag: r.tag ?? '',
     tagColor: r.tag_color ?? '#ff6b35',
     tagBg: r.tag_bg ?? 'rgba(255,107,53,0.12)',
-    title: r.title ?? '',
-    short: r.short || description.slice(0, 140),
-    story: r.story || description,
-    details: toStringArray(r.details),
+    title: cleanedTitle,
+    short: cleanSentence(shortText),
+    story: cleanSentence(r.story || description),
+    details: cleanDetailsArray(toStringArray(r.details)),
     price: Number(r.price ?? 0),
     price_inr: (r as any).price_inr != null ? Number((r as any).price_inr) : Math.round(Number(r.price ?? 0) * 85),
     compareAtPrice: r.compare_at_price != null ? Number(r.compare_at_price) : undefined,
@@ -173,6 +205,16 @@ export async function getNewProducts(limit = 8): Promise<Product[]> {
 }
 
 
+function sanitizeLocalProduct(p: Product): Product {
+  return {
+    ...p,
+    title: cleanBrandTitle(p.title),
+    short: cleanSentence(p.short),
+    story: cleanSentence(p.story),
+    details: cleanDetailsArray(p.details || []),
+  };
+}
+
 export async function getProductFromDB(id: string): Promise<Product | null> {
   if (!id) return null;
   const cleanId = id.trim().toLowerCase();
@@ -187,7 +229,7 @@ export async function getProductFromDB(id: string): Promise<Product | null> {
   if (!url || !key) {
     const local = localProducts.find((p) => p.id === id || p.slug === id);
     if (!local || isDisallowedProduct(local)) return null;
-    return local;
+    return sanitizeLocalProduct(local);
   }
   try {
     const cleanId = String(id).trim().replace(/[^a-zA-Z0-9_:-]/g, '').slice(0, 128);
@@ -205,7 +247,7 @@ export async function getProductFromDB(id: string): Promise<Product | null> {
     if (error || !data) {
       const local = localProducts.find((p) => p.id === id || p.slug === id);
       if (!local || isDisallowedProduct(local)) return null;
-      return local;
+      return sanitizeLocalProduct(local);
     }
     if (isDisallowedProduct(data)) {
       return null;
@@ -214,6 +256,6 @@ export async function getProductFromDB(id: string): Promise<Product | null> {
   } catch {
     const local = localProducts.find((p) => p.id === id || p.slug === id);
     if (!local || isDisallowedProduct(local)) return null;
-    return local;
+    return sanitizeLocalProduct(local);
   }
 }

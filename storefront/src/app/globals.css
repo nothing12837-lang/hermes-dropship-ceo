@@ -423,12 +423,12 @@
 
   /* ── Below the fixed header (clean bar + mobile search row) ── */
   .page-top {
-    padding-top: 122px;
+    padding-top: 130px;
   }
 
   @media (min-width: 1024px) {
     .page-top {
-      padding-top: 76px;
+      padding-top: 96px;
     }
   }
 
