@@ -328,10 +328,16 @@ export async function POST(req: NextRequest) {
     }).catch((e) => console.error('Telegram background alert error:', e));
 
     // Automated Order Dispatch to Qikink (Tirupur hub)
-    // ONLY dispatch genuine customer orders; test/temp orders are strictly blocked to prevent physical printing.
+    // ONLY dispatch genuine customer orders; test/temp orders are strictly blocked.
+    // COD orders are safely held in 'pending_cod' awaiting WhatsApp address confirmation,
+    // protecting against ₹345 RTO dead-inventory losses. Prepaid orders dispatch immediately!
     let fulfillment: any = null;
+    const isCod = body.payment_method === 'cod';
+
     if (isTestOrder(newOrder)) {
       console.log(`[Orders API] Order ${finalOrderId} identified as test/temp order. Skipping Qikink factory dispatch.`);
+    } else if (isCod) {
+      console.log(`[Orders API] COD Order ${finalOrderId} safely held in pending_cod awaiting customer confirmation.`);
     } else {
       fulfillment = await fulfillQikinkOrder(sb, finalOrderId, newOrder).catch((e) => {
         console.error('Qikink auto-fulfillment background error:', e);
