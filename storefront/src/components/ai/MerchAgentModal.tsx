@@ -39,7 +39,7 @@ export function MerchAgentModal({ isOpen, onClose, defaultProduct = 'tee', defau
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: `👋 Hey! I'm **EmberAI**, RareEmber's B2B Merch Specialist.\n\nAre you organizing a **hackathon, college fest, startup launch, or team drop**? Tell me what you're planning, your target quantity, or ask for a live production quote!`,
+      content: `👋 Greetings! I am **Hermes AI**, RareEmber's Autonomous B2B Merch Specialist & Production Desk (powered by Hermes Agent Engine).\n\nAre you organizing a **hackathon, college fest, startup launch, or team drop**? Tell me what you're planning, your target quantity, or ask for a live production quote!`,
     },
   ]);
   const [input, setInput] = useState('');
@@ -68,7 +68,7 @@ export function MerchAgentModal({ isOpen, onClose, defaultProduct = 'tee', defau
     setLoading(true);
 
     try {
-      const res = await fetch('/api/ai/merch-agent', {
+      const res = await fetch('/api/hermes/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -147,7 +147,7 @@ export function MerchAgentModal({ isOpen, onClose, defaultProduct = 'tee', defau
     }
 
     try {
-      const res = await fetch('/api/ai/merch-agent', {
+      const res = await fetch('/api/hermes/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -219,16 +219,16 @@ export function MerchAgentModal({ isOpen, onClose, defaultProduct = 'tee', defau
         <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between bg-[#191715]/80 backdrop-blur-md">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#FF4D24] to-[#f59e0b] flex items-center justify-center text-lg font-black shadow-lg">
-              🤖
+              🏛️
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-black text-sm text-white">EmberAI</h3>
+                <h3 className="font-black text-sm text-white">Hermes AI</h3>
                 <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Live Tirupur Desk
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Live Tirupur Desk • Hermes Engine
                 </span>
               </div>
-              <p className="text-[11px] text-white/60">B2B Custom Merch &amp; Bulk Quote Agent</p>
+              <p className="text-[11px] text-white/60">Autonomous B2B Merch Desk &amp; Production Engineer</p>
             </div>
           </div>
 
@@ -358,7 +358,7 @@ export function MerchAgentModal({ isOpen, onClose, defaultProduct = 'tee', defau
           {loading && (
             <div className="flex items-center gap-2 text-white/50 text-xs">
               <span className="w-2 h-2 rounded-full bg-[#FF4D24] animate-ping" />
-              <span>EmberAI is calculating tier pricing &amp; Tirupur capacity...</span>
+              <span>Hermes AI is calculating tier pricing &amp; Tirupur capacity...</span>
             </div>
           )}
 

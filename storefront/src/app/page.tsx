@@ -247,7 +247,7 @@ export default async function Home() {
               </h3>
               <p className="text-xs md:text-sm text-white/70 leading-relaxed">
                 Zero setup fees. Bulk 240 GSM Heavyweight Tees &amp; 380 GSM Hoodies from <b>₹269/unit</b>. 
-                Chat with our <b>B2B Merch AI</b> for instant tier quotes, 20% advance booking, and free 3D mockups in 2 hours.
+                Chat with our <b>Hermes AI Desk</b> for instant tier quotes, 20% advance booking, and free 3D mockups in 2 hours.
               </p>
             </div>
 
@@ -256,7 +256,7 @@ export default async function Home() {
                 href="/custom-drops"
                 className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#FF4D24] to-[#f59e0b] hover:opacity-95 text-white font-black text-xs uppercase tracking-wider text-center no-underline transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5"
               >
-                <span>🤖</span> Talk to Merch AI Desk ➔
+                <span>🏛️</span> Talk to Hermes AI Desk ➔
               </Link>
               <Link
                 href={process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ? `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER.replace(/\D/g, '')}?text=Hi%20Ajay%2C%20I%20need%20custom%20merch%20for%20our%20team` : '/custom-drops'}

@@ -124,7 +124,7 @@ export function CustomDropsClient() {
               onClick={() => setIsAiAgentOpen(true)}
               className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF4D24] via-[#ff3b0f] to-[#E8244B] text-white font-black text-xs uppercase tracking-wider shadow-[0_8px_25px_rgba(255,77,36,0.4)] hover:scale-105 active:scale-95 transition-all cursor-pointer border-none flex items-center justify-center gap-2"
             >
-              <span>🤖 Talk to B2B Merch AI • Instant Quote &amp; 20% Advance</span>
+              <span>🏛️ Talk to Hermes AI • Instant Quote &amp; 20% Advance</span>
             </button>
             <a
               href="#estimator"
@@ -478,7 +478,7 @@ export function CustomDropsClient() {
           className="px-5 py-3 rounded-full bg-[#161311] text-white hover:bg-black font-black text-xs uppercase tracking-wider shadow-2xl border border-white/20 flex items-center gap-2 cursor-pointer transition-all hover:scale-105 active:scale-95 ring-2 ring-[#FF4D24]/50"
         >
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span>🤖 AI Merch Specialist</span>
+          <span>🏛️ Hermes AI Desk</span>
           <span className="text-[#FF9A3D]">⚡</span>
         </button>
       </div>
