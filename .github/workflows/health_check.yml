@@ -2,8 +2,6 @@ name: RareEmber Cloud Health & Security Sentinel
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '30 18 * * *'  # 12:00 AM Midnight IST (Nightly Audit)
 
 permissions:
   contents: read
@@ -33,10 +31,10 @@ jobs:
 
       - name: Run Nightly Cloud Health Sentinel
         env:
-          SITE_URL: "https://rareember-store.vercel.app"
+          SITE_URL: "https://www.rareember.shop"
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_ALLOWED_USERS: ${{ secrets.TELEGRAM_ALLOWED_USERS }}
-          SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST || 'db.qdkkxpfhwrwyoardlceo.supabase.co' }}
+          SUPABASE_DB_HOST: "db.qdkkxpfhwrwyoardlceo.supabase.co"
           SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER || 'postgres' }}
           SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME || 'postgres' }}
           SUPABASE_DB_PASS: ${{ secrets.SUPABASE_DB_PASS }}
