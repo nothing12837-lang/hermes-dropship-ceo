@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { products as localProducts, type Product, type ProductCategory, type PetType, type AgeGroup } from '@/lib/data/products';
+import { products as localProducts, cleanBrandTitle, type Product, type ProductCategory, type PetType, type AgeGroup } from '@/lib/data/products';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { resolveProductImages } from '@/lib/data/product-gallery';
 import type { Database, Json } from '@/lib/database.types';
@@ -39,14 +39,7 @@ function toPet(value: string): PetType {
   return value === 'dog' || value === 'cat' || value === 'both' ? value : 'both';
 }
 
-export function cleanBrandTitle(rawTitle: string): string {
-  if (!rawTitle) return '';
-  return rawTitle
-    .replace(/\|\s*[A-Z0-9]{2,6}/gi, '')
-    .replace(/\b(qikink|ut58|cc32|ms65|fc38|fa30|uj31|fd16|ur50|ua22|ut27|mt45|ut68)\b/gi, '')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
+export { cleanBrandTitle };
 
 function cleanSentence(text: string): string {
   if (!text) return '';
@@ -131,7 +124,7 @@ export async function getProductsFromDB(): Promise<Product[]> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key =
     process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return localProducts.filter((p) => !isDisallowedProduct(p));
+  if (!url || !key) return localProducts.filter((p) => !isDisallowedProduct(p)).map(sanitizeLocalProduct);
   try {
     const sb = createClient<Database>(url, key);
     const { data, error } = await sb
@@ -139,10 +132,10 @@ export async function getProductsFromDB(): Promise<Product[]> {
       .select('*')
       .eq('active', true)
       .order('chapter', { ascending: true });
-    if (error || !data || data.length === 0) return localProducts.filter((p) => !isDisallowedProduct(p));
+    if (error || !data || data.length === 0) return localProducts.filter((p) => !isDisallowedProduct(p)).map(sanitizeLocalProduct);
     return data.filter((r) => !isDisallowedProduct(r)).map(mapRowToProduct);
   } catch {
-    return localProducts.filter((p) => !isDisallowedProduct(p));
+    return localProducts.filter((p) => !isDisallowedProduct(p)).map(sanitizeLocalProduct);
   }
 }
 
@@ -201,6 +194,7 @@ export async function getNewProducts(limit = 8): Promise<Product[]> {
   }
   return localProducts
     .filter((p) => !isDisallowedProduct(p) && p.is_new)
+    .map(sanitizeLocalProduct)
     .slice(0, limit);
 }
 

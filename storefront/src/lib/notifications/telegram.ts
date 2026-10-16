@@ -83,7 +83,7 @@ export async function notifyTelegramOrder(order: {
       `Aapka Rare Ember order #${order.id} receive ho gaya hai!\n\n` +
       `📦 Item: ${firstItemTitle}\n` +
       `💰 Delivery Amount: ₹${order.total.toLocaleString()} (${isCod ? 'COD' : 'Paid'})\n\n` +
-      `Aapka order Qikink production queue me add ho chuka hai. Express dispatch ke saath live tracking link SMS/WhatsApp par milega. Dhanyawad! ✨ - Team Rare Ember`
+      `Aapka order Rare Ember production queue me add ho chuka hai. Express dispatch ke saath live tracking link SMS/WhatsApp par milega. Dhanyawad! ✨ - Team Rare Ember`
     );
     const waLink = `https://wa.me/${intlPhone}?text=${waText}`;
     waSection = `💬 <b>1-CLICK WHATSAPP CONFIRMATION:</b>\n👉 <a href="${waLink}">Tap to Send WhatsApp to Customer</a>\n\n`;

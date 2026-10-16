@@ -75,7 +75,7 @@ export default function PrivacyPage() {
                 Your data is only shared with authorized <b>Data Processors</b> under strict non-disclosure and security safeguards:
               </p>
               <ul className="list-disc pl-5 mt-2 space-y-1 text-neutral-600 text-xs">
-                <li><b>Logistics & Fulfillment:</b> Qikink / BlueDart / Delhivery (solely for parcel delivery to your address).</li>
+                <li><b>Logistics & Fulfillment:</b> Authorized Direct Domestic Facilities / BlueDart / Delhivery (solely for parcel delivery to your address).</li>
                 <li><b>Payment Infrastructure:</b> Razorpay Software Pvt. Ltd. (PCI-DSS Level 1 certified gateway).</li>
                 <li><b>Secure Database:</b> Supabase / PostgreSQL (Enterprise-grade AES-256 encryption at rest and in transit).</li>
               </ul>

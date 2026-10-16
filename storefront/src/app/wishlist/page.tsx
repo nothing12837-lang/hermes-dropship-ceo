@@ -49,7 +49,7 @@ function rowToCard(p: ProductRow) {
     gradient: p.gradient || 'linear-gradient(135deg, #FFF3E4, #FFE8D6)',
     imageUrl: resolveProductImage(p.id, p.image_url),
     chapter: p.chapter || undefined,
-    pet: (p.pet === 'dog' || p.pet === 'cat' ? p.pet : undefined) as 'dog' | 'cat' | undefined,
+    pet: undefined,
     rating: Number(p.rating ?? 4.3),
     reviews: Number(p.reviews ?? 120),
     discount: computeDiscount(Number(p.price), compare, (p as any).price_inr ? Number((p as any).price_inr) : undefined),
@@ -92,7 +92,7 @@ export default function WishlistPage() {
         <ChapterHeading index="♡" label="Wishlist" title="Saved for" accent="later." />
         {list.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '3rem', background: 'white', borderRadius: '1.5rem', border: '1px solid #ebebeb' }}>
-            <div style={{ fontSize: '3rem' }}>🐾</div>
+            <div style={{ fontSize: '3rem', color: '#FF4D24' }}>♡</div>
             <p style={{ fontWeight: 800, marginTop: '1rem' }}>Nothing saved yet.</p>
             <p style={{ color: '#8a7b6b' }}>Tap the ♡ on any product to keep it here.</p>
             <Link href="/shop" style={{ display: 'inline-block', marginTop: '1.5rem', background: '#FF4D24', color: 'white', padding: '0.9rem 2rem', borderRadius: '9999px', fontWeight: 800, textDecoration: 'none' }}>

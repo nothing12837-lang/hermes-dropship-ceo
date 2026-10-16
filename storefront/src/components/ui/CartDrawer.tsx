@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCart } from '@/lib/store/cart';
-import { formatPrice, products, type Product } from '@/lib/data/products';
+import { formatPrice, products, cleanBrandTitle, type Product } from '@/lib/data/products';
 import { COPY } from '@/lib/data/copy';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -264,7 +264,7 @@ export default function CartDrawer() {
                         <div className="flex-1 min-w-0">
                           <Link href={`/product/${((d.product as any)?.slug || d.id.split('__')[0]).replace(/^meesho-/, '')}`} className="no-inherit">
                             <p className="font-extrabold text-sm text-text-primary truncate">
-                              {d.product.title}
+                              {cleanBrandTitle(d.product.title)}
                             </p>
                           </Link>
                           {(d.size || d.phoneModel || d.customText || (d as any).customImageName || (d as any).customImage) && (

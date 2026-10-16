@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import { useCart } from '@/lib/store/cart';
 import { useWishlist } from '@/lib/store/wishlist';
 import { resolveProductImage } from '@/lib/data/fallback-images';
+import { cleanBrandTitle } from '@/lib/data/products';
 
 import { useGeo } from '@/context/GeoContext';
 
@@ -67,9 +68,23 @@ export default function ProductCard({
   const showImage = Boolean(resolvedSrc) && !imgFailed;
   const isInStock = inStock !== false && (stock == null || stock > 0);
   const productHref = `/product/${(slug || id).replace(/^meesho-/, '')}`;
+  const cleanTitle = cleanBrandTitle(title);
 
+  const inr = rawPrice ?? (parseFloat(price.replace(/[^0-9.]/g, '')) || 449);
   const displayPrice = rawPrice ? geoFormatPrice(rawPrice) : price;
-  const displayOldPrice = rawComparePrice ? geoFormatPrice(rawComparePrice) : oldPrice;
+
+  // Ensure M.R.P. is ALWAYS strictly higher than selling price and formatted accurately
+  const calculatedCompareInr = (() => {
+    if (rawComparePrice != null && rawComparePrice > 0) {
+      const cmp = rawComparePrice >= 80 ? rawComparePrice : Math.round(rawComparePrice * 85);
+      if (cmp > inr) return cmp;
+    }
+    // Standard retail markup (44% OFF floor)
+    return Math.round(inr / 0.56);
+  })();
+
+  const displayOldPrice = geoFormatPrice(calculatedCompareInr);
+  const calculatedDiscount = Math.max(5, Math.min(80, discount ?? Math.round((1 - inr / calculatedCompareInr) * 100)));
 
   const handleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -80,13 +95,12 @@ export default function ProductCard({
   const handleOrderNow = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const inr = rawPrice ?? (parseFloat(price.replace(/[^0-9.]/g, '')) || 449);
     add(id, 1, {
-      title,
+      title: cleanTitle,
       price: Number((inr / 85).toFixed(2)),
       price_inr: inr,
       emoji,
-      imageUrl,
+      imageUrl: (resolvedSrc as string) || imageUrl,
       gradient,
     });
     router.push('/checkout');
@@ -104,7 +118,7 @@ export default function ProductCard({
           {showImage ? (
             <Image
               src={resolvedSrc as string}
-              alt={title}
+              alt={cleanTitle}
               fill
               priority={isLcpCandidate}
               loading={isLcpCandidate ? undefined : 'lazy'}
@@ -164,9 +178,9 @@ export default function ProductCard({
           )}
 
           {/* Discount chip */}
-          {isInStock && discount != null && discount > 0 && (
+          {isInStock && calculatedDiscount > 0 && (
             <span className="absolute bottom-2.5 right-2.5 text-[11px] font-black px-2.5 py-1 rounded-full text-white shadow-md bg-gradient-to-r from-emerald-500 to-teal-500">
-              −{discount}%
+              −{calculatedDiscount}%
             </span>
           )}
         </div>
@@ -187,7 +201,7 @@ export default function ProductCard({
             className="text-[15px] font-bold leading-snug mb-2 overflow-hidden text-[#1d1d1f] transition-colors duration-300 group-hover:text-ember-deep"
             style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
           >
-            {title}
+            {cleanTitle}
           </h3>
           <div className="flex flex-col mt-auto pt-1">
             <div className="flex items-baseline gap-2 flex-wrap">
@@ -195,8 +209,8 @@ export default function ProductCard({
               {displayOldPrice && (
                 <span className="text-xs text-text-muted line-through font-medium">M.R.P.: {displayOldPrice}</span>
               )}
-              {discount != null && discount > 0 && (
-                <span className="text-xs font-extrabold text-emerald-600">({discount}% off)</span>
+              {calculatedDiscount > 0 && (
+                <span className="text-xs font-extrabold text-emerald-600">({calculatedDiscount}% off)</span>
               )}
             </div>
           </div>

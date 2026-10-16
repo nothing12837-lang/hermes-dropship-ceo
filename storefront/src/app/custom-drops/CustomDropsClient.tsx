@@ -65,7 +65,8 @@ export function CustomDropsClient() {
       `Please share free digital mockups & dispatch timeline!`
     );
     // WhatsApp direct link to RareEmber Founder line
-    return `https://wa.me/919999999999?text=${text}`;
+    const waNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '';
+    return waNumber ? `https://wa.me/${waNumber.replace(/\D/g, '')}?text=${text}` : `https://wa.me/?text=${text}`;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -125,7 +126,7 @@ export function CustomDropsClient() {
               Instant Bulk Price Estimator
             </h2>
             <p className="text-xs md:text-sm text-neutral-500 mt-1">
-              Select your merchandise type and quantity to see live transparent wholesale factory pricing.
+              Select your merchandise type and quantity to see live transparent factory-direct bulk pricing.
             </p>
           </div>
 
@@ -258,7 +259,7 @@ export function CustomDropsClient() {
 
               <div className="space-y-3 text-xs">
                 <div className="flex items-center justify-between text-white/70">
-                  <span>Unit Wholesale Price:</span>
+                  <span>Bulk Tier Unit Price:</span>
                   <span className="text-base font-black text-white">₹{unitPrice}</span>
                 </div>
                 <div className="flex items-center justify-between text-white/70">

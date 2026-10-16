@@ -21,13 +21,12 @@ export default function GlobalError({
           }}
         >
           <div>
-            <div style={{ fontSize: '3.5rem' }}>🐾</div>
+            <div style={{ fontSize: '3.5rem' }}>⚡</div>
             <h1 style={{ fontWeight: 900, fontSize: '1.8rem', marginTop: '1rem' }}>
-              RareEmber stumbled
+              RareEmber Gateway Reconnecting
             </h1>
             <p style={{ color: '#52453e', marginTop: '0.75rem' }}>
-              A critical error occurred{error.digest ? ` (ID: ${error.digest})` : ''}. Please
-              reload the page.
+              A critical error occurred{error.digest ? ` (ID: ${error.digest})` : ''}. Please reload the storefront.
             </p>
             <button
               onClick={reset}

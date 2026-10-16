@@ -27,13 +27,12 @@ export default function Error({
       }}
     >
       <div style={{ maxWidth: '480px' }}>
-        <div style={{ fontSize: '3.5rem' }}>🐾</div>
+        <div style={{ fontSize: '3.5rem' }}>⚡</div>
         <h1 style={{ fontWeight: 900, fontSize: '1.8rem', marginTop: '1rem' }}>
-          This chapter got chewed up
+          Stream Temporarily Interrupted
         </h1>
         <p style={{ color: '#52453e', marginTop: '0.75rem', lineHeight: 1.7 }}>
-          Something went wrong on our side. Your pack is safe — try again, or head back to
-          the catalog.
+          Something went wrong while loading this page. Your cart and orders are safe — try refreshing or head back to the catalog.
         </p>
         {error.digest && (
           <p style={{ color: '#8a7b6b', fontSize: '0.8rem', marginTop: '0.5rem' }}>

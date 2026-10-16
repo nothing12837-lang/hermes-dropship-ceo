@@ -479,18 +479,22 @@ export default function AdminOrdersPage() {
                     </button>
 
                     {/* WhatsApp Action */}
-                    {phone && (
-                      <a
-                        href={`https://wa.me/91${phone.replace(/\D/g, '')}?text=${encodeURIComponent(
-                          `Namaste! RareEmber se aapka order #${o.id.slice(0, 8)} confirm ho gaya hai. Dispatch details jald hi share karenge!`
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-3 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-400 text-xs font-bold flex items-center gap-1.5 transition-all"
-                      >
-                        <span>💬</span> WhatsApp Customer
-                      </a>
-                    )}
+                    {phone && (() => {
+                      const digits = phone.replace(/\D/g, '');
+                      const waNum = digits.length === 12 && digits.startsWith('91') ? digits : (digits.length === 10 ? `91${digits}` : digits);
+                      return (
+                        <a
+                          href={`https://wa.me/${waNum}?text=${encodeURIComponent(
+                            `Namaste! RareEmber se aapka order #${o.id.slice(0, 8)} confirm ho gaya hai. Dispatch details jald hi share karenge!`
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-400 text-xs font-bold flex items-center gap-1.5 transition-all"
+                        >
+                          <span>💬</span> WhatsApp Customer
+                        </a>
+                      );
+                    })()}
 
                     {/* Copy Address */}
                     <button

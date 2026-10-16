@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/lib/store/cart';
-import { formatPrice, products } from '@/lib/data/products';
+import { formatPrice, products, cleanBrandTitle } from '@/lib/data/products';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { supabase } from '@/lib/supabase-client';
 import { useGeo } from '@/context/GeoContext';
@@ -197,11 +197,12 @@ export default function CheckoutPage() {
           body: JSON.stringify({
             email,
             name,
-            address: { line1: address, city, zip },
+            phone: normalizedPhone,
+            address: { line1: address, city, zip, phone: normalizedPhone },
             items: detailed.map((d) => ({
               id: d.id,
               product_id: d.id.split('__')[0],
-              title: d.product.title,
+              title: cleanBrandTitle(d.product.title),
               qty: d.qty,
               imageUrl: d.imageUrl || (d.product as any).image_url,
               selectedStyle: (d as any).selectedStyle,
@@ -273,11 +274,12 @@ export default function CheckoutPage() {
         body: JSON.stringify({
           email,
           name,
-          address: { line1: address, city, zip },
+          phone: normalizedPhone,
+          address: { line1: address, city, zip, phone: normalizedPhone },
           items: detailed.map((d) => ({
             id: d.id,
             product_id: d.id.split('__')[0],
-            title: d.product.title,
+            title: cleanBrandTitle(d.product.title),
             qty: d.qty,
             imageUrl: d.imageUrl || (d.product as any).image_url,
             selectedStyle: (d as any).selectedStyle,
@@ -330,7 +332,7 @@ export default function CheckoutPage() {
             setProcessing(false);
           },
         },
-        prefill: { name: name, email: email },
+        prefill: { name: name.trim(), email: email.trim(), contact: normalizedPhone },
         theme: { color: '#FF4D24' },
       };
 
@@ -681,7 +683,7 @@ export default function CheckoutPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <span className="block font-bold text-xs text-white truncate">
-                        {d.product.title}
+                        {cleanBrandTitle(d.product.title)}
                       </span>
                       {(d.size || d.phoneModel || d.customText) && (
                         <div className="flex flex-wrap gap-1 mt-0.5 mb-0.5 text-[10px]">

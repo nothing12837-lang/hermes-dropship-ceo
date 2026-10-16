@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
       if (order && order.status === 'pending') {
         await supabase.from('orders').update({ status: 'paid' }).eq('id', order.id);
         
-        // Notify store owner on Telegram automatically with exact Meesho link
+        // Notify store owner on Telegram automatically with 1-click WhatsApp link & dispatch status
         notifyTelegramOrder({
           id: order.id,
           total: Number(order.total_amount || 0),

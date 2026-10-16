@@ -763,7 +763,7 @@ export function ProductClient({ product }: Props) {
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 text-rose-800 font-bold border border-rose-500/20">
-                      <span className="w-2 h-2 rounded-full bg-rose-500" /> Currently Out of Stock at Supplier
+                      <span className="w-2 h-2 rounded-full bg-rose-500" /> Temporarily Out of Stock • Restocking Soon
                     </span>
                   )}
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-800 font-semibold border border-blue-500/20">

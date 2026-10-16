@@ -37,6 +37,7 @@ interface CheckoutBody {
   items?: CheckoutItem[];
   email?: string;
   name?: string;
+  phone?: string;
   address?: Record<string, string>;
   user_id?: string;
   market?: string;
@@ -107,7 +108,7 @@ export async function POST(req: NextRequest) {
         const outOfStock = rows.find((r: any) => r.active === false || (r.stock != null && Number(r.stock) <= 0));
         if (outOfStock) {
           return NextResponse.json(
-            { error: `"${outOfStock.title}" is currently out of stock at supplier. Order cannot be placed.` },
+            { error: `"${outOfStock.title}" is currently out of stock at our studio. Order cannot be placed.` },
             { status: 400 }
           );
         }
@@ -225,6 +226,7 @@ export async function POST(req: NextRequest) {
       notes: {
         email,
         name: (name || '').slice(0, 100),
+        phone: String(body.phone || address?.phone || '').slice(0, 20),
         coupon: (verifiedCoupon || '').slice(0, 50),
         discount: String(discountAmount),
       },

@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChapterHeading } from '@/components/ui/Story';
-import { formatPrice, products } from '@/lib/data/products';
+import { formatPrice, products, cleanBrandTitle } from '@/lib/data/products';
 import { useGeo } from '@/context/GeoContext';
 
 interface OrderItem {
@@ -347,7 +347,7 @@ export function TrackClient() {
                                   </div>
                                   <div className="min-w-0">
                                     <p className="font-bold text-neutral-900 truncate max-w-[160px]">
-                                      {prod?.title || it.title || it.id}
+                                      {cleanBrandTitle(prod?.title || it.title || it.id)}
                                     </p>
                                     <p className="text-[10px] text-neutral-400">
                                       Qty: {it.qty || 1}

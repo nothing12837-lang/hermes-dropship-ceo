@@ -257,14 +257,12 @@ export default async function Home() {
               >
                 Calculate Bulk Pricing ➔
               </Link>
-              <a
-                href="https://wa.me/919999999999?text=Hi%20Ajay%2C%20I%20need%20custom%20merch%20for%20our%20team"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href={process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ? `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER.replace(/\D/g, '')}?text=Hi%20Ajay%2C%20I%20need%20custom%20merch%20for%20our%20team` : '/custom-drops'}
                 className="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs uppercase tracking-wider text-center no-underline transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5"
               >
-                <span>💬</span> WhatsApp Spec Desk
-              </a>
+                <span>💬</span> Custom Merch Desk
+              </Link>
             </div>
           </div>
         </section>
