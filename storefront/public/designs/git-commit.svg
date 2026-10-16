@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="codeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+  </defs>
+
+  <!-- Developer Dark Window Frame -->
+  <rect x="80" y="100" width="640" height="600" rx="20" fill="#0c0a09" stroke="#27272a" stroke-width="4" />
+  
+  <!-- Window Header Bar -->
+  <rect x="80" y="100" width="640" height="50" rx="20" fill="#18181b" />
+  <rect x="80" y="130" width="640" height="20" fill="#18181b" />
+  
+  <!-- macOS Style Traffic Lights -->
+  <circle cx="120" cy="125" r="7" fill="#EF4444" />
+  <circle cx="145" cy="125" r="7" fill="#F59E0B" />
+  <circle cx="170" cy="125" r="7" fill="#10B981" />
+
+  <text x="400" y="130" fill="#a1a1aa" font-family="'Courier New', monospace" font-size="14" font-weight="700" text-anchor="middle" letter-spacing="2">
+    bash — rareember@production: ~ (zsh)
+  </text>
+
+  <!-- Terminal Syntax Content -->
+  <g transform="translate(120, 210)" font-family="'Courier New', monospace">
+    <!-- Prompt 1 -->
+    <text x="0" y="0" fill="#10B981" font-size="20" font-weight="900">➜</text>
+    <text x="30" y="0" fill="#38BDF8" font-size="20" font-weight="900">workspace</text>
+    <text x="165" y="0" fill="#a1a1aa" font-size="20" font-weight="700">git:(</text>
+    <text x="225" y="0" fill="#EF4444" font-size="20" font-weight="900">main</text>
+    <text x="275" y="0" fill="#a1a1aa" font-size="20" font-weight="700">)</text>
+    <text x="305" y="0" fill="#FFFFFF" font-size="20" font-weight="800">git add reality.ts</text>
+
+    <!-- Prompt 2 -->
+    <text x="0" y="60" fill="#10B981" font-size="20" font-weight="900">➜</text>
+    <text x="30" y="60" fill="#38BDF8" font-size="20" font-weight="900">workspace</text>
+    <text x="165" y="60" fill="#a1a1aa" font-size="20" font-weight="700">git:(</text>
+    <text x="225" y="60" fill="#EF4444" font-size="20" font-weight="900">main</text>
+    <text x="275" y="60" fill="#a1a1aa" font-size="20" font-weight="700">)</text>
+    <text x="305" y="60" fill="#FFFFFF" font-size="20" font-weight="800">git commit -m "build dreams"</text>
+
+    <!-- Git Output Box -->
+    <rect x="0" y="90" width="560" height="85" rx="10" fill="#18181b" stroke="#27272a" stroke-width="2" />
+    <text x="20" y="125" fill="#a1a1aa" font-size="16" font-weight="600">[main 0x7f4a] 100% test coverage • 0 bugs found</text>
+    <text x="20" y="155" fill="#10B981" font-size="16" font-weight="700">2 files changed, 240 GSM insertions(+), 0 deletions(-)</text>
+
+    <!-- Prompt 3: Force Push -->
+    <text x="0" y="225" fill="#10B981" font-size="20" font-weight="900">➜</text>
+    <text x="30" y="225" fill="#38BDF8" font-size="20" font-weight="900">workspace</text>
+    <text x="165" y="225" fill="#a1a1aa" font-size="20" font-weight="700">git:(</text>
+    <text x="225" y="225" fill="#EF4444" font-size="20" font-weight="900">main</text>
+    <text x="275" y="225" fill="#a1a1aa" font-size="20" font-weight="700">)</text>
+    <text x="305" y="225" fill="#FF4D24" font-size="20" font-weight="900">git push --force origin destiny</text>
+
+    <!-- Live Execution Status -->
+    <text x="0" y="280" fill="#F59E0B" font-size="16" font-weight="700">Enumerating objects: 100, done.</text>
+    <text x="0" y="310" fill="#38BDF8" font-size="16" font-weight="700">Writing objects: 100% (100/100), 240 KiB | 12.00 MiB/s, done.</text>
+    <text x="0" y="340" fill="#10B981" font-size="18" font-weight="900">To https://github.com/rareember/live.git</text>
+    <text x="0" y="370" fill="#10B981" font-size="18" font-weight="900"> * [new branch]      main -&gt; main (deployed to production)</text>
+
+    <!-- Blinking Cursor -->
+    <rect x="0" y="410" width="14" height="24" fill="#FF4D24">
+      <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite" />
+    </rect>
+  </g>
+
+  <!-- Bottom Brand Watermark -->
+  <text x="400" y="750" fill="#a1a1aa" font-family="'Courier New', monospace" font-size="14" font-weight="800" text-anchor="middle" letter-spacing="4">
+    RARE EMBER // DEVELOPER ARCHIVAL SERIES • BANGALORE
+  </text>
+</svg>

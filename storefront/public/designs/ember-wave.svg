@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="waveOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF9A3D" />
+      <stop offset="50%" stop-color="#FF4D24" />
+      <stop offset="100%" stop-color="#E8244B" />
+    </linearGradient>
+  </defs>
+
+  <!-- Circular Outer Frame -->
+  <circle cx="400" cy="380" r="230" fill="#09090b" stroke="#FF4D24" stroke-width="4" />
+  
+  <!-- Rising Sun Behind Wave -->
+  <circle cx="400" cy="320" r="120" fill="url(#waveOrange)" />
+
+  <!-- Mount Fuji Silhouette -->
+  <polygon points="340,320 400,240 460,320" fill="#FFFFFF" opacity="0.9" />
+  <polygon points="370,280 400,240 430,280" fill="#09090b" />
+
+  <!-- Stylized Great Wave Vector Paths -->
+  <g fill="url(#waveOrange)" stroke="#09090b" stroke-width="3">
+    <!-- Big Cresting Wave -->
+    <path d="M 180 460 
+             C 240 420, 290 350, 310 260 
+             C 315 235, 330 220, 350 230 
+             C 365 240, 355 270, 340 300 
+             C 380 270, 410 260, 440 280 
+             C 450 290, 440 310, 420 330 
+             C 470 320, 520 340, 560 400 
+             C 610 470, 620 540, 620 600 
+             L 180 600 Z" />
+
+    <!-- Foam Claws -->
+    <circle cx="315" cy="225" r="8" fill="#FFFFFF" stroke="none" />
+    <circle cx="340" cy="220" r="6" fill="#FFFFFF" stroke="none" />
+    <circle cx="360" cy="235" r="8" fill="#FFFFFF" stroke="none" />
+    <circle cx="430" cy="270" r="7" fill="#FFFFFF" stroke="none" />
+    <circle cx="450" cy="285" r="6" fill="#FFFFFF" stroke="none" />
+  </g>
+
+  <!-- Lower Ocean Ripples -->
+  <path d="M 175 480 Q 280 440 400 490 T 625 480 L 625 600 L 175 600 Z" fill="#18181b" opacity="0.8" />
+  <path d="M 175 520 Q 300 490 400 540 T 625 530 L 625 600 L 175 600 Z" fill="#27272a" opacity="0.9" />
+
+  <!-- Top Curved Japanese Script -->
+  <text x="400" y="110" fill="#FFFFFF" font-family="sans-serif" font-weight="900" font-size="28" text-anchor="middle" letter-spacing="12">
+    神奈川沖浪裏 • GREAT EMBER WAVE
+  </text>
+  <text x="400" y="140" fill="#FF9A3D" font-family="'Courier New', monospace" font-size="14" font-weight="700" text-anchor="middle" letter-spacing="6">
+    ARCHIVAL WOODBLOCK VECTOR RESTORATION
+  </text>
+
+  <!-- Bottom Archival Text -->
+  <text x="400" y="690" fill="#FFFFFF" font-family="sans-serif" font-weight="900" font-size="32" text-anchor="middle" letter-spacing="8">
+    THE GREAT EMBER WAVE
+  </text>
+  <text x="400" y="725" fill="#a1a1aa" font-family="'Courier New', monospace" font-size="14" font-weight="700" text-anchor="middle" letter-spacing="4">
+    RARE EMBER™ CREATOR SERIES • TIRUPUR 2026
+  </text>
+</svg>

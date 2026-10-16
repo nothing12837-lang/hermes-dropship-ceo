@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="chromeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="25%" stop-color="#d4d4d8" />
+      <stop offset="50%" stop-color="#71717a" />
+      <stop offset="75%" stop-color="#e4e4e7" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </linearGradient>
+  </defs>
+
+  <!-- Y2K 4-Point Stars -->
+  <g fill="url(#chromeGrad)">
+    <path d="M 120 160 Q 140 160 140 140 Q 140 160 160 160 Q 140 160 140 180 Q 140 160 120 160 Z" />
+    <path d="M 640 160 Q 660 160 660 140 Q 660 160 680 160 Q 660 160 660 180 Q 660 160 640 160 Z" />
+    <path d="M 160 620 Q 175 620 175 605 Q 175 620 190 620 Q 175 620 175 635 Q 175 620 160 620 Z" />
+    <path d="M 620 620 Q 635 620 635 605 Q 635 620 650 620 Q 635 620 635 635 Q 635 620 620 620 Z" />
+  </g>
+
+  <!-- Header Text -->
+  <text x="400" y="160" fill="url(#chromeGrad)" font-family="sans-serif" font-weight="900" font-size="52" text-anchor="middle" letter-spacing="12">
+    NO RAIN NO FLOWERS
+  </text>
+  <text x="400" y="195" fill="#FF4D24" font-family="'Courier New', monospace" font-size="16" font-weight="800" text-anchor="middle" letter-spacing="6">
+    ETERNAL EMBER • Y2K ARCHIVES
+  </text>
+
+  <!-- Central Liquid Chrome Cross & Angel Wings -->
+  <g transform="translate(400, 420)">
+    <!-- Angel Wings Left -->
+    <path d="M -20 -40 
+             C -90 -160, -220 -180, -320 -100 
+             C -340 -40, -320 40, -280 80 
+             C -230 40, -180 20, -120 40 
+             C -220 100, -260 180, -220 220 
+             C -170 180, -120 120, -70 80 
+             C -120 160, -140 240, -100 270 
+             C -60 210, -30 140, -10 60 Z" 
+          fill="url(#chromeGrad)" stroke="#18181b" stroke-width="3" />
+
+    <!-- Angel Wings Right -->
+    <path d="M 20 -40 
+             C 90 -160, 220 -180, 320 -100 
+             C 340 -40, 320 40, 280 80 
+             C 230 40, 180 20, 120 40 
+             C 220 100, 260 180, 220 220 
+             C 170 180, 120 120, 70 80 
+             C 120 160, 140 240, 100 270 
+             C 60 210, 30 140, 10 60 Z" 
+          fill="url(#chromeGrad)" stroke="#18181b" stroke-width="3" />
+
+    <!-- Center Gothic Cross -->
+    <g fill="#18181b" stroke="url(#chromeGrad)" stroke-width="6">
+      <!-- Vertical Beam -->
+      <path d="M -25 -200 L 25 -200 L 35 -160 L 25 -140 L 25 180 L 35 200 L 0 240 L -35 200 L -25 180 L -25 -140 L -35 -160 Z" />
+      <!-- Horizontal Beam -->
+      <path d="M -160 -40 L -160 -80 L -120 -90 L -100 -80 L 100 -80 L 120 -90 L 160 -80 L 160 -40 L 120 -30 L 100 -40 L -100 -40 L -120 -30 Z" />
+    </g>
+
+    <!-- Center Gem / Halo -->
+    <circle cx="0" cy="-60" r="18" fill="#FF4D24" stroke="#FFFFFF" stroke-width="3" />
+  </g>
+
+  <!-- Bottom Details -->
+  <text x="400" y="690" fill="#FFFFFF" font-family="'Courier New', monospace" font-size="16" font-weight="800" text-anchor="middle" letter-spacing="6">
+    LIMITED EDITION • 240 GSM DROP-SHOULDER
+  </text>
+  <text x="400" y="725" fill="#a1a1aa" font-family="'Courier New', monospace" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="4">
+    RARE EMBER™ HEAVYWEIGHT STREETWEAR
+  </text>
+</svg>

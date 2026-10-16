@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cyberOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF9A3D" />
+      <stop offset="100%" stop-color="#FF4D24" />
+    </linearGradient>
+    <linearGradient id="cyberGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FF4D24" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#E8244B" stop-opacity="0.2" />
+    </linearGradient>
+  </defs>
+
+  <!-- Technical Corner Brackets -->
+  <path d="M 60 140 L 60 60 L 140 60" fill="none" stroke="#FF4D24" stroke-width="6" stroke-linecap="square" />
+  <path d="M 740 140 L 740 60 L 660 60" fill="none" stroke="#FF4D24" stroke-width="6" stroke-linecap="square" />
+  <path d="M 60 660 L 60 740 L 140 740" fill="none" stroke="#FF4D24" stroke-width="6" stroke-linecap="square" />
+  <path d="M 740 660 L 740 740 L 660 740" fill="none" stroke="#FF4D24" stroke-width="6" stroke-linecap="square" />
+
+  <!-- Top System Badge -->
+  <rect x="250" y="55" width="300" height="30" fill="#18181b" stroke="#FF4D24" stroke-width="2" rx="4" />
+  <text x="400" y="75" fill="#FF9A3D" font-family="'Courier New', monospace" font-size="14" font-weight="900" text-anchor="middle" letter-spacing="4">SYSTEM.NEO-TOKYO // 2026</text>
+
+  <!-- Main Kanji Header -->
+  <text x="400" y="190" fill="#FFFFFF" font-family="sans-serif" font-weight="900" font-size="78" text-anchor="middle" letter-spacing="12">東京 機甲</text>
+  <text x="400" y="225" fill="#FF4D24" font-family="'Courier New', monospace" font-weight="800" font-size="18" text-anchor="middle" letter-spacing="8">CYBERPUNK MECHA CORPS</text>
+
+  <!-- Center Geometric Mecha Graphic -->
+  <g transform="translate(400, 420)">
+    <!-- Outer Hexagon Grid -->
+    <polygon points="0,-160 140,-80 140,80 0,160 -140,80 -140,-80" fill="none" stroke="#FFFFFF" stroke-width="3" opacity="0.3" />
+    <polygon points="0,-140 120,-70 120,70 0,140 -120,70 -120,-70" fill="none" stroke="url(#cyberOrange)" stroke-width="4" />
+    <circle cx="0" cy="0" r="100" fill="#121110" stroke="#FF4D24" stroke-width="3" />
+    <circle cx="0" cy="0" r="40" fill="url(#cyberOrange)" />
+
+    <!-- Mecha Visor & Crest -->
+    <path d="M -70 -20 L -30 -60 L 30 -60 L 70 -20 L 50 40 L -50 40 Z" fill="#FFFFFF" opacity="0.9" />
+    <path d="M -60 -15 L 60 -15 L 45 15 L -45 15 Z" fill="#FF4D24" />
+    <line x1="-120" y1="0" x2="120" y2="0" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="8,6" />
+    <line x1="0" y1="-120" x2="0" y2="120" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="8,6" />
+    
+    <!-- Target Reticle -->
+    <circle cx="0" cy="0" r="12" fill="#FFFFFF" />
+  </g>
+
+  <!-- Technical Spec Bars -->
+  <g transform="translate(160, 600)">
+    <rect x="0" y="0" width="480" height="4" fill="#FF4D24" />
+    <text x="0" y="30" fill="#FFFFFF" font-family="'Courier New', monospace" font-size="14" font-weight="700" letter-spacing="2">OUTPUT: 240 GSM HEAVYWEIGHT</text>
+    <text x="480" y="30" fill="#FF9A3D" font-family="'Courier New', monospace" font-size="14" font-weight="900" text-anchor="end" letter-spacing="2">SPEC: DTF-1200DPI</text>
+  </g>
+
+  <!-- Barcode Element -->
+  <g transform="translate(260, 650)">
+    <rect x="0" y="0" width="6" height="40" fill="#FFFFFF" />
+    <rect x="12" y="0" width="3" height="40" fill="#FFFFFF" />
+    <rect x="20" y="0" width="10" height="40" fill="#FFFFFF" />
+    <rect x="36" y="0" width="4" height="40" fill="#FFFFFF" />
+    <rect x="46" y="0" width="8" height="40" fill="#FFFFFF" />
+    <rect x="60" y="0" width="14" height="40" fill="#FFFFFF" />
+    <rect x="80" y="0" width="4" height="40" fill="#FFFFFF" />
+    <rect x="90" y="0" width="8" height="40" fill="#FFFFFF" />
+    <rect x="104" y="0" width="12" height="40" fill="#FFFFFF" />
+    <rect x="122" y="0" width="6" height="40" fill="#FFFFFF" />
+    <rect x="134" y="0" width="16" height="40" fill="#FFFFFF" />
+    <rect x="156" y="0" width="4" height="40" fill="#FFFFFF" />
+    <rect x="166" y="0" width="10" height="40" fill="#FFFFFF" />
+    <rect x="182" y="0" width="6" height="40" fill="#FFFFFF" />
+    <rect x="194" y="0" width="14" height="40" fill="#FFFFFF" />
+    <rect x="214" y="0" width="8" height="40" fill="#FFFFFF" />
+    <rect x="228" y="0" width="6" height="40" fill="#FFFFFF" />
+    <rect x="240" y="0" width="12" height="40" fill="#FFFFFF" />
+    <rect x="258" y="0" width="6" height="40" fill="#FFFFFF" />
+    <text x="135" y="55" fill="#a1a1aa" font-family="'Courier New', monospace" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="4">RARE EMBER ARCHIVE 2026</text>
+  </g>
+</svg>

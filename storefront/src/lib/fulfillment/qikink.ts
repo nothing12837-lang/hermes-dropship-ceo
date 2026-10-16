@@ -325,10 +325,14 @@ export async function fulfillQikinkOrder(
   // 2. Prepare Line Items & Design Artwork
   const lineItems = items.map((it: any, idx: number) => {
     const sku = resolveQikinkSku(it);
-    const selectedDesignUrl =
-      it.imageUrl ||
+    let rawDesignUrl =
       it.customImage ||
-      'https://rareember.shop/flame-icon.png';
+      it.imageUrl ||
+      'https://www.rareember.shop/flame-icon.png';
+
+    const selectedDesignUrl = rawDesignUrl.startsWith('/')
+      ? `https://www.rareember.shop${rawDesignUrl}`
+      : rawDesignUrl;
 
     // Resolve exact Qikink placement SKU and dimensions
     const scaleFactor = it.customScale ? Number(it.customScale) / 100 : 1.0;

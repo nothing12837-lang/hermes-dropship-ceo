@@ -68,7 +68,7 @@ export const TRENDING_GRAPHICS_VAULT: TrendingGraphic[] = [
     tag: 'NEO-TOKYO',
     style: 'Cyberpunk Kanji & Mecha Core',
     emoji: '⚡',
-    mockUrl: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/b842ae90-50b3-4fe8-b5b1-d57cf84fcce9.jpg',
+    mockUrl: '/designs/tokyo-mecha.svg',
   },
   {
     id: 'acid-vintage-flame',
@@ -76,7 +76,7 @@ export const TRENDING_GRAPHICS_VAULT: TrendingGraphic[] = [
     tag: 'HEAVY METAL',
     style: 'Washed Gothic Typography',
     emoji: '🔥',
-    mockUrl: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg',
+    mockUrl: '/designs/acid-flame.svg',
   },
   {
     id: 'late-night-builder',
@@ -84,7 +84,7 @@ export const TRENDING_GRAPHICS_VAULT: TrendingGraphic[] = [
     tag: 'DEV MODE',
     style: 'Minimal Terminal Code Aesthetic',
     emoji: '💻',
-    mockUrl: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/93/fb09bc1b-f0dd-4a3f-b538-46bcd407ef19.jpg',
+    mockUrl: '/designs/git-commit.svg',
   },
   {
     id: 'y2k-dark-angel',
@@ -92,7 +92,7 @@ export const TRENDING_GRAPHICS_VAULT: TrendingGraphic[] = [
     tag: 'STREET NOSTALGIA',
     style: 'Liquid Metal Grunge Aesthetic',
     emoji: '✨',
-    mockUrl: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/88/7a810370-e3f7-4151-939d-12c5c6966b2c.jpg',
+    mockUrl: '/designs/y2k-angel.svg',
   },
   {
     id: 'ink-samurai-splash',
@@ -100,7 +100,7 @@ export const TRENDING_GRAPHICS_VAULT: TrendingGraphic[] = [
     tag: 'JAPANESE INK',
     style: 'Ukiyo-e Brush Splatter',
     emoji: '⚔️',
-    mockUrl: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/274/b4d525d7-4286-4dc2-9260-057ebadb7a62.jpg',
+    mockUrl: '/designs/ronin-ink.svg',
   },
   {
     id: 'minimal-creator-wave',
@@ -108,7 +108,7 @@ export const TRENDING_GRAPHICS_VAULT: TrendingGraphic[] = [
     tag: 'CREATOR DESK',
     style: 'Geometric Waveform Art',
     emoji: '🌊',
-    mockUrl: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/350/1fe3c23a-b035-4215-b44a-42966c9936c7.webp',
+    mockUrl: '/designs/ember-wave.svg',
   },
 ];
 
@@ -1052,7 +1052,7 @@ export function ProductClient({ product }: Props) {
                           1200 DPI Vector HD
                         </span>
                       </div>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.6rem' }}>
                         {TRENDING_GRAPHICS_VAULT.map((g) => {
                           const isSelected = customImageName === g.title;
                           return (
@@ -1064,8 +1064,8 @@ export function ProductClient({ product }: Props) {
                                 setCustomImageName(g.title);
                               }}
                               style={{
-                                padding: '0.6rem',
-                                borderRadius: '0.75rem',
+                                padding: '0.65rem',
+                                borderRadius: '0.85rem',
                                 border: isSelected ? '2px solid #FF4D24' : '1px solid rgba(0,0,0,0.08)',
                                 background: isSelected ? 'rgba(255, 77, 36, 0.06)' : '#ffffff',
                                 textAlign: 'left',
@@ -1073,25 +1073,104 @@ export function ProductClient({ product }: Props) {
                                 transition: 'all 0.15s ease',
                                 display: 'flex',
                                 alignItems: 'center',
-                                gap: '0.5rem',
+                                gap: '0.6rem',
+                                boxShadow: isSelected ? '0 4px 12px rgba(255,77,36,0.15)' : 'none',
                               }}
                             >
-                              <span style={{ fontSize: '1.4rem' }}>{g.emoji}</span>
+                              {/* Actual Visual Artwork Thumbnail Box */}
+                              <div
+                                style={{
+                                  width: '46px',
+                                  height: '46px',
+                                  borderRadius: '0.6rem',
+                                  background: '#09090b',
+                                  border: isSelected ? '1.5px solid #FF4D24' : '1px solid rgba(255,255,255,0.1)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  flexShrink: 0,
+                                  padding: '4px',
+                                  overflow: 'hidden',
+                                  boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+                                }}
+                              >
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={g.mockUrl}
+                                  alt={g.title}
+                                  style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'contain',
+                                  }}
+                                />
+                              </div>
                               <div style={{ minWidth: 0, flex: 1 }}>
-                                <div style={{ fontSize: '0.62rem', fontWeight: 800, textTransform: 'uppercase', color: '#FF4D24', letterSpacing: '0.04em' }}>
-                                  {g.tag}
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                                  <span style={{ fontSize: '0.75rem' }}>{g.emoji}</span>
+                                  <span style={{ fontSize: '0.62rem', fontWeight: 900, textTransform: 'uppercase', color: '#FF4D24', letterSpacing: '0.04em' }}>
+                                    {g.tag}
+                                  </span>
                                 </div>
-                                <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#161311', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                <div style={{ fontSize: '0.76rem', fontWeight: 900, color: '#161311', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                   {g.title}
+                                </div>
+                                <div style={{ fontSize: '0.64rem', color: '#78716c', fontWeight: 600 }}>
+                                  Vector Art
                                 </div>
                               </div>
                             </button>
                           );
                         })}
                       </div>
+
                       {customImageName && (
-                        <div style={{ marginTop: '0.5rem', fontSize: '0.7rem', color: '#059669', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                          <span>✅</span> Selected: <b>{customImageName}</b> (Rendered on 3D Garment Preview)
+                        <div
+                          style={{
+                            marginTop: '0.75rem',
+                            padding: '0.75rem 1rem',
+                            borderRadius: '0.85rem',
+                            background: '#09090b',
+                            border: '1px solid rgba(255, 77, 36, 0.4)',
+                            color: '#ffffff',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.85rem',
+                            boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: '54px',
+                              height: '54px',
+                              borderRadius: '0.6rem',
+                              background: '#18181b',
+                              border: '1px solid rgba(255,255,255,0.15)',
+                              padding: '4px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              flexShrink: 0,
+                            }}
+                          >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={customImage || ''}
+                              alt={customImageName}
+                              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                            />
+                          </div>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontSize: '0.65rem', color: '#FF9A3D', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                              ✅ Active Pre-Designed Drop:
+                            </div>
+                            <div style={{ fontSize: '0.88rem', fontWeight: 900, color: '#ffffff' }}>
+                              {customImageName}
+                            </div>
+                            <div style={{ fontSize: '0.68rem', color: '#a1a1aa', marginTop: '0.15rem' }}>
+                              Archival 1200 DPI Vector DTF • Rendered Live on Garment Above
+                            </div>
+                          </div>
                         </div>
                       )}
                     </div>
