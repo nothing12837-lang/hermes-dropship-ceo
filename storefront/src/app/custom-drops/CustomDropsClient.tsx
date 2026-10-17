@@ -373,7 +373,7 @@ export function CustomDropsClient() {
               </a>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+            <form action="#" method="GET" onSubmit={(e) => { e.preventDefault(); handleSubmit(e); }} className="space-y-4 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block font-bold text-neutral-700 mb-1">College Club / Startup Name</label>
