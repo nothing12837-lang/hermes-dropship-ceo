@@ -155,8 +155,12 @@ export function ProductClient({ product }: Props) {
   const [customPlacement, setCustomPlacement] = useState<string>('Front Print');
   const [customTextColor, setCustomTextColor] = useState<string>('#ffffff');
   const [customFont, setCustomFont] = useState<string>('font-sans font-black tracking-wider uppercase');
-  const [customPosition, setCustomPosition] = useState<'center' | 'pocket' | 'mural'>('center');
+  const [customPosition, setCustomPosition] = useState<'center' | 'pocket' | 'mural' | 'hem'>('center');
   const [customScale, setCustomScale] = useState<number>(100);
+  const [customRotation, setCustomRotation] = useState<number>(0);
+  const [customFlip, setCustomFlip] = useState<boolean>(false);
+  const [customView, setCustomView] = useState<'front' | 'back'>('front');
+  const [dualPlacement, setDualPlacement] = useState<boolean>(false);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -311,9 +315,13 @@ export function ProductClient({ product }: Props) {
     size: isApparel ? selectedSize : undefined,
     phoneModel: isPhoneCase ? selectedPhoneModel : undefined,
     customText: isCustomizing && customMode === 'text' && customText.trim() ? customText.trim() : undefined,
-    customPlacement: isCustomizing && supportsPrintPlacement ? customPlacement : undefined,
+    customPlacement: isCustomizing && supportsPrintPlacement
+      ? (dualPlacement ? 'Both Sides (+₹149)' : customView === 'back' ? 'Back Print' : 'Front Print')
+      : undefined,
     customPosition: isCustomizing ? customPosition : undefined,
     customScale: isCustomizing ? customScale : undefined,
+    customRotation: isCustomizing && customRotation !== 0 ? customRotation : undefined,
+    customFlip: isCustomizing && customFlip ? true : undefined,
     customTextColor: isCustomizing && customMode === 'text' ? customTextColor : undefined,
     customFont: isCustomizing && customMode === 'text' ? customFont : undefined,
     customImage: (customMode === 'image' || customMode === 'trending') && customImage ? customImage : undefined,
@@ -434,9 +442,11 @@ export function ProductClient({ product }: Props) {
                     justifyContent: 'center',
                     textAlign: 'center',
                     ...(customPosition === 'pocket'
-                      ? { top: '26%', left: '26%', width: '22%', height: '20%' }
+                      ? { top: '24%', left: '22%', width: '22%', height: '20%' }
                       : customPosition === 'mural'
-                      ? { top: '20%', left: '18%', width: '64%', height: '58%' }
+                      ? { top: '18%', left: '16%', width: '68%', height: '60%' }
+                      : customPosition === 'hem'
+                      ? { top: '66%', left: '22%', width: '28%', height: '22%' }
                       : { top: '28%', left: '24%', width: '52%', height: '44%' }),
                   }}
                 >
@@ -469,7 +479,7 @@ export function ProductClient({ product }: Props) {
                           boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
                         }}
                       >
-                        ⚡ RareEmber™ Archival DTF ({customPlacement})
+                        ⚡ 3D Studio Live ({customPlacement})
                       </span>
                     </div>
                   )}
@@ -489,7 +499,7 @@ export function ProductClient({ product }: Props) {
                         maxWidth: '92%',
                         wordBreak: 'break-word',
                         userSelect: 'none',
-                        transform: `scale(${customScale / 100})`,
+                        transform: `scale(${customScale / 100}) rotate(${customRotation}deg) scaleX(${customFlip ? -1 : 1})`,
                         transition: 'all 0.15s ease',
                       }}
                     >
@@ -506,7 +516,7 @@ export function ProductClient({ product }: Props) {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        transform: `scale(${customScale / 100})`,
+                        transform: `scale(${customScale / 100}) rotate(${customRotation}deg) scaleX(${customFlip ? -1 : 1})`,
                         transition: 'all 0.15s ease',
                       }}
                     >
@@ -949,145 +959,313 @@ export function ProductClient({ product }: Props) {
               </div>
             )}
 
-            {/* RareEmber™ Studio (Personalize This Drop) */}
+            {/* RareEmber™ Live 3D Studio Canvas */}
             <div
-              className={`mt-6 rounded-2xl transition-all duration-200 overflow-hidden ${
+              className={`mt-6 rounded-3xl transition-all duration-300 overflow-hidden ${
                 isCustomizing
-                  ? 'border-2 border-[#FF4D24] bg-white shadow-[0_12px_36px_rgba(255,77,36,0.12)]'
+                  ? 'border-2 border-[#FF4D24] bg-[#0c0b0a] text-white shadow-[0_20px_50px_rgba(255,77,36,0.18)]'
                   : 'border border-black/[0.08] bg-white hover:border-black/[0.18] shadow-xs'
               }`}
             >
-              {/* Header Bar */}
+              {/* Studio Toggle Header */}
               <button
                 type="button"
                 onClick={() => setIsCustomizing((prev) => !prev)}
-                className="w-full p-4 flex items-center justify-between text-left transition-colors cursor-pointer select-none"
+                className={`w-full p-4 flex items-center justify-between text-left transition-colors cursor-pointer select-none ${
+                  isCustomizing ? 'border-b border-white/10' : ''
+                }`}
               >
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF4D24] to-[#f59e0b] text-white flex items-center justify-center text-lg font-black shrink-0 shadow-md">
+                <div className="flex items-center gap-3.5 min-w-0">
+                  <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#FF4D24] to-[#f59e0b] text-white flex items-center justify-center text-xl font-black shrink-0 shadow-lg ring-2 ring-white/10">
                     ✨
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-black text-sm md:text-base text-neutral-900">
-                        Personalize This Drop
+                      <span className={`font-black text-sm md:text-base ${isCustomizing ? 'text-white' : 'text-neutral-900'}`}>
+                        RareEmber™ 3D Studio
                       </span>
-                      <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/20">
-                        RareEmber™ Studio
+                      <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FF4D24]/20 text-[#FF9A3D] border border-[#FF4D24]/30">
+                        Live 3D Redesign
                       </span>
                     </div>
-                    <p className="text-xs text-neutral-500 mt-0.5 truncate">
-                      {customImageName || (customText ? `"${customText}"` : '')
-                        ? `Active: ${customImageName || customText} • ${customPlacement}`
-                        : 'Tap to switch graphic, add custom name, or upload logo.'}
+                    <p className={`text-xs mt-0.5 truncate ${isCustomizing ? 'text-neutral-400' : 'text-neutral-500'}`}>
+                      {customImageName || customText
+                        ? `Designing: ${customImageName || customText} • ${customView === 'back' ? 'Back 3D' : 'Front 3D'} (${customScale}%)`
+                        : 'Tap to open full Live 3D Studio & redesign your drop.'}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
                   <span
-                    className={`text-xs font-bold px-3 py-1.5 rounded-full transition-all ${
-                      isCustomizing ? 'bg-[#161311] text-white' : 'bg-neutral-100 text-neutral-700'
+                    className={`text-xs font-black px-3.5 py-1.5 rounded-full transition-all ${
+                      isCustomizing
+                        ? 'bg-[#FF4D24] text-white shadow-md'
+                        : 'bg-neutral-900 text-white hover:bg-black'
                     }`}
                   >
-                    {isCustomizing ? 'Hide Studio ▲' : 'Customize ⚡ ▼'}
+                    {isCustomizing ? 'Close Studio ▲' : 'Open 3D Studio ⚡ ▼'}
                   </span>
                 </div>
               </button>
 
-              {/* Studio Body */}
+              {/* 3D Studio Interactive Workspace */}
               {isCustomizing && (
-                <div className="px-4 pb-5 pt-1 space-y-4 border-t border-neutral-100">
-                  {/* 1. Sleek Live Garment Mini-Stage (Direct visual feedback right where you customize) */}
-                  <div className="p-3 rounded-2xl bg-[#09090b] text-white border border-white/10 flex items-center justify-between gap-3 shadow-lg">
-                    <div className="flex items-center gap-3 min-w-0">
-                      {/* Mini Garment Visual Box */}
-                      <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-neutral-900 border border-white/15 shrink-0 flex items-center justify-center">
-                        {showImage && currentSrc ? (
-                          <Image
-                            src={currentSrc}
-                            alt="Live Garment Preview"
-                            fill
-                            sizes="56px"
-                            className="object-cover"
-                          />
-                        ) : (
-                          <span className="text-2xl">{product.emoji}</span>
-                        )}
-
-                        {/* Live Overlaid Artwork / Text */}
-                        {customMode === 'text' && customText.trim() ? (
-                          <div
-                            className={`absolute inset-0 flex items-center justify-center p-0.5 ${customFont}`}
-                            style={{
-                              color: customTextColor,
-                              fontSize: '8px',
-                              transform: `scale(${customScale / 100})`,
-                              textShadow: '0 1px 3px rgba(0,0,0,0.9)',
-                            }}
-                          >
-                            <span className="truncate max-w-full">{customText}</span>
-                          </div>
-                        ) : customImage ? (
-                          <div
-                            className="absolute pointer-events-none inset-0 flex items-center justify-center"
-                            style={{
-                              ...(customPosition === 'pocket'
-                                ? { top: '22%', left: '22%', width: '30%', height: '30%' }
-                                : customPosition === 'mural'
-                                ? { top: '15%', left: '15%', width: '70%', height: '70%' }
-                                : { top: '25%', left: '20%', width: '60%', height: '50%' }),
-                              transform: `scale(${customScale / 100})`,
-                            }}
-                          >
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={customImage}
-                              alt="Active Print"
-                              className="max-w-full max-h-full object-contain drop-shadow-md"
-                            />
-                          </div>
-                        ) : null}
+                <div className="p-4 md:p-6 space-y-5">
+                  {/* 1. THE 3D GARMENT STAGE (REAL-TIME 3D CANVAS) */}
+                  <div className="relative rounded-2xl bg-gradient-to-b from-[#181716] via-[#11100f] to-[#080707] border border-white/10 p-3 md:p-4 shadow-2xl overflow-hidden">
+                    {/* 3D Stage Top Bar: Live Engine Indicator & 3D View Angle Switcher */}
+                    <div className="flex items-center justify-between gap-2 mb-3 pb-2.5 border-b border-white/10 flex-wrap">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                        <span className="text-[11px] font-black uppercase tracking-wider text-neutral-300">
+                          3D Interactive Stage
+                        </span>
+                        <span className="text-[10px] font-bold text-[#FF9A3D] bg-white/5 px-2 py-0.5 rounded-full border border-white/10 hidden sm:inline">
+                          {customView === 'front' ? 'Front Perspective' : 'Back Streetwear View'}
+                        </span>
                       </div>
 
-                      {/* Status Info */}
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-1.5 mb-0.5">
-                          <span className="w-2 h-2 rounded-full bg-[#FF4D24] animate-pulse" />
-                          <span className="text-[10px] font-black uppercase tracking-wider text-[#FF9A3D]">
-                            Live DTF Preview
-                          </span>
-                        </div>
-                        <div className="text-xs font-black text-white truncate">
-                          {customMode === 'text'
-                            ? `Text: "${customText || 'RARE EMBER'}"`
-                            : customImageName || 'Clean / Original Drop'}
-                        </div>
-                        <div className="text-[10px] text-neutral-400 font-semibold truncate">
-                          1200 DPI • {customPlacement} • {customPosition.toUpperCase()} ({customScale}%)
-                        </div>
+                      {/* 3D Front / Back Angle Switcher (Completely replaces old Print Location dropdown!) */}
+                      <div className="flex items-center gap-1 bg-white/10 p-1 rounded-xl border border-white/10 backdrop-blur-md">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCustomView('front');
+                            setCustomPlacement('Front Print');
+                            if (galleryImages.length > 0) setSelectedImgIndex(0);
+                          }}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                            customView === 'front'
+                              ? 'bg-[#FF4D24] text-white shadow-sm'
+                              : 'text-neutral-300 hover:text-white'
+                          }`}
+                        >
+                          <span>👕</span>
+                          <span>Front 3D</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCustomView('back');
+                            setCustomPlacement('Back Print');
+                            if (galleryImages.length > 1) setSelectedImgIndex(1);
+                          }}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                            customView === 'back'
+                              ? 'bg-[#FF4D24] text-white shadow-sm'
+                              : 'text-neutral-300 hover:text-white'
+                          }`}
+                        >
+                          <span>🔄</span>
+                          <span>Back 3D</span>
+                        </button>
                       </div>
                     </div>
 
-                    {/* Quick Reset or View Button */}
-                    <div className="flex items-center gap-1.5 shrink-0">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setCustomImage(null);
-                          setCustomImageName('');
-                          setCustomText('');
+                    {/* 3D Garment Viewport */}
+                    <div className="relative aspect-square w-full max-w-[340px] md:max-w-[380px] mx-auto rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 flex items-center justify-center shadow-inner group">
+                      {/* Ambient 3D Spotlight */}
+                      <div
+                        aria-hidden
+                        className="absolute inset-0 pointer-events-none opacity-60"
+                        style={{
+                          background: 'radial-gradient(circle at 50% 30%, rgba(255, 77, 36, 0.15), transparent 70%)',
                         }}
-                        className="text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-neutral-300 transition-colors"
-                        title="Reset to Original Garment"
-                      >
-                        Reset ↺
-                      </button>
+                      />
+
+                      {/* Garment Base Layer */}
+                      {showImage ? (
+                        <Image
+                          src={
+                            customView === 'back' && galleryImages.length > 1
+                              ? galleryImages[1]
+                              : (galleryImages[0] || currentSrc)
+                          }
+                          alt="3D Garment Viewport"
+                          fill
+                          sizes="380px"
+                          className="object-cover transition-opacity duration-300"
+                        />
+                      ) : (
+                        <span className="text-7xl">{product.emoji}</span>
+                      )}
+
+                      {/* Live 3D Overlay (Graphic, Text, or Upload) */}
+                      {(customImage || (customMode === 'text' && customText.trim())) && (
+                        <div
+                          className="absolute pointer-events-none z-10 flex items-center justify-center transition-all duration-200"
+                          style={{
+                            ...(customPosition === 'pocket'
+                              ? { top: '24%', left: '22%', width: '22%', height: '20%' }
+                              : customPosition === 'mural'
+                              ? { top: '18%', left: '16%', width: '68%', height: '60%' }
+                              : customPosition === 'hem'
+                              ? { top: '66%', left: '22%', width: '28%', height: '22%' }
+                              : { top: '28%', left: '24%', width: '52%', height: '44%' }),
+                            transform: `scale(${customScale / 100}) rotate(${customRotation}deg) scaleX(${customFlip ? -1 : 1})`,
+                          }}
+                        >
+                          {/* Live 3D Bounding Guideline */}
+                          <div className="absolute inset-0 border border-dashed border-[#FF4D24]/80 rounded-lg pointer-events-none bg-[#FF4D24]/5">
+                            <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-[#FF4D24] text-[8px] font-black uppercase text-white whitespace-nowrap shadow-sm">
+                              {customView.toUpperCase()} • {customPosition.toUpperCase()}
+                            </span>
+                          </div>
+
+                          {/* Graphic or Text */}
+                          {customMode === 'text' && customText.trim() ? (
+                            <div
+                              className={`${customFont} select-none text-center p-1`}
+                              style={{
+                                color: customTextColor,
+                                fontSize: 'clamp(12px, 3.5vw, 24px)',
+                                lineHeight: 1.15,
+                                textShadow: '0 2px 6px rgba(0,0,0,0.9)',
+                                wordBreak: 'break-word',
+                              }}
+                            >
+                              {customText}
+                            </div>
+                          ) : customImage ? (
+                            <img
+                              src={customImage}
+                              alt="Active 3D Print Design"
+                              className="max-w-[92%] max-h-[92%] object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.7)]"
+                            />
+                          ) : null}
+                        </div>
+                      )}
+
+                      {/* Bottom Stage Overlay Pill */}
+                      <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-[10px] text-white/90 bg-black/75 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 z-20">
+                        <span className="font-bold truncate max-w-[190px]">
+                          🎨 {customImageName || (customText ? `"${customText}"` : 'Clean Blank Garment')}
+                        </span>
+                        <span className="font-black text-[#FF9A3D]">
+                          {customScale}% • {customRotation}°
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* 3D Stage Controls: Position Snap Anchors & Rotation / Flip */}
+                    <div className="mt-3.5 pt-3 border-t border-white/10 space-y-2.5">
+                      {/* Position Anchors on Garment */}
+                      <div>
+                        <span className="text-[10px] font-black uppercase tracking-wider text-neutral-400 block mb-1.5">
+                          Snap Position on Garment:
+                        </span>
+                        <div className="grid grid-cols-4 gap-1.5">
+                          {[
+                            { id: 'center', label: '🎯 Center' },
+                            { id: 'pocket', label: '👕 Pocket' },
+                            { id: 'mural', label: '🖼️ Mural' },
+                            { id: 'hem', label: '⚡ Hem' },
+                          ].map((pos) => (
+                            <button
+                              key={pos.id}
+                              type="button"
+                              onClick={() => setCustomPosition(pos.id as any)}
+                              className={`py-2 px-1 rounded-xl text-xs font-bold transition-all cursor-pointer text-center ${
+                                customPosition === pos.id
+                                  ? 'bg-[#FF4D24] text-white shadow-sm ring-1 ring-white/20'
+                                  : 'bg-white/5 hover:bg-white/10 text-neutral-300 border border-white/5'
+                              }`}
+                            >
+                              {pos.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Transform Tools: Rotate & Flip */}
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-neutral-400 mr-1">
+                          Transform:
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setCustomRotation((r) => (r - 15) % 360)}
+                          className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-neutral-200 text-xs font-bold border border-white/10 transition-colors"
+                          title="Rotate Counter-Clockwise"
+                        >
+                          ↺ -15°
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setCustomRotation((r) => (r + 15) % 360)}
+                          className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-neutral-200 text-xs font-bold border border-white/10 transition-colors"
+                          title="Rotate Clockwise"
+                        >
+                          ↻ +15°
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setCustomFlip((f) => !f)}
+                          className={`px-2.5 py-1.5 rounded-lg text-xs font-bold border transition-colors ${
+                            customFlip
+                              ? 'bg-[#FF4D24] text-white border-transparent'
+                              : 'bg-white/5 hover:bg-white/15 text-neutral-200 border-white/10'
+                          }`}
+                          title="Flip Horizontal"
+                        >
+                          ↔️ Flip
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCustomRotation(0);
+                            setCustomFlip(false);
+                            setCustomScale(100);
+                          }}
+                          className="ml-auto px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-neutral-300 text-xs font-bold border border-white/10 transition-colors"
+                        >
+                          Reset 0°
+                        </button>
+                      </div>
+
+                      {/* Scale / Proportions Slider */}
+                      <div className="pt-1">
+                        <div className="flex items-center justify-between text-[11px] font-black uppercase text-neutral-400 mb-1">
+                          <span>Graphic Scale &amp; Proportions:</span>
+                          <span className="text-[#FF9A3D] font-mono">{customScale}%</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="range"
+                            min={60}
+                            max={150}
+                            value={customScale}
+                            onChange={(e) => setCustomScale(Number(e.target.value))}
+                            className="w-full accent-[#FF4D24] cursor-pointer"
+                          />
+                        </div>
+                        <div className="flex items-center justify-between gap-1.5 mt-1.5">
+                          {[
+                            { val: 75, label: 'Subtle (75%)' },
+                            { val: 100, label: 'Standard (100%)' },
+                            { val: 135, label: 'Oversized (135%)' },
+                          ].map((sc) => (
+                            <button
+                              key={sc.val}
+                              type="button"
+                              onClick={() => setCustomScale(sc.val)}
+                              className={`flex-1 py-1 text-center rounded-lg text-[10px] font-bold transition-all ${
+                                customScale === sc.val
+                                  ? 'bg-[#FF4D24] text-white'
+                                  : 'bg-white/5 hover:bg-white/10 text-neutral-400 border border-white/5'
+                              }`}
+                            >
+                              {sc.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  {/* 2. Customization Mode Tabs (Segmented Switcher) */}
-                  <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-neutral-100">
+                  {/* 2. CHOOSE CUSTOMIZATION TYPE TABS */}
+                  <div className="grid grid-cols-3 gap-1.5 p-1 rounded-2xl bg-neutral-900 border border-white/10">
                     <button
                       type="button"
                       onClick={() => {
@@ -1097,10 +1275,10 @@ export function ProductClient({ product }: Props) {
                           setCustomImageName(TRENDING_GRAPHICS_VAULT[0].title);
                         }
                       }}
-                      className={`py-2 px-1 text-center rounded-lg text-xs font-black transition-all cursor-pointer ${
+                      className={`py-2.5 px-1 text-center rounded-xl text-xs font-black transition-all cursor-pointer ${
                         customMode === 'trending'
-                          ? 'bg-[#161311] text-white shadow-xs'
-                          : 'text-neutral-600 hover:text-neutral-900'
+                          ? 'bg-[#FF4D24] text-white shadow-md'
+                          : 'text-neutral-400 hover:text-white'
                       }`}
                     >
                       🔥 Streetwear Vault
@@ -1108,10 +1286,10 @@ export function ProductClient({ product }: Props) {
                     <button
                       type="button"
                       onClick={() => setCustomMode('text')}
-                      className={`py-2 px-1 text-center rounded-lg text-xs font-black transition-all cursor-pointer ${
+                      className={`py-2.5 px-1 text-center rounded-xl text-xs font-black transition-all cursor-pointer ${
                         customMode === 'text'
-                          ? 'bg-[#161311] text-white shadow-xs'
-                          : 'text-neutral-600 hover:text-neutral-900'
+                          ? 'bg-[#FF4D24] text-white shadow-md'
+                          : 'text-neutral-400 hover:text-white'
                       }`}
                     >
                       ✏️ Custom Text
@@ -1119,22 +1297,22 @@ export function ProductClient({ product }: Props) {
                     <button
                       type="button"
                       onClick={() => setCustomMode('image')}
-                      className={`py-2 px-1 text-center rounded-lg text-xs font-black transition-all cursor-pointer ${
+                      className={`py-2.5 px-1 text-center rounded-xl text-xs font-black transition-all cursor-pointer ${
                         customMode === 'image'
-                          ? 'bg-[#161311] text-white shadow-xs'
-                          : 'text-neutral-600 hover:text-neutral-900'
+                          ? 'bg-[#FF4D24] text-white shadow-md'
+                          : 'text-neutral-400 hover:text-white'
                       }`}
                     >
                       🖼️ Upload Logo
                     </button>
                   </div>
 
-                  {/* Mode 1: Curated Streetwear Graphics Grid */}
+                  {/* TAB 1: 6 STREETWEAR DROPS + CLEAN ORIGINAL DROP */}
                   {customMode === 'trending' && (
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between text-xs font-bold text-neutral-600">
-                        <span>Tap Any Graphic to Preview Live:</span>
-                        <span className="text-[#FF4D24] text-[11px] font-black">1200 DPI Vector HD</span>
+                    <div className="space-y-2.5">
+                      <div className="flex items-center justify-between text-xs font-bold text-neutral-400">
+                        <span>Select Graphic to Render Live in 3D:</span>
+                        <span className="text-[#FF9A3D] text-[11px] font-black">1200 DPI Vector HD</span>
                       </div>
 
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -1145,18 +1323,18 @@ export function ProductClient({ product }: Props) {
                             setCustomImage(null);
                             setCustomImageName('');
                           }}
-                          className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-2.5 ${
+                          className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-2.5 ${
                             !customImage
-                              ? 'border-[#FF4D24] bg-orange-50/60 ring-2 ring-[#FF4D24]/20'
-                              : 'border-neutral-200 bg-white hover:border-neutral-300'
+                              ? 'border-[#FF4D24] bg-[#FF4D24]/10 ring-2 ring-[#FF4D24]/40 shadow-sm'
+                              : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'
                           }`}
                         >
-                          <div className="w-10 h-10 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center shrink-0 text-base">
+                          <div className="w-10 h-10 rounded-xl bg-neutral-800 border border-white/10 flex items-center justify-center shrink-0 text-base">
                             🚫
                           </div>
                           <div className="min-w-0">
                             <span className="text-[10px] font-bold text-neutral-400 block uppercase">Clean</span>
-                            <span className="text-xs font-black text-neutral-900 block truncate">Original Drop</span>
+                            <span className="text-xs font-black text-white block truncate">Original Drop</span>
                           </div>
                         </button>
 
@@ -1171,14 +1349,13 @@ export function ProductClient({ product }: Props) {
                                 setCustomImage(g.mockUrl);
                                 setCustomImageName(g.title);
                               }}
-                              className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-2.5 ${
+                              className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-2.5 ${
                                 isSelected
-                                  ? 'border-[#FF4D24] bg-orange-50/60 ring-2 ring-[#FF4D24]/30 shadow-xs'
-                                  : 'border-neutral-200 bg-white hover:border-neutral-300'
+                                  ? 'border-[#FF4D24] bg-[#FF4D24]/10 ring-2 ring-[#FF4D24]/40 shadow-sm'
+                                  : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'
                               }`}
                             >
-                              <div className="w-10 h-10 rounded-lg bg-[#09090b] border border-white/10 p-1 flex items-center justify-center shrink-0 overflow-hidden">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <div className="w-10 h-10 rounded-xl bg-[#09090b] border border-white/15 p-1 flex items-center justify-center shrink-0 overflow-hidden">
                                 <img
                                   src={g.mockUrl}
                                   alt={g.title}
@@ -1186,10 +1363,10 @@ export function ProductClient({ product }: Props) {
                                 />
                               </div>
                               <div className="min-w-0 flex-1">
-                                <span className="text-[9px] font-black text-[#FF4D24] uppercase tracking-wider block truncate">
+                                <span className="text-[9px] font-black text-[#FF9A3D] uppercase tracking-wider block truncate">
                                   {g.emoji} {g.tag}
                                 </span>
-                                <span className="text-xs font-black text-neutral-900 block truncate">
+                                <span className="text-xs font-black text-white block truncate">
                                   {g.title}
                                 </span>
                               </div>
@@ -1203,11 +1380,11 @@ export function ProductClient({ product }: Props) {
                     </div>
                   )}
 
-                  {/* Mode 2: Custom Text */}
+                  {/* TAB 2: CUSTOM TEXT */}
                   {customMode === 'text' && (
-                    <div className="space-y-3">
+                    <div className="space-y-3.5">
                       <div>
-                        <div className="flex items-center justify-between text-xs font-bold text-neutral-700 mb-1">
+                        <div className="flex items-center justify-between text-xs font-bold text-neutral-300 mb-1.5">
                           <span>Enter Text, Name or Monogram:</span>
                           <span className="font-mono text-neutral-400">{customText.length}/30</span>
                         </div>
@@ -1216,14 +1393,14 @@ export function ProductClient({ product }: Props) {
                           value={customText}
                           onChange={(e) => setCustomText(e.target.value.slice(0, 30))}
                           placeholder="e.g. RARE EMBER, SPEED, 2026"
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 bg-neutral-50 text-neutral-900 font-bold text-sm focus:outline-none focus:border-[#FF4D24] focus:bg-white transition-all"
+                          className="w-full px-4 py-3 rounded-xl border border-white/15 bg-white/5 text-white font-bold text-sm focus:outline-none focus:border-[#FF4D24] focus:bg-white/10 transition-all placeholder:text-neutral-500"
                         />
                       </div>
 
-                      {/* Font Style Pills */}
+                      {/* Font Typography Style */}
                       <div>
-                        <span className="text-[11px] font-black uppercase text-neutral-500 block mb-1">
-                          Font Typography
+                        <span className="text-[11px] font-black uppercase text-neutral-400 block mb-1.5">
+                          Typography Style
                         </span>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
                           {[
@@ -1236,10 +1413,10 @@ export function ProductClient({ product }: Props) {
                               key={f.label}
                               type="button"
                               onClick={() => setCustomFont(f.font)}
-                              className={`py-2 px-2 rounded-lg text-xs font-bold border transition-all ${
+                              className={`py-2 px-2 rounded-xl text-xs font-bold border transition-all ${
                                 customFont === f.font
-                                  ? 'border-[#FF4D24] bg-orange-50 text-[#FF4D24]'
-                                  : 'border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300'
+                                  ? 'border-[#FF4D24] bg-[#FF4D24]/15 text-[#FF9A3D]'
+                                  : 'border-white/10 bg-white/5 text-neutral-300 hover:border-white/20'
                               }`}
                             >
                               {f.label}
@@ -1248,28 +1425,28 @@ export function ProductClient({ product }: Props) {
                         </div>
                       </div>
 
-                      {/* Text Print Color Swatches */}
+                      {/* Print Ink Color Swatches */}
                       <div>
-                        <span className="text-[11px] font-black uppercase text-neutral-500 block mb-1">
-                          Ink Color
+                        <span className="text-[11px] font-black uppercase text-neutral-400 block mb-1.5">
+                          Print Ink Color
                         </span>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2.5">
                           {[
                             { color: '#ffffff', name: 'Crisp White', border: 'border-neutral-300' },
                             { color: '#FF4D24', name: 'Ember Orange', border: 'border-[#FF4D24]' },
                             { color: '#00F0FF', name: 'Cyber Cyan', border: 'border-cyan-400' },
                             { color: '#F59E0B', name: 'Gold', border: 'border-amber-400' },
-                            { color: '#18181B', name: 'Stealth Black', border: 'border-black' },
+                            { color: '#18181B', name: 'Stealth Black', border: 'border-neutral-600' },
                             { color: '#DC2626', name: 'Crimson', border: 'border-red-500' },
                           ].map((c) => (
                             <button
                               key={c.color}
                               type="button"
                               onClick={() => setCustomTextColor(c.color)}
-                              className={`w-7 h-7 rounded-full transition-all cursor-pointer border ${c.border} ${
+                              className={`w-8 h-8 rounded-full transition-all cursor-pointer border-2 ${c.border} ${
                                 customTextColor === c.color
-                                  ? 'ring-2 ring-[#FF4D24] ring-offset-2 scale-110'
-                                  : 'opacity-80 hover:opacity-100'
+                                  ? 'ring-2 ring-[#FF4D24] ring-offset-2 ring-offset-black scale-110'
+                                  : 'opacity-70 hover:opacity-100'
                               }`}
                               style={{ backgroundColor: c.color }}
                               title={c.name}
@@ -1280,16 +1457,16 @@ export function ProductClient({ product }: Props) {
                     </div>
                   )}
 
-                  {/* Mode 3: Upload Logo / Graphic */}
+                  {/* TAB 3: UPLOAD LOGO */}
                   {customMode === 'image' && (
-                    <div className="space-y-2">
+                    <div className="space-y-2.5">
                       {!customImage ? (
-                        <label className="flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-[#FF4D24]/40 bg-orange-50/20 hover:bg-orange-50/40 cursor-pointer text-center transition-all">
-                          <span className="text-2xl mb-1">📁</span>
-                          <span className="text-xs font-black text-neutral-900">
+                        <label className="flex flex-col items-center justify-center p-8 rounded-2xl border-2 border-dashed border-[#FF4D24]/40 bg-white/5 hover:bg-white/10 cursor-pointer text-center transition-all">
+                          <span className="text-3xl mb-1.5">📁</span>
+                          <span className="text-xs font-black text-white">
                             Click to Select Logo or Graphic from Device
                           </span>
-                          <span className="text-[10px] text-neutral-500 mt-0.5">
+                          <span className="text-[10px] text-neutral-400 mt-0.5">
                             Supports PNG, JPG, WEBP, SVG up to 15MB
                           </span>
                           <input
@@ -1300,27 +1477,26 @@ export function ProductClient({ product }: Props) {
                           />
                         </label>
                       ) : (
-                        <div className="p-3 rounded-xl bg-neutral-50 border border-neutral-200 flex items-center justify-between gap-3">
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-3">
+                          <div className="flex items-center gap-3 min-w-0">
                             <img
                               src={customImage}
                               alt="Uploaded Art"
-                              className="w-10 h-10 object-contain rounded-lg bg-neutral-900 p-1 shrink-0"
+                              className="w-12 h-12 object-contain rounded-xl bg-neutral-900 border border-white/10 p-1 shrink-0"
                             />
                             <div className="min-w-0">
-                              <span className="text-xs font-black text-neutral-900 block truncate">
+                              <span className="text-xs font-black text-white block truncate">
                                 {customImageName}
                               </span>
-                              <span className="text-[10px] font-bold text-emerald-600 block">
-                                ✓ Ready for 1200 DPI DTF Print
+                              <span className="text-[10px] font-bold text-emerald-400 block mt-0.5">
+                                ✓ Rendered Live on 3D Garment
                               </span>
                             </div>
                           </div>
                           <button
                             type="button"
                             onClick={handleRemoveImage}
-                            className="text-xs font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg transition-colors"
+                            className="text-xs font-bold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 px-3 py-2 rounded-xl transition-colors border border-red-500/20"
                           >
                             Remove ✕
                           </button>
@@ -1329,97 +1505,11 @@ export function ProductClient({ product }: Props) {
                     </div>
                   )}
 
-                  {/* 3. Placement & Positioning Toolbar (Clean & Compact) */}
-                  <div className="pt-2 border-t border-neutral-100 space-y-3">
-                    {/* Placement Switcher (Front vs Back vs Both) */}
-                    {supportsPrintPlacement && (
-                      <div>
-                        <span className="text-[11px] font-black uppercase text-neutral-500 block mb-1">
-                          Print Location
-                        </span>
-                        <div className="grid grid-cols-3 gap-1.5">
-                          {PLACEMENT_OPTIONS.map((opt) => (
-                            <button
-                              key={opt.id}
-                              type="button"
-                              onClick={() => setCustomPlacement(opt.id)}
-                              className={`py-2 px-1 text-center rounded-xl text-xs font-bold border transition-all ${
-                                customPlacement === opt.id
-                                  ? 'border-[#FF4D24] bg-orange-50 text-[#FF4D24] font-black shadow-xs'
-                                  : 'border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300'
-                              }`}
-                            >
-                              <span className="block truncate">{opt.label}</span>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Position & Scale Row */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                      {/* Position */}
-                      <div>
-                        <span className="text-[11px] font-black uppercase text-neutral-500 block mb-1">
-                          Position on Garment
-                        </span>
-                        <div className="grid grid-cols-3 gap-1">
-                          {[
-                            { id: 'center', label: 'Center' },
-                            { id: 'pocket', label: 'Pocket' },
-                            { id: 'mural', label: 'Mural' },
-                          ].map((pos) => (
-                            <button
-                              key={pos.id}
-                              type="button"
-                              onClick={() => setCustomPosition(pos.id as any)}
-                              className={`py-1.5 text-center rounded-lg text-xs font-bold border transition-all ${
-                                customPosition === pos.id
-                                  ? 'bg-[#161311] text-white border-transparent'
-                                  : 'bg-white text-neutral-700 border-neutral-200 hover:border-neutral-300'
-                              }`}
-                            >
-                              {pos.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Scale */}
-                      <div>
-                        <div className="flex items-center justify-between text-[11px] font-black uppercase text-neutral-500 mb-1">
-                          <span>Scale / Fit</span>
-                          <span className="text-[#FF4D24]">{customScale}%</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          {[
-                            { val: 80, label: 'Subtle' },
-                            { val: 100, label: 'Normal' },
-                            { val: 130, label: 'Oversized' },
-                          ].map((sc) => (
-                            <button
-                              key={sc.val}
-                              type="button"
-                              onClick={() => setCustomScale(sc.val)}
-                              className={`flex-1 py-1.5 text-center rounded-lg text-xs font-bold border transition-all ${
-                                customScale === sc.val
-                                  ? 'bg-[#161311] text-white border-transparent'
-                                  : 'bg-white text-neutral-700 border-neutral-200 hover:border-neutral-300'
-                              }`}
-                            >
-                              {sc.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 4. Frictionless Concierge Reassurance */}
-                  <div className="pt-2 text-center">
-                    <p className="text-[11px] text-neutral-500 leading-relaxed">
-                      💬 <strong>Prefer to send design later?</strong> Place order normally, then WhatsApp or email your artwork to{' '}
-                      <a href="mailto:rareemberagency@gmail.com" className="text-[#FF4D24] font-bold underline">
+                  {/* Concierge Reassurance */}
+                  <div className="pt-2 text-center border-t border-white/10">
+                    <p className="text-[11px] text-neutral-400 leading-relaxed">
+                      💬 <strong>Prefer to send design later?</strong> Place order normally, then WhatsApp or email artwork to{' '}
+                      <a href="mailto:rareemberagency@gmail.com" className="text-[#FF9A3D] font-bold underline">
                         rareemberagency@gmail.com
                       </a>{' '}
                       with your Order ID!
