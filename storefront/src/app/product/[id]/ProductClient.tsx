@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -122,6 +122,175 @@ export const TRENDING_GRAPHICS_VAULT: TrendingGraphic[] = [
   },
 ];
 
+export interface BundleSubItem {
+  id: string;
+  name: string;
+  badge: string;
+  emoji: string;
+  plainImage: string;
+  backImage?: string;
+  printArea: {
+    width: string;
+    height: string;
+    top: string;
+    left: string;
+    aspectRatio: string;
+    safeZoneLabel: string;
+  };
+}
+
+export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
+  'bundle-creator-workstation': [
+    {
+      id: 'desk-mat',
+      name: '900x400mm Extended Desk Mat',
+      badge: 'Extended Surface',
+      emoji: '🖥️',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg',
+      printArea: {
+        width: '84%',
+        height: '74%',
+        top: '13%',
+        left: '8%',
+        aspectRatio: '16/9',
+        safeZoneLabel: 'MAX PRINT AREA • 900 × 400 MM (MICRO-WEAVE)',
+      },
+    },
+    {
+      id: 'graphic-tee',
+      name: '240 GSM Graphic Streetwear Tee',
+      badge: 'Bio-Washed Cotton',
+      emoji: '👕',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg',
+      backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg',
+      printArea: {
+        width: '52%',
+        height: '56%',
+        top: '22%',
+        left: '24%',
+        aspectRatio: '3/4',
+        safeZoneLabel: 'DTF SAFE PRINT ZONE • 16" × 20" (300 DPI)',
+      },
+    },
+    {
+      id: 'ceramic-mug',
+      name: 'Artisan Ceramic Coffee Mug',
+      badge: '11 Oz Stoneware',
+      emoji: '☕',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/26/b10e9b51-65a6-43f7-9e93-0e184c5853e9.jpg',
+      printArea: {
+        width: '42%',
+        height: '46%',
+        top: '27%',
+        left: '29%',
+        aspectRatio: '1/1',
+        safeZoneLabel: 'CERAMIC WRAP ZONE • 8.5" × 3.5"',
+      },
+    },
+  ],
+  'bundle-streetwear-duo': [
+    {
+      id: 'oversized-tee',
+      name: 'Heavyweight Oversized Tee',
+      badge: '240 GSM Combed',
+      emoji: '👕',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg',
+      backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg',
+      printArea: {
+        width: '52%',
+        height: '56%',
+        top: '22%',
+        left: '24%',
+        aspectRatio: '3/4',
+        safeZoneLabel: 'DTF SAFE PRINT ZONE • 16" × 20" (300 DPI)',
+      },
+    },
+    {
+      id: 'acid-wash-tee',
+      name: 'Acid Wash Oversized Tee',
+      badge: 'Vintage Mineral Wash',
+      emoji: '👕',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/44/df1b411b-46ec-4c8f-aa0d-75b796bcda00.jpg',
+      backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/286/84f8f6ae-6521-4be1-9e33-07110cf93ec9.jpg',
+      printArea: {
+        width: '52%',
+        height: '56%',
+        top: '22%',
+        left: '24%',
+        aspectRatio: '3/4',
+        safeZoneLabel: 'ACID WASH DTF ZONE • 16" × 20" (300 DPI)',
+      },
+    },
+  ],
+  'bundle-winter-heavyweight': [
+    {
+      id: 'fleece-hoodie',
+      name: '380 GSM Fleece Hoodie',
+      badge: 'French Terry',
+      emoji: '🔥',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg',
+      backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg',
+      printArea: {
+        width: '46%',
+        height: '44%',
+        top: '28%',
+        left: '27%',
+        aspectRatio: '1/1',
+        safeZoneLabel: 'HOODIE CHEST PRINT ZONE • 10" × 10"',
+      },
+    },
+    {
+      id: 'heavyweight-tee',
+      name: '240 GSM Bio-Washed Tee',
+      badge: 'Streetwear Drop',
+      emoji: '👕',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg',
+      backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg',
+      printArea: {
+        width: '52%',
+        height: '56%',
+        top: '22%',
+        left: '24%',
+        aspectRatio: '3/4',
+        safeZoneLabel: 'DTF SAFE PRINT ZONE • 16" × 20" (300 DPI)',
+      },
+    },
+  ],
+  'bundle-founding-50': [
+    {
+      id: 'builder-tee',
+      name: '240 GSM Founding Builder Tee',
+      badge: 'Numbered Drop',
+      emoji: '⚡',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg',
+      backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg',
+      printArea: {
+        width: '52%',
+        height: '56%',
+        top: '22%',
+        left: '24%',
+        aspectRatio: '3/4',
+        safeZoneLabel: 'DTF SAFE PRINT ZONE • 16" × 20" (300 DPI)',
+      },
+    },
+    {
+      id: 'precision-mat',
+      name: '900x400mm Precision Desk Mat',
+      badge: 'Precision Surface',
+      emoji: '🖥️',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg',
+      printArea: {
+        width: '84%',
+        height: '74%',
+        top: '13%',
+        left: '8%',
+        aspectRatio: '16/9',
+        safeZoneLabel: 'MAX PRINT AREA • 900 × 400 MM (MICRO-WEAVE)',
+      },
+    },
+  ],
+};
+
 interface Props {
   product: Product;
 }
@@ -147,11 +316,82 @@ export function ProductClient({ product }: Props) {
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [sizeUnit, setSizeUnit] = useState<'in' | 'cm'>('in');
   const [selectedPhoneModel, setSelectedPhoneModel] = useState<string>(PHONE_MODELS[0]);
-  const [isCustomizing, setIsCustomizing] = useState(isApparel);
+  const isComboProduct = Boolean(
+    BUNDLE_SUB_ITEMS[product.id] ||
+    (product.id.startsWith('bundle-') && product.images && product.images.length > 1)
+  );
+
+  const comboItems: BundleSubItem[] = BUNDLE_SUB_ITEMS[product.id] || (
+    product.id.startsWith('bundle-') && product.images && product.images.length > 1
+      ? product.images.slice(0, 3).map((img, i) => ({
+          id: `combo-item-${i}`,
+          name: `Combo Product ${i + 1}`,
+          badge: 'Included in Bundle',
+          emoji: '📦',
+          plainImage: img,
+          printArea: {
+            width: '52%',
+            height: '56%',
+            top: '22%',
+            left: '24%',
+            aspectRatio: '3/4',
+            safeZoneLabel: 'DTF SAFE PRINT ZONE',
+          },
+        }))
+      : []
+  );
+
+  const [selectedComboItemIndex, setSelectedComboItemIndex] = useState<number>(0);
+  const [customPosX, setCustomPosX] = useState<number>(0);
+  const [customPosY, setCustomPosY] = useState<number>(0);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const dragStartRef = useRef<{ x: number; y: number; startPosX: number; startPosY: number } | null>(null);
+
+  const handleCanvasPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    setIsDragging(true);
+    dragStartRef.current = {
+      x: e.clientX,
+      y: e.clientY,
+      startPosX: customPosX,
+      startPosY: customPosY,
+    };
+  };
+
+  const handleCanvasPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging || !dragStartRef.current) return;
+    e.preventDefault();
+    const deltaX = e.clientX - dragStartRef.current.x;
+    const deltaY = e.clientY - dragStartRef.current.y;
+    const pctX = (deltaX / 280) * 100;
+    const pctY = (deltaY / 280) * 100;
+    const newX = Math.round(Math.max(-42, Math.min(42, dragStartRef.current.startPosX + pctX)));
+    const newY = Math.round(Math.max(-42, Math.min(42, dragStartRef.current.startPosY + pctY)));
+    setCustomPosX(newX);
+    setCustomPosY(newY);
+  };
+
+  const handleCanvasPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (isDragging) {
+      setIsDragging(false);
+      dragStartRef.current = null;
+      try {
+        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+      } catch {}
+    }
+  };
+
+  const [isCustomizing, setIsCustomizing] = useState(isApparel || isComboProduct);
   const [customMode, setCustomMode] = useState<'trending' | 'text' | 'image'>('trending');
   const [customText, setCustomText] = useState('');
-  const [customImage, setCustomImage] = useState<string | null>(isApparel ? TRENDING_GRAPHICS_VAULT[0].mockUrl : null);
-  const [customImageName, setCustomImageName] = useState<string>(isApparel ? TRENDING_GRAPHICS_VAULT[0].title : '');
+  const [customImage, setCustomImage] = useState<string | null>(
+    (isApparel || isComboProduct) ? TRENDING_GRAPHICS_VAULT[0].mockUrl : null
+  );
+  const [customImageName, setCustomImageName] = useState<string>(
+    (isApparel || isComboProduct) ? TRENDING_GRAPHICS_VAULT[0].title : ''
+  );
   const [customPlacement, setCustomPlacement] = useState<string>('Front Print');
   const [customTextColor, setCustomTextColor] = useState<string>('#ffffff');
   const [customFont, setCustomFont] = useState<string>('font-sans font-black tracking-wider uppercase');
@@ -208,8 +448,24 @@ export function ProductClient({ product }: Props) {
 
   const validImage = galleryImages.find((_, idx) => !failedImages[idx]) || product.image_url || '';
   const currentSrc: string = !failedImages[selectedImgIndex] ? (galleryImages[selectedImgIndex] || validImage) : validImage;
-  const showImage = Boolean(currentSrc && !failedImages[selectedImgIndex] || validImage);
+  const showImage = Boolean((currentSrc && !failedImages[selectedImgIndex]) || validImage);
   const wished = has(product.id);
+
+  const activeComboItem: BundleSubItem | null =
+    isComboProduct && comboItems.length > 0 ? comboItems[selectedComboItemIndex] || comboItems[0] : null;
+
+  const activeStudioImage = activeComboItem
+    ? (customView === 'back' && activeComboItem.backImage ? activeComboItem.backImage : activeComboItem.plainImage)
+    : (customView === 'back' && galleryImages.length > 1 ? galleryImages[1] : (galleryImages[0] || currentSrc));
+
+  const activePrintZone = activeComboItem?.printArea || {
+    width: '52%',
+    height: '56%',
+    top: '22%',
+    left: '24%',
+    aspectRatio: '3/4',
+    safeZoneLabel: 'DTF SAFE PRINT ZONE • 16" × 20" (300 DPI)',
+  };
 
   const relatedIds = bundles[product.id] ?? [];
   const related = relatedIds
@@ -318,7 +574,9 @@ export function ProductClient({ product }: Props) {
     customPlacement: isCustomizing && supportsPrintPlacement
       ? (dualPlacement ? 'Both Sides (+₹149)' : customView === 'back' ? 'Back Print' : 'Front Print')
       : undefined,
-    customPosition: isCustomizing ? customPosition : undefined,
+    customPosition: isCustomizing ? (customPosX === 0 && customPosY === 0 ? 'center' : `${customPosX}%x${customPosY}%`) : undefined,
+    customPosX: isCustomizing && customPosX !== 0 ? customPosX : undefined,
+    customPosY: isCustomizing && customPosY !== 0 ? customPosY : undefined,
     customScale: isCustomizing ? customScale : undefined,
     customRotation: isCustomizing && customRotation !== 0 ? customRotation : undefined,
     customFlip: isCustomizing && customFlip ? true : undefined,
@@ -326,6 +584,7 @@ export function ProductClient({ product }: Props) {
     customFont: isCustomizing && customMode === 'text' ? customFont : undefined,
     customImage: (customMode === 'image' || customMode === 'trending') && customImage ? customImage : undefined,
     customImageName: (customMode === 'image' || customMode === 'trending') && customImageName ? customImageName : undefined,
+    customizedItemName: isComboProduct && activeComboItem ? activeComboItem.name : undefined,
   });
 
   // Telemetry: track view_item on mount
@@ -414,8 +673,8 @@ export function ProductClient({ product }: Props) {
             >
               {showImage && currentSrc ? (
                 <Image
-                  key={currentSrc}
-                  src={currentSrc}
+                  key={isCustomizing && activeStudioImage ? activeStudioImage : currentSrc}
+                  src={isCustomizing && activeStudioImage ? activeStudioImage : currentSrc}
                   alt={`${product.title} - Photo ${selectedImgIndex + 1}`}
                   fill
                   priority={selectedImgIndex === 0}
@@ -436,21 +695,18 @@ export function ProductClient({ product }: Props) {
                     position: 'absolute',
                     pointerEvents: 'none',
                     zIndex: 10,
-                    transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                    transition: isDragging ? 'none' : 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     textAlign: 'center',
-                    ...(customPosition === 'pocket'
-                      ? { top: '24%', left: '22%', width: '22%', height: '20%' }
-                      : customPosition === 'mural'
-                      ? { top: '18%', left: '16%', width: '68%', height: '60%' }
-                      : customPosition === 'hem'
-                      ? { top: '66%', left: '22%', width: '28%', height: '22%' }
-                      : { top: '28%', left: '24%', width: '52%', height: '44%' }),
+                    top: activePrintZone.top,
+                    left: activePrintZone.left,
+                    width: activePrintZone.width,
+                    height: activePrintZone.height,
                   }}
                 >
-                  {/* Print Safety Margin Frame (Only visible when actively tweaking in customizer) */}
+                  {/* Print Safety Margin Frame (Only visible when studio is open) */}
                   {isCustomizing && (
                     <div
                       style={{
@@ -479,7 +735,7 @@ export function ProductClient({ product }: Props) {
                           boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
                         }}
                       >
-                        ⚡ 3D Studio Live ({customPlacement})
+                        ⚡ Qikink Studio ({customPlacement})
                       </span>
                     </div>
                   )}
@@ -499,8 +755,8 @@ export function ProductClient({ product }: Props) {
                         maxWidth: '92%',
                         wordBreak: 'break-word',
                         userSelect: 'none',
-                        transform: `scale(${customScale / 100}) rotate(${customRotation}deg) scaleX(${customFlip ? -1 : 1})`,
-                        transition: 'all 0.15s ease',
+                        transform: `translate(${customPosX}%, ${customPosY}%) scale(${customScale / 100}) rotate(${customRotation}deg) scaleX(${customFlip ? -1 : 1})`,
+                        transition: isDragging ? 'none' : 'transform 0.15s ease',
                       }}
                     >
                       {customText.trim() || 'RARE EMBER'}
@@ -516,8 +772,8 @@ export function ProductClient({ product }: Props) {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        transform: `scale(${customScale / 100}) rotate(${customRotation}deg) scaleX(${customFlip ? -1 : 1})`,
-                        transition: 'all 0.15s ease',
+                        transform: `translate(${customPosX}%, ${customPosY}%) scale(${customScale / 100}) rotate(${customRotation}deg) scaleX(${customFlip ? -1 : 1})`,
+                        transition: isDragging ? 'none' : 'transform 0.15s ease',
                       }}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -1011,60 +1267,117 @@ export function ProductClient({ product }: Props) {
 
               {/* 3D Studio Interactive Workspace */}
               {isCustomizing && (
-                <div className="p-4 md:p-6 space-y-5">
-                  {/* 1. THE 3D GARMENT STAGE (REAL-TIME 3D CANVAS) */}
+                <div className="p-4 md:p-6 space-y-4">
+                  {/* UPPER IN STUDIO: IF COMBO, ONLY SHOW ITEM NAMES (e.g. 3 NAMES) */}
+                  {isComboProduct && comboItems.length > 0 && (
+                    <div className="rounded-2xl bg-white/5 border border-white/10 p-3">
+                      <div className="flex items-center justify-between mb-2 px-1">
+                        <span className="text-[11px] font-black uppercase tracking-wider text-[#FF9A3D] flex items-center gap-1.5">
+                          <span>📦</span> Combo Pack Products ({comboItems.length} Included):
+                        </span>
+                        <span className="text-[10px] text-neutral-400 font-bold">
+                          Tap product name to customize live
+                        </span>
+                      </div>
+                      <div
+                        className={`grid gap-2 ${
+                          comboItems.length === 3
+                            ? 'grid-cols-1 sm:grid-cols-3'
+                            : comboItems.length === 2
+                            ? 'grid-cols-1 sm:grid-cols-2'
+                            : 'grid-cols-1'
+                        }`}
+                      >
+                        {comboItems.map((item, idx) => {
+                          const isSelected = selectedComboItemIndex === idx;
+                          return (
+                            <button
+                              key={item.id}
+                              type="button"
+                              onClick={() => {
+                                setSelectedComboItemIndex(idx);
+                                setCustomView('front');
+                                setCustomPlacement('Front Print');
+                              }}
+                              className={`p-3 rounded-2xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1 ${
+                                isSelected
+                                  ? 'border-[#FF4D24] bg-[#FF4D24]/20 ring-2 ring-[#FF4D24]/60 text-white shadow-lg'
+                                  : 'border-white/10 bg-black/40 hover:bg-white/10 hover:border-white/20 text-neutral-300'
+                              }`}
+                            >
+                              <div className="flex items-center gap-2 justify-center">
+                                <span className="text-lg">{item.emoji}</span>
+                                <span className="text-xs font-black truncate max-w-[150px] sm:max-w-none">
+                                  {item.name}
+                                </span>
+                              </div>
+                              <span
+                                className={`text-[10px] font-bold tracking-wider uppercase ${
+                                  isSelected ? 'text-[#FF9A3D]' : 'text-neutral-500'
+                                }`}
+                              >
+                                {isSelected ? '● Live on Studio Canvas' : item.badge}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 1. THE QIKINK 3D STUDIO CANVAS */}
                   <div className="relative rounded-2xl bg-gradient-to-b from-[#181716] via-[#11100f] to-[#080707] border border-white/10 p-3 md:p-4 shadow-2xl overflow-hidden">
-                    {/* 3D Stage Top Bar: Live Engine Indicator & 3D View Angle Switcher */}
+                    {/* Studio Stage Top Bar: Engine Status & View Angle Switcher */}
                     <div className="flex items-center justify-between gap-2 mb-3 pb-2.5 border-b border-white/10 flex-wrap">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                         <span className="text-[11px] font-black uppercase tracking-wider text-neutral-300">
-                          3D Interactive Stage
+                          Qikink™ 3D Design Studio
                         </span>
-                        <span className="text-[10px] font-bold text-[#FF9A3D] bg-white/5 px-2 py-0.5 rounded-full border border-white/10 hidden sm:inline">
-                          {customView === 'front' ? 'Front Perspective' : 'Back Streetwear View'}
+                        <span className="text-[10px] font-bold text-[#FF9A3D] bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
+                          {activeComboItem ? activeComboItem.name : customView === 'front' ? 'Front Perspective' : 'Back Streetwear View'}
                         </span>
                       </div>
 
-                      {/* 3D Front / Back Angle Switcher (Completely replaces old Print Location dropdown!) */}
-                      <div className="flex items-center gap-1 bg-white/10 p-1 rounded-xl border border-white/10 backdrop-blur-md">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setCustomView('front');
-                            setCustomPlacement('Front Print');
-                            if (galleryImages.length > 0) setSelectedImgIndex(0);
-                          }}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
-                            customView === 'front'
-                              ? 'bg-[#FF4D24] text-white shadow-sm'
-                              : 'text-neutral-300 hover:text-white'
-                          }`}
-                        >
-                          <span>👕</span>
-                          <span>Front 3D</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setCustomView('back');
-                            setCustomPlacement('Back Print');
-                            if (galleryImages.length > 1) setSelectedImgIndex(1);
-                          }}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
-                            customView === 'back'
-                              ? 'bg-[#FF4D24] text-white shadow-sm'
-                              : 'text-neutral-300 hover:text-white'
-                          }`}
-                        >
-                          <span>🔄</span>
-                          <span>Back 3D</span>
-                        </button>
-                      </div>
+                      {/* View Angle Switcher (If front/back supported) */}
+                      {((!activeComboItem && supportsPrintPlacement) || (activeComboItem && activeComboItem.backImage)) && (
+                        <div className="flex items-center gap-1 bg-white/10 p-1 rounded-xl border border-white/10 backdrop-blur-md">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCustomView('front');
+                              setCustomPlacement('Front Print');
+                            }}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                              customView === 'front'
+                                ? 'bg-[#FF4D24] text-white shadow-sm'
+                                : 'text-neutral-300 hover:text-white'
+                            }`}
+                          >
+                            <span>👕</span>
+                            <span>Front</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCustomView('back');
+                              setCustomPlacement('Back Print');
+                            }}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                              customView === 'back'
+                                ? 'bg-[#FF4D24] text-white shadow-sm'
+                                : 'text-neutral-300 hover:text-white'
+                            }`}
+                          >
+                            <span>🔄</span>
+                            <span>Back</span>
+                          </button>
+                        </div>
+                      )}
                     </div>
 
-                    {/* 3D Garment Viewport */}
-                    <div className="relative aspect-square w-full max-w-[340px] md:max-w-[380px] mx-auto rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 flex items-center justify-center shadow-inner group">
+                    {/* 3D Garment Viewport with Authentic Product Mockup & Safe Print Zone */}
+                    <div className="relative aspect-square w-full max-w-[340px] md:max-w-[380px] mx-auto rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 flex items-center justify-center shadow-inner group select-none">
                       {/* Ambient 3D Spotlight */}
                       <div
                         aria-hidden
@@ -1074,111 +1387,196 @@ export function ProductClient({ product }: Props) {
                         }}
                       />
 
-                      {/* Garment Base Layer */}
-                      {showImage ? (
-                        <Image
-                          src={
-                            customView === 'back' && galleryImages.length > 1
-                              ? galleryImages[1]
-                              : (galleryImages[0] || currentSrc)
-                          }
-                          alt="3D Garment Viewport"
-                          fill
-                          sizes="380px"
-                          className="object-cover transition-opacity duration-300"
-                        />
-                      ) : (
-                        <span className="text-7xl">{product.emoji}</span>
-                      )}
+                      {/* Product Base Plain Mockup Image ("plan img") */}
+                      <Image
+                        src={activeStudioImage}
+                        alt={activeComboItem ? activeComboItem.name : displayTitle}
+                        fill
+                        sizes="380px"
+                        className="object-cover transition-opacity duration-300 pointer-events-none"
+                      />
 
-                      {/* Live 3D Overlay (Graphic, Text, or Upload) */}
-                      {(customImage || (customMode === 'text' && customText.trim())) && (
-                        <div
-                          className="absolute pointer-events-none z-10 flex items-center justify-center transition-all duration-200"
-                          style={{
-                            ...(customPosition === 'pocket'
-                              ? { top: '24%', left: '22%', width: '22%', height: '20%' }
-                              : customPosition === 'mural'
-                              ? { top: '18%', left: '16%', width: '68%', height: '60%' }
-                              : customPosition === 'hem'
-                              ? { top: '66%', left: '22%', width: '28%', height: '22%' }
-                              : { top: '28%', left: '24%', width: '52%', height: '44%' }),
-                            transform: `scale(${customScale / 100}) rotate(${customRotation}deg) scaleX(${customFlip ? -1 : 1})`,
-                          }}
-                        >
-                          {/* Live 3D Bounding Guideline */}
-                          <div className="absolute inset-0 border border-dashed border-[#FF4D24]/80 rounded-lg pointer-events-none bg-[#FF4D24]/5">
-                            <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-[#FF4D24] text-[8px] font-black uppercase text-white whitespace-nowrap shadow-sm">
-                              {customView.toUpperCase()} • {customPosition.toUpperCase()}
-                            </span>
-                          </div>
-
-                          {/* Graphic or Text */}
-                          {customMode === 'text' && customText.trim() ? (
-                            <div
-                              className={`${customFont} select-none text-center p-1`}
-                              style={{
-                                color: customTextColor,
-                                fontSize: 'clamp(12px, 3.5vw, 24px)',
-                                lineHeight: 1.15,
-                                textShadow: '0 2px 6px rgba(0,0,0,0.9)',
-                                wordBreak: 'break-word',
-                              }}
-                            >
-                              {customText}
-                            </div>
-                          ) : customImage ? (
-                            <img
-                              src={customImage}
-                              alt="Active 3D Print Design"
-                              className="max-w-[92%] max-h-[92%] object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.7)]"
-                            />
-                          ) : null}
+                      {/* Qikink Safe Print Zone (Dashed Boundary) */}
+                      <div
+                        className="absolute pointer-events-none z-10 transition-all duration-200"
+                        style={{
+                          top: activePrintZone.top,
+                          left: activePrintZone.left,
+                          width: activePrintZone.width,
+                          height: activePrintZone.height,
+                        }}
+                      >
+                        {/* Printable Area Dashed Guideline */}
+                        <div className="absolute inset-0 border-2 border-dashed border-[#FF4D24]/80 rounded-xl pointer-events-none bg-[#FF4D24]/[0.03]">
+                          <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-[#FF4D24] text-[8px] font-black uppercase text-white tracking-wider whitespace-nowrap shadow-sm">
+                            {activePrintZone.safeZoneLabel}
+                          </span>
                         </div>
-                      )}
 
-                      {/* Bottom Stage Overlay Pill */}
-                      <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-[10px] text-white/90 bg-black/75 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 z-20">
+                        {/* Active Interactive Artwork Box with Drag & Visual Handles */}
+                        {(customImage || (customMode === 'text' && customText.trim())) && (
+                          <div
+                            onPointerDown={handleCanvasPointerDown}
+                            onPointerMove={handleCanvasPointerMove}
+                            onPointerUp={handleCanvasPointerUp}
+                            onPointerCancel={handleCanvasPointerUp}
+                            className="absolute inset-0 flex items-center justify-center pointer-events-auto"
+                            style={{
+                              transform: `translate(${customPosX}%, ${customPosY}%) scale(${customScale / 100}) rotate(${customRotation}deg) scaleX(${customFlip ? -1 : 1})`,
+                              transition: isDragging ? 'none' : 'transform 0.15s ease',
+                              touchAction: 'none',
+                              cursor: isDragging ? 'grabbing' : 'grab',
+                            }}
+                          >
+                            {/* Active Selection Frame */}
+                            <div className="relative p-1.5 border border-[#FF4D24] rounded-lg shadow-[0_0_15px_rgba(255,77,36,0.35)] bg-[#FF4D24]/5">
+                              {/* 4 Corner Handles */}
+                              <div className="w-2.5 h-2.5 bg-white border-2 border-[#FF4D24] rounded-xs absolute -top-1.5 -left-1.5 cursor-nwse-resize shadow-xs" />
+                              <div className="w-2.5 h-2.5 bg-white border-2 border-[#FF4D24] rounded-xs absolute -top-1.5 -right-1.5 cursor-nesw-resize shadow-xs" />
+                              <div className="w-2.5 h-2.5 bg-white border-2 border-[#FF4D24] rounded-xs absolute -bottom-1.5 -left-1.5 cursor-nesw-resize shadow-xs" />
+                              <div className="w-2.5 h-2.5 bg-white border-2 border-[#FF4D24] rounded-xs absolute -bottom-1.5 -right-1.5 cursor-nwse-resize shadow-xs" />
+
+                              {/* Top Rotation Stem & Pin */}
+                              <div className="w-[1.5px] h-3.5 bg-[#FF4D24] absolute -top-3.5 left-1/2 -translate-x-1/2" />
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setCustomRotation((r) => (r + 15) % 360);
+                                }}
+                                className="w-5 h-5 rounded-full bg-white border-2 border-[#FF4D24] absolute -top-8 left-1/2 -translate-x-1/2 flex items-center justify-center text-[10px] text-[#FF4D24] font-black cursor-pointer shadow-md hover:scale-110 active:scale-95 transition-transform"
+                                title="Click to rotate +15°"
+                              >
+                                ↻
+                              </button>
+
+                              {/* Artwork Content */}
+                              {customMode === 'text' && customText.trim() ? (
+                                <div
+                                  className={`${customFont} select-none text-center p-1 pointer-events-none`}
+                                  style={{
+                                    color: customTextColor,
+                                    fontSize: 'clamp(14px, 4vw, 24px)',
+                                    lineHeight: 1.15,
+                                    textShadow: '0 2px 6px rgba(0,0,0,0.9)',
+                                    wordBreak: 'break-word',
+                                  }}
+                                >
+                                  {customText}
+                                </div>
+                              ) : customImage ? (
+                                <img
+                                  src={customImage}
+                                  alt="Active 3D Print Design"
+                                  className="max-w-[140px] md:max-w-[160px] max-h-[140px] md:max-h-[160px] object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.7)] pointer-events-none"
+                                />
+                              ) : null}
+
+                              {/* Drag Coordinates Badge */}
+                              <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-black/85 text-[8px] font-mono font-bold text-[#FF9A3D] whitespace-nowrap border border-white/10 pointer-events-none">
+                                X: {customPosX}mm | Y: {customPosY}mm
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Bottom Stage Status Pill */}
+                      <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-[10px] text-white/90 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 z-20 pointer-events-none">
                         <span className="font-bold truncate max-w-[190px]">
-                          🎨 {customImageName || (customText ? `"${customText}"` : 'Clean Blank Garment')}
+                          🎨 {customImageName || (customText ? `"${customText}"` : 'Plain Blank Drop')}
                         </span>
-                        <span className="font-black text-[#FF9A3D]">
-                          {customScale}% • {customRotation}°
+                        <span className="font-mono text-[#FF9A3D] font-black">
+                          {customScale}% • {customRotation}° {customFlip ? '• FLIPPED' : ''}
                         </span>
                       </div>
                     </div>
 
-                    {/* 3D Stage Controls: Position Snap Anchors & Rotation / Flip */}
-                    <div className="mt-3.5 pt-3 border-t border-white/10 space-y-2.5">
-                      {/* Position Anchors on Garment */}
+                    {/* Qikink Design Studio Toolbar */}
+                    <div className="mt-3.5 pt-3 border-t border-white/10 space-y-3">
+                      {/* Alignment Row */}
                       <div>
                         <span className="text-[10px] font-black uppercase tracking-wider text-neutral-400 block mb-1.5">
-                          Snap Position on Garment:
+                          Qikink Alignments (Touch &amp; Drag or 1-Tap):
                         </span>
-                        <div className="grid grid-cols-4 gap-1.5">
-                          {[
-                            { id: 'center', label: '🎯 Center' },
-                            { id: 'pocket', label: '👕 Pocket' },
-                            { id: 'mural', label: '🖼️ Mural' },
-                            { id: 'hem', label: '⚡ Hem' },
-                          ].map((pos) => (
-                            <button
-                              key={pos.id}
-                              type="button"
-                              onClick={() => setCustomPosition(pos.id as any)}
-                              className={`py-2 px-1 rounded-xl text-xs font-bold transition-all cursor-pointer text-center ${
-                                customPosition === pos.id
-                                  ? 'bg-[#FF4D24] text-white shadow-sm ring-1 ring-white/20'
-                                  : 'bg-white/5 hover:bg-white/10 text-neutral-300 border border-white/5'
-                              }`}
-                            >
-                              {pos.label}
-                            </button>
-                          ))}
+                        <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5 text-xs font-bold">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCustomPosX(0);
+                              setCustomPosY(0);
+                            }}
+                            className="py-1.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/5 transition-colors text-center"
+                            title="Align Center Both"
+                          >
+                            🎯 Center
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setCustomPosX(0)}
+                            className="py-1.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/5 transition-colors text-center"
+                            title="Align Center X"
+                          >
+                            ↔ Center X
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setCustomPosY(0)}
+                            className="py-1.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/5 transition-colors text-center"
+                            title="Align Center Y"
+                          >
+                            ↕ Center Y
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCustomPosX(0);
+                              setCustomPosY(-18);
+                            }}
+                            className="py-1.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/5 transition-colors text-center"
+                            title="Align Chest"
+                          >
+                            👕 Chest
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCustomPosX(-24);
+                              setCustomPosY(-20);
+                              setCustomScale(65);
+                            }}
+                            className="py-1.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/5 transition-colors text-center"
+                            title="Align Left Pocket"
+                          >
+                            👕 Pocket
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCustomPosX(0);
+                              setCustomPosY(0);
+                              setCustomScale(135);
+                            }}
+                            className="py-1.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/5 transition-colors text-center"
+                            title="Oversized Mural"
+                          >
+                            🖼️ Mural
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCustomPosX(0);
+                              setCustomPosY(28);
+                            }}
+                            className="py-1.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/5 transition-colors text-center"
+                            title="Bottom Hem"
+                          >
+                            ⚡ Hem
+                          </button>
                         </div>
                       </div>
 
-                      {/* Transform Tools: Rotate & Flip */}
+                      {/* Transform & Rotation Row */}
                       <div className="flex items-center gap-1.5 flex-wrap">
                         <span className="text-[10px] font-black uppercase tracking-wider text-neutral-400 mr-1">
                           Transform:
@@ -1187,7 +1585,6 @@ export function ProductClient({ product }: Props) {
                           type="button"
                           onClick={() => setCustomRotation((r) => (r - 15) % 360)}
                           className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-neutral-200 text-xs font-bold border border-white/10 transition-colors"
-                          title="Rotate Counter-Clockwise"
                         >
                           ↺ -15°
                         </button>
@@ -1195,9 +1592,15 @@ export function ProductClient({ product }: Props) {
                           type="button"
                           onClick={() => setCustomRotation((r) => (r + 15) % 360)}
                           className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-neutral-200 text-xs font-bold border border-white/10 transition-colors"
-                          title="Rotate Clockwise"
                         >
                           ↻ +15°
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setCustomRotation((r) => (r + 90) % 360)}
+                          className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-neutral-200 text-xs font-bold border border-white/10 transition-colors"
+                        >
+                          ↻ 90°
                         </button>
                         <button
                           type="button"
@@ -1207,38 +1610,53 @@ export function ProductClient({ product }: Props) {
                               ? 'bg-[#FF4D24] text-white border-transparent'
                               : 'bg-white/5 hover:bg-white/15 text-neutral-200 border-white/10'
                           }`}
-                          title="Flip Horizontal"
                         >
-                          ↔️ Flip
+                          ⇄ Flip
                         </button>
                         <button
                           type="button"
                           onClick={() => {
+                            setCustomPosX(0);
+                            setCustomPosY(0);
                             setCustomRotation(0);
                             setCustomFlip(false);
                             setCustomScale(100);
                           }}
                           className="ml-auto px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-neutral-300 text-xs font-bold border border-white/10 transition-colors"
                         >
-                          Reset 0°
+                          ↺ Reset
                         </button>
                       </div>
 
-                      {/* Scale / Proportions Slider */}
+                      {/* Precision Scale Slider */}
                       <div className="pt-1">
                         <div className="flex items-center justify-between text-[11px] font-black uppercase text-neutral-400 mb-1">
                           <span>Graphic Scale &amp; Proportions:</span>
                           <span className="text-[#FF9A3D] font-mono">{customScale}%</span>
                         </div>
                         <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setCustomScale((s) => Math.max(50, s - 5))}
+                            className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-white font-black text-sm flex items-center justify-center shrink-0 cursor-pointer"
+                          >
+                            -
+                          </button>
                           <input
                             type="range"
-                            min={60}
+                            min={50}
                             max={150}
                             value={customScale}
                             onChange={(e) => setCustomScale(Number(e.target.value))}
                             className="w-full accent-[#FF4D24] cursor-pointer"
                           />
+                          <button
+                            type="button"
+                            onClick={() => setCustomScale((s) => Math.min(150, s + 5))}
+                            className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-white font-black text-sm flex items-center justify-center shrink-0 cursor-pointer"
+                          >
+                            +
+                          </button>
                         </div>
                         <div className="flex items-center justify-between gap-1.5 mt-1.5">
                           {[
@@ -1250,7 +1668,7 @@ export function ProductClient({ product }: Props) {
                               key={sc.val}
                               type="button"
                               onClick={() => setCustomScale(sc.val)}
-                              className={`flex-1 py-1 text-center rounded-lg text-[10px] font-bold transition-all ${
+                              className={`flex-1 py-1 text-center rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
                                 customScale === sc.val
                                   ? 'bg-[#FF4D24] text-white'
                                   : 'bg-white/5 hover:bg-white/10 text-neutral-400 border border-white/5'
