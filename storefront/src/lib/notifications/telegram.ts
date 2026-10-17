@@ -171,3 +171,68 @@ export async function notifyTelegramReturnClaim(claim: {
     console.error('Failed to dispatch Telegram return alert:', err);
   }
 }
+
+export async function notifyTelegramCustomLead(lead: {
+  leadId: string;
+  orgName: string;
+  contactName: string;
+  phone: string;
+  quantity: number;
+  productType: string;
+  eventDate?: string;
+  estimatedBudget?: number;
+}) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
+
+  if (!enabled || !token || !chatId) return;
+
+  const cleanPhone = String(lead.phone || '').replace(/\D/g, '');
+  const intlPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
+  const waText = encodeURIComponent(
+    `Namaste ${lead.contactName || 'Organizer'}! 🙏\n\n` +
+    `Thank you for your custom merch inquiry for *${lead.orgName || 'your team'}* on RareEmber!\n\n` +
+    `• Product: ${lead.productType}\n` +
+    `• Quantity: ${lead.quantity} units\n` +
+    `• Event Date: ${lead.eventDate || 'Upcoming'}\n` +
+    (lead.estimatedBudget ? `• Estimate: ₹${lead.estimatedBudget.toLocaleString('en-IN')}\n\n` : '\n') +
+    `Our Tirupur production desk is ready with fabric batches & DTF print slots. Shall I share the free 3D design proof? ✨`
+  );
+  const waLink = intlPhone ? `https://wa.me/${intlPhone}?text=${waText}` : '';
+
+  const text = [
+    `🏛️ <b>NEW B2B CUSTOM MERCH LEAD!</b> ⚡`,
+    ``,
+    `🎫 <b>Lead ID:</b> <code>#${lead.leadId}</code>`,
+    `🏢 <b>Organization / Club:</b> <b>${lead.orgName || 'Not specified'}</b>`,
+    `👤 <b>Contact Person:</b> <b>${lead.contactName || 'Organizer'}</b>`,
+    `📞 <b>WhatsApp / Phone:</b> <b>${lead.phone}</b>`,
+    `👕 <b>Product:</b> <b>${lead.productType}</b>`,
+    `📦 <b>Batch Quantity:</b> <b>${lead.quantity} units</b>`,
+    lead.eventDate ? `📅 <b>Target Event:</b> ${lead.eventDate}` : '',
+    lead.estimatedBudget ? `💰 <b>Estimated Budget:</b> <b>₹${lead.estimatedBudget.toLocaleString('en-IN')}</b>` : '',
+    ``,
+    waLink ? `💬 <b>1-CLICK WHATSAPP TO LEAD:</b>\n👉 <a href="${waLink}">Open WhatsApp & Send 3D Proof Offer</a>\n` : '',
+    `⚡ <b>PRODUCTION DESK ACTION:</b>`,
+    `1. Contact organizer within 2 hours.`,
+    `2. Prepare 3D digital mockup on RareEmber blank templates.`,
+    `3. Collect 20% advance booking deposit to reserve Tirupur print slot.`
+  ].filter(Boolean).join('\n');
+
+  try {
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: 'HTML',
+        disable_web_page_preview: false,
+      }),
+    });
+  } catch (err) {
+    console.error('Failed to dispatch Telegram custom lead alert:', err);
+  }
+}
+

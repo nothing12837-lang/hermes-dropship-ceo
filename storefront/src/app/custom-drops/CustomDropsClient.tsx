@@ -30,6 +30,7 @@ export function CustomDropsClient() {
   const [phone, setPhone] = useState<string>('');
   const [eventDate, setEventDate] = useState<string>('');
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isAiAgentOpen, setIsAiAgentOpen] = useState<boolean>(false);
 
   // Calculate pricing based on tier
@@ -71,10 +72,33 @@ export function CustomDropsClient() {
     return waNumber ? `https://wa.me/${waNumber.replace(/\D/g, '')}?text=${text}` : `https://wa.me/?text=${text}`;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    try {
+      await fetch('/api/custom-drops', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orgName,
+          contactName,
+          phone,
+          quantity,
+          productType: getProductName(),
+          eventDate,
+          estimatedBudget: totalEstimate,
+        }),
+      });
+    } catch (err) {
+      console.warn('Custom lead notification network error (falling back to UI confirmation):', err);
+    } finally {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    }
   };
+
 
   return (
     <main className="page-top min-h-screen text-[#161311] pb-24 bg-[#FFFBF5]">
@@ -425,9 +449,10 @@ export function CustomDropsClient() {
 
               <button
                 type="submit"
-                className="w-full py-3 rounded-xl bg-[#161311] hover:bg-black text-white font-black text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md"
+                disabled={isSubmitting}
+                className="w-full py-3 rounded-xl bg-[#161311] hover:bg-black text-white font-black text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md disabled:opacity-50"
               >
-                Request Free 3D Design Proof &amp; Spec Sheet ➔
+                {isSubmitting ? 'Dispatching to Production Desk...' : 'Request Free 3D Design Proof & Spec Sheet ➔'}
               </button>
             </form>
           )}
