@@ -8,6 +8,7 @@ import Footer from "@/components/ui/Footer";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { GeoProvider } from "@/context/GeoContext";
 import ClientOverlays from "@/components/ui/ClientOverlays";
+import { TelemetryProvider } from "@/components/telemetry/TelemetryProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -99,6 +100,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://qikink-stores.s3.ap-south-1.amazonaws.com" />
       </head>
       <body className="font-sans antialiased bg-[#FFF9F1] text-neutral-900">
+        <TelemetryProvider />
         <ErrorBoundary>
           <GeoProvider>
             <CartProvider>

@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { ChapterHeading, MagneticButton } from '@/components/ui/Story';
+import { trackPurchase } from '@/lib/telemetry/dataLayer';
 
 function SuccessInner() {
   const q = useSearchParams();
@@ -12,6 +13,27 @@ function SuccessInner() {
   const email = q.get('email') || 'your inbox';
   const total = q.get('total');
   const session = q.get('session_id') || q.get('order_id');
+
+  const orderId = session || `ord_${Date.now()}`;
+  const orderTotal = total ? parseFloat(total) : 899;
+
+  // Telemetry: track purchase on success load
+  useEffect(() => {
+    trackPurchase({
+      transactionId: orderId,
+      value: orderTotal,
+      currency: 'INR',
+      items: [
+        {
+          id: 'rareember-flagship-drop',
+          title: 'RareEmber Curated Streetwear Drop',
+          price: orderTotal,
+          qty: 1,
+          category: 'Streetwear Apparel',
+        },
+      ],
+    });
+  }, [orderId]);
 
   return (
     <main className="page-top" style={{ background: '#fffbf5', minHeight: '100vh', textAlign: 'center' }}>

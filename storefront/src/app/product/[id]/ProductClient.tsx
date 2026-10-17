@@ -14,6 +14,7 @@ import ProductCard from '@/components/ui/ProductCard';
 import PincodeChecker from '@/components/ui/PincodeChecker';
 import ProductReviews from '@/components/ui/ProductReviews';
 import { useGeo } from '@/context/GeoContext';
+import { trackViewItem, trackAddToCart } from '@/lib/telemetry/dataLayer';
 
 const PERSPECTIVE_LABELS = ['Hero Front', 'Detail Macro', 'In-Room Setup', 'Unboxed & Scale'];
 
@@ -319,14 +320,42 @@ export function ProductClient({ product }: Props) {
     customImageName: (customMode === 'image' || customMode === 'trending') && customImageName ? customImageName : undefined,
   });
 
+  // Telemetry: track view_item on mount
+  useEffect(() => {
+    trackViewItem({
+      id: product.id,
+      title: displayTitle,
+      price: effectiveInr,
+      qty: 1,
+      category: isApparel ? 'Apparel / Streetwear' : 'Lifestyle / Desk Gear',
+      variant: isApparel ? selectedSize : undefined,
+    });
+  }, [product.id]);
+
   const handleAddToCart = () => {
     add(product.id, qty, getItemMeta());
+    trackAddToCart({
+      id: product.id,
+      title: displayTitle,
+      price: effectiveInr,
+      qty,
+      category: isApparel ? 'Apparel / Streetwear' : 'Lifestyle / Desk Gear',
+      variant: isApparel ? selectedSize : undefined,
+    });
     setAddedAlert(true);
     setTimeout(() => setAddedAlert(false), 2500);
   };
 
   const handleOrderNow = () => {
     add(product.id, qty, getItemMeta());
+    trackAddToCart({
+      id: product.id,
+      title: displayTitle,
+      price: effectiveInr,
+      qty,
+      category: isApparel ? 'Apparel / Streetwear' : 'Lifestyle / Desk Gear',
+      variant: isApparel ? selectedSize : undefined,
+    });
     router.push('/checkout');
   };
 

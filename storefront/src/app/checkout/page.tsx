@@ -11,6 +11,7 @@ import { supabase } from '@/lib/supabase-client';
 import { useGeo } from '@/context/GeoContext';
 import { validateCouponCode } from '@/lib/festivals';
 import { scoreRtoRisk } from '@/lib/rto';
+import { trackBeginCheckout, trackAddShippingInfo } from '@/lib/telemetry/dataLayer';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -144,6 +145,25 @@ export default function CheckoutPage() {
   const rawTotal = subtotal + codFee - discount;
   const total = Math.max(0, rawTotal);
 
+  // Telemetry: track begin_checkout on checkout load
+  useEffect(() => {
+    if (detailed.length > 0) {
+      trackBeginCheckout(
+        detailed.map((d) => ({
+          id: d.id,
+          title: d.product.title,
+          price: d.product.price_inr || d.product.price,
+          qty: d.qty,
+          size: d.size,
+          category: 'Streetwear Apparel',
+        })),
+        total,
+        isIndia ? 'INR' : 'USD',
+        appliedCouponCode
+      );
+    }
+  }, []);
+
   const formatCheckoutPrice = (val: number) => {
     if (isIndia) {
       return `₹${Math.round(val).toLocaleString('en-IN')}`;
@@ -197,6 +217,21 @@ export default function CheckoutPage() {
         return setError(`Cash on Delivery is currently unavailable for PIN code ${zip}. Please select Instant Online Payment (UPI / Cards) for priority doorstep delivery.`);
       }
     }
+
+    // Telemetry: track add_shipping_info before order submission
+    trackAddShippingInfo(
+      detailed.map((d) => ({
+        id: d.id,
+        title: d.product.title,
+        price: d.product.price_inr || d.product.price,
+        qty: d.qty,
+        size: d.size,
+        category: 'Streetwear Apparel',
+      })),
+      total,
+      paymentMethod === 'cod' ? 'Cash on Delivery Air' : 'Insured Express Air',
+      isIndia ? 'INR' : 'USD'
+    );
 
     localStorage.setItem('rareember_email', email);
     setLoading(true);

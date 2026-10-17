@@ -11,6 +11,7 @@ import { resolveProductImage } from '@/lib/data/fallback-images';
 import { supabase } from '@/lib/supabase-client';
 import MagneticButton from './MagneticButton';
 import { useGeo } from '@/context/GeoContext';
+import { trackBeginCheckout } from '@/lib/telemetry/dataLayer';
 
 const itemVariants = {
   hidden: { opacity: 0, x: 30 },
@@ -147,6 +148,17 @@ export default function CartDrawer() {
   const router = useRouter();
 
   const handleCheckout = () => {
+    trackBeginCheckout(
+      detailed.map((d) => ({
+        id: d.id,
+        title: d.product.title,
+        price: d.product.price_inr || d.product.price,
+        qty: d.qty,
+        size: d.size,
+        category: 'Streetwear Apparel',
+      })),
+      subtotal
+    );
     closeCart();
     router.push('/checkout');
   };
