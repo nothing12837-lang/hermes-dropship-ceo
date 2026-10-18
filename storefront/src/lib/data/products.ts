@@ -287,7 +287,7 @@ export const products: Product[] = [
   "short": "Gaming Pad Made with a 3 mm thick rubber base, stitched edges, strong anti-slip grip, and extended desk coverage. Printed using fade-proof s",
   "story": "Gaming Pad Made with a 3 mm thick rubber base, stitched edges, strong anti-slip grip, and extended desk coverage. Printed using fade-proof sublimation with OEKO-TEX certified Epson inks. Available in 60 × 30 cm and 80 × 33 cm sizes.",
   "details": [
-    "Gaming Pad with custom printing on Rare Ember Studio, order as a Rare Ember premium privat",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Printed using fade-proof sublimation with OEKO-TEX certified Epson inks",
     "Available in 60 × 30 cm and 80 × 33 cm sizes"
   ],
@@ -315,7 +315,7 @@ export const products: Product[] = [
   "short": "Clear Phone Case Made from transparent TPU material with a slim and lightweight profile, precise cut-outs, and shock-absorbing construction ",
   "story": "Clear Phone Case Made from transparent TPU material with a slim and lightweight profile, precise cut-outs, and shock-absorbing construction for everyday protection. Printed using high-quality UV printing for vibrant, fade-resistant designs. Compatible with a wide range of smartphone models.",
   "details": [
-    "Clear Phone Case with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from transparent TPU material with a slim and lightweight profile, precise cut-outs,",
     "Printed using high-quality UV printing for vibrant, fade-resistant designs"
   ],
@@ -343,7 +343,7 @@ export const products: Product[] = [
   "short": "Mouse Pad Made with a 3 mm thick skid-proof rubber base and smooth fabric surface for precise mouse control. Features fade-proof sublimation",
   "story": "Mouse Pad Made with a 3 mm thick skid-proof rubber base and smooth fabric surface for precise mouse control. Features fade-proof sublimation printing using OEKO-TEX certified Epson inks and is available in Square and Circle variants.",
   "details": [
-    "Mouse Pad with custom printing on Rare Ember Studio, order as a Rare Ember premium private",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made with a 3 mm thick skid-proof rubber base and smooth fabric surface for precise mouse",
     "Features fade-proof sublimation printing using OEKO-TEX certified Epson inks and is availa"
   ],
@@ -371,7 +371,7 @@ export const products: Product[] = [
   "short": "Phone Grip | MS65 Made with a durable lightweight construction featuring a strong adhesive backing, ergonomic grip design, and high-quality ",
   "story": "Phone Grip | MS65 Made with a durable lightweight construction featuring a strong adhesive backing, ergonomic grip design, and high-quality UV printing for vibrant, fade-proof results. Functions as a secure phone grip, media stand, and everyday mobile accessory.",
   "details": [
-    "Phone Grip | MS65 with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made with a durable lightweight construction featuring a strong adhesive backing, ergonomi",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -401,7 +401,7 @@ export const products: Product[] = [
   "short": "Glass Phone Case Made with a premium tempered glass back and shock-absorbing TPU edges for everyday protection. Features vibrant fade-proof ",
   "story": "Glass Phone Case Made with a premium tempered glass back and shock-absorbing TPU edges for everyday protection. Features vibrant fade-proof printing using UV technology, precise cut-outs for easy access, and support for a wide range of smartphone models.",
   "details": [
-    "Glass Phone Case with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Features vibrant fade-proof printing using UV technology, precise cut-outs for easy access",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -431,7 +431,7 @@ export const products: Product[] = [
   "short": "Crafted in small batches at our Tirupur studio for everyday comfort and durability. 220 GSM 4-way stretch poly-spandex with vibrant, fade-proof all-over print..",
   "story": "Crafted in small batches at our Tirupur studio for everyday comfort and durability. 220 GSM 4-way stretch poly-spandex with vibrant, fade-proof all-over print..",
   "details": [
-    "Sell full sleeve crop tops (AOP) with Rare Ember Studio's print-on-demand model",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "220 GSM poly-spandex, crafted for daily rotation.",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -461,7 +461,7 @@ export const products: Product[] = [
   "short": "Arm Sleeves Made from lightweight poly spandex fabric with an anti-microbial finish, stretchable construction, UV protection, and fade-proof",
   "story": "Arm Sleeves Made from lightweight poly spandex fabric with an anti-microbial finish, stretchable construction, UV protection, and fade-proof all-over sublimation printing. Suitable for sports, cycling, running, biking, and outdoor activities.",
   "details": [
-    "Arm Sleeves with custom printing on Rare Ember Studio, order as a Rare Ember premium priva",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from lightweight poly spandex fabric with an anti-microbial finish, stretchable const",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -491,7 +491,7 @@ export const products: Product[] = [
   "short": "Balaclava | UB39 Made from lightweight poly spandex fabric with an anti-microbial finish, stretchable construction, and fade-proof all-over ",
   "story": "Balaclava | UB39 Made from lightweight poly spandex fabric with an anti-microbial finish, stretchable construction, and fade-proof all-over sublimation printing for full-coverage customization. Designed with a snug helmet-ready fit for riding, sports, and outdoor activities.",
   "details": [
-    "Balaclava | UB39 with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from lightweight poly spandex fabric with an anti-microbial finish, stretchable const",
     "Designed with a snug helmet-ready fit for riding, sports, and outdoor activities"
   ],
@@ -519,7 +519,7 @@ export const products: Product[] = [
   "short": "Boy Classic Crew T-Shirt | BC21 Made from 180 GSM 100% super combed cotton with a unisex regular fit, lycra ribbed neck, pre-shrunk and bio-",
   "story": "Boy Classic Crew T-Shirt | BC21 Made from 180 GSM 100% super combed cotton with a unisex regular fit, lycra ribbed neck, pre-shrunk and bio-washed fabric, and double-stitched seams.",
   "details": [
-    "Boy Classic Crew T-Shirt | BC21 with custom printing on Rare Ember Studio, order as a Rare",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% super combed cotton with a unisex regular fit, lycra ribbed neck, p",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -576,7 +576,7 @@ export const products: Product[] = [
   "short": "Face Bandana Made from polyester fabric with fade-proof all-over sublimation printing using OEKO-TEX certified Epson inks. Designed as a mul",
   "story": "Face Bandana Made from polyester fabric with fade-proof all-over sublimation printing using OEKO-TEX certified Epson inks. Designed as a multipurpose face covering for outdoor activities and everyday use. Available in a standard size.",
   "details": [
-    "Face Bandana with custom printing on Rare Ember Studio, order as a Rare Ember premium priv",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from polyester fabric with fade-proof all-over sublimation printing using OEKO-TEX ce",
     "Available in a standard size"
   ],
@@ -604,7 +604,7 @@ export const products: Product[] = [
   "short": "Female AOP A Line Dress Made from 220 GSM poly spandex fabric with a fit and flare silhouette, breathable stretch construction, and wrinkle-",
   "story": "Female AOP A Line Dress Made from 220 GSM poly spandex fabric with a fit and flare silhouette, breathable stretch construction, and wrinkle-free finish. Compatible with sublimation printing.",
   "details": [
-    "Female AOP A Line Dress with custom printing on Rare Ember Studio, order as a Rare Ember p",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 220 GSM poly spandex fabric with a fit and flare silhouette, breathable stretch",
     "Compatible with sublimation printing"
   ],
@@ -632,7 +632,7 @@ export const products: Product[] = [
   "short": "Female AOP Bodycon Dress Made from 220 GSM poly spandex fabric with a skin-fit silhouette, side slit, and stretchable breathable constructio",
   "story": "Female AOP Bodycon Dress Made from 220 GSM poly spandex fabric with a skin-fit silhouette, side slit, and stretchable breathable construction. Compatible with sublimation printing.",
   "details": [
-    "Female AOP Bodycon Dress with custom printing on Rare Ember Studio, order as a Rare Ember",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 220 GSM poly spandex fabric with a skin-fit silhouette, side slit, and stretchab",
     "Compatible with sublimation printing"
   ],
@@ -660,7 +660,7 @@ export const products: Product[] = [
   "short": "Female AOP Bomber Jacket Made from 240 GSM premium poly brushed fleece with lycra ribbed hem and cuffs, YKK zipper, long sleeves, side pocke",
   "story": "Female AOP Bomber Jacket Made from 240 GSM premium poly brushed fleece with lycra ribbed hem and cuffs, YKK zipper, long sleeves, side pockets, and fade-proof all-over printed construction. Available in multiple sizes. Compatible with all-over printing.",
   "details": [
-    "Female AOP Bomber Jacket with custom printing on Rare Ember Studio, order as a Rare Ember",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 240 GSM premium poly brushed fleece with lycra ribbed hem and cuffs, YKK zipper,",
     "Available in multiple sizes",
     "Compatible with all-over printing"
@@ -689,7 +689,7 @@ export const products: Product[] = [
   "short": "Female AOP Crop Tank Made from 180 GSM 100% spun polyester fabric with a regular fit, folded edges, crew neck, and fade-proof print. Compati",
   "story": "Female AOP Crop Tank Made from 180 GSM 100% spun polyester fabric with a regular fit, folded edges, crew neck, and fade-proof print. Compatible with sublimation printing.",
   "details": [
-    "Female AOP Crop Tank with custom printing on Rare Ember Studio, order as a Rare Ember prem",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% spun polyester fabric with a regular fit, folded edges, crew neck,",
     "Compatible with sublimation printing"
   ],
@@ -717,7 +717,7 @@ export const products: Product[] = [
   "short": "Female AOP Crop Top Made from 180 GSM 100% spun polyester fabric with a regular fit, crew neck, fade-proof print, and OEKO-TEX certified ink",
   "story": "Female AOP Crop Top Made from 180 GSM 100% spun polyester fabric with a regular fit, crew neck, fade-proof print, and OEKO-TEX certified inks. Compatible with sublimation printing.",
   "details": [
-    "Female AOP Crop Top with custom printing on Rare Ember Studio, order as a Rare Ember premi",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% spun polyester fabric with a regular fit, crew neck, fade-proof pri",
     "Compatible with sublimation printing"
   ],
@@ -745,7 +745,7 @@ export const products: Product[] = [
   "short": "Female AOP Gym legging Made from 180 GSM Lycra polyester with a slim fit, stretchable construction, double-stitched seams, and fade-proof ",
   "story": "Female AOP Gym legging Made from 180 GSM Lycra polyester with a slim fit, stretchable construction, double-stitched seams, and fade-proof print. Compatible with all-over printing.",
   "details": [
-    "Female AOP Gym legging with custom printing on Rare Ember Studio, order as a Rare Ember ",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM Lycra polyester with a slim fit, stretchable construction, double-stitch",
     "Compatible with all-over printing"
   ],
@@ -773,7 +773,7 @@ export const products: Product[] = [
   "short": "Female AOP Pencil Skirt Made from 220 GSM poly spandex fabric with a pencil fit, side slit, stretchable construction, and elastic waistband.",
   "story": "Female AOP Pencil Skirt Made from 220 GSM poly spandex fabric with a pencil fit, side slit, stretchable construction, and elastic waistband. Compatible with sublimation printing.",
   "details": [
-    "Female AOP Pencil Skirt with custom printing on Rare Ember Studio, order as a Rare Ember p",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 220 GSM poly spandex fabric with a pencil fit, side slit, stretchable constructi",
     "Compatible with sublimation printing"
   ],
@@ -801,7 +801,7 @@ export const products: Product[] = [
   "short": "Female AOP Sports Bra Made from 220 GSM poly spandex fabric with mesh inner lining for breathability, racerback design, removable pads, and ",
   "story": "Female AOP Sports Bra Made from 220 GSM poly spandex fabric with mesh inner lining for breathability, racerback design, removable pads, and stretchable construction for comfort and support. Fade-proof all-over print suitable for sublimation printing.",
   "details": [
-    "Female AOP Sports Bra with custom printing on Rare Ember Studio, designed for print-on-dem",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 220 GSM poly spandex fabric with mesh inner lining for breathability, racerback",
     "Fade-proof all-over print suitable for sublimation printing"
   ],
@@ -829,7 +829,7 @@ export const products: Product[] = [
   "short": "Female AOP T-Shirt Dress Made from 180 GSM 100% spun polyester fabric with a relaxed fit silhouette, crew neck, fade-proof sublimation print",
   "story": "Female AOP T-Shirt Dress Made from 180 GSM 100% spun polyester fabric with a relaxed fit silhouette, crew neck, fade-proof sublimation print, and edge-to-edge all-over printing. Compatible with sublimation printing.",
   "details": [
-    "Female AOP T-Shirt Dress with custom printing on Rare Ember Studio, order as a Rare Ember",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% spun polyester fabric with a relaxed fit silhouette, crew neck, fad",
     "Compatible with sublimation printing"
   ],
@@ -857,7 +857,7 @@ export const products: Product[] = [
   "short": "Female AOP T-Shirt Made from 180 GSM 100% spun polyester fabric with a regular fit, folded neck, fade-proof print, and OEKO-TEX certified in",
   "story": "Female AOP T-Shirt Made from 180 GSM 100% spun polyester fabric with a regular fit, folded neck, fade-proof print, and OEKO-TEX certified inks. Compatible with sublimation printing.",
   "details": [
-    "Female AOP T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember premiu",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% spun polyester fabric with a regular fit, folded neck, fade-proof p",
     "Compatible with sublimation printing"
   ],
@@ -885,7 +885,7 @@ export const products: Product[] = [
   "short": "Female AOP Tank Top Made from 180 GSM 100% spun polyester fabric with a regular fit, crew neck, folded edges, and fade-proof print. Compatib",
   "story": "Female AOP Tank Top Made from 180 GSM 100% spun polyester fabric with a regular fit, crew neck, folded edges, and fade-proof print. Compatible with sublimation printing.",
   "details": [
-    "Female AOP Tank Top with custom printing on Rare Ember Studio, order as a Rare Ember premi",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% spun polyester fabric with a regular fit, crew neck, folded edges,",
     "Compatible with sublimation printing"
   ],
@@ -913,7 +913,7 @@ export const products: Product[] = [
   "short": "Female AOP Tube Top Made from 220 GSM poly spandex fabric with a skin-fit silhouette, elastic top edge, and breathable stretchable construct",
   "story": "Female AOP Tube Top Made from 220 GSM poly spandex fabric with a skin-fit silhouette, elastic top edge, and breathable stretchable construction. Compatible with sublimation printing.",
   "details": [
-    "Female AOP Tube Top with custom printing on Rare Ember Studio, order as a Rare Ember premi",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 220 GSM poly spandex fabric with a skin-fit silhouette, elastic top edge, and br",
     "Compatible with sublimation printing"
   ],
@@ -938,10 +938,10 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/303/ddd6f291-0609-4da6-8afc-84b26571cc24.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Baby Tee Made from 240 GSM 95% cotton and 5% spandex with a fitted silhouette, cropped length, pre-shrunk and bio-washed fabric.",
-  "story": "Baby Tee Made from 240 GSM 95% cotton and 5% spandex with a fitted silhouette, cropped length, pre-shrunk and bio-washed fabric.",
+  "short": "Baby Tee Made from 240 GSM 95% cotton and 5% spandex with a fitted silhouette, cropped length, pre-shrunk and bio-washed fabric for lasting shape.",
+  "story": "Baby Tee Made from 240 GSM 95% cotton and 5% spandex with a fitted silhouette, cropped length, pre-shrunk and bio-washed fabric for lasting shape.",
   "details": [
-    "Baby Tee with custom printing on Rare Ember Studio, order as a Rare Ember premium private",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 240 GSM 95% cotton and 5% spandex with a fitted silhouette, cropped length, pre-",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -971,7 +971,7 @@ export const products: Product[] = [
   "short": "Women T-Shirt Made from 180 GSM 100% cotton with a regular fit, folded neck, pre-shrunk and bio-washed fabric. Supports DTG, DTF, embroidery",
   "story": "Women T-Shirt Made from 180 GSM 100% cotton with a regular fit, folded neck, pre-shrunk and bio-washed fabric. Supports DTG, DTF, embroidery, vinyl, and screen printing.",
   "details": [
-    "Women T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember premium pri",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% cotton with a regular fit, folded neck, pre-shrunk and bio-washed f",
     "Supports DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -996,10 +996,10 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/36/db54afc0-4147-490b-a5bb-cdbd07594e1b.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Crop Tank Made from 180 GSM 100% cotton with a regular fit, folded neck, double-stitched seams, pre-shrunk and bio-washed fabric.",
-  "story": "Crop Tank Made from 180 GSM 100% cotton with a regular fit, folded neck, double-stitched seams, pre-shrunk and bio-washed fabric.",
+  "short": "Crop Tank Made from 180 GSM 100% cotton with a regular fit, folded neck, double-stitched seams, pre-shrunk and bio-washed fabric for lasting shape.",
+  "story": "Crop Tank Made from 180 GSM 100% cotton with a regular fit, folded neck, double-stitched seams, pre-shrunk and bio-washed fabric for lasting shape.",
   "details": [
-    "Crop Tank with custom printing on Rare Ember Studio, order as a Rare Ember premium private",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% cotton with a regular fit, folded neck, double-stitched seams, pre-",
     "Compatible with DTG, DTF, vinyl, and screen printing"
   ],
@@ -1024,10 +1024,10 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/37/604e613a-23a0-44ff-9c78-8c9711aa4332.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Crop Top Made from 180 GSM 100% cotton with a regular fit, lycra ribbed neck, double-stitched seams, pre-shrunk and bio-washed fabric.",
-  "story": "Crop Top Made from 180 GSM 100% cotton with a regular fit, lycra ribbed neck, double-stitched seams, pre-shrunk and bio-washed fabric.",
+  "short": "Crop Top Made from 180 GSM 100% cotton with a regular fit, lycra ribbed neck, double-stitched seams, pre-shrunk and bio-washed fabric for lasting shape.",
+  "story": "Crop Top Made from 180 GSM 100% cotton with a regular fit, lycra ribbed neck, double-stitched seams, pre-shrunk and bio-washed fabric for lasting shape.",
   "details": [
-    "Crop Top with custom printing on Rare Ember Studio, order as a Rare Ember premium private",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% cotton with a regular fit, lycra ribbed neck, double-stitched seams",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -1055,7 +1055,7 @@ export const products: Product[] = [
   "short": "Cropped Hoodie Made from 300 GSM 90% cotton and 10% polyester fabric with a cropped fit, hooded construction, derby ribbed cuffs and hem, su",
   "story": "Cropped Hoodie Made from 300 GSM 90% cotton and 10% polyester fabric with a cropped fit, hooded construction, derby ribbed cuffs and hem, super combed, pre-shrunk and bio-washed finish.",
   "details": [
-    "Cropped Hoodie with custom printing on Rare Ember Studio, order as a Rare Ember premium ",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 300 GSM 90% cotton and 10% polyester fabric with a cropped fit, hooded construct",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -1082,10 +1082,10 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/47/4ec08e14-d7dd-4b9d-b753-1f294d8e7174.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Maternity Dress Made from 180 GSM 100% cotton with a regular fit, round neck, side gathers, pre-shrunk and bio-washed fabric.",
-  "story": "Maternity Dress Made from 180 GSM 100% cotton with a regular fit, round neck, side gathers, pre-shrunk and bio-washed fabric.",
+  "short": "Maternity Dress Made from 180 GSM 100% cotton with a regular fit, round neck, side gathers, pre-shrunk and bio-washed fabric for lasting shape.",
+  "story": "Maternity Dress Made from 180 GSM 100% cotton with a regular fit, round neck, side gathers, pre-shrunk and bio-washed fabric for lasting shape.",
   "details": [
-    "Maternity Dress with custom printing on Rare Ember Studio, order as a Rare Ember premium p",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% cotton with a regular fit, round neck, side gathers, pre-shrunk and",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -1110,10 +1110,10 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/48/85ac8383-8a57-4d5d-b64d-3c4dd0b0c1e9.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "T-Shirt Dress Made from 180 GSM 100% cotton with a relaxed fit, round neck, pre-shrunk and bio-washed fabric.",
-  "story": "T-Shirt Dress Made from 180 GSM 100% cotton with a relaxed fit, round neck, pre-shrunk and bio-washed fabric.",
+  "short": "T-Shirt Dress Made from 180 GSM 100% cotton with a relaxed fit, round neck, pre-shrunk and bio-washed fabric for lasting shape.",
+  "story": "T-Shirt Dress Made from 180 GSM 100% cotton with a relaxed fit, round neck, pre-shrunk and bio-washed fabric for lasting shape.",
   "details": [
-    "T-Shirt Dress with custom printing on Rare Ember Studio, order as a Rare Ember premium pri",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% cotton with a relaxed fit, round neck, pre-shrunk and bio-washed fa",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -1141,7 +1141,7 @@ export const products: Product[] = [
   "short": "Female Tank Top Made from 180 GSM 100% cotton with a regular fit, folded neck, pre-shrunk and bio-washed fabric with double-stitched seams.",
   "story": "Female Tank Top Made from 180 GSM 100% cotton with a regular fit, folded neck, pre-shrunk and bio-washed fabric with double-stitched seams.",
   "details": [
-    "Female Tank Top with custom printing on Rare Ember Studio, order as a Rare Ember premium p",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% cotton with a regular fit, folded neck, pre-shrunk and bio-washed f",
     "Compatible with DTG, DTF, Vinyl, and screen printing"
   ],
@@ -1169,7 +1169,7 @@ export const products: Product[] = [
   "short": "Girl Classic Crew T-Shirt Made from 180 GSM 100% super combed cotton with a regular fit, lycra ribbed neck, pre-shrunk and bio-washed fabric",
   "story": "Girl Classic Crew T-Shirt Made from 180 GSM 100% super combed cotton with a regular fit, lycra ribbed neck, pre-shrunk and bio-washed fabric, and double-stitched seams.",
   "details": [
-    "Girl Classic Crew T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% super combed cotton with a regular fit, lycra ribbed neck, pre-shru",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -1197,7 +1197,7 @@ export const products: Product[] = [
   "short": "Headband Made from a poly spandex blend with a lightweight, stretchable, quick-dry construction and elastic fit. Compatible with sublimation",
   "story": "Headband Made from a poly spandex blend with a lightweight, stretchable, quick-dry construction and elastic fit. Compatible with sublimation printing for edge-to-edge all-over prints.",
   "details": [
-    "Headband with custom printing on Rare Ember Studio, order as a Rare Ember premium private",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from a poly spandex blend with a lightweight, stretchable, quick-dry construction and",
     "Compatible with sublimation printing for edge-to-edge all-over prints"
   ],
@@ -1254,7 +1254,7 @@ export const products: Product[] = [
   "short": "Kaftan Dress Made from polyester fabric with a relaxed fit, V-neck, side slits, and all-over printed construction. Available in multiple siz",
   "story": "Kaftan Dress Made from polyester fabric with a relaxed fit, V-neck, side slits, and all-over printed construction. Available in multiple sizes. Compatible with all-over printing.",
   "details": [
-    "Kaftan Dress with custom printing on Rare Ember Studio, order as a Rare Ember premium priv",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from polyester fabric with a relaxed fit, V-neck, side slits, and all-over printed co",
     "Available in multiple sizes",
     "Compatible with all-over printing"
@@ -1283,7 +1283,7 @@ export const products: Product[] = [
   "short": "Kids AOP Bomber Jacket Made from 240 GSM premium poly brushed fleece with lycra ribbed hem and cuffs, YKK zipper closure, and fade-proof all",
   "story": "Kids AOP Bomber Jacket Made from 240 GSM premium poly brushed fleece with lycra ribbed hem and cuffs, YKK zipper closure, and fade-proof all-over printing using OEKO-TEX certified inks. Compatible with sublimation printing.",
   "details": [
-    "Kids AOP Bomber Jacket with custom printing on Rare Ember Studio, order as a Rare Ember ",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 240 GSM premium poly brushed fleece with lycra ribbed hem and cuffs, YKK zipper",
     "Compatible with sublimation printing"
   ],
@@ -1311,7 +1311,7 @@ export const products: Product[] = [
   "short": "Kids AOP Sports Shorts Made from 170 GSM poly mesh fabric with Dri-FIT technology, an inner drawstring cord, unisex styling, and slip-on poc",
   "story": "Kids AOP Sports Shorts Made from 170 GSM poly mesh fabric with Dri-FIT technology, an inner drawstring cord, unisex styling, and slip-on pockets for everyday comfort. Features fade-proof all-over prints and is compatible with sublimation printing.",
   "details": [
-    "Kids AOP Sports Shorts with custom printing on Rare Ember Studio, order as a Rare Ember ",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 170 GSM poly mesh fabric with Dri-FIT technology, an inner drawstring cord, unis",
     "Features fade-proof all-over prints and is compatible with sublimation printing"
   ],
@@ -1339,7 +1339,7 @@ export const products: Product[] = [
   "short": "Kids AOP Sports T-Shirt Made from 170 GSM poly mesh fabric with Dri-FIT technology, a unisex regular fit, and fade-proof prints for active w",
   "story": "Kids AOP Sports T-Shirt Made from 170 GSM poly mesh fabric with Dri-FIT technology, a unisex regular fit, and fade-proof prints for active wear. Compatible with sublimation printing.",
   "details": [
-    "Kids AOP Sports T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember p",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 170 GSM poly mesh fabric with Dri-FIT technology, a unisex regular fit, and fade",
     "Compatible with sublimation printing"
   ],
@@ -1367,7 +1367,7 @@ export const products: Product[] = [
   "short": "Kids AOP Sweatshirt Made from 240 GSM premium 100% polyester with premium poly brushed fleece, a unisex regular fit, derby ribbed hem and cu",
   "story": "Kids AOP Sweatshirt Made from 240 GSM premium 100% polyester with premium poly brushed fleece, a unisex regular fit, derby ribbed hem and cuffs, and fade-proof all-over prints using OEKO-TEX certified inks. Compatible with dye sublimation printing.",
   "details": [
-    "Kids AOP Sweatshirt with custom printing on Rare Ember Studio, order as a Rare Ember premi",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 240 GSM premium 100% polyester with premium poly brushed fleece, a unisex regula",
     "Compatible with dye sublimation printing"
   ],
@@ -1395,7 +1395,7 @@ export const products: Product[] = [
   "short": "Kids AOP T-Shirt Made from 180 GSM spun polyester fabric with a unisex regular fit, folded neck, fade-proof all-over print, and double-stitc",
   "story": "Kids AOP T-Shirt Made from 180 GSM spun polyester fabric with a unisex regular fit, folded neck, fade-proof all-over print, and double-stitched construction. Compatible with sublimation printing.",
   "details": [
-    "Kids AOP T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM spun polyester fabric with a unisex regular fit, folded neck, fade-proof",
     "Compatible with sublimation printing"
   ],
@@ -1423,7 +1423,7 @@ export const products: Product[] = [
   "short": "Kids Hoodie Made from 300 GSM 100% super combed cotton brushed fleece with a unisex regular fit, derby ribbed waist, pre-shrunk and bio-wash",
   "story": "Kids Hoodie Made from 300 GSM 100% super combed cotton brushed fleece with a unisex regular fit, derby ribbed waist, pre-shrunk and bio-washed fabric, and double-stitched seams.",
   "details": [
-    "Kids Hoodie with custom printing on Rare Ember Studio, order as a Rare Ember premium priva",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 300 GSM 100% super combed cotton brushed fleece with a unisex regular fit, derby",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -1451,7 +1451,7 @@ export const products: Product[] = [
   "short": "Male AOP Full Sleeve Tee Made from 180 GSM 100% spun polyester fabric with a unisex regular fit, folded neck, and fade-proof print. Compatib",
   "story": "Male AOP Full Sleeve Tee Made from 180 GSM 100% spun polyester fabric with a unisex regular fit, folded neck, and fade-proof print. Compatible with sublimation printing.",
   "details": [
-    "Male AOP Full Sleeve Tee with custom printing on Rare Ember Studio, order as a Rare Ember",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% spun polyester fabric with a unisex regular fit, folded neck, and f",
     "Compatible with sublimation printing"
   ],
@@ -1479,7 +1479,7 @@ export const products: Product[] = [
   "short": "Male AOP Sleeveless Tee Made from 180 GSM 100% spun polyester fabric with a regular fit, folded edges, and fade-proof print. Compatible with",
   "story": "Male AOP Sleeveless Tee Made from 180 GSM 100% spun polyester fabric with a regular fit, folded edges, and fade-proof print. Compatible with sublimation printing.",
   "details": [
-    "Male AOP Sleeveless Tee with custom printing on Rare Ember Studio, order as a Rare Ember p",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% spun polyester fabric with a regular fit, folded edges, and fade-",
     "Compatible with sublimation printing"
   ],
@@ -1507,7 +1507,7 @@ export const products: Product[] = [
   "short": "Male AOP T-Shirt Made from 180 GSM 100% spun polyester fabric with a unisex regular fit, folded neck, double-stitched construction, and fade",
   "story": "Male AOP T-Shirt Made from 180 GSM 100% spun polyester fabric with a unisex regular fit, folded neck, double-stitched construction, and fade-proof print. Compatible with sublimation printing.",
   "details": [
-    "Male AOP T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% spun polyester fabric with a unisex regular fit, folded neck, doubl",
     "Compatible with sublimation printing"
   ],
@@ -1535,7 +1535,7 @@ export const products: Product[] = [
   "short": "Male Bike Rider T-Shirt Made from 170 GSM poly mesh fabric with a lightweight regular fit and all-over printed construction. Compatible with",
   "story": "Male Bike Rider T-Shirt Made from 170 GSM poly mesh fabric with a lightweight regular fit and all-over printed construction. Compatible with all-over printing.",
   "details": [
-    "Male Bike Rider T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember p",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 170 GSM poly mesh fabric with a lightweight regular fit and all-over printed con",
     "Compatible with all-over printing"
   ],
@@ -1563,7 +1563,7 @@ export const products: Product[] = [
   "short": "Round Neck T-Shirt Classic Made from 180 GSM cotton fabric with a regular fit, ribbed neck, double-stitched seams, pre-shrunk and bio-washed",
   "story": "Round Neck T-Shirt Classic Made from 180 GSM cotton fabric with a regular fit, ribbed neck, double-stitched seams, pre-shrunk and bio-washed construction.",
   "details": [
-    "Round Neck T-Shirt Classic with custom printing on Rare Ember Studio, order as a Rare Embe",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM cotton fabric with a regular fit, ribbed neck, double-stitched seams",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -1588,10 +1588,10 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/21/6f2f965a-2e18-4da3-b3b7-897814e6f0a4.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Full Sleeve T-Shirt Made from 180 GSM 100% cotton with a regular fit, lycra ribbed neck, super combed, pre-shrunk and bio-washed fabric.",
-  "story": "Full Sleeve T-Shirt Made from 180 GSM 100% cotton with a regular fit, lycra ribbed neck, super combed, pre-shrunk and bio-washed fabric.",
+  "short": "Full Sleeve T-Shirt Made from 180 GSM 100% cotton with a regular fit, lycra ribbed neck, super combed, pre-shrunk and bio-washed fabric for lasting shape.",
+  "story": "Full Sleeve T-Shirt Made from 180 GSM 100% cotton with a regular fit, lycra ribbed neck, super combed, pre-shrunk and bio-washed fabric for lasting shape.",
   "details": [
-    "Full Sleeve T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember premi",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% cotton with a regular fit, lycra ribbed neck, super combed, pre-shr",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -1616,10 +1616,10 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/18/10c8083a-3fff-4839-a473-f6c07cc6b708.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Polo T-Shirt Made from 220 GSM 100% cotton with a regular fit, polo collar, button placket, super combed, pre-shrunk and bio-washed fabric.",
-  "story": "Polo T-Shirt Made from 220 GSM 100% cotton with a regular fit, polo collar, button placket, super combed, pre-shrunk and bio-washed fabric.",
+  "short": "Polo T-Shirt Made from 220 GSM 100% cotton with a regular fit, polo collar, button placket, super combed, pre-shrunk and bio-washed fabric for lasting shape.",
+  "story": "Polo T-Shirt Made from 220 GSM 100% cotton with a regular fit, polo collar, button placket, super combed, pre-shrunk and bio-washed fabric for lasting shape.",
   "details": [
-    "Polo T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember premium priv",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 220 GSM 100% cotton with a regular fit, polo collar, button placket, super combe",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -1647,9 +1647,9 @@ export const products: Product[] = [
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/67/9527b8eb-b761-441c-954e-a652bdff46bc.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
   "short": "Unisex Raglan T-Shirt Made from 180 GSM 100% cotton with a regular fit, contrast raglan sleeves, ribbed neck, pre-shrunk and bio-washed fabr",
-  "story": "Unisex Raglan T-Shirt Made from 180 GSM 100% cotton with a regular fit, contrast raglan sleeves, ribbed neck, pre-shrunk and bio-washed fabric.",
+  "story": "Unisex Raglan T-Shirt Made from 180 GSM 100% cotton with a regular fit, contrast raglan sleeves, ribbed neck, pre-shrunk and bio-washed fabric for lasting shape.",
   "details": [
-    "Unisex Raglan T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember pre",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% cotton with a regular fit, contrast raglan sleeves, ribbed neck",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -1674,10 +1674,10 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/66/84dab9ed-cfbd-4259-b12f-50dc3f96154e.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Gym Vest Men Made from 180 GSM 100% cotton with a regular fit, sleeveless construction, folded neck, pre-shrunk and bio-washed fabric.",
-  "story": "Gym Vest Men Made from 180 GSM 100% cotton with a regular fit, sleeveless construction, folded neck, pre-shrunk and bio-washed fabric.",
+  "short": "Gym Vest Men Made from 180 GSM 100% cotton with a regular fit, sleeveless construction, folded neck, pre-shrunk and bio-washed fabric for lasting shape.",
+  "story": "Gym Vest Men Made from 180 GSM 100% cotton with a regular fit, sleeveless construction, folded neck, pre-shrunk and bio-washed fabric for lasting shape.",
   "details": [
-    "Gym Vest Men with custom printing on Rare Ember Studio, order as a Rare Ember premium priv",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% cotton with a regular fit, sleeveless construction, folded neck",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -1702,8 +1702,8 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/2/3c5206a9-268b-41bc-9dfa-d75511b34045.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Round Neck T-Shirt Standard custom printing on Rare Ember Studio, Made from 180 GSM 100% cotton, super combed, pre-shrunk, bio-washed fabric",
-  "story": "Round Neck T-Shirt Standard custom printing on Rare Ember Studio, Made from 180 GSM 100% cotton, super combed, pre-shrunk, bio-washed fabric with a regular fit and folded neck.",
+  "short": "Classic crew neck t-shirt crafted from 180 GSM 100% super combed cotton, pre-shrunk and bio-washed for lasting softness.",
+  "story": "Crafted for everyday comfort and durability. Features 180 GSM 100% super combed bio-washed cotton with a regular streetwear fit, folded neckband, and reinforced seams for all-day comfort.",
   "details": [
     "Round Neck T-Shirt Standard custom printing on Rare Ember Studio, order as a Rare Ember ",
     "Made from 180 GSM 100% cotton, super combed, pre-shrunk, bio-washed fabric with a regular",
@@ -1730,10 +1730,10 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/8/25490195-bffb-4a40-aaf9-34ae07831760.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "V-Neck T-Shirt Made from 180 GSM 100% cotton with a regular fit, V-neck collar, super combed, pre-shrunk and bio-washed fabric.",
-  "story": "V-Neck T-Shirt Made from 180 GSM 100% cotton with a regular fit, V-neck collar, super combed, pre-shrunk and bio-washed fabric.",
+  "short": "V-Neck T-Shirt Made from 180 GSM 100% cotton with a regular fit, V-neck collar, super combed, pre-shrunk and bio-washed fabric for lasting shape.",
+  "story": "V-Neck T-Shirt Made from 180 GSM 100% cotton with a regular fit, V-neck collar, super combed, pre-shrunk and bio-washed fabric for lasting shape.",
   "details": [
-    "V-Neck T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember premium ",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% cotton with a regular fit, V-neck collar, super combed, pre-shrunk",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -1761,7 +1761,7 @@ export const products: Product[] = [
   "short": "Mini Skirt Made from 220 GSM poly spandex fabric with a mid-rise fit, elastic waistband, and stretchable construction. Compatible with subli",
   "story": "Mini Skirt Made from 220 GSM poly spandex fabric with a mid-rise fit, elastic waistband, and stretchable construction. Compatible with sublimation printing for edge-to-edge all-over prints.",
   "details": [
-    "Mini Skirt with custom printing on Rare Ember Studio, order as a Rare Ember premium privat",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 220 GSM poly spandex fabric with a mid-rise fit, elastic waistband, and stretcha",
     "Compatible with sublimation printing for edge-to-edge all-over prints"
   ],
@@ -1818,7 +1818,7 @@ export const products: Product[] = [
   "short": "Oversized Raglan T-Shirt Made from 180 GSM 100% cotton with an oversized fit, ribbed neck, bio-washed and pre-shrunk fabric featuring contra",
   "story": "Oversized Raglan T-Shirt Made from 180 GSM 100% cotton with an oversized fit, ribbed neck, bio-washed and pre-shrunk fabric featuring contrast raglan sleeves.",
   "details": [
-    "Oversized Raglan T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% cotton with an oversized fit, ribbed neck, bio-washed and pre-shrun",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -1848,7 +1848,7 @@ export const products: Product[] = [
   "short": "Pullover Hoodie Made from 260 GSM 90% cotton and 10% polyester tri-layer terry fabric with a unisex regular fit, ribbed cuffs, ribbed hem, a",
   "story": "Pullover Hoodie Made from 260 GSM 90% cotton and 10% polyester tri-layer terry fabric with a unisex regular fit, ribbed cuffs, ribbed hem, and hooded construction.",
   "details": [
-    "Pullover Hoodie with custom printing on Rare Ember Studio, order as a Rare Ember premium p",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 260 GSM 90% cotton and 10% polyester tri-layer terry fabric with a unisex regula",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -1875,10 +1875,10 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/347/39ce3000-586f-447c-b0b9-a6f2b9b1bcd6.webp",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Ringer T-Shirt custom printing on Rare Ember Studio, Made from 180 GSM 100% cotton, super combed, pre-shrunk, and bio-washed fabric with con",
-  "story": "Ringer T-Shirt custom printing on Rare Ember Studio, Made from 180 GSM 100% cotton, super combed, pre-shrunk, and bio-washed fabric with contrast rib neck and self-turned sleeves. Supports DTG, DTF, embroidery, vinyl, and screen printing.",
+  "short": "Vintage ringer t-shirt crafted from 180 GSM super combed cotton with retro contrast ribbing on neck and sleeves.",
+  "story": "Retro streetwear styling meets modern durability. Made from 180 GSM 100% combed bio-washed cotton featuring contrast rib neckband, self-turned sleeves, and high-definition archival print execution.",
   "details": [
-    "Ringer T-Shirt custom printing on Rare Ember Studio, order as a Rare Ember premium private",
+    "Ringer T-Shirt custom printing on Rare Ember Studio",
     "Made from 180 GSM 100% cotton, super combed, pre-shrunk, and bio-washed fabric with contra",
     "Supports DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -1906,7 +1906,7 @@ export const products: Product[] = [
   "short": "Performance athletic crop top crafted from 220 GSM poly-spandex with 4-way compression stretch and sweat-wicking comfort.",
   "story": "Performance athletic crop top crafted from 220 GSM poly-spandex with 4-way compression stretch and sweat-wicking comfort. Finished with vibrant all-over print graphics and reinforced flatlock seams.",
   "details": [
-    "Sell gym/sports crop tops with Rare Ember Studio's print-on-demand model",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "220 GSM poly-spandex, all-over print ready, crafted for daily rotation.",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -1936,7 +1936,7 @@ export const products: Product[] = [
   "short": "Unisex AOP Bomber Jacket Made from 240 GSM premium poly brushed fleece fabric with a unisex regular fit, lycra ribbed collar, cuffs and hem,",
   "story": "Unisex AOP Bomber Jacket Made from 240 GSM premium poly brushed fleece fabric with a unisex regular fit, lycra ribbed collar, cuffs and hem, front YKK zipper closure, and functional side pockets. Fade-proof all-over sublimation print suitable for custom designs.",
   "details": [
-    "Unisex AOP Bomber Jacket with custom printing on Rare Ember Studio, order as a Rare Ember",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 240 GSM premium poly brushed fleece fabric with a unisex regular fit, lycra ribb",
     "Fade-proof all-over sublimation print suitable for custom designs"
   ],
@@ -1964,7 +1964,7 @@ export const products: Product[] = [
   "short": "Unisex AOP Oversized Tee Made from 240 GSM micro knitted polyester fabric with a unisex oversized fit, folded neck, and fade-proof print. Co",
   "story": "Unisex AOP Oversized Tee Made from 240 GSM micro knitted polyester fabric with a unisex oversized fit, folded neck, and fade-proof print. Compatible with sublimation printing.",
   "details": [
-    "Unisex AOP Oversized Tee with custom printing on Rare Ember Studio, order as a Rare Ember",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 240 GSM micro knitted polyester fabric with a unisex oversized fit, folded neck,",
     "Compatible with sublimation printing"
   ],
@@ -1992,7 +1992,7 @@ export const products: Product[] = [
   "short": "Unisex AOP Shorts Made from 240 GSM micro knitted polyester fabric with a unisex regular fit, slip-on pockets, inner drawstring cord, and fa",
   "story": "Unisex AOP Shorts Made from 240 GSM micro knitted polyester fabric with a unisex regular fit, slip-on pockets, inner drawstring cord, and fade-proof all-over sublimation print. Compatible with sublimation printing.",
   "details": [
-    "Unisex AOP Shorts with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 240 GSM micro knitted polyester fabric with a unisex regular fit, slip-on pocket",
     "Compatible with sublimation printing"
   ],
@@ -2020,7 +2020,7 @@ export const products: Product[] = [
   "short": "Unisex AOP Sports Shorts Made from 170 GSM poly mesh fabric with a unisex regular fit, inner drawstring cord, slip-on pockets, and fade-proo",
   "story": "Unisex AOP Sports Shorts Made from 170 GSM poly mesh fabric with a unisex regular fit, inner drawstring cord, slip-on pockets, and fade-proof all-over sublimation print designed for sports use. Compatible with sublimation printing.",
   "details": [
-    "Unisex AOP Sports Shorts with custom printing on Rare Ember Studio, order as a Rare Ember",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 170 GSM poly mesh fabric with a unisex regular fit, inner drawstring cord, slip-",
     "Compatible with sublimation printing"
   ],
@@ -2048,7 +2048,7 @@ export const products: Product[] = [
   "short": "Unisex AOP Sports T-Shirt Made from 170 GSM poly mesh fabric with a unisex regular fit, Dri-FIT structure, and fade-proof all-over sublimati",
   "story": "Unisex AOP Sports T-Shirt Made from 170 GSM poly mesh fabric with a unisex regular fit, Dri-FIT structure, and fade-proof all-over sublimation print designed for sports use. Compatible with sublimation printing.",
   "details": [
-    "Unisex AOP Sports T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 170 GSM poly mesh fabric with a unisex regular fit, Dri-FIT structure, and fade-",
     "Compatible with sublimation printing"
   ],
@@ -2076,7 +2076,7 @@ export const products: Product[] = [
   "short": "Unisex AOP Sweatshirt Made from 240 GSM premium poly brushed fleece fabric with a regular unisex fit, derby ribbed hem and cuffs, and HD fad",
   "story": "Unisex AOP Sweatshirt Made from 240 GSM premium poly brushed fleece fabric with a regular unisex fit, derby ribbed hem and cuffs, and HD fade-proof all-over sublimation print. Compatible with sublimation printing.",
   "details": [
-    "Unisex AOP Sweatshirt with custom printing on Rare Ember Studio, order as a Rare Ember pre",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 240 GSM premium poly brushed fleece fabric with a regular unisex fit, derby ribb",
     "Compatible with sublimation printing"
   ],
@@ -2104,7 +2104,7 @@ export const products: Product[] = [
   "short": "Unisex Acid Wash Hoodie Made from 300 GSM 100% cotton fabric with a unisex regular fit, super combed, pre-shrunk, acid-washed finish, and de",
   "story": "Unisex Acid Wash Hoodie Made from 300 GSM 100% cotton fabric with a unisex regular fit, super combed, pre-shrunk, acid-washed finish, and derby ribbed hem and cuffs.",
   "details": [
-    "Unisex Acid Wash Hoodie with custom printing on Rare Ember Studio, order as a Rare Ember p",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 300 GSM 100% cotton fabric with a unisex regular fit, super combed, pre-shrunk,",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2134,7 +2134,7 @@ export const products: Product[] = [
   "short": "Unisex Acid Wash Oversized Tee Made from 240 GSM 100% super combed cotton with an oversized fit, Lycra ribbed neck, pre-shrunk and acid-wash",
   "story": "Unisex Acid Wash Oversized Tee Made from 240 GSM 100% super combed cotton with an oversized fit, Lycra ribbed neck, pre-shrunk and acid-washed fabric.",
   "details": [
-    "Unisex Acid Wash Oversized Tee with custom printing on Rare Ember Studio, order as a Rare",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 240 GSM 100% super combed cotton with an oversized fit, Lycra ribbed neck, pre-s",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -2162,7 +2162,7 @@ export const products: Product[] = [
   "short": "Unisex Baseball Ottoman Cap Made from polyester ottoman fabric with a 6-panel mid-profile construction, candy Velcro closure, six eyelets, l",
   "story": "Unisex Baseball Ottoman Cap Made from polyester ottoman fabric with a 6-panel mid-profile construction, candy Velcro closure, six eyelets, lightweight design, and universal fit.",
   "details": [
-    "Unisex Baseball Ottoman Cap with custom printing on Rare Ember Studio, order as a Rare Emb",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from polyester ottoman fabric with a 6-panel mid-profile construction, candy Velcro c",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2189,10 +2189,10 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/270/d1b64a8e-af6f-4a9d-b064-6d5c43935d51.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Basic T-Shirt custom printing on Rare Ember Studio, Made from a 180 GSM poly-cotton blend with bio-wash and silicon-wash finish, a unisex fi",
-  "story": "Basic T-Shirt custom printing on Rare Ember Studio, Made from a 180 GSM poly-cotton blend with bio-wash and silicon-wash finish, a unisex fit, and lycra rib neck. Available in 8 colours, sizes XS to 2XL.",
+  "short": "Everyday basic unisex t-shirt made from 180 GSM poly-cotton blend with soft silicone bio-wash finish and lycra ribbed collar.",
+  "story": "Engineered for high-frequency wear. Features a durable 180 GSM poly-cotton blend with silicone bio-wash treatment, shape-retaining lycra rib neckband, and relaxed unisex styling.",
   "details": [
-    "Basic T-Shirt custom printing on Rare Ember Studio, order as a Rare Ember premium private",
+    "Basic T-Shirt custom printing on Rare Ember Studio",
     "Made from a 180 GSM poly-cotton blend with bio-wash and silicon-wash finish, a unisex fit,",
     "Available in 8 colours, sizes XS to 2XL",
     "Compatible with DTF, DTG, embroidery, vinyl, and screen printing"
@@ -2221,7 +2221,7 @@ export const products: Product[] = [
   "short": "Unisex Classic Bucket Hat Made from 100% heavy cotton with a soft brim, foldable construction, breathable fabric, and unisex fit for everyda",
   "story": "Unisex Classic Bucket Hat Made from 100% heavy cotton with a soft brim, foldable construction, breathable fabric, and unisex fit for everyday wear.",
   "details": [
-    "Unisex Classic Bucket Hat with custom printing on Rare Ember Studio, order as a Rare Ember",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 100% heavy cotton with a soft brim, foldable construction, breathable fabric, an",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2251,7 +2251,7 @@ export const products: Product[] = [
   "short": "Unisex Classic Snapback Cap Made from 100% cotton with a 6-panel construction, flat visor, plastic snapback closure, six eyelets, and breath",
   "story": "Unisex Classic Snapback Cap Made from 100% cotton with a 6-panel construction, flat visor, plastic snapback closure, six eyelets, and breathable fabric.",
   "details": [
-    "Unisex Classic Snapback Cap with custom printing on Rare Ember Studio, order as a Rare Emb",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 100% cotton with a 6-panel construction, flat visor, plastic snapback closure, s",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2281,7 +2281,7 @@ export const products: Product[] = [
   "short": "Unisex Classic Trucker Cap Made from 100% cotton with a 6-panel mesh side and back construction, mid-profile fit, snapback closure, and brea",
   "story": "Unisex Classic Trucker Cap Made from 100% cotton with a 6-panel mesh side and back construction, mid-profile fit, snapback closure, and breathable fabric.",
   "details": [
-    "Unisex Classic Trucker Cap with custom printing on Rare Ember Studio, order as a Rare Embe",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 100% cotton with a 6-panel mesh side and back construction, mid-profile fit, sna",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2311,7 +2311,7 @@ export const products: Product[] = [
   "short": "Unisex Classic Baseball Cap Made from 280 GSM breathable cotton drill fabric with a double-stitched finish, and universal fit.",
   "story": "Unisex Classic Baseball Cap Made from 280 GSM breathable cotton drill fabric with a double-stitched finish, and universal fit.",
   "details": [
-    "Unisex Classic Baseball Cap with custom printing on Rare Ember Studio, order as a Rare Emb",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 280 GSM breathable cotton drill fabric with a double-stitched finish, and univer",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2341,7 +2341,7 @@ export const products: Product[] = [
   "short": "Stretch T-Shirt Made from 240 GSM 95% cotton and 5% elastane with a unisex fit, lycra rib neck, stretchable, bio-washed, and breathable fabr",
   "story": "Stretch T-Shirt Made from 240 GSM 95% cotton and 5% elastane with a unisex fit, lycra rib neck, stretchable, bio-washed, and breathable fabric.",
   "details": [
-    "Stretch T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember premium p",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 240 GSM 95% cotton and 5% elastane with a unisex fit, lycra rib neck, stretchabl",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2371,7 +2371,7 @@ export const products: Product[] = [
   "short": "Unisex Dog T-Shirts Made from 240 GSM 100% cotton fabric with an adjustable neck, sleeveless design, high-tummy cut, breathable construction",
   "story": "Unisex Dog T-Shirts Made from 240 GSM 100% cotton fabric with an adjustable neck, sleeveless design, high-tummy cut, breathable construction, and double-stitched finish for durability.",
   "details": [
-    "Unisex Dog T-Shirts with custom printing on Rare Ember Studio, order as a Rare Ember premi",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 240 GSM 100% cotton fabric with an adjustable neck, sleeveless design, high-tumm",
     "Compatible with DTF and vinyl printing"
   ],
@@ -2399,7 +2399,7 @@ export const products: Product[] = [
   "short": "Unisex Hoodie Made from 300 GSM 90% cotton and 10% polyester fabric with a unisex regular fit, super combed, pre-shrunk, bio-washed finish, ",
   "story": "Unisex Hoodie Made from 300 GSM 90% cotton and 10% polyester fabric with a unisex regular fit, super combed, pre-shrunk, bio-washed finish, and derby ribbed hem and cuffs.",
   "details": [
-    "Unisex Hoodie with custom printing on Rare Ember Studio, order as a Rare Ember premium pri",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 300 GSM 90% cotton and 10% polyester fabric with a unisex regular fit, super com",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2429,7 +2429,7 @@ export const products: Product[] = [
   "short": "Unisex Joggers Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex regular fit, super combed, pre-shrunk, bio-washed finish,",
   "story": "Unisex Joggers Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex regular fit, super combed, pre-shrunk, bio-washed finish, derby ribbed waist and legs, and back and side pockets.",
   "details": [
-    "Unisex Joggers with custom printing on Rare Ember Studio, order as a Rare Ember premium ",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex regular fit, super com",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2456,10 +2456,10 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/3/4d542001-463c-416c-86ea-93effc54f669.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Oversized T-Shirt custom printing on Rare Ember Studio, Made from 240 GSM 100% cotton, super combed, pre-shrunk, bio-washed fabric with a dr",
-  "story": "Oversized T-Shirt custom printing on Rare Ember Studio, Made from 240 GSM 100% cotton, super combed, pre-shrunk, bio-washed fabric with a drop shoulder and oversized fit. Supports DTG, DTF, embroidery, vinyl, and screen printing.",
+  "short": "Heavyweight oversized t-shirt crafted from 240 GSM 100% super combed cotton with a relaxed drop-shoulder silhouette.",
+  "story": "Our signature heavyweight streetwear blank. Features 240 GSM 100% combed cotton, drop-shoulder boxy fit, 1.25-inch lycra ribbed collar, and archival print longevity through 50+ washes.",
   "details": [
-    "Oversized T-Shirt custom printing on Rare Ember Studio, order as a Rare Ember premium priv",
+    "Oversized T-Shirt custom printing on Rare Ember Studio",
     "Made from 240 GSM 100% cotton, super combed, pre-shrunk, bio-washed fabric with a drop sho",
     "Supports DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -2487,7 +2487,7 @@ export const products: Product[] = [
   "short": "Unisex Oversized Hoodie Made from 400 GSM 90% cotton and 10% polyester fabric with a drop shoulder oversized fit, derby ribbed cuffs and hem",
   "story": "Unisex Oversized Hoodie Made from 400 GSM 90% cotton and 10% polyester fabric with a drop shoulder oversized fit, derby ribbed cuffs and hem, super combed, pre-shrunk and bio-washed finish.",
   "details": [
-    "Unisex Oversized Hoodie with custom printing on Rare Ember Studio, order as a Rare Ember p",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 400 GSM 90% cotton and 10% polyester fabric with a drop shoulder oversized fit,",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2517,7 +2517,7 @@ export const products: Product[] = [
   "short": "Unisex Short Sleeve Oversized Shirt Made from 240 GSM 100% cotton with a straight hem and front-shoulder detail. Half-sleeve, oversized unis",
   "story": "Unisex Short Sleeve Oversized Shirt Made from 240 GSM 100% cotton with a straight hem and front-shoulder detail. Half-sleeve, oversized unisex fit.",
   "details": [
-    "Unisex Short Sleeve Oversized Shirt with custom printing on Rare Ember Studio, order as a",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 240 GSM 100% cotton with a straight hem and front-shoulder detail",
     "Half-sleeve, oversized unisex fit"
   ],
@@ -2542,8 +2542,8 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Oversized T-Shirt Standard custom printing on Rare Ember Studio, Made from 180 GSM 100% cotton, super combed, pre-shrunk, and bio-washed fab",
-  "story": "Oversized T-Shirt Standard custom printing on Rare Ember Studio, Made from 180 GSM 100% cotton, super combed, pre-shrunk, and bio-washed fabric with a drop shoulder and oversized fit. Supports DTG, DTF, embroidery, vinyl, and screen printing.",
+  "short": "Standard oversized drop-shoulder t-shirt crafted from 180 GSM super combed cotton with breathable, pre-shrunk construction.",
+  "story": "Lightweight oversized silhouette built for warm climates and casual layering. Made from 180 GSM bio-washed cotton with relaxed drop shoulders and durable twin-needle hem stitching.",
   "details": [
     "Oversized T-Shirt Standard custom printing on Rare Ember Studio, order as a Rare Ember pre",
     "Made from 180 GSM 100% cotton, super combed, pre-shrunk, and bio-washed fabric with a drop",
@@ -2571,9 +2571,9 @@ export const products: Product[] = [
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/42/e1aabdde-178c-4773-9b54-93df46230600.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
   "short": "Unisex Oversized Sweatshirt Made from 400 GSM 90% cotton and 10% polyester with a drop shoulder oversized fit, derby ribbed hem and cuffs, s",
-  "story": "Unisex Oversized Sweatshirt Made from 400 GSM 90% cotton and 10% polyester with a drop shoulder oversized fit, derby ribbed hem and cuffs, super combed, pre-shrunk and bio-washed fabric.",
+  "story": "Unisex Oversized Sweatshirt Made from 400 GSM 90% cotton and 10% polyester with a drop shoulder oversized fit, derby ribbed hem and cuffs, super combed, pre-shrunk and bio-washed fabric for lasting shape.",
   "details": [
-    "Unisex Oversized Sweatshirt with custom printing on Rare Ember Studio, order as a Rare Emb",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 400 GSM 90% cotton and 10% polyester with a drop shoulder oversized fit, derby r",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2603,7 +2603,7 @@ export const products: Product[] = [
   "short": "Unisex Sports Cap Made from lightweight polyester fabric with perforated side panels, a 6-panel mid-profile construction, candy Velcro closu",
   "story": "Unisex Sports Cap Made from lightweight polyester fabric with perforated side panels, a 6-panel mid-profile construction, candy Velcro closure, and universal fit.",
   "details": [
-    "Unisex Sports Cap with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from lightweight polyester fabric with perforated side panels, a 6-panel mid-profile",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2630,10 +2630,10 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/41/d4c73929-12bd-4e79-ad05-ec41d8d14d5f.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Supima Cotton T-Shirt Made from 160 GSM 100% Supima cotton with a regular fit, lycra ribbed neck, pre-shrunk and bio-washed fabric.",
-  "story": "Supima Cotton T-Shirt Made from 160 GSM 100% Supima cotton with a regular fit, lycra ribbed neck, pre-shrunk and bio-washed fabric.",
+  "short": "Supima Cotton T-Shirt Made from 160 GSM 100% Supima cotton with a regular fit, lycra ribbed neck, pre-shrunk and bio-washed fabric for lasting shape.",
+  "story": "Supima Cotton T-Shirt Made from 160 GSM 100% Supima cotton with a regular fit, lycra ribbed neck, pre-shrunk and bio-washed fabric for lasting shape.",
   "details": [
-    "Supima Cotton T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember pre",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 160 GSM 100% Supima cotton with a regular fit, lycra ribbed neck, pre-shrunk and",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -2661,7 +2661,7 @@ export const products: Product[] = [
   "short": "Unisex Sweatpants Made from 260 GSM 90% cotton and 10% polyester terry fabric with looped inners, a loose fit, and two front pockets.",
   "story": "Unisex Sweatpants Made from 260 GSM 90% cotton and 10% polyester terry fabric with looped inners, a loose fit, and two front pockets.",
   "details": [
-    "Unisex Sweatpants with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 260 GSM 90% cotton and 10% polyester terry fabric with looped inners, a loose fi",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2691,7 +2691,7 @@ export const products: Product[] = [
   "short": "Unisex Sweatshirt Made from 300 GSM 90% cotton and 10% polyester fabric with a unisex regular fit, super combed, pre-shrunk, bio-washed fini",
   "story": "Unisex Sweatshirt Made from 300 GSM 90% cotton and 10% polyester fabric with a unisex regular fit, super combed, pre-shrunk, bio-washed finish, and derby ribbed hem and cuffs.",
   "details": [
-    "Unisex Sweatshirt with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 300 GSM 90% cotton and 10% polyester fabric with a unisex regular fit, super com",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2721,7 +2721,7 @@ export const products: Product[] = [
   "short": "Terry Oversized T-Shirt Made from 260 GSM, 90% cotton and 10% polyester terry fabric with looped inners, a drop shoulder, lycra ribbed neck,",
   "story": "Terry Oversized T-Shirt Made from 260 GSM, 90% cotton and 10% polyester terry fabric with looped inners, a drop shoulder, lycra ribbed neck, and pre-shrunk unisex fit.",
   "details": [
-    "Terry Oversized T-Shirt with custom printing on Rare Ember Studio, order as a Rare Ember p",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 260 GSM, 90% cotton and 10% polyester terry fabric with looped inners, a drop sh",
     "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
   ],
@@ -2749,7 +2749,7 @@ export const products: Product[] = [
   "short": "Unisex Terry Shorts Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex fit, drawcord elastic waist, slip-in pockets, and ",
   "story": "Unisex Terry Shorts Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex fit, drawcord elastic waist, slip-in pockets, and pre-shrunk finish.",
   "details": [
-    "Unisex Terry Shorts with custom printing on Rare Ember Studio, order as a Rare Ember premi",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex fit, drawcord elastic",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2777,9 +2777,9 @@ export const products: Product[] = [
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/286/84f8f6ae-6521-4be1-9e33-07110cf93ec9.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
   "short": "Unisex Tie Dye Oversized T-Shirt Made from 260 GSM 90% cotton and 10% polyester with a drop shoulder, lycra ribbed neck, pre-shrunk and bio-",
-  "story": "Unisex Tie Dye Oversized T-Shirt Made from 260 GSM 90% cotton and 10% polyester with a drop shoulder, lycra ribbed neck, pre-shrunk and bio-washed fabric.",
+  "story": "Unisex Tie Dye Oversized T-Shirt Made from 260 GSM 90% cotton and 10% polyester with a drop shoulder, lycra ribbed neck, pre-shrunk and bio-washed fabric for lasting shape.",
   "details": [
-    "Unisex Tie Dye Oversized T-Shirt with custom printing on Rare Ember Studio, order ",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 260 GSM 90% cotton and 10% polyester with a drop shoulder, lycra ribbed neck",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2809,7 +2809,7 @@ export const products: Product[] = [
   "short": "Unisex Tie Dye Shorts Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex fit, drawcord elastic waist, slip-in pockets, pre-",
   "story": "Unisex Tie Dye Shorts Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex fit, drawcord elastic waist, slip-in pockets, pre-shrunk and bio-washed finish.",
   "details": [
-    "Unisex Tie Dye Shorts with custom printing on Rare Ember Studio, order as a Rare Ember pre",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 260 GSM 90% cotton and 10% polyester fabric with a unisex fit, drawcord elastic",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2839,7 +2839,7 @@ export const products: Product[] = [
   "short": "Unisex Varsity Jacket Made from 300 GSM 90% cotton and 10% polyester with a unisex fit, derby ribbed hem and collars, button closure, and tw",
   "story": "Unisex Varsity Jacket Made from 300 GSM 90% cotton and 10% polyester with a unisex fit, derby ribbed hem and collars, button closure, and two front pockets.",
   "details": [
-    "Unisex Varsity Jacket with custom printing on Rare Ember Studio, order as a Rare Ember pre",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 300 GSM 90% cotton and 10% polyester with a unisex fit, derby ribbed hem and col",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2867,9 +2867,9 @@ export const products: Product[] = [
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/76/e8cb03d3-db36-4ffa-8415-682598c26626.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
   "short": "Unisex Zip Hoodie Made from 400 GSM 90% cotton and 10% polyester with a regular fit, metal zipper, derby ribbed hem and cuffs, super combed,",
-  "story": "Unisex Zip Hoodie Made from 400 GSM 90% cotton and 10% polyester with a regular fit, metal zipper, derby ribbed hem and cuffs, super combed, pre-shrunk and bio-washed fabric.",
+  "story": "Unisex Zip Hoodie Made from 400 GSM 90% cotton and 10% polyester with a regular fit, metal zipper, derby ribbed hem and cuffs, super combed, pre-shrunk and bio-washed fabric for lasting shape.",
   "details": [
-    "Unisex Zip Hoodie with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 400 GSM 90% cotton and 10% polyester with a regular fit, metal zipper, derby rib",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -2899,7 +2899,7 @@ export const products: Product[] = [
   "short": "AOP Large Tote Bag Made from 300 GSM fabric with a poly inner lining, key holder, two inner pockets, water bottle holder, and a zippered inn",
   "story": "AOP Large Tote Bag Made from 300 GSM fabric with a poly inner lining, key holder, two inner pockets, water bottle holder, and a zippered inner pocket for organized storage. Designed for fade-resistant all-over printing using OEKO-TEX certified inks.",
   "details": [
-    "AOP Large Tote Bag with custom printing on Rare Ember Studio, order as a Rare Ember premiu",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 300 GSM fabric with a poly inner lining, key holder, two inner pockets, water bo",
     "Designed for fade-resistant all-over printing using OEKO-TEX certified inks"
   ],
@@ -2927,7 +2927,7 @@ export const products: Product[] = [
   "short": "AOP Scarf Made from satin poly woven fabric with a lightweight, silk-like feel and soft, flowy construction. Compatible with sublimation pri",
   "story": "AOP Scarf Made from satin poly woven fabric with a lightweight, silk-like feel and soft, flowy construction. Compatible with sublimation printing for edge-to-edge all-over prints.",
   "details": [
-    "AOP Scarf with custom printing on Rare Ember Studio, order as a Rare Ember premium private",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from satin poly woven fabric with a lightweight, silk-like feel and soft, flowy const",
     "Compatible with sublimation printing for edge-to-edge all-over prints"
   ],
@@ -2955,7 +2955,7 @@ export const products: Product[] = [
   "short": "AOP Stole Made from satin poly woven fabric with a lightweight, silk-like feel and soft, flowy construction. Compatible with sublimation pri",
   "story": "AOP Stole Made from satin poly woven fabric with a lightweight, silk-like feel and soft, flowy construction. Compatible with sublimation printing for edge-to-edge all-over prints.",
   "details": [
-    "AOP Stole with custom printing on Rare Ember Studio, order as a Rare Ember premium private",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from satin poly woven fabric with a lightweight, silk-like feel and soft, flowy const",
     "Compatible with sublimation printing for edge-to-edge all-over prints"
   ],
@@ -2983,7 +2983,7 @@ export const products: Product[] = [
   "short": "Scrunchies Made from lightweight poly spandex fabric with fade-proof all-over printing, durable elastic construction, and individual box pac",
   "story": "Scrunchies Made from lightweight poly spandex fabric with fade-proof all-over printing, durable elastic construction, and individual box packing. Compatible with sublimation printing. Available in a standard size.",
   "details": [
-    "Scrunchies with custom printing on Rare Ember Studio, order as a Rare Ember premium privat",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from lightweight poly spandex fabric with fade-proof all-over printing, durable elast",
     "Compatible with sublimation printing",
     "Available in a standard size"
@@ -3012,7 +3012,7 @@ export const products: Product[] = [
   "short": "Acrylic Display Stand Made from 3 mm clear acrylic with a glossy finish, two sturdy acrylic support stands, waterproof construction, and fad",
   "story": "Acrylic Display Stand Made from 3 mm clear acrylic with a glossy finish, two sturdy acrylic support stands, waterproof construction, and fade-proof UV printing for vibrant, smudge-free designs. Available in a 4 × 6 inch size.",
   "details": [
-    "Acrylic Display Stand with custom printing on Rare Ember Studio, order as a Rare Ember pre",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 3 mm clear acrylic with a glossy finish, two sturdy acrylic support stands, wate",
     "Available in a 4 × 6 inch size"
   ],
@@ -3037,8 +3037,8 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/346/97fd86a3-6463-4336-a02a-200b4c9543b4.webp",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Bar Pendant with custom engraving on Rare Ember Studio, Made from durable stainless steel with an anti-rust glossy finish in a slim 0.5 × 5 ",
-  "story": "Bar Pendant with custom engraving on Rare Ember Studio, Made from durable stainless steel with an anti-rust glossy finish in a slim 0.5 × 5 cm cuboid design. Supports permanent front and back laser engraving and includes a matching chain with gift-ready box packing.",
+  "short": "Minimalist cuboid bar pendant crafted from 304 surgical-grade stainless steel with anti-rust mirror finish and matching chain.",
+  "story": "Engineered with durable 304 stainless steel in a sleek 0.5 × 5 cm cuboid profile. Features a scratch-resistant mirror gloss finish, precision high-contrast laser engraving, and a heavy-duty matching chain in gift packaging.",
   "details": [
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3068,7 +3068,7 @@ export const products: Product[] = [
   "short": "Button Badge Features a glossy finish, rust-free metal construction, attached safety pin backing, and high-resolution digital printing using",
   "story": "Button Badge Features a glossy finish, rust-free metal construction, attached safety pin backing, and high-resolution digital printing using OEKO-TEX certified Epson inks for vibrant, fade-proof results. Available in multiple badge sizes.",
   "details": [
-    "Button Badge with custom printing on Rare Ember Studio, order as a Rare Ember premium priv",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Features a glossy finish, rust-free metal construction, attached safety pin backing, and h",
     "Available in multiple badge sizes"
   ],
@@ -3096,7 +3096,7 @@ export const products: Product[] = [
   "short": "Bookmark Made from 3 mm acrylic with a glossy finish, lightweight and waterproof construction, and high-resolution UV printing for vibrant, ",
   "story": "Bookmark Made from 3 mm acrylic with a glossy finish, lightweight and waterproof construction, and high-resolution UV printing for vibrant, fade-proof designs. Available in Classic and Curved Top variants.",
   "details": [
-    "Bookmark with custom printing on Rare Ember Studio, order as a Rare Ember premium private",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 3 mm acrylic with a glossy finish, lightweight and waterproof construction",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3126,7 +3126,7 @@ export const products: Product[] = [
   "short": "Bow Scrunchies Made from satin poly woven fabric with a lightweight finish, durable, soft texture, and removable bow tail design. Compatible",
   "story": "Bow Scrunchies Made from satin poly woven fabric with a lightweight finish, durable, soft texture, and removable bow tail design. Compatible with sublimation printing for all-over edge-to-edge prints.",
   "details": [
-    "Bow Scrunchies with custom printing on Rare Ember Studio, order as a Rare Ember premium ",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from satin poly woven fabric with a lightweight finish, durable, soft texture, and re",
     "Compatible with sublimation printing for all-over edge-to-edge prints"
   ],
@@ -3151,8 +3151,8 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/296/9d30eb31-dc89-496e-ac56-e8a586912272.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Dog Tag with custom engraving on Rare Ember Studio, Made from 2 mm thick 304 stainless steel with a glossy anti-rust finish, precision engra",
-  "story": "Dog Tag with custom engraving on Rare Ember Studio, Made from 2 mm thick 304 stainless steel with a glossy anti-rust finish, precision engraving, and an included stainless steel ball chain. Supports single- or double-sided engraving for names, dates, logos, or messages.",
+  "short": "Solid 2mm 304 stainless steel dog tag with mirror anti-rust finish, precision laser engraving, and stainless steel ball chain.",
+  "story": "Built to last from 2mm thick 304 stainless steel with a high-polish anti-rust finish. Includes a matching stainless steel ball chain and crisp high-contrast laser engraving that will never rub off or tarnish.",
   "details": [
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3179,8 +3179,8 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/89/fb56d55e-5827-446f-8538-8ed0d9bd7edb.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Embroidered Patches with custom embroidery on Rare Ember Studio, Made from 100% cotton fabric with premium OEKO-TEX certified Madeira thread",
-  "story": "Embroidered Patches with custom embroidery on Rare Ember Studio, Made from 100% cotton fabric with premium OEKO-TEX certified Madeira threads, satin border finish, and iron-on or sew-on application. Available in square, circle, and rectangle variants.",
+  "short": "Premium embroidered patch crafted with OEKO-TEX certified Madeira threads, merrowed satin border, and iron-on backing.",
+  "story": "High-density embroidered patch made from 100% cotton twill with vibrant Madeira threads, reinforced satin overlock edge, and heat-activated iron-on adhesive for instant jacket and bag customization.",
   "details": [
     "Made from 100% cotton fabric with premium OEKO-TEX certified Madeira threads, satin border",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
@@ -3211,7 +3211,7 @@ export const products: Product[] = [
   "short": "Fridge Magnet Made from 3 mm thick acrylic with smooth edges, a strong magnetic backing, and vibrant fade-proof UV printing using GreenGuard",
   "story": "Fridge Magnet Made from 3 mm thick acrylic with smooth edges, a strong magnetic backing, and vibrant fade-proof UV printing using GreenGuard certified inks. Packed in an individual box and available in a square shape.",
   "details": [
-    "Fridge Magnet with custom printing on Rare Ember Studio, order as a Rare Ember premium pri",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 3 mm thick acrylic with smooth edges, a strong magnetic backing, and vibrant fad",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3241,7 +3241,7 @@ export const products: Product[] = [
   "short": "Greeting Cards Printed on premium A5 folded artboard paper with four printable pages, a matching envelope, and high-quality digital printing",
   "story": "Greeting Cards Printed on premium A5 folded artboard paper with four printable pages, a matching envelope, and high-quality digital printing using OEKO-TEX certified inks. Suitable for birthdays, weddings, anniversaries, festivals, and gifting.",
   "details": [
-    "Greeting Cards with custom printing on Rare Ember Studio, order as a Rare Ember premium ",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Printed on premium A5 folded artboard paper with four printable pages, a matching envelope",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3271,7 +3271,7 @@ export const products: Product[] = [
   "short": "Keychain Made from 3 mm acrylic with a glossy finish, attached metal chain, and vibrant fade-proof UV printing for logos, photos, names",
   "story": "Keychain Made from 3 mm acrylic with a glossy finish, attached metal chain, and vibrant fade-proof UV printing for logos, photos, names, and artwork. Available in Rectangle, Square, and Slim variants.",
   "details": [
-    "Keychain with custom printing on Rare Ember Studio, order as a Rare Ember premium private",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 3 mm acrylic with a glossy finish, attached metal chain, and vibrant fade-proof",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3301,7 +3301,7 @@ export const products: Product[] = [
   "short": "Kids Rompers Made from 180 GSM 100% super combed cotton with a regular fit, lycra ribbed neck, pre-shrunk and bio-washed fabric, and double-",
   "story": "Kids Rompers Made from 180 GSM 100% super combed cotton with a regular fit, lycra ribbed neck, pre-shrunk and bio-washed fabric, and double-stitched seams.",
   "details": [
-    "Kids Rompers with custom printing on Rare Ember Studio, order as a Rare Ember premium priv",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM 100% super combed cotton with a regular fit, lycra ribbed neck, pre-shru",
     "Compatible with DTG, DTF, vinyl, and screen printing"
   ],
@@ -3329,7 +3329,7 @@ export const products: Product[] = [
   "short": "Luggage Tag Made from 3 mm acrylic with a glossy finish, strong locking strap, and double-sided UV printing using OEKO-TEX certified inks fo",
   "story": "Luggage Tag Made from 3 mm acrylic with a glossy finish, strong locking strap, and double-sided UV printing using OEKO-TEX certified inks for vibrant, fade-resistant results. Designed for secure attachment and repeated travel use.",
   "details": [
-    "Luggage Tag with custom printing on Rare Ember Studio, order as a Rare Ember premium priva",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 3 mm acrylic with a glossy finish, strong locking strap, and double-sided UV pri",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3356,8 +3356,8 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/324/221a521b-fb05-4e15-a87b-fe47e4166dd6.webp",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Personalized Pens with custom laser engraving on Rare Ember Studio, Features a premium metal body with a balanced weight, smooth grip, blue ",
-  "story": "Personalized Pens with custom laser engraving on Rare Ember Studio, Features a premium metal body with a balanced weight, smooth grip, blue ballpoint ink, and permanent high-precision laser engraving that won't peel, fade, or smudge. Available in Classic, Twist, and Click variants.",
+  "short": "Precision-crafted metal executive pen with ergonomic balanced weight, smooth blue ballpoint ink, and permanent laser engraving.",
+  "story": "Engineered for creators and daily desk setups. Features a weighted all-metal barrel, ergonomic comfort grip, smooth-glide blue document ink, and permanent high-precision laser engraving that will never peel, fade, or smudge. Available in Classic, Twist, and Click mechanisms.",
   "details": [
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3384,8 +3384,8 @@ export const products: Product[] = [
   "reviews": 120,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/148/c7888aa2-d00c-415f-8496-4e116a31f016.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Pet Tags with custom engraving on Rare Ember Studio, Made from 2 mm thick 304 stainless steel with an anti-rust finish, precision laser engr",
-  "story": "Pet Tags with custom engraving on Rare Ember Studio, Made from 2 mm thick 304 stainless steel with an anti-rust finish, precision laser engraving, and an included keyring for secure attachment. Available in bone and circle shapes with multiple size options.",
+  "short": "Durable 2mm 304 stainless steel pet tag with anti-rust finish, permanent laser engraving, and heavy-duty collar split ring.",
+  "story": "Keep your pet safe with high-grade 304 stainless steel pet tags. Features laser-smooth edges, deep laser engraving for phone numbers and names, and a heavy-duty reinforced split ring that withstands active outdoor play.",
   "details": [
     "Available in bone and circle shapes with multiple size options",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
@@ -3416,7 +3416,7 @@ export const products: Product[] = [
   "short": "Stickers Made from 100-micron material with a matte laminated finish, custom shape die-cutting, and fade-proof digital printing using OEKO-T",
   "story": "Stickers Made from 100-micron material with a matte laminated finish, custom shape die-cutting, and fade-proof digital printing using OEKO-TEX certified inks. Suitable for both indoor and outdoor applications. Available in multiple sizes.",
   "details": [
-    "Stickers with custom printing on Rare Ember Studio, order as a Rare Ember premium private",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 100-micron material with a matte laminated finish, custom shape die-cutting",
     "Available in multiple sizes"
   ],
@@ -3444,7 +3444,7 @@ export const products: Product[] = [
   "short": "Temporary Tattoos Printed on premium 175-gram transfer paper using high-resolution digital printing with OEKO-TEX certified inks. Features s",
   "story": "Temporary Tattoos Printed on premium 175-gram transfer paper using high-resolution digital printing with OEKO-TEX certified inks. Features skin-friendly, bubble-free application, fine-detail reproduction, and easy removal after 2–3 days. Available in multiple sizes.",
   "details": [
-    "Temporary Tattoos with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Printed on premium 175-gram transfer paper using high-resolution digital printing with OEK",
     "Available in multiple sizes"
   ],
@@ -3472,7 +3472,7 @@ export const products: Product[] = [
   "short": "Unisex AOP Drawstring Bag Made from 250 GSM canvas fabric with attached drawstrings, a sporty design, and fade-proof all-over printing using",
   "story": "Unisex AOP Drawstring Bag Made from 250 GSM canvas fabric with attached drawstrings, a sporty design, and fade-proof all-over printing using OEKO-TEX certified inks. Compatible with sublimation printing.",
   "details": [
-    "Unisex AOP Drawstring Bag with custom printing on Rare Ember Studio, order as a Rare Ember",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 250 GSM canvas fabric with attached drawstrings, a sporty design, and fade-proof",
     "Compatible with sublimation printing"
   ],
@@ -3500,7 +3500,7 @@ export const products: Product[] = [
   "short": "Unisex AOP Tote Bags Zipper Made from 250 GSM canvas fabric with a zippered closure, lengthy handles, fade-proof all-over printing using OEK",
   "story": "Unisex AOP Tote Bags Zipper Made from 250 GSM canvas fabric with a zippered closure, lengthy handles, fade-proof all-over printing using OEKO-TEX certified inks, and a durable construction for everyday use. Compatible with sublimation printing.",
   "details": [
-    "Unisex AOP Tote Bags Zipper with custom printing on Rare Ember Studio, order as a Rare Emb",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 250 GSM canvas fabric with a zippered closure, lengthy handles, fade-proof all-o",
     "Compatible with sublimation printing"
   ],
@@ -3528,7 +3528,7 @@ export const products: Product[] = [
   "short": "Unisex Apron Made from 280 GSM breathable cotton drill fabric with adjustable straps, two front pockets, holder attachment, and double-stitc",
   "story": "Unisex Apron Made from 280 GSM breathable cotton drill fabric with adjustable straps, two front pockets, holder attachment, and double-stitched construction for durability.",
   "details": [
-    "Unisex Apron with custom printing on Rare Ember Studio, order as a Rare Ember premium priv",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 280 GSM breathable cotton drill fabric with adjustable straps, two front pockets",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3558,7 +3558,7 @@ export const products: Product[] = [
   "short": "Unisex Drawstring Bag Made from 280 GSM 100% cotton with a breathable construction and double-stitched drawstrings. Available in 7 colours.",
   "story": "Unisex Drawstring Bag Made from 280 GSM 100% cotton with a breathable construction and double-stitched drawstrings. Available in 7 colours.",
   "details": [
-    "Unisex Drawstring Bag with custom printing on Rare Ember Studio, order as a Rare Ember pre",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 280 GSM 100% cotton with a breathable construction and double-stitched drawstrin",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3588,7 +3588,7 @@ export const products: Product[] = [
   "short": "Unisex Everyday Large Tote bag Made from 100% cotton with a zippered closure, nylon inner lining, two inner pockets, a zippered inner pocket",
   "story": "Unisex Everyday Large Tote bag Made from 100% cotton with a zippered closure, nylon inner lining, two inner pockets, a zippered inner pocket, water bottle holder, and key holder.",
   "details": [
-    "Unisex Everyday Large Tote bag with custom printing on Rare Ember Studio, order as a Rare",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 100% cotton with a zippered closure, nylon inner lining, two inner pockets, a zi",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3618,7 +3618,7 @@ export const products: Product[] = [
   "short": "Unisex Tote Bag Zipper Made from minimum 200 GSM 100% cotton canvas with double-stitched side seams and long self-handles.",
   "story": "Unisex Tote Bag Zipper Made from minimum 200 GSM 100% cotton canvas with double-stitched side seams and long self-handles.",
   "details": [
-    "Unisex Tote Bag Zipper with custom printing on Rare Ember Studio, order as a Rare Ember ",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from minimum 200 GSM 100% cotton canvas with double-stitched side seams and long self",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3648,7 +3648,7 @@ export const products: Product[] = [
   "short": "Acrylic Coaster Made from 3 mm thick durable clear acrylic with a full white base, glossy finish, fade-proof UV printing using OEKO-TEX cert",
   "story": "Acrylic Coaster Made from 3 mm thick durable clear acrylic with a full white base, glossy finish, fade-proof UV printing using OEKO-TEX certified inks, and water-resistant construction. Available in Square and Circle variants.",
   "details": [
-    "Acrylic Coaster with custom printing on Rare Ember Studio, order as a Rare Ember premium p",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 3 mm thick durable clear acrylic with a full white base, glossy finish, fade-pro",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3706,7 +3706,7 @@ export const products: Product[] = [
   "short": "Acrylic Poster Made from 3 mm thick acrylic with a glossy finish, UV printing using OEKO-TEX certified inks, fade-proof output, and wall-mou",
   "story": "Acrylic Poster Made from 3 mm thick acrylic with a glossy finish, UV printing using OEKO-TEX certified inks, fade-proof output, and wall-mounted construction with adhesive backing. Available in multiple sizes.",
   "details": [
-    "Acrylic Poster with custom printing on Rare Ember Studio for print-on-demand and dropshipp",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 3 mm thick acrylic with a glossy finish, UV printing using OEKO-TEX certified in",
     "Available in multiple sizes"
   ],
@@ -3734,7 +3734,7 @@ export const products: Product[] = [
   "short": "Black Coffee Mug Made from premium ceramic in an 11 Oz size with a glossy finish, full black exterior, fade-proof sublimation printing using",
   "story": "Black Coffee Mug Made from premium ceramic in an 11 Oz size with a glossy finish, full black exterior, fade-proof sublimation printing using OEKO-TEX certified Epson inks, and individual box packing for secure delivery.",
   "details": [
-    "Black Coffee Mug with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from premium ceramic in an 11 Oz size with a glossy finish, full black exterior, fade",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3764,7 +3764,7 @@ export const products: Product[] = [
   "short": "Canvas Prints Printed on premium Poly canvas fabric using high-resolution printing with fade-resistant inks and professionally stretched ove",
   "story": "Canvas Prints Printed on premium Poly canvas fabric using high-resolution printing with fade-resistant inks and professionally stretched over a durable wooden frame. Ready to hang and available in multiple sizes for home and office décor.",
   "details": [
-    "Canvas Prints with custom printing on Rare Ember Studio, order as a Rare Ember premium pri",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Printed on premium Poly canvas fabric using high-resolution printing with fade-resistant i",
     "Ready to hang and available in multiple sizes for home and office décor"
   ],
@@ -3792,7 +3792,7 @@ export const products: Product[] = [
   "short": "Christmas Ornament Made from 3 mm thick acrylic with a glossy lightweight construction, waterproof finish, and direct UV printing for fade-p",
   "story": "Christmas Ornament Made from 3 mm thick acrylic with a glossy lightweight construction, waterproof finish, and direct UV printing for fade-proof output. Includes a satin ribbon for hanging and is available in four shapes.",
   "details": [
-    "Christmas Ornament with custom printing on Rare Ember Studio for print-on-demand and drops",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 3 mm thick acrylic with a glossy lightweight construction, waterproof finish, an",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3822,7 +3822,7 @@ export const products: Product[] = [
   "short": "Cloth Napkins Made from 100% polyester fabric with a lightweight woven structure, hemmed edges on all sides, soft finish, and sublimation ",
   "story": "Cloth Napkins Made from 100% polyester fabric with a lightweight woven structure, hemmed edges on all sides, soft finish, and sublimation printing using OEKO-TEX certified inks. Designed for reusable dining and table use with fade-proof output.",
   "details": [
-    "Cloth Napkins with custom printing on Rare Ember Studio for print-on-demand and dropshippi",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 100% polyester fabric with a lightweight woven structure, hemmed edges on all si",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3852,7 +3852,7 @@ export const products: Product[] = [
   "short": "Coaster Made from 3 mm thick MDF board with a glossy finish and square or circle variants, fade-proof sublimation printing using OEKO-TEX ce",
   "story": "Coaster Made from 3 mm thick MDF board with a glossy finish and square or circle variants, fade-proof sublimation printing using OEKO-TEX certified inks, and water-resistant surface. Designed with lightweight rigid construction for tabletop use.",
   "details": [
-    "Coaster with custom printing on Rare Ember Studio for print-on-demand and dropshipping in",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 3 mm thick MDF board with a glossy finish and square or circle variants, fade-",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3882,7 +3882,7 @@ export const products: Product[] = [
   "short": "Color Coffee Mug Made from premium ceramic in an 11 Oz size with a glossy finish, coloured handle and inner finish available in multiple col",
   "story": "Color Coffee Mug Made from premium ceramic in an 11 Oz size with a glossy finish, coloured handle and inner finish available in multiple colour options, fade-proof sublimation printing using OEKO-TEX certified Epson inks, and individual box packing for secure delivery.",
   "details": [
-    "Color Coffee Mug with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from premium ceramic in an 11 Oz size with a glossy finish, coloured handle and inner",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3912,7 +3912,7 @@ export const products: Product[] = [
   "short": "Daily Planner Made with a 300 GSM printed cover and 70 GSM inner pages in A5 format with 204 undated pages and 5 dotted note pages. Features",
   "story": "Daily Planner Made with a 300 GSM printed cover and 70 GSM inner pages in A5 format with 204 undated pages and 5 dotted note pages. Features soft-bound perfect binding, digital printing using fade-proof OEKO-TEX certified inks, and structured layout for daily scheduling use.",
   "details": [
-    "Daily Planner with custom printing on Rare Ember Studio for print-on-demand and dropshippi",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made with a 300 GSM printed cover and 70 GSM inner pages in A5 format with 204 undated pag",
     "Features soft-bound perfect binding, digital printing using fade-proof OEKO-TEX certified"
   ],
@@ -3940,7 +3940,7 @@ export const products: Product[] = [
   "short": "Framed Poster Made from 300 GSM art paper laminated under a 1-inch frame with 2 mm board thickness and 0.25-inch tolerance. Printed using di",
   "story": "Framed Poster Made from 300 GSM art paper laminated under a 1-inch frame with 2 mm board thickness and 0.25-inch tolerance. Printed using digital printing with fade-proof output and OEKO-TEX certified inks. Includes a mounting kit and is available in 13 sizes.",
   "details": [
-    "Framed Poster with custom printing on Rare Ember Studio for print-on-demand and dropshippi",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 300 GSM art paper laminated under a 1-inch frame with 2 mm board thickness and 0",
     "Printed using digital printing with fade-proof output and OEKO-TEX certified inks",
     "Includes a mounting kit and is available in 13 sizes"
@@ -3969,7 +3969,7 @@ export const products: Product[] = [
   "short": "Jigsaw Puzzle Made from recycled paper with a 120-piece construction, semi-gloss finish, and sublimation printing using OEKO-TEX certified i",
   "story": "Jigsaw Puzzle Made from recycled paper with a 120-piece construction, semi-gloss finish, and sublimation printing using OEKO-TEX certified inks for fade-proof output. Supplied in A4 size with a printed reference sheet inside the box.",
   "details": [
-    "Jigsaw Puzzle with custom printing on Rare Ember Studio for print-on-demand and dropshippi",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from recycled paper with a 120-piece construction, semi-gloss finish, and sublimation",
     "Supplied in A4 size with a printed reference sheet inside the box"
   ],
@@ -3997,7 +3997,7 @@ export const products: Product[] = [
   "short": "MDF Wooden Puzzle Made from 3 mm MDF with a glossy finish, 30-piece construction, edge-to-edge sublimation printing, and waterproof fade-pro",
   "story": "MDF Wooden Puzzle Made from 3 mm MDF with a glossy finish, 30-piece construction, edge-to-edge sublimation printing, and waterproof fade-proof output. Measures 6 × 8 inches and is supplied as a reusable puzzle board.",
   "details": [
-    "MDF Wooden Puzzle with custom printing on Rare Ember Studio for print-on-demand and dropsh",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 3 mm MDF with a glossy finish, 30-piece construction, edge-to-edge sublimation p",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -4027,7 +4027,7 @@ export const products: Product[] = [
   "short": "Magic Coffee Mug Made from premium ceramic in an 11 Oz size with a glossy heat-sensitive finish that reveals the printed design when filled ",
   "story": "Magic Coffee Mug Made from premium ceramic in an 11 Oz size with a glossy heat-sensitive finish that reveals the printed design when filled with a hot beverage. Printed using OEKO-TEX certified Epson inks with fade-proof sublimation printing and packed individually for secure delivery.",
   "details": [
-    "Magic Coffee Mug with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from premium ceramic in an 11 Oz size with a glossy heat-sensitive finish that reveal",
     "Printed using OEKO-TEX certified Epson inks with fade-proof sublimation printing and packe"
   ],
@@ -4055,7 +4055,7 @@ export const products: Product[] = [
   "short": "Metal Posters Made from 1 mm thick aluminium with a glossy waterproof finish, built-in magnetic mounting, and sublimation printing using OEK",
   "story": "Metal Posters Made from 1 mm thick aluminium with a glossy waterproof finish, built-in magnetic mounting, and sublimation printing using OEKO-TEX certified inks. Available in two sizes.",
   "details": [
-    "Metal Posters with custom printing on Rare Ember Studio for print-on-demand and dropshippi",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 1 mm thick aluminium with a glossy waterproof finish, built-in magnetic mounting",
     "Available in two sizes"
   ],
@@ -4083,7 +4083,7 @@ export const products: Product[] = [
   "short": "Notepad Made with 300 GSM printed front and back cover and 70 GSM inner pages in A5 size with 120 pages in ruled and unruled variants. Featu",
   "story": "Notepad Made with 300 GSM printed front and back cover and 70 GSM inner pages in A5 size with 120 pages in ruled and unruled variants. Features wire-bound construction, digital printing on cover using fade-proof OEKO-TEX certified inks, and standard tear-off writing format.",
   "details": [
-    "Notepad with custom printing on Rare Ember Studio for print-on-demand and dropshipping in",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made with 300 GSM printed front and back cover and 70 GSM inner pages in A5 size with 120",
     "Features wire-bound construction, digital printing on cover using fade-proof OEKO-TEX cert"
   ],
@@ -4111,7 +4111,7 @@ export const products: Product[] = [
   "short": "Notebook Made with a 300 GSM printed cover and 70 GSM inner pages in A5 size with 120 pages, available in ruled and unruled variants. Soft-b",
   "story": "Notebook Made with a 300 GSM printed cover and 70 GSM inner pages in A5 size with 120 pages, available in ruled and unruled variants. Soft-bound or wire-bound construction with eco-friendly paper and digital printing on the cover using fade-proof inks.",
   "details": [
-    "Notebook with custom printing on Rare Ember Studio for print-on-demand and dropshipping in",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made with a 300 GSM printed cover and 70 GSM inner pages in A5 size with 120 pages, availa",
     "Soft-bound or wire-bound construction with eco-friendly paper and digital printing on the"
   ],
@@ -4139,7 +4139,7 @@ export const products: Product[] = [
   "short": "Placemat Made from 100% polyester with a lightweight woven construction, printed top with a white underside, and fade-proof sublimation prin",
   "story": "Placemat Made from 100% polyester with a lightweight woven construction, printed top with a white underside, and fade-proof sublimation printing using OEKO-TEX certified inks.",
   "details": [
-    "Placemat with custom printing on Rare Ember Studio for print-on-demand and dropshipping in",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 100% polyester with a lightweight woven construction, printed top with a white u",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -4169,7 +4169,7 @@ export const products: Product[] = [
   "short": "Photo Postcard Made from 300 GSM artboard in A6 size with a glossy finish and dual-sided digital printing using OEKO-TEX certified inks. Inc",
   "story": "Photo Postcard Made from 300 GSM artboard in A6 size with a glossy finish and dual-sided digital printing using OEKO-TEX certified inks. Includes envelope packaging with fade-proof output and compact postcard format suitable for mailing or gifting.",
   "details": [
-    "Photo Postcard with custom printing on Rare Ember Studio for print-on-demand and dropshipp",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 300 GSM artboard in A6 size with a glossy finish and dual-sided digital printing",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -4199,7 +4199,7 @@ export const products: Product[] = [
   "short": "Poster Made from 300 GSM art board with rolled construction, digital printing, fade-proof output, adhesive strips for wall mounting, and OEK",
   "story": "Poster Made from 300 GSM art board with rolled construction, digital printing, fade-proof output, adhesive strips for wall mounting, and OEKO-TEX certified inks. Packed in carton tubes and available in multiple sizes.",
   "details": [
-    "Poster with custom printing on Rare Ember Studio for print-on-demand and dropshipping in I",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 300 GSM art board with rolled construction, digital printing, fade-proof output,",
     "Packed in carton tubes and available in multiple sizes"
   ],
@@ -4227,7 +4227,7 @@ export const products: Product[] = [
   "short": "Sipper Bottle Made from premium aluminium with a 750 ml capacity, glossy finish, clip cap, fade-proof sublimation printing using OEKO-TEX ce",
   "story": "Sipper Bottle Made from premium aluminium with a 750 ml capacity, glossy finish, clip cap, fade-proof sublimation printing using OEKO-TEX certified Epson inks, and an eco-friendly reusable design.",
   "details": [
-    "Sipper Bottle with custom printing on Rare Ember Studio, order as a Rare Ember premium pri",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from premium aluminium with a 750 ml capacity, glossy finish, clip cap, fade-proof su",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -4257,7 +4257,7 @@ export const products: Product[] = [
   "short": "Sketchbook Made with 140 GSM inner drawing paper and a 300 GSM printed cover in A5 size with 30 sheets. Features spiral binding, acid-free p",
   "story": "Sketchbook Made with 140 GSM inner drawing paper and a 300 GSM printed cover in A5 size with 30 sheets. Features spiral binding, acid-free paper suitable for sketching and doodling, and digital printing on the cover using fade-proof inks.",
   "details": [
-    "Sketchbook with custom printing on Rare Ember Studio for print-on-demand and dropshipping",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made with 140 GSM inner drawing paper and a 300 GSM printed cover in A5 size with 30 sheet",
     "Features spiral binding, acid-free paper suitable for sketching and doodling, and digital"
   ],
@@ -4282,8 +4282,8 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/273/d0aa5134-38bf-4c42-9b59-df25de4bf1c2.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Steel Water Bottle with custom laser engraving on Rare Ember Studio, Made from 25 Oz premium 304 stainless steel with a 750 ml capacity, lea",
-  "story": "Steel Water Bottle with custom laser engraving on Rare Ember Studio, Made from 25 Oz premium 304 stainless steel with a 750 ml capacity, leak-proof, BPA-free, and eco-friendly construction. Precision laser engraving ensures a permanent finish without fading or peeling. Available in black and silver.",
+  "short": "Premium 750ml (25 Oz) 304 stainless steel water bottle with leak-proof lid, BPA-free construction, and permanent laser engraving.",
+  "story": "Crafted from durable 304 food-grade stainless steel with a 750ml capacity. Features a 100% leak-proof cap, condensation-free powder finish, and permanent precision laser engraving that will never peel or wash off.",
   "details": [
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -4313,7 +4313,7 @@ export const products: Product[] = [
   "short": "Table Runner Made from 100% polyester with a lightweight woven construction, hemmed edges, printed top with a white underside, and fade-proo",
   "story": "Table Runner Made from 100% polyester with a lightweight woven construction, hemmed edges, printed top with a white underside, and fade-proof sublimation printing using OEKO-TEX certified inks.",
   "details": [
-    "Table Runner with custom printing on Rare Ember Studio for print-on-demand and dropshippin",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 100% polyester with a lightweight woven construction, hemmed edges, printed top",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -4343,7 +4343,7 @@ export const products: Product[] = [
   "short": "Tapestry Made from super soft lightweight fabric with fade-proof sublimation printing using OEKO-TEX certified inks. Features metal grommets",
   "story": "Tapestry Made from super soft lightweight fabric with fade-proof sublimation printing using OEKO-TEX certified inks. Features metal grommets on all four corners, includes four adhesive screws for easy mounting, and is available in seven sizes for home and office décor.",
   "details": [
-    "Tapestry with custom printing on Rare Ember Studio, order as a Rare Ember premium private",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from super soft lightweight fabric with fade-proof sublimation printing using OEKO-TE",
     "Features metal grommets on all four corners, includes four adhesive screws for easy mounti"
   ],
@@ -4371,7 +4371,7 @@ export const products: Product[] = [
   "short": "Tumbler Bottle Made from 20 Oz 304 stainless steel with double-wall insulated construction, a splash-proof lid, reusable metal straw, and fa",
   "story": "Tumbler Bottle Made from 20 Oz 304 stainless steel with double-wall insulated construction, a splash-proof lid, reusable metal straw, and fade-proof sublimation printing using OEKO-TEX certified inks. Suitable for hot and cold beverages.",
   "details": [
-    "Tumbler Bottle with custom printing on Rare Ember Studio, order as a Rare Ember premium ",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 20 Oz 304 stainless steel with double-wall insulated construction, a splash-proo",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -4401,7 +4401,7 @@ export const products: Product[] = [
   "short": "Unisex AOP Cushion Cover Made from 180 GSM poly lycra fabric with a perfect fit design, cut-and-sewn construction, double-stitched finish, a",
   "story": "Unisex AOP Cushion Cover Made from 180 GSM poly lycra fabric with a perfect fit design, cut-and-sewn construction, double-stitched finish, and fade-proof all-over print using OEKO-TEX certified Epson inks. Compatible with sublimation printing.",
   "details": [
-    "Unisex AOP Cushion Cover with custom printing on Rare Ember Studio, order as a Rare Ember",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM poly lycra fabric with a perfect fit design, cut-and-sewn construction,",
     "Compatible with sublimation printing"
   ],
@@ -4429,7 +4429,7 @@ export const products: Product[] = [
   "short": "Unisex AOP Pillow Cover Made from 180 GSM premium poly lycra fabric with a cut-and-sewn finish, double-stitched construction, and fade-proof",
   "story": "Unisex AOP Pillow Cover Made from 180 GSM premium poly lycra fabric with a cut-and-sewn finish, double-stitched construction, and fade-proof all-over print using OEKO-TEX certified Epson inks. Compatible with sublimation printing.",
   "details": [
-    "Unisex AOP Pillow Cover with custom printing on Rare Ember Studio, order as a Rare Ember p",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 180 GSM premium poly lycra fabric with a cut-and-sewn finish, double-stitched co",
     "Compatible with sublimation printing"
   ],
@@ -4457,7 +4457,7 @@ export const products: Product[] = [
   "short": "White Coffee Mug Made from premium ceramic in an 11 Oz size with a glossy finish, fade-proof sublimation printing using OEKO-TEX certified i",
   "story": "White Coffee Mug Made from premium ceramic in an 11 Oz size with a glossy finish, fade-proof sublimation printing using OEKO-TEX certified inks, and individual box packing for secure delivery. Microwave and dishwasher safe.",
   "details": [
-    "White Coffee Mug with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from premium ceramic in an 11 Oz size with a glossy finish, fade-proof sublimation ",
     "Microwave and dishwasher safe"
   ],
@@ -4485,7 +4485,7 @@ export const products: Product[] = [
   "short": "White Enamel Mugs Made from 11 Oz enamel-coated stainless steel with a silver rim, dishwasher-safe construction, fade-proof sublimation prin",
   "story": "White Enamel Mugs Made from 11 Oz enamel-coated stainless steel with a silver rim, dishwasher-safe construction, fade-proof sublimation printing using OEKO-TEX certified inks, and a lightweight, durable design for everyday and outdoor use.",
   "details": [
-    "White Enamel Mugs with custom printing on Rare Ember Studio, order as a Rare Ember premium",
+    "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
     "Made from 11 Oz enamel-coated stainless steel with a silver rim, dishwasher-safe construct",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",

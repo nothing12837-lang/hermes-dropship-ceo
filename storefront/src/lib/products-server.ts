@@ -68,8 +68,20 @@ export function cleanWholesaleDescription(text: string): string {
     .replace(/^Design & sell custom oversized jersey T-shirts.*$/i, 'Heavyweight oversized boxy jersey blending 90s basketball aesthetics with modern streetwear drape. Premium breathable mesh with fade-proof graphics.')
     .replace(/^Sell gym\/sports crop tops.*$/i, 'Performance athletic crop top crafted from 220 GSM poly-spandex with 4-way compression stretch and sweat-wicking comfort.')
     .replace(/^Sell custom acrylic photo frames.*$/i, 'Museum-grade crystal clear acrylic photo display paired with a solid wooden stand. High-definition UV print with rich contrast for your desk setup.')
+    .replace(/(?:with\s+)?custom\s+(?:laser\s+engraving|printing|embroidery|engraving)\s+on\s+Rare\s+Ember\s+Studio,?\s*/gi, '')
+    .replace(/on\s+Rare\s+Ember\s+Studio,?\s*/gi, '')
     .replace(/with (?:Qikink|Rare Ember Studio)'s print-on-demand model\./gi, 'crafted with precision in our Tirupur studio.')
-    .replace(/\b(?:no minimums|no MOQ|start your brand today|start selling)\b\.?/gi, 'crafted for daily rotation.');
+    .replace(/,?\s*order\s+as\s+a\s+Rare\s+Ember\s+premium[^\n.]*/gi, '')
+    .replace(/\b(?:no minimums|no MOQ|start your brand today|start selling)\b\.?/gi, 'crafted for daily rotation.')
+    .replace(/,\s*blue\s*$/i, ', smooth blue ballpoint ink.')
+    .replace(/,\s*a\s*z\s*$/i, ' with dual interior pockets.')
+    .replace(/[-–—\s]+$/, '')
+    .replace(/,\s*(?:pr|pre|bio|and|with|for|privat|priva|con)$/i, '')
+    .replace(/\s+(?:bio|Rar|pr|as a Rar|privat|priva|con)$/i, '')
+    .trim();
+  if (s.length > 0) {
+    s = s.charAt(0).toUpperCase() + s.slice(1);
+  }
   return s;
 }
 

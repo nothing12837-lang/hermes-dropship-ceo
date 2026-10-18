@@ -488,12 +488,21 @@ export function ProductClient({ product }: Props) {
   const idLower = (product.id || '').toLowerCase();
 
   const isHoodieOrSweatshirt = titleLower.includes('hoodie') || titleLower.includes('sweatshirt') || titleLower.includes('jacket') || idLower.includes('hoodie');
-  const isCropTopOrPolySpandex = titleLower.includes('crop top') || titleLower.includes('aop') || idLower.includes('crop-top') || idLower.includes('tops-all-over-print') || titleLower.includes('poly-spandex');
-  const isJerseyOrDryFit = titleLower.includes('jersey') || titleLower.includes('dry fit') || idLower.includes('jersey') || idLower.includes('dry-fit');
-  const isDeskMat = titleLower.includes('desk') || titleLower.includes('pad') || titleLower.includes('mat') || idLower.includes('desk-mat');
-  const isDrinkware = titleLower.includes('mug') || titleLower.includes('bottle') || titleLower.includes('tumbler') || idLower.includes('drinkware') || idLower.includes('mug');
-  const isCoasterOrDecor = titleLower.includes('coaster') || titleLower.includes('puzzle') || titleLower.includes('poster') || titleLower.includes('frame') || idLower.includes('home-decor');
-  const isCottonTee = isApparel && !isHoodieOrSweatshirt && !isCropTopOrPolySpandex && !isJerseyOrDryFit;
+  const isCropTopOrPolySpandex = titleLower.includes('crop top') || titleLower.includes('aop') || idLower.includes('crop-top') || idLower.includes('tops-all-over-print') || titleLower.includes('poly-spandex') || titleLower.includes('skirt') || titleLower.includes('dress');
+  const isJerseyOrDryFit = titleLower.includes('jersey') || titleLower.includes('dry fit') || idLower.includes('jersey') || idLower.includes('dry-fit') || titleLower.includes('sports bra');
+  const isDeskMat = titleLower.includes('desk') || titleLower.includes('pad') || titleLower.includes('mat') || idLower.includes('desk-mat') || idLower.includes('mouse-pad');
+  const isSteelBottleOrTumbler = titleLower.includes('bottle') || titleLower.includes('tumbler') || titleLower.includes('sipper') || titleLower.includes('flask');
+  const isDrinkware = titleLower.includes('mug') || isSteelBottleOrTumbler || idLower.includes('drinkware') || idLower.includes('mug');
+  const isPenOrStationery = /pen\b|pens\b|ballpoint|stationery|pencil/i.test(titleLower + ' ' + idLower);
+  const isNotebookOrNotepad = /notebook|notepad|diary|journal/i.test(titleLower + ' ' + idLower);
+  const isJewelryOrTag = /pendant|necklace|dog-tag|pet-tag|dog tag|pet tag|keychain|badge|luggage-tag|luggage tag|bar-pendant/i.test(titleLower + ' ' + idLower);
+  const isBagOrTote = /tote|backpack|drawstring|bag/i.test(titleLower + ' ' + idLower);
+  const isHeadwear = /cap\b|caps\b|hat|beanie|snapback|trucker|bucket/i.test(titleLower + ' ' + idLower);
+  const isWallArtOrPoster = /poster|canvas|frame|metal-poster|acrylic-poster/i.test(titleLower + ' ' + idLower);
+  const isHomeTextile = /cushion|pillow|blanket|placemat/i.test(titleLower + ' ' + idLower);
+  const isBottomwear = /jogger|sweatpant|shorts/i.test(titleLower + ' ' + idLower);
+  const isCoasterOrDecor = titleLower.includes('coaster') || titleLower.includes('puzzle') || idLower.includes('home-decor');
+  const isCottonTee = isApparel && !isHoodieOrSweatshirt && !isCropTopOrPolySpandex && !isJerseyOrDryFit && !isBottomwear;
 
   const blankGarmentImage = (() => {
     if (isHoodieOrSweatshirt) {
@@ -529,6 +538,12 @@ export function ProductClient({ product }: Props) {
   const activeItemIsDeskMat = /desk|pad|mat/i.test(activeItemLower);
   const activeItemIsDrinkware = /mug|cup|bottle|tumbler|drinkware/i.test(activeItemLower);
   const activeItemIsPhoneCase = /case|phone|iphone/i.test(activeItemLower);
+  const activeItemIsPen = /pen\b|pens\b|ballpoint|stationery/i.test(activeItemLower);
+  const activeItemIsNotebook = /notebook|notepad|diary|journal/i.test(activeItemLower);
+  const activeItemIsJewelry = /pendant|necklace|dog-tag|pet-tag|dog tag|pet tag|keychain|badge|luggage/i.test(activeItemLower);
+  const activeItemIsBag = /tote|backpack|drawstring|bag/i.test(activeItemLower);
+  const activeItemIsHeadwear = /cap|hat|beanie|snapback|trucker|bucket/i.test(activeItemLower);
+  const activeItemIsWallArt = /poster|canvas|frame|metal-poster|acrylic-poster/i.test(activeItemLower);
 
   const activeStudioImage = activeComboItem
     ? (customView === 'back' && activeComboItem.backImage ? activeComboItem.backImage : activeComboItem.plainImage)
@@ -548,26 +563,83 @@ export function ProductClient({ product }: Props) {
     .map((id) => getProduct(id))
     .filter((p): p is Product => Boolean(p));
 
+  const sanitizeRetailCopy = (raw: string, fallbackText: string) => {
+    let s = (raw || '')
+      .replace(/^sell\s+[^.]*?(?:print-on-demand|no minimums?)[^.]*\.?\s*/gi, '')
+      .replace(/(?:with\s+)?custom\s+(?:laser\s+engraving|printing|embroidery|engraving)\s+on\s+Rare\s+Ember\s+Studio,?\s*/gi, '')
+      .replace(/on\s+Rare\s+Ember\s+Studio,?\s*/gi, '')
+      .replace(/,?\s*order\s+as\s+a\s+Rare\s+Ember\s+premium[^\n.]*/gi, '')
+      .replace(/,\s*blue\s*$/i, ', smooth blue ballpoint ink.')
+      .replace(/,\s*a\s*z\s*$/i, ' with dual interior pockets.')
+      .replace(/[-–—\s]+$/, '')
+      .replace(/,\s*(?:pr|pre|bio|and|with|for|privat|priva|con)$/i, '')
+      .replace(/\s+(?:bio|Rar|pr|as a Rar|privat|priva|con)$/i, '')
+      .replace(/^[,.\s]+/, '')
+      .trim();
+
+    if (s.length > 0) {
+      s = s.charAt(0).toUpperCase() + s.slice(1);
+    }
+    if (s && !/[.!?]$/.test(s)) s += '.';
+
+    if (!s || s.length < 25) {
+      return fallbackText;
+    }
+    return s;
+  };
+
   const cleanSubtitle = (() => {
-    const raw = product.short?.trim() || '';
-    if (!raw) {
+    const fallback = (() => {
+      if (isPenOrStationery) return 'Executive all-metal personalized ballpoint pen with balanced weight, precision laser engraving, and smooth blue document-proof ink.';
+      if (isNotebookOrNotepad) return '300 GSM heavyweight cover with 70 GSM bleed-resistant writing pages, lay-flat twin-wire binding, and rounded corners.';
+      if (isJewelryOrTag) return 'Solid 304 surgical stainless steel with high-polish anti-tarnish mirror finish, precision laser engraving, and matching steel chain.';
+      if (isBagOrTote) return 'Heavyweight 250 GSM cotton canvas tote with reinforced cross-stitched handles, secure zipper top, and dual interior organizer pockets.';
+      if (isHeadwear) return 'Structured 6-panel Ottoman cotton cap with high-density archival embroidery, breathable eyelets, and adjustable brass buckle.';
+      if (isWallArtOrPoster) return '300 GSM archival art paper with 12-color HDR pigment print, mounted in a solid 1-inch matte black frame with shatterproof glazing.';
+      if (isHomeTextile) return '180 GSM heavyweight poly-lycra cushion cover with concealed zipper and vibrant edge-to-edge archival sublimation print.';
+      if (isBottomwear) return '280 GSM French Terry Cotton relaxed streetwear joggers with zippered utility pockets and pre-shrunk bio-wash softness.';
+      if (isSteelBottleOrTumbler) return 'Double-wall vacuum insulated 304 stainless steel bottle with leak-proof cap, keeps cold for 24h or hot for 12h.';
       if (isHoodieOrSweatshirt) return '380 GSM Heavyweight French Terry Fleece with Archival DTF Screen Print.';
       if (isCropTopOrPolySpandex) return '220 GSM 4-Way Stretch Poly-Spandex with Archival All-Over Print.';
       if (isJerseyOrDryFit) return '180 GSM Quick-Dry Honeycomb Mesh with Embedded Sublimation Print.';
       if (isDeskMat) return '900x400mm Extended Workstation Mat with Precision Micro-Weave Surface.';
       if (isDrinkware) return '330ml Gloss Ceramic Stoneware with High-Definition Sublimation Print.';
       if (isPhoneCase) return 'Dual-Layer Impact Polycarbonate Case with Raised Protective Bezel.';
-      if (isCottonTee) return '240 GSM Super Combed Bio-Washed Cotton with Archival DTF Screen Print.';
+      if (isCottonTee || isApparel) return '240 GSM Super Combed Bio-Washed Cotton with Archival DTF Screen Print.';
       return 'Handpicked verified domestic quality with fast express dispatch across India.';
-    }
-    let s = raw.replace(/[-–—\s]+$/, '').replace(/,\s*(?:pr|pre|bio|and|with|for)$/i, '').replace(/\s+(?:bio|Rar|pr|as a Rar)$/i, '');
-    if (s && !/[.!?]$/.test(s)) s += '.';
-    return s;
+    })();
+    return sanitizeRetailCopy(product.short || '', fallback);
   })();
 
   const cleanStory = (() => {
-    const story = product.story?.trim() || '';
-    if (!story) {
+    const fallback = (() => {
+      if (isPenOrStationery) {
+        return 'Engineered for creators and daily desk setups. Features a weighted all-metal barrel, ergonomic comfort grip, smooth-glide blue document ink, and permanent high-precision laser engraving that will never peel, fade, or smudge. Available in Classic, Twist, and Click mechanisms.';
+      }
+      if (isNotebookOrNotepad) {
+        return 'Designed for designers, writers, and daily notes. Made with a 300 GSM rigid art card cover, 70 GSM natural shade bleed-resistant writing pages, and durable twin-loop wire-o binding that lays flat at 360 degrees.';
+      }
+      if (isJewelryOrTag) {
+        return 'Built to last from solid 304 surgical-grade stainless steel with an anti-rust high-gloss mirror finish. Features precision laser engraving that will never tarnish or scuff, complete with matching heavy-duty chain in gift packaging.';
+      }
+      if (isBagOrTote) {
+        return 'Crafted from heavy-duty 250 GSM 100% natural cotton canvas with reinforced cross-box handle stitching, smooth top zipper closure, and dual interior utility pockets. Engineered for everyday laptop and grocery carry.';
+      }
+      if (isHeadwear) {
+        return 'Classic 6-panel streetwear cap crafted from premium structured Ottoman cotton. Features high-density archival embroidery, breathable sewn eyelets, and an adjustable antique brass buckle for a customized fit.';
+      }
+      if (isWallArtOrPoster) {
+        return 'Gallery-grade wall art printed on 300 GSM acid-free museum art board with 12-color archival pigment inks. Enclosed in a 1-inch matte black composite wood frame with ultra-clear shatterproof front protection.';
+      }
+      if (isHomeTextile) {
+        return 'Add statement streetwear energy to your living space. Crafted from 180 GSM soft-touch poly-lycra with reinforced double stitching, hidden bottom zipper, and fade-proof edge-to-edge dye sublimation.';
+      }
+      if (isBottomwear) {
+        return 'Engineered for supreme comfort and mobility. Made from 280 GSM combed cotton French Terry with deep zipper security pockets, thick ribbed elastic waistband, and pre-shrunk bio-wash treatment.';
+      }
+      if (isSteelBottleOrTumbler) {
+        return 'Crafted from 304 food-grade stainless steel with double-wall vacuum insulation. Keeps your drinks ice-cold for 24 hours or steaming hot for 12 hours with a 100% leak-proof lid and scratch-resistant laser engraving.';
+      }
       if (isHoodieOrSweatshirt) {
         return 'Crafted in Tirupur with premium 380 GSM combed cotton fleece and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
       }
@@ -583,14 +655,105 @@ export function ProductClient({ product }: Props) {
       if (isDrinkware) {
         return 'Triple-fired 330ml gloss ceramic stoneware with food-grade sublimation glaze. Microwave and dishwasher safe, packaged in shock-resistant protective thermocol casing.';
       }
-      return 'Crafted in Tirupur with premium bio-washed materials and archival print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
-    }
-    let s = story.replace(/[-–—\s]+$/, '').replace(/,\s*(?:pr|pre|bio|and|with|for)$/i, '').replace(/\s+(?:bio|Rar|pr|as a Rar)$/i, '');
-    if (s && !/[.!?]$/.test(s)) s += '.';
-    return s;
+      if (isCottonTee || isApparel) {
+        return 'Crafted in Tirupur with premium 240 GSM super combed cotton and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
+      }
+      return 'Crafted in Tirupur with premium materials and archival finishing. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
+    })();
+    return sanitizeRetailCopy(product.story || '', fallback);
   })();
 
   const featureHighlights = (() => {
+    if (isPenOrStationery) {
+      return [
+        'Solid Weighted Metal Barrel with Ergonomic Matte Texture Grip',
+        'High-Precision Fiber Laser Engraving (Permanent & Scratch-Resistant)',
+        'Smooth German Document-Proof Blue Ballpoint Ink (Clean 0.7mm Glide)',
+        'All-Metal Internal Retractable Mechanism (Zero Rattling)',
+        'Refillable Standard Parker-Style Cartridge for Lifetime Utility',
+        'Dispatched in Rare Ember Protective Presentation Gift Packaging',
+      ];
+    }
+    if (isNotebookOrNotepad) {
+      return [
+        '300 GSM Heavyweight Matte Finish Art Card Front & Back Cover',
+        '70 GSM High-Opacity Bleed-Resistant Natural Shade Writing Pages',
+        'Available in Ruled (Lined) & Unruled (Artist Plain) 120-Page Formats',
+        'Twin-Loop Wire-O Metal Binding for Flat 360° Desktop Lay',
+        'Precision Rounded Corner Cutting Prevents Backpack Scuffing',
+        'Pan-India 2–4 Day Express Dispatch with 7-Day Replacement Guarantee',
+      ];
+    }
+    if (isJewelryOrTag) {
+      return [
+        'Solid 304 Surgical Stainless Steel / 3mm Cast Gloss Acrylic',
+        'Anti-Rust, Hypoallergenic & Water-Resistant Mirror Finish',
+        'Permanent Deep Laser Engraving / Vibrant Non-Fading UV Glaze',
+        'Reinforced Heavy-Duty Steel Clasp & Matching 60cm Link Chain Included',
+        'Laser-Polished Chamfered Edges for Comfortable Skin Contact',
+        'Dispatched in Rare Ember Presentation Gift Box',
+      ];
+    }
+    if (isBagOrTote) {
+      return [
+        'Heavyweight 250 GSM 100% Natural Cotton / Poly-Canvas Construction',
+        'Reinforced Cross-Box Stitched Handles & Heavy-Duty Zipper Closure',
+        'Archival High-Density Print (Zero Cracking, Peeling, or Wash Fade)',
+        'Dual Deep Interior Organizer Pockets for Phone, Keys & Water Bottle',
+        'Machine Washable, High-Capacity Reusable Daily Utility Carry',
+        'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
+      ];
+    }
+    if (isHeadwear) {
+      return [
+        'Premium 6-Panel Structured Ottoman Cotton / Brushed Twill Crown',
+        'High-Density Archival Embroidery / Heat-Set Emblem Crest',
+        'Adjustable Antique Brass Buckle Closure (One Size Fits All)',
+        'Moisture-Wicking Interior Sweatband & Embroidered Ventilation Eyelets',
+        'Pre-Curved High-Density Visor Retains Streetwear Silhouette',
+        'Dispatched in Anti-Crush Crown-Safe Box Packaging',
+      ];
+    }
+    if (isWallArtOrPoster) {
+      return [
+        '300 GSM Archival Acid-Free Museum Art Board / 1mm Brushed Aluminium',
+        'OEKO-TEX Certified 12-Color HDR Pigment Print (100+ Year Non-Fade)',
+        '1-Inch Deep Matte Black Solid Composite Frame with Clear Glazing',
+        'Ready to Hang: Pre-Installed Heavy-Duty Sawtooth Hardware',
+        'Anti-Warp Rigid Moisture-Resistant Backing Board',
+        'Ships in Corner-Reinforced Multi-Layer Impact-Resistant Packaging',
+      ];
+    }
+    if (isHomeTextile) {
+      return [
+        '180 GSM Heavyweight Poly-Lycra with Brushed Peach-Skin Touch',
+        'Invisible Concealed Heavy-Duty Zipper with Flatlock Seam Reinforcement',
+        'Archival Edge-to-Edge Dye Sublimation (Wash-Fast & Fade-Resistant)',
+        'Stain-Resistant & Machine Washable Fabric',
+        'Dispatched in Moisture-Proof Protective Mailer',
+        'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
+      ];
+    }
+    if (isBottomwear) {
+      return [
+        '280–320 GSM French Terry Cotton / Quick-Dry Performance Honeycomb',
+        'Deep Zippered Security Utility Pockets & Thick Ribbed Waistband',
+        'Heavy-Duty Metal-Tipped Drawcords for Customized Fit',
+        'Pre-Shrunk & Silicone Bio-Washed for Zero Post-Wash Distortion',
+        'Relaxed Streetwear Taper with Non-Binding Elastic Ankle Cuffs',
+        'Pan-India Express Delivery with 7-Day Doorstep Replacement Guarantee',
+      ];
+    }
+    if (isSteelBottleOrTumbler) {
+      return [
+        'Double-Wall Vacuum Insulated 304 Food-Grade Stainless Steel',
+        'Keeps Cold for 24 Hours • Keeps Piping Hot for 12 Hours',
+        '100% Leak-Proof Silicone Seal Lid with Ergonomic Grip Loop',
+        'Permanent High-Precision Fiber Laser Engraving (Won\'t Peel or Scuff)',
+        'BPA-Free, Toxin-Free & Condensation-Proof (No Sweating on Desks)',
+        'Dispatched in Shock-Absorbent Anti-Impact Protective Packaging',
+      ];
+    }
     if (isHoodieOrSweatshirt) {
       return [
         '380 GSM Heavyweight 100% Combed Cotton French Terry Fleece',
@@ -661,13 +824,23 @@ export function ProductClient({ product }: Props) {
         'Pan-India 2–4 Day Express Delivery with Live Real-Time Tracking',
       ];
     }
+    if (isCottonTee || isApparel) {
+      return [
+        '240 GSM Super Combed 100% Bio-Washed Cotton Heavyweight Jersey',
+        'Relaxed Drop-Shoulder Oversized Streetwear Silhouette',
+        '1.25-Inch Lycra Ribbed Anti-Sag Neckband with Reinforced Collar',
+        '1200 DPI Direct-to-Film (DTF) Archival Print with Zero Cracking',
+        'Pre-Shrunk & Colorfast Treated for 50+ Wash Color Longevity',
+        'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
+      ];
+    }
     return [
-      '240 GSM Super Combed 100% Bio-Washed Cotton Heavyweight Jersey',
-      'Relaxed Drop-Shoulder Oversized Streetwear Silhouette',
-      '1.25-Inch Lycra Ribbed Anti-Sag Neckband with Reinforced Collar',
-      '1200 DPI Direct-to-Film (DTF) Archival Print with Zero Cracking',
-      'Pre-Shrunk & Colorfast Treated for 50+ Wash Color Longevity',
-      'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
+      'Handcrafted with High-Grade Industrial Materials',
+      'High-Precision Archival Finishing & Fade-Resistant Execution',
+      'Strict Multi-Point Factory Inspection Before Packaging',
+      '100% Genuine Certified Quality Assurance',
+      'Dispatched in Protective Damage-Proof Courier Packaging',
+      'Fast 2–4 Day Pan-India Express Delivery with 7-Day Free Replacement',
     ];
   })();
 
@@ -1168,7 +1341,23 @@ export function ProductClient({ product }: Props) {
                   letterSpacing: '0.08em',
                 }}
               >
-                {product.tag || (isHoodieOrSweatshirt ? '380 GSM FLEECE' : isCropTopOrPolySpandex ? '220 GSM POLY-SPANDEX' : isJerseyOrDryFit ? '180 GSM QUICK-DRY' : isDeskMat ? 'EXTENDED 900×400MM' : isDrinkware ? 'CERAMIC STONEWARE' : isCottonTee ? '240 GSM HEAVYWEIGHT' : 'FLAGSHIP DROP')}
+                {product.tag || (
+                  isPenOrStationery ? 'EXECUTIVE METAL' :
+                  isNotebookOrNotepad ? 'CREATOR STATIONERY' :
+                  isJewelryOrTag ? 'SURGICAL STEEL' :
+                  isBagOrTote ? '250 GSM CANVAS' :
+                  isHeadwear ? 'STRUCTURED TWILL' :
+                  isWallArtOrPoster ? 'ARCHIVAL ART' :
+                  isHomeTextile ? 'PEACH-SKIN TEXTILE' :
+                  isBottomwear ? 'STREETWEAR TERRY' :
+                  isHoodieOrSweatshirt ? '380 GSM FLEECE' :
+                  isCropTopOrPolySpandex ? '220 GSM POLY-SPANDEX' :
+                  isJerseyOrDryFit ? '180 GSM QUICK-DRY' :
+                  isDeskMat ? 'EXTENDED 900×400MM' :
+                  isDrinkware ? (isSteelBottleOrTumbler ? 'INSULATED STEEL' : 'CERAMIC STONEWARE') :
+                  isCottonTee ? '240 GSM HEAVYWEIGHT' :
+                  'FLAGSHIP DROP'
+                )}
               </span>
             </div>
 
@@ -1394,17 +1583,137 @@ export function ProductClient({ product }: Props) {
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
-                        Step 2: Standard Ceramic Stoneware
+                        Step 2: {isSteelBottleOrTumbler ? 'Insulated Steel Specs' : 'Standard Ceramic Stoneware'}
                       </span>
                       <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
-                        330 ML (11 OZ)
+                        {isSteelBottleOrTumbler ? '750 ML (25 OZ)' : '330 ML (11 OZ)'}
                       </span>
                     </div>
                     <p className="text-xs font-black text-neutral-900 mt-0.5">
-                      Triple-Fired Gloss Ceramic Mug • Microwave &amp; Dishwasher Safe
+                      {isSteelBottleOrTumbler ? 'Double-Wall Vacuum 304 Stainless Steel • Leak-Proof Cap' : 'Triple-Fired Gloss Ceramic Mug • Microwave & Dishwasher Safe'}
                     </p>
                     <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
-                      ✓ Certified food-grade stoneware with ergonomic comfort grip handle and chip-resistant rim.
+                      ✓ {isSteelBottleOrTumbler ? 'Keeps drinks cold for 24h or hot for 12h with condensation-proof powder finish.' : 'Certified food-grade stoneware with ergonomic comfort grip handle and chip-resistant rim.'}
+                    </p>
+                  </div>
+                </div>
+              ) : activeItemIsPen ? (
+                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                  <span className="text-2xl shrink-0">✒️</span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                        Step 2: Executive Pen Specification
+                      </span>
+                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                        STANDARD FIT
+                      </span>
+                    </div>
+                    <p className="text-xs font-black text-neutral-900 mt-0.5">
+                      Solid Weighted Metal Barrel • Refillable Blue 0.7mm Ballpoint Cartridge
+                    </p>
+                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                      ✓ Precision weighted metal body with balanced center-of-gravity, anti-slip textured grip, and permanent fiber laser engraving.
+                    </p>
+                  </div>
+                </div>
+              ) : activeItemIsNotebook ? (
+                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                  <span className="text-2xl shrink-0">📓</span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                        Step 2: Notebook Format &amp; Specs
+                      </span>
+                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                        A5 (120 PAGES)
+                      </span>
+                    </div>
+                    <p className="text-xs font-black text-neutral-900 mt-0.5">
+                      A5 Size (14.8 × 21 cm) • 300 GSM Cover + 70 GSM Natural Pages
+                    </p>
+                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                      ✓ Twin-wire metal binding lays completely flat at 360°. High-opacity bleed-resistant paper ideal for gel pens, ballpoints, and pencils.
+                    </p>
+                  </div>
+                </div>
+              ) : activeItemIsJewelry ? (
+                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                  <span className="text-2xl shrink-0">💎</span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                        Step 2: Material &amp; Chain Specs
+                      </span>
+                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                        SURGICAL STEEL
+                      </span>
+                    </div>
+                    <p className="text-xs font-black text-neutral-900 mt-0.5">
+                      304 Anti-Tarnish Stainless Steel • Includes 60cm Matching Chain
+                    </p>
+                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                      ✓ 100% waterproof, sweat-resistant, and hypoallergenic. High-polish mirror gloss finish with smooth skin-safe beveled edges.
+                    </p>
+                  </div>
+                </div>
+              ) : activeItemIsBag ? (
+                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                  <span className="text-2xl shrink-0">👜</span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                        Step 2: Bag Capacity &amp; Canvas Specs
+                      </span>
+                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                        250 GSM CANVAS
+                      </span>
+                    </div>
+                    <p className="text-xs font-black text-neutral-900 mt-0.5">
+                      15" × 16" Large Format • Zippered Top with Dual Interior Pockets
+                    </p>
+                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                      ✓ High-load cross-box reinforced webbing handles. Comfortably holds a 16-inch laptop, water bottle, charger, and daily essentials.
+                    </p>
+                  </div>
+                </div>
+              ) : activeItemIsHeadwear ? (
+                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                  <span className="text-2xl shrink-0">🧢</span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                        Step 2: Headwear Fit &amp; Closure
+                      </span>
+                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                        FREE SIZE (ADJUSTABLE)
+                      </span>
+                    </div>
+                    <p className="text-xs font-black text-neutral-900 mt-0.5">
+                      6-Panel Structured Crown • Antique Brass / Snap Buckle Closure
+                    </p>
+                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                      ✓ Fully adjustable circumference (54–62 cm). Breathable embroidered eyelets and moisture-wicking inner cotton sweatband.
+                    </p>
+                  </div>
+                </div>
+              ) : activeItemIsWallArt ? (
+                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                  <span className="text-2xl shrink-0">🖼️</span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                        Step 2: Archival Display Specifications
+                      </span>
+                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                        READY TO HANG
+                      </span>
+                    </div>
+                    <p className="text-xs font-black text-neutral-900 mt-0.5">
+                      300 GSM Archival Art Card • Solid 1-Inch Deep Matte Black Frame
+                    </p>
+                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                      ✓ Shatterproof ultra-clear acrylic front glazing with rigid backing. Includes pre-attached hanging hardware for instant wall mounting.
                     </p>
                   </div>
                 </div>
@@ -2162,6 +2471,34 @@ export function ProductClient({ product }: Props) {
                         <ul className="list-disc pl-4 space-y-1 text-[11px]">
                           <li>100% microwave safe and dishwasher friendly.</li>
                           <li>Avoid abrasive metallic scouring pads to preserve the deep-gloss glaze.</li>
+                        </ul>
+                      </div>
+                    ) : isPenOrStationery ? (
+                      <div>
+                        <p className="font-bold text-neutral-900 mb-1">Executive Pen &amp; Engraving Care:</p>
+                        <ul className="list-disc pl-4 space-y-1 text-[11px]">
+                          <li>Wipe weighted metal barrel with a soft microfiber cloth to remove fingerprints and oils.</li>
+                          <li>Retract pen tip when carrying in pockets or bags to prevent inadvertent marking.</li>
+                          <li>Compatible with standard Parker/G2-style refill cartridges available at any stationery retailer.</li>
+                          <li>Precision laser engraving is permanently embedded into metal and will never rub off or peel.</li>
+                        </ul>
+                      </div>
+                    ) : isJewelryOrTag ? (
+                      <div>
+                        <p className="font-bold text-neutral-900 mb-1">304 Stainless Steel Jewelry Care:</p>
+                        <ul className="list-disc pl-4 space-y-1 text-[11px]">
+                          <li>100% water and sweat resistant. Safe for gym workouts, showers, and daily wear.</li>
+                          <li>Buff periodically with a dry cotton cloth to maintain the high-gloss mirror luster.</li>
+                          <li>Store in the included gift box when traveling to prevent surface scratching against keys.</li>
+                        </ul>
+                      </div>
+                    ) : isBagOrTote ? (
+                      <div>
+                        <p className="font-bold text-neutral-900 mb-1">Canvas Tote &amp; Bag Care:</p>
+                        <ul className="list-disc pl-4 space-y-1 text-[11px]">
+                          <li>Spot clean canvas with cold water and mild detergent for everyday maintenance.</li>
+                          <li>Hand wash or gentle machine wash inside-out. Air dry in shade to preserve color depth.</li>
+                          <li>Iron inside-out on medium heat; avoid touching irons directly to printed artwork.</li>
                         </ul>
                       </div>
                     ) : (
