@@ -72,7 +72,7 @@ export default async function ProductPage({ params }: Props) {
     name: product.title,
     image: product.image_url ? [product.image_url] : [`${siteUrl}/flame-icon.png`],
     description: product.short || product.title,
-    sku: product.id,
+    sku: (product.slug || product.id).replace(/^qikink-?/i, 'RE-').toUpperCase(),
     brand: {
       '@type': 'Brand',
       name: 'Rare Ember',
