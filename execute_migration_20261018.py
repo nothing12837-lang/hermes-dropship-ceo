@@ -113,6 +113,19 @@ for t in sensitive_tables:
         conn.run(f"ALTER TABLE {t} ENABLE ROW LEVEL SECURITY;")
         print(f"✓ RLS verified on {t}")
 
+# Drop dangerous anon policies created by legacy scripts
+conn.run("DROP POLICY IF EXISTS allow_service_and_anon_select_orders ON public.orders;")
+conn.run("DROP POLICY IF EXISTS allow_service_and_anon_update_orders ON public.orders;")
+print("✓ Insecure anon SELECT/UPDATE policies dropped from orders")
+
+# Revoke RPC execution from public/anon
+try:
+    conn.run("REVOKE EXECUTE ON FUNCTION get_order_for_fulfillment(TEXT) FROM anon, public;")
+    conn.run("REVOKE EXECUTE ON FUNCTION update_order_fulfillment(TEXT, TEXT, TEXT, TEXT, TEXT) FROM anon, public;")
+    print("✓ get_order_for_fulfillment & update_order_fulfillment revoked from anon/public")
+except Exception as e:
+    print(f"Note on RPC revoke: {e}")
+
 if "products" in tables:
     conn.run("ALTER TABLE products ENABLE ROW LEVEL SECURITY;")
     conn.run("DROP POLICY IF EXISTS \"public read products\" ON products;")
@@ -124,6 +137,21 @@ if "blog_posts" in tables:
     conn.run("DROP POLICY IF EXISTS \"public read published blog_posts\" ON blog_posts;")
     conn.run("CREATE POLICY \"public read published blog_posts\" ON blog_posts FOR SELECT USING (published = true);")
     print("✓ blog_posts: RLS enabled with published = true read policy")
+
+# 5. Ensure Supabase Storage Bucket for Custom Artworks
+try:
+    conn.run("""
+        INSERT INTO storage.buckets (id, name, public)
+        VALUES ('custom-artworks', 'custom-artworks', true)
+        ON CONFLICT (id) DO UPDATE SET public = true;
+    """)
+    conn.run("DROP POLICY IF EXISTS \"Public Access Artworks\" ON storage.objects;")
+    conn.run("CREATE POLICY \"Public Access Artworks\" ON storage.objects FOR SELECT USING (bucket_id = 'custom-artworks');")
+    conn.run("DROP POLICY IF EXISTS \"Public Upload Artworks\" ON storage.objects;")
+    conn.run("CREATE POLICY \"Public Upload Artworks\" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'custom-artworks');")
+    print("✓ storage: 'custom-artworks' public bucket initialized")
+except Exception as e:
+    print(f"Note on storage bucket: {e}")
 
 print("\n--- Final Public Tables RLS Status ---")
 final_tables = conn.run("SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'public'")

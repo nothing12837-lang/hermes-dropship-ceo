@@ -76,7 +76,7 @@ export function sanitizeCheckoutItems(v: unknown): CheckoutItemInput[] | null {
       customScale: typeof customScale === 'number' && Number.isFinite(customScale) && customScale >= 50 && customScale <= 200 ? Math.round(customScale) : undefined,
       customTextColor: typeof customTextColor === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(customTextColor) ? customTextColor : undefined,
       customFont: typeof customFont === 'string' && customFont.length <= 100 ? customFont.trim() : undefined,
-      customImage: typeof customImage === 'string' && customImage.length <= 500_000 ? customImage : undefined,
+      customImage: typeof customImage === 'string' && (customImage.startsWith('http://') || customImage.startsWith('https://') || customImage.startsWith('/') || customImage.length <= 2_000_000) ? customImage : undefined,
       customImageName: typeof customImageName === 'string' && customImageName.length <= 100 ? customImageName.trim() : undefined,
       imageUrl: typeof imageUrl === 'string' && imageUrl.length <= 1000 ? imageUrl.trim() : undefined,
       selectedStyle: typeof selectedStyle === 'string' && selectedStyle.length <= 50 ? selectedStyle.trim() : undefined,

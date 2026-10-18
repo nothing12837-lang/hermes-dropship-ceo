@@ -905,7 +905,18 @@ export default function CheckoutPage() {
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
-                    onClick={() => setPaymentMethod('online')}
+                    onClick={() => {
+                      setPaymentMethod('online');
+                      if (!couponApplied && !appliedCouponCode && subtotal >= 449) {
+                        const res = validateCouponCode('PREPAID30', subtotal);
+                        if (res.valid) {
+                          setCoupon('PREPAID30');
+                          setAppliedCouponCode('PREPAID30');
+                          setDiscount(res.discountAmount);
+                          setCouponApplied(true);
+                        }
+                      }
+                    }}
                     className={`p-3 rounded-2xl text-left border transition-all cursor-pointer flex flex-col justify-between ${
                       paymentMethod === 'online'
                         ? 'border-[#FF4D24] bg-[#FF4D24]/20 ring-1 ring-[#FF4D24] text-white shadow-md'
@@ -917,13 +928,21 @@ export default function CheckoutPage() {
                       <span>Pay via UPI</span>
                     </div>
                     <span className="text-[10px] text-emerald-400 font-bold mt-1">
-                      Fastest Air Dispatch
+                      Extra ₹30 OFF • Express Air
                     </span>
                   </button>
                   <button
                     type="button"
                     disabled={isAboveCodThreshold}
-                    onClick={() => setPaymentMethod('cod')}
+                    onClick={() => {
+                      setPaymentMethod('cod');
+                      if (appliedCouponCode === 'PREPAID30') {
+                        setCoupon('');
+                        setAppliedCouponCode('');
+                        setDiscount(0);
+                        setCouponApplied(false);
+                      }
+                    }}
                     className={`p-3 rounded-2xl text-left border transition-all cursor-pointer flex flex-col justify-between ${
                       paymentMethod === 'cod'
                         ? 'border-[#FF4D24] bg-[#FF4D24]/20 ring-1 ring-[#FF4D24] text-white shadow-md'

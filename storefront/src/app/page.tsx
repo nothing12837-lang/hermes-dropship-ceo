@@ -66,7 +66,8 @@ const MARQUEE_ITEMS = [
   '🚚 Direct from Tirupur Hub in 2–4 Days',
   '💵 Cash on Delivery across 19,000+ PINs',
   '🛡️ 7-Day Free Doorstep Replacement',
-  '🏷️ Use Code DIWALI100 for Flat ₹100 OFF',
+  '⚡ Extra ₹30 OFF on Instant UPI Checkout (Auto-Applied)',
+  '✨ Use Code FIRST50 for ₹50 OFF Individual Drops',
   '⭐ 4.9 Rated Verified Domestic Build',
 ];
 
@@ -176,9 +177,9 @@ export default async function Home() {
 
             <div className="flex items-center gap-3 shrink-0 flex-wrap sm:flex-nowrap">
               <div className="relative overflow-hidden bg-black/50 backdrop-blur-md border border-[#FF4D24]/45 rounded-xl px-3.5 py-2 flex items-center gap-2">
-                <span className="text-[10px] font-bold text-[#FF9A3D] uppercase tracking-wider">Coupon:</span>
-                <span className="font-mono text-sm font-black text-[#FF4D24] tracking-wider">DIWALI100</span>
-                <span className="text-[10px] text-white/60 font-medium">(₹100 OFF)</span>
+                <span className="text-[10px] font-bold text-[#FF9A3D] uppercase tracking-wider">UPI Offer:</span>
+                <span className="font-mono text-sm font-black text-[#FF4D24] tracking-wider">PREPAID30</span>
+                <span className="text-[10px] text-white/60 font-medium">(₹30 OFF)</span>
               </div>
               <Link
                 href="#bundles"

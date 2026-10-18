@@ -68,22 +68,53 @@ export function resolveQikinkSku(item: {
   const id = (item.id || '').toLowerCase();
   const style = (item.selectedStyle || '').toLowerCase();
 
-  // 1. Determine Product Blank Prefix
+  // 1. Non-Apparel Accessories & Workstation Gear
+  if (title.includes('desk mat') || title.includes('desk pad') || id.includes('desk-mat') || id.includes('mouse-pad') || title.includes('mousepad')) {
+    return 'DMT-Bk-OS'; // 900x400mm Extended Gaming Desk Mat (One Size)
+  }
+  if (title.includes('magic mug') || id.includes('magic-mug')) {
+    return 'MGM-Bk-OS'; // Magic Color Changing Coffee Mug
+  }
+  if (title.includes('black mug') || id.includes('black-mug') || (title.includes('mug') && (title.includes('black') || style.includes('black')))) {
+    return 'BCM-Bk-OS'; // Black Ceramic Coffee Mug (11oz)
+  }
+  if (title.includes('mug') || id.includes('coffee-mug') || id.includes('ceramic-mug') || title.includes('cup')) {
+    return 'WCM-Wh-OS'; // White Ceramic Coffee Mug (11oz)
+  }
+  if (title.includes('tumbler') || title.includes('bottle') || title.includes('sipper')) {
+    return 'SIP-Sil-OS'; // Stainless Steel Insulated Tumbler
+  }
+  if (title.includes('tote') || id.includes('tote-bag') || id.includes('canvas-tote')) {
+    return 'TBG-Nat-OS'; // Heavyweight Canvas Tote Bag (Natural Off-White)
+  }
+  if (title.includes('clear case') || id.includes('clear-phone-case')) {
+    return 'CC32-Clr-OS'; // Impact Clear Phone Case
+  }
+  if (title.includes('glass case') || title.includes('phone case') || id.includes('phone-case')) {
+    return 'GC21-Bk-OS'; // Tempered Glass Backed Phone Case
+  }
+  if (title.includes('coaster') || id.includes('coaster')) {
+    return 'CST-Wh-OS'; // High-Gloss Square Coaster
+  }
+
+  // 2. Apparel Blanks
   let prefix = 'MRnHs'; // Default: Men's/Unisex Heavyweight Round Neck Half Sleeve Tee
 
   if (title.includes('hoodie') || id.includes('uh32') || id.includes('uh38') || id.includes('hoodie')) {
-    prefix = 'UHd'; // Unisex Premium Hoodie
+    prefix = 'UHd'; // Unisex Premium 380 GSM Hoodie
   } else if (title.includes('sweatshirt') || id.includes('uh35') || id.includes('sweatshirt')) {
     prefix = 'USs'; // Unisex Heavyweight Sweatshirt
   } else if (title.includes('crop') || id.includes('fc39') || id.includes('crop-top') || title.includes('female')) {
-    prefix = 'FRnHs'; // Female Round Neck Half Sleeve
+    prefix = 'FRnHs'; // Female Round Neck Half Sleeve / Crop
+  } else if (title.includes('oversized') || id.includes('us22') || id.includes('uc61')) {
+    prefix = 'MRnOs'; // Men's / Unisex Oversized Boxy Tee
   } else if (title.includes('v-neck') || title.includes('v neck') || id.includes('vn')) {
     prefix = 'MVnHs'; // Men's V-Neck Half Sleeve
   } else if (title.includes('full sleeve') || id.includes('rnfs')) {
     prefix = 'MRnFs'; // Men's Round Neck Full Sleeve
   }
 
-  // 2. Determine Color Code (Wh = White, Bk = Black/Colored)
+  // 3. Determine Color Code (Wh = White, Bk = Black/Colored)
   let color = 'Bk';
   if (
     title.includes('white') ||
@@ -93,7 +124,7 @@ export function resolveQikinkSku(item: {
     color = 'Wh';
   }
 
-  // 3. Determine Size Code
+  // 4. Determine Size Code
   let size = (item.size || 'L').toUpperCase().replace(/[^A-Z0-9]/g, '');
   if (!['S', 'M', 'L', 'XL', '2XL', '3XL', 'XS'].includes(size)) {
     if (size === 'XXL') size = '2XL';
@@ -260,6 +291,33 @@ export function expandBundleItems(items: any[]): any[] {
   return expanded;
 }
 
+async function ensurePublicDesignUrl(rawUrl: string, supabase: SupabaseClient): Promise<string> {
+  if (!rawUrl) return 'https://www.rareember.shop/flame-icon.png';
+  if (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')) return rawUrl;
+  if (rawUrl.startsWith('/')) return `https://www.rareember.shop${rawUrl}`;
+  if (rawUrl.startsWith('data:image/')) {
+    try {
+      const match = rawUrl.match(/^data:image\/([a-zA-Z0-9+]+);base64,(.+)$/);
+      if (match) {
+        const ext = match[1] === 'svg+xml' ? 'svg' : match[1];
+        const buffer = Buffer.from(match[2], 'base64');
+        const fileName = `order-artworks/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+        const { error } = await supabase.storage.from('custom-artworks').upload(fileName, buffer, {
+          contentType: `image/${match[1]}`,
+          upsert: true,
+        });
+        if (!error) {
+          const { data: { publicUrl } } = supabase.storage.from('custom-artworks').getPublicUrl(fileName);
+          if (publicUrl) return publicUrl;
+        }
+      }
+    } catch (e) {
+      console.warn('[Qikink] Base64 upload failed:', e);
+    }
+  }
+  return 'https://www.rareember.shop/flame-icon.png';
+}
+
 /**
  * Automates order transmission directly to Qikink Dropshipping & Fulfillment API.
  * Uses Direct-to-Garment (DTG) print on demand with customer-selected mockup & design link.
@@ -323,16 +381,15 @@ export async function fulfillQikinkOrder(
   const cleanOrderNum = `RE${order.id.replace(/-/g, '').slice(0, 10)}`.slice(0, 15);
 
   // 2. Prepare Line Items & Design Artwork
-  const lineItems = items.map((it: any, idx: number) => {
-    const sku = resolveQikinkSku(it);
-    let rawDesignUrl =
-      it.customImage ||
-      it.imageUrl ||
-      'https://www.rareember.shop/flame-icon.png';
+  const lineItems = await Promise.all(
+    items.map(async (it: any, idx: number) => {
+      const sku = resolveQikinkSku(it);
+      const rawDesignUrl =
+        it.customImage ||
+        it.imageUrl ||
+        'https://www.rareember.shop/flame-icon.png';
 
-    const selectedDesignUrl = rawDesignUrl.startsWith('/')
-      ? `https://www.rareember.shop${rawDesignUrl}`
-      : rawDesignUrl;
+      const selectedDesignUrl = await ensurePublicDesignUrl(rawDesignUrl, supabase);
 
     // Resolve exact Qikink placement SKU and dimensions
     const scaleFactor = it.customScale ? Number(it.customScale) / 100 : 1.0;
@@ -412,7 +469,7 @@ export async function fulfillQikinkOrder(
       print_type_id: 1, // DTG Direct-to-Garment print
       designs,
     };
-  });
+  }));
 
   const shippingAddress = cleanShippingAddress(order.shipping_name, addr, order.user_email || '');
 

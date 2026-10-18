@@ -11,9 +11,9 @@ import { ScrollReveal } from './ScrollReveal';
 // — Shop by Department —
 export function ShopByDepartment({ onPick }: { onPick?: (dept: string) => void }) {
   const cards = [
-    { id: 'electronics', title: 'Tech & Gadgets', sub: 'Wireless chargers, LED lamps, EDC', emoji: '💻', color: '#ff4d24', bg: '#fff7ed' },
-    { id: 'home-garden', title: 'Home & Living', sub: 'Matte planters, organizers, wabi-sabi', emoji: '🪴', color: '#16a34a', bg: '#f0fdf4' },
-    { id: 'fashion', title: 'Curated Fashion', sub: 'Polarized eyewear, timepieces, luxury', emoji: '🕶️', color: '#2563eb', bg: '#eff6ff' },
+    { id: 'fashion', title: 'Heavyweight Streetwear', sub: '240 GSM drop-shoulder tees, 380 GSM fleece', emoji: '👕', color: '#ff4d24', bg: '#fff7ed' },
+    { id: 'home-garden', title: 'Artisan Drinkware', sub: 'Stoneware mugs, matte tumblers, coasters', emoji: '☕', color: '#16a34a', bg: '#f0fdf4' },
+    { id: 'electronics', title: 'Desk & Creator Gear', sub: '900x400 extended mats, mousepads, EDC', emoji: '🖥️', color: '#2563eb', bg: '#eff6ff' },
   ];
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: '1rem' }}>
@@ -73,17 +73,17 @@ export function PetMatchWidget({ compact = false }: { compact?: boolean }) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const qs = [
-    { key: 'space', q: 'Which space to upgrade?', opts: [{ id: 'desk', l: '💻 Desk Cockpit' }, { id: 'home', l: '🪴 Living Space' }, { id: 'edc', l: '🕶️ Daily Carry' }] },
-    { key: 'vibe', q: 'Aesthetic mood?', opts: [{ id: 'minimal', l: '✨ Minimalist' }, { id: 'utility', l: '⚡ High Tech' }, { id: 'zen', l: '🕯️ Warm Zen' }] },
-    { key: 'budget', q: 'Budget range?', opts: [{ id: 'b1', l: '🏷️ Under ₹1,000' }, { id: 'b2', l: '⚡ ₹1k - ₹3k' }, { id: 'b3', l: '💎 Premium' }] },
+    { key: 'category', q: 'What is your current rotation focus?', opts: [{ id: 'streetwear', l: '👕 Oversized Streetwear' }, { id: 'desk', l: '🖥️ Workstation Gear' }, { id: 'drinkware', l: '☕ Artisan Drinkware' }] },
+    { key: 'vibe', q: 'Choose your graphic vibe?', opts: [{ id: 'cyber', l: '⚡ Cyber Mecha' }, { id: 'metal', l: '🔥 Heavy Metal' }, { id: 'dev', l: '💻 Dev Mode' }] },
+    { key: 'budget', q: 'Preferred pricing?', opts: [{ id: 'b1', l: '🏷️ Under ₹999' }, { id: 'b2', l: '⚡ ₹999 - ₹1,899' }, { id: 'b3', l: '💎 Bundles' }] },
   ];
   const done = step >= qs.length;
   const match = (() => {
     if (!done) return null;
     let list = [...products];
-    if (answers.space === 'desk') list = list.filter((p) => p.category === 'electronics' || p.category === 'general');
-    else if (answers.space === 'home') list = list.filter((p) => p.category === 'home-garden');
-    else if (answers.space === 'edc') list = list.filter((p) => p.category === 'fashion' || p.category === 'general');
+    if (answers.category === 'desk') list = list.filter((p) => p.category === 'electronics' || p.category === 'general');
+    else if (answers.category === 'drinkware') list = list.filter((p) => p.category === 'home-garden');
+    else list = list.filter((p) => p.category === 'fashion');
     return list[0] || products[0];
   })();
 

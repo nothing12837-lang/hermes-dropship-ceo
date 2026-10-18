@@ -3,6 +3,8 @@
 .env.*
 *.pem
 *.key
+RARE_EMBER_CODEBASE_FOR_GEMINI.txt
+*_CODEBASE_*.txt
 
 # Python
 __pycache__/

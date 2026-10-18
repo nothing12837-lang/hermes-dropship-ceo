@@ -1,10 +1,10 @@
-const { Client } = require('../storefront/node_modules/pg');
+require('dotenv').config();
 
 const client = new Client({
-  host: 'db.qdkkxpfhwrwyoardlceo.supabase.co',
-  user: 'postgres',
-  password: 'RareEmber2026SecureDb123!',
-  database: 'postgres',
+  host: process.env.SUPABASE_DB_HOST || 'db.qdkkxpfhwrwyoardlceo.supabase.co',
+  user: process.env.SUPABASE_DB_USER || 'postgres',
+  password: process.env.SUPABASE_DB_PASS,
+  database: process.env.SUPABASE_DB_NAME || 'postgres',
   port: 5432,
   ssl: { rejectUnauthorized: false }
 });
@@ -47,8 +47,10 @@ async function main() {
     END;
     $$;
 
-    GRANT EXECUTE ON FUNCTION get_order_for_fulfillment(TEXT) TO anon, authenticated, public, service_role;
-    GRANT EXECUTE ON FUNCTION update_order_fulfillment(TEXT, TEXT, TEXT, TEXT, TEXT) TO anon, authenticated, public, service_role;
+    REVOKE EXECUTE ON FUNCTION get_order_for_fulfillment(TEXT) FROM anon, public;
+    REVOKE EXECUTE ON FUNCTION update_order_fulfillment(TEXT, TEXT, TEXT, TEXT, TEXT) FROM anon, public;
+    GRANT EXECUTE ON FUNCTION get_order_for_fulfillment(TEXT) TO service_role;
+    GRANT EXECUTE ON FUNCTION update_order_fulfillment(TEXT, TEXT, TEXT, TEXT, TEXT) TO service_role;
   `;
 
   await client.query(sql);

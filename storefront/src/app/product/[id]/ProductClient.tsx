@@ -412,7 +412,9 @@ export function ProductClient({ product }: Props) {
   const [customView, setCustomView] = useState<'front' | 'back'>('front');
   const [dualPlacement, setDualPlacement] = useState<boolean>(false);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [uploadingArtwork, setUploadingArtwork] = useState(false);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 15 * 1024 * 1024) {
@@ -420,11 +422,29 @@ export function ProductClient({ product }: Props) {
       return;
     }
     setCustomImageName(file.name);
+
+    // Instant local preview for zero UI latency
     const reader = new FileReader();
     reader.onload = () => {
       setCustomImage(reader.result as string);
     };
     reader.readAsDataURL(file);
+
+    // Upload to Supabase Storage in background for direct cloud URL in Qikink orders
+    try {
+      setUploadingArtwork(true);
+      const fd = new FormData();
+      fd.append('file', file);
+      const res = await fetch('/api/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (data?.ok && data?.url) {
+        setCustomImage(data.url);
+      }
+    } catch (err) {
+      console.warn('[Artwork Upload] Local preview retained, background upload failed:', err);
+    } finally {
+      setUploadingArtwork(false);
+    }
   };
 
   const handleRemoveImage = () => {
@@ -461,27 +481,6 @@ export function ProductClient({ product }: Props) {
   const showImage = Boolean((currentSrc && !failedImages[selectedImgIndex]) || validImage);
   const wished = has(product.id);
 
-  const activeComboItem: BundleSubItem | null =
-    isComboProduct && comboItems.length > 0 ? comboItems[selectedComboItemIndex] || comboItems[0] : null;
-
-  const activeStudioImage = activeComboItem
-    ? (customView === 'back' && activeComboItem.backImage ? activeComboItem.backImage : activeComboItem.plainImage)
-    : (customView === 'back' && galleryImages.length > 1 ? galleryImages[1] : (galleryImages[0] || currentSrc));
-
-  const activePrintZone = activeComboItem?.printArea || {
-    width: '52%',
-    height: '56%',
-    top: '22%',
-    left: '24%',
-    aspectRatio: '3/4',
-    safeZoneLabel: 'DTF SAFE PRINT ZONE • 16" × 20" (300 DPI)',
-  };
-
-  const relatedIds = bundles[product.id] ?? [];
-  const related = relatedIds
-    .map((id) => getProduct(id))
-    .filter((p): p is Product => Boolean(p));
-
   const displayTitle = (product.title || '')
     .replace(/\|\s*[A-Z0-9]{2,6}/gi, '')
     .replace(/\b(qikink|ut58|cc32|ms65|fc38|fa30|uj31|fd16|ur50|ua22|ut27|mt45|ut68)\b/gi, '')
@@ -498,6 +497,47 @@ export function ProductClient({ product }: Props) {
   const isDrinkware = titleLower.includes('mug') || titleLower.includes('bottle') || titleLower.includes('tumbler') || idLower.includes('drinkware') || idLower.includes('mug');
   const isCoasterOrDecor = titleLower.includes('coaster') || titleLower.includes('puzzle') || titleLower.includes('poster') || titleLower.includes('frame') || idLower.includes('home-decor');
   const isCottonTee = isApparel && !isHoodieOrSweatshirt && !isCropTopOrPolySpandex && !isJerseyOrDryFit;
+
+  const blankGarmentImage = (() => {
+    if (isHoodieOrSweatshirt) {
+      return customView === 'back'
+        ? 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg'
+        : 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg';
+    }
+    if (isDeskMat) {
+      return 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg';
+    }
+    if (isDrinkware) {
+      return 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/26/b10e9b51-65a6-43f7-9e93-0e184c5853e9.jpg';
+    }
+    if (isCottonTee || isApparel) {
+      return customView === 'back'
+        ? 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg'
+        : 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg';
+    }
+    return customView === 'back' && galleryImages.length > 1 ? galleryImages[1] : (galleryImages[0] || currentSrc);
+  })();
+
+  const activeComboItem: BundleSubItem | null =
+    isComboProduct && comboItems.length > 0 ? comboItems[selectedComboItemIndex] || comboItems[0] : null;
+
+  const activeStudioImage = activeComboItem
+    ? (customView === 'back' && activeComboItem.backImage ? activeComboItem.backImage : activeComboItem.plainImage)
+    : blankGarmentImage;
+
+  const activePrintZone = activeComboItem?.printArea || {
+    width: '52%',
+    height: '56%',
+    top: '22%',
+    left: '24%',
+    aspectRatio: '3/4',
+    safeZoneLabel: 'DTF SAFE PRINT ZONE • 16" × 20" (300 DPI)',
+  };
+
+  const relatedIds = bundles[product.id] ?? [];
+  const related = relatedIds
+    .map((id) => getProduct(id))
+    .filter((p): p is Product => Boolean(p));
 
   const cleanSubtitle = (() => {
     const raw = product.short?.trim() || '';

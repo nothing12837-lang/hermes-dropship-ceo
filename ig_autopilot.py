@@ -50,115 +50,81 @@ IG_PASSWORD = os.environ.get("IG_PASSWORD", "").strip()
 IG_SESSIONID = os.environ.get("IG_SESSIONID", "").strip()
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "5238068527").strip()
-STORE_URL = "https://rareember-store.vercel.app"
+STORE_URL = "https://www.rareember.shop"
 
-# Curated High-Converting Catalog for RareEmber (100% Domestic Meesho Sourcing)
+# Curated High-Converting Flagship Streetwear & Workstation Drops
 PRODUCTS_CATALOG = [
     {
-        "id": "meesho-water-sensor-led-diyas-pack-of-12",
-        "title": "Water Sensor LED Diyas (Pack of 12)",
-        "category": "Festive Lighting",
-        "price_inr": 299,
-        "compare_at": 699,
-        "rating": 4.8,
-        "reviews": 1840,
-        "image_url": "https://images.meesho.com/images/products/431985757/t7ur4_512.jpg",
-        "hook": "Pour a drop of water and they illuminate instantly! 🪔✨ No fire risk, 100% reusable.",
-        "features": [
-            "Water-activated automatic LED sensor",
-            "100% flameless, smokeless & shockproof",
-            "Long-lasting replaceable coin cells included"
-        ]
-    },
-    {
-        "id": "meesho-crystal-diamond-touch-led-table-lamp",
-        "title": "Crystal Diamond Touch LED Table Lamp",
-        "category": "Ambient Lighting",
-        "price_inr": 349,
-        "compare_at": 899,
-        "rating": 4.7,
-        "reviews": 2410,
-        "image_url": "https://images.meesho.com/images/products/1023667594/w5bxr_512.jpg",
-        "hook": "Tap the top and watch your room transform into a luxury hotel lounge 💎✨",
-        "features": [
-            "16 RGB color modes with remote controller",
-            "Rechargeable USB-C with 12hr battery life",
-            "Precision faceted acrylic 3D rose shadow effect"
-        ]
-    },
-    {
-        "id": "meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base",
-        "title": "3D Crystal Ball Galaxy Night Lamp",
-        "category": "Aesthetic Living",
-        "price_inr": 299,
-        "compare_at": 699,
-        "rating": 4.8,
-        "reviews": 1250,
-        "image_url": "https://images.meesho.com/images/products/1038078401/hha6k_512.jpg",
-        "hook": "Bring the entire Milky Way galaxy onto your bedroom desk 🌌✨",
-        "features": [
-            "K9 optical glass crystal ball with laser engraving",
-            "Natural solid beech wood base with warm LED",
-            "Plug & play USB power for bedroom or study"
-        ]
-    },
-    {
-        "id": "meesho-ultrasonic-flame-mist-aroma-diffuser",
-        "title": "Ultrasonic Flame Mist Aroma Diffuser",
-        "category": "Wellness & Decor",
-        "price_inr": 479,
-        "compare_at": 1199,
-        "rating": 4.8,
-        "reviews": 920,
-        "image_url": "https://images.meesho.com/images/products/984668048/khohq_512.jpg",
-        "hook": "Realistic fireplace flame effect with relaxing essential oil aroma 🔥✨",
-        "features": [
-            "Ultrasonic cool mist with realistic LED flame simulation",
-            "Auto shut-off sensor when water runs dry",
-            "Whisper-quiet operation (<25dB) for sound sleep"
-        ]
-    },
-    {
-        "id": "meesho-electric-mini-wireless-garlic-chopper",
-        "title": "Electric Mini Wireless Food & Garlic Chopper",
-        "category": "Smart Kitchen",
-        "price_inr": 349,
-        "compare_at": 799,
-        "rating": 4.6,
-        "reviews": 980,
-        "image_url": "https://images.meesho.com/images/products/1001131290/b8mad_512.jpg",
-        "hook": "Chop garlic, ginger, and chilies in literally 5 seconds without tears 🧅⚡",
-        "features": [
-            "304 stainless steel food-grade reinforced blades",
-            "One-touch push-button operation",
-            "Rechargeable USB battery with waterproof design"
-        ]
-    },
-    {
-        "id": "meesho-galaxy-star-astronaut-projector-night-lamp",
-        "title": "Astronaut Galaxy Star Projector LED Lamp",
-        "category": "Space Decor",
-        "price_inr": 599,
-        "compare_at": 1499,
+        "id": "bundle-streetwear-duo",
+        "title": "The Streetwear Duo — 2x Heavyweight Tees",
+        "category": "Streetwear Bundles",
+        "price_inr": 899,
+        "compare_at": 1599,
         "rating": 4.9,
-        "reviews": 1540,
-        "image_url": "https://images.meesho.com/images/products/759223858/29bl5_512.jpg",
-        "hook": "Transform your ceiling into a stunning starry nebula space adventure 👨‍🚀🚀",
+        "reviews": 140,
+        "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
+        "hook": "2x 240 GSM Heavyweight Oversized Tees in one bundle! 🔥 Boxy street fit crafted in Tirupur.",
         "features": [
-            "360° rotating magnetic astronaut head",
-            "8 dynamic nebula modes + green starry projection",
-            "Wireless remote control with smart timer auto-off"
+            "240 GSM Super Combed Bio-Washed Cotton",
+            "Archival 1200 DPI High-Density DTF Vector Print",
+            "Pre-shrunk fabric with 50+ wash color guarantee"
+        ]
+    },
+    {
+        "id": "bundle-creator-workstation",
+        "title": "The Creator Workstation Pack — Desk Mat + Tee + Ceramic Mug",
+        "category": "Creator Gear",
+        "price_inr": 1499,
+        "compare_at": 2899,
+        "rating": 5.0,
+        "reviews": 96,
+        "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
+        "hook": "The ultimate creator desk cockpit upgrade: 900x400mm Mat + 240 GSM Tee + Matte Ceramic Mug 🖥️☕",
+        "features": [
+            "900x400mm Precision Micro-Weave Desk Mat with stitched edges",
+            "240 GSM Heavyweight Drop-Shoulder Graphic Tee",
+            "330ml Artisan Gloss Ceramic Stoneware Coffee Mug"
+        ]
+    },
+    {
+        "id": "bundle-founding-50",
+        "title": "The Founding 50 Bundle — Heavyweight Tee + Desk Mat",
+        "category": "Founder Edition",
+        "price_inr": 1199,
+        "compare_at": 2199,
+        "rating": 4.9,
+        "reviews": 84,
+        "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
+        "hook": "Limited Founding Builder Drop: Heavyweight Oversized Tee paired with 900x400mm Extended Mat ⚡",
+        "features": [
+            "Heavyweight Combed Cotton with drop-shoulder silhouette",
+            "Precision anti-slip natural rubber base desk mat",
+            "Fast 2-4 days express dispatch via BlueDart Air"
+        ]
+    },
+    {
+        "id": "bundle-winter-heavyweight",
+        "title": "The Winter Heavyweight Combo — 380 GSM Fleece Hoodie + Tee",
+        "category": "Winter Streetwear",
+        "price_inr": 1899,
+        "compare_at": 3299,
+        "rating": 4.9,
+        "reviews": 112,
+        "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
+        "hook": "380 GSM French Terry Fleece Hoodie + 240 GSM Heavyweight Tee. Built for winter street rotations ❄️🔥",
+        "features": [
+            "380 GSM Combed Cotton French Terry with double-lined hood",
+            "240 GSM Combed Bio-Washed Cotton drop-shoulder tee",
+            "Doorstep Cash on Delivery & 7-day replacement guarantee"
         ]
     }
 ]
 
 FALLBACK_IMAGES = {
-    'meesho-water-sensor-led-diyas-pack-of-12': 'https://images.meesho.com/images/products/431985757/t7ur4_512.jpg',
-    'meesho-crystal-diamond-touch-led-table-lamp': 'https://images.meesho.com/images/products/1023667594/w5bxr_512.jpg',
-    'meesho-crystal-ball-3d-galaxy-led-lamp-wooden-base': 'https://images.meesho.com/images/products/1038078401/hha6k_512.jpg',
-    'meesho-ultrasonic-flame-mist-aroma-diffuser': 'https://images.meesho.com/images/products/984668048/khohq_512.jpg',
-    'meesho-electric-mini-wireless-garlic-chopper': 'https://images.meesho.com/images/products/1001131290/b8mad_512.jpg',
-    'meesho-galaxy-star-astronaut-projector-night-lamp': 'https://images.meesho.com/images/products/759223858/29bl5_512.jpg',
+    'bundle-streetwear-duo': 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg',
+    'bundle-creator-workstation': 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg',
+    'bundle-founding-50': 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg',
+    'bundle-winter-heavyweight': 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg',
 }
 
 SUPABASE_URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL", "").strip()

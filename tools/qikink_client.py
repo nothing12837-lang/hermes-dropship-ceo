@@ -32,8 +32,10 @@ ENV = load_env()
 
 class QikinkClient:
     def __init__(self, client_id: Optional[str] = None, client_secret: Optional[str] = None, sandbox: Optional[bool] = None):
-        self.client_id = client_id or ENV.get("QIKINK_CLIENT_ID", "964148691892386")
-        self.client_secret = client_secret or ENV.get("QIKINK_CLIENT_SECRET", "c3793ffa3f2208fb63666c85750f5ee959bbd33f58d4daa0d07d6c57b780f468")
+        self.client_id = client_id or ENV.get("QIKINK_CLIENT_ID", "")
+        self.client_secret = client_secret or ENV.get("QIKINK_CLIENT_SECRET", "")
+        if not self.client_id or not self.client_secret:
+            raise ValueError("Qikink credentials missing. Ensure QIKINK_CLIENT_ID and QIKINK_CLIENT_SECRET are set in environment.")
         is_sandbox_str = ENV.get("QIKINK_SANDBOX", "false").lower()
         self.sandbox = sandbox if sandbox is not None else (is_sandbox_str in ["true", "1", "yes"])
         self.base_url = "https://sandbox.qikink.com" if self.sandbox else "https://api.qikink.com"
