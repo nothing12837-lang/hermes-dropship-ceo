@@ -9,30 +9,30 @@ import { formatPrice, products } from '@/lib/data/products';
 
 const steps = [
   {
-    q: 'Which space or vibe are you upgrading?',
+    q: 'What is your current aesthetic or style focus?',
     key: 'space',
     options: [
-      { id: 'desk', label: '💻 Workspace & Cockpit', desc: 'Minimalist tech, cable organization, focus' },
-      { id: 'home', label: '🪴 Living Room & Balcony', desc: 'Wabi-sabi ceramic aesthetics, ambient calm' },
-      { id: 'edc', label: '🕶️ Daily Carry & Lifestyle', desc: 'Polarized shades, travel essentials, EDC' },
+      { id: 'streetwear', label: '👕 Oversized Streetwear Fits', desc: '240 GSM heavyweight tees, 380 GSM fleece hoodies, boxy cuts' },
+      { id: 'desk', label: '🖥️ Coding & Gaming Desk Setup', desc: 'Extended 900x400 micro-weave mats, artisan ceramic mugs, desk pads' },
+      { id: 'edc', label: '🎒 Daily Carry Essentials', desc: 'Reinforced canvas totes, commuter accessories, stainless drinkware' },
     ],
   },
   {
-    q: 'What is your primary design priority?',
+    q: 'What is your primary design aesthetic?',
     key: 'priority',
     options: [
-      { id: 'minimal', label: '✨ Clean Minimalism', desc: 'Monochrome, sleek lines, zero clutter' },
-      { id: 'utility', label: '⚡ Maximum Utility', desc: 'High-performance gadgets, wireless convenience' },
-      { id: 'cozy', label: '🕯️ Warm Atmosphere', desc: 'Soft lighting, ceramic textures, relaxation' },
+      { id: 'cyber', label: '⚡ Cyberpunk & Tech Noir', desc: 'Neo-Tokyo mecha, Japanese ink ronin, glitch aesthetics' },
+      { id: 'vintage', label: '🔥 Vintage & Acid Flame', desc: 'Heavy metal typography, Y2K dark angel, vintage mineral wash' },
+      { id: 'dev', label: '💻 Dev Mode & Minimalist', desc: 'Git commit dreams, clean monochrome geometry, terminal vibes' },
     ],
   },
   {
-    q: 'What is your shopping budget for this upgrade?',
+    q: 'What is your budget for this drop upgrade?',
     key: 'budget',
     options: [
-      { id: 'budget1', label: '🏷️ Under ₹1,000', desc: 'Smart essentials & quick home upgrades' },
-      { id: 'budget2', label: '⚡ ₹1,000 – ₹3,000', desc: 'Premium lifestyle gear & curated sets' },
-      { id: 'budget3', label: '💎 ₹3,000+', desc: 'Executive statement items & full setups' },
+      { id: 'budget1', label: '🏷️ Under ₹999', desc: 'Single oversized tee, ceramic stoneware, or desk pad' },
+      { id: 'budget2', label: '⚡ ₹999 – ₹1,999', desc: 'The Streetwear Duo bundles & heavyweight hoodies' },
+      { id: 'budget3', label: '💎 ₹1,999+', desc: 'Creator Workstation complete bundle sets & drops' },
     ],
   },
 ];
@@ -48,12 +48,12 @@ export default function QuizPage() {
     if (!done) return [];
     let list = [...products];
     const space = answers.space;
-    if (space === 'desk') {
-      list = list.filter((p) => p.category === 'electronics' || p.category === 'general');
-    } else if (space === 'home') {
-      list = list.filter((p) => p.category === 'home-garden');
+    if (space === 'streetwear') {
+      list = list.filter((p) => p.category === 'fashion');
+    } else if (space === 'desk') {
+      list = list.filter((p) => p.category === 'electronics' || (p.title && /desk|mug|pad|mat/i.test(p.title)));
     } else if (space === 'edc') {
-      list = list.filter((p) => p.category === 'fashion' || p.category === 'general');
+      list = list.filter((p) => p.category === 'general' || (p.title && /tote|bag|bottle|tumbler|coaster/i.test(p.title)));
     }
     if (list.length === 0) list = [...products];
     return list.slice(0, 3);

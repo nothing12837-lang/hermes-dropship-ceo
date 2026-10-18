@@ -59,8 +59,8 @@ export default async function ProductPage({ params }: Props) {
   if (!product) notFound();
 
   const cleanSlug = (product.slug || product.id).replace(/^meesho-/, '');
-  // Automatically redirect legacy or raw supplier links to clean brand URL
-  if (id.startsWith('meesho-') && cleanSlug && cleanSlug !== id) {
+  // Automatically redirect legacy, raw supplier, or old qikink- SKU links to clean brand URL
+  if (cleanSlug && cleanSlug !== id) {
     redirect(`/product/${cleanSlug}`);
   }
 

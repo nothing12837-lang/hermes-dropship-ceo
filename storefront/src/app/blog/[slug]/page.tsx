@@ -2,12 +2,23 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { blogPosts } from '@/lib/data/content';
 
+const DISALLOWED_BLOG_TERMS = ['mandir', 'diya', 'diyas', 'pooja', 'puja', 'temple', 'festive-lighting', 'pet', 'dog', 'cat'];
+
+function isAllowedBlog(p: { slug?: string; title?: string; category?: string; excerpt?: string }) {
+  const combined = `${p.slug || ''} ${p.title || ''} ${p.category || ''} ${p.excerpt || ''}`.toLowerCase();
+  return !DISALLOWED_BLOG_TERMS.some((term) => combined.includes(term));
+}
+
 export function generateStaticParams() {
-  return blogPosts.map((b) => ({ slug: b.slug }));
+  return blogPosts.filter(isAllowedBlog).map((b) => ({ slug: b.slug }));
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  if (!slug || DISALLOWED_BLOG_TERMS.some((term) => slug.toLowerCase().includes(term))) {
+    return notFound();
+  }
+
   let post = blogPosts.find((b) => b.slug === slug);
   if (!post) {
     try {
@@ -37,7 +48,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       }
     } catch {}
   }
-  if (!post) return notFound();
+  if (!post || !isAllowedBlog(post)) return notFound();
 
   return (
     <main className="page-top" style={{ background: '#fffbf5', minHeight: '100vh' }}>

@@ -34,6 +34,7 @@ export default function CheckoutPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [authChecking, setAuthChecking] = useState(true);
+  const [hpCompany, setHpCompany] = useState('');
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }: any) => {
@@ -172,6 +173,15 @@ export default function CheckoutPage() {
   };
 
   const applyCoupon = () => {
+    const hasBundle = detailed.some((d) => d.id.startsWith('bundle-') || (d.product && d.product.id.startsWith('bundle-')));
+    if (hasBundle) {
+      setError('Promotional discount codes cannot be stacked on pre-discounted combo bundles. Add individual drops to use this coupon!');
+      setCouponApplied(false);
+      setDiscount(0);
+      setAppliedCouponCode('');
+      return;
+    }
+
     const res = validateCouponCode(coupon, subtotal);
     if (!res.valid) {
       setError(res.error || 'Invalid coupon code.');
@@ -198,6 +208,7 @@ export default function CheckoutPage() {
 
   const pay = async () => {
     setError('');
+    if (hpCompany) return setError('Automated submission rejected.');
     // Guest checkout fully supported; user_id attached if signed in
     if (!email.includes('@')) return setError('Please enter a valid email address for tracking.');
     if (!name.trim()) return setError('Please enter your full name for courier delivery.');
@@ -271,6 +282,7 @@ export default function CheckoutPage() {
             user_id: userId,
             coupon_code: appliedCouponCode || undefined,
             discount: discount || 0,
+            _hp_company: hpCompany,
           }),
         });
         const data = await res.json();
@@ -347,6 +359,7 @@ export default function CheckoutPage() {
           market,
           coupon_code: appliedCouponCode || undefined,
           discount: discount || 0,
+          _hp_company: hpCompany,
         }),
       });
       const data = await res.json();
@@ -615,6 +628,18 @@ export default function CheckoutPage() {
                     )}
                   </div>
                 </div>
+
+                {/* Anti-Bot Honeypot */}
+                <input
+                  type="text"
+                  name="_hp_company"
+                  value={hpCompany}
+                  onChange={(e) => setHpCompany(e.target.value)}
+                  style={{ display: 'none', position: 'absolute', left: '-9999px', opacity: 0 }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                />
               </div>
             </div>
 
@@ -872,6 +897,52 @@ export default function CheckoutPage() {
                 </span>
               </div>
 
+              {/* Quick Payment Preference Cards */}
+              <div className="mb-4">
+                <label className="block text-[11px] font-bold text-neutral-300 uppercase tracking-wider mb-2">
+                  Payment Preference
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('online')}
+                    className={`p-3 rounded-2xl text-left border transition-all cursor-pointer flex flex-col justify-between ${
+                      paymentMethod === 'online'
+                        ? 'border-[#FF4D24] bg-[#FF4D24]/20 ring-1 ring-[#FF4D24] text-white shadow-md'
+                        : 'border-white/10 bg-white/5 hover:bg-white/10 text-neutral-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5 font-black text-xs">
+                      <span>⚡</span>
+                      <span>Pay via UPI</span>
+                    </div>
+                    <span className="text-[10px] text-emerald-400 font-bold mt-1">
+                      Fastest Air Dispatch
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={isAboveCodThreshold}
+                    onClick={() => setPaymentMethod('cod')}
+                    className={`p-3 rounded-2xl text-left border transition-all cursor-pointer flex flex-col justify-between ${
+                      paymentMethod === 'cod'
+                        ? 'border-[#FF4D24] bg-[#FF4D24]/20 ring-1 ring-[#FF4D24] text-white shadow-md'
+                        : isAboveCodThreshold
+                        ? 'border-white/5 bg-white/[0.02] text-neutral-500 opacity-60 cursor-not-allowed'
+                        : 'border-white/10 bg-white/5 hover:bg-white/10 text-neutral-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5 font-black text-xs">
+                      <span>💵</span>
+                      <span>Cash on Delivery</span>
+                    </div>
+                    <span className="text-[10px] text-amber-400 font-bold mt-1">
+                      {isAboveCodThreshold ? 'Cap: <₹3,000' : 'Pay at Doorstep'}
+                    </span>
+                  </button>
+                </div>
+              </div>
+
               {/* Error Box above Place Order button */}
               {error && (
                 <div className="mb-4 p-3.5 rounded-2xl bg-rose-500/20 border border-rose-500/40 text-rose-200 text-xs font-bold flex items-center gap-2">
@@ -889,13 +960,19 @@ export default function CheckoutPage() {
                 {loading || processing ? (
                   <>
                     <span className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                    <span>Processing Order…</span>
+                    <span>{paymentMethod === 'cod' ? 'Confirming COD Order…' : 'Processing Order…'}</span>
                   </>
                 ) : detailed.length === 0 ? (
                   <span>BAG IS EMPTY • ADD ITEMS FIRST 🛍️</span>
+                ) : paymentMethod === 'cod' ? (
+                  <>
+                    <span>Complete COD Order</span>
+                    <span>⚡</span>
+                    <span>• {formatCheckoutPrice(total)}</span>
+                  </>
                 ) : (
                   <>
-                    <span>{paymentMethod === 'cod' ? 'PLACE COD ORDER NOW' : 'PAY & PLACE ORDER NOW'}</span>
+                    <span>Pay via UPI / Cards</span>
                     <span>⚡</span>
                     <span>• {formatCheckoutPrice(total)}</span>
                   </>

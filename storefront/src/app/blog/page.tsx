@@ -7,8 +7,15 @@ export const metadata = {
   description: 'Curated styling tips, workspace ergonomics, and smart home guides from the RareEmber design studio.',
 };
 
+const DISALLOWED_BLOG_TERMS = ['mandir', 'diya', 'diyas', 'pooja', 'puja', 'temple', 'festive-lighting', 'pet', 'dog', 'cat'];
+
+function isAllowedBlog(p: { slug?: string; title?: string; category?: string; excerpt?: string }) {
+  const combined = `${p.slug || ''} ${p.title || ''} ${p.category || ''} ${p.excerpt || ''}`.toLowerCase();
+  return !DISALLOWED_BLOG_TERMS.some((term) => combined.includes(term));
+}
+
 export default async function BlogPage() {
-  let posts = [...blogPosts];
+  let posts = blogPosts.filter(isAllowedBlog);
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -20,16 +27,18 @@ export default async function BlogPage() {
       if (res.ok) {
         const rows = await res.json();
         if (Array.isArray(rows) && rows.length > 0) {
-          const dbPosts = rows.map((r: any) => ({
-            slug: r.slug,
-            title: r.title,
-            category: r.category || 'Lifestyle',
-            readTime: '4 min',
-            emoji: '✨',
-            wash: '#fff3e0',
-            excerpt: r.excerpt || (r.content ? r.content.slice(0, 120) + '...' : ''),
-            body: []
-          }));
+          const dbPosts = rows
+            .filter((r: any) => isAllowedBlog(r))
+            .map((r: any) => ({
+              slug: r.slug,
+              title: r.title,
+              category: r.category || 'Streetwear & Desk',
+              readTime: '4 min',
+              emoji: '✨',
+              wash: '#fff3e0',
+              excerpt: r.excerpt || (r.content ? r.content.slice(0, 120) + '...' : ''),
+              body: []
+            }));
           const existingSlugs = new Set(posts.map(p => p.slug));
           for (const dp of dbPosts) {
             if (!existingSlugs.has(dp.slug)) {
@@ -40,6 +49,8 @@ export default async function BlogPage() {
       }
     }
   } catch {}
+
+  posts = posts.filter(isAllowedBlog);
 
   return (
     <main className="page-top" style={{ background: '#fffbf5', minHeight: '100vh' }}>

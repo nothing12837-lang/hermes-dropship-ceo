@@ -64,12 +64,17 @@ function parseAddress(v: unknown): Record<string, string> | null {
 
 export async function POST(req: NextRequest) {
   try {
-    const rl = checkRateLimit(`checkout:${clientIp(req.headers)}`, 12, 60_000);
+    const rl = checkRateLimit(`checkout:${clientIp(req.headers)}`, 8, 600_000);
     if (!rl.allowed) {
       return NextResponse.json({ error: 'Too many requests. Try again shortly.' }, { status: 429 });
     }
 
-    const body = (await req.json()) as CheckoutBody;
+    const body = (await req.json()) as CheckoutBody & { _hp_company?: string };
+
+    // Anti-bot honeypot check
+    if (body._hp_company) {
+      return NextResponse.json({ error: 'Automated submission rejected' }, { status: 400 });
+    }
 
     const items = sanitizeCheckoutItems(body.items);
     if (!items) {
@@ -146,14 +151,19 @@ export async function POST(req: NextRequest) {
       subtotal += unitPrice * item.qty;
     }
 
-    // Apply Coupon Code if verified
+    // Apply Coupon Code if verified (block stacking on bundles)
     let discountAmount = 0;
     let verifiedCoupon = '';
+    const hasBundle = items.some((i) => i.id.startsWith('bundle-'));
     if (body.coupon_code) {
-      const couponCheck = validateCouponCode(body.coupon_code, subtotal);
-      if (couponCheck.valid) {
-        discountAmount = couponCheck.discountAmount;
-        verifiedCoupon = body.coupon_code.trim().toUpperCase();
+      if (hasBundle) {
+        console.log(`[Checkout API] Coupon ${body.coupon_code} disallowed on bundle cart.`);
+      } else {
+        const couponCheck = validateCouponCode(body.coupon_code, subtotal);
+        if (couponCheck.valid) {
+          discountAmount = couponCheck.discountAmount;
+          verifiedCoupon = body.coupon_code.trim().toUpperCase();
+        }
       }
     }
 

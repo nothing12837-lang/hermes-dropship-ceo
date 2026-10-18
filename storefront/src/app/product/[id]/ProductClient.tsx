@@ -342,6 +342,16 @@ export function ProductClient({ product }: Props) {
   );
 
   const [selectedComboItemIndex, setSelectedComboItemIndex] = useState<number>(0);
+  const [bundleItemSizes, setBundleItemSizes] = useState<Record<number, string>>({
+    0: 'L',
+    1: 'L',
+    2: 'L',
+  });
+  const [bundleItemGraphics, setBundleItemGraphics] = useState<Record<number, { title: string; image: string | null }>>({
+    0: { title: 'Tokyo Cyber Mecha', image: TRENDING_GRAPHICS_VAULT[0].mockUrl },
+    1: { title: 'Vintage Acid Flame', image: TRENDING_GRAPHICS_VAULT[1].mockUrl },
+    2: { title: 'Git Commit Dreams', image: TRENDING_GRAPHICS_VAULT[2].mockUrl },
+  });
   const [customPosX, setCustomPosX] = useState<number>(0);
   const [customPosY, setCustomPosY] = useState<number>(0);
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -478,10 +488,27 @@ export function ProductClient({ product }: Props) {
     .replace(/\s+/g, ' ')
     .trim();
 
+  const titleLower = (displayTitle || '').toLowerCase();
+  const idLower = (product.id || '').toLowerCase();
+
+  const isHoodieOrSweatshirt = titleLower.includes('hoodie') || titleLower.includes('sweatshirt') || titleLower.includes('jacket') || idLower.includes('hoodie');
+  const isCropTopOrPolySpandex = titleLower.includes('crop top') || titleLower.includes('aop') || idLower.includes('crop-top') || idLower.includes('tops-all-over-print') || titleLower.includes('poly-spandex');
+  const isJerseyOrDryFit = titleLower.includes('jersey') || titleLower.includes('dry fit') || idLower.includes('jersey') || idLower.includes('dry-fit');
+  const isDeskMat = titleLower.includes('desk') || titleLower.includes('pad') || titleLower.includes('mat') || idLower.includes('desk-mat');
+  const isDrinkware = titleLower.includes('mug') || titleLower.includes('bottle') || titleLower.includes('tumbler') || idLower.includes('drinkware') || idLower.includes('mug');
+  const isCoasterOrDecor = titleLower.includes('coaster') || titleLower.includes('puzzle') || titleLower.includes('poster') || titleLower.includes('frame') || idLower.includes('home-decor');
+  const isCottonTee = isApparel && !isHoodieOrSweatshirt && !isCropTopOrPolySpandex && !isJerseyOrDryFit;
+
   const cleanSubtitle = (() => {
     const raw = product.short?.trim() || '';
     if (!raw) {
-      if (isApparel) return '240 GSM Super Combed Bio-Washed Cotton with Archival DTF Screen Print.';
+      if (isHoodieOrSweatshirt) return '380 GSM Heavyweight French Terry Fleece with Archival DTF Screen Print.';
+      if (isCropTopOrPolySpandex) return '220 GSM 4-Way Stretch Poly-Spandex with Archival All-Over Print.';
+      if (isJerseyOrDryFit) return '180 GSM Quick-Dry Honeycomb Mesh with Embedded Sublimation Print.';
+      if (isDeskMat) return '900x400mm Extended Workstation Mat with Precision Micro-Weave Surface.';
+      if (isDrinkware) return '330ml Gloss Ceramic Stoneware with High-Definition Sublimation Print.';
+      if (isPhoneCase) return 'Dual-Layer Impact Polycarbonate Case with Raised Protective Bezel.';
+      if (isCottonTee) return '240 GSM Super Combed Bio-Washed Cotton with Archival DTF Screen Print.';
       return 'Handpicked verified domestic quality with fast express dispatch across India.';
     }
     let s = raw.replace(/[-–—\s]+$/, '').replace(/,\s*(?:pr|pre|bio|and|with|for)$/i, '').replace(/\s+(?:bio|Rar|pr|as a Rar)$/i, '');
@@ -492,7 +519,22 @@ export function ProductClient({ product }: Props) {
   const cleanStory = (() => {
     const story = product.story?.trim() || '';
     if (!story) {
-      return 'Crafted in Tirupur with premium 240 GSM bio-washed cotton and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
+      if (isHoodieOrSweatshirt) {
+        return 'Crafted in Tirupur with premium 380 GSM combed cotton fleece and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
+      }
+      if (isCropTopOrPolySpandex) {
+        return 'Crafted in small batches at our Tirupur studio for everyday comfort and durability. Featuring 220 GSM 4-way stretch poly-spandex with vibrant, fade-proof all-over print artwork and tailored athletic stitching.';
+      }
+      if (isJerseyOrDryFit) {
+        return 'Authentic breathable mesh athletic jersey engineered for pitch performance and streetwear layering. Features rich sublimation graphics, lightweight ventilation, and durable athletic seams.';
+      }
+      if (isDeskMat) {
+        return 'Engineered for developers and gamers. Features a 900x400mm micro-weave surface for pixel-perfect sensor tracking, reinforced anti-fray edges, and a textured anti-slip rubber base.';
+      }
+      if (isDrinkware) {
+        return 'Triple-fired 330ml gloss ceramic stoneware with food-grade sublimation glaze. Microwave and dishwasher safe, packaged in shock-resistant protective thermocol casing.';
+      }
+      return 'Crafted in Tirupur with premium bio-washed materials and archival print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
     }
     let s = story.replace(/[-–—\s]+$/, '').replace(/,\s*(?:pr|pre|bio|and|with|for)$/i, '').replace(/\s+(?:bio|Rar|pr|as a Rar)$/i, '');
     if (s && !/[.!?]$/.test(s)) s += '.';
@@ -500,10 +542,7 @@ export function ProductClient({ product }: Props) {
   })();
 
   const featureHighlights = (() => {
-    const titleLower = (displayTitle || '').toLowerCase();
-    const idLower = (product.id || '').toLowerCase();
-
-    if (titleLower.includes('hoodie') || titleLower.includes('sweatshirt') || titleLower.includes('jacket') || idLower.includes('hoodie')) {
+    if (isHoodieOrSweatshirt) {
       return [
         '380 GSM Heavyweight 100% Combed Cotton French Terry Fleece',
         'Double-Lined Structured Hood with Heavy-Duty Matching Drawcords',
@@ -513,17 +552,27 @@ export function ProductClient({ product }: Props) {
         'Pan-India Tracked 2–4 Day Express Delivery via BlueDart & Delhivery',
       ];
     }
-    if (titleLower.includes('tee') || titleLower.includes('t-shirt') || titleLower.includes('top') || idLower.includes('t-shirt') || idLower.includes('tee')) {
+    if (isCropTopOrPolySpandex) {
       return [
-        '240 GSM Super Combed 100% Bio-Washed Cotton Heavyweight Jersey',
-        'Relaxed Drop-Shoulder Oversized Streetwear Silhouette',
-        '1.25-Inch Lycra Ribbed Anti-Sag Neckband with Reinforced Collar',
-        '1200 DPI Direct-to-Film (DTF) Archival Print with Zero Cracking',
-        'Pre-Shrunk & Colorfast Treated for 50+ Wash Color Longevity',
+        '220 GSM 4-Way Stretch Breathable Poly-Spandex Blend',
+        'Archival Edge-to-Edge All-Over Print (AOP) with Zero Cracking',
+        'Tailored Athletic Fit with Reinforced Anti-Chafe Flatlock Seams',
+        'Quick-Drying & Moisture-Wicking Performance Fabric',
+        'Non-Pilling & Shape-Retaining Elastic Memory',
         'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
       ];
     }
-    if (titleLower.includes('desk') || titleLower.includes('pad') || titleLower.includes('mat') || idLower.includes('desk-mat')) {
+    if (isJerseyOrDryFit) {
+      return [
+        '180 GSM Honeycomb Micro-Mesh Quick-Dry Performance Polyester',
+        'Vibrant Sublimation Graphics (Embedded in Fiber, Never Fades)',
+        'Athletic Ribbed Collar & Armhole Construction for Dynamic Motion',
+        'High-Ventilation Moisture-Wicking Fiber Matrix',
+        'Engineered for Heavy Sweating, Gym Workouts & Street Styling',
+        'Pan-India Tracked 2–4 Day Express Delivery via BlueDart & Delhivery',
+      ];
+    }
+    if (isDeskMat) {
       return [
         '900x400mm Extended Workstation & Gaming Format (4mm Ultra-Thick)',
         'High-Density Micro-Weave Polyester Glide Surface for Precision Tracking',
@@ -533,12 +582,43 @@ export function ProductClient({ product }: Props) {
         'Dispatched in Heavy-Duty Triangular Protective Tube Packaging',
       ];
     }
+    if (isDrinkware) {
+      return [
+        '330ml High-Grade Triple-Fired Gloss Ceramic Stoneware',
+        '100% Microwave & Dishwasher Safe (Certified Food-Grade)',
+        '1200 DPI High-Gloss Sublimation Print with Rich Deep Color',
+        'Ergonomic Comfort Grip Handle & Chip-Resistant Rim',
+        'Thermally Retentive Walls (Keeps Coffee & Tea Hot Longer)',
+        'Dispatched in Anti-Shock Thermocol Double-Box Packaging',
+      ];
+    }
+    if (isPhoneCase) {
+      return [
+        'Dual-Layer Impact-Resistant Polycarbonate Shell with Inner TPU Cushion',
+        '360° Raised Bezel Protects Screen & Camera Lenses',
+        'Precision Port Cutouts with Responsive Button Covers',
+        'Qi Wireless Charging & MagSafe Compatible',
+        'High-Resolution Sublimation Print Wrapping Around Sides',
+        'Scratch-Resistant Matte Finish with 7-Day Doorstep Replacement',
+      ];
+    }
+    if (isCoasterOrDecor) {
+      return [
+        'High-Density Rigid Material with High-Gloss Non-Fade Finish',
+        'Heat & Moisture Resistant OEKO-TEX Certified UV Print',
+        'Anti-Scratch Non-Slip Cork Base Layer Protects Furniture',
+        'Precision Laser-Polished Beveled Edges',
+        'Dispatched in Rare Ember Studio Presentation Box',
+        'Pan-India 2–4 Day Express Delivery with Live Real-Time Tracking',
+      ];
+    }
     return [
-      'Premium Heavy-Duty Grade Materials Inspected for Everyday Durability',
-      'Fade-Resistant Archival Print Execution with Deep Contrast',
-      'Strict Quality Control Inspected by Rare Ember Studio',
-      'Pan-India 2–4 Day Express Delivery with Live Real-Time Tracking',
-      'Hassle-Free 7-Day Replacement Guarantee & 100% Doorstep Delivery',
+      '240 GSM Super Combed 100% Bio-Washed Cotton Heavyweight Jersey',
+      'Relaxed Drop-Shoulder Oversized Streetwear Silhouette',
+      '1.25-Inch Lycra Ribbed Anti-Sag Neckband with Reinforced Collar',
+      '1200 DPI Direct-to-Film (DTF) Archival Print with Zero Cracking',
+      'Pre-Shrunk & Colorfast Treated for 50+ Wash Color Longevity',
+      'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
     ];
   })();
 
@@ -560,15 +640,24 @@ export function ProductClient({ product }: Props) {
   const mrpUsd = Number((mrpInr / 85).toFixed(2));
   const discountPercent = Math.max(15, Math.min(75, Math.round((1 - baseInr / mrpInr) * 100)));
 
+  const isMultiBundle = isComboProduct && comboItems.length > 1;
+  const bundleSizeSummary = isMultiBundle
+    ? comboItems.map((item, idx) => `${item.name.split(' ')[0]}: ${bundleItemSizes[idx] || 'L'}`).join(', ')
+    : (isApparel ? selectedSize : undefined);
+
+  const bundleGraphicSummary = isMultiBundle
+    ? comboItems.map((item, idx) => `${item.name.split(' ')[0]}: ${bundleItemGraphics[idx]?.title || 'Standard'}`).join(', ')
+    : ((customMode === 'image' || customMode === 'trending') && customImageName ? customImageName : undefined);
+
   const getItemMeta = () => ({
     title: displayTitle,
     price: effectivePriceUsd,
     price_inr: effectiveInr,
     emoji: product.emoji,
     imageUrl: currentSrc || product.image_url,
-    selectedStyle: undefined,
+    selectedStyle: isMultiBundle ? bundleGraphicSummary : undefined,
     gradient: product.gradient,
-    size: isApparel ? selectedSize : undefined,
+    size: bundleSizeSummary,
     phoneModel: isPhoneCase ? selectedPhoneModel : undefined,
     customText: isCustomizing && customMode === 'text' && customText.trim() ? customText.trim() : undefined,
     customPlacement: isCustomizing && supportsPrintPlacement
@@ -583,7 +672,7 @@ export function ProductClient({ product }: Props) {
     customTextColor: isCustomizing && customMode === 'text' ? customTextColor : undefined,
     customFont: isCustomizing && customMode === 'text' ? customFont : undefined,
     customImage: (customMode === 'image' || customMode === 'trending') && customImage ? customImage : undefined,
-    customImageName: (customMode === 'image' || customMode === 'trending') && customImageName ? customImageName : undefined,
+    customImageName: bundleGraphicSummary,
     customizedItemName: isComboProduct && activeComboItem ? activeComboItem.name : undefined,
   });
 
@@ -1030,7 +1119,7 @@ export function ProductClient({ product }: Props) {
                   letterSpacing: '0.08em',
                 }}
               >
-                {product.tag || (isApparel ? '240 GSM HEAVYWEIGHT' : 'FLAGSHIP DROP')}
+                {product.tag || (isHoodieOrSweatshirt ? '380 GSM FLEECE' : isCropTopOrPolySpandex ? '220 GSM POLY-SPANDEX' : isJerseyOrDryFit ? '180 GSM QUICK-DRY' : isDeskMat ? 'EXTENDED 900×400MM' : isDrinkware ? 'CERAMIC STONEWARE' : isCottonTee ? '240 GSM HEAVYWEIGHT' : 'FLAGSHIP DROP')}
               </span>
             </div>
 
@@ -1116,9 +1205,61 @@ export function ProductClient({ product }: Props) {
             {/* Sizing Selector for Apparel */}
             {isApparel && (
               <div style={{ marginTop: '1.5rem' }}>
+                {isComboProduct && comboItems.length > 1 && (
+                  <div style={{ marginBottom: '1.25rem', padding: '1rem', borderRadius: '1.1rem', background: '#161311', color: '#ffffff', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.65rem' }}>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#FF4D24', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                        <span>📦</span>
+                        <span>Bundle Item {selectedComboItemIndex + 1} of {comboItems.length}</span>
+                      </span>
+                      <span style={{ fontSize: '0.7rem', color: '#a8a29e', fontWeight: 600 }}>
+                        Tap each item to customize size &amp; print
+                      </span>
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: `repeat(${comboItems.length}, 1fr)`, gap: '0.5rem' }}>
+                      {comboItems.map((item, idx) => {
+                        const isCurrent = selectedComboItemIndex === idx;
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => {
+                              setSelectedComboItemIndex(idx);
+                              setSelectedSize(bundleItemSizes[idx] || 'L');
+                              const g = bundleItemGraphics[idx];
+                              if (g) {
+                                setCustomImage(g.image);
+                                setCustomImageName(g.title);
+                              }
+                            }}
+                            style={{
+                              padding: '0.65rem 0.75rem',
+                              borderRadius: '0.75rem',
+                              textAlign: 'left',
+                              border: isCurrent ? '2px solid #FF4D24' : '1px solid rgba(255,255,255,0.15)',
+                              background: isCurrent ? 'rgba(255,77,36,0.18)' : 'rgba(255,255,255,0.06)',
+                              cursor: 'pointer',
+                              color: '#ffffff',
+                              transition: 'all 0.15s ease',
+                            }}
+                          >
+                            <div style={{ fontSize: '0.8rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                              <span>{item.emoji}</span>
+                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</span>
+                            </div>
+                            <div style={{ fontSize: '0.68rem', color: isCurrent ? '#FF4D24' : '#a8a29e', fontWeight: 700, marginTop: '0.25rem' }}>
+                              Size: <strong>{bundleItemSizes[idx] || 'L'}</strong> • {bundleItemGraphics[idx]?.title ? bundleItemGraphics[idx].title.slice(0, 14) : 'Selected'}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
                   <span style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#8a7b6b' }}>
-                    Select Size
+                    Select Size {isComboProduct && activeComboItem ? `for ${activeComboItem.name}` : ''}
                   </span>
                   <button
                     type="button"
@@ -1146,7 +1287,12 @@ export function ProductClient({ product }: Props) {
                       <button
                         key={s}
                         type="button"
-                        onClick={() => setSelectedSize(s)}
+                        onClick={() => {
+                          setSelectedSize(s);
+                          if (isComboProduct) {
+                            setBundleItemSizes((prev) => ({ ...prev, [selectedComboItemIndex]: s }));
+                          }
+                        }}
                         style={{
                           padding: '0.55rem 0',
                           minHeight: '48px',
@@ -1175,7 +1321,15 @@ export function ProductClient({ product }: Props) {
                 <p style={{ fontSize: '0.75rem', color: '#78716c', marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
                   <span style={{ color: '#FF4D24', fontWeight: 800 }}>⚡ Fit:</span>
                   <span>
-                    Size <strong>{selectedSize}</strong> ({SIZE_SPECS[selectedSize]?.chest} Chest / {SIZE_SPECS[selectedSize]?.length} Length) • 240 GSM Bio-Washed Combed Cotton (Pre-Shrunk Drop Shoulder).
+                    Size <strong>{selectedSize}</strong> ({SIZE_SPECS[selectedSize]?.chest || 'Standard'} Chest / {SIZE_SPECS[selectedSize]?.length || 'Regular'} Length) • {
+                      isHoodieOrSweatshirt
+                        ? '380 GSM Heavyweight Fleece (Pre-Shrunk Structured Fit).'
+                        : isCropTopOrPolySpandex
+                        ? '220 GSM Poly-Spandex 4-Way Stretch (Tailored Athletic Fit).'
+                        : isJerseyOrDryFit
+                        ? '180 GSM Breathable Mesh (Athletic Fit).'
+                        : '240 GSM Bio-Washed Combed Cotton (Pre-Shrunk Drop Shoulder).'
+                    }
                   </span>
                 </p>
               </div>
@@ -1298,6 +1452,12 @@ export function ProductClient({ product }: Props) {
                                 setSelectedComboItemIndex(idx);
                                 setCustomView('front');
                                 setCustomPlacement('Front Print');
+                                setSelectedSize(bundleItemSizes[idx] || 'L');
+                                const g = bundleItemGraphics[idx];
+                                if (g) {
+                                  setCustomImage(g.image);
+                                  setCustomImageName(g.title);
+                                }
                               }}
                               className={`p-3 rounded-2xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1 ${
                                 isSelected
@@ -1313,10 +1473,10 @@ export function ProductClient({ product }: Props) {
                               </div>
                               <span
                                 className={`text-[10px] font-bold tracking-wider uppercase ${
-                                  isSelected ? 'text-[#FF9A3D]' : 'text-neutral-500'
+                                  isSelected ? 'text-[#FF9A3D]' : 'text-neutral-400'
                                 }`}
                               >
-                                {isSelected ? '● Live on Studio Canvas' : item.badge}
+                                {isSelected ? '● Live on Studio Canvas' : `Size: ${bundleItemSizes[idx] || 'L'} • ${bundleItemGraphics[idx]?.title || 'Graphic'}`}
                               </span>
                             </button>
                           );
@@ -1740,6 +1900,12 @@ export function ProductClient({ product }: Props) {
                           onClick={() => {
                             setCustomImage(null);
                             setCustomImageName('');
+                            if (isComboProduct) {
+                              setBundleItemGraphics((prev) => ({
+                                ...prev,
+                                [selectedComboItemIndex]: { title: 'Original Drop', image: null },
+                              }));
+                            }
                           }}
                           className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-2.5 ${
                             !customImage
@@ -1766,6 +1932,12 @@ export function ProductClient({ product }: Props) {
                               onClick={() => {
                                 setCustomImage(g.mockUrl);
                                 setCustomImageName(g.title);
+                                if (isComboProduct) {
+                                  setBundleItemGraphics((prev) => ({
+                                    ...prev,
+                                    [selectedComboItemIndex]: { title: g.title, image: g.mockUrl },
+                                  }));
+                                }
                               }}
                               className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-2.5 ${
                                 isSelected

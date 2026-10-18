@@ -118,13 +118,19 @@ export async function GET(req: NextRequest) {
 
 // POST /api/orders — Create COD Order (Server-recalculated pricing & stock check)
 export async function POST(req: NextRequest) {
-  const rl = checkRateLimit(`order_create:${clientIp(req.headers)}`, 10, 60_000);
+  const rl = checkRateLimit(`order_create:${clientIp(req.headers)}`, 6, 600_000);
   if (!rl.allowed) {
-    return NextResponse.json({ error: 'Too many requests. Please wait.' }, { status: 429 });
+    return NextResponse.json({ error: 'Too many requests. Please wait a few minutes.' }, { status: 429 });
   }
 
   try {
     const body = await req.json();
+
+    // Anti-bot honeypot check
+    if (body._hp_company) {
+      return NextResponse.json({ error: 'Automated submission rejected' }, { status: 400 });
+    }
+
     const email = normalizeEmail(body.email);
     if (!email) {
       return NextResponse.json({ error: 'Valid email required' }, { status: 400 });
@@ -225,14 +231,19 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Apply Coupon Code server-side only
+    // Apply Coupon Code server-side only (block stacking on bundles)
     let discountAmount = 0;
     let verifiedCoupon = '';
+    const hasBundle = validatedItems.some((i) => i.id.startsWith('bundle-'));
     if (body.coupon_code) {
-      const couponCheck = validateCouponCode(body.coupon_code, calculatedSubtotal);
-      if (couponCheck.valid) {
-        discountAmount = couponCheck.discountAmount;
-        verifiedCoupon = String(body.coupon_code).trim().toUpperCase();
+      if (hasBundle) {
+        console.log(`[Orders API] Coupon ${body.coupon_code} disallowed on bundle order.`);
+      } else {
+        const couponCheck = validateCouponCode(body.coupon_code, calculatedSubtotal);
+        if (couponCheck.valid) {
+          discountAmount = couponCheck.discountAmount;
+          verifiedCoupon = String(body.coupon_code).trim().toUpperCase();
+        }
       }
     }
 

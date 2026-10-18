@@ -268,7 +268,7 @@ export const products: Product[] = [
   },
   {
   "id": "qikink-accessories-desk-mat",
-  "slug": "qikink-accessories-desk-mat",
+  "slug": "rare-ember-desk-mat",
   "title": "Rare Ember Gaming Pad",
   "price": 5.87,
   "price_inr": 499,
@@ -296,7 +296,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-mobile-clear-phone-case",
-  "slug": "qikink-accessories-mobile-clear-phone-case",
+  "slug": "rare-ember-mobile-clear-phone-case",
   "title": "Rare Ember Hard Clear Case",
   "price": 5.87,
   "price_inr": 499,
@@ -324,7 +324,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-mouse-pad",
-  "slug": "qikink-accessories-mouse-pad",
+  "slug": "rare-ember-mouse-pad",
   "title": "Rare Ember Mouse Pad",
   "price": 3.52,
   "price_inr": 299,
@@ -352,7 +352,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-mobile-phone-grip",
-  "slug": "qikink-accessories-mobile-phone-grip",
+  "slug": "rare-ember-mobile-phone-grip",
   "title": "Rare Ember Phone Grip",
   "price": 3.52,
   "price_inr": 299,
@@ -382,7 +382,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-mobile-glass-phone-case",
-  "slug": "qikink-accessories-mobile-glass-phone-case",
+  "slug": "rare-ember-mobile-glass-phone-case",
   "title": "Rare Ember iPhone Glass Case",
   "price": 5.87,
   "price_inr": 499,
@@ -412,7 +412,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-tops-all-over-print-full-sleeve-crop-top-fc38",
-  "slug": "qikink-tops-all-over-print-full-sleeve-crop-top-fc38",
+  "slug": "rare-ember-all-over-print-full-sleeve-crop-top",
   "title": "Rare Ember AOP Full Sleeve Crop Top",
   "price": 10.58,
   "price_inr": 899,
@@ -428,11 +428,11 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/360/736d2f6b-2708-4861-b05a-a36bf8911045.webp",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Sell full sleeve crop tops (AOP) with Rare Ember Studio's print-on-demand model. 220 GSM poly-spandex, no minimums. Start selling.",
-  "story": "Sell full sleeve crop tops (AOP) with Rare Ember Studio's print-on-demand model. 220 GSM poly-spandex, no minimums. Start selling.",
+  "short": "Crafted in small batches at our Tirupur studio for everyday comfort and durability. 220 GSM 4-way stretch poly-spandex with vibrant, fade-proof all-over print..",
+  "story": "Crafted in small batches at our Tirupur studio for everyday comfort and durability. 220 GSM 4-way stretch poly-spandex with vibrant, fade-proof all-over print..",
   "details": [
     "Sell full sleeve crop tops (AOP) with Rare Ember Studio's print-on-demand model",
-    "220 GSM poly-spandex, no minimums",
+    "220 GSM poly-spandex, crafted for daily rotation.",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
     "Cash on Delivery & 1-Click UPI Available Pan-India"
@@ -442,7 +442,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-arm-sleeves",
-  "slug": "qikink-accessories-arm-sleeves",
+  "slug": "rare-ember-arm-sleeves",
   "title": "Rare Ember Arm Sleeves",
   "price": 3.52,
   "price_inr": 299,
@@ -472,7 +472,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-balaclava",
-  "slug": "qikink-accessories-balaclava",
+  "slug": "rare-ember-balaclava",
   "title": "Rare Ember Balaclava",
   "price": 3.52,
   "price_inr": 299,
@@ -500,7 +500,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-kids-clothes-boys-t-shirts-bc21",
-  "slug": "qikink-kids-clothes-boys-t-shirts-bc21",
+  "slug": "rare-ember-boys-t-shirts",
   "title": "Rare Ember Boy Classic Crew T-Shirt",
   "price": 3.52,
   "price_inr": 299,
@@ -528,7 +528,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-dry-fit-t-shirts-ud15",
-  "slug": "qikink-t-shirts-dry-fit-t-shirts-ud15",
+  "slug": "rare-ember-dry-fit-t-shirts",
   "title": "Rare Ember Dry Fit T-Shirt",
   "price": 3.52,
   "price_inr": 299,
@@ -544,8 +544,8 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/365/32170f2e-477d-4661-9c6c-8527440255a9.webp",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Design & sell custom dry fit t-shirts with quick-dry fabric, sublimation printing & no minimums. Start selling with Rare Ember Studio today.",
-  "story": "Design & sell custom dry fit t-shirts with quick-dry fabric, sublimation printing & no minimums. Start selling with Rare Ember Studio today.",
+  "short": "Engineered for intense workouts and high-heat street sessions. Breathable, moisture-wicking quick-dry fabric with crisp sublimation graphics.",
+  "story": "Engineered for intense workouts and high-heat street sessions. Crafted from breathable, moisture-wicking quick-dry fabric with crisp sublimation graphics that stay vibrant through every rep and wash.",
   "details": [
     "Design & sell custom dry fit t-shirts with quick-dry fabric, sublimation printing & no min",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
@@ -557,7 +557,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-headwear-bandana-mask",
-  "slug": "qikink-headwear-bandana-mask",
+  "slug": "rare-ember-headwear-bandana-mask",
   "title": "Rare Ember Face Bandana",
   "price": 3.52,
   "price_inr": 299,
@@ -585,7 +585,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-dresses-all-over-print-a-line-dress-fd16",
-  "slug": "qikink-dresses-all-over-print-a-line-dress-fd16",
+  "slug": "rare-ember-dresses-all-over-print-a-line-dress",
   "title": "Rare Ember Female AOP A Line Dress",
   "price": 10.58,
   "price_inr": 899,
@@ -613,7 +613,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-dresses-all-over-print-bodycon-dress-fd74",
-  "slug": "qikink-dresses-all-over-print-bodycon-dress-fd74",
+  "slug": "rare-ember-dresses-all-over-print-bodycon-dress",
   "title": "Rare Ember Female AOP Bodycon Dress",
   "price": 10.58,
   "price_inr": 899,
@@ -641,7 +641,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-hoodies-bomber-jacket-women-fa30",
-  "slug": "qikink-hoodies-bomber-jacket-women-fa30",
+  "slug": "rare-ember-bomber-jacket-women",
   "title": "Rare Ember Female AOP Bomber Jacket",
   "price": 15.28,
   "price_inr": 1299,
@@ -670,7 +670,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-tops-all-over-print-crop-tank-fa33",
-  "slug": "qikink-tops-all-over-print-crop-tank-fa33",
+  "slug": "rare-ember-all-over-print-crop-tank",
   "title": "Rare Ember Female AOP Crop Tank",
   "price": 5.87,
   "price_inr": 499,
@@ -698,7 +698,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-tops-all-over-print-crop-top-fa32",
-  "slug": "qikink-tops-all-over-print-crop-top-fa32",
+  "slug": "rare-ember-all-over-print-crop-top",
   "title": "Rare Ember Female AOP Crop Top",
   "price": 8.22,
   "price_inr": 699,
@@ -726,7 +726,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-bottomwear-womens-gym-leggings-fa41",
-  "slug": "qikink-bottomwear-womens-gym-leggings-fa41",
+  "slug": "rare-ember-womens-gym-leggings",
   "title": "Rare Ember Female AOP Gym legging",
   "price": 10.58,
   "price_inr": 899,
@@ -754,7 +754,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-dresses-all-over-print-pencil-skirt-fs58",
-  "slug": "qikink-dresses-all-over-print-pencil-skirt-fs58",
+  "slug": "rare-ember-dresses-all-over-print-pencil-skirt",
   "title": "Rare Ember Female AOP Pencil Skirt",
   "price": 8.22,
   "price_inr": 699,
@@ -782,7 +782,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-tops-all-over-print-sports-bra-fa50",
-  "slug": "qikink-tops-all-over-print-sports-bra-fa50",
+  "slug": "rare-ember-all-over-print-sports-bra",
   "title": "Rare Ember Female AOP Sports Bra",
   "price": 10.58,
   "price_inr": 899,
@@ -810,7 +810,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-dresses-all-over-print-t-shirt-dress-fa35",
-  "slug": "qikink-dresses-all-over-print-t-shirt-dress-fa35",
+  "slug": "rare-ember-dresses-all-over-print-t-shirt-dress",
   "title": "Rare Ember Female AOP T-Shirt Dress",
   "price": 10.58,
   "price_inr": 899,
@@ -838,7 +838,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-all-over-print-womens-t-shirt-fa21",
-  "slug": "qikink-t-shirts-all-over-print-womens-t-shirt-fa21",
+  "slug": "rare-ember-all-over-print-womens-t-shirt",
   "title": "Rare Ember Female AOP T-Shirt",
   "price": 8.22,
   "price_inr": 699,
@@ -866,7 +866,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-tops-all-over-print-tank-top-fa37",
-  "slug": "qikink-tops-all-over-print-tank-top-fa37",
+  "slug": "rare-ember-all-over-print-tank-top",
   "title": "Rare Ember Female AOP Tank Top",
   "price": 8.22,
   "price_inr": 699,
@@ -894,7 +894,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-tops-all-over-print-tube-top-ft12",
-  "slug": "qikink-tops-all-over-print-tube-top-ft12",
+  "slug": "rare-ember-all-over-print-tube-top",
   "title": "Rare Ember Female AOP Tube Top",
   "price": 3.52,
   "price_inr": 299,
@@ -922,7 +922,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-tops-baby-tee-ft47",
-  "slug": "qikink-tops-baby-tee-ft47",
+  "slug": "rare-ember-baby-tee",
   "title": "Rare Ember Female Baby Tee",
   "price": 5.87,
   "price_inr": 499,
@@ -952,7 +952,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-women-t-shirt-uc21",
-  "slug": "qikink-t-shirts-women-t-shirt-uc21",
+  "slug": "rare-ember-women-t-shirt",
   "title": "Rare Ember Female Classic Crew T-Shirt",
   "price": 5.87,
   "price_inr": 499,
@@ -980,7 +980,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-tops-crop-tank-fc40",
-  "slug": "qikink-tops-crop-tank-fc40",
+  "slug": "rare-ember-crop-tank",
   "title": "Rare Ember Female Crop Tank",
   "price": 3.52,
   "price_inr": 299,
@@ -1008,7 +1008,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-tops-crop-top-fc39",
-  "slug": "qikink-tops-crop-top-fc39",
+  "slug": "rare-ember-crop-top",
   "title": "Rare Ember Female Crop Top",
   "price": 5.87,
   "price_inr": 499,
@@ -1036,7 +1036,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-hoodies-cropped-hoodie-fc32",
-  "slug": "qikink-hoodies-cropped-hoodie-fc32",
+  "slug": "rare-ember-cropped-hoodie",
   "title": "Rare Ember Female Cropped Hoodie",
   "price": 8.22,
   "price_inr": 699,
@@ -1066,7 +1066,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-dresses-maternity-dresses-fm44",
-  "slug": "qikink-dresses-maternity-dresses-fm44",
+  "slug": "rare-ember-dresses-maternity-dresses",
   "title": "Rare Ember Female Maternity Dress",
   "price": 5.87,
   "price_inr": 499,
@@ -1094,7 +1094,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-dresses-t-shirt-dress-fc43",
-  "slug": "qikink-dresses-t-shirt-dress-fc43",
+  "slug": "rare-ember-dresses-t-shirt-dress",
   "title": "Rare Ember Female T-Shirt Dress",
   "price": 8.22,
   "price_inr": 699,
@@ -1122,7 +1122,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-tops-tank-top-ft37",
-  "slug": "qikink-tops-tank-top-ft37",
+  "slug": "rare-ember-tank-top",
   "title": "Rare Ember Female Tank Top",
   "price": 5.87,
   "price_inr": 499,
@@ -1150,7 +1150,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-kids-clothes-t-shirt-for-girls-gc21",
-  "slug": "qikink-kids-clothes-t-shirt-for-girls-gc21",
+  "slug": "rare-ember-t-shirt-for-girls",
   "title": "Rare Ember Girl Classic Crew T-Shirt",
   "price": 3.52,
   "price_inr": 299,
@@ -1178,7 +1178,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-all-over-print-headband",
-  "slug": "qikink-accessories-all-over-print-headband",
+  "slug": "rare-ember-all-over-print-headband",
   "title": "Rare Ember Headband",
   "price": 3.52,
   "price_inr": 299,
@@ -1206,7 +1206,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-jersey-t-shirt-us02",
-  "slug": "qikink-t-shirts-jersey-t-shirt-us02",
+  "slug": "rare-ember-jersey-t-shirt",
   "title": "Rare Ember Jersey T-Shirt",
   "price": 3.52,
   "price_inr": 299,
@@ -1222,8 +1222,8 @@ export const products: Product[] = [
   "reviews": 120,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/366/7d40a8f7-9778-456d-8190-cd2afdda2bc6.webp",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Design & sell custom jersey t-shirts in mesh fabric with sublimation printing. For football, cricket, and kabaddi. Start selling with Rare E",
-  "story": "Design & sell custom jersey t-shirts in mesh fabric with sublimation printing. For football, cricket, and kabaddi. Start selling with Rare Ember Studio today.",
+  "short": "Authentic breathable mesh athletic jersey engineered for pitch performance and streetwear layering. Deep sublimation graphics and athletic seams.",
+  "story": "Authentic breathable mesh athletic jersey engineered for pitch performance and streetwear layering. Features rich sublimation graphics, lightweight ventilation, and durable athletic seams.",
   "details": [
     "Design & sell custom jersey t-shirts in mesh fabric with sublimation printing",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
@@ -1235,7 +1235,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-dresses-kaftan-dress",
-  "slug": "qikink-dresses-kaftan-dress",
+  "slug": "rare-ember-dresses-kaftan-dress",
   "title": "Rare Ember Kaftan Dress",
   "price": 10.58,
   "price_inr": 899,
@@ -1264,7 +1264,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-kids-clothes-kids-bomber-jacket-ka30",
-  "slug": "qikink-kids-clothes-kids-bomber-jacket-ka30",
+  "slug": "rare-ember-kids-bomber-jacket",
   "title": "Rare Ember Kids AOP Bomber Jacket",
   "price": 15.28,
   "price_inr": 1299,
@@ -1292,7 +1292,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-kids-clothes-all-over-print-sports-shorts-ka52",
-  "slug": "qikink-kids-clothes-all-over-print-sports-shorts-ka52",
+  "slug": "rare-ember-all-over-print-sports-shorts",
   "title": "Rare Ember Kids AOP Sports Shorts",
   "price": 8.22,
   "price_inr": 699,
@@ -1320,7 +1320,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-kids-clothes-all-over-print-sports-t-shirt-ka51",
-  "slug": "qikink-kids-clothes-all-over-print-sports-t-shirt-ka51",
+  "slug": "rare-ember-all-over-print-sports-t-shirt",
   "title": "Rare Ember Kids AOP Sports T-Shirt",
   "price": 5.87,
   "price_inr": 499,
@@ -1348,7 +1348,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-kids-clothes-all-over-print-sweatshirt-ka35",
-  "slug": "qikink-kids-clothes-all-over-print-sweatshirt-ka35",
+  "slug": "rare-ember-all-over-print-sweatshirt",
   "title": "Rare Ember Kids AOP Sweatshirt",
   "price": 10.58,
   "price_inr": 899,
@@ -1376,7 +1376,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-kids-clothes-all-over-print-t-shirt-ka71",
-  "slug": "qikink-kids-clothes-all-over-print-t-shirt-ka71",
+  "slug": "rare-ember-all-over-print-t-shirt",
   "title": "Rare Ember Kids AOP T-Shirt",
   "price": 5.87,
   "price_inr": 499,
@@ -1404,7 +1404,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-kids-clothes-hoodie-kh63",
-  "slug": "qikink-kids-clothes-hoodie-kh63",
+  "slug": "rare-ember-hoodie",
   "title": "Rare Ember Kids Hoodie",
   "price": 8.22,
   "price_inr": 699,
@@ -1432,7 +1432,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-all-over-print-full-sleeve-t-shirt-ma27",
-  "slug": "qikink-t-shirts-all-over-print-full-sleeve-t-shirt-ma27",
+  "slug": "rare-ember-all-over-print-full-sleeve-t-shirt",
   "title": "Rare Ember Male AOP Full Sleeve Tee",
   "price": 10.58,
   "price_inr": 899,
@@ -1460,7 +1460,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-tops-all-over-print-vest-ma29",
-  "slug": "qikink-tops-all-over-print-vest-ma29",
+  "slug": "rare-ember-all-over-print-vest",
   "title": "Rare Ember Male AOP Sleeveless Tee",
   "price": 8.22,
   "price_inr": 699,
@@ -1488,7 +1488,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-all-over-print-t-shirt-ua21",
-  "slug": "qikink-t-shirts-all-over-print-t-shirt-ua21",
+  "slug": "rare-ember-all-over-print-t-shirt",
   "title": "Rare Ember Male AOP T-Shirt",
   "price": 8.22,
   "price_inr": 699,
@@ -1516,7 +1516,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-bike-rider-t-shirt-ma39",
-  "slug": "qikink-t-shirts-bike-rider-t-shirt-ma39",
+  "slug": "rare-ember-bike-rider-t-shirt",
   "title": "Rare Ember Male Bike Rider T-Shirt",
   "price": 10.58,
   "price_inr": 899,
@@ -1544,7 +1544,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-round-neck-t-shirt-classic-uc21",
-  "slug": "qikink-t-shirts-round-neck-t-shirt-classic-uc21",
+  "slug": "rare-ember-round-neck-t-shirt-classic",
   "title": "Rare Ember Male Classic Crew T-Shirt",
   "price": 5.87,
   "price_inr": 499,
@@ -1572,7 +1572,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-full-sleeve-t-shirt-mf31",
-  "slug": "qikink-t-shirts-full-sleeve-t-shirt-mf31",
+  "slug": "rare-ember-full-sleeve-t-shirt",
   "title": "Rare Ember Male Full Sleeve T-Shirt",
   "price": 5.87,
   "price_inr": 499,
@@ -1600,7 +1600,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-polo-t-shirts-mp25",
-  "slug": "qikink-t-shirts-polo-t-shirts-mp25",
+  "slug": "rare-ember-polo-t-shirts",
   "title": "Rare Ember Male Polo",
   "price": 8.22,
   "price_inr": 699,
@@ -1630,7 +1630,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-raglan-t-shirt-ur37",
-  "slug": "qikink-t-shirts-raglan-t-shirt-ur37",
+  "slug": "rare-ember-raglan-t-shirt",
   "title": "Rare Ember Male Raglan T-Shirt",
   "price": 8.22,
   "price_inr": 699,
@@ -1658,7 +1658,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-tops-gym-vest-men-ms36",
-  "slug": "qikink-tops-gym-vest-men-ms36",
+  "slug": "rare-ember-gym-vest-men",
   "title": "Rare Ember Male Sleeveless T-Shirt",
   "price": 5.87,
   "price_inr": 499,
@@ -1686,7 +1686,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-round-neck-t-shirt-standard-us21",
-  "slug": "qikink-t-shirts-round-neck-t-shirt-standard-us21",
+  "slug": "rare-ember-round-neck-t-shirt-standard",
   "title": "Rare Ember Male Standard Crew T-Shirt",
   "price": 5.87,
   "price_inr": 499,
@@ -1714,7 +1714,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-v-neck-t-shirts-uv34",
-  "slug": "qikink-t-shirts-v-neck-t-shirts-uv34",
+  "slug": "rare-ember-v-neck-t-shirts",
   "title": "Rare Ember Male V Neck T-Shirt",
   "price": 5.87,
   "price_inr": 499,
@@ -1742,7 +1742,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-dresses-all-over-print-mini-skirt-fs59",
-  "slug": "qikink-dresses-all-over-print-mini-skirt-fs59",
+  "slug": "rare-ember-dresses-all-over-print-mini-skirt",
   "title": "Rare Ember Mini Skirt",
   "price": 5.87,
   "price_inr": 499,
@@ -1770,7 +1770,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-oversized-jersey-t-shirt-uj35",
-  "slug": "qikink-t-shirts-oversized-jersey-t-shirt-uj35",
+  "slug": "rare-ember-oversized-jersey-t-shirt",
   "title": "Rare Ember Oversized Jersey T-Shirt",
   "price": 5.87,
   "price_inr": 499,
@@ -1786,8 +1786,8 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/364/bf16dfd9-c6c1-493b-a45b-92058dd67b6e.webp",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Design & sell custom oversized jersey T-shirts in fade-proof sublimation. No minimums - start your brand with Rare Ember Studio today.",
-  "story": "Design & sell custom oversized jersey T-shirts in fade-proof sublimation. No minimums - start your brand with Rare Ember Studio today.",
+  "short": "Heavyweight oversized boxy jersey blending 90s basketball aesthetics with modern streetwear drape. Premium breathable mesh with fade-proof graphics.",
+  "story": "Heavyweight oversized boxy jersey blending 90s basketball aesthetics with modern streetwear drape. Premium breathable mesh with edge-to-edge fade-proof sublimation graphics.",
   "details": [
     "Design & sell custom oversized jersey T-shirts in fade-proof sublimation",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
@@ -1799,7 +1799,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-oversized-raglan-t-shirt-ur50",
-  "slug": "qikink-t-shirts-oversized-raglan-t-shirt-ur50",
+  "slug": "rare-ember-oversized-raglan-t-shirt",
   "title": "Rare Ember Oversized Raglan T-Shirt",
   "price": 8.22,
   "price_inr": 699,
@@ -1829,7 +1829,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-hoodies-pullover-hoodie-uh83",
-  "slug": "qikink-hoodies-pullover-hoodie-uh83",
+  "slug": "rare-ember-pullover-hoodie",
   "title": "Rare Ember Pullover Hoodie",
   "price": 10.58,
   "price_inr": 899,
@@ -1859,7 +1859,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-ringer-t-shirt-ur39",
-  "slug": "qikink-t-shirts-ringer-t-shirt-ur39",
+  "slug": "rare-ember-ringer-t-shirt",
   "title": "Rare Ember Ringer T-Shirt",
   "price": 5.87,
   "price_inr": 499,
@@ -1887,7 +1887,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-tops-sports-crop-top",
-  "slug": "qikink-tops-sports-crop-top",
+  "slug": "rare-ember-sports-crop-top",
   "title": "Rare Ember Sports Crop top",
   "price": 8.22,
   "price_inr": 699,
@@ -1903,11 +1903,11 @@ export const products: Product[] = [
   "reviews": 120,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/358/8d69fff6-2da7-4674-9329-5677d9604ae4.webp",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Sell gym/sports crop tops with Rare Ember Studio's print-on-demand model. 220 GSM poly-spandex, all-over print ready, no minimums. Start sel",
-  "story": "Sell gym/sports crop tops with Rare Ember Studio's print-on-demand model. 220 GSM poly-spandex, all-over print ready, no minimums. Start selling.",
+  "short": "Performance athletic crop top crafted from 220 GSM poly-spandex with 4-way compression stretch and sweat-wicking comfort.",
+  "story": "Performance athletic crop top crafted from 220 GSM poly-spandex with 4-way compression stretch and sweat-wicking comfort. Finished with vibrant all-over print graphics and reinforced flatlock seams.",
   "details": [
     "Sell gym/sports crop tops with Rare Ember Studio's print-on-demand model",
-    "220 GSM poly-spandex, all-over print ready, no minimums",
+    "220 GSM poly-spandex, all-over print ready, crafted for daily rotation.",
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
     "Cash on Delivery & 1-Click UPI Available Pan-India"
@@ -1917,7 +1917,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-hoodies-all-over-print-bomber-jacket-ua30",
-  "slug": "qikink-hoodies-all-over-print-bomber-jacket-ua30",
+  "slug": "rare-ember-all-over-print-bomber-jacket",
   "title": "Rare Ember Unisex AOP Bomber Jacket",
   "price": 15.28,
   "price_inr": 1299,
@@ -1945,7 +1945,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-all-over-print-oversized-t-shirt-ua22",
-  "slug": "qikink-t-shirts-all-over-print-oversized-t-shirt-ua22",
+  "slug": "rare-ember-all-over-print-oversized-t-shirt",
   "title": "Rare Ember Unisex AOP Oversized Tee",
   "price": 10.58,
   "price_inr": 899,
@@ -1973,7 +1973,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-bottomwear-all-over-print-shorts-ma45",
-  "slug": "qikink-bottomwear-all-over-print-shorts-ma45",
+  "slug": "rare-ember-all-over-print-shorts",
   "title": "Rare Ember Unisex AOP Shorts",
   "price": 8.22,
   "price_inr": 699,
@@ -2001,7 +2001,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-bottomwear-all-over-print-sports-shorts-ua52",
-  "slug": "qikink-bottomwear-all-over-print-sports-shorts-ua52",
+  "slug": "rare-ember-all-over-print-sports-shorts",
   "title": "Rare Ember Unisex AOP Sports Shorts",
   "price": 10.58,
   "price_inr": 899,
@@ -2029,7 +2029,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-all-over-print-sports-t-shirt-ua51",
-  "slug": "qikink-t-shirts-all-over-print-sports-t-shirt-ua51",
+  "slug": "rare-ember-all-over-print-sports-t-shirt",
   "title": "Rare Ember Unisex AOP Sports T-Shirt",
   "price": 8.22,
   "price_inr": 699,
@@ -2057,7 +2057,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-hoodies-all-over-print-sweatshirt-ua26",
-  "slug": "qikink-hoodies-all-over-print-sweatshirt-ua26",
+  "slug": "rare-ember-all-over-print-sweatshirt",
   "title": "Rare Ember Unisex AOP Sweatshirt",
   "price": 10.58,
   "price_inr": 899,
@@ -2085,7 +2085,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-hoodies-acid-wash-hoodie-uh62",
-  "slug": "qikink-hoodies-acid-wash-hoodie-uh62",
+  "slug": "rare-ember-acid-wash-hoodie",
   "title": "Rare Ember Unisex Acid Wash Hoodie",
   "price": 15.28,
   "price_inr": 1299,
@@ -2115,7 +2115,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-acid-wash-oversized-t-shirt-uc61",
-  "slug": "qikink-t-shirts-acid-wash-oversized-t-shirt-uc61",
+  "slug": "rare-ember-acid-wash-oversized-t-shirt",
   "title": "Rare Ember Unisex Acid Wash Oversized Tee",
   "price": 10.58,
   "price_inr": 899,
@@ -2143,7 +2143,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-headwear-baseball-ottoman-cap-bc50",
-  "slug": "qikink-headwear-baseball-ottoman-cap-bc50",
+  "slug": "rare-ember-headwear-baseball-ottoman-cap",
   "title": "Rare Ember Unisex Baseball Ottoman Cap",
   "price": 5.87,
   "price_inr": 499,
@@ -2173,7 +2173,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-basic-t-shirt-ub73",
-  "slug": "qikink-t-shirts-basic-t-shirt-ub73",
+  "slug": "rare-ember-basic-t-shirt",
   "title": "Rare Ember Unisex Basic T-Shirt PC",
   "price": 3.52,
   "price_inr": 299,
@@ -2202,7 +2202,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-headwear-bucket-hat-bh35",
-  "slug": "qikink-headwear-bucket-hat-bh35",
+  "slug": "rare-ember-headwear-bucket-hat",
   "title": "Rare Ember Unisex Classic Bucket Hat",
   "price": 8.22,
   "price_inr": 699,
@@ -2232,7 +2232,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-headwear-snapback-cap-sb30",
-  "slug": "qikink-headwear-snapback-cap-sb30",
+  "slug": "rare-ember-headwear-snapback-cap",
   "title": "Rare Ember Unisex Classic Snapback Cap",
   "price": 5.87,
   "price_inr": 499,
@@ -2262,7 +2262,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-headwear-trucker-cap-tc55",
-  "slug": "qikink-headwear-trucker-cap-tc55",
+  "slug": "rare-ember-headwear-trucker-cap",
   "title": "Rare Ember Unisex Classic Trucker Cap",
   "price": 5.87,
   "price_inr": 499,
@@ -2292,7 +2292,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-headwear-baseball-cap-bc33",
-  "slug": "qikink-headwear-baseball-cap-bc33",
+  "slug": "rare-ember-headwear-baseball-cap",
   "title": "Rare Ember Unisex Classic baseball Cap",
   "price": 5.87,
   "price_inr": 499,
@@ -2322,7 +2322,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-stretch-t-shirt-uc48",
-  "slug": "qikink-t-shirts-stretch-t-shirt-uc48",
+  "slug": "rare-ember-stretch-t-shirt",
   "title": "Rare Ember Unisex Cotton Stretch T-Shirt",
   "price": 8.22,
   "price_inr": 699,
@@ -2352,7 +2352,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-pet-products-dog-t-shirt-dt59",
-  "slug": "qikink-pet-products-dog-t-shirt-dt59",
+  "slug": "rare-ember-dog-t-shirt",
   "title": "Rare Ember Unisex Dog T-Shirts",
   "price": 5.87,
   "price_inr": 499,
@@ -2380,7 +2380,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-hoodies-unisex-hoodie-uh24",
-  "slug": "qikink-hoodies-unisex-hoodie-uh24",
+  "slug": "rare-ember-unisex-hoodie",
   "title": "Rare Ember Unisex Hoodie",
   "price": 10.58,
   "price_inr": 899,
@@ -2410,7 +2410,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-bottomwear-joggers-uj29",
-  "slug": "qikink-bottomwear-joggers-uj29",
+  "slug": "rare-ember-joggers",
   "title": "Rare Ember Unisex Joggers",
   "price": 10.58,
   "price_inr": 899,
@@ -2440,7 +2440,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-oversized-t-shirt-uc22",
-  "slug": "qikink-t-shirts-oversized-t-shirt-uc22",
+  "slug": "rare-ember-oversized-t-shirt",
   "title": "Rare Ember Unisex Oversized Classic T-Shirt",
   "price": 8.22,
   "price_inr": 699,
@@ -2468,7 +2468,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-hoodies-oversized-hoodie-uh32",
-  "slug": "qikink-hoodies-oversized-hoodie-uh32",
+  "slug": "rare-ember-oversized-hoodie",
   "title": "Rare Ember Unisex Oversized Hoodie",
   "price": 15.28,
   "price_inr": 1299,
@@ -2498,7 +2498,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-short-sleeve-oversized-shirt-uc28",
-  "slug": "qikink-t-shirts-short-sleeve-oversized-shirt-uc28",
+  "slug": "rare-ember-short-sleeve-oversized-shirt",
   "title": "Rare Ember Unisex Oversized Shirt",
   "price": 10.58,
   "price_inr": 899,
@@ -2526,7 +2526,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-oversized-t-shirt-standard-us22",
-  "slug": "qikink-t-shirts-oversized-t-shirt-standard-us22",
+  "slug": "rare-ember-oversized-t-shirt-standard",
   "title": "Rare Ember Unisex Oversized Standard T-Shirt",
   "price": 5.87,
   "price_inr": 499,
@@ -2554,7 +2554,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-hoodies-oversized-sweatshirt-uh35",
-  "slug": "qikink-hoodies-oversized-sweatshirt-uh35",
+  "slug": "rare-ember-oversized-sweatshirt",
   "title": "Rare Ember Unisex Oversized Sweatshirt",
   "price": 10.58,
   "price_inr": 899,
@@ -2584,7 +2584,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-headwear-sports-cap-sp45",
-  "slug": "qikink-headwear-sports-cap-sp45",
+  "slug": "rare-ember-headwear-sports-cap",
   "title": "Rare Ember Unisex Sports Cap",
   "price": 8.22,
   "price_inr": 699,
@@ -2614,7 +2614,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-supima-cotton-t-shirts-uc23",
-  "slug": "qikink-t-shirts-supima-cotton-t-shirts-uc23",
+  "slug": "rare-ember-supima-cotton-t-shirts",
   "title": "Rare Ember Unisex Supima T-Shirt",
   "price": 8.22,
   "price_inr": 699,
@@ -2642,7 +2642,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-bottomwear-sweatpants-us52",
-  "slug": "qikink-bottomwear-sweatpants-us52",
+  "slug": "rare-ember-sweatpants",
   "title": "Rare Ember Unisex Sweatpants",
   "price": 10.58,
   "price_inr": 899,
@@ -2672,7 +2672,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-hoodies-sweatshirt-uh26",
-  "slug": "qikink-hoodies-sweatshirt-uh26",
+  "slug": "rare-ember-sweatshirt",
   "title": "Rare Ember Unisex Sweatshirt",
   "price": 10.58,
   "price_inr": 899,
@@ -2702,7 +2702,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-terry-oversized-t-shirt-ut27",
-  "slug": "qikink-t-shirts-terry-oversized-t-shirt-ut27",
+  "slug": "rare-ember-terry-oversized-t-shirt",
   "title": "Rare Ember Unisex Terry Oversized Tee",
   "price": 8.22,
   "price_inr": 699,
@@ -2730,7 +2730,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-bottomwear-terry-shorts-mt45",
-  "slug": "qikink-bottomwear-terry-shorts-mt45",
+  "slug": "rare-ember-terry-shorts",
   "title": "Rare Ember Unisex Terry Shorts",
   "price": 10.58,
   "price_inr": 899,
@@ -2760,7 +2760,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-t-shirts-tie-and-dye-oversized-t-shirt-ut58",
-  "slug": "qikink-t-shirts-tie-and-dye-oversized-t-shirt-ut58",
+  "slug": "rare-ember-tie-and-dye-oversized-t-shirt",
   "title": "Rare Ember Unisex Tie Dye Oversized T-Shirt",
   "price": 10.58,
   "price_inr": 899,
@@ -2790,7 +2790,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-bottomwear-tie-dye-shorts-ut68",
-  "slug": "qikink-bottomwear-tie-dye-shorts-ut68",
+  "slug": "rare-ember-tie-dye-shorts",
   "title": "Rare Ember Unisex Tie Dye Shorts",
   "price": 10.58,
   "price_inr": 899,
@@ -2820,7 +2820,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-hoodies-varsity-jacket-uj31",
-  "slug": "qikink-hoodies-varsity-jacket-uj31",
+  "slug": "rare-ember-varsity-jacket",
   "title": "Rare Ember Unisex Varsity Jacket",
   "price": 15.28,
   "price_inr": 1299,
@@ -2850,7 +2850,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-hoodies-unisex-fleece-heavyweight-zip-hoodie-uh38",
-  "slug": "qikink-hoodies-unisex-fleece-heavyweight-zip-hoodie-uh38",
+  "slug": "rare-ember-unisex-fleece-heavyweight-zip-hoodie",
   "title": "Rare Ember Unisex Zip Hoodie",
   "price": 15.28,
   "price_inr": 1299,
@@ -2880,7 +2880,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-bags-all-over-print-large-tote-bag",
-  "slug": "qikink-bags-all-over-print-large-tote-bag",
+  "slug": "rare-ember-all-over-print-large-tote-bag",
   "title": "Rare Ember AOP Large Tote Bag",
   "price": 8.22,
   "price_inr": 699,
@@ -2908,7 +2908,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-all-over-print-scarf",
-  "slug": "qikink-accessories-all-over-print-scarf",
+  "slug": "rare-ember-all-over-print-scarf",
   "title": "Rare Ember AOP Scarf",
   "price": 3.52,
   "price_inr": 299,
@@ -2936,7 +2936,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-all-over-print-stole",
-  "slug": "qikink-accessories-all-over-print-stole",
+  "slug": "rare-ember-all-over-print-stole",
   "title": "Rare Ember AOP Stole",
   "price": 5.87,
   "price_inr": 499,
@@ -2964,7 +2964,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-scrunchies",
-  "slug": "qikink-accessories-scrunchies",
+  "slug": "rare-ember-scrunchies",
   "title": "Rare Ember AOP Womens Scrunchies",
   "price": 3.52,
   "price_inr": 299,
@@ -2993,7 +2993,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-acrylic-display-stand",
-  "slug": "qikink-accessories-acrylic-display-stand",
+  "slug": "rare-ember-acrylic-display-stand",
   "title": "Rare Ember Acrylic Display Stand",
   "price": 3.52,
   "price_inr": 299,
@@ -3021,7 +3021,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-bar-pendant",
-  "slug": "qikink-accessories-bar-pendant",
+  "slug": "rare-ember-bar-pendant",
   "title": "Rare Ember Bar Pendant",
   "price": 3.52,
   "price_inr": 299,
@@ -3049,7 +3049,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-button-badge",
-  "slug": "qikink-accessories-button-badge",
+  "slug": "rare-ember-button-badge",
   "title": "Rare Ember Black Badge",
   "price": 3.52,
   "price_inr": 299,
@@ -3077,7 +3077,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-bookmarks",
-  "slug": "qikink-accessories-bookmarks",
+  "slug": "rare-ember-bookmarks",
   "title": "Rare Ember Bookmark",
   "price": 3.52,
   "price_inr": 299,
@@ -3107,7 +3107,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-all-over-print-bow-scrunchie",
-  "slug": "qikink-accessories-all-over-print-bow-scrunchie",
+  "slug": "rare-ember-all-over-print-bow-scrunchie",
   "title": "Rare Ember Bow Scrunchies",
   "price": 3.52,
   "price_inr": 299,
@@ -3135,7 +3135,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-dog-tags",
-  "slug": "qikink-accessories-dog-tags",
+  "slug": "rare-ember-dog-tags",
   "title": "Rare Ember Dog Tag",
   "price": 3.52,
   "price_inr": 299,
@@ -3163,7 +3163,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-embroidered-patches",
-  "slug": "qikink-accessories-embroidered-patches",
+  "slug": "rare-ember-embroidered-patches",
   "title": "Rare Ember Embroidery Patches",
   "price": 3.52,
   "price_inr": 299,
@@ -3192,7 +3192,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-fridge-magnets",
-  "slug": "qikink-accessories-fridge-magnets",
+  "slug": "rare-ember-fridge-magnets",
   "title": "Rare Ember Fridge Magnet",
   "price": 3.52,
   "price_inr": 299,
@@ -3222,7 +3222,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-greeting-card",
-  "slug": "qikink-accessories-greeting-card",
+  "slug": "rare-ember-greeting-card",
   "title": "Rare Ember Greeting Cards",
   "price": 3.52,
   "price_inr": 299,
@@ -3252,7 +3252,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-keychain",
-  "slug": "qikink-accessories-keychain",
+  "slug": "rare-ember-keychain",
   "title": "Rare Ember Keychain",
   "price": 3.52,
   "price_inr": 299,
@@ -3282,7 +3282,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-kids-clothes-baby-romper-kr23",
-  "slug": "qikink-kids-clothes-baby-romper-kr23",
+  "slug": "rare-ember-baby-romper",
   "title": "Rare Ember Kids Rompers",
   "price": 3.52,
   "price_inr": 299,
@@ -3310,7 +3310,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-luggage-tags",
-  "slug": "qikink-accessories-luggage-tags",
+  "slug": "rare-ember-luggage-tags",
   "title": "Rare Ember Luggage Tag",
   "price": 3.52,
   "price_inr": 299,
@@ -3340,7 +3340,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-personalized-pens",
-  "slug": "qikink-accessories-personalized-pens",
+  "slug": "rare-ember-personalized-pens",
   "title": "Rare Ember Personalized Pens",
   "price": 3.52,
   "price_inr": 299,
@@ -3368,7 +3368,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-pet-products-pet-tags",
-  "slug": "qikink-pet-products-pet-tags",
+  "slug": "rare-ember-pet-tags",
   "title": "Rare Ember Pet Tags",
   "price": 3.52,
   "price_inr": 299,
@@ -3397,7 +3397,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-die-cut-stickers",
-  "slug": "qikink-accessories-die-cut-stickers",
+  "slug": "rare-ember-die-cut-stickers",
   "title": "Rare Ember Stickers",
   "price": 3.52,
   "price_inr": 299,
@@ -3425,7 +3425,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-temporary-tattoo",
-  "slug": "qikink-accessories-temporary-tattoo",
+  "slug": "rare-ember-temporary-tattoo",
   "title": "Rare Ember Temporary Tattoos",
   "price": 3.52,
   "price_inr": 299,
@@ -3453,7 +3453,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-bags-all-over-print-drawstring-bag",
-  "slug": "qikink-bags-all-over-print-drawstring-bag",
+  "slug": "rare-ember-all-over-print-drawstring-bag",
   "title": "Rare Ember Unisex AOP Drawstring Bag",
   "price": 5.87,
   "price_inr": 499,
@@ -3481,7 +3481,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-bags-all-over-print-tote-bag",
-  "slug": "qikink-bags-all-over-print-tote-bag",
+  "slug": "rare-ember-all-over-print-tote-bag",
   "title": "Rare Ember Unisex AOP Tote bags Zipper",
   "price": 5.87,
   "price_inr": 499,
@@ -3509,7 +3509,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-accessories-cotton-apron",
-  "slug": "qikink-accessories-cotton-apron",
+  "slug": "rare-ember-cotton-apron",
   "title": "Rare Ember Unisex Apron",
   "price": 8.22,
   "price_inr": 699,
@@ -3539,7 +3539,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-bags-cotton-drawstring-bags",
-  "slug": "qikink-bags-cotton-drawstring-bags",
+  "slug": "rare-ember-cotton-drawstring-bags",
   "title": "Rare Ember Unisex Drawstring Bag",
   "price": 5.87,
   "price_inr": 499,
@@ -3569,7 +3569,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-bags-large-tote-bag",
-  "slug": "qikink-bags-large-tote-bag",
+  "slug": "rare-ember-large-tote-bag",
   "title": "Rare Ember Unisex Everyday Large Tote bag",
   "price": 5.87,
   "price_inr": 499,
@@ -3599,7 +3599,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-bags-tote-bag",
-  "slug": "qikink-bags-tote-bag",
+  "slug": "rare-ember-tote-bag",
   "title": "Rare Ember Unisex Tote Bag Zipper",
   "price": 5.87,
   "price_inr": 499,
@@ -3629,7 +3629,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-acrylic-coasters",
-  "slug": "qikink-home-decor-acrylic-coasters",
+  "slug": "rare-ember-acrylic-coasters",
   "title": "Rare Ember Acrylic Coaster",
   "price": 3.52,
   "price_inr": 299,
@@ -3659,7 +3659,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-acrylic-photo-frame-with-wood-stand",
-  "slug": "qikink-home-decor-acrylic-photo-frame-with-wood-stand",
+  "slug": "rare-ember-acrylic-photo-frame-with-wood-stand",
   "title": "Rare Ember Acrylic Photo Frame With Stand",
   "price": 5.87,
   "price_inr": 499,
@@ -3675,8 +3675,8 @@ export const products: Product[] = [
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/349/b0be2ea5-199e-49e1-acce-13d740ff9121.webp",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Sell custom acrylic photo frames with a wooden stand without MOQ. Shipped with box packing. Start your photo frame business with Rare Ember ",
-  "story": "Sell custom acrylic photo frames with a wooden stand without MOQ. Shipped with box packing. Start your photo frame business with Rare Ember Studio.",
+  "short": "Museum-grade crystal clear acrylic photo display paired with a solid wooden stand. High-definition UV print with rich contrast for your desk setup.",
+  "story": "Museum-grade crystal clear acrylic photo display paired with a handcrafted solid wooden stand. High-definition UV print with rich contrast, designed to elevate your desk setup or shelf gallery.",
   "details": [
     "Dispatched direct from Tirupur manufacturing floor in 2-4 business days",
     "100% Doorstep 7-Day Free Replacement Guarantee",
@@ -3687,7 +3687,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-poster-acrylic-poster",
-  "slug": "qikink-home-decor-poster-acrylic-poster",
+  "slug": "rare-ember-poster-acrylic-poster",
   "title": "Rare Ember Acrylic Poster",
   "price": 5.87,
   "price_inr": 499,
@@ -3715,7 +3715,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-drinkware-coffee-mug-black-mug",
-  "slug": "qikink-drinkware-coffee-mug-black-mug",
+  "slug": "rare-ember-coffee-mug-black-mug",
   "title": "Rare Ember Black Coffee Mug",
   "price": 5.87,
   "price_inr": 499,
@@ -3745,7 +3745,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-canvas-prints",
-  "slug": "qikink-home-decor-canvas-prints",
+  "slug": "rare-ember-canvas-prints",
   "title": "Rare Ember Canvas",
   "price": 8.22,
   "price_inr": 699,
@@ -3773,7 +3773,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-ornament",
-  "slug": "qikink-home-decor-ornament",
+  "slug": "rare-ember-ornament",
   "title": "Rare Ember Christmas Ornaments",
   "price": 3.52,
   "price_inr": 299,
@@ -3803,7 +3803,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-cloth-napkins",
-  "slug": "qikink-home-decor-cloth-napkins",
+  "slug": "rare-ember-cloth-napkins",
   "title": "Rare Ember Cloth Napkin",
   "price": 3.52,
   "price_inr": 299,
@@ -3833,7 +3833,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-coaster",
-  "slug": "qikink-home-decor-coaster",
+  "slug": "rare-ember-coaster",
   "title": "Rare Ember Coasters",
   "price": 3.52,
   "price_inr": 299,
@@ -3863,7 +3863,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-drinkware-coffee-mug-color-coffee-mug",
-  "slug": "qikink-drinkware-coffee-mug-color-coffee-mug",
+  "slug": "rare-ember-coffee-mug-color-coffee-mug",
   "title": "Rare Ember Color Coffee Mug",
   "price": 5.87,
   "price_inr": 499,
@@ -3893,7 +3893,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-daily-planner",
-  "slug": "qikink-home-decor-daily-planner",
+  "slug": "rare-ember-daily-planner",
   "title": "Rare Ember Daily Planner",
   "price": 5.87,
   "price_inr": 499,
@@ -3921,7 +3921,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-poster-poster-frames",
-  "slug": "qikink-home-decor-poster-poster-frames",
+  "slug": "rare-ember-poster-poster-frames",
   "title": "Rare Ember Framed Poster",
   "price": 8.22,
   "price_inr": 699,
@@ -3950,7 +3950,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-jigsaw-puzzle",
-  "slug": "qikink-home-decor-jigsaw-puzzle",
+  "slug": "rare-ember-jigsaw-puzzle",
   "title": "Rare Ember Jigsaw Puzzle",
   "price": 3.52,
   "price_inr": 299,
@@ -3978,7 +3978,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-wooden-puzzle",
-  "slug": "qikink-home-decor-wooden-puzzle",
+  "slug": "rare-ember-wooden-puzzle",
   "title": "Rare Ember MDF Wooden Puzzle",
   "price": 5.87,
   "price_inr": 499,
@@ -4008,7 +4008,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-drinkware-coffee-mug-magic-mug",
-  "slug": "qikink-drinkware-coffee-mug-magic-mug",
+  "slug": "rare-ember-coffee-mug-magic-mug",
   "title": "Rare Ember Magic Coffee Mug",
   "price": 5.87,
   "price_inr": 499,
@@ -4036,7 +4036,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-poster-metal-posters",
-  "slug": "qikink-home-decor-poster-metal-posters",
+  "slug": "rare-ember-poster-metal-posters",
   "title": "Rare Ember Metal Posters",
   "price": 8.22,
   "price_inr": 699,
@@ -4064,7 +4064,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-notepad",
-  "slug": "qikink-home-decor-notepad",
+  "slug": "rare-ember-notepad",
   "title": "Rare Ember NotePad",
   "price": 3.52,
   "price_inr": 299,
@@ -4092,7 +4092,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-notebook",
-  "slug": "qikink-home-decor-notebook",
+  "slug": "rare-ember-notebook",
   "title": "Rare Ember Notebook",
   "price": 5.87,
   "price_inr": 499,
@@ -4120,7 +4120,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-placemats",
-  "slug": "qikink-home-decor-placemats",
+  "slug": "rare-ember-placemats",
   "title": "Rare Ember Placemat",
   "price": 3.52,
   "price_inr": 299,
@@ -4150,7 +4150,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-photo-postcard",
-  "slug": "qikink-home-decor-photo-postcard",
+  "slug": "rare-ember-photo-postcard",
   "title": "Rare Ember Postcards",
   "price": 3.52,
   "price_inr": 299,
@@ -4180,7 +4180,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-poster-paper-poster",
-  "slug": "qikink-home-decor-poster-paper-poster",
+  "slug": "rare-ember-poster-paper-poster",
   "title": "Rare Ember Poster",
   "price": 3.52,
   "price_inr": 299,
@@ -4208,7 +4208,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-drinkware-sipper-bottle",
-  "slug": "qikink-drinkware-sipper-bottle",
+  "slug": "rare-ember-sipper-bottle",
   "title": "Rare Ember Sipper Bottle",
   "price": 8.22,
   "price_inr": 699,
@@ -4238,7 +4238,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-sketchbook",
-  "slug": "qikink-home-decor-sketchbook",
+  "slug": "rare-ember-sketchbook",
   "title": "Rare Ember Sketchbook",
   "price": 5.87,
   "price_inr": 499,
@@ -4266,7 +4266,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-drinkware-steel-water-bottle",
-  "slug": "qikink-drinkware-steel-water-bottle",
+  "slug": "rare-ember-steel-water-bottle",
   "title": "Rare Ember Steel Water bottle",
   "price": 8.22,
   "price_inr": 699,
@@ -4294,7 +4294,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-table-runner",
-  "slug": "qikink-home-decor-table-runner",
+  "slug": "rare-ember-table-runner",
   "title": "Rare Ember Tablerunner",
   "price": 5.87,
   "price_inr": 499,
@@ -4324,7 +4324,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-wall-tapestry",
-  "slug": "qikink-home-decor-wall-tapestry",
+  "slug": "rare-ember-wall-tapestry",
   "title": "Rare Ember Tapestry",
   "price": 10.58,
   "price_inr": 899,
@@ -4352,7 +4352,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-drinkware-tumbler-bottle",
-  "slug": "qikink-drinkware-tumbler-bottle",
+  "slug": "rare-ember-tumbler-bottle",
   "title": "Rare Ember Tumbler Bottle",
   "price": 10.58,
   "price_inr": 899,
@@ -4382,7 +4382,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-all-over-print-cushion-cover",
-  "slug": "qikink-home-decor-all-over-print-cushion-cover",
+  "slug": "rare-ember-all-over-print-cushion-cover",
   "title": "Rare Ember Unisex AOP Cushion Cover",
   "price": 3.52,
   "price_inr": 299,
@@ -4410,7 +4410,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-home-decor-all-over-print-pillow-cover",
-  "slug": "qikink-home-decor-all-over-print-pillow-cover",
+  "slug": "rare-ember-all-over-print-pillow-cover",
   "title": "Rare Ember Unisex AOP Pillow Cover",
   "price": 5.87,
   "price_inr": 499,
@@ -4438,7 +4438,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-drinkware-coffee-mug-white-mug",
-  "slug": "qikink-drinkware-coffee-mug-white-mug",
+  "slug": "rare-ember-coffee-mug-white-mug",
   "title": "Rare Ember White Coffee Mug",
   "price": 3.52,
   "price_inr": 299,
@@ -4466,7 +4466,7 @@ export const products: Product[] = [
 },
   {
   "id": "qikink-drinkware-coffee-mug-enamel-mug",
-  "slug": "qikink-drinkware-coffee-mug-enamel-mug",
+  "slug": "rare-ember-coffee-mug-enamel-mug",
   "title": "Rare Ember White Enamel Mugs",
   "price": 5.87,
   "price_inr": 499,

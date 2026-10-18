@@ -15,6 +15,9 @@ function safeEqual(a: string, b: string): boolean {
 function extractToken(req: Request): string | null {
   const auth = req.headers.get('authorization') ?? '';
   if (auth.startsWith('Bearer ')) return auth.slice(7).trim() || null;
+  const cookie = req.headers.get('cookie') ?? '';
+  const match = cookie.match(/admin_token=([^;]+)/);
+  if (match) return decodeURIComponent(match[1]).trim() || null;
   return null;
 }
 
