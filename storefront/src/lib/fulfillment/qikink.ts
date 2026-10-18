@@ -391,19 +391,22 @@ export async function fulfillQikinkOrder(
 
       const selectedDesignUrl = await ensurePublicDesignUrl(rawDesignUrl, supabase);
 
-    // Resolve exact Qikink placement SKU and dimensions
+    // Resolve exact Qikink placement SKU and dimensions from presets
     const scaleFactor = it.customScale ? Number(it.customScale) / 100 : 1.0;
+    const placement = String(it.customPlacement || it.placement || '').toLowerCase();
+    const isMinimalClean = placement.includes('minimal clean') || placement.includes('clean blank') || it.customImageName === 'Clean Blank Drop';
+
     let primaryPlacement = 'fr'; // default front center
     let baseWidth = 10;
     let baseHeight = 12;
 
-    if (it.customPosition === 'pocket') {
+    if (it.customPosition === 'pocket' || placement.includes('pocket')) {
       primaryPlacement = 'lch'; // Qikink official Left Chest (pocket) placement
       baseWidth = 4;
       baseHeight = 4;
-    } else if (it.customPosition === 'mural') {
-      baseWidth = 14;
-      baseHeight = 16;
+    } else if (it.customPosition === 'mural' || placement.includes('oversized back')) {
+      baseWidth = 12;
+      baseHeight = 14;
     }
 
     const calculatedWidth = String(Math.max(3, Math.min(16, Math.round(baseWidth * scaleFactor))));
@@ -418,47 +421,49 @@ export async function fulfillQikinkOrder(
       mockup_link: string;
     }> = [];
 
-    const isBackOnly = it.customPlacement === 'Back Print' || it.placement === 'Back Print';
-    const isBothSides = it.customPlacement?.includes('Both Sides') || it.placement?.includes('Both Sides');
+    const isBackOnly = placement.includes('back');
+    const isBothSides = placement.includes('both');
 
-    if (isBothSides) {
-      // Front placement
-      designs.push({
-        design_code: `RE${idx + 1}F${cleanOrderNum.slice(-5)}`.slice(0, 15),
-        width_inches: calculatedWidth,
-        height_inches: calculatedHeight,
-        placement_sku: primaryPlacement,
-        design_link: selectedDesignUrl,
-        mockup_link: selectedDesignUrl,
-      });
-      // Back placement
-      designs.push({
-        design_code: `RE${idx + 1}B${cleanOrderNum.slice(-5)}`.slice(0, 15),
-        width_inches: '12',
-        height_inches: '14',
-        placement_sku: 'bk',
-        design_link: selectedDesignUrl,
-        mockup_link: selectedDesignUrl,
-      });
-    } else if (isBackOnly) {
-      designs.push({
-        design_code: `RE${idx + 1}B${cleanOrderNum.slice(-5)}`.slice(0, 15),
-        width_inches: '12',
-        height_inches: '14',
-        placement_sku: 'bk',
-        design_link: selectedDesignUrl,
-        mockup_link: selectedDesignUrl,
-      });
-    } else {
-      // Front placement
-      designs.push({
-        design_code: `RE${idx + 1}${cleanOrderNum.slice(-6)}`.slice(0, 15),
-        width_inches: calculatedWidth,
-        height_inches: calculatedHeight,
-        placement_sku: primaryPlacement,
-        design_link: selectedDesignUrl,
-        mockup_link: selectedDesignUrl,
-      });
+    if (!isMinimalClean) {
+      if (isBothSides) {
+        // Front placement
+        designs.push({
+          design_code: `RE${idx + 1}F${cleanOrderNum.slice(-5)}`.slice(0, 15),
+          width_inches: calculatedWidth,
+          height_inches: calculatedHeight,
+          placement_sku: primaryPlacement,
+          design_link: selectedDesignUrl,
+          mockup_link: selectedDesignUrl,
+        });
+        // Back placement
+        designs.push({
+          design_code: `RE${idx + 1}B${cleanOrderNum.slice(-5)}`.slice(0, 15),
+          width_inches: '12',
+          height_inches: '14',
+          placement_sku: 'bk',
+          design_link: selectedDesignUrl,
+          mockup_link: selectedDesignUrl,
+        });
+      } else if (isBackOnly) {
+        designs.push({
+          design_code: `RE${idx + 1}B${cleanOrderNum.slice(-5)}`.slice(0, 15),
+          width_inches: '12',
+          height_inches: '14',
+          placement_sku: 'bk',
+          design_link: selectedDesignUrl,
+          mockup_link: selectedDesignUrl,
+        });
+      } else {
+        // Front placement
+        designs.push({
+          design_code: `RE${idx + 1}${cleanOrderNum.slice(-6)}`.slice(0, 15),
+          width_inches: calculatedWidth,
+          height_inches: calculatedHeight,
+          placement_sku: primaryPlacement,
+          design_link: selectedDesignUrl,
+          mockup_link: selectedDesignUrl,
+        });
+      }
     }
 
     return {

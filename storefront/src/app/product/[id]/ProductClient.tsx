@@ -348,9 +348,9 @@ export function ProductClient({ product }: Props) {
     2: 'L',
   });
   const [bundleItemGraphics, setBundleItemGraphics] = useState<Record<number, { title: string; image: string | null }>>({
-    0: { title: 'Tokyo Cyber Mecha', image: TRENDING_GRAPHICS_VAULT[0].mockUrl },
-    1: { title: 'Vintage Acid Flame', image: TRENDING_GRAPHICS_VAULT[1].mockUrl },
-    2: { title: 'Git Commit Dreams', image: TRENDING_GRAPHICS_VAULT[2].mockUrl },
+    0: { title: 'Original Drop', image: null },
+    1: { title: 'Original Drop', image: null },
+    2: { title: 'Original Drop', image: null },
   });
   const [customPosX, setCustomPosX] = useState<number>(0);
   const [customPosY, setCustomPosY] = useState<number>(0);
@@ -393,16 +393,12 @@ export function ProductClient({ product }: Props) {
     }
   };
 
-  const [isCustomizing, setIsCustomizing] = useState(isApparel || isComboProduct);
+  const [isCustomizing, setIsCustomizing] = useState(false);
   const [customMode, setCustomMode] = useState<'trending' | 'text' | 'image'>('trending');
   const [customText, setCustomText] = useState('');
-  const [customImage, setCustomImage] = useState<string | null>(
-    (isApparel || isComboProduct) ? TRENDING_GRAPHICS_VAULT[0].mockUrl : null
-  );
-  const [customImageName, setCustomImageName] = useState<string>(
-    (isApparel || isComboProduct) ? TRENDING_GRAPHICS_VAULT[0].title : ''
-  );
-  const [customPlacement, setCustomPlacement] = useState<string>('Front Print');
+  const [customImage, setCustomImage] = useState<string | null>(null);
+  const [customImageName, setCustomImageName] = useState<string>('');
+  const [customPlacement, setCustomPlacement] = useState<string>('Center Chest');
   const [customTextColor, setCustomTextColor] = useState<string>('#ffffff');
   const [customFont, setCustomFont] = useState<string>('font-sans font-black tracking-wider uppercase');
   const [customPosition, setCustomPosition] = useState<'center' | 'pocket' | 'mural' | 'hem'>('center');
@@ -411,6 +407,7 @@ export function ProductClient({ product }: Props) {
   const [customFlip, setCustomFlip] = useState<boolean>(false);
   const [customView, setCustomView] = useState<'front' | 'back'>('front');
   const [dualPlacement, setDualPlacement] = useState<boolean>(false);
+  const [openAccordion, setOpenAccordion] = useState<'shipping' | 'care' | null>(null);
 
   const [uploadingArtwork, setUploadingArtwork] = useState(false);
 
@@ -520,6 +517,18 @@ export function ProductClient({ product }: Props) {
 
   const activeComboItem: BundleSubItem | null =
     isComboProduct && comboItems.length > 0 ? comboItems[selectedComboItemIndex] || comboItems[0] : null;
+
+  const activeItemTitle = activeComboItem ? activeComboItem.name : displayTitle;
+  const activeItemId = activeComboItem ? activeComboItem.id : product.id;
+  const activeItemLower = (activeItemTitle + ' ' + activeItemId).toLowerCase();
+
+  const activeItemIsApparel = activeComboItem
+    ? /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|shorts|jacket|vest|polo/i.test(activeItemLower)
+    : isApparel;
+  const activeItemIsHoodie = /hoodie|sweatshirt|jacket/i.test(activeItemLower);
+  const activeItemIsDeskMat = /desk|pad|mat/i.test(activeItemLower);
+  const activeItemIsDrinkware = /mug|cup|bottle|tumbler|drinkware/i.test(activeItemLower);
+  const activeItemIsPhoneCase = /case|phone|iphone/i.test(activeItemLower);
 
   const activeStudioImage = activeComboItem
     ? (customView === 'back' && activeComboItem.backImage ? activeComboItem.backImage : activeComboItem.plainImage)
@@ -864,7 +873,7 @@ export function ProductClient({ product }: Props) {
                           boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
                         }}
                       >
-                        ⚡ Qikink Studio ({customPlacement})
+                        ⚡ RareEmber™ Studio ({customPlacement})
                       </span>
                     </div>
                   )}
@@ -1222,928 +1231,690 @@ export function ProductClient({ product }: Props) {
                   </li>
                 ))}
               </ul>
+            </div>
 
-              {/* Dynamic Estimated Delivery Banner */}
-              <div style={{ marginTop: '1rem', padding: '0.85rem 1rem', borderRadius: '0.85rem', background: 'rgba(255, 77, 36, 0.05)', border: '1px solid rgba(255, 77, 36, 0.16)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span style={{ fontSize: '1.25rem' }}>⚡</span>
-                <div style={{ fontSize: '0.8rem', color: '#443731' }}>
-                  <strong style={{ color: '#161311' }}>Order within next 3 hours for priority dispatch tomorrow!</strong>
-                  <div style={{ color: '#78716c', marginTop: '0.15rem' }}>
-                    Estimated Doorstep Delivery: <strong>{new Date(Date.now() + 3*86400000).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })} – {new Date(Date.now() + 5*86400000).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}</strong> via BlueDart / Delhivery Air
-                  </div>
+            {/* ======================================================== */}
+            {/* THE NEW "EASY + POWERFUL" 3-STEP CONFIGURATOR            */}
+            {/* ======================================================== */}
+
+            {/* STEP 1: UNIFIED BUNDLE ITEM TABS (Only for Combos) */}
+            {isComboProduct && comboItems.length > 1 && (
+              <div className="mt-5 p-3.5 rounded-2xl bg-neutral-900 text-white border border-white/10 shadow-lg">
+                <div className="flex items-center justify-between mb-2.5 px-0.5">
+                  <span className="text-[11px] font-black uppercase tracking-wider text-[#FF9A3D] flex items-center gap-1.5">
+                    <span>📦</span>
+                    <span>Step 1: Customize Combo Items ({selectedComboItemIndex + 1}/{comboItems.length})</span>
+                  </span>
+                  <span className="text-[10px] text-neutral-400 font-bold">
+                    Tap to select item to configure
+                  </span>
+                </div>
+                <div className={`grid gap-2 ${comboItems.length === 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2'}`}>
+                  {comboItems.map((item, idx) => {
+                    const isCurrent = selectedComboItemIndex === idx;
+                    const itemLower = (item.name + ' ' + item.id).toLowerCase();
+                    const itemIsApp = /tee|t-shirt|hoodie|sweatshirt|crop|jogger|jacket|polo/i.test(itemLower);
+                    const itemIsMat = /desk|pad|mat/i.test(itemLower);
+                    const itemIsMug = /mug|cup|bottle/i.test(itemLower);
+
+                    const itemSpecLabel = itemIsApp
+                      ? `Size: ${bundleItemSizes[idx] || 'L'}`
+                      : itemIsMat
+                      ? '900×400mm'
+                      : itemIsMug
+                      ? '330ml'
+                      : 'Standard';
+
+                    const itemGraphicTitle = bundleItemGraphics[idx]?.title || 'Original Drop';
+
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => {
+                          setSelectedComboItemIndex(idx);
+                          setSelectedSize(bundleItemSizes[idx] || 'L');
+                          const g = bundleItemGraphics[idx];
+                          if (g) {
+                            setCustomImage(g.image);
+                            setCustomImageName(g.title);
+                          }
+                        }}
+                        className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                          isCurrent
+                            ? 'border-[#FF4D24] bg-[#FF4D24]/15 ring-2 ring-[#FF4D24]/60 text-white shadow-md'
+                            : 'border-white/10 bg-white/5 hover:bg-white/10 text-neutral-300'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between gap-1">
+                          <div className="flex items-center gap-1.5 font-black text-xs truncate">
+                            <span>{item.emoji}</span>
+                            <span className="truncate">{idx + 1}. {item.name}</span>
+                          </div>
+                          <span className={`text-[9px] font-black px-1.5 py-0.5 rounded uppercase ${isCurrent ? 'bg-[#FF4D24] text-white' : 'bg-white/10 text-neutral-400'}`}>
+                            {isCurrent ? '● ACTIVE' : 'EDIT'}
+                          </span>
+                        </div>
+                        <div className="text-[11px] font-bold mt-1.5 text-neutral-300 flex items-center gap-1.5 flex-wrap">
+                          <span className="text-[#FF9A3D] font-extrabold">{itemSpecLabel}</span>
+                          <span className="text-neutral-500">•</span>
+                          <span className="truncate max-w-[150px] text-neutral-300">{itemGraphicTitle}</span>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
+            )}
 
-              {/* Garment & DTF Print Care Guide */}
-              {isApparel && (
-                <div style={{ marginTop: '0.65rem', padding: '0.75rem 1rem', borderRadius: '0.75rem', background: '#fafafa', border: '1px solid rgba(0,0,0,0.06)', fontSize: '0.75rem', color: '#78716c', lineHeight: 1.5 }}>
-                  <strong style={{ color: '#161311' }}>🫧 Garment & Print Care:</strong> Machine wash cold inside-out • Do not iron directly on print (iron reverse) • Tumble dry low or line dry in shade • 100% pre-shrunk bio-washed cotton.
+            {/* STEP 2: SMART SIZE & FIT SELECTOR (Item-Aware) */}
+            <div className="mt-4">
+              {activeItemIsApparel ? (
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-xs font-black uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
+                      <span>📏</span>
+                      <span>Step 2: Select Size {isComboProduct && activeComboItem ? `for ${activeComboItem.name}` : ''}</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowSizeGuide(true)}
+                      className="text-xs font-bold text-[#FF4D24] hover:underline flex items-center gap-1 cursor-pointer bg-transparent border-none p-0"
+                    >
+                      <span>📏 Size Guide &amp; Fit Advice ↗</span>
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-6 gap-1.5">
+                    {SIZES.map((s) => {
+                      const isSelected = selectedSize === s;
+                      return (
+                        <button
+                          key={s}
+                          type="button"
+                          onClick={() => {
+                            setSelectedSize(s);
+                            if (isComboProduct) {
+                              setBundleItemSizes((prev) => ({ ...prev, [selectedComboItemIndex]: s }));
+                            }
+                          }}
+                          className={`py-2 px-1 rounded-xl text-center transition-all cursor-pointer flex flex-col items-center justify-center min-h-[50px] ${
+                            isSelected
+                              ? 'bg-neutral-900 text-white border-2 border-[#FF4D24] shadow-md'
+                              : 'bg-white text-neutral-800 border border-black/10 hover:border-black/25'
+                          }`}
+                        >
+                          <span className="text-sm font-black">{s}</span>
+                          <span className={`text-[9px] font-bold ${isSelected ? 'text-[#FF9A3D]' : 'text-neutral-500'}`}>
+                            {SIZE_SPECS[s]?.chest || ''}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <p className="text-xs text-neutral-500 mt-2 flex items-center gap-1.5 flex-wrap">
+                    <span className="font-black text-[#FF4D24]">⚡ Drop-Shoulder Oversized Fit:</span>
+                    <span>
+                      Size <strong>{selectedSize}</strong> ({SIZE_SPECS[selectedSize]?.chest || 'Standard'} Chest) • {
+                        activeItemIsHoodie
+                          ? '380 GSM Heavyweight French Terry Fleece (Structured Boxy Silhouette).'
+                          : isCropTopOrPolySpandex
+                          ? '220 GSM Poly-Spandex 4-Way Stretch (Tailored Athletic Fit).'
+                          : isJerseyOrDryFit
+                          ? '180 GSM Honeycomb Quick-Dry Mesh (Breathable Performance Matrix).'
+                          : '240 GSM Super Combed Bio-Washed Cotton (Pre-Shrunk Streetwear Drop).'
+                      }
+                    </span>
+                  </p>
+                </div>
+              ) : activeItemIsDeskMat ? (
+                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                  <span className="text-2xl shrink-0">🖥️</span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                        Step 2: Standard Extended Dimensions
+                      </span>
+                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                        ONE SIZE
+                      </span>
+                    </div>
+                    <p className="text-xs font-black text-neutral-900 mt-0.5">
+                      900 × 400 × 3 mm • Stitched Edge Micro-Weave
+                    </p>
+                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                      ✓ Standard Extended Size: Fits full keyboard + mouse with high-density tracking surface and vulcanized non-slip rubber base.
+                    </p>
+                  </div>
+                </div>
+              ) : activeItemIsDrinkware ? (
+                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                  <span className="text-2xl shrink-0">☕</span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                        Step 2: Standard Ceramic Stoneware
+                      </span>
+                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                        330 ML (11 OZ)
+                      </span>
+                    </div>
+                    <p className="text-xs font-black text-neutral-900 mt-0.5">
+                      Triple-Fired Gloss Ceramic Mug • Microwave &amp; Dishwasher Safe
+                    </p>
+                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                      ✓ Certified food-grade stoneware with ergonomic comfort grip handle and chip-resistant rim.
+                    </p>
+                  </div>
+                </div>
+              ) : activeItemIsPhoneCase ? (
+                <div>
+                  <label className="block text-xs font-black uppercase tracking-wider text-neutral-500 mb-1.5">
+                    Step 2: Select Phone Model
+                  </label>
+                  <select
+                    value={selectedPhoneModel}
+                    onChange={(e) => setSelectedPhoneModel(e.target.value)}
+                    className="w-full p-3 rounded-xl border border-black/15 bg-white text-neutral-900 font-bold text-sm cursor-pointer"
+                  >
+                    {PHONE_MODELS.map((m) => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+                </div>
+              ) : (
+                <div className="p-3 rounded-xl bg-neutral-100 border border-black/10 text-xs text-neutral-600 font-semibold">
+                  ✓ Standard Calibrated One-Size Item Specification
                 </div>
               )}
             </div>
 
-            {/* Sizing Selector for Apparel */}
-            {isApparel && (
-              <div style={{ marginTop: '1.5rem' }}>
-                {isComboProduct && comboItems.length > 1 && (
-                  <div style={{ marginBottom: '1.25rem', padding: '1rem', borderRadius: '1.1rem', background: '#161311', color: '#ffffff', border: '1px solid rgba(255,255,255,0.1)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.65rem' }}>
-                      <span style={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#FF4D24', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                        <span>📦</span>
-                        <span>Bundle Item {selectedComboItemIndex + 1} of {comboItems.length}</span>
+            {/* STEP 3: TWO-MODE ARTWORK SELECTOR (PROGRESSIVE DISCLOSURE) */}
+            <div className="mt-5">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-black uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
+                  <span>🎨</span> Step 3: Artwork &amp; Personalization
+                </span>
+                {isCustomizing && (
+                  <span className="text-[10px] font-black uppercase tracking-wider text-[#FF4D24] bg-[#FF4D24]/10 px-2.5 py-0.5 rounded-full border border-[#FF4D24]/30">
+                    RareEmber™ Lab Active
+                  </span>
+                )}
+              </div>
+
+              {/* 2-Pill Progressive Disclosure Toggle */}
+              <div className="grid grid-cols-2 gap-2 p-1 bg-neutral-100 rounded-2xl border border-black/5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsCustomizing(false);
+                    setCustomImage(null);
+                    setCustomImageName('');
+                    setCustomText('');
+                    if (isComboProduct) {
+                      setBundleItemGraphics((prev) => ({
+                        ...prev,
+                        [selectedComboItemIndex]: { title: 'Original Drop', image: null },
+                      }));
+                    }
+                  }}
+                  className={`py-3 px-3 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                    !isCustomizing
+                      ? 'bg-neutral-900 text-white shadow-md'
+                      : 'text-neutral-600 hover:text-neutral-900 bg-transparent'
+                  }`}
+                >
+                  <span className={`w-2 h-2 rounded-full ${!isCustomizing ? 'bg-emerald-400' : 'bg-neutral-400'}`} />
+                  <span>Keep Original Drop</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsCustomizing(true);
+                    if (!customImage && !customText.trim() && TRENDING_GRAPHICS_VAULT[0]) {
+                      setCustomImage(TRENDING_GRAPHICS_VAULT[0].mockUrl);
+                      setCustomImageName(TRENDING_GRAPHICS_VAULT[0].title);
+                      if (isComboProduct) {
+                        setBundleItemGraphics((prev) => ({
+                          ...prev,
+                          [selectedComboItemIndex]: { title: TRENDING_GRAPHICS_VAULT[0].title, image: TRENDING_GRAPHICS_VAULT[0].mockUrl },
+                        }));
+                      }
+                    }
+                  }}
+                  className={`py-3 px-3 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                    isCustomizing
+                      ? 'bg-gradient-to-r from-[#FF4D24] to-[#E8244B] text-white shadow-md'
+                      : 'text-neutral-600 hover:text-neutral-900 bg-transparent'
+                  }`}
+                >
+                  <span>🎨</span>
+                  <span>Customize Print / Logo</span>
+                </button>
+              </div>
+
+              {/* RARE EMBER™ CUSTOM LAB (REVEALED WHEN CUSTOMIZE IS TAPPED) */}
+              {isCustomizing && (
+                <div className="mt-3 p-4 md:p-5 rounded-3xl bg-[#0c0b0a] text-white border-2 border-[#FF4D24] shadow-[0_20px_50px_rgba(255,77,36,0.18)] space-y-4">
+                  {/* Studio Header Bar */}
+                  <div className="flex items-center justify-between gap-2 pb-3 border-b border-white/10 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className="text-xs font-black uppercase tracking-wider text-white">
+                        RareEmber™ Custom Lab
                       </span>
-                      <span style={{ fontSize: '0.7rem', color: '#a8a29e', fontWeight: 600 }}>
-                        Tap each item to customize size &amp; print
+                      <span className="text-[10px] font-bold text-[#FF9A3D] bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
+                        {activeComboItem ? activeComboItem.name : displayTitle}
                       </span>
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: `repeat(${comboItems.length}, 1fr)`, gap: '0.5rem' }}>
-                      {comboItems.map((item, idx) => {
-                        const isCurrent = selectedComboItemIndex === idx;
+
+                    {/* View Angle Switcher for Apparel */}
+                    {((!activeComboItem && supportsPrintPlacement) || (activeComboItem && activeComboItem.backImage)) && (
+                      <div className="flex items-center gap-1 bg-white/10 p-1 rounded-xl border border-white/10">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCustomView('front');
+                            if (customPlacement === 'Oversized Back') setCustomPlacement('Center Chest');
+                          }}
+                          className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                            customView === 'front' ? 'bg-[#FF4D24] text-white' : 'text-neutral-300 hover:text-white'
+                          }`}
+                        >
+                          Front
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCustomView('back');
+                            setCustomPlacement('Oversized Back');
+                          }}
+                          className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                            customView === 'back' ? 'bg-[#FF4D24] text-white' : 'text-neutral-300 hover:text-white'
+                          }`}
+                        >
+                          Back
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 3D Garment Viewport with Authentic Blank Garment Mockup & Safe Print Zone */}
+                  <div className="relative aspect-square w-full max-w-[320px] md:max-w-[360px] mx-auto rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 flex items-center justify-center shadow-inner select-none">
+                    <Image
+                      src={activeStudioImage}
+                      alt={activeComboItem ? activeComboItem.name : displayTitle}
+                      fill
+                      sizes="360px"
+                      className="object-cover pointer-events-none"
+                    />
+
+                    {/* RareEmber Safe Print Zone (Dashed Boundary) */}
+                    <div
+                      className="absolute pointer-events-none z-10 transition-all duration-200"
+                      style={{
+                        top: activePrintZone.top,
+                        left: activePrintZone.left,
+                        width: activePrintZone.width,
+                        height: activePrintZone.height,
+                      }}
+                    >
+                      <div className="absolute inset-0 border-2 border-dashed border-[#FF4D24]/80 rounded-xl pointer-events-none bg-[#FF4D24]/[0.03]">
+                        <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-[#FF4D24] text-[8px] font-black uppercase text-white tracking-wider whitespace-nowrap shadow-sm">
+                          {activePrintZone.safeZoneLabel}
+                        </span>
+                      </div>
+
+                      {/* Render Active Graphic or Text in Validated Preset Position */}
+                      {(customImage || (customMode === 'text' && customText.trim())) && (
+                        <div
+                          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                          style={{
+                            transform: `translate(${customPosX}%, ${customPosY}%) scale(${customScale / 100})`,
+                            transition: 'transform 0.2s ease',
+                          }}
+                        >
+                          {customMode === 'text' && customText.trim() ? (
+                            <div
+                              className={`${customFont} select-none text-center p-1 pointer-events-none`}
+                              style={{
+                                color: customTextColor,
+                                fontSize: 'clamp(14px, 4vw, 24px)',
+                                lineHeight: 1.15,
+                                textShadow: '0 2px 6px rgba(0,0,0,0.9)',
+                              }}
+                            >
+                              {customText}
+                            </div>
+                          ) : customImage ? (
+                            <img
+                              src={customImage}
+                              alt="Active Print Design"
+                              className="max-w-[140px] md:max-w-[160px] max-h-[140px] md:max-h-[160px] object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.7)] pointer-events-none"
+                            />
+                          ) : null}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Viewport Status Pill */}
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-[10px] text-white/90 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 z-20 pointer-events-none">
+                      <span className="font-bold truncate max-w-[190px]">
+                        🎨 {customImageName || (customText ? `"${customText}"` : 'Clean Blank')}
+                      </span>
+                      <span className="font-mono text-[#FF9A3D] font-black">
+                        {customPlacement}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* 4 VALIDATED PRINT PRESETS (APPAREL ONLY) */}
+                  {activeItemIsApparel ? (
+                    <div>
+                      <span className="text-[11px] font-black uppercase tracking-wider text-neutral-400 block mb-1.5">
+                        Print Placement Presets:
+                      </span>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                        {[
+                          { id: 'front-center', label: '🎯 Center Chest', sub: '10" × 12"', placement: 'Center Chest', view: 'front', x: 0, y: -10, scale: 100 },
+                          { id: 'pocket-crest', label: '👕 Pocket Crest', sub: '3.5" × 3.5"', placement: 'Pocket Crest', view: 'front', x: -24, y: -20, scale: 65 },
+                          { id: 'back-oversized', label: '🔄 Oversized Back', sub: '12" × 14"', placement: 'Oversized Back', view: 'back', x: 0, y: 0, scale: 125 },
+                          { id: 'minimal-clean', label: '🚫 Minimal Clean', sub: 'Solid Blank', placement: 'Minimal Clean', view: 'front', x: 0, y: 0, scale: 100, isClean: true },
+                        ].map((preset) => {
+                          const isPresetActive = preset.isClean
+                            ? (!customImage && !customText.trim())
+                            : (customPlacement === preset.placement && (customImage || customText.trim()));
+
+                          return (
+                            <button
+                              key={preset.id}
+                              type="button"
+                              onClick={() => {
+                                if (preset.isClean) {
+                                  setCustomImage(null);
+                                  setCustomImageName('Clean Blank Drop');
+                                  setCustomText('');
+                                  setCustomPlacement('Minimal Clean');
+                                  if (isComboProduct) {
+                                    setBundleItemGraphics((prev) => ({
+                                      ...prev,
+                                      [selectedComboItemIndex]: { title: 'Original Drop', image: null },
+                                    }));
+                                  }
+                                } else {
+                                  setCustomPlacement(preset.placement);
+                                  setCustomView(preset.view as 'front' | 'back');
+                                  setCustomPosX(preset.x);
+                                  setCustomPosY(preset.y);
+                                  setCustomScale(preset.scale);
+                                  setCustomRotation(0);
+                                  setCustomFlip(false);
+                                  if (!customImage && !customText.trim() && TRENDING_GRAPHICS_VAULT[0]) {
+                                    setCustomImage(TRENDING_GRAPHICS_VAULT[0].mockUrl);
+                                    setCustomImageName(TRENDING_GRAPHICS_VAULT[0].title);
+                                    if (isComboProduct) {
+                                      setBundleItemGraphics((prev) => ({
+                                        ...prev,
+                                        [selectedComboItemIndex]: { title: TRENDING_GRAPHICS_VAULT[0].title, image: TRENDING_GRAPHICS_VAULT[0].mockUrl },
+                                      }));
+                                    }
+                                  }
+                                }
+                              }}
+                              className={`p-2 rounded-xl border text-center transition-all cursor-pointer ${
+                                isPresetActive
+                                  ? 'border-[#FF4D24] bg-[#FF4D24]/20 ring-1 ring-[#FF4D24] text-white shadow-sm'
+                                  : 'border-white/10 bg-white/5 hover:bg-white/10 text-neutral-300'
+                              }`}
+                            >
+                              <div className="text-xs font-black">{preset.label}</div>
+                              <div className="text-[10px] text-neutral-400 font-bold mt-0.5">{preset.sub}</div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ) : activeItemIsDeskMat ? (
+                    <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-neutral-300 flex items-center justify-between">
+                      <span className="font-bold">Print Placement:</span>
+                      <span className="font-black text-[#FF9A3D]">Full Surface Precision Print (900 × 400 mm)</span>
+                    </div>
+                  ) : (
+                    <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-neutral-300 flex items-center justify-between">
+                      <span className="font-bold">Print Placement:</span>
+                      <span className="font-black text-[#FF9A3D]">Panoramic 360° Wrap Print (8.5" × 3.5")</span>
+                    </div>
+                  )}
+
+                  {/* ARTWORK PICKER (HORIZONTAL THUMBNAIL CAROUSEL) */}
+                  <div>
+                    <div className="flex items-center justify-between text-xs font-bold text-neutral-400 mb-2">
+                      <span>Choose Archival Streetwear Graphic:</span>
+                      <span className="text-[#FF9A3D] text-[11px] font-black">1200 DPI Vector HD</span>
+                    </div>
+
+                    <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none snap-x">
+                      {/* Clean Blank Option */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCustomImage(null);
+                          setCustomImageName('Clean Blank Drop');
+                          setCustomText('');
+                          setCustomPlacement('Minimal Clean');
+                          if (isComboProduct) {
+                            setBundleItemGraphics((prev) => ({
+                              ...prev,
+                              [selectedComboItemIndex]: { title: 'Original Drop', image: null },
+                            }));
+                          }
+                        }}
+                        className={`snap-start shrink-0 p-2.5 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-2 min-w-[135px] ${
+                          !customImage && !customText.trim()
+                            ? 'border-[#FF4D24] bg-[#FF4D24]/15 ring-2 ring-[#FF4D24]/40'
+                            : 'border-white/10 bg-white/5 hover:bg-white/10'
+                        }`}
+                      >
+                        <div className="w-9 h-9 rounded-xl bg-neutral-800 border border-white/10 flex items-center justify-center shrink-0 text-base">
+                          🚫
+                        </div>
+                        <div className="min-w-0">
+                          <span className="text-[9px] font-bold text-neutral-400 block uppercase">Clean</span>
+                          <span className="text-xs font-black text-white block truncate">Original Drop</span>
+                        </div>
+                      </button>
+
+                      {/* 6 Curated Streetwear Graphics */}
+                      {TRENDING_GRAPHICS_VAULT.map((g) => {
+                        const isSelected = customImageName === g.title;
                         return (
                           <button
-                            key={item.id}
+                            key={g.id}
                             type="button"
                             onClick={() => {
-                              setSelectedComboItemIndex(idx);
-                              setSelectedSize(bundleItemSizes[idx] || 'L');
-                              const g = bundleItemGraphics[idx];
-                              if (g) {
-                                setCustomImage(g.image);
-                                setCustomImageName(g.title);
+                              setCustomImage(g.mockUrl);
+                              setCustomImageName(g.title);
+                              if (customPlacement === 'Minimal Clean') {
+                                setCustomPlacement('Center Chest');
+                              }
+                              if (isComboProduct) {
+                                setBundleItemGraphics((prev) => ({
+                                  ...prev,
+                                  [selectedComboItemIndex]: { title: g.title, image: g.mockUrl },
+                                }));
                               }
                             }}
-                            style={{
-                              padding: '0.65rem 0.75rem',
-                              borderRadius: '0.75rem',
-                              textAlign: 'left',
-                              border: isCurrent ? '2px solid #FF4D24' : '1px solid rgba(255,255,255,0.15)',
-                              background: isCurrent ? 'rgba(255,77,36,0.18)' : 'rgba(255,255,255,0.06)',
-                              cursor: 'pointer',
-                              color: '#ffffff',
-                              transition: 'all 0.15s ease',
-                            }}
+                            className={`snap-start shrink-0 p-2.5 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-2 min-w-[160px] ${
+                              isSelected
+                                ? 'border-[#FF4D24] bg-[#FF4D24]/15 ring-2 ring-[#FF4D24]/40 shadow-sm'
+                                : 'border-white/10 bg-white/5 hover:bg-white/10'
+                            }`}
                           >
-                            <div style={{ fontSize: '0.8rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                              <span>{item.emoji}</span>
-                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.name}</span>
+                            <div className="w-9 h-9 rounded-xl bg-[#09090b] border border-white/15 p-0.5 flex items-center justify-center shrink-0 overflow-hidden">
+                              <img src={g.mockUrl} alt={g.title} className="w-full h-full object-contain" />
                             </div>
-                            <div style={{ fontSize: '0.68rem', color: isCurrent ? '#FF4D24' : '#a8a29e', fontWeight: 700, marginTop: '0.25rem' }}>
-                              Size: <strong>{bundleItemSizes[idx] || 'L'}</strong> • {bundleItemGraphics[idx]?.title ? bundleItemGraphics[idx].title.slice(0, 14) : 'Selected'}
+                            <div className="min-w-0 flex-1">
+                              <span className="text-[9px] font-black text-[#FF9A3D] uppercase tracking-wider block truncate">
+                                {g.emoji} {g.tag}
+                              </span>
+                              <span className="text-xs font-black text-white block truncate">
+                                {g.title}
+                              </span>
                             </div>
+                            {isSelected && <span className="text-xs font-black text-[#FF4D24] shrink-0">✓</span>}
                           </button>
                         );
                       })}
                     </div>
                   </div>
-                )}
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
-                  <span style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#8a7b6b' }}>
-                    Select Size {isComboProduct && activeComboItem ? `for ${activeComboItem.name}` : ''}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setShowSizeGuide(true)}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      color: '#FF4D24',
-                      fontSize: '0.82rem',
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.25rem',
-                      padding: 0,
-                    }}
-                  >
-                    📏 Size Guide & Fit Advice
-                  </button>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '0.45rem' }}>
-                  {SIZES.map((s) => {
-                    const isSelected = selectedSize === s;
-                    return (
+                  {/* PRO UPLOAD & CUSTOM TEXT DRAWER */}
+                  <div className="pt-2 border-t border-white/10">
+                    <div className="flex items-center gap-2 mb-2 flex-wrap">
                       <button
-                        key={s}
                         type="button"
-                        onClick={() => {
-                          setSelectedSize(s);
-                          if (isComboProduct) {
-                            setBundleItemSizes((prev) => ({ ...prev, [selectedComboItemIndex]: s }));
-                          }
-                        }}
-                        style={{
-                          padding: '0.55rem 0',
-                          minHeight: '48px',
-                          borderRadius: '0.85rem',
-                          border: isSelected ? '2px solid #FF4D24' : '1.5px solid rgba(0,0,0,0.1)',
-                          background: isSelected ? '#161311' : '#ffffff',
-                          color: isSelected ? '#ffffff' : '#161311',
-                          cursor: 'pointer',
-                          transition: 'all 0.15s ease',
-                          boxShadow: isSelected ? '0 4px 12px rgba(255,77,36,0.2)' : 'none',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '1px',
-                        }}
-                      >
-                        <span style={{ fontSize: '0.92rem', fontWeight: 900 }}>{s}</span>
-                        <span style={{ fontSize: '0.62rem', fontWeight: 700, opacity: isSelected ? 0.95 : 0.65 }}>
-                          {SIZE_SPECS[s]?.chest || ''}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-                <p style={{ fontSize: '0.75rem', color: '#78716c', marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
-                  <span style={{ color: '#FF4D24', fontWeight: 800 }}>⚡ Fit:</span>
-                  <span>
-                    Size <strong>{selectedSize}</strong> ({SIZE_SPECS[selectedSize]?.chest || 'Standard'} Chest / {SIZE_SPECS[selectedSize]?.length || 'Regular'} Length) • {
-                      isHoodieOrSweatshirt
-                        ? '380 GSM Heavyweight Fleece (Pre-Shrunk Structured Fit).'
-                        : isCropTopOrPolySpandex
-                        ? '220 GSM Poly-Spandex 4-Way Stretch (Tailored Athletic Fit).'
-                        : isJerseyOrDryFit
-                        ? '180 GSM Breathable Mesh (Athletic Fit).'
-                        : '240 GSM Bio-Washed Combed Cotton (Pre-Shrunk Drop Shoulder).'
-                    }
-                  </span>
-                </p>
-              </div>
-            )}
-
-            {/* Phone Model Selector for Phone Cases */}
-            {isPhoneCase && (
-              <div style={{ marginTop: '1.5rem' }}>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#8a7b6b', marginBottom: '0.6rem' }}>
-                  Select Phone Model
-                </label>
-                <select
-                  value={selectedPhoneModel}
-                  onChange={(e) => setSelectedPhoneModel(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '0.85rem 1rem',
-                    borderRadius: '0.85rem',
-                    border: '1.5px solid rgba(0,0,0,0.12)',
-                    background: '#ffffff',
-                    color: '#161311',
-                    fontWeight: 700,
-                    fontSize: '0.9rem',
-                    outline: 'none',
-                    cursor: 'pointer',
-                  }}
-                >
-                  {PHONE_MODELS.map((m) => (
-                    <option key={m} value={m}>
-                      {m}
-                    </option>
-                  ))}
-                </select>
-                <p style={{ fontSize: '0.75rem', color: '#78716c', marginTop: '0.45rem' }}>
-                  ⚡ Impact-resistant polycarbonate with raised camera ring and wireless charging support.
-                </p>
-              </div>
-            )}
-
-            {/* RareEmber™ Live 3D Studio Canvas */}
-            <div
-              className={`mt-6 rounded-3xl transition-all duration-300 overflow-hidden ${
-                isCustomizing
-                  ? 'border-2 border-[#FF4D24] bg-[#0c0b0a] text-white shadow-[0_20px_50px_rgba(255,77,36,0.18)]'
-                  : 'border border-black/[0.08] bg-white hover:border-black/[0.18] shadow-xs'
-              }`}
-            >
-              {/* Studio Toggle Header */}
-              <button
-                type="button"
-                onClick={() => setIsCustomizing((prev) => !prev)}
-                className={`w-full p-4 flex items-center justify-between text-left transition-colors cursor-pointer select-none ${
-                  isCustomizing ? 'border-b border-white/10' : ''
-                }`}
-              >
-                <div className="flex items-center gap-3.5 min-w-0">
-                  <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#FF4D24] to-[#f59e0b] text-white flex items-center justify-center text-xl font-black shrink-0 shadow-lg ring-2 ring-white/10">
-                    ✨
-                  </div>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className={`font-black text-sm md:text-base ${isCustomizing ? 'text-white' : 'text-neutral-900'}`}>
-                        RareEmber™ 3D Studio
-                      </span>
-                      <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FF4D24]/20 text-[#FF9A3D] border border-[#FF4D24]/30">
-                        Live 3D Redesign
-                      </span>
-                    </div>
-                    <p className={`text-xs mt-0.5 truncate ${isCustomizing ? 'text-neutral-400' : 'text-neutral-500'}`}>
-                      {customImageName || customText
-                        ? `Designing: ${customImageName || customText} • ${customView === 'back' ? 'Back 3D' : 'Front 3D'} (${customScale}%)`
-                        : 'Tap to open full Live 3D Studio & redesign your drop.'}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 shrink-0">
-                  <span
-                    className={`text-xs font-black px-3.5 py-1.5 rounded-full transition-all ${
-                      isCustomizing
-                        ? 'bg-[#FF4D24] text-white shadow-md'
-                        : 'bg-neutral-900 text-white hover:bg-black'
-                    }`}
-                  >
-                    {isCustomizing ? 'Close Studio ▲' : 'Open 3D Studio ⚡ ▼'}
-                  </span>
-                </div>
-              </button>
-
-              {/* 3D Studio Interactive Workspace */}
-              {isCustomizing && (
-                <div className="p-4 md:p-6 space-y-4">
-                  {/* UPPER IN STUDIO: IF COMBO, ONLY SHOW ITEM NAMES (e.g. 3 NAMES) */}
-                  {isComboProduct && comboItems.length > 0 && (
-                    <div className="rounded-2xl bg-white/5 border border-white/10 p-3">
-                      <div className="flex items-center justify-between mb-2 px-1">
-                        <span className="text-[11px] font-black uppercase tracking-wider text-[#FF9A3D] flex items-center gap-1.5">
-                          <span>📦</span> Combo Pack Products ({comboItems.length} Included):
-                        </span>
-                        <span className="text-[10px] text-neutral-400 font-bold">
-                          Tap product name to customize live
-                        </span>
-                      </div>
-                      <div
-                        className={`grid gap-2 ${
-                          comboItems.length === 3
-                            ? 'grid-cols-1 sm:grid-cols-3'
-                            : comboItems.length === 2
-                            ? 'grid-cols-1 sm:grid-cols-2'
-                            : 'grid-cols-1'
+                        onClick={() => setCustomMode(customMode === 'image' ? 'trending' : 'image')}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
+                          customMode === 'image'
+                            ? 'bg-[#FF4D24] text-white border-transparent'
+                            : 'bg-white/5 text-neutral-300 border-white/10 hover:bg-white/10'
                         }`}
                       >
-                        {comboItems.map((item, idx) => {
-                          const isSelected = selectedComboItemIndex === idx;
-                          return (
-                            <button
-                              key={item.id}
-                              type="button"
-                              onClick={() => {
-                                setSelectedComboItemIndex(idx);
-                                setCustomView('front');
-                                setCustomPlacement('Front Print');
-                                setSelectedSize(bundleItemSizes[idx] || 'L');
-                                const g = bundleItemGraphics[idx];
-                                if (g) {
-                                  setCustomImage(g.image);
-                                  setCustomImageName(g.title);
-                                }
-                              }}
-                              className={`p-3 rounded-2xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1 ${
-                                isSelected
-                                  ? 'border-[#FF4D24] bg-[#FF4D24]/20 ring-2 ring-[#FF4D24]/60 text-white shadow-lg'
-                                  : 'border-white/10 bg-black/40 hover:bg-white/10 hover:border-white/20 text-neutral-300'
-                              }`}
-                            >
-                              <div className="flex items-center gap-2 justify-center">
-                                <span className="text-lg">{item.emoji}</span>
-                                <span className="text-xs font-black truncate max-w-[150px] sm:max-w-none">
-                                  {item.name}
-                                </span>
-                              </div>
-                              <span
-                                className={`text-[10px] font-bold tracking-wider uppercase ${
-                                  isSelected ? 'text-[#FF9A3D]' : 'text-neutral-400'
-                                }`}
-                              >
-                                {isSelected ? '● Live on Studio Canvas' : `Size: ${bundleItemSizes[idx] || 'L'} • ${bundleItemGraphics[idx]?.title || 'Graphic'}`}
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* 1. THE QIKINK 3D STUDIO CANVAS */}
-                  <div className="relative rounded-2xl bg-gradient-to-b from-[#181716] via-[#11100f] to-[#080707] border border-white/10 p-3 md:p-4 shadow-2xl overflow-hidden">
-                    {/* Studio Stage Top Bar: Engine Status & View Angle Switcher */}
-                    <div className="flex items-center justify-between gap-2 mb-3 pb-2.5 border-b border-white/10 flex-wrap">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                        <span className="text-[11px] font-black uppercase tracking-wider text-neutral-300">
-                          Qikink™ 3D Design Studio
-                        </span>
-                        <span className="text-[10px] font-bold text-[#FF9A3D] bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
-                          {activeComboItem ? activeComboItem.name : customView === 'front' ? 'Front Perspective' : 'Back Streetwear View'}
-                        </span>
-                      </div>
-
-                      {/* View Angle Switcher (If front/back supported) */}
-                      {((!activeComboItem && supportsPrintPlacement) || (activeComboItem && activeComboItem.backImage)) && (
-                        <div className="flex items-center gap-1 bg-white/10 p-1 rounded-xl border border-white/10 backdrop-blur-md">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setCustomView('front');
-                              setCustomPlacement('Front Print');
-                            }}
-                            className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
-                              customView === 'front'
-                                ? 'bg-[#FF4D24] text-white shadow-sm'
-                                : 'text-neutral-300 hover:text-white'
-                            }`}
-                          >
-                            <span>👕</span>
-                            <span>Front</span>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setCustomView('back');
-                              setCustomPlacement('Back Print');
-                            }}
-                            className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
-                              customView === 'back'
-                                ? 'bg-[#FF4D24] text-white shadow-sm'
-                                : 'text-neutral-300 hover:text-white'
-                            }`}
-                          >
-                            <span>🔄</span>
-                            <span>Back</span>
-                          </button>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* 3D Garment Viewport with Authentic Product Mockup & Safe Print Zone */}
-                    <div className="relative aspect-square w-full max-w-[340px] md:max-w-[380px] mx-auto rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 flex items-center justify-center shadow-inner group select-none">
-                      {/* Ambient 3D Spotlight */}
-                      <div
-                        aria-hidden
-                        className="absolute inset-0 pointer-events-none opacity-60"
-                        style={{
-                          background: 'radial-gradient(circle at 50% 30%, rgba(255, 77, 36, 0.15), transparent 70%)',
-                        }}
-                      />
-
-                      {/* Product Base Plain Mockup Image ("plan img") */}
-                      <Image
-                        src={activeStudioImage}
-                        alt={activeComboItem ? activeComboItem.name : displayTitle}
-                        fill
-                        sizes="380px"
-                        className="object-cover transition-opacity duration-300 pointer-events-none"
-                      />
-
-                      {/* Qikink Safe Print Zone (Dashed Boundary) */}
-                      <div
-                        className="absolute pointer-events-none z-10 transition-all duration-200"
-                        style={{
-                          top: activePrintZone.top,
-                          left: activePrintZone.left,
-                          width: activePrintZone.width,
-                          height: activePrintZone.height,
-                        }}
+                        <span>🖼️</span>
+                        <span>Upload Your Logo (PNG/SVG)</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCustomMode(customMode === 'text' ? 'trending' : 'text')}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
+                          customMode === 'text'
+                            ? 'bg-[#FF4D24] text-white border-transparent'
+                            : 'bg-white/5 text-neutral-300 border-white/10 hover:bg-white/10'
+                        }`}
                       >
-                        {/* Printable Area Dashed Guideline */}
-                        <div className="absolute inset-0 border-2 border-dashed border-[#FF4D24]/80 rounded-xl pointer-events-none bg-[#FF4D24]/[0.03]">
-                          <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-[#FF4D24] text-[8px] font-black uppercase text-white tracking-wider whitespace-nowrap shadow-sm">
-                            {activePrintZone.safeZoneLabel}
-                          </span>
-                        </div>
+                        <span>✏️</span>
+                        <span>Add Custom Text</span>
+                      </button>
+                    </div>
 
-                        {/* Active Interactive Artwork Box with Drag & Visual Handles */}
-                        {(customImage || (customMode === 'text' && customText.trim())) && (
-                          <div
-                            onPointerDown={handleCanvasPointerDown}
-                            onPointerMove={handleCanvasPointerMove}
-                            onPointerUp={handleCanvasPointerUp}
-                            onPointerCancel={handleCanvasPointerUp}
-                            className="absolute inset-0 flex items-center justify-center pointer-events-auto"
-                            style={{
-                              transform: `translate(${customPosX}%, ${customPosY}%) scale(${customScale / 100}) rotate(${customRotation}deg) scaleX(${customFlip ? -1 : 1})`,
-                              transition: isDragging ? 'none' : 'transform 0.15s ease',
-                              touchAction: 'none',
-                              cursor: isDragging ? 'grabbing' : 'grab',
-                            }}
-                          >
-                            {/* Active Selection Frame */}
-                            <div className="relative p-1.5 border border-[#FF4D24] rounded-lg shadow-[0_0_15px_rgba(255,77,36,0.35)] bg-[#FF4D24]/5">
-                              {/* 4 Corner Handles */}
-                              <div className="w-2.5 h-2.5 bg-white border-2 border-[#FF4D24] rounded-xs absolute -top-1.5 -left-1.5 cursor-nwse-resize shadow-xs" />
-                              <div className="w-2.5 h-2.5 bg-white border-2 border-[#FF4D24] rounded-xs absolute -top-1.5 -right-1.5 cursor-nesw-resize shadow-xs" />
-                              <div className="w-2.5 h-2.5 bg-white border-2 border-[#FF4D24] rounded-xs absolute -bottom-1.5 -left-1.5 cursor-nesw-resize shadow-xs" />
-                              <div className="w-2.5 h-2.5 bg-white border-2 border-[#FF4D24] rounded-xs absolute -bottom-1.5 -right-1.5 cursor-nwse-resize shadow-xs" />
-
-                              {/* Top Rotation Stem & Pin */}
-                              <div className="w-[1.5px] h-3.5 bg-[#FF4D24] absolute -top-3.5 left-1/2 -translate-x-1/2" />
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setCustomRotation((r) => (r + 15) % 360);
-                                }}
-                                className="w-5 h-5 rounded-full bg-white border-2 border-[#FF4D24] absolute -top-8 left-1/2 -translate-x-1/2 flex items-center justify-center text-[10px] text-[#FF4D24] font-black cursor-pointer shadow-md hover:scale-110 active:scale-95 transition-transform"
-                                title="Click to rotate +15°"
-                              >
-                                ↻
-                              </button>
-
-                              {/* Artwork Content */}
-                              {customMode === 'text' && customText.trim() ? (
-                                <div
-                                  className={`${customFont} select-none text-center p-1 pointer-events-none`}
-                                  style={{
-                                    color: customTextColor,
-                                    fontSize: 'clamp(14px, 4vw, 24px)',
-                                    lineHeight: 1.15,
-                                    textShadow: '0 2px 6px rgba(0,0,0,0.9)',
-                                    wordBreak: 'break-word',
-                                  }}
-                                >
-                                  {customText}
-                                </div>
-                              ) : customImage ? (
-                                <img
-                                  src={customImage}
-                                  alt="Active 3D Print Design"
-                                  className="max-w-[140px] md:max-w-[160px] max-h-[140px] md:max-h-[160px] object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.7)] pointer-events-none"
-                                />
-                              ) : null}
-
-                              {/* Drag Coordinates Badge */}
-                              <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-black/85 text-[8px] font-mono font-bold text-[#FF9A3D] whitespace-nowrap border border-white/10 pointer-events-none">
-                                X: {customPosX}mm | Y: {customPosY}mm
-                              </span>
+                    {customMode === 'image' && (
+                      <div className="space-y-2 mt-2">
+                        {!customImage || customMode !== 'image' ? (
+                          <label className="flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-[#FF4D24]/40 bg-white/5 hover:bg-white/10 cursor-pointer text-center transition-all">
+                            <span className="text-2xl mb-1">📁</span>
+                            <span className="text-xs font-black text-white">
+                              {uploadingArtwork ? 'Uploading to Archival Vault...' : 'Click to Upload High-Res Logo (PNG, SVG, WEBP)'}
+                            </span>
+                            <span className="text-[10px] text-neutral-400 mt-0.5">
+                              Direct cloud upload to factory print queue • Up to 15MB
+                            </span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleImageUpload}
+                              className="hidden"
+                            />
+                          </label>
+                        ) : (
+                          <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <img src={customImage} alt="Uploaded Logo" className="w-10 h-10 object-contain rounded-lg bg-neutral-900 p-1 shrink-0" />
+                              <div className="min-w-0">
+                                <span className="text-xs font-black text-white block truncate">{customImageName}</span>
+                                <span className="text-[10px] font-bold text-emerald-400 block">✓ Cloud Stored for Factory DTF Print</span>
+                              </div>
                             </div>
+                            <button
+                              type="button"
+                              onClick={handleRemoveImage}
+                              className="text-xs font-bold text-red-400 bg-red-500/10 px-2.5 py-1.5 rounded-lg border border-red-500/20 cursor-pointer"
+                            >
+                              Remove ✕
+                            </button>
                           </div>
                         )}
+
+                        <p className="text-[11px] text-neutral-400 leading-relaxed bg-white/5 p-2.5 rounded-xl border border-white/10">
+                          💬 <strong>Prefer to WhatsApp or email your vector file later?</strong> Place order normally, then WhatsApp or email artwork to{' '}
+                          <a href="mailto:rareemberagency@gmail.com" className="text-[#FF9A3D] font-bold underline">
+                            rareemberagency@gmail.com
+                          </a>{' '}
+                          with your Order ID!
+                        </p>
                       </div>
+                    )}
 
-                      {/* Bottom Stage Status Pill */}
-                      <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-[10px] text-white/90 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 z-20 pointer-events-none">
-                        <span className="font-bold truncate max-w-[190px]">
-                          🎨 {customImageName || (customText ? `"${customText}"` : 'Plain Blank Drop')}
-                        </span>
-                        <span className="font-mono text-[#FF9A3D] font-black">
-                          {customScale}% • {customRotation}° {customFlip ? '• FLIPPED' : ''}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Qikink Design Studio Toolbar */}
-                    <div className="mt-3.5 pt-3 border-t border-white/10 space-y-3">
-                      {/* Alignment Row */}
-                      <div>
-                        <span className="text-[10px] font-black uppercase tracking-wider text-neutral-400 block mb-1.5">
-                          Qikink Alignments (Touch &amp; Drag or 1-Tap):
-                        </span>
-                        <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5 text-xs font-bold">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setCustomPosX(0);
-                              setCustomPosY(0);
-                            }}
-                            className="py-1.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/5 transition-colors text-center"
-                            title="Align Center Both"
-                          >
-                            🎯 Center
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setCustomPosX(0)}
-                            className="py-1.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/5 transition-colors text-center"
-                            title="Align Center X"
-                          >
-                            ↔ Center X
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setCustomPosY(0)}
-                            className="py-1.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/5 transition-colors text-center"
-                            title="Align Center Y"
-                          >
-                            ↕ Center Y
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setCustomPosX(0);
-                              setCustomPosY(-18);
-                            }}
-                            className="py-1.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/5 transition-colors text-center"
-                            title="Align Chest"
-                          >
-                            👕 Chest
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setCustomPosX(-24);
-                              setCustomPosY(-20);
-                              setCustomScale(65);
-                            }}
-                            className="py-1.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/5 transition-colors text-center"
-                            title="Align Left Pocket"
-                          >
-                            👕 Pocket
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setCustomPosX(0);
-                              setCustomPosY(0);
-                              setCustomScale(135);
-                            }}
-                            className="py-1.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/5 transition-colors text-center"
-                            title="Oversized Mural"
-                          >
-                            🖼️ Mural
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setCustomPosX(0);
-                              setCustomPosY(28);
-                            }}
-                            className="py-1.5 px-1 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/5 transition-colors text-center"
-                            title="Bottom Hem"
-                          >
-                            ⚡ Hem
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Transform & Rotation Row */}
-                      <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="text-[10px] font-black uppercase tracking-wider text-neutral-400 mr-1">
-                          Transform:
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => setCustomRotation((r) => (r - 15) % 360)}
-                          className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-neutral-200 text-xs font-bold border border-white/10 transition-colors"
-                        >
-                          ↺ -15°
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setCustomRotation((r) => (r + 15) % 360)}
-                          className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-neutral-200 text-xs font-bold border border-white/10 transition-colors"
-                        >
-                          ↻ +15°
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setCustomRotation((r) => (r + 90) % 360)}
-                          className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-neutral-200 text-xs font-bold border border-white/10 transition-colors"
-                        >
-                          ↻ 90°
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setCustomFlip((f) => !f)}
-                          className={`px-2.5 py-1.5 rounded-lg text-xs font-bold border transition-colors ${
-                            customFlip
-                              ? 'bg-[#FF4D24] text-white border-transparent'
-                              : 'bg-white/5 hover:bg-white/15 text-neutral-200 border-white/10'
-                          }`}
-                        >
-                          ⇄ Flip
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setCustomPosX(0);
-                            setCustomPosY(0);
-                            setCustomRotation(0);
-                            setCustomFlip(false);
-                            setCustomScale(100);
-                          }}
-                          className="ml-auto px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-neutral-300 text-xs font-bold border border-white/10 transition-colors"
-                        >
-                          ↺ Reset
-                        </button>
-                      </div>
-
-                      {/* Precision Scale Slider */}
-                      <div className="pt-1">
-                        <div className="flex items-center justify-between text-[11px] font-black uppercase text-neutral-400 mb-1">
-                          <span>Graphic Scale &amp; Proportions:</span>
-                          <span className="text-[#FF9A3D] font-mono">{customScale}%</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <button
-                            type="button"
-                            onClick={() => setCustomScale((s) => Math.max(50, s - 5))}
-                            className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-white font-black text-sm flex items-center justify-center shrink-0 cursor-pointer"
-                          >
-                            -
-                          </button>
-                          <input
-                            type="range"
-                            min={50}
-                            max={150}
-                            value={customScale}
-                            onChange={(e) => setCustomScale(Number(e.target.value))}
-                            className="w-full accent-[#FF4D24] cursor-pointer"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setCustomScale((s) => Math.min(150, s + 5))}
-                            className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-white font-black text-sm flex items-center justify-center shrink-0 cursor-pointer"
-                          >
-                            +
-                          </button>
-                        </div>
-                        <div className="flex items-center justify-between gap-1.5 mt-1.5">
-                          {[
-                            { val: 75, label: 'Subtle (75%)' },
-                            { val: 100, label: 'Standard (100%)' },
-                            { val: 135, label: 'Oversized (135%)' },
-                          ].map((sc) => (
-                            <button
-                              key={sc.val}
-                              type="button"
-                              onClick={() => setCustomScale(sc.val)}
-                              className={`flex-1 py-1 text-center rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
-                                customScale === sc.val
-                                  ? 'bg-[#FF4D24] text-white'
-                                  : 'bg-white/5 hover:bg-white/10 text-neutral-400 border border-white/5'
-                              }`}
-                            >
-                              {sc.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 2. CHOOSE CUSTOMIZATION TYPE TABS */}
-                  <div className="grid grid-cols-3 gap-1.5 p-1 rounded-2xl bg-neutral-900 border border-white/10">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setCustomMode('trending');
-                        if (!customImage && TRENDING_GRAPHICS_VAULT[0]) {
-                          setCustomImage(TRENDING_GRAPHICS_VAULT[0].mockUrl);
-                          setCustomImageName(TRENDING_GRAPHICS_VAULT[0].title);
-                        }
-                      }}
-                      className={`py-2.5 px-1 text-center rounded-xl text-xs font-black transition-all cursor-pointer ${
-                        customMode === 'trending'
-                          ? 'bg-[#FF4D24] text-white shadow-md'
-                          : 'text-neutral-400 hover:text-white'
-                      }`}
-                    >
-                      🔥 Streetwear Vault
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setCustomMode('text')}
-                      className={`py-2.5 px-1 text-center rounded-xl text-xs font-black transition-all cursor-pointer ${
-                        customMode === 'text'
-                          ? 'bg-[#FF4D24] text-white shadow-md'
-                          : 'text-neutral-400 hover:text-white'
-                      }`}
-                    >
-                      ✏️ Custom Text
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setCustomMode('image')}
-                      className={`py-2.5 px-1 text-center rounded-xl text-xs font-black transition-all cursor-pointer ${
-                        customMode === 'image'
-                          ? 'bg-[#FF4D24] text-white shadow-md'
-                          : 'text-neutral-400 hover:text-white'
-                      }`}
-                    >
-                      🖼️ Upload Logo
-                    </button>
-                  </div>
-
-                  {/* TAB 1: 6 STREETWEAR DROPS + CLEAN ORIGINAL DROP */}
-                  {customMode === 'trending' && (
-                    <div className="space-y-2.5">
-                      <div className="flex items-center justify-between text-xs font-bold text-neutral-400">
-                        <span>Select Graphic to Render Live in 3D:</span>
-                        <span className="text-[#FF9A3D] text-[11px] font-black">1200 DPI Vector HD</span>
-                      </div>
-
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                        {/* Option: Original / Blank Garment */}
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setCustomImage(null);
-                            setCustomImageName('');
-                            if (isComboProduct) {
-                              setBundleItemGraphics((prev) => ({
-                                ...prev,
-                                [selectedComboItemIndex]: { title: 'Original Drop', image: null },
-                              }));
-                            }
-                          }}
-                          className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-2.5 ${
-                            !customImage
-                              ? 'border-[#FF4D24] bg-[#FF4D24]/10 ring-2 ring-[#FF4D24]/40 shadow-sm'
-                              : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'
-                          }`}
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-neutral-800 border border-white/10 flex items-center justify-center shrink-0 text-base">
-                            🚫
-                          </div>
-                          <div className="min-w-0">
-                            <span className="text-[10px] font-bold text-neutral-400 block uppercase">Clean</span>
-                            <span className="text-xs font-black text-white block truncate">Original Drop</span>
-                          </div>
-                        </button>
-
-                        {/* 6 Curated Streetwear Graphics */}
-                        {TRENDING_GRAPHICS_VAULT.map((g) => {
-                          const isSelected = customImageName === g.title;
-                          return (
-                            <button
-                              key={g.id}
-                              type="button"
-                              onClick={() => {
-                                setCustomImage(g.mockUrl);
-                                setCustomImageName(g.title);
-                                if (isComboProduct) {
-                                  setBundleItemGraphics((prev) => ({
-                                    ...prev,
-                                    [selectedComboItemIndex]: { title: g.title, image: g.mockUrl },
-                                  }));
-                                }
-                              }}
-                              className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-2.5 ${
-                                isSelected
-                                  ? 'border-[#FF4D24] bg-[#FF4D24]/10 ring-2 ring-[#FF4D24]/40 shadow-sm'
-                                  : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'
-                              }`}
-                            >
-                              <div className="w-10 h-10 rounded-xl bg-[#09090b] border border-white/15 p-1 flex items-center justify-center shrink-0 overflow-hidden">
-                                <img
-                                  src={g.mockUrl}
-                                  alt={g.title}
-                                  className="w-full h-full object-contain"
-                                />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <span className="text-[9px] font-black text-[#FF9A3D] uppercase tracking-wider block truncate">
-                                  {g.emoji} {g.tag}
-                                </span>
-                                <span className="text-xs font-black text-white block truncate">
-                                  {g.title}
-                                </span>
-                              </div>
-                              {isSelected && (
-                                <span className="text-xs font-black text-[#FF4D24] shrink-0">✓</span>
-                              )}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* TAB 2: CUSTOM TEXT */}
-                  {customMode === 'text' && (
-                    <div className="space-y-3.5">
-                      <div>
-                        <div className="flex items-center justify-between text-xs font-bold text-neutral-300 mb-1.5">
-                          <span>Enter Text, Name or Monogram:</span>
-                          <span className="font-mono text-neutral-400">{customText.length}/30</span>
-                        </div>
+                    {customMode === 'text' && (
+                      <div className="space-y-3 mt-2">
                         <input
                           type="text"
                           value={customText}
                           onChange={(e) => setCustomText(e.target.value.slice(0, 30))}
-                          placeholder="e.g. RARE EMBER, SPEED, 2026"
-                          className="w-full px-4 py-3 rounded-xl border border-white/15 bg-white/5 text-white font-bold text-sm focus:outline-none focus:border-[#FF4D24] focus:bg-white/10 transition-all placeholder:text-neutral-500"
+                          placeholder="Enter Text, Name or Monogram (e.g. EMBER, SPEED, 2026)"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-white/15 bg-white/5 text-white font-bold text-sm focus:outline-none focus:border-[#FF4D24]"
                         />
-                      </div>
 
-                      {/* Font Typography Style */}
-                      <div>
-                        <span className="text-[11px] font-black uppercase text-neutral-400 block mb-1.5">
-                          Typography Style
-                        </span>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-                          {[
-                            { label: 'Streetwear', font: 'font-sans font-black tracking-wider uppercase' },
-                            { label: 'Cyber Mono', font: 'font-mono font-bold tracking-widest uppercase' },
-                            { label: 'Athletic Block', font: 'font-sans font-extrabold tracking-normal uppercase' },
-                            { label: 'Vintage Serif', font: 'font-serif font-bold italic tracking-wide' },
-                          ].map((f) => (
-                            <button
-                              key={f.label}
-                              type="button"
-                              onClick={() => setCustomFont(f.font)}
-                              className={`py-2 px-2 rounded-xl text-xs font-bold border transition-all ${
-                                customFont === f.font
-                                  ? 'border-[#FF4D24] bg-[#FF4D24]/15 text-[#FF9A3D]'
-                                  : 'border-white/10 bg-white/5 text-neutral-300 hover:border-white/20'
-                              }`}
-                            >
-                              {f.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Print Ink Color Swatches */}
-                      <div>
-                        <span className="text-[11px] font-black uppercase text-neutral-400 block mb-1.5">
-                          Print Ink Color
-                        </span>
-                        <div className="flex items-center gap-2.5">
-                          {[
-                            { color: '#ffffff', name: 'Crisp White', border: 'border-neutral-300' },
-                            { color: '#FF4D24', name: 'Ember Orange', border: 'border-[#FF4D24]' },
-                            { color: '#00F0FF', name: 'Cyber Cyan', border: 'border-cyan-400' },
-                            { color: '#F59E0B', name: 'Gold', border: 'border-amber-400' },
-                            { color: '#18181B', name: 'Stealth Black', border: 'border-neutral-600' },
-                            { color: '#DC2626', name: 'Crimson', border: 'border-red-500' },
-                          ].map((c) => (
-                            <button
-                              key={c.color}
-                              type="button"
-                              onClick={() => setCustomTextColor(c.color)}
-                              className={`w-8 h-8 rounded-full transition-all cursor-pointer border-2 ${c.border} ${
-                                customTextColor === c.color
-                                  ? 'ring-2 ring-[#FF4D24] ring-offset-2 ring-offset-black scale-110'
-                                  : 'opacity-70 hover:opacity-100'
-                              }`}
-                              style={{ backgroundColor: c.color }}
-                              title={c.name}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* TAB 3: UPLOAD LOGO */}
-                  {customMode === 'image' && (
-                    <div className="space-y-2.5">
-                      {!customImage ? (
-                        <label className="flex flex-col items-center justify-center p-8 rounded-2xl border-2 border-dashed border-[#FF4D24]/40 bg-white/5 hover:bg-white/10 cursor-pointer text-center transition-all">
-                          <span className="text-3xl mb-1.5">📁</span>
-                          <span className="text-xs font-black text-white">
-                            Click to Select Logo or Graphic from Device
+                        {/* Font Style */}
+                        <div>
+                          <span className="text-[11px] font-black uppercase text-neutral-400 block mb-1">
+                            Typography Style
                           </span>
-                          <span className="text-[10px] text-neutral-400 mt-0.5">
-                            Supports PNG, JPG, WEBP, SVG up to 15MB
-                          </span>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageUpload}
-                            className="hidden"
-                          />
-                        </label>
-                      ) : (
-                        <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-3">
-                          <div className="flex items-center gap-3 min-w-0">
-                            <img
-                              src={customImage}
-                              alt="Uploaded Art"
-                              className="w-12 h-12 object-contain rounded-xl bg-neutral-900 border border-white/10 p-1 shrink-0"
-                            />
-                            <div className="min-w-0">
-                              <span className="text-xs font-black text-white block truncate">
-                                {customImageName}
-                              </span>
-                              <span className="text-[10px] font-bold text-emerald-400 block mt-0.5">
-                                ✓ Rendered Live on 3D Garment
-                              </span>
-                            </div>
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                            {[
+                              { label: 'Streetwear', font: 'font-sans font-black tracking-wider uppercase' },
+                              { label: 'Cyber Mono', font: 'font-mono font-bold tracking-widest uppercase' },
+                              { label: 'Athletic Block', font: 'font-sans font-extrabold tracking-normal uppercase' },
+                              { label: 'Vintage Serif', font: 'font-serif font-bold italic tracking-wide' },
+                            ].map((f) => (
+                              <button
+                                key={f.label}
+                                type="button"
+                                onClick={() => setCustomFont(f.font)}
+                                className={`py-1.5 px-2 rounded-xl text-xs font-bold border transition-all ${
+                                  customFont === f.font
+                                    ? 'border-[#FF4D24] bg-[#FF4D24]/15 text-[#FF9A3D]'
+                                    : 'border-white/10 bg-white/5 text-neutral-300'
+                                }`}
+                              >
+                                {f.label}
+                              </button>
+                            ))}
                           </div>
-                          <button
-                            type="button"
-                            onClick={handleRemoveImage}
-                            className="text-xs font-bold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 px-3 py-2 rounded-xl transition-colors border border-red-500/20"
-                          >
-                            Remove ✕
-                          </button>
                         </div>
-                      )}
-                    </div>
-                  )}
 
-                  {/* Concierge Reassurance */}
-                  <div className="pt-2 text-center border-t border-white/10">
-                    <p className="text-[11px] text-neutral-400 leading-relaxed">
-                      💬 <strong>Prefer to send design later?</strong> Place order normally, then WhatsApp or email artwork to{' '}
-                      <a href="mailto:rareemberagency@gmail.com" className="text-[#FF9A3D] font-bold underline">
-                        rareemberagency@gmail.com
-                      </a>{' '}
-                      with your Order ID!
-                    </p>
+                        {/* Ink Color */}
+                        <div>
+                          <span className="text-[11px] font-black uppercase text-neutral-400 block mb-1">
+                            Print Ink Color
+                          </span>
+                          <div className="flex items-center gap-2">
+                            {[
+                              { color: '#ffffff', name: 'Crisp White', border: 'border-neutral-300' },
+                              { color: '#FF4D24', name: 'Ember Orange', border: 'border-[#FF4D24]' },
+                              { color: '#00F0FF', name: 'Cyber Cyan', border: 'border-cyan-400' },
+                              { color: '#F59E0B', name: 'Gold', border: 'border-amber-400' },
+                              { color: '#18181B', name: 'Stealth Black', border: 'border-neutral-600' },
+                              { color: '#DC2626', name: 'Crimson', border: 'border-red-500' },
+                            ].map((c) => (
+                              <button
+                                key={c.color}
+                                type="button"
+                                onClick={() => setCustomTextColor(c.color)}
+                                className={`w-7 h-7 rounded-full transition-all cursor-pointer border-2 ${c.border} ${
+                                  customTextColor === c.color
+                                    ? 'ring-2 ring-[#FF4D24] ring-offset-2 ring-offset-black scale-110'
+                                    : 'opacity-70 hover:opacity-100'
+                                }`}
+                                style={{ backgroundColor: c.color }}
+                                title={c.name}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -2217,10 +1988,16 @@ export function ProductClient({ product }: Props) {
                     gap: '0.5rem',
                   }}
                 >
-                  <span>ORDER NOW ⚡</span>
+                  <span>{isComboProduct ? 'ORDER BUNDLE NOW ⚡' : 'ORDER NOW ⚡'}</span>
                   <span>•</span>
                   <span>{geoFormatPrice(effectivePriceUsd * qty, effectiveInr * qty)}</span>
                 </button>
+
+                {/* Priority Dispatch Reassurance */}
+                <div className="flex items-center justify-center gap-1.5 text-xs text-neutral-600 font-bold text-center">
+                  <span className="text-[#FF4D24]">⚡</span>
+                  <span>Order in 3 hrs for priority dispatch tomorrow • Delivers in 2–4 Days (Free Air Express)</span>
+                </div>
 
                 {/* Secondary Row: Quantity, Add to Bag, Wishlist */}
                 <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'center' }}>
@@ -2306,6 +2083,94 @@ export function ProductClient({ product }: Props) {
                 <div className="text-base mb-1">✨</div>
                 <div className="font-bold text-neutral-950">100% Genuine Quality</div>
                 <div className="text-[11px] text-neutral-500">Verified factory inspection</div>
+              </div>
+            </div>
+
+            {/* Collapsible Accordions: Shipping & Packaging / Fabric & Wash Care */}
+            <div className="mt-4 space-y-2 text-xs">
+              {/* Accordion 1: Shipping & Protective Packaging */}
+              <div className="rounded-2xl border border-black/[0.08] bg-white overflow-hidden shadow-xs">
+                <button
+                  type="button"
+                  onClick={() => setOpenAccordion((prev) => (prev === 'shipping' ? null : 'shipping'))}
+                  className="w-full p-3.5 flex items-center justify-between text-left font-black text-neutral-900 cursor-pointer hover:bg-neutral-50 transition-colors"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">📦</span>
+                    <span>Shipping &amp; Protective Packaging</span>
+                  </div>
+                  <span className="text-neutral-400 font-bold text-sm">
+                    {openAccordion === 'shipping' ? '−' : '+'}
+                  </span>
+                </button>
+                {openAccordion === 'shipping' && (
+                  <div className="px-3.5 pb-3.5 text-neutral-600 space-y-2 border-t border-black/[0.06] pt-2.5 leading-relaxed">
+                    <p>
+                      ⚡ <strong>Express Pan-India Delivery:</strong> Orders dispatch within 24–48 hours from our domestic fulfillment hub via BlueDart Air &amp; Delhivery Express (Estimated arrival: 2–4 business days).
+                    </p>
+                    <p>
+                      📦 <strong>Damage-Proof Packaging:</strong>
+                    </p>
+                    <ul className="list-disc pl-4 space-y-1 text-[11px]">
+                      <li><strong>Extended Desk Mats:</strong> Shipped rolled in heavy-duty triangular protective tube packaging to prevent edge curling and transport creasing.</li>
+                      <li><strong>Streetwear Tees &amp; Hoodies:</strong> Packed in tamper-evident, weather-proof protective courier mailers with branded dust wrap.</li>
+                      <li><strong>Ceramic Drinkware:</strong> Enclosed in custom shock-absorbent molded thermocol double-box packaging.</li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+
+              {/* Accordion 2: Fabric & Care Guide */}
+              <div className="rounded-2xl border border-black/[0.08] bg-white overflow-hidden shadow-xs">
+                <button
+                  type="button"
+                  onClick={() => setOpenAccordion((prev) => (prev === 'care' ? null : 'care'))}
+                  className="w-full p-3.5 flex items-center justify-between text-left font-black text-neutral-900 cursor-pointer hover:bg-neutral-50 transition-colors"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">🫧</span>
+                    <span>Fabric &amp; Care Guide</span>
+                  </div>
+                  <span className="text-neutral-400 font-bold text-sm">
+                    {openAccordion === 'care' ? '−' : '+'}
+                  </span>
+                </button>
+                {openAccordion === 'care' && (
+                  <div className="px-3.5 pb-3.5 text-neutral-600 space-y-2 border-t border-black/[0.06] pt-2.5 leading-relaxed">
+                    {isApparel ? (
+                      <div>
+                        <p className="font-bold text-neutral-900 mb-1">Archival Garment &amp; DTF Print Care:</p>
+                        <ul className="list-disc pl-4 space-y-1 text-[11px]">
+                          <li>Machine wash cold (30°C max) inside-out with gentle detergent.</li>
+                          <li>Do NOT iron directly over the print. Iron on reverse side on low heat.</li>
+                          <li>Tumble dry low or line dry in shade to maintain rich fabric density.</li>
+                          <li>Do not bleach or dry clean. Fabric is pre-shrunk for zero post-wash distortion.</li>
+                        </ul>
+                      </div>
+                    ) : isDeskMat ? (
+                      <div>
+                        <p className="font-bold text-neutral-900 mb-1">Desk Mat Surface Care:</p>
+                        <ul className="list-disc pl-4 space-y-1 text-[11px]">
+                          <li>Spill-resistant micro-weave surface wipes clean instantly with a damp cloth.</li>
+                          <li>For deeper stains, use lukewarm water and mild dish soap with a soft sponge.</li>
+                          <li>Air dry flat. Do not machine wash, fold, or iron.</li>
+                        </ul>
+                      </div>
+                    ) : isDrinkware ? (
+                      <div>
+                        <p className="font-bold text-neutral-900 mb-1">Ceramic Stoneware Care:</p>
+                        <ul className="list-disc pl-4 space-y-1 text-[11px]">
+                          <li>100% microwave safe and dishwasher friendly.</li>
+                          <li>Avoid abrasive metallic scouring pads to preserve the deep-gloss glaze.</li>
+                        </ul>
+                      </div>
+                    ) : (
+                      <p className="text-[11px]">
+                        Wipe with a clean, dry microfiber cloth. Avoid harsh chemical cleaners or abrasive scouring.
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
