@@ -5,12 +5,12 @@ export const CURATED_PRODUCT_GALLERIES: Record<string, string[]> = {
   "bundle-winter-heavyweight": [
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/323/1f4a0177-315c-4dd0-ad0a-395c38aa4f83.webp",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg"
   ],
   "bundle-streetwear-duo": [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/44/df1b411b-46ec-4c8f-aa0d-75b796bcda00.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/286/84f8f6ae-6521-4be1-9e33-07110cf93ec9.jpg",
@@ -18,7 +18,7 @@ export const CURATED_PRODUCT_GALLERIES: Record<string, string[]> = {
   ],
   "bundle-founding-50": [
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/49daf0c3-ce13-4184-beb7-d237d8b0a168.webp",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/52/1da2d780-a6a8-4fab-9eb2-c7fbd75c37ef.jpg"
@@ -26,7 +26,7 @@ export const CURATED_PRODUCT_GALLERIES: Record<string, string[]> = {
   "bundle-creator-workstation": [
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/26/b10e9b51-65a6-43f7-9e93-0e184c5853e9.jpg",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/64/11d5d1cf-4777-4ae1-b624-9a9b2ed95a13.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/9456a71d-f6bb-47fd-b346-760f349e79d3.webp"
   ],
@@ -568,13 +568,12 @@ export const CURATED_PRODUCT_GALLERIES: Record<string, string[]> = {
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/variations/d8a5c8da-5af2-4ebb-8d2e-bd55460fd045.webp"
   ],
   "qikink-t-shirts-acid-wash-oversized-t-shirt-uc61": [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/81a7a11e-3c00-41c3-b8ad-4cf2b229ebfe.webp",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/64d22c0f-4b96-4a11-9b00-addc4a9a10f3.webp",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/a7809052-aad5-49b5-b68d-dfc6cc6273e6.webp",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/112ad49c-1cc0-4724-a6c4-b554ca82f03b.webp",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/0c648a8c-7c3f-499c-a669-58ca11ac0693.webp",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/64d22c0f-4b96-4a11-9b00-addc4a9a10f3.webp",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp"
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/81a7a11e-3c00-41c3-b8ad-4cf2b229ebfe.webp"
   ],
   "qikink-headwear-baseball-ottoman-cap-bc50": [
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/143/4c568048-d0bd-4de6-97e6-236c7482f19e.jpg",

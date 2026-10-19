@@ -73,7 +73,7 @@ export const FALLBACK_IMAGES: Record<string, string> = {
   "qikink-t-shirts-all-over-print-sports-t-shirt-ua51": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/111/c208cba0-757f-49ff-8be8-e1c3db94cd4a.jpg",
   "qikink-hoodies-all-over-print-sweatshirt-ua26": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/39/858a2e48-f3f9-4789-aaf2-fe61b3c9f0f7.webp",
   "qikink-hoodies-acid-wash-hoodie-uh62": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg",
-  "qikink-t-shirts-acid-wash-oversized-t-shirt-uc61": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
+  "qikink-t-shirts-acid-wash-oversized-t-shirt-uc61": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp",
   "qikink-headwear-baseball-ottoman-cap-bc50": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/143/4c568048-d0bd-4de6-97e6-236c7482f19e.jpg",
   "qikink-t-shirts-basic-t-shirt-ub73": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/270/d1b64a8e-af6f-4a9d-b064-6d5c43935d51.jpg",
   "qikink-headwear-bucket-hat-bh35": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/123/183ffc8d-4f4e-4a7a-a575-9848a54ed707.jpg",

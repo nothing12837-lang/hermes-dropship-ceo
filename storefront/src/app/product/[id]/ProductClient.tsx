@@ -20,6 +20,26 @@ const PERSPECTIVE_LABELS = ['Hero Front', 'Detail Macro', 'In-Room Setup', 'Unbo
 
 const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL'] as const;
 
+const KIDS_SIZES = ['3-4Y', '5-6Y', '7-8Y', '9-10Y', '11-12Y', '13-14Y'] as const;
+
+const KIDS_SIZE_GUIDE_ROWS = [
+  { size: '3-4Y', chestIn: 24, chestCm: 61, lengthIn: 16, lengthCm: 41, shoulderIn: 11, shoulderCm: 28 },
+  { size: '5-6Y', chestIn: 26, chestCm: 66, lengthIn: 18, lengthCm: 46, shoulderIn: 12, shoulderCm: 30 },
+  { size: '7-8Y', chestIn: 28, chestCm: 71, lengthIn: 20, lengthCm: 51, shoulderIn: 13, shoulderCm: 33 },
+  { size: '9-10Y', chestIn: 30, chestCm: 76, lengthIn: 22, lengthCm: 56, shoulderIn: 14, shoulderCm: 36 },
+  { size: '11-12Y', chestIn: 32, chestCm: 81, lengthIn: 24, lengthCm: 61, shoulderIn: 15, shoulderCm: 38 },
+  { size: '13-14Y', chestIn: 34, chestCm: 86, lengthIn: 25, lengthCm: 64, shoulderIn: 16, shoulderCm: 41 },
+];
+
+const KIDS_SIZE_SPECS: Record<string, { chest: string; length: string }> = {
+  '3-4Y': { chest: '24"', length: '16"' },
+  '5-6Y': { chest: '26"', length: '18"' },
+  '7-8Y': { chest: '28"', length: '20"' },
+  '9-10Y': { chest: '30"', length: '22"' },
+  '11-12Y': { chest: '32"', length: '24"' },
+  '13-14Y': { chest: '34"', length: '25"' },
+};
+
 const SIZE_GUIDE_ROWS = [
   { size: 'S', chestIn: 38, chestCm: 96, lengthIn: 27, lengthCm: 68, shoulderIn: 18, shoulderCm: 46 },
   { size: 'M', chestIn: 40, chestCm: 101, lengthIn: 28, lengthCm: 71, shoulderIn: 19, shoulderCm: 48 },
@@ -143,7 +163,7 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
   'bundle-creator-workstation': [
     {
       id: 'desk-mat',
-      name: '900x400mm Extended Desk Mat',
+      name: '900×400mm Desk Mat',
       badge: 'Extended Surface',
       emoji: '🖥️',
       plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg',
@@ -158,10 +178,10 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
     },
     {
       id: 'graphic-tee',
-      name: '240 GSM Graphic Streetwear Tee',
+      name: '240 GSM Streetwear Tee',
       badge: 'Bio-Washed Cotton',
       emoji: '👕',
-      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp',
       backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg',
       printArea: {
         width: '52%',
@@ -174,7 +194,7 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
     },
     {
       id: 'ceramic-mug',
-      name: 'Artisan Ceramic Coffee Mug',
+      name: 'Artisan Ceramic Mug',
       badge: '11 Oz Stoneware',
       emoji: '☕',
       plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/26/b10e9b51-65a6-43f7-9e93-0e184c5853e9.jpg',
@@ -191,10 +211,10 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
   'bundle-streetwear-duo': [
     {
       id: 'oversized-tee',
-      name: 'Heavyweight Oversized Tee',
+      name: '240 GSM Oversized Tee',
       badge: '240 GSM Combed',
       emoji: '👕',
-      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp',
       backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg',
       printArea: {
         width: '52%',
@@ -210,7 +230,7 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
       name: 'Acid Wash Oversized Tee',
       badge: 'Vintage Mineral Wash',
       emoji: '👕',
-      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/44/df1b411b-46ec-4c8f-aa0d-75b796bcda00.jpg',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp',
       backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/286/84f8f6ae-6521-4be1-9e33-07110cf93ec9.jpg',
       printArea: {
         width: '52%',
@@ -241,10 +261,10 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
     },
     {
       id: 'heavyweight-tee',
-      name: '240 GSM Bio-Washed Tee',
+      name: '240 GSM Heavyweight Tee',
       badge: 'Streetwear Drop',
       emoji: '👕',
-      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp',
       backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg',
       printArea: {
         width: '52%',
@@ -259,10 +279,10 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
   'bundle-founding-50': [
     {
       id: 'builder-tee',
-      name: '240 GSM Founding Builder Tee',
+      name: '240 GSM Builder Tee',
       badge: 'Numbered Drop',
       emoji: '⚡',
-      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp',
       backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg',
       printArea: {
         width: '52%',
@@ -275,7 +295,7 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
     },
     {
       id: 'precision-mat',
-      name: '900x400mm Precision Desk Mat',
+      name: '900×400mm Desk Mat',
       badge: 'Precision Surface',
       emoji: '🖥️',
       plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg',
@@ -312,7 +332,12 @@ export function ProductClient({ product }: Props) {
     /case|phone|iphone|samsung/i.test(product.title) ||
     /case|phone|iphone|samsung/i.test(product.id);
 
-  const [selectedSize, setSelectedSize] = useState<string>('L');
+  const isKidsApparel = /kid|boy|girl|baby|toddler|infant/i.test(product.title + ' ' + product.id);
+  const isDeskMatInitial = /desk|pad|mat/i.test(product.title + ' ' + product.id);
+  const isDrinkwareInitial = /mug|cup|bottle|tumbler/i.test(product.title + ' ' + product.id);
+
+  const initialSingleSize = isKidsApparel ? '5-6Y' : isDeskMatInitial ? '900×400mm' : isDrinkwareInitial ? '330ml' : 'L';
+  const [selectedSize, setSelectedSize] = useState<string>(initialSingleSize);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [sizeUnit, setSizeUnit] = useState<'in' | 'cm'>('in');
   const [selectedPhoneModel, setSelectedPhoneModel] = useState<string>(PHONE_MODELS[0]);
@@ -341,11 +366,27 @@ export function ProductClient({ product }: Props) {
       : []
   );
 
+  const isMultiBundle = isComboProduct && comboItems.length > 1;
+  const sizeStepNum = isMultiBundle ? 2 : 1;
+  const artStepNum = isMultiBundle ? 3 : 2;
+
   const [selectedComboItemIndex, setSelectedComboItemIndex] = useState<number>(0);
-  const [bundleItemSizes, setBundleItemSizes] = useState<Record<number, string>>({
-    0: 'L',
-    1: 'L',
-    2: 'L',
+  const [bundleItemSizes, setBundleItemSizes] = useState<Record<number, string>>(() => {
+    const init: Record<number, string> = {};
+    const items = BUNDLE_SUB_ITEMS[product.id] || [];
+    items.forEach((item, idx) => {
+      const itemLower = (item.name + ' ' + item.id).toLowerCase();
+      if (/desk|pad|mat/i.test(itemLower)) init[idx] = '900×400mm';
+      else if (/mug|cup|bottle/i.test(itemLower)) init[idx] = '330ml';
+      else if (/kid|boy|girl/i.test(itemLower)) init[idx] = '5-6Y';
+      else init[idx] = 'L';
+    });
+    if (!items.length) {
+      init[0] = 'L';
+      init[1] = '900×400mm';
+      init[2] = '330ml';
+    }
+    return init;
   });
   const [bundleItemGraphics, setBundleItemGraphics] = useState<Record<number, { title: string; image: string | null }>>({
     0: { title: 'Original Drop', image: null },
@@ -505,6 +546,9 @@ export function ProductClient({ product }: Props) {
   const isCottonTee = isApparel && !isHoodieOrSweatshirt && !isCropTopOrPolySpandex && !isJerseyOrDryFit && !isBottomwear;
 
   const blankGarmentImage = (() => {
+    if (isKidsApparel) {
+      return 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/50/fc3739f1-21f6-4b8c-9396-8af2f115f892.webp';
+    }
     if (isHoodieOrSweatshirt) {
       return customView === 'back'
         ? 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg'
@@ -519,7 +563,7 @@ export function ProductClient({ product }: Props) {
     if (isCottonTee || isApparel) {
       return customView === 'back'
         ? 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg'
-        : 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg';
+        : 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp';
     }
     return customView === 'back' && galleryImages.length > 1 ? galleryImages[1] : (galleryImages[0] || currentSrc);
   })();
@@ -530,6 +574,7 @@ export function ProductClient({ product }: Props) {
   const activeItemTitle = activeComboItem ? activeComboItem.name : displayTitle;
   const activeItemId = activeComboItem ? activeComboItem.id : product.id;
   const activeItemLower = (activeItemTitle + ' ' + activeItemId).toLowerCase();
+  const activeItemIsKids = /kid|boy|girl|baby|toddler|infant/i.test(activeItemLower);
 
   const activeItemIsApparel = activeComboItem
     ? /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|shorts|jacket|vest|polo/i.test(activeItemLower)
@@ -549,14 +594,25 @@ export function ProductClient({ product }: Props) {
     ? (customView === 'back' && activeComboItem.backImage ? activeComboItem.backImage : activeComboItem.plainImage)
     : blankGarmentImage;
 
-  const activePrintZone = activeComboItem?.printArea || {
-    width: '52%',
-    height: '56%',
-    top: '22%',
-    left: '24%',
-    aspectRatio: '3/4',
-    safeZoneLabel: 'DTF SAFE PRINT ZONE • 16" × 20" (300 DPI)',
-  };
+  const activePrintZone = activeComboItem?.printArea || (
+    isKidsApparel
+      ? {
+          width: '38%',
+          height: '40%',
+          top: '32%',
+          left: '31%',
+          aspectRatio: '3/4',
+          safeZoneLabel: 'KIDS DTF PRINT ZONE • 8" × 10"',
+        }
+      : {
+          width: '52%',
+          height: '56%',
+          top: '22%',
+          left: '24%',
+          aspectRatio: '3/4',
+          safeZoneLabel: 'DTF SAFE PRINT ZONE • 16" × 20" (300 DPI)',
+        }
+  );
 
   const relatedIds = bundles[product.id] ?? [];
   const related = relatedIds
@@ -862,14 +918,39 @@ export function ProductClient({ product }: Props) {
   const mrpUsd = Number((mrpInr / 85).toFixed(2));
   const discountPercent = Math.max(15, Math.min(75, Math.round((1 - baseInr / mrpInr) * 100)));
 
-  const isMultiBundle = isComboProduct && comboItems.length > 1;
   const bundleSizeSummary = isMultiBundle
-    ? comboItems.map((item, idx) => `${item.name.split(' ')[0]}: ${bundleItemSizes[idx] || 'L'}`).join(', ')
-    : (isApparel ? selectedSize : undefined);
+    ? comboItems
+        .map((item, idx) => {
+          const itemLower = (item.name + ' ' + item.id).toLowerCase();
+          const isApp = /tee|t-shirt|hoodie|sweatshirt|crop|apparel/i.test(itemLower);
+          const shortName = isApp
+            ? (item.name.includes('Tee') ? 'Tee' : item.name.includes('Hoodie') ? 'Hoodie' : 'Garment')
+            : item.name.includes('Desk Mat')
+            ? 'Desk Mat'
+            : item.name.includes('Mug')
+            ? 'Mug'
+            : item.name;
+          const sizeOrSpec =
+            bundleItemSizes[idx] ||
+            (isApp ? 'L' : /desk|mat/i.test(itemLower) ? '900×400mm' : /mug/i.test(itemLower) ? '330ml' : 'Standard');
+          return `${shortName} (${sizeOrSpec})`;
+        })
+        .join(' • ')
+    : isApparel
+    ? selectedSize
+    : undefined;
 
   const bundleGraphicSummary = isMultiBundle
-    ? comboItems.map((item, idx) => `${item.name.split(' ')[0]}: ${bundleItemGraphics[idx]?.title || 'Standard'}`).join(', ')
-    : ((customMode === 'image' || customMode === 'trending') && customImageName ? customImageName : undefined);
+    ? comboItems
+        .map((item, idx) => {
+          const itemLower = (item.name + ' ' + item.id).toLowerCase();
+          const shortName = itemLower.includes('desk') ? 'Desk Mat' : itemLower.includes('mug') ? 'Mug' : 'Tee';
+          return `${shortName}: ${bundleItemGraphics[idx]?.title || 'Original Drop'}`;
+        })
+        .join(' • ')
+    : (customMode === 'image' || customMode === 'trending') && customImageName
+    ? customImageName
+    : undefined;
 
   const getItemMeta = () => ({
     title: displayTitle,
@@ -1000,7 +1081,7 @@ export function ProductClient({ product }: Props) {
               )}
 
               {/* LIVE FINISHED STREETWEAR GRAPHIC & PERSONALIZATION OVERLAY */}
-              {(isCustomizing || (isApparel && customImage)) && (
+              {(isCustomizing || (isApparel && customImage && selectedImgIndex === 0)) && (
                 <div
                   style={{
                     position: 'absolute',
@@ -1046,7 +1127,17 @@ export function ProductClient({ product }: Props) {
                           boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
                         }}
                       >
-                        ⚡ RareEmber™ Studio ({customPlacement})
+                        ⚡ RareEmber™ Studio ({
+                          activeItemIsApparel
+                            ? customPlacement
+                            : activeItemIsDeskMat
+                            ? 'Full Surface'
+                            : activeItemIsDrinkware
+                            ? 'Full Wrap'
+                            : activeItemIsPen
+                            ? 'Laser Engraved'
+                            : 'Standard Spec'
+                        })
                       </span>
                     </div>
                   )}
@@ -1462,7 +1553,16 @@ export function ProductClient({ product }: Props) {
                         type="button"
                         onClick={() => {
                           setSelectedComboItemIndex(idx);
-                          setSelectedSize(bundleItemSizes[idx] || 'L');
+                          const itemLower = (item.name + ' ' + item.id).toLowerCase();
+                          const itemIsApp = /tee|t-shirt|hoodie|sweatshirt|crop|apparel/i.test(itemLower);
+                          const itemIsMat = /desk|pad|mat/i.test(itemLower);
+                          const itemIsMug = /mug|cup|bottle/i.test(itemLower);
+                          const itemIsKids = /kid|boy|girl|baby|toddler/i.test(itemLower);
+                          const targetSize = bundleItemSizes[idx] || (itemIsKids ? '5-6Y' : itemIsApp ? 'L' : itemIsMat ? '900×400mm' : itemIsMug ? '330ml' : 'Standard');
+                          setSelectedSize(targetSize);
+                          if (itemIsMat) setCustomPlacement('Full Surface');
+                          else if (itemIsMug) setCustomPlacement('Full Wrap');
+                          else if (itemIsApp && customPlacement !== 'Pocket Crest' && customPlacement !== 'Oversized Back') setCustomPlacement('Center Chest');
                           const g = bundleItemGraphics[idx];
                           if (g) {
                             setCustomImage(g.image);
@@ -1496,254 +1596,265 @@ export function ProductClient({ product }: Props) {
               </div>
             )}
 
-            {/* STEP 2: SMART SIZE & FIT SELECTOR (Item-Aware) */}
+            {/* DYNAMIC STEP 2/1: SMART SIZE & FIT SELECTOR (Item-Aware) */}
             <div className="mt-4">
-              {activeItemIsApparel ? (
-                <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-xs font-black uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
-                      <span>📏</span>
-                      <span>Step 2: Select Size {isComboProduct && activeComboItem ? `for ${activeComboItem.name}` : ''}</span>
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setShowSizeGuide(true)}
-                      className="text-xs font-bold text-[#FF4D24] hover:underline flex items-center gap-1 cursor-pointer bg-transparent border-none p-0"
-                    >
-                      <span>📏 Size Guide &amp; Fit Advice ↗</span>
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-6 gap-1.5">
-                    {SIZES.map((s) => {
-                      const isSelected = selectedSize === s;
-                      return (
+                  {activeItemIsApparel ? (
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-xs font-black uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
+                          <span>📏</span>
+                          <span>Step {sizeStepNum}: Select Size {isComboProduct && activeComboItem ? `for ${activeComboItem.name}` : ''}</span>
+                        </span>
                         <button
-                          key={s}
                           type="button"
-                          onClick={() => {
-                            setSelectedSize(s);
-                            if (isComboProduct) {
-                              setBundleItemSizes((prev) => ({ ...prev, [selectedComboItemIndex]: s }));
-                            }
-                          }}
-                          className={`py-2 px-1 rounded-xl text-center transition-all cursor-pointer flex flex-col items-center justify-center min-h-[50px] ${
-                            isSelected
-                              ? 'bg-neutral-900 text-white border-2 border-[#FF4D24] shadow-md'
-                              : 'bg-white text-neutral-800 border border-black/10 hover:border-black/25'
-                          }`}
+                          onClick={() => setShowSizeGuide(true)}
+                          className="text-xs font-bold text-[#FF4D24] hover:underline flex items-center gap-1 cursor-pointer bg-transparent border-none p-0"
                         >
-                          <span className="text-sm font-black">{s}</span>
-                          <span className={`text-[9px] font-bold ${isSelected ? 'text-[#FF9A3D]' : 'text-neutral-500'}`}>
-                            {SIZE_SPECS[s]?.chest || ''}
-                          </span>
+                          <span>📏 Size Guide &amp; Fit Advice ↗</span>
                         </button>
-                      );
-                    })}
-                  </div>
+                      </div>
 
-                  <p className="text-xs text-neutral-500 mt-2 flex items-center gap-1.5 flex-wrap">
-                    <span className="font-black text-[#FF4D24]">⚡ Drop-Shoulder Oversized Fit:</span>
-                    <span>
-                      Size <strong>{selectedSize}</strong> ({SIZE_SPECS[selectedSize]?.chest || 'Standard'} Chest) • {
-                        activeItemIsHoodie
-                          ? '380 GSM Heavyweight French Terry Fleece (Structured Boxy Silhouette).'
-                          : isCropTopOrPolySpandex
-                          ? '220 GSM Poly-Spandex 4-Way Stretch (Tailored Athletic Fit).'
-                          : isJerseyOrDryFit
-                          ? '180 GSM Honeycomb Quick-Dry Mesh (Breathable Performance Matrix).'
-                          : '240 GSM Super Combed Bio-Washed Cotton (Pre-Shrunk Streetwear Drop).'
-                      }
-                    </span>
-                  </p>
-                </div>
-              ) : activeItemIsDeskMat ? (
-                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
-                  <span className="text-2xl shrink-0">🖥️</span>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
-                        Step 2: Standard Extended Dimensions
-                      </span>
-                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
-                        ONE SIZE
-                      </span>
-                    </div>
-                    <p className="text-xs font-black text-neutral-900 mt-0.5">
-                      900 × 400 × 3 mm • Stitched Edge Micro-Weave
-                    </p>
-                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
-                      ✓ Standard Extended Size: Fits full keyboard + mouse with high-density tracking surface and vulcanized non-slip rubber base.
-                    </p>
-                  </div>
-                </div>
-              ) : activeItemIsDrinkware ? (
-                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
-                  <span className="text-2xl shrink-0">☕</span>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
-                        Step 2: {isSteelBottleOrTumbler ? 'Insulated Steel Specs' : 'Standard Ceramic Stoneware'}
-                      </span>
-                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
-                        {isSteelBottleOrTumbler ? '750 ML (25 OZ)' : '330 ML (11 OZ)'}
-                      </span>
-                    </div>
-                    <p className="text-xs font-black text-neutral-900 mt-0.5">
-                      {isSteelBottleOrTumbler ? 'Double-Wall Vacuum 304 Stainless Steel • Leak-Proof Cap' : 'Triple-Fired Gloss Ceramic Mug • Microwave & Dishwasher Safe'}
-                    </p>
-                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
-                      ✓ {isSteelBottleOrTumbler ? 'Keeps drinks cold for 24h or hot for 12h with condensation-proof powder finish.' : 'Certified food-grade stoneware with ergonomic comfort grip handle and chip-resistant rim.'}
-                    </p>
-                  </div>
-                </div>
-              ) : activeItemIsPen ? (
-                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
-                  <span className="text-2xl shrink-0">✒️</span>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
-                        Step 2: Executive Pen Specification
-                      </span>
-                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
-                        STANDARD FIT
-                      </span>
-                    </div>
-                    <p className="text-xs font-black text-neutral-900 mt-0.5">
-                      Solid Weighted Metal Barrel • Refillable Blue 0.7mm Ballpoint Cartridge
-                    </p>
-                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
-                      ✓ Precision weighted metal body with balanced center-of-gravity, anti-slip textured grip, and permanent fiber laser engraving.
-                    </p>
-                  </div>
-                </div>
-              ) : activeItemIsNotebook ? (
-                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
-                  <span className="text-2xl shrink-0">📓</span>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
-                        Step 2: Notebook Format &amp; Specs
-                      </span>
-                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
-                        A5 (120 PAGES)
-                      </span>
-                    </div>
-                    <p className="text-xs font-black text-neutral-900 mt-0.5">
-                      A5 Size (14.8 × 21 cm) • 300 GSM Cover + 70 GSM Natural Pages
-                    </p>
-                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
-                      ✓ Twin-wire metal binding lays completely flat at 360°. High-opacity bleed-resistant paper ideal for gel pens, ballpoints, and pencils.
-                    </p>
-                  </div>
-                </div>
-              ) : activeItemIsJewelry ? (
-                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
-                  <span className="text-2xl shrink-0">💎</span>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
-                        Step 2: Material &amp; Chain Specs
-                      </span>
-                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
-                        SURGICAL STEEL
-                      </span>
-                    </div>
-                    <p className="text-xs font-black text-neutral-900 mt-0.5">
-                      304 Anti-Tarnish Stainless Steel • Includes 60cm Matching Chain
-                    </p>
-                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
-                      ✓ 100% waterproof, sweat-resistant, and hypoallergenic. High-polish mirror gloss finish with smooth skin-safe beveled edges.
-                    </p>
-                  </div>
-                </div>
-              ) : activeItemIsBag ? (
-                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
-                  <span className="text-2xl shrink-0">👜</span>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
-                        Step 2: Bag Capacity &amp; Canvas Specs
-                      </span>
-                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
-                        250 GSM CANVAS
-                      </span>
-                    </div>
-                    <p className="text-xs font-black text-neutral-900 mt-0.5">
-                      15" × 16" Large Format • Zippered Top with Dual Interior Pockets
-                    </p>
-                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
-                      ✓ High-load cross-box reinforced webbing handles. Comfortably holds a 16-inch laptop, water bottle, charger, and daily essentials.
-                    </p>
-                  </div>
-                </div>
-              ) : activeItemIsHeadwear ? (
-                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
-                  <span className="text-2xl shrink-0">🧢</span>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
-                        Step 2: Headwear Fit &amp; Closure
-                      </span>
-                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
-                        FREE SIZE (ADJUSTABLE)
-                      </span>
-                    </div>
-                    <p className="text-xs font-black text-neutral-900 mt-0.5">
-                      6-Panel Structured Crown • Antique Brass / Snap Buckle Closure
-                    </p>
-                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
-                      ✓ Fully adjustable circumference (54–62 cm). Breathable embroidered eyelets and moisture-wicking inner cotton sweatband.
-                    </p>
-                  </div>
-                </div>
-              ) : activeItemIsWallArt ? (
-                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
-                  <span className="text-2xl shrink-0">🖼️</span>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
-                        Step 2: Archival Display Specifications
-                      </span>
-                      <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
-                        READY TO HANG
-                      </span>
-                    </div>
-                    <p className="text-xs font-black text-neutral-900 mt-0.5">
-                      300 GSM Archival Art Card • Solid 1-Inch Deep Matte Black Frame
-                    </p>
-                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
-                      ✓ Shatterproof ultra-clear acrylic front glazing with rigid backing. Includes pre-attached hanging hardware for instant wall mounting.
-                    </p>
-                  </div>
-                </div>
-              ) : activeItemIsPhoneCase ? (
-                <div>
-                  <label className="block text-xs font-black uppercase tracking-wider text-neutral-500 mb-1.5">
-                    Step 2: Select Phone Model
-                  </label>
-                  <select
-                    value={selectedPhoneModel}
-                    onChange={(e) => setSelectedPhoneModel(e.target.value)}
-                    className="w-full p-3 rounded-xl border border-black/15 bg-white text-neutral-900 font-bold text-sm cursor-pointer"
-                  >
-                    {PHONE_MODELS.map((m) => (
-                      <option key={m} value={m}>{m}</option>
-                    ))}
-                  </select>
-                </div>
-              ) : (
-                <div className="p-3 rounded-xl bg-neutral-100 border border-black/10 text-xs text-neutral-600 font-semibold">
-                  ✓ Standard Calibrated One-Size Item Specification
-                </div>
-              )}
-            </div>
+                      {(() => {
+                        const activeItemIsKids = /kid|boy|girl|baby|toddler|infant/i.test(activeItemLower);
+                        const currentSizeList = activeItemIsKids ? KIDS_SIZES : SIZES;
+                        const currentSpecs = activeItemIsKids ? KIDS_SIZE_SPECS : SIZE_SPECS;
+                        return (
+                          <>
+                            <div className="grid grid-cols-6 gap-1.5">
+                              {currentSizeList.map((s) => {
+                                const isSelected = selectedSize === s;
+                                return (
+                                  <button
+                                    key={s}
+                                    type="button"
+                                    onClick={() => {
+                                      setSelectedSize(s);
+                                      if (isComboProduct) {
+                                        setBundleItemSizes((prev) => ({ ...prev, [selectedComboItemIndex]: s }));
+                                      }
+                                    }}
+                                    className={`py-2 px-1 rounded-xl text-center transition-all cursor-pointer flex flex-col items-center justify-center min-h-[50px] ${
+                                      isSelected
+                                        ? 'bg-neutral-900 text-white border-2 border-[#FF4D24] shadow-md'
+                                        : 'bg-white text-neutral-800 border border-black/10 hover:border-black/25'
+                                    }`}
+                                  >
+                                    <span className="text-sm font-black">{s}</span>
+                                    <span className={`text-[9px] font-bold ${isSelected ? 'text-[#FF9A3D]' : 'text-neutral-500'}`}>
+                                      {currentSpecs[s]?.chest || ''}
+                                    </span>
+                                  </button>
+                                );
+                              })}
+                            </div>
 
-            {/* STEP 3: TWO-MODE ARTWORK SELECTOR (PROGRESSIVE DISCLOSURE) */}
+                            <p className="text-xs text-neutral-500 mt-2 flex items-center gap-1.5 flex-wrap">
+                              <span className="font-black text-[#FF4D24]">{activeItemIsKids ? '⚡ Kids Regular Fit:' : '⚡ Drop-Shoulder Oversized Fit:'}</span>
+                              <span>
+                                Size <strong>{selectedSize}</strong> ({currentSpecs[selectedSize]?.chest || 'Standard'} Chest) • {
+                                  activeItemIsKids
+                                    ? '180 GSM 100% Super Combed Bio-Washed Cotton (Gentle on skin, pre-shrunk).'
+                                    : activeItemIsHoodie
+                                    ? '380 GSM Heavyweight French Terry Fleece (Structured Boxy Silhouette).'
+                                    : isCropTopOrPolySpandex
+                                    ? '220 GSM Poly-Spandex 4-Way Stretch (Tailored Athletic Fit).'
+                                    : isJerseyOrDryFit
+                                    ? '180 GSM Honeycomb Quick-Dry Mesh (Breathable Performance Matrix).'
+                                    : '240 GSM Super Combed Bio-Washed Cotton (Pre-Shrunk Streetwear Drop).'
+                                }
+                              </span>
+                            </p>
+                          </>
+                        );
+                      })()}
+                    </div>
+                  ) : activeItemIsDeskMat ? (
+                    <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                      <span className="text-2xl shrink-0">🖥️</span>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                            Step {sizeStepNum}: Standard Extended Dimensions
+                          </span>
+                          <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                            ONE SIZE
+                          </span>
+                        </div>
+                        <p className="text-xs font-black text-neutral-900 mt-0.5">
+                          900 × 400 × 3 mm • Stitched Edge Micro-Weave
+                        </p>
+                        <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                          ✓ Standard Extended Size: Fits full keyboard + mouse with high-density tracking surface and vulcanized non-slip rubber base.
+                        </p>
+                      </div>
+                    </div>
+                  ) : activeItemIsDrinkware ? (
+                    <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                      <span className="text-2xl shrink-0">☕</span>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                            Step {sizeStepNum}: {isSteelBottleOrTumbler ? 'Insulated Steel Specs' : 'Standard Ceramic Stoneware'}
+                          </span>
+                          <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                            {isSteelBottleOrTumbler ? '750 ML (25 OZ)' : '330 ML (11 OZ)'}
+                          </span>
+                        </div>
+                        <p className="text-xs font-black text-neutral-900 mt-0.5">
+                          {isSteelBottleOrTumbler ? 'Double-Wall Vacuum 304 Stainless Steel • Leak-Proof Cap' : 'Triple-Fired Gloss Ceramic Mug • Microwave & Dishwasher Safe'}
+                        </p>
+                        <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                          ✓ {isSteelBottleOrTumbler ? 'Keeps drinks cold for 24h or hot for 12h with condensation-proof powder finish.' : 'Certified food-grade stoneware with ergonomic comfort grip handle and chip-resistant rim.'}
+                        </p>
+                      </div>
+                    </div>
+                  ) : activeItemIsPen ? (
+                    <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                      <span className="text-2xl shrink-0">✒️</span>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                            Step {sizeStepNum}: Executive Pen Specification
+                          </span>
+                          <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                            STANDARD FIT
+                          </span>
+                        </div>
+                        <p className="text-xs font-black text-neutral-900 mt-0.5">
+                          Solid Weighted Metal Barrel • Refillable Blue 0.7mm Ballpoint Cartridge
+                        </p>
+                        <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                          ✓ Precision weighted metal body with balanced center-of-gravity, anti-slip textured grip, and permanent fiber laser engraving.
+                        </p>
+                      </div>
+                    </div>
+                  ) : activeItemIsNotebook ? (
+                    <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                      <span className="text-2xl shrink-0">📓</span>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                            Step {sizeStepNum}: Notebook Format &amp; Specs
+                          </span>
+                          <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                            A5 (120 PAGES)
+                          </span>
+                        </div>
+                        <p className="text-xs font-black text-neutral-900 mt-0.5">
+                          A5 Size (14.8 × 21 cm) • 300 GSM Cover + 70 GSM Natural Pages
+                        </p>
+                        <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                          ✓ Twin-wire metal binding lays completely flat at 360°. High-opacity bleed-resistant paper ideal for gel pens, ballpoints, and pencils.
+                        </p>
+                      </div>
+                    </div>
+                  ) : activeItemIsJewelry ? (
+                    <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                      <span className="text-2xl shrink-0">💎</span>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                            Step {sizeStepNum}: Material &amp; Chain Specs
+                          </span>
+                          <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                            SURGICAL STEEL
+                          </span>
+                        </div>
+                        <p className="text-xs font-black text-neutral-900 mt-0.5">
+                          304 Anti-Tarnish Stainless Steel • Includes 60cm Matching Chain
+                        </p>
+                        <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                          ✓ 100% waterproof, sweat-resistant, and hypoallergenic. High-polish mirror gloss finish with smooth skin-safe beveled edges.
+                        </p>
+                      </div>
+                    </div>
+                  ) : activeItemIsBag ? (
+                    <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                      <span className="text-2xl shrink-0">👜</span>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                            Step {sizeStepNum}: Bag Capacity &amp; Canvas Specs
+                          </span>
+                          <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                            250 GSM CANVAS
+                          </span>
+                        </div>
+                        <p className="text-xs font-black text-neutral-900 mt-0.5">
+                          15" × 16" Large Format • Zippered Top with Dual Interior Pockets
+                        </p>
+                        <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                          ✓ High-load cross-box reinforced webbing handles. Comfortably holds a 16-inch laptop, water bottle, charger, and daily essentials.
+                        </p>
+                      </div>
+                    </div>
+                  ) : activeItemIsHeadwear ? (
+                    <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                      <span className="text-2xl shrink-0">🧢</span>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                            Step {sizeStepNum}: Headwear Fit &amp; Closure
+                          </span>
+                          <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                            FREE SIZE (ADJUSTABLE)
+                          </span>
+                        </div>
+                        <p className="text-xs font-black text-neutral-900 mt-0.5">
+                          6-Panel Structured Crown • Antique Brass / Snap Buckle Closure
+                        </p>
+                        <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                          ✓ Fully adjustable circumference (54–62 cm). Breathable embroidered eyelets and moisture-wicking inner cotton sweatband.
+                        </p>
+                      </div>
+                    </div>
+                  ) : activeItemIsWallArt ? (
+                    <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
+                      <span className="text-2xl shrink-0">🖼️</span>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-black uppercase text-amber-900 tracking-wider">
+                            Step {sizeStepNum}: Archival Display Specifications
+                          </span>
+                          <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                            READY TO HANG
+                          </span>
+                        </div>
+                        <p className="text-xs font-black text-neutral-900 mt-0.5">
+                          300 GSM Archival Art Card • Solid 1-Inch Deep Matte Black Frame
+                        </p>
+                        <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
+                          ✓ Shatterproof ultra-clear acrylic front glazing with rigid backing. Includes pre-attached hanging hardware for instant wall mounting.
+                        </p>
+                      </div>
+                    </div>
+                  ) : activeItemIsPhoneCase ? (
+                    <div>
+                      <label className="block text-xs font-black uppercase tracking-wider text-neutral-500 mb-1.5">
+                        Step {sizeStepNum}: Select Phone Model
+                      </label>
+                      <select
+                        value={selectedPhoneModel}
+                        onChange={(e) => setSelectedPhoneModel(e.target.value)}
+                        className="w-full p-3 rounded-xl border border-black/15 bg-white text-neutral-900 font-bold text-sm cursor-pointer"
+                      >
+                        {PHONE_MODELS.map((m) => (
+                          <option key={m} value={m}>{m}</option>
+                        ))}
+                      </select>
+                    </div>
+                  ) : (
+                    <div className="p-3 rounded-xl bg-neutral-100 border border-black/10 text-xs text-neutral-600 font-semibold">
+                      ✓ Standard Calibrated One-Size Item Specification
+                    </div>
+                  )}
+                </div>
+
+            {/* DYNAMIC STEP 3/2: TWO-MODE ARTWORK SELECTOR (PROGRESSIVE DISCLOSURE) */}
             <div className="mt-5">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-black uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
-                  <span>🎨</span> Step 3: Artwork &amp; Personalization
+                  <span>🎨</span> Step {artStepNum}: Artwork &amp; Personalization
                 </span>
                 {isCustomizing && (
                   <span className="text-[10px] font-black uppercase tracking-wider text-[#FF4D24] bg-[#FF4D24]/10 px-2.5 py-0.5 rounded-full border border-[#FF4D24]/30">
@@ -2055,7 +2166,7 @@ export function ProductClient({ product }: Props) {
                                 }));
                               }
                             }}
-                            className={`snap-start shrink-0 p-2.5 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-2 min-w-[160px] ${
+                            className={`snap-start shrink-0 p-2.5 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-2 min-w-[190px] ${
                               isSelected
                                 ? 'border-[#FF4D24] bg-[#FF4D24]/15 ring-2 ring-[#FF4D24]/40 shadow-sm'
                                 : 'border-white/10 bg-white/5 hover:bg-white/10'
@@ -2669,7 +2780,7 @@ export function ProductClient({ product }: Props) {
                     </tr>
                   </thead>
                   <tbody>
-                    {SIZE_GUIDE_ROWS.map((row) => {
+                    {(activeItemIsKids ? KIDS_SIZE_GUIDE_ROWS : SIZE_GUIDE_ROWS).map((row) => {
                       const isRowSelected = selectedSize === row.size;
                       return (
                         <tr

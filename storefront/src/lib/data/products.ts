@@ -508,20 +508,20 @@ export const products: Product[] = [
   "compare_at_price": 6.46,
   "category": "fashion",
   "emoji": "👕",
-  "tag": "240 GSM Combed Cotton",
+  "tag": "180 GSM Combed Cotton",
   "tagColor": "#ff4d24",
   "tagBg": "rgba(255, 77, 36, 0.12)",
   "stock": 500,
-  "rating": 4.0,
+  "rating": 4.8,
   "reviews": 45,
   "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/50/b3aa346d-6808-4573-9441-0fdbd9f0f66e.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Boy Classic Crew T-Shirt | BC21 Made from 180 GSM 100% super combed cotton with a unisex regular fit, lycra ribbed neck, pre-shrunk and bio-",
-  "story": "Boy Classic Crew T-Shirt | BC21 Made from 180 GSM 100% super combed cotton with a unisex regular fit, lycra ribbed neck, pre-shrunk and bio-washed fabric, and double-stitched seams.",
+  "short": "Crafted from 180 GSM 100% super combed cotton with a comfortable regular fit, Lycra ribbed collar, and durable double-stitched seams.",
+  "story": "Crafted from 180 GSM 100% super combed cotton with a comfortable regular fit, Lycra ribbed collar, and durable double-stitched seams. Pre-shrunk and bio-washed for lasting softness.",
   "details": [
     "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
-    "Made from 180 GSM 100% super combed cotton with a unisex regular fit, lycra ribbed neck, p",
-    "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
+    "Made from 180 GSM 100% super combed cotton with a comfortable kids regular fit",
+    "Soft Lycra ribbed collar, pre-shrunk & bio-washed for gentle skin comfort"
   ],
   "gradient": "linear-gradient(135deg, #18181b, #09090b)",
   "active": true
@@ -2129,14 +2129,14 @@ export const products: Product[] = [
   "stock": 500,
   "rating": 3.6,
   "reviews": 45,
-  "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
+  "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp",
   "supplier": "RareEmber™ Tirupur Studio",
-  "short": "Unisex Acid Wash Oversized Tee Made from 240 GSM 100% super combed cotton with an oversized fit, Lycra ribbed neck, pre-shrunk and acid-wash",
-  "story": "Unisex Acid Wash Oversized Tee Made from 240 GSM 100% super combed cotton with an oversized fit, Lycra ribbed neck, pre-shrunk and acid-washed fabric.",
+  "short": "Unisex Acid Wash Oversized Tee made from 240 GSM 100% super combed cotton with an oversized fit, Lycra ribbed collar, pre-shrunk and vintage acid-washed.",
+  "story": "Unisex Acid Wash Oversized Tee made from 240 GSM 100% super combed cotton with an oversized fit, Lycra ribbed collar, pre-shrunk and vintage mineral acid-washed fabric.",
   "details": [
     "100% Genuine Rare Ember Tirupur Production with Multi-Point Factory Inspection",
-    "Made from 240 GSM 100% super combed cotton with an oversized fit, Lycra ribbed neck, pre-s",
-    "Compatible with DTG, DTF, embroidery, vinyl, and screen printing"
+    "Made from 240 GSM 100% super combed cotton with an oversized drop-shoulder fit",
+    "Pre-shrunk & vintage mineral acid-washed for high streetwear longevity"
   ],
   "gradient": "linear-gradient(135deg, #18181b, #09090b)",
   "active": true

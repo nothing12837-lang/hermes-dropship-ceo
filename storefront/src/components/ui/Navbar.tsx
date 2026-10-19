@@ -81,7 +81,7 @@ export default function Navbar() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-[100]">
-        <FestiveEffects />
+        {/* Festive particles disabled for clean streetwear aesthetic */}
 
         {/* Main bar */}
         <div

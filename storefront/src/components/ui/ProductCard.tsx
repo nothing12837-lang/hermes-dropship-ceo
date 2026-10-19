@@ -138,8 +138,8 @@ export default function ProductCard({
                 />
               </div>
 
-              {/* Layer 3: Accessory / Mug (if 3 items) */}
-              {bundleResolvedImages.length >= 3 && (
+              {/* Layer 3: Accessory / Mug (only for 3-item packs like creator-workstation) */}
+              {id.includes('creator-workstation') && bundleResolvedImages.length >= 3 && (
                 <div className="absolute top-2 right-2 w-[42%] h-[42%] rounded-xl overflow-hidden shadow-xl border-2 border-white/95 z-10 transition-transform duration-500 ease-out group-hover:scale-105">
                   <Image
                     src={bundleResolvedImages[2]}
@@ -167,7 +167,7 @@ export default function ProductCard({
               <div className="absolute z-30 bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-[#161311]/92 backdrop-blur-md text-white text-[10px] font-black tracking-wider uppercase border border-white/20 shadow-xl flex items-center gap-1.5 whitespace-nowrap">
                 <span className="text-[#FF9A3D]">⚡</span>
                 <span>
-                  {bundleResolvedImages.length >= 3
+                  {id.includes('creator-workstation')
                     ? '3 ITEMS INCLUDED'
                     : id.includes('streetwear-duo')
                     ? '2x TEES INCLUDED'

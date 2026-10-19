@@ -1,12 +1,13 @@
 'use client';
 
+import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCart } from '@/lib/store/cart';
 import { formatPrice, products, cleanBrandTitle, type Product } from '@/lib/data/products';
 import { COPY } from '@/lib/data/copy';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { supabase } from '@/lib/supabase-client';
 import MagneticButton from './MagneticButton';
@@ -146,6 +147,13 @@ export default function CartDrawer() {
     }));
 
   const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname === '/checkout' && isOpen) {
+      closeCart();
+    }
+  }, [pathname, isOpen, closeCart]);
 
   const handleCheckout = () => {
     trackBeginCheckout(
@@ -273,12 +281,12 @@ export default function CartDrawer() {
                           {(d.size || d.phoneModel || d.customText || (d as any).customImageName || (d as any).customImage) && (
                             <div className="flex flex-wrap gap-1 mt-1 text-[11px]">
                               {d.size && (
-                                <span className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-text-secondary border border-black/10 dark:border-white/10 font-bold">
+                                <span className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-neutral-900 dark:text-neutral-100 border border-black/10 dark:border-white/10 font-bold">
                                   Size: {d.size}
                                 </span>
                               )}
                               {d.phoneModel && (
-                                <span className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-text-secondary border border-black/10 dark:border-white/10 font-medium">
+                                <span className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-neutral-900 dark:text-neutral-100 border border-black/10 dark:border-white/10 font-bold">
                                   {d.phoneModel}
                                 </span>
                               )}
@@ -306,7 +314,7 @@ export default function CartDrawer() {
                             >
                               −
                             </motion.button>
-                            <span className="font-extrabold min-w-[28px] text-center">{d.qty}</span>
+                            <span className="font-extrabold min-w-[28px] text-center text-neutral-900 dark:text-white">{d.qty}</span>
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => setQty(d.id, d.qty + 1)}
@@ -317,7 +325,7 @@ export default function CartDrawer() {
                             <motion.button
                               whileTap={{ scale: 0.9 }}
                               onClick={() => remove(d.id)}
-                              className="ml-auto bg-transparent border-none text-text-secondary cursor-pointer text-xs font-semibold px-2 py-1 rounded-lg transition-colors hover:text-ember"
+                              className="ml-auto bg-transparent border-none text-neutral-700 dark:text-neutral-300 cursor-pointer text-xs font-bold px-2 py-1 rounded-lg transition-colors hover:text-ember"
                             >
                               Remove
                             </motion.button>
@@ -401,24 +409,24 @@ export default function CartDrawer() {
                 <div className="flex items-center gap-2">
                   <span className="text-base">🛡️</span>
                   <div>
-                    <p className="text-xs font-bold text-neutral-900">
+                    <p className="text-xs font-black text-neutral-950">
                       7-Day Easy Replacement
                     </p>
-                    <p className="text-[11px] text-neutral-500">
+                    <p className="text-[11px] text-neutral-700 font-medium">
                       Free replacements • Insured tracked delivery
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="flex justify-between font-bold text-sm mb-2 text-neutral-600">
+              <div className="flex justify-between font-bold text-sm mb-2 text-neutral-800">
                 <span>Subtotal</span>
-                <span className="text-neutral-900 font-black">{formatCartPrice(subtotal)}</span>
+                <span className="text-neutral-950 font-black">{formatCartPrice(subtotal)}</span>
               </div>
 
-              <div className="flex justify-between text-xs text-neutral-500 mb-3">
+              <div className="flex justify-between text-xs text-neutral-700 font-medium mb-3">
                 <span>Standard Shipping</span>
-                <span className="text-emerald-600 font-bold">FREE ⚡</span>
+                <span className="text-emerald-700 font-bold">FREE ⚡</span>
               </div>
 
               <div className="flex justify-between font-black text-xl text-neutral-950 pt-3 border-t border-black/[0.06] mb-3">
@@ -435,8 +443,8 @@ export default function CartDrawer() {
                 {`PROCEED TO CHECKOUT ⚡ • ${formatCartPrice(subtotal)}`}
               </motion.button>
 
-              <p className="text-center text-xs text-neutral-400 mt-3">
-                <Link href="/shop" onClick={closeCart} className="text-neutral-500 hover:text-neutral-900 font-semibold no-underline transition-colors">
+              <p className="text-center text-xs mt-3">
+                <Link href="/shop" onClick={closeCart} className="text-neutral-700 hover:text-neutral-950 font-bold no-underline transition-colors">
                   ← Keep exploring
                 </Link>
               </p>

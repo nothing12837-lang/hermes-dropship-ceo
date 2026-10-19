@@ -7,7 +7,7 @@ import { getProductsFromDB } from '@/lib/products-server';
 export const revalidate = 60; // 60s ISR: Edge cached in Mumbai (bom1) for <10ms instant response
 
 export const metadata = {
-  title: 'Rare Ember — Curated Streetwear, Workstation Gear & High-Margin Drops',
+  title: 'Rare Ember — Curated Streetwear, Workstation Gear & Value Combos',
   description: 'Curated 240 GSM heavyweight streetwear, 380 GSM fleece hoodies & aesthetic desk gear. 100% Domestic Tirupur Hub POD, express air dispatch & 7-day replacements.',
 };
 
@@ -59,7 +59,7 @@ const ASSURANCES = [
 ];
 
 const MARQUEE_ITEMS = [
-  '🔥 Rare Ember High-Margin Bundles Live',
+  '⚡ Rare Ember Value Combos Live — Save Up to 25%',
   '⚡ 240 GSM Bio-Washed Combed Cotton',
   '🧥 380 GSM French Terry Brushed Fleece',
   '🖥️ 900x400mm Extended Gaming Desk Mats',
@@ -204,10 +204,10 @@ export default async function Home() {
           <div className="flex items-end justify-between gap-4 mb-6">
             <div>
               <div className="hero-rise inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-ember text-white text-xs font-black uppercase tracking-wider mb-2 shadow-ember">
-                <span>🔥</span> Engine 1: Maximum Value Bundles
+                <span>🔥</span> Maximum Value Combos
               </div>
               <h2 className="hero-rise hero-rise-1 text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
-                Curated High-Margin <span className="text-gradient-ember">Hero Bundles</span>
+                Curated Value Combos — <span className="text-gradient-ember">Save Up to 25%</span>
               </h2>
               <p className="text-xs md:text-sm text-neutral-500 mt-1">
                 Save up to ₹499 with combined express air shipping. 100% bio-washed Tirupur combed cotton.
@@ -280,7 +280,7 @@ export default async function Home() {
                 The 12 Flagship <span className="text-gradient-ember">Hero Drops</span>
               </h2>
               <p className="text-xs md:text-sm text-neutral-500 mt-1">
-                6 Acid Wash / Heavyweight Tees • 3 380 GSM French Terry Hoodies • 3 Workstation Gear
+                6× Acid Wash &amp; Heavyweight Tees • 3× 380 GSM French Terry Hoodies • 3× Workstation Gear
               </p>
             </div>
             <Link
