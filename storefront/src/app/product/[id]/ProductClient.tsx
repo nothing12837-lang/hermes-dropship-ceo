@@ -543,7 +543,7 @@ export function ProductClient({ product }: Props) {
   const isHomeTextile = /cushion|pillow|blanket|placemat/i.test(titleLower + ' ' + idLower);
   const isBottomwear = /jogger|sweatpant|shorts/i.test(titleLower + ' ' + idLower);
   const isCoasterOrDecor = titleLower.includes('coaster') || titleLower.includes('puzzle') || idLower.includes('home-decor');
-  const isCottonTee = isApparel && !isHoodieOrSweatshirt && !isCropTopOrPolySpandex && !isJerseyOrDryFit && !isBottomwear;
+  const isCottonTee = isApparel && !isKidsApparel && !isHoodieOrSweatshirt && !isCropTopOrPolySpandex && !isJerseyOrDryFit && !isBottomwear;
 
   const blankGarmentImage = (() => {
     if (isKidsApparel) {
@@ -661,6 +661,7 @@ export function ProductClient({ product }: Props) {
       if (isDeskMat) return '900x400mm Extended Workstation Mat with Precision Micro-Weave Surface.';
       if (isDrinkware) return '330ml Gloss Ceramic Stoneware with High-Definition Sublimation Print.';
       if (isPhoneCase) return 'Dual-Layer Impact Polycarbonate Case with Raised Protective Bezel.';
+      if (isKidsApparel) return '180 GSM Bio-Washed Combed Cotton with Gentle Anti-Chafe Seams & Archival Non-Toxic Print.';
       if (isCottonTee || isApparel) return '240 GSM Super Combed Bio-Washed Cotton with Archival DTF Screen Print.';
       return 'Handpicked verified domestic quality with fast express dispatch across India.';
     })();
@@ -711,6 +712,9 @@ export function ProductClient({ product }: Props) {
       if (isDrinkware) {
         return 'Triple-fired 330ml gloss ceramic stoneware with food-grade sublimation glaze. Microwave and dishwasher safe, packaged in shock-resistant protective thermocol casing.';
       }
+      if (isKidsApparel) {
+        return 'Crafted in Tirupur with soft 180 GSM bio-washed combed cotton, gentle on young skin with hypoallergenic water-based inks and reinforced double-stitched hems. Dispatched via tier-1 domestic express couriers with 7-day doorstep replacement.';
+      }
       if (isCottonTee || isApparel) {
         return 'Crafted in Tirupur with premium 240 GSM super combed cotton and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
       }
@@ -720,6 +724,16 @@ export function ProductClient({ product }: Props) {
   })();
 
   const featureHighlights = (() => {
+    if (isKidsApparel) {
+      return [
+        '180 GSM Super Combed 100% Bio-Washed Hypoallergenic Cotton',
+        'Gentle Ribbed Crewneck & Soft Anti-Chafe Necktape for Kids',
+        'Zero-Irritation Tagless Care Label for All-Day Playground Comfort',
+        'OEKO-TEX Certified Non-Toxic Archival Print with Zero Cracking',
+        'Pre-Shrunk & Colorfast Treated to Withstand 50+ Rough Machine Washes',
+        'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
+      ];
+    }
     if (isPenOrStationery) {
       return [
         'Solid Weighted Metal Barrel with Ergonomic Matte Texture Grip',
@@ -1432,7 +1446,7 @@ export function ProductClient({ product }: Props) {
                   letterSpacing: '0.08em',
                 }}
               >
-                {product.tag || (
+                {isKidsApparel ? '180 GSM COMBED COTTON' : (product.tag || (
                   isPenOrStationery ? 'EXECUTIVE METAL' :
                   isNotebookOrNotepad ? 'CREATOR STATIONERY' :
                   isJewelryOrTag ? 'SURGICAL STEEL' :
@@ -1448,7 +1462,7 @@ export function ProductClient({ product }: Props) {
                   isDrinkware ? (isSteelBottleOrTumbler ? 'INSULATED STEEL' : 'CERAMIC STONEWARE') :
                   isCottonTee ? '240 GSM HEAVYWEIGHT' :
                   'FLAGSHIP DROP'
-                )}
+                ))}
               </span>
             </div>
 

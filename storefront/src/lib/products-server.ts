@@ -68,6 +68,8 @@ export function cleanWholesaleDescription(text: string): string {
     .replace(/^Design & sell custom oversized jersey T-shirts.*$/i, 'Heavyweight oversized boxy jersey blending 90s basketball aesthetics with modern streetwear drape. Premium breathable mesh with fade-proof graphics.')
     .replace(/^Sell gym\/sports crop tops.*$/i, 'Performance athletic crop top crafted from 220 GSM poly-spandex with 4-way compression stretch and sweat-wicking comfort.')
     .replace(/^Sell custom acrylic photo frames.*$/i, 'Museum-grade crystal clear acrylic photo display paired with a solid wooden stand. High-definition UV print with rich contrast for your desk setup.')
+    .replace(/^Personalized Pens with custom laser engraving.*$/i, 'Precision-crafted metal executive pen with ergonomic balanced weight, smooth blue ballpoint ink, and permanent laser engraving.')
+    .replace(/\|\s*[A-Z0-9]{2,6}/gi, '')
     .replace(/(?:with\s+)?custom\s+(?:laser\s+engraving|printing|embroidery|engraving)\s+on\s+Rare\s+Ember\s+Studio,?\s*/gi, '')
     .replace(/on\s+Rare\s+Ember\s+Studio,?\s*/gi, '')
     .replace(/with (?:Qikink|Rare Ember Studio)'s print-on-demand model\./gi, 'crafted with precision in our Tirupur studio.')
@@ -95,16 +97,39 @@ function mapRowToProduct(r: ProductRow): Product {
   const description = cleanWholesaleDescription(r.description ?? '');
   const cleanedTitle = cleanBrandTitle(r.title ?? '');
   
+  const titleAndId = (cleanedTitle + ' ' + (r.id ?? '')).toLowerCase();
+  const isKids = /kid|boy|girl|baby|toddler|infant/i.test(titleAndId);
+  const isDeskMat = /desk|pad|mat/i.test(titleAndId);
+  const isDrinkware = /mug|cup|bottle|tumbler/i.test(titleAndId);
+  const isPen = /pen\b|pens\b|ballpoint|stationery/i.test(titleAndId);
+
+  let tag = r.tag ?? '';
+  if (isKids) {
+    tag = '180 GSM Combed Cotton';
+  } else if (isPen) {
+    tag = 'Executive Metal';
+  } else if (isDeskMat) {
+    tag = 'Extended 900×400mm';
+  } else if (isDrinkware) {
+    tag = /bottle|tumbler/i.test(titleAndId) ? 'Insulated Steel' : 'Ceramic Stoneware';
+  } else if (tag === '240 GSM Combed Cotton' && !/tee|t-shirt|top/i.test(titleAndId)) {
+    tag = 'Creator Lifestyle';
+  }
+
   // Extract clean complete first sentence for short description instead of slicing at 140 chars
-  const shortText = r.short && r.short.trim().length > 0
+  let shortText = r.short && r.short.trim().length > 0
     ? cleanSentence(cleanWholesaleDescription(r.short))
     : (description.split(/[.!?]\s+/)[0]?.trim() || 'Premium domestic heavyweight quality with fast express dispatch across India.');
+
+  if (isKids && shortText.includes('240 GSM')) {
+    shortText = shortText.replace(/240 GSM/g, '180 GSM');
+  }
 
   return {
     id: r.id,
     slug: cleanBrandSlug(r.slug ?? r.id),
-    emoji: r.emoji ?? '🔥',
-    tag: r.tag ?? '',
+    emoji: isKids ? '👕' : (r.emoji ?? '🔥'),
+    tag,
     tagColor: r.tag_color ?? '#ff6b35',
     tagBg: r.tag_bg ?? 'rgba(255,107,53,0.12)',
     title: cleanedTitle,
