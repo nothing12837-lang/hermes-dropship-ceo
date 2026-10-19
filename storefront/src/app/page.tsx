@@ -74,12 +74,16 @@ const MARQUEE_ITEMS = [
 export default async function Home() {
   const allProducts = await getProductsFromDB();
 
-  // 1. High-Margin Hero Bundles (Engine 1: AOV ₹899-₹1,199)
+  // 1. Curated Winter & Value Combos (Engine 1: AOV ₹1,099–₹1,849)
   const bundleIds = [
-    'bundle-streetwear-duo',
+    'bundle-winter-spec-ops',
+    'bundle-3am-coder',
+    'bundle-college-fest-varsity',
+    'bundle-winter-layering',
+    'bundle-crewneck-workstation',
     'bundle-founding-50',
+    'bundle-streetwear-duo',
     'bundle-creator-workstation',
-    'bundle-winter-heavyweight',
   ];
   const bundles = bundleIds
     .map((id) => allProducts.find((p) => p.id === id))
@@ -210,7 +214,7 @@ export default async function Home() {
                 Curated Value Combos — <span className="text-gradient-ember">Save Up to 25%</span>
               </h2>
               <p className="text-xs md:text-sm text-neutral-500 mt-1">
-                Save up to ₹499 with combined express air shipping. 100% bio-washed Tirupur combed cotton.
+                Save up to ₹1,200 with combined express air shipping. 380 GSM fleece hoodies, varsity jackets &amp; 100% bio-washed Tirupur combed cotton.
               </p>
             </div>
             <Link

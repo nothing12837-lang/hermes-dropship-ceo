@@ -53,9 +53,21 @@ async function getQikinkToken(clientId: string, clientSecret: string, apiUrl: st
   return token;
 }
 
+const COLOR_CODES: Record<string, string> = {
+  Black: 'Bk',
+  White: 'Wh',
+  Navy: 'Nv',
+  Olive: 'Ol',
+  Maroon: 'Mr',
+  Grey: 'Gy',
+  Gray: 'Gy',
+  Beige: 'Bg',
+  Charcoal: 'Bk',
+};
+
 /**
  * Maps a storefront product ID and attributes to Qikink's verified base catalog garment blank.
- * Format: {ProductCode}-{ColorCode}-{SizeCode} (e.g. MRnHs-Bk-L, UHd-Bk-XL, USs-Wh-M)
+ * Format: {ProductCode}-{ColorCode}-{SizeCode} (e.g. UHd-Bk-L, UVJ-BkWh-L, MPad-900x400)
  */
 export function resolveQikinkSku(item: {
   id?: string;
@@ -63,76 +75,115 @@ export function resolveQikinkSku(item: {
   size?: string;
   selectedStyle?: string;
   imageUrl?: string;
+  qikinkSkuPrefix?: string;
+  qikinkTemplateSku?: string;
+  color?: string;
 }): string {
+  // 1. If product uses a pre-saved Qikink Dashboard "My Products" template SKU, return directly
+  if (item.qikinkTemplateSku) {
+    const cleanSize = (item.size || 'L').toUpperCase();
+    return item.qikinkTemplateSku.replace('{Size}', cleanSize);
+  }
+
+  // 2. Non-apparel fixed-dimension items (Desk Mats, Mugs, Tote Bags, Notebooks)
+  const prefix = item.qikinkSkuPrefix || '';
+  if (
+    prefix.startsWith('MPad') ||
+    prefix.startsWith('CMg') ||
+    prefix.startsWith('EMg') ||
+    prefix.startsWith('CTb') ||
+    prefix.startsWith('NBk')
+  ) {
+    return prefix;
+  }
+
   const title = (item.title || '').toLowerCase();
   const id = (item.id || '').toLowerCase();
   const style = (item.selectedStyle || '').toLowerCase();
 
-  // 1. Non-Apparel Accessories & Workstation Gear
+  // Match titles/ids for non-apparel if prefix isn't provided
   if (title.includes('desk mat') || title.includes('desk pad') || id.includes('desk-mat') || id.includes('mouse-pad') || title.includes('mousepad')) {
-    return 'DMT-Bk-OS'; // 900x400mm Extended Gaming Desk Mat (One Size)
+    return 'MPad-900x400';
   }
   if (title.includes('magic mug') || id.includes('magic-mug')) {
-    return 'MGM-Bk-OS'; // Magic Color Changing Coffee Mug
+    return 'MGM-Bk-OS';
   }
   if (title.includes('black mug') || id.includes('black-mug') || (title.includes('mug') && (title.includes('black') || style.includes('black')))) {
-    return 'BCM-Bk-OS'; // Black Ceramic Coffee Mug (11oz)
+    return 'CMg-11Oz-Bk';
+  }
+  if (title.includes('enamel') || id.includes('enamel')) {
+    return 'EMg-11Oz-Wh';
   }
   if (title.includes('mug') || id.includes('coffee-mug') || id.includes('ceramic-mug') || title.includes('cup')) {
-    return 'WCM-Wh-OS'; // White Ceramic Coffee Mug (11oz)
+    return 'CMg-11Oz-Wh';
   }
-  if (title.includes('tumbler') || title.includes('bottle') || title.includes('sipper')) {
-    return 'SIP-Sil-OS'; // Stainless Steel Insulated Tumbler
+  if (title.includes('notebook') || title.includes('diary') || id.includes('notebook')) {
+    return 'NBk-A5-Bk';
   }
   if (title.includes('tote') || id.includes('tote-bag') || id.includes('canvas-tote')) {
-    return 'TBG-Nat-OS'; // Heavyweight Canvas Tote Bag (Natural Off-White)
+    return 'CTb-350-Bg';
+  }
+  if (title.includes('tumbler') || title.includes('bottle') || title.includes('sipper')) {
+    return 'SIP-Sil-OS';
   }
   if (title.includes('clear case') || id.includes('clear-phone-case')) {
-    return 'CC32-Clr-OS'; // Impact Clear Phone Case
+    return 'CC32-Clr-OS';
   }
   if (title.includes('glass case') || title.includes('phone case') || id.includes('phone-case')) {
-    return 'GC21-Bk-OS'; // Tempered Glass Backed Phone Case
+    return 'GC21-Bk-OS';
   }
   if (title.includes('coaster') || id.includes('coaster')) {
-    return 'CST-Wh-OS'; // High-Gloss Square Coaster
+    return 'CST-Wh-OS';
   }
 
-  // 2. Apparel Blanks
-  let prefix = 'MRnHs'; // Default: Men's/Unisex Heavyweight Round Neck Half Sleeve Tee
-
-  if (title.includes('hoodie') || id.includes('uh32') || id.includes('uh38') || id.includes('hoodie')) {
-    prefix = 'UHd'; // Unisex Premium 380 GSM Hoodie
-  } else if (title.includes('sweatshirt') || id.includes('uh35') || id.includes('sweatshirt')) {
-    prefix = 'USs'; // Unisex Heavyweight Sweatshirt
-  } else if (title.includes('crop') || id.includes('fc39') || id.includes('crop-top') || title.includes('female')) {
-    prefix = 'FRnHs'; // Female Round Neck Half Sleeve / Crop
-  } else if (title.includes('oversized') || id.includes('us22') || id.includes('uc61')) {
-    prefix = 'MRnOs'; // Men's / Unisex Oversized Boxy Tee
-  } else if (title.includes('v-neck') || title.includes('v neck') || id.includes('vn')) {
-    prefix = 'MVnHs'; // Men's V-Neck Half Sleeve
-  } else if (title.includes('full sleeve') || id.includes('rnfs')) {
-    prefix = 'MRnFs'; // Men's Round Neck Full Sleeve
+  // 3. Winter & Streetwear Apparel SKU resolution (UHd, UZHd, USs, UVJ, UJg, MRnFs, UOst, ATe)
+  let resolvedPrefix = item.qikinkSkuPrefix;
+  if (!resolvedPrefix) {
+    if (title.includes('varsity') || id.includes('varsity') || id.includes('uvj')) {
+      resolvedPrefix = 'UVJ';
+    } else if (title.includes('zipper hoodie') || title.includes('full-zip') || id.includes('uzhd')) {
+      resolvedPrefix = 'UZHd';
+    } else if (title.includes('hoodie') || id.includes('uh32') || id.includes('uh38') || id.includes('hoodie') || id.includes('uhd')) {
+      resolvedPrefix = 'UHd';
+    } else if (title.includes('sweatshirt') || title.includes('crewneck') || id.includes('uh35') || id.includes('sweatshirt') || id.includes('uss')) {
+      resolvedPrefix = 'USs';
+    } else if (title.includes('jogger') || title.includes('sweatpant') || id.includes('jogger') || id.includes('ujg')) {
+      resolvedPrefix = 'UJg';
+    } else if (title.includes('full sleeve') || id.includes('rnfs') || id.includes('full-sleeve') || id.includes('mrnfs')) {
+      resolvedPrefix = 'MRnFs';
+    } else if (title.includes('acid') || id.includes('acid') || id.includes('ate') || id.includes('uc61')) {
+      resolvedPrefix = 'ATe';
+    } else if (title.includes('oversized') || id.includes('us22') || id.includes('uost')) {
+      resolvedPrefix = 'UOst';
+    } else if (title.includes('crop') || id.includes('fc39') || id.includes('fc38') || id.includes('crop-top') || title.includes('female')) {
+      resolvedPrefix = 'FRnHs';
+    } else if (title.includes('v-neck') || title.includes('v neck') || id.includes('vn')) {
+      resolvedPrefix = 'MVnHs';
+    } else {
+      resolvedPrefix = 'UOst';
+    }
   }
 
-  // 3. Determine Color Code (Wh = White, Bk = Black/Colored)
-  let color = 'Bk';
-  if (
-    title.includes('white') ||
-    style.includes('white') ||
-    id.includes('white')
-  ) {
-    color = 'Wh';
+  // Determine Color Code
+  let detectedColor = item.color || 'Black';
+  if (!item.color) {
+    if (title.includes('white') || style.includes('white') || id.includes('white')) detectedColor = 'White';
+    else if (title.includes('navy') || style.includes('navy') || id.includes('navy')) detectedColor = 'Navy';
+    else if (title.includes('olive') || style.includes('olive') || id.includes('olive')) detectedColor = 'Olive';
+    else if (title.includes('maroon') || style.includes('maroon') || id.includes('maroon')) detectedColor = 'Maroon';
+    else if (title.includes('grey') || title.includes('gray') || style.includes('grey') || id.includes('grey')) detectedColor = 'Grey';
+    else if (title.includes('beige') || title.includes('sand') || style.includes('beige') || id.includes('beige')) detectedColor = 'Beige';
+    else if (title.includes('charcoal')) detectedColor = 'Charcoal';
   }
+  const colorCode = COLOR_CODES[detectedColor] || 'Bk';
 
-  // 4. Determine Size Code
+  // Determine Size Code
   let size = (item.size || 'L').toUpperCase().replace(/[^A-Z0-9]/g, '');
-  if (!['S', 'M', 'L', 'XL', '2XL', '3XL', 'XS'].includes(size)) {
-    if (size === 'XXL') size = '2XL';
-    else if (size === 'XXXL') size = '3XL';
-    else size = 'L';
-  }
+  const validSizes = ['S', 'M', 'L', 'XL', 'XXL', '2XL', '3XL', 'XS'];
+  if (size === '2XL') size = 'XXL';
+  const finalSize = validSizes.includes(size) ? size : 'L';
 
-  return `${prefix}-${color}-${size}`;
+  return `${resolvedPrefix}-${colorCode}-${finalSize}`;
 }
 
 /**
@@ -220,67 +271,180 @@ export function expandBundleItems(items: any[]): any[] {
     const id = (it.id || '').toLowerCase();
     const size = it.size || 'L';
 
-    if (id.includes('bundle-streetwear-duo')) {
+    if (id.includes('bundle-winter-spec-ops')) {
       expanded.push({
         ...it,
-        id: 'qikink-t-shirts-oversized-t-shirt-standard-us22',
-        title: 'Rare Ember Unisex Oversized Heavyweight Tee (Duo Piece 1)',
+        id: 'rare-ember-midnight-ronin-380gsm-oversized-hoodie',
+        title: 'Rare Ember Midnight Ronin 380 GSM Oversized Hoodie',
+        qikinkSkuPrefix: 'UHd',
+        color: 'Black',
         qty: it.qty || 1,
         size,
       });
       expanded.push({
         ...it,
-        id: 'qikink-t-shirts-acid-wash-oversized-t-shirt-uc61',
-        title: 'Rare Ember Unisex Acid Wash Oversized Tee (Duo Piece 2)',
+        id: 'rare-ember-spec-ops-cargo-320gsm-fleece-joggers',
+        title: 'Rare Ember Spec-Ops Cargo 320 GSM Fleece Joggers',
+        qikinkSkuPrefix: 'UJg',
+        color: 'Black',
+        qty: it.qty || 1,
+        size,
+      });
+    } else if (id.includes('bundle-3am-coder')) {
+      expanded.push({
+        ...it,
+        id: 'rare-ember-git-commit-heavyweight-dev-hoodie',
+        title: 'Rare Ember Git Commit Or Die Trying Heavyweight Dev Hoodie',
+        qikinkSkuPrefix: 'UHd',
+        color: 'Black',
+        qty: it.qty || 1,
+        size,
+      });
+      expanded.push({
+        ...it,
+        id: 'rare-ember-linux-vim-cheat-sheet-desk-mat',
+        title: 'Rare Ember 900x400mm Linux & Vim Cheat-Sheet Desk Mat',
+        qikinkSkuPrefix: 'MPad-900x400',
+        qty: it.qty || 1,
+      });
+      expanded.push({
+        ...it,
+        id: 'rare-ember-3am-filter-coffee-matte-ceramic-mug',
+        title: 'Rare Ember 3AM Filter Coffee / Ship Code 11 Oz Matte Ceramic Mug',
+        qikinkSkuPrefix: 'CMg-11Oz-Bk',
+        qty: it.qty || 1,
+      });
+    } else if (id.includes('bundle-college-fest-varsity')) {
+      expanded.push({
+        ...it,
+        id: 'rare-ember-founding-builder-varsity-jacket',
+        title: 'Rare Ember Founding Builder 1998 Archival Varsity Jacket',
+        qikinkSkuPrefix: 'UVJ',
+        color: 'Black',
+        qty: it.qty || 1,
+        size,
+      });
+      expanded.push({
+        ...it,
+        id: 'rare-ember-founding-builder-drop-shoulder-tee',
+        title: 'Rare Ember 240 GSM Founding Builder Drop-Shoulder Tee',
+        qikinkSkuPrefix: 'UOst',
+        color: 'Black',
+        qty: it.qty || 1,
+        size,
+      });
+    } else if (id.includes('bundle-winter-layering')) {
+      expanded.push({
+        ...it,
+        id: 'rare-ember-tokyo-cyber-mecha-winter-hoodie',
+        title: 'Rare Ember Tokyo Cyber-Mecha Unit-09 Winter Hoodie',
+        qikinkSkuPrefix: 'UHd',
+        color: 'Navy',
+        qty: it.qty || 1,
+        size,
+      });
+      expanded.push({
+        ...it,
+        id: 'rare-ember-acid-wash-heavy-metal-flame-tee',
+        title: 'Rare Ember Vintage Acid-Wash "Heavy Metal Flame" Oversized Tee',
+        qikinkSkuPrefix: 'ATe',
+        color: 'Black',
+        qty: it.qty || 1,
+        size,
+      });
+    } else if (id.includes('bundle-crewneck-workstation')) {
+      expanded.push({
+        ...it,
+        id: 'rare-ember-linux-kernel-panic-320gsm-crewneck',
+        title: 'Rare Ember Linux Kernel Panic 320 GSM Crewneck Sweatshirt',
+        qikinkSkuPrefix: 'USs',
+        color: 'Black',
+        qty: it.qty || 1,
+        size,
+      });
+      expanded.push({
+        ...it,
+        id: 'rare-ember-ember-wave-extended-desk-mat',
+        title: 'Rare Ember 900x400mm Ember Wave Extended Creator Desk Mat',
+        qikinkSkuPrefix: 'MPad-900x400',
+        qty: it.qty || 1,
+      });
+    } else if (id.includes('bundle-streetwear-duo')) {
+      expanded.push({
+        ...it,
+        id: 'rare-ember-founding-builder-drop-shoulder-tee',
+        title: 'Rare Ember 240 GSM Founding Builder Drop-Shoulder Tee',
+        qikinkSkuPrefix: 'UOst',
+        color: 'Black',
+        qty: it.qty || 1,
+        size,
+      });
+      expanded.push({
+        ...it,
+        id: 'rare-ember-acid-wash-heavy-metal-flame-tee',
+        title: 'Rare Ember Vintage Acid-Wash "Heavy Metal Flame" Oversized Tee',
+        qikinkSkuPrefix: 'ATe',
+        color: 'Black',
         qty: it.qty || 1,
         size,
       });
     } else if (id.includes('bundle-founding-50')) {
       expanded.push({
         ...it,
-        id: 'qikink-t-shirts-oversized-t-shirt-standard-us22',
-        title: 'Rare Ember Founding Builder 240 GSM Heavyweight Tee',
+        id: 'rare-ember-founding-builder-drop-shoulder-tee',
+        title: 'Rare Ember 240 GSM Founding Builder Drop-Shoulder Tee',
+        qikinkSkuPrefix: 'UOst',
+        color: 'Black',
         qty: it.qty || 1,
         size,
       });
       expanded.push({
         ...it,
-        id: 'qikink-accessories-desk-mat',
+        id: 'rare-ember-ember-wave-extended-desk-mat',
         title: 'Rare Ember 900x400mm Precision Gaming Desk Mat',
+        qikinkSkuPrefix: 'MPad-900x400',
         qty: it.qty || 1,
       });
     } else if (id.includes('bundle-creator-workstation')) {
       expanded.push({
         ...it,
-        id: 'qikink-accessories-desk-mat',
+        id: 'rare-ember-ember-wave-extended-desk-mat',
         title: 'Rare Ember 900x400mm Extended Gaming Desk Mat',
+        qikinkSkuPrefix: 'MPad-900x400',
         qty: it.qty || 1,
       });
       expanded.push({
         ...it,
-        id: 'qikink-t-shirts-oversized-t-shirt-standard-us22',
+        id: 'rare-ember-founding-builder-drop-shoulder-tee',
         title: 'Rare Ember 240 GSM Creator Graphic Tee',
+        qikinkSkuPrefix: 'UOst',
+        color: 'Black',
         qty: it.qty || 1,
         size,
       });
       expanded.push({
         ...it,
-        id: 'qikink-drinkware-coffee-mug-black-mug',
+        id: 'rare-ember-3am-filter-coffee-matte-ceramic-mug',
         title: 'Rare Ember Artisan Ceramic Coffee Mug',
+        qikinkSkuPrefix: 'CMg-11Oz-Bk',
         qty: it.qty || 1,
       });
     } else if (id.includes('bundle-winter-heavyweight')) {
       expanded.push({
         ...it,
-        id: 'qikink-hoodies-oversized-hoodie-uh32',
+        id: 'rare-ember-midnight-ronin-380gsm-oversized-hoodie',
         title: 'Rare Ember 380 GSM French Terry Fleece Hoodie',
+        qikinkSkuPrefix: 'UHd',
+        color: 'Black',
         qty: it.qty || 1,
         size,
       });
       expanded.push({
         ...it,
-        id: 'qikink-t-shirts-oversized-t-shirt-standard-us22',
+        id: 'rare-ember-founding-builder-drop-shoulder-tee',
         title: 'Rare Ember 240 GSM Combed Bio-Washed Tee',
+        qikinkSkuPrefix: 'UOst',
+        color: 'Black',
         qty: it.qty || 1,
         size,
       });
