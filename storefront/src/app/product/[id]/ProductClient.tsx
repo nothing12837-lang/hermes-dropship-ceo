@@ -528,7 +528,7 @@ export function ProductClient({ product }: Props) {
   const firstIsMat = !firstIsApparel && /desk|pad|mat/i.test(firstItemCheckLower);
   const firstIsMug = !firstIsApparel && /mug|cup|bottle|tumbler/i.test(firstItemCheckLower);
 
-  const initialSingleSize = isKidsApparel ? '5-6Y' : (product.sizes?.[0] || (firstIsApparel ? 'L' : firstIsMat ? '900x400mm' : firstIsMug ? '330ml' : 'L'));
+  const initialSingleSize = product.sizes?.[0] || (isKidsApparel ? '0-12M' : firstIsApparel ? 'L' : firstIsMat ? '900x400mm' : firstIsMug ? '330ml' : 'L');
   const [selectedSize, setSelectedSize] = useState<string>(initialSingleSize);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [sizeUnit, setSizeUnit] = useState<'in' | 'cm'>('in');
