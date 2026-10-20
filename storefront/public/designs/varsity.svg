@@ -6,34 +6,32 @@
     </linearGradient>
   </defs>
 
-  <rect x="70" y="70" width="660" height="660" rx="36" fill="#0A0A0A" stroke="#EA580C" stroke-width="4" />
-
   <!-- Collegiate Arch Top -->
-  <path id="archPath" d="M 160 210 Q 400 130 640 210" fill="none" />
-  <text fill="#FFFFFF" font-family="'Impact', 'Arial Black', sans-serif" font-size="54" font-weight="900" letter-spacing="8">
+  <path id="archPath" d="M 120 180 Q 400 90 680 180" fill="none" />
+  <text fill="#FFFFFF" font-family="'Impact', 'Arial Black', sans-serif" font-size="64" font-weight="900" letter-spacing="10">
     <textPath href="#archPath" startOffset="50%" text-anchor="middle">
       RARE EMBER
     </textPath>
   </text>
 
-  <!-- Large Chenille Varsity Monogram "RE" -->
+  <!-- Large Chenille Varsity Monogram "RE" (Transparent Screenprint) -->
   <g transform="translate(400, 390)">
-    <!-- Shield Background -->
-    <path d="M -150 -130 L 150 -130 L 150 40 C 150 140, 0 190, 0 190 C 0 190, -150 140, -150 40 Z" fill="#171717" stroke="#F97316" stroke-width="8" />
+    <!-- Shield Outline -->
+    <path d="M -160 -130 L 160 -130 L 160 40 C 160 150, 0 200, 0 200 C 0 200, -160 150, -160 40 Z" fill="none" stroke="#F97316" stroke-width="10" />
     
-    <!-- Crossed Flags / Bats Motif -->
-    <line x1="-100" y1="110" x2="100" y2="-90" stroke="#F59E0B" stroke-width="6" stroke-linecap="round" />
-    <line x1="100" y1="110" x2="-100" y2="-90" stroke="#F59E0B" stroke-width="6" stroke-linecap="round" />
+    <!-- Crossed Flags Motif -->
+    <line x1="-110" y1="120" x2="110" y2="-90" stroke="#F59E0B" stroke-width="8" stroke-linecap="round" />
+    <line x1="110" y1="120" x2="-110" y2="-90" stroke="#F59E0B" stroke-width="8" stroke-linecap="round" />
 
     <!-- Big Bold "98" -->
-    <text x="0" y="55" fill="url(#varsityGrad)" font-family="'Impact', sans-serif" font-size="130" font-weight="900" text-anchor="middle" stroke="#FFFFFF" stroke-width="4">
+    <text x="0" y="65" fill="url(#varsityGrad)" font-family="'Impact', sans-serif" font-size="140" font-weight="900" text-anchor="middle" stroke="#FFFFFF" stroke-width="5">
       98
     </text>
   </g>
 
   <!-- Subtitle Ribbon -->
-  <rect x="190" y="605" width="420" height="42" rx="10" fill="#EA580C" />
-  <text x="400" y="632" fill="#FFFFFF" font-family="'Arial Black', sans-serif" font-size="15" font-weight="900" text-anchor="middle" letter-spacing="4">
+  <text x="400" y="670" fill="#FFFFFF" font-family="'Arial Black', sans-serif" font-size="20" font-weight="900" text-anchor="middle" letter-spacing="5">
     ALL-INDIA VARSITY DIVISION
   </text>
+  <line x1="180" y1="695" x2="620" y2="695" stroke="#EA580C" stroke-width="5" stroke-linecap="round" />
 </svg>

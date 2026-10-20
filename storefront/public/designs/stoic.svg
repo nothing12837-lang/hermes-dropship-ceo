@@ -6,42 +6,40 @@
     </linearGradient>
   </defs>
 
-  <rect x="70" y="70" width="660" height="660" rx="36" fill="#0C0A09" stroke="#D97706" stroke-width="3" stroke-opacity="0.4" />
-
   <!-- Stoic Maxim Header -->
-  <text x="400" y="150" fill="#F59E0B" font-family="'Times New Roman', serif" font-size="52" font-weight="900" text-anchor="middle" letter-spacing="8">
+  <text x="400" y="110" fill="#F59E0B" font-family="'Times New Roman', serif" font-size="56" font-weight="900" text-anchor="middle" letter-spacing="8">
     MEMENTO MORI
   </text>
-  <text x="400" y="190" fill="#A1A1AA" font-family="'Courier New', monospace" font-size="14" font-weight="700" text-anchor="middle" letter-spacing="4">
+  <text x="400" y="150" fill="#FFFFFF" font-family="'Courier New', monospace" font-size="16" font-weight="800" text-anchor="middle" letter-spacing="4">
     AMOR FATI • THE OBSTACLE IS THE WAY
   </text>
 
-  <!-- Classical Marble Bust / Hourglass & Laurel Silhouette -->
-  <g transform="translate(400, 410)">
-    <!-- Classical Greek Columns Background -->
-    <rect x="-180" y="-140" width="24" height="280" fill="#1C1917" stroke="#292524" stroke-width="2" />
-    <rect x="156" y="-140" width="24" height="280" fill="#1C1917" stroke="#292524" stroke-width="2" />
+  <!-- Classical Laurel Silhouette & Hourglass (Transparent) -->
+  <g transform="translate(400, 390)">
+    <!-- Classical Greek Columns -->
+    <line x1="-180" y1="-140" x2="-180" y2="140" stroke="#F59E0B" stroke-width="6" opacity="0.4" />
+    <line x1="180" y1="-140" x2="180" y2="140" stroke="#F59E0B" stroke-width="6" opacity="0.4" />
 
     <!-- Laurel Wreath Circle -->
-    <circle cx="0" cy="0" r="150" fill="none" stroke="url(#stoicGrad)" stroke-width="6" stroke-dasharray="14 10" />
+    <circle cx="0" cy="0" r="170" fill="none" stroke="url(#stoicGrad)" stroke-width="8" stroke-dasharray="16 12" />
 
-    <!-- Central Hourglass & Skull / Flame Silhouette -->
-    <!-- Hourglass top & bottom triangles -->
-    <polygon points="-60,-90 60,-90 0,0" fill="#1C1917" stroke="#F59E0B" stroke-width="6" />
-    <polygon points="-60,90 60,90 0,0" fill="#1C1917" stroke="#F59E0B" stroke-width="6" />
+    <!-- Central Hourglass -->
+    <polygon points="-70,-100 70,-100 0,0" fill="none" stroke="#F59E0B" stroke-width="8" />
+    <polygon points="-70,100 70,100 0,0" fill="none" stroke="#F59E0B" stroke-width="8" />
+    
     <!-- Falling Sand / Embers -->
-    <circle cx="0" cy="35" r="16" fill="url(#stoicGrad)" />
-    <circle cx="0" cy="60" r="24" fill="url(#stoicGrad)" />
+    <circle cx="0" cy="35" r="18" fill="url(#stoicGrad)" />
+    <circle cx="0" cy="65" r="26" fill="url(#stoicGrad)" />
 
     <!-- Roman Numeral MCMXCVIII -->
-    <text x="0" y="10" fill="#FFFFFF" font-family="'Times New Roman', serif" font-size="18" font-weight="700" text-anchor="middle" letter-spacing="3">
+    <text x="0" y="10" fill="#FFFFFF" font-family="'Times New Roman', serif" font-size="20" font-weight="900" text-anchor="middle" letter-spacing="3">
       MARCUS AURELIUS
     </text>
   </g>
 
   <!-- Bottom Archival Seal -->
-  <rect x="180" y="620" width="440" height="40" rx="10" fill="#1C1917" stroke="#D97706" stroke-width="2" />
-  <text x="400" y="646" fill="#FDE68A" font-family="'Times New Roman', serif" font-size="15" font-weight="800" text-anchor="middle" letter-spacing="4">
+  <text x="400" y="670" fill="#FDE68A" font-family="'Times New Roman', serif" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="4">
     IRON MINDSET • TIRUPUR HEAVYWEIGHT
   </text>
+  <line x1="160" y1="695" x2="640" y2="695" stroke="#D97706" stroke-width="4" stroke-linecap="round" />
 </svg>

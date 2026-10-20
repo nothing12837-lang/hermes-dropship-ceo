@@ -7,43 +7,43 @@
     </linearGradient>
   </defs>
 
-  <rect x="70" y="70" width="660" height="660" rx="36" fill="#0C0A09" stroke="#EF4444" stroke-width="4" />
-
   <!-- Speed Racing Stripes -->
-  <path d="M 100 130 L 160 130 L 120 700 L 60 700 Z" fill="#EF4444" opacity="0.3" />
-  <path d="M 180 130 L 220 130 L 160 700 L 120 700 Z" fill="#F97316" opacity="0.3" />
+  <path d="M 80 80 L 140 80 L 100 720 L 40 720 Z" fill="#EF4444" opacity="0.4" />
+  <path d="M 160 80 L 200 80 L 140 720 L 100 720 Z" fill="#F97316" opacity="0.4" />
 
   <!-- Grand Prix Header -->
-  <text x="430" y="160" fill="#FFFFFF" font-family="'Impact', sans-serif" font-size="52" font-weight="900" text-anchor="middle" letter-spacing="6">
+  <text x="440" y="120" fill="#FFFFFF" font-family="'Impact', 'Arial Black', sans-serif" font-size="58" font-weight="900" text-anchor="middle" letter-spacing="6">
     SCUDERIA EMBER
   </text>
-  <text x="430" y="195" fill="#EF4444" font-family="'Courier New', monospace" font-size="14" font-weight="900" text-anchor="middle" letter-spacing="4">
+  <text x="440" y="160" fill="#EF4444" font-family="'Courier New', monospace" font-size="16" font-weight="900" text-anchor="middle" letter-spacing="4">
     9000 RPM • REDLINE TELEMETRY • MONACO 1988
   </text>
 
-  <!-- Tachometer Dial -->
-  <g transform="translate(430, 410)">
-    <circle cx="0" cy="0" r="170" fill="#18181B" stroke="#27272A" stroke-width="8" />
+  <!-- Tachometer Dial (Transparent Screenprint) -->
+  <g transform="translate(440, 390)">
+    <circle cx="0" cy="0" r="190" fill="none" stroke="#FFFFFF" stroke-width="6" opacity="0.3" stroke-dasharray="6 6" />
+    <circle cx="0" cy="0" r="170" fill="none" stroke="#27272A" stroke-width="8" />
+    
     <!-- Redline Arc -->
-    <path d="M 70 -130 A 150 150 0 0 1 150 0" fill="none" stroke="#EF4444" stroke-width="14" stroke-linecap="round" />
-    <path d="M -130 70 A 150 150 0 0 1 70 -130" fill="none" stroke="#FACC15" stroke-width="8" stroke-linecap="round" />
+    <path d="M 70 -130 A 150 150 0 0 1 150 0" fill="none" stroke="#EF4444" stroke-width="16" stroke-linecap="round" />
+    <path d="M -130 70 A 150 150 0 0 1 70 -130" fill="none" stroke="#FACC15" stroke-width="10" stroke-linecap="round" />
 
     <!-- Tachometer Needle -->
     <polygon points="-8,15 8,15 0,-140" fill="#EF4444" transform="rotate(45)" />
-    <circle cx="0" cy="0" r="22" fill="#FFFFFF" stroke="#000000" stroke-width="4" />
+    <circle cx="0" cy="0" r="22" fill="#FFFFFF" stroke="#EF4444" stroke-width="4" />
 
     <!-- Center RPM Display -->
-    <text x="0" y="75" fill="#FFFFFF" font-family="'Impact', sans-serif" font-size="44" font-weight="900" text-anchor="middle">
+    <text x="0" y="75" fill="#FFFFFF" font-family="'Impact', sans-serif" font-size="52" font-weight="900" text-anchor="middle">
       9,000
     </text>
-    <text x="0" y="98" fill="#A1A1AA" font-family="'Courier New', monospace" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="2">
+    <text x="0" y="105" fill="#FACC15" font-family="'Courier New', monospace" font-size="14" font-weight="800" text-anchor="middle" letter-spacing="3">
       MAX APEX OUTPUT
     </text>
   </g>
 
   <!-- Checkered Flag Bar -->
-  <rect x="200" y="620" width="460" height="34" rx="8" fill="#1C1917" stroke="#3F3F46" stroke-width="2" />
-  <text x="430" y="643" fill="#FACC15" font-family="'Courier New', monospace" font-size="13" font-weight="900" text-anchor="middle" letter-spacing="3">
+  <text x="440" y="670" fill="#FFFFFF" font-family="'Courier New', monospace" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="4">
     BOX BOX BOX • SLICK TYRE DIVISION
   </text>
+  <line x1="160" y1="695" x2="720" y2="695" stroke="#EF4444" stroke-width="5" stroke-linecap="round" />
 </svg>

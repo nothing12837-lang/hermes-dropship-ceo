@@ -53,7 +53,7 @@ export default function PrebuiltMockupRenderer({
   else if (isHoodie) basePhoto = STUDIO_GARMENTS.hoodie;
   else if (isAcidWash) basePhoto = STUDIO_GARMENTS.acidWashTee;
 
-  // Resolve official Qikink studio generated mockup on plain cloth
+  // Resolve studio mockup with matching design motif and garment silhouette
   const motifKey = svgMotif || 'ronin';
   const silKey = isDeskMat
     ? 'deskmat'
@@ -67,15 +67,8 @@ export default function PrebuiltMockupRenderer({
     ? 'acid'
     : 'tee';
 
-  // Official Qikink Plain Garment Mockups
-  let prebuiltMockupPath = `/mockups/mockup-${motifKey}-${silKey}.webp`;
-  if (silKey === 'tee') {
-    prebuiltMockupPath = '/mockups/qikink-ronin-oversized-tee-black.png';
-  } else if (silKey === 'hoodie') {
-    prebuiltMockupPath = '/mockups/qikink-ronin-oversized-hoodie-black.png';
-  } else if (silKey === 'crewneck') {
-    prebuiltMockupPath = '/mockups/qikink-ronin-crewneck-sweatshirt-black.png';
-  }
+  // Dynamic Variety: Each drop gets its unique artwork on the plain garment
+  const prebuiltMockupPath = `/mockups/mockup-${motifKey}-${silKey}.webp`;
 
   return (
     <div className={`relative w-full h-full overflow-hidden bg-[#F2F2F2] select-none ${className}`}>

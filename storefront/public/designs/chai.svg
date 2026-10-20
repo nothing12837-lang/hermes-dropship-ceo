@@ -6,46 +6,43 @@
       <stop offset="100%" stop-color="#78350F" />
     </linearGradient>
     <linearGradient id="steamGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.8" />
-      <stop offset="100%" stop-color="#FFFBEB" stop-opacity="0.1" />
+      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#FFFBEB" stop-opacity="0.2" />
     </linearGradient>
   </defs>
 
-  <!-- Dark Frame -->
-  <rect x="70" y="70" width="660" height="660" rx="36" fill="#0C0A09" stroke="#D97706" stroke-width="3" stroke-opacity="0.4" />
-  
   <!-- Desi Typography Top -->
-  <text x="400" y="155" fill="#F59E0B" font-family="Impact, sans-serif" font-size="52" font-weight="900" text-anchor="middle" letter-spacing="8">
+  <text x="400" y="120" fill="#F59E0B" font-family="'Impact', 'Arial Black', sans-serif" font-size="58" font-weight="900" text-anchor="middle" letter-spacing="8">
     CUTTING CHAI CLUB
   </text>
-  <text x="400" y="195" fill="#A1A1AA" font-family="'Courier New', monospace" font-size="15" font-weight="700" text-anchor="middle" letter-spacing="5">
+  <text x="400" y="160" fill="#FCD34D" font-family="'Courier New', monospace" font-size="16" font-weight="800" text-anchor="middle" letter-spacing="5">
     ESTD. 1998 • TAPRI TO STREETWEAR • 240 GSM
   </text>
 
   <!-- Rising Steam Swirls -->
-  <g transform="translate(400, 290)">
-    <path d="M -60 20 C -90 -40, -30 -90, -60 -140" fill="none" stroke="url(#steamGrad)" stroke-width="12" stroke-linecap="round" />
-    <path d="M 0 30 C 40 -30, -20 -90, 20 -160" fill="none" stroke="url(#steamGrad)" stroke-width="14" stroke-linecap="round" />
-    <path d="M 60 20 C 30 -40, 90 -90, 60 -140" fill="none" stroke="url(#steamGrad)" stroke-width="12" stroke-linecap="round" />
+  <g transform="translate(400, 270)">
+    <path d="M -70 20 C -110 -50, -40 -110, -70 -170" fill="none" stroke="url(#steamGrad)" stroke-width="14" stroke-linecap="round" />
+    <path d="M 0 30 C 50 -40, -30 -110, 30 -190" fill="none" stroke="url(#steamGrad)" stroke-width="16" stroke-linecap="round" />
+    <path d="M 70 20 C 40 -50, 110 -110, 70 -170" fill="none" stroke="url(#steamGrad)" stroke-width="14" stroke-linecap="round" />
   </g>
 
-  <!-- Cutting Glass Iconography -->
+  <!-- Cutting Glass Iconography (Transparent DTF Screenprint) -->
   <g transform="translate(400, 440)">
     <!-- Glass Body -->
-    <path d="M -80 -100 L -60 120 C -55 150, 55 150, 60 120 L 80 -100 Z" fill="#1C1917" stroke="#F59E0B" stroke-width="8" />
+    <path d="M -90 -110 L -70 130 C -60 165, 60 165, 70 130 L 90 -110 Z" fill="none" stroke="#F59E0B" stroke-width="10" />
     <!-- Tea Liquid Level -->
-    <path d="M -66 -20 L -56 115 C -50 135, 50 135, 56 115 L 66 -20 Z" fill="url(#chaiGrad)" />
+    <path d="M -76 -20 L -65 125 C -55 148, 55 148, 65 125 L 76 -20 Z" fill="url(#chaiGrad)" opacity="0.95" />
     <!-- Glass Facet Ridges -->
-    <line x1="-30" y1="-90" x2="-22" y2="120" stroke="#F59E0B" stroke-width="4" stroke-opacity="0.6" />
-    <line x1="0" y1="-90" x2="0" y2="130" stroke="#F59E0B" stroke-width="4" stroke-opacity="0.6" />
-    <line x1="30" y1="-90" x2="22" y2="120" stroke="#F59E0B" stroke-width="4" stroke-opacity="0.6" />
+    <line x1="-35" y1="-100" x2="-25" y2="130" stroke="#FFFFFF" stroke-width="4" stroke-opacity="0.8" />
+    <line x1="0" y1="-100" x2="0" y2="140" stroke="#FFFFFF" stroke-width="4" stroke-opacity="0.8" />
+    <line x1="35" y1="-100" x2="25" y2="130" stroke="#FFFFFF" stroke-width="4" stroke-opacity="0.8" />
     <!-- Glass Rim -->
-    <ellipse cx="0" cy="-100" rx="80" ry="16" fill="#292524" stroke="#F59E0B" stroke-width="6" />
+    <ellipse cx="0" cy="-110" rx="90" ry="18" fill="none" stroke="#F59E0B" stroke-width="8" />
   </g>
 
   <!-- Bottom Badges -->
-  <rect x="180" y="605" width="440" height="42" rx="12" fill="#1C1917" stroke="#D97706" stroke-width="2" />
-  <text x="400" y="632" fill="#FDE68A" font-family="'Courier New', monospace" font-size="14" font-weight="800" text-anchor="middle" letter-spacing="3">
+  <text x="400" y="670" fill="#FFFFFF" font-family="'Courier New', monospace" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="4">
     FUELING BUILDERS • 100% MASALA CADENCE
   </text>
+  <line x1="150" y1="695" x2="650" y2="695" stroke="#F59E0B" stroke-width="4" stroke-linecap="round" />
 </svg>
