@@ -6,6 +6,7 @@ import { useCart } from '@/lib/store/cart';
 import { formatPrice, products, cleanBrandTitle, type Product } from '@/lib/data/products';
 import { COPY } from '@/lib/data/copy';
 import Image from 'next/image';
+import PrebuiltMockupRenderer from '@/components/PrebuiltMockupRenderer';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { resolveProductImage } from '@/lib/data/fallback-images';
@@ -260,7 +261,15 @@ export default function CartDrawer() {
                           className="w-16 h-16 rounded-xl flex items-center justify-center text-3xl shrink-0 overflow-hidden relative border border-black/[0.04]"
                           style={{ background: d.product.gradient }}
                         >
-                          {d.product.image_url ? (
+                          {d.product.id?.startsWith('re-prebuilt-') ? (
+                            <PrebuiltMockupRenderer
+                              id={d.product.id}
+                              title={d.product.title}
+                              svgMotif={(d.product as any).lockedSvgMotif}
+                              accentHex={(d.product as any).lockedAccentHex}
+                              className="w-full h-full"
+                            />
+                          ) : d.product.image_url ? (
                             <Image
                               src={d.product.image_url}
                               alt={d.product.title}

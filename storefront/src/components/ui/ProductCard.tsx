@@ -10,6 +10,7 @@ import { useWishlist } from '@/lib/store/wishlist';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { cleanBrandTitle } from '@/lib/data/products';
 import { getMotifSvgPath } from '@/lib/data/prebuiltCatalog500';
+import PrebuiltMockupRenderer from '@/components/PrebuiltMockupRenderer';
 
 import { useGeo } from '@/context/GeoContext';
 
@@ -114,6 +115,7 @@ export default function ProductCard({
   rawComparePrice,
   gradient,
   imageUrl,
+  chapter,
   rating = 4.3,
   reviews = 120,
   discount,
@@ -244,40 +246,19 @@ export default function ProductCard({
                 </span>
               </div>
             </div>
-          ) : showImage ? (
+          ) : (isPrebuilt || id.startsWith('re-prebuilt-')) ? (
             <>
-              <Image
-                src={resolvedSrc as string}
-                alt={cleanTitle}
-                fill
-                priority={isLcpCandidate}
-                loading={isLcpCandidate ? undefined : 'lazy'}
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                style={{ objectFit: 'cover' }}
-                className="group-hover:scale-110 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-                onError={() => setImgFailed(true)}
+              <PrebuiltMockupRenderer
+                id={id}
+                title={cleanTitle}
+                collection={chapter}
+                subCategory={tag}
+                qikinkSkuPrefix={id}
+                accentHex={lockedAccentHex}
+                svgMotif={lockedSvgMotif}
+                placement={lockedGraphicPlacement}
+                className="w-full h-full"
               />
-              {/* LIVE ARCHIVAL GRAPHIC MOTIF OVERLAY ON BLANK GARMENT */}
-              {(isPrebuilt || id.startsWith('re-prebuilt-')) && lockedSvgMotif && (
-                <div
-                  className="absolute pointer-events-none z-10 flex items-center justify-center transition-transform duration-500 ease-out group-hover:scale-105"
-                  style={{
-                    top: id.includes('deskmat') ? '16%' : '26%',
-                    left: id.includes('deskmat') ? '12%' : '27%',
-                    width: id.includes('deskmat') ? '76%' : '46%',
-                    height: id.includes('deskmat') ? '68%' : '48%',
-                  }}
-                >
-                  <div className="relative w-full h-full flex items-center justify-center drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={getMotifSvgPath(lockedSvgMotif)}
-                      alt={lockedGraphicTitle || cleanTitle}
-                      className="max-w-full max-h-full object-contain filter contrast-110"
-                    />
-                  </div>
-                </div>
-              )}
               {lockedGraphicTitle && (
                 <span
                   className="absolute bottom-2.5 left-2.5 z-10 text-[10px] font-black px-2.5 py-1 rounded-lg text-white shadow-md backdrop-blur-md border border-white/20 truncate max-w-[70%]"
@@ -287,6 +268,18 @@ export default function ProductCard({
                 </span>
               )}
             </>
+          ) : showImage ? (
+            <Image
+              src={resolvedSrc as string}
+              alt={cleanTitle}
+              fill
+              priority={isLcpCandidate}
+              loading={isLcpCandidate ? undefined : 'lazy'}
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              style={{ objectFit: 'cover' }}
+              className="group-hover:scale-110 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              onError={() => setImgFailed(true)}
+            />
           ) : (
             <span className="text-7xl flex items-center justify-center h-full group-hover:scale-115 group-hover:-rotate-6 transition-transform duration-500">
               {emoji}

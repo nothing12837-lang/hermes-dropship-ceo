@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getMotifSvgPath } from '@/lib/data/prebuiltCatalog500';
+import PrebuiltMockupRenderer from '@/components/PrebuiltMockupRenderer';
 import { useCart } from '@/lib/store/cart';
 import { useWishlist } from '@/lib/store/wishlist';
 import { formatPrice, computeDiscount, PET_META, bundles, getProduct } from '@/lib/data/products';
@@ -1281,7 +1282,19 @@ export function ProductClient({ product }: Props) {
                 setTouchStartX(null);
               }}
             >
-              {showImage && currentSrc ? (
+              {(isPrebuilt || (product as any).id?.startsWith('re-prebuilt-')) && selectedImgIndex === 0 && !isCustomizing ? (
+                <PrebuiltMockupRenderer
+                  id={product.id}
+                  title={displayTitle}
+                  collection={(product as any).collection}
+                  subCategory={(product as any).subCategory}
+                  qikinkSkuPrefix={(product as any).qikinkSkuPrefix || product.id}
+                  accentHex={(product as any).lockedAccentHex}
+                  svgMotif={(product as any).lockedSvgMotif}
+                  placement={(product as any).lockedGraphicPlacement}
+                  className="w-full h-full"
+                />
+              ) : showImage && currentSrc ? (
                 <Image
                   key={isCustomizing && activeStudioImage ? activeStudioImage : currentSrc}
                   src={isCustomizing && activeStudioImage ? activeStudioImage : currentSrc}
@@ -1296,39 +1309,6 @@ export function ProductClient({ product }: Props) {
                 <span style={{ fontSize: '6rem', filter: 'drop-shadow(0 12px 30px rgba(0,0,0,0.15))' }}>
                   {product.emoji}
                 </span>
-              )}
-
-              {/* LIVE PREBUILT GRAPHIC MOTIF OVERLAY */}
-              {((product as any).lockedSvgMotif || (product as any).id?.startsWith('re-prebuilt-')) && (product as any).lockedSvgMotif && selectedImgIndex === 0 && !isCustomizing && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    pointerEvents: 'none',
-                    zIndex: 10,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    top: activePrintZone.top,
-                    left: activePrintZone.left,
-                    width: activePrintZone.width,
-                    height: activePrintZone.height,
-                  }}
-                >
-                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={getMotifSvgPath((product as any).lockedSvgMotif)}
-                      alt={(product as any).lockedGraphicTitle || displayTitle}
-                      style={{
-                        maxWidth: '92%',
-                        maxHeight: '92%',
-                        objectFit: 'contain',
-                        filter: 'drop-shadow(0 12px 28px rgba(0,0,0,0.55))',
-                      }}
-                    />
-                  </div>
-                </div>
               )}
 
               {/* LIVE FINISHED STREETWEAR GRAPHIC & PERSONALIZATION OVERLAY */}
@@ -1642,14 +1622,28 @@ export function ProductClient({ product }: Props) {
                           transition: 'all 0.18s ease',
                         }}
                       >
-                        <Image
-                          src={imgUrl}
-                          alt={`${product.title} thumbnail ${idx + 1}`}
-                          fill
-                          sizes="80px"
-                          style={{ objectFit: 'cover' }}
-                          onError={() => setFailedImages((prev) => ({ ...prev, [idx]: true }))}
-                        />
+                        {(isPrebuilt || (product as any).id?.startsWith('re-prebuilt-')) && idx === 0 ? (
+                          <PrebuiltMockupRenderer
+                            id={product.id}
+                            title={displayTitle}
+                            collection={(product as any).collection}
+                            subCategory={(product as any).subCategory}
+                            qikinkSkuPrefix={(product as any).qikinkSkuPrefix || product.id}
+                            accentHex={(product as any).lockedAccentHex}
+                            svgMotif={(product as any).lockedSvgMotif}
+                            placement={(product as any).lockedGraphicPlacement}
+                            className="w-full h-full"
+                          />
+                        ) : (
+                          <Image
+                            src={imgUrl}
+                            alt={`${product.title} thumbnail ${idx + 1}`}
+                            fill
+                            sizes="80px"
+                            style={{ objectFit: 'cover' }}
+                            onError={() => setFailedImages((prev) => ({ ...prev, [idx]: true }))}
+                          />
+                        )}
                       </button>
                       <span
                         style={{
@@ -3121,7 +3115,19 @@ export function ProductClient({ product }: Props) {
           <div className="flex items-center gap-2.5 min-w-0 flex-1">
             {/* Live Mini Preview Icon */}
             <div className="relative w-11 h-11 rounded-lg overflow-hidden bg-neutral-100 border border-black/10 shrink-0">
-              {currentSrc ? (
+              {(isPrebuilt || (product as any).id?.startsWith('re-prebuilt-')) ? (
+                <PrebuiltMockupRenderer
+                  id={product.id}
+                  title={displayTitle}
+                  collection={(product as any).collection}
+                  subCategory={(product as any).subCategory}
+                  qikinkSkuPrefix={(product as any).qikinkSkuPrefix || product.id}
+                  accentHex={(product as any).lockedAccentHex}
+                  svgMotif={(product as any).lockedSvgMotif}
+                  placement={(product as any).lockedGraphicPlacement}
+                  className="w-full h-full"
+                />
+              ) : currentSrc ? (
                 <Image
                   src={currentSrc}
                   alt={product.title}
