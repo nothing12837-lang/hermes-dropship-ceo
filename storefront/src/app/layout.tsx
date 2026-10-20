@@ -80,10 +80,20 @@ export const metadata: Metadata = {
     creator: '@rareember',
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/favicon-144x144.png', sizes: '144x144', type: 'image/png' },
+      { url: '/icon.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
     shortcut: '/favicon.ico',
-    apple: '/flame-icon.png',
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
@@ -94,6 +104,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+        <link rel="icon" type="image/png" sizes="144x144" href="/favicon-144x144.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icon.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://qdkkxpfhwrwyoardlceo.supabase.co" />
         <link rel="dns-prefetch" href="https://qdkkxpfhwrwyoardlceo.supabase.co" />
         <link rel="preconnect" href="https://qikink-stores.s3.ap-south-1.amazonaws.com" crossOrigin="anonymous" />
@@ -123,7 +141,8 @@ export default function RootLayout({
               '@type': 'Organization',
               name: 'Rare Ember',
               url: siteUrl,
-              logo: `${siteUrl}/flame-icon.png`,
+              logo: `${siteUrl}/icon-512.png`,
+              image: `${siteUrl}/icon-512.png`,
               sameAs: [
                 'https://instagram.com/rareember',
                 'https://twitter.com/rareember'
