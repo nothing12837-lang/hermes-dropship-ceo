@@ -56,8 +56,6 @@ export interface Product {
   image?: string;
 }
 
-import { generate500PrebuiltProducts } from './prebuiltCatalog500';
-
 export const USD_TO_INR_RATE = 85;
 
 export function getClientMarket(): 'IN' | 'GLOBAL' {
@@ -4780,7 +4778,6 @@ export const products: Product[] = [
   "gradient": "linear-gradient(135deg, #18181b, #09090b)",
   "active": true
 },
-...generate500PrebuiltProducts(),
 ];
 
 export const PET_META: Record<string, any> = {

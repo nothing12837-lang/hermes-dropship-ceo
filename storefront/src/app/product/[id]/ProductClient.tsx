@@ -4,7 +4,6 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { getMotifSvgPath } from '@/lib/data/prebuiltCatalog500';
 import PrebuiltMockupRenderer from '@/components/PrebuiltMockupRenderer';
 import { useCart } from '@/lib/store/cart';
 import { useWishlist } from '@/lib/store/wishlist';

@@ -72,21 +72,6 @@ export const QIKINK_GARMENT_COLORS = [
   { name: 'Bottle Green', hex: '#14532D', isLight: false },
 ];
 
-export const QUICK_TRENDING_DESIGNS = [
-  { id: 'ST-001', title: 'Oversized Raw Cut', path: '/designs/500-trending-collection/01-streetwear-typography/ST-001-oversized.png', cat: 'Streetwear' },
-  { id: 'AM-001', title: 'Cyber Ronin 浪人', path: '/designs/500-trending-collection/02-anime-mecha/AM-001-ronin.png', cat: 'Anime Mecha' },
-  { id: 'DP-001', title: 'Raftar रफ्तार', path: '/designs/500-trending-collection/03-indian-desi-pop/DP-001-speed.png', cat: 'Desi Pop' },
-  { id: 'TC-001', title: 'Commit Or Die', path: '/designs/500-trending-collection/04-tech-coder/TC-001-commit-or-die.png', cat: 'Tech & Dev' },
-  { id: 'GA-001', title: 'One More Rep', path: '/designs/500-trending-collection/05-gym-alpha/GA-001-one-more-rep.png', cat: 'Gym Alpha' },
-  { id: 'MS-001', title: 'Amor Fati', path: '/designs/500-trending-collection/06-minimalist-stoic/MS-001-amor-fati.png', cat: 'Stoic' },
-  { id: 'ST-002', title: 'No Signal', path: '/designs/500-trending-collection/01-streetwear-typography/ST-002-no-signal.png', cat: 'Streetwear' },
-  { id: 'AM-002', title: 'Heavy Mecha 機甲', path: '/designs/500-trending-collection/02-anime-mecha/AM-002-mecha.png', cat: 'Anime Mecha' },
-  { id: 'DP-002', title: 'Jugaad जुगाड़', path: '/designs/500-trending-collection/03-indian-desi-pop/DP-002-jugaad.png', cat: 'Desi Pop' },
-  { id: 'TC-002', title: 'Sudo Mode Admin', path: '/designs/500-trending-collection/04-tech-coder/TC-002-sudo-mode.png', cat: 'Tech & Dev' },
-  { id: 'GA-002', title: 'Iron Never Lies', path: '/designs/500-trending-collection/05-gym-alpha/GA-002-iron-never-lies.png', cat: 'Gym Alpha' },
-  { id: 'MS-002', title: 'Memento Mori', path: '/designs/500-trending-collection/06-minimalist-stoic/MS-002-memento-mori.png', cat: 'Stoic' },
-];
-
 export const SEVEN_CORE_BLANKS: BlankGarment[] = [
   {
     id: 'blank-jersey',
@@ -235,7 +220,6 @@ export function CustomDropsClient() {
   const [customView, setCustomView] = useState<'front' | 'back'>('front');
   const [selectedPlacement, setSelectedPlacement] = useState<QikinkPlacement>('Front');
   const [selectedLabColor, setSelectedLabColor] = useState<string>('White');
-  const [showTrendingDrawer, setShowTrendingDrawer] = useState<boolean>(false);
   const [customMode, setCustomMode] = useState<'image' | 'text'>('image');
   const [customImage, setCustomImage] = useState<string | null>(null);
   const [customImageName, setCustomImageName] = useState<string>('');
@@ -662,42 +646,30 @@ export function CustomDropsClient() {
                 </div>
               )}
 
-              {/* STEP 3: Design Upload or Pick from 500 Trending Designs */}
+              {/* STEP 3: Design */}
               <div>
                 <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2.5">
                   3. Design
                 </label>
                 
                 {/* Mode Selector */}
-                <div className="grid grid-cols-3 gap-1.5 p-1 bg-white/5 rounded-2xl border border-white/10 mb-3">
+                <div className="grid grid-cols-2 gap-1.5 p-1 bg-white/5 rounded-2xl border border-white/10 mb-3">
                   <button
                     type="button"
-                    onClick={() => { setCustomMode('image'); setShowTrendingDrawer(false); }}
-                    className={`py-2 px-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1 ${
-                      customMode === 'image' && !showTrendingDrawer
+                    onClick={() => setCustomMode('image')}
+                    className={`py-2 px-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                      customMode === 'image'
                         ? 'bg-[#FF4D24] text-white shadow-md'
                         : 'text-neutral-400 hover:text-white'
                     }`}
                   >
                     <span>📁</span>
-                    <span>Upload Logo</span>
+                    <span>Upload Logo / Artwork</span>
                   </button>
                   <button
                     type="button"
-                    onClick={() => { setCustomMode('image'); setShowTrendingDrawer(true); }}
-                    className={`py-2 px-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1 ${
-                      showTrendingDrawer
-                        ? 'bg-[#FF4D24] text-white shadow-md'
-                        : 'text-neutral-400 hover:text-white'
-                    }`}
-                  >
-                    <span>⚡</span>
-                    <span>500 Designs</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => { setCustomMode('text'); setShowTrendingDrawer(false); }}
-                    className={`py-2 px-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1 ${
+                    onClick={() => setCustomMode('text')}
+                    className={`py-2 px-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                       customMode === 'text'
                         ? 'bg-[#FF4D24] text-white shadow-md'
                         : 'text-neutral-400 hover:text-white'
@@ -708,41 +680,8 @@ export function CustomDropsClient() {
                   </button>
                 </div>
 
-                {/* Option A: Quick Pick from 500 Trending Designs */}
-                {showTrendingDrawer && (
-                  <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/15 space-y-2.5 mb-3">
-                    <div className="flex items-center justify-between text-xs font-bold text-neutral-300">
-                      <span>Pick from Trending Archival Designs:</span>
-                      <a href="/designs/500-trending-collection/index.html" target="_blank" className="text-[#FF9A3D] hover:underline text-[11px]">
-                        Browse All 500 ➔
-                      </a>
-                    </div>
-                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
-                      {QUICK_TRENDING_DESIGNS.map((d) => (
-                        <button
-                          key={d.id}
-                          type="button"
-                          onClick={() => {
-                            setCustomImage(d.path);
-                            setCustomImageName(d.title);
-                            setShowTrendingDrawer(false);
-                          }}
-                          className="group relative aspect-square rounded-xl bg-neutral-900 border border-white/10 hover:border-[#FF4D24] p-1.5 flex flex-col items-center justify-center transition-all cursor-pointer hover:scale-105"
-                          title={d.title}
-                        >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={d.path} alt={d.title} className="max-w-full max-h-full object-contain" />
-                          <span className="text-[8px] font-bold text-neutral-400 truncate w-full text-center mt-1">
-                            {d.id}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Option B: Upload File */}
-                {customMode === 'image' && !showTrendingDrawer && (
+                {/* Upload File */}
+                {customMode === 'image' && (
                   <div className="space-y-2">
                     <label className="block p-4 rounded-2xl border-2 border-dashed border-white/20 bg-white/5 hover:bg-white/10 transition-all cursor-pointer text-center">
                       <span className="text-xl block mb-1">☁️</span>

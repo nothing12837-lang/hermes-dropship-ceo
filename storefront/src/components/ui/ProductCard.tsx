@@ -9,7 +9,6 @@ import { useCart } from '@/lib/store/cart';
 import { useWishlist } from '@/lib/store/wishlist';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { cleanBrandTitle } from '@/lib/data/products';
-import { getMotifSvgPath } from '@/lib/data/prebuiltCatalog500';
 import PrebuiltMockupRenderer from '@/components/PrebuiltMockupRenderer';
 
 import { useGeo } from '@/context/GeoContext';
