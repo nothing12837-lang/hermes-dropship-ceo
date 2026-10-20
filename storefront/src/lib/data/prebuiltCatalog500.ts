@@ -229,9 +229,10 @@ export function generate500PrebuiltProducts(): any[] {
         ? `${design.title} — 900×400mm Extended Creator Desk Mat`
         : `${design.title} — ${sil.suffixName}`;
 
-      const activeImage = isDeskMatSlot
-        ? 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg'
-        : sil.baseImage;
+      const motifKey = design.svgMotif || 'ronin';
+      const mockupSilKey = isDeskMatSlot ? 'deskmat' : sil.key === 'acid-or-mat' ? 'acid' : sil.key === 'oversized-tee' ? 'tee' : sil.key;
+      const studioMockupUrl = `/mockups/mockup-${motifKey}-${mockupSilKey}.webp`;
+      const activeImage = studioMockupUrl;
 
       const desc = `${design.tagline} Pre-designed archival drop crafted in Tirupur using ${
         isDeskMatSlot
