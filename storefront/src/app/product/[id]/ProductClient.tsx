@@ -20,25 +20,6 @@ import { trackViewItem, trackAddToCart } from '@/lib/telemetry/dataLayer';
 
 const PERSPECTIVE_LABELS = ['Hero Front', 'Detail Macro', 'In-Room Setup', 'Unboxed & Scale'];
 
-const ATELIER_ANGLES = [
-  { id: 1, label: '01 / Back Artwork', short: 'Hero Print' },
-  { id: 2, label: '02 / Front Crest', short: 'Archival Crest' },
-  { id: 3, label: '03 / Fabric & Collar', short: 'Macro Weave' },
-  { id: 4, label: '04 / Spec & Cost', short: 'Loom Blueprint' },
-] as const;
-
-const BUNDLE_ITEM_NAMES: Record<string, string> = {
-  'bundle-winter-spec-ops': '380 GSM Hoodie + Fleece Joggers',
-  'bundle-3am-coder': '380 GSM Hoodie + Desk Mat + Mug',
-  'bundle-college-fest-varsity': 'Varsity Jacket + 240 GSM Tee',
-  'bundle-winter-layering': '380 GSM Hoodie + Acid-Wash Tee',
-  'bundle-crewneck-workstation': '320 GSM Crewneck + Desk Mat',
-  'bundle-streetwear-duo': '2x Heavyweight Oversized Tees',
-  'bundle-founding-50': '240 GSM Tee + 900×400mm Desk Mat',
-  'bundle-creator-workstation': 'Desk Mat + Heavyweight Tee + Mug',
-  'bundle-winter-heavyweight': '380 GSM Hoodie + Heavyweight Tee',
-};
-
 const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL'] as const;
 
 const KIDS_SIZES = ['3-4Y', '5-6Y', '7-8Y', '9-10Y', '11-12Y', '13-14Y'] as const;
@@ -704,18 +685,17 @@ export function ProductClient({ product }: Props) {
 
   // Keyboard navigation for image gallery
   useEffect(() => {
-    const totalCount = !isCustomizing ? 4 : galleryImages.length;
-    if (totalCount <= 1) return;
+    if (galleryImages.length <= 1) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
-        setSelectedImgIndex((prev) => (prev > 0 ? prev - 1 : totalCount - 1));
+        setSelectedImgIndex((prev) => (prev > 0 ? prev - 1 : galleryImages.length - 1));
       } else if (e.key === 'ArrowRight') {
-        setSelectedImgIndex((prev) => (prev < totalCount - 1 ? prev + 1 : 0));
+        setSelectedImgIndex((prev) => (prev < galleryImages.length - 1 ? prev + 1 : 0));
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [galleryImages.length, isCustomizing]);
+  }, [galleryImages.length]);
 
   const validImage = galleryImages.find((_, idx) => !failedImages[idx]) || product.image_url || '';
   const currentSrc: string = !failedImages[selectedImgIndex] ? (galleryImages[selectedImgIndex] || validImage) : validImage;
@@ -1291,19 +1271,18 @@ export function ProductClient({ product }: Props) {
               }}
               onTouchStart={(e) => setTouchStartX(e.touches[0].clientX)}
               onTouchEnd={(e) => {
-                const totalCount = !isCustomizing ? 4 : galleryImages.length;
-                if (touchStartX === null || totalCount <= 1) return;
+                if (touchStartX === null || galleryImages.length <= 1) return;
                 const touchEndX = e.changedTouches[0].clientX;
                 const diff = touchStartX - touchEndX;
                 if (diff > 40) {
-                  setSelectedImgIndex((prev) => (prev < totalCount - 1 ? prev + 1 : 0));
+                  setSelectedImgIndex((prev) => (prev < galleryImages.length - 1 ? prev + 1 : 0));
                 } else if (diff < -40) {
-                  setSelectedImgIndex((prev) => (prev > 0 ? prev - 1 : totalCount - 1));
+                  setSelectedImgIndex((prev) => (prev > 0 ? prev - 1 : galleryImages.length - 1));
                 }
                 setTouchStartX(null);
               }}
             >
-              {!isCustomizing ? (
+              {(isPrebuilt || (product as any).id?.startsWith('re-prebuilt-')) && selectedImgIndex === 0 && !isCustomizing ? (
                 <PrebuiltMockupRenderer
                   id={product.id}
                   title={displayTitle}
@@ -1313,8 +1292,6 @@ export function ProductClient({ product }: Props) {
                   accentHex={(product as any).lockedAccentHex}
                   svgMotif={(product as any).lockedSvgMotif}
                   placement={(product as any).lockedGraphicPlacement}
-                  angle={(((selectedImgIndex % 4) + 1) as 1 | 2 | 3 | 4)}
-                  comboBadge={isComboProduct ? (BUNDLE_ITEM_NAMES[product.id] || '+ 2nd Item Included') : undefined}
                   className="w-full h-full"
                 />
               ) : showImage && currentSrc ? (
@@ -1483,7 +1460,7 @@ export function ProductClient({ product }: Props) {
               )}
 
               {/* Photo Count Pill */}
-              {(!isCustomizing || galleryImages.length > 1) && (
+              {galleryImages.length > 1 && (
                 <div
                   style={{
                     position: 'absolute',
@@ -1504,18 +1481,17 @@ export function ProductClient({ product }: Props) {
                   }}
                 >
                   <span>📷</span>
-                  <span>{selectedImgIndex + 1} / {!isCustomizing ? 4 : galleryImages.length}</span>
+                  <span>{selectedImgIndex + 1} / {galleryImages.length}</span>
                 </div>
               )}
 
               {/* Previous / Next Arrows */}
-              {(!isCustomizing || galleryImages.length > 1) && (
+              {galleryImages.length > 1 && (
                 <>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      const totalCount = !isCustomizing ? 4 : galleryImages.length;
-                      setSelectedImgIndex((prev) => (prev > 0 ? prev - 1 : totalCount - 1));
+                      setSelectedImgIndex((prev) => (prev > 0 ? prev - 1 : galleryImages.length - 1));
                     }}
                     aria-label="Previous photo"
                     style={{
@@ -1546,8 +1522,7 @@ export function ProductClient({ product }: Props) {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      const totalCount = !isCustomizing ? 4 : galleryImages.length;
-                      setSelectedImgIndex((prev) => (prev < totalCount - 1 ? prev + 1 : 0));
+                      setSelectedImgIndex((prev) => (prev < galleryImages.length - 1 ? prev + 1 : 0));
                     }}
                     aria-label="Next photo"
                     style={{
@@ -1596,11 +1571,11 @@ export function ProductClient({ product }: Props) {
             </div>
 
             {/* Clickable Thumbnail Strip */}
-            {(!isCustomizing || galleryImages.length > 1) && (
+            {galleryImages.length > 1 && (
               <div style={{ marginTop: '0.85rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.45rem', padding: '0 0.15rem' }}>
-                  <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#161311', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    {!isCustomizing ? 'Atelier Studio Angles & Specs' : 'Product Photos & Angles'}
+                  <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#161311' }}>
+                    Product Photos &amp; Angles
                   </span>
                   <span style={{ fontSize: '0.7rem', color: '#78716c', fontWeight: 600 }}>
                     Tap to preview angle
@@ -1615,38 +1590,39 @@ export function ProductClient({ product }: Props) {
                     scrollbarWidth: 'none',
                   }}
                 >
-                {!isCustomizing ? (
-                  ATELIER_ANGLES.map((ang, idx) => {
-                    const isSelected = idx === selectedImgIndex;
-                    return (
-                      <div
-                        key={ang.id}
+                {galleryImages.map((imgUrl: string, idx: number) => {
+                  if (failedImages[idx]) return null;
+                  const isSelected = idx === selectedImgIndex;
+                  return (
+                    <div
+                      key={imgUrl + idx}
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: '0.35rem',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <button
+                        onClick={() => setSelectedImgIndex(idx)}
+                        aria-label={`View photo ${idx + 1}`}
                         style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          gap: '0.35rem',
-                          flexShrink: 0,
+                          position: 'relative',
+                          width: '4.75rem',
+                          height: '4.75rem',
+                          borderRadius: '0.85rem',
+                          overflow: 'hidden',
+                          border: isSelected ? '2.5px solid #ff6b35' : '1.5px solid rgba(0,0,0,0.1)',
+                          transform: isSelected ? 'scale(1.03)' : 'scale(1)',
+                          boxShadow: isSelected ? '0 4px 12px rgba(255,107,53,0.25)' : 'none',
+                          cursor: 'pointer',
+                          padding: 0,
+                          background: '#f1f5f9',
+                          transition: 'all 0.18s ease',
                         }}
                       >
-                        <button
-                          onClick={() => setSelectedImgIndex(idx)}
-                          aria-label={`View ${ang.label}`}
-                          style={{
-                            position: 'relative',
-                            width: '4.75rem',
-                            height: '4.75rem',
-                            borderRadius: '0.85rem',
-                            overflow: 'hidden',
-                            border: isSelected ? '2.5px solid #FF4D24' : '1.5px solid rgba(0,0,0,0.1)',
-                            transform: isSelected ? 'scale(1.03)' : 'scale(1)',
-                            boxShadow: isSelected ? '0 4px 12px rgba(255,77,36,0.25)' : 'none',
-                            cursor: 'pointer',
-                            padding: 0,
-                            background: '#0C0B0A',
-                            transition: 'all 0.18s ease',
-                          }}
-                        >
+                        {(isPrebuilt || (product as any).id?.startsWith('re-prebuilt-')) && idx === 0 ? (
                           <PrebuiltMockupRenderer
                             id={product.id}
                             title={displayTitle}
@@ -1656,58 +1632,9 @@ export function ProductClient({ product }: Props) {
                             accentHex={(product as any).lockedAccentHex}
                             svgMotif={(product as any).lockedSvgMotif}
                             placement={(product as any).lockedGraphicPlacement}
-                            angle={ang.id as 1 | 2 | 3 | 4}
-                            comboBadge={isComboProduct ? (BUNDLE_ITEM_NAMES[product.id] || '+ 2nd Item Included') : undefined}
-                            className="w-full h-full pointer-events-none"
+                            className="w-full h-full"
                           />
-                        </button>
-                        <span
-                          style={{
-                            fontSize: '0.66rem',
-                            fontWeight: isSelected ? 800 : 600,
-                            color: isSelected ? '#ff4d24' : '#64748b',
-                            letterSpacing: '0.01em',
-                            whiteSpace: 'nowrap',
-                          }}
-                        >
-                          {ang.label}
-                        </span>
-                      </div>
-                    );
-                  })
-                ) : (
-                  galleryImages.map((imgUrl: string, idx: number) => {
-                    if (failedImages[idx]) return null;
-                    const isSelected = idx === selectedImgIndex;
-                    return (
-                      <div
-                        key={imgUrl + idx}
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          gap: '0.35rem',
-                          flexShrink: 0,
-                        }}
-                      >
-                        <button
-                          onClick={() => setSelectedImgIndex(idx)}
-                          aria-label={`View photo ${idx + 1}`}
-                          style={{
-                            position: 'relative',
-                            width: '4.75rem',
-                            height: '4.75rem',
-                            borderRadius: '0.85rem',
-                            overflow: 'hidden',
-                            border: isSelected ? '2.5px solid #ff6b35' : '1.5px solid rgba(0,0,0,0.1)',
-                            transform: isSelected ? 'scale(1.03)' : 'scale(1)',
-                            boxShadow: isSelected ? '0 4px 12px rgba(255,107,53,0.25)' : 'none',
-                            cursor: 'pointer',
-                            padding: 0,
-                            background: '#f1f5f9',
-                            transition: 'all 0.18s ease',
-                          }}
-                        >
+                        ) : (
                           <Image
                             src={imgUrl}
                             alt={`${product.title} thumbnail ${idx + 1}`}
@@ -1716,21 +1643,21 @@ export function ProductClient({ product }: Props) {
                             style={{ objectFit: 'cover' }}
                             onError={() => setFailedImages((prev) => ({ ...prev, [idx]: true }))}
                           />
-                        </button>
-                        <span
-                          style={{
-                            fontSize: '0.68rem',
-                            fontWeight: isSelected ? 800 : 600,
-                            color: isSelected ? '#ff4d24' : '#64748b',
-                            letterSpacing: '0.01em',
-                          }}
-                        >
-                          {idx === 0 ? 'Hero View' : `Angle ${idx + 1}`}
-                        </span>
-                      </div>
-                    );
-                  })
-                )}
+                        )}
+                      </button>
+                      <span
+                        style={{
+                          fontSize: '0.68rem',
+                          fontWeight: isSelected ? 800 : 600,
+                          color: isSelected ? '#ff4d24' : '#64748b',
+                          letterSpacing: '0.01em',
+                        }}
+                      >
+                        {idx === 0 ? 'Hero View' : `Angle ${idx + 1}`}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -2709,7 +2636,7 @@ export function ProductClient({ product }: Props) {
               </div>
             ) : (
               <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {/* Primary High-Fashion CTA */}
+                {/* Primary High-Converting 1-Tap CTA */}
                 <button
                   onClick={handleOrderNow}
                   style={{
@@ -2718,29 +2645,25 @@ export function ProductClient({ product }: Props) {
                     padding: '1rem 1.5rem',
                     fontSize: '1rem',
                     fontWeight: 900,
-                    letterSpacing: '0.04em',
-                    textTransform: 'uppercase',
+                    letterSpacing: '0.02em',
                     borderRadius: '1rem',
-                    background: '#18181B',
-                    color: '#FFFFFF',
-                    boxShadow: '0 8px 24px -4px rgba(0, 0, 0, 0.3)',
+                    background: 'linear-gradient(135deg, #FF4D24 0%, #E8244B 100%)',
+                    boxShadow: '0 8px 24px -4px rgba(255, 77, 36, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '0.65rem',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    gap: '0.5rem',
                   }}
                 >
-                  <span>{isComboProduct ? 'ACQUIRE BUNDLE' : 'ACQUIRE PIECE'}</span>
-                  <span className="opacity-40">•</span>
+                  <span>{isComboProduct ? 'ORDER BUNDLE NOW ⚡' : 'ORDER NOW ⚡'}</span>
+                  <span>•</span>
                   <span>{geoFormatPrice(effectivePriceUsd * qty, effectiveInr * qty)}</span>
-                  <span className="text-sm font-light">→</span>
                 </button>
 
-                {/* Atelier Dispatch Guarantee */}
-                <div className="flex items-center justify-center gap-2 text-xs text-neutral-600 dark:text-neutral-400 font-medium text-center">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                  <span>Complimentary Insured BlueDart Air Express across India • 7-Day Size Exchange</span>
+                {/* Priority Dispatch Reassurance */}
+                <div className="flex items-center justify-center gap-1.5 text-xs text-neutral-600 font-bold text-center">
+                  <span className="text-[#FF4D24]">⚡</span>
+                  <span>Order in 3 hrs for priority dispatch tomorrow • Delivers in 2–4 Days (Free Air Express)</span>
                 </div>
 
                 {/* Secondary Row: Quantity, Add to Bag, Wishlist */}
@@ -2770,13 +2693,9 @@ export function ProductClient({ product }: Props) {
                       flex: 1,
                       padding: '0.85rem 1rem',
                       borderRadius: '0.85rem',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
-                      fontWeight: 800,
-                      fontSize: '0.82rem',
                     }}
                   >
-                    ADD TO PACK
+                    🛍️ Add to Bag
                   </button>
 
                   <button
@@ -2820,58 +2739,6 @@ export function ProductClient({ product }: Props) {
                     </Link>
                   </div>
                 )}
-
-                {/* UPGRADE 4: DIRECT-FROM-LOOM PRICE TRANSPARENCY MODULE */}
-                <div className="mt-4 p-5 rounded-2xl bg-zinc-950 text-white border border-zinc-800 shadow-xl space-y-3.5">
-                  <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3">
-                    <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-amber-400 font-semibold">
-                      DIRECT-FROM-LOOM PRICE TRANSPARENCY
-                    </span>
-                    <span className="text-[10px] text-zinc-400 font-mono">0% MIDDLEMAN MARKUP</span>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                    <div className="p-3 rounded-xl bg-zinc-900/80 border border-zinc-800/60">
-                      <div className="text-zinc-400 text-[11px]">Traditional Luxury Label</div>
-                      <div className="text-[10px] text-zinc-500 mt-0.5">Mall Rent + Distributor Margin + 5× Markup</div>
-                      <div className="text-base font-bold text-zinc-400 line-through mt-1">₹3,800</div>
-                    </div>
-                    <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
-                      <div className="text-amber-400 font-bold text-[11px]">RareEmber™ Direct Atelier</div>
-                      <div className="text-[10px] text-amber-200/70 mt-0.5">Tirupur Loom → Your Doorstep</div>
-                      <div className="text-base font-bold text-white mt-1">₹{effectiveInr.toLocaleString('en-IN')}</div>
-                    </div>
-                  </div>
-                  <p className="text-[11px] text-zinc-400 leading-relaxed pt-1 border-t border-zinc-800/60 font-normal">
-                    We use the exact same 240 GSM bio-washed combed cotton and 380 GSM brushed French Terry mills in Tirupur as ₹4,000+ designer labels—sold direct from the cloud with zero inventory waste.
-                  </p>
-                </div>
-
-                {/* UPGRADE 4: WHITE-GLOVE PRIVATE CLIENT CONCIERGE */}
-                <div className="mt-2.5 p-5 rounded-2xl bg-[#111114] text-white border border-zinc-800 shadow-lg space-y-3">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                    <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-zinc-300 font-semibold">
-                      RAREEMBER™ PRIVATE CLIENT CONCIERGE
-                    </span>
-                  </div>
-                  <p className="text-xs text-zinc-400 leading-relaxed font-normal">
-                    Unsure about sizing, fabric drape, or custom bulk orders? Speak directly with our Bengaluru &amp; Tirupur Atelier Desk—no bots, instant human resolution, and complimentary 7-Day Doorstep Size Exchange.
-                  </p>
-                  <div className="flex flex-wrap gap-2.5 pt-1">
-                    <Link
-                      href="/track"
-                      className="px-3.5 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold no-underline transition-all"
-                    >
-                      Track Existing Order →
-                    </Link>
-                    <a
-                      href="mailto:rareemberagency@gmail.com?subject=Private%20Client%20Concierge%20Inquiry"
-                      className="px-3.5 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold no-underline transition-all"
-                    >
-                      Contact Private Concierge ✉
-                    </a>
-                  </div>
-                </div>
               </div>
             )}
 
@@ -3304,10 +3171,10 @@ export function ProductClient({ product }: Props) {
           {/* 1-Tap CTA */}
           <button
             onClick={handleOrderNow}
-            className="shrink-0 px-5 py-3 rounded-xl bg-zinc-950 text-white font-bold text-xs uppercase tracking-wider shadow-lg active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer border border-white/10"
+            className="shrink-0 px-5 py-3 rounded-xl bg-gradient-to-r from-[#FF4D24] to-[#E8244B] text-white font-black text-xs uppercase tracking-wider shadow-lg active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer border-none"
           >
-            <span>ACQUIRE PIECE</span>
-            <span>→</span>
+            <span>ORDER NOW</span>
+            <span>⚡</span>
           </button>
         </div>
       )}

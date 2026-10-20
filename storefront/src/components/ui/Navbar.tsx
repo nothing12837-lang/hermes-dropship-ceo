@@ -14,7 +14,7 @@ import FestiveEffects from './FestiveEffects';
 
 const links = [
   { href: '/shop', label: 'Shop' },
-  { href: '/custom-drops', label: 'Custom Merch' },
+  { href: '/custom-drops', label: 'Custom Merch ⚡' },
   { href: '/quiz', label: 'Quiz' },
   { href: '/blog', label: 'Journal' },
   { href: '/track', label: 'Track' },
@@ -81,12 +81,7 @@ export default function Navbar() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-[100]">
-        {/* Authoritative Luxury Announcement Bar */}
-        <div className="bg-[#0C0B0A] text-zinc-300 py-1.5 px-4 text-center border-b border-zinc-800/80">
-          <p className="text-[11px] font-mono tracking-[0.2em] uppercase font-medium truncate max-w-7xl mx-auto text-zinc-300">
-            DIRECT-FROM-LOOM LUXURY STREETWEAR • 240 GSM &amp; 380 GSM TIRUPUR CRAFT • COMPLIMENTARY AIR DISPATCH ACROSS INDIA
-          </p>
-        </div>
+        {/* Festive particles disabled for clean streetwear aesthetic */}
 
         {/* Main bar */}
         <div
