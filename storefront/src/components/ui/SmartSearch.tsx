@@ -110,44 +110,19 @@ export default function SmartSearch() {
             padding: focused ? '1rem 1.2rem' : '0.6rem 1.1rem',
           }}
         >
-          <span style={{ fontSize: '1rem' }}>🔍</span>
+          <span style={{ fontSize: '0.9rem', color: '#71717A' }}>🔍</span>
           <input
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onFocus={() => setFocused(true)}
             onKeyDown={(e) => e.key === 'Enter' && go(value)}
-            placeholder="Search oversized tees, hoodies, desk mats…"
+            placeholder="Search 656 Archival Pieces..."
             aria-label="Search products"
             style={{
               flex: 1, border: 'none', outline: 'none', background: 'transparent',
               fontSize: '0.92rem', fontWeight: 600, color: '#1a1412', minWidth: 0,
             }}
           />
-          <button
-            type="button"
-            onClick={startVoiceSearch}
-            title="Search by voice (Hindi / English)"
-            aria-label="Voice Search"
-            style={{
-              border: 'none', background: listening ? '#fee2e2' : 'transparent',
-              borderRadius: '9999px', padding: '0.35rem 0.5rem', cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '1rem', transition: 'all 0.2s', flexShrink: 0
-            }}
-          >
-            {listening ? '🔴' : '🎙️'}
-          </button>
-          <label
-            title="Visual search - upload photo"
-            aria-label="Visual Search"
-            style={{
-              border: 'none', background: 'transparent', borderRadius: '9999px',
-              padding: '0.35rem 0.5rem', cursor: 'pointer', fontSize: '1rem', flexShrink: 0
-            }}
-          >
-            📷
-            <input type="file" accept="image/*" style={{ display: 'none' }} onChange={(e) => onVisualSearch(e.target.files?.[0])} />
-          </label>
           {focused && value && (
             <button
               onClick={() => go(value)}

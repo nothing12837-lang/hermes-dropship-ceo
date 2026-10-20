@@ -15,6 +15,8 @@ export interface PrebuiltMockupProps {
   badge?: string;
   className?: string;
   showPipFront?: boolean;
+  angle?: 1 | 2 | 3 | 4;
+  comboBadge?: string;
 }
 
 const GARMENT_PALETTES = [
@@ -46,18 +48,43 @@ export default function PrebuiltMockupRenderer({
   accentHex = '#F97316',
   svgMotif = 'ronin',
   placement = 'Back Oversized',
-  className = ''
+  className = '',
+  angle = 1,
+  comboBadge
 }: PrebuiltMockupProps) {
   const seed = hashString(id + title);
-  const lowerTitle = (title + ' ' + subCategory).toLowerCase();
+  const lowerTitle = (title + ' ' + subCategory + ' ' + id).toLowerCase();
 
-  // Determine exact garment silhouette so Crewnecks NEVER show a Hoodie
-  const isDeskMat = (qikinkSkuPrefix && qikinkSkuPrefix.startsWith('MPad')) || lowerTitle.includes('desk mat') || lowerTitle.includes('gaming pad') || lowerTitle.includes('mouse pad') || id.includes('deskmat');
-  const isMug = (qikinkSkuPrefix && (qikinkSkuPrefix.startsWith('CMg') || qikinkSkuPrefix.startsWith('EMg'))) || lowerTitle.includes('mug');
-  const isVarsity = qikinkSkuPrefix === 'UVJ' || lowerTitle.includes('varsity') || lowerTitle.includes('bomber') || id.includes('varsity');
-  const isCrewneck = qikinkSkuPrefix === 'USs' || lowerTitle.includes('crewneck') || lowerTitle.includes('sweatshirt') || id.includes('crewneck');
-  const isHoodie = !isCrewneck && !isVarsity && (qikinkSkuPrefix === 'UHd' || qikinkSkuPrefix === 'UZHd' || lowerTitle.includes('hoodie') || id.includes('hoodie'));
-  const isAcidWash = qikinkSkuPrefix === 'ATe' || lowerTitle.includes('acid') || id.includes('acid');
+  // Determine exact garment silhouette
+  const isDeskMat =
+    (qikinkSkuPrefix && qikinkSkuPrefix.startsWith('MPad')) ||
+    lowerTitle.includes('desk mat') ||
+    lowerTitle.includes('gaming pad') ||
+    lowerTitle.includes('mouse pad') ||
+    id.includes('deskmat') ||
+    id.includes('desk-mat');
+  const isMug =
+    (qikinkSkuPrefix && (qikinkSkuPrefix.startsWith('CMg') || qikinkSkuPrefix.startsWith('EMg'))) ||
+    lowerTitle.includes('mug');
+  const isVarsity =
+    qikinkSkuPrefix === 'UVJ' ||
+    lowerTitle.includes('varsity') ||
+    lowerTitle.includes('bomber') ||
+    id.includes('varsity');
+  const isCrewneck =
+    qikinkSkuPrefix === 'USs' ||
+    lowerTitle.includes('crewneck') ||
+    lowerTitle.includes('sweatshirt') ||
+    id.includes('crewneck');
+  const isHoodie =
+    !isCrewneck &&
+    !isVarsity &&
+    (qikinkSkuPrefix === 'UHd' ||
+      qikinkSkuPrefix === 'UZHd' ||
+      lowerTitle.includes('hoodie') ||
+      id.includes('hoodie'));
+  const isAcidWash =
+    qikinkSkuPrefix === 'ATe' || lowerTitle.includes('acid') || id.includes('acid');
 
   const palette = isVarsity
     ? GARMENT_PALETTES[7]
@@ -72,12 +99,23 @@ export default function PrebuiltMockupRenderer({
   const line1 = words.slice(0, 2).join(' ');
   const line2 = words.slice(2, 5).join(' ');
 
-  // Die-cut transparent screenprint graphic (ZERO rectangular boxes)
+  const gsmLabel = isHoodie
+    ? '380 GSM BRUSHED FLEECE'
+    : isCrewneck
+    ? '320 GSM MINIMALIST FLEECE'
+    : isVarsity
+    ? '350 GSM WOOL & FLEECE'
+    : isAcidWash
+    ? '240 GSM ACID-WASH JERSEY'
+    : isDeskMat
+    ? '900×400×3MM WATER-RESISTANT'
+    : '240 GSM COMBED COTTON JERSEY';
+
+  // Central Die-Cut Transparent Artwork
   const renderDieCutArtwork = (scale = 1) => {
     const variant = seed % 5;
     return (
       <g transform={`scale(${scale})`} style={{ mixBlendMode: palette.isLight ? 'multiply' : 'screen' }}>
-        {/* Central Artistic Motif — No outer box! */}
         {svgMotif === 'ronin' || variant === 0 ? (
           <g>
             <circle cx="0" cy="-18" r="44" fill={inkAccent} opacity="0.88" />
@@ -116,7 +154,6 @@ export default function PrebuiltMockupRenderer({
           </g>
         )}
 
-        {/* Die-Cut Archival Streetwear Typography (No Box Background) */}
         <text x="0" y="44" textAnchor="middle" fill={inkPrimary} fontSize="13.5" fontWeight="900" letterSpacing="2.2" fontFamily="sans-serif">
           {line1.slice(0, 18)}
         </text>
@@ -132,7 +169,297 @@ export default function PrebuiltMockupRenderer({
     );
   };
 
-  // 1. EXTENDED 900x400mm DESK MAT FULL-BLEED STUDIO RENDER
+  // =========================================================================
+  // ANGLE 4: DIRECT-FROM-LOOM ATELIER COST TRANSPARENCY & TECHNICAL BLUEPRINT
+  // =========================================================================
+  if (angle === 4) {
+    return (
+      <div className={`relative w-full h-full flex items-center justify-center bg-[#0C0B0A] overflow-hidden select-none ${className}`}>
+        <svg viewBox="0 0 400 440" className="w-full h-full">
+          <defs>
+            <pattern id={`blueprint-grid-${seed}`} width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#27272A" strokeWidth="0.6" strokeOpacity="0.4" />
+            </pattern>
+          </defs>
+          <rect width="400" height="440" fill="#0C0B0A" />
+          <rect width="400" height="440" fill={`url(#blueprint-grid-${seed})`} />
+
+          {/* Blueprint Border & Caliper Corner Notches */}
+          <rect x="18" y="18" width="364" height="404" fill="none" stroke="#3F3F46" strokeWidth="1" strokeDasharray="6 4" opacity="0.6" />
+          <path d="M14,28 L14,14 L28,14 M372,14 L386,14 L386,28 M386,412 L386,426 L372,426 M28,426 L14,426 L14,412" fill="none" stroke={inkAccent} strokeWidth="2" />
+
+          {/* Header Title */}
+          <text x="32" y="44" fill={inkAccent} fontSize="8.5" fontWeight="900" letterSpacing="3">
+            SPECIFICATION &amp; COST BLUEPRINT
+          </text>
+          <text x="32" y="66" fill="#FFFFFF" fontSize="15" fontWeight="900" letterSpacing="0.8">
+            DIRECT-FROM-LOOM TRANSPARENCY
+          </text>
+          <text x="32" y="80" fill="#A1A1AA" fontSize="8.5" fontWeight="600" letterSpacing="1.2">
+            RAREEMBER™ ATELIER • TIRUPUR HUB, TAMIL NADU
+          </text>
+
+          {/* Garment Spec Box */}
+          <rect x="32" y="96" width="336" height="52" rx="8" fill="#18181B" stroke="#27272A" strokeWidth="1" />
+          <text x="44" y="114" fill="#71717A" fontSize="7.5" fontWeight="800" letterSpacing="2">GARMENT SILHOUETTE &amp; DENSITY</text>
+          <text x="44" y="134" fill="#FFFFFF" fontSize="12" fontWeight="900" letterSpacing="1">{gsmLabel}</text>
+          <text x="354" y="132" textAnchor="end" fill={inkAccent} fontSize="9" fontWeight="800" letterSpacing="1">100% BIO-WASHED</text>
+
+          {/* Price Transparency Comparison Matrix */}
+          <text x="32" y="174" fill="#71717A" fontSize="7.5" fontWeight="800" letterSpacing="2">PRICE ANCHOR COMPARISON</text>
+
+          {/* Row 1: Traditional Luxury */}
+          <rect x="32" y="184" width="336" height="42" rx="6" fill="#141416" stroke="#27272A" strokeWidth="1" />
+          <text x="44" y="202" fill="#A1A1AA" fontSize="9.5" fontWeight="700">Traditional Mall Luxury Label</text>
+          <text x="44" y="216" fill="#71717A" fontSize="7" fontWeight="600">Middleman + Retail Rent + 5× Brand Markup</text>
+          <text x="354" y="210" textAnchor="end" fill="#EF4444" fontSize="13" fontWeight="900">₹3,800</text>
+
+          {/* Row 2: RareEmber Direct */}
+          <rect x="32" y="234" width="336" height="52" rx="8" fill="#1E1C1A" stroke={inkAccent} strokeWidth="1.5" />
+          <text x="44" y="254" fill="#FFFFFF" fontSize="11" fontWeight="900">RareEmber™ Direct Atelier</text>
+          <text x="44" y="270" fill="#FDBA74" fontSize="8" fontWeight="700">Tirupur Loom Direct • 0% Middleman • 0% Mall Rent</text>
+          <text x="354" y="264" textAnchor="end" fill="#22C55E" fontSize="16" fontWeight="900">₹649–₹1,099</text>
+
+          {/* Sizing Blueprint Grid */}
+          <text x="32" y="312" fill="#71717A" fontSize="7.5" fontWeight="800" letterSpacing="2">CHEST &amp; LENGTH ATELIER GRADING</text>
+          <g transform="translate(32, 322)">
+            <rect width="336" height="48" rx="6" fill="#141416" stroke="#27272A" strokeWidth="1" />
+            <text x="28" y="20" textAnchor="middle" fill="#71717A" fontSize="7.5" fontWeight="800">S (38")</text>
+            <text x="28" y="36" textAnchor="middle" fill="#FFFFFF" fontSize="8.5" fontWeight="700">27" L</text>
+            <text x="84" y="20" textAnchor="middle" fill="#71717A" fontSize="7.5" fontWeight="800">M (40")</text>
+            <text x="84" y="36" textAnchor="middle" fill="#FFFFFF" fontSize="8.5" fontWeight="700">28" L</text>
+            <text x="140" y="20" textAnchor="middle" fill={inkAccent} fontSize="8" fontWeight="900">L (42")</text>
+            <text x="140" y="36" textAnchor="middle" fill="#FFFFFF" fontSize="8.5" fontWeight="900">29" L</text>
+            <text x="196" y="20" textAnchor="middle" fill="#71717A" fontSize="7.5" fontWeight="800">XL (44")</text>
+            <text x="196" y="36" textAnchor="middle" fill="#FFFFFF" fontSize="8.5" fontWeight="700">30" L</text>
+            <text x="252" y="20" textAnchor="middle" fill="#71717A" fontSize="7.5" fontWeight="800">2XL (46")</text>
+            <text x="252" y="36" textAnchor="middle" fill="#FFFFFF" fontSize="8.5" fontWeight="700">31" L</text>
+            <text x="308" y="20" textAnchor="middle" fill="#71717A" fontSize="7.5" fontWeight="800">3XL (48")</text>
+            <text x="308" y="36" textAnchor="middle" fill="#FFFFFF" fontSize="8.5" fontWeight="700">32" L</text>
+            <line x1="56" y1="8" x2="56" y2="40" stroke="#27272A" strokeWidth="0.8" />
+            <line x1="112" y1="8" x2="112" y2="40" stroke="#27272A" strokeWidth="0.8" />
+            <line x1="168" y1="8" x2="168" y2="40" stroke="#27272A" strokeWidth="0.8" />
+            <line x1="224" y1="8" x2="224" y2="40" stroke="#27272A" strokeWidth="0.8" />
+            <line x1="280" y1="8" x2="280" y2="40" stroke="#27272A" strokeWidth="0.8" />
+          </g>
+
+          {/* Guarantee Pill */}
+          <rect x="32" y="386" width="336" height="24" rx="12" fill="#18181B" stroke="#27272A" strokeWidth="0.8" />
+          <text x="200" y="401" textAnchor="middle" fill="#D4D4D8" fontSize="7.5" fontWeight="700" letterSpacing="1.2">
+            QUALITY-CHECKED IN TIRUPUR • BLUE-DART AIR • 7-DAY DOORSTEP EXCHANGE
+          </text>
+        </svg>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // ANGLE 3: 3× ZOOMED MACRO WEAVE & WOVEN ARCHIVAL NECK LABEL VIEW
+  // =========================================================================
+  if (angle === 3) {
+    return (
+      <div className={`relative w-full h-full flex items-center justify-center bg-zinc-950 overflow-hidden select-none ${className}`}>
+        <svg viewBox="0 0 400 440" className="w-full h-full">
+          <defs>
+            <pattern id={`fabric-weave-${seed}`} width="6" height="6" patternUnits="userSpaceOnUse">
+              <path d="M0,3 L3,0 L6,3 L3,6 Z" fill={palette.rib} opacity="0.6" />
+              <line x1="0" y1="6" x2="6" y2="0" stroke="#FFFFFF" strokeWidth="0.4" strokeOpacity="0.08" />
+            </pattern>
+            <radialGradient id={`macro-vignette-${seed}`} cx="50%" cy="50%" r="55%">
+              <stop offset="0%" stopColor="#000000" stopOpacity="0" />
+              <stop offset="100%" stopColor="#000000" stopOpacity="0.75" />
+            </radialGradient>
+          </defs>
+
+          {/* Fabric Zoom Background */}
+          <rect width="400" height="440" fill={palette.body} />
+          <rect width="400" height="440" fill={`url(#fabric-weave-${seed})`} />
+
+          {/* Zoomed 1.25-Inch Ribbed Neckband Collar Arc */}
+          <path d="M-40,110 Q200,230 440,110" fill="none" stroke={palette.rib} strokeWidth="48" strokeLinecap="round" />
+          <path d="M-40,110 Q200,230 440,110" fill="none" stroke="#FFFFFF" strokeWidth="2.5" strokeOpacity="0.1" strokeDasharray="3 4" />
+          <path d="M-40,132 Q200,252 440,132" fill="none" stroke="#000000" strokeWidth="3" strokeOpacity="0.45" />
+
+          {/* Studio Zoom Shadow Beneath Collar */}
+          <path d="M-20,138 Q200,260 420,138" fill="none" stroke="#000000" strokeWidth="22" strokeOpacity="0.5" />
+
+          {/* Archival Woven Neck Label (Satin Black with Metallic Gold/Ember Ink) */}
+          <g transform="translate(110, 160)">
+            {/* Label Shadow & Base */}
+            <rect x="0" y="0" width="180" height="115" rx="5" fill="#000000" opacity="0.6" transform="translate(4, 6)" />
+            <rect x="0" y="0" width="180" height="115" rx="4" fill="#141416" stroke="#27272A" strokeWidth="1.2" />
+            {/* Top Loop Fold */}
+            <rect x="0" y="0" width="180" height="12" fill="#09090B" />
+            <line x1="8" y1="12" x2="172" y2="12" stroke={inkAccent} strokeWidth="1" strokeDasharray="4 2" />
+
+            {/* Label Content */}
+            <text x="90" y="32" textAnchor="middle" fill="#FFFFFF" fontSize="10" fontWeight="900" letterSpacing="2.5">
+              RAREEMBER™
+            </text>
+            <text x="90" y="44" textAnchor="middle" fill={inkAccent} fontSize="6.5" fontWeight="800" letterSpacing="2">
+              ARCHIVAL DIVISION • ATELIER
+            </text>
+            <line x1="26" y1="52" x2="154" y2="52" stroke="#27272A" strokeWidth="0.8" />
+            <text x="90" y="66" textAnchor="middle" fill="#E4E4E7" fontSize="7.5" fontWeight="800" letterSpacing="1.2">
+              {isHoodie ? '380 GSM BRUSHED FLEECE' : isCrewneck ? '320 GSM HEAVYWEIGHT' : '240 GSM COMBED COTTON'}
+            </text>
+            <text x="90" y="78" textAnchor="middle" fill="#A1A1AA" fontSize="6.5" fontWeight="700" letterSpacing="1">
+              100% BIO-WASHED • PRE-SHRUNK
+            </text>
+            <text x="90" y="90" textAnchor="middle" fill="#71717A" fontSize="6" fontWeight="600" letterSpacing="1.5">
+              CRAFTED IN TIRUPUR, INDIA
+            </text>
+            {/* Size Stamp */}
+            <rect x="80" y="95" width="20" height="12" rx="2" fill={inkAccent} />
+            <text x="90" y="104" textAnchor="middle" fill="#FFFFFF" fontSize="7.5" fontWeight="900">L</text>
+          </g>
+
+          {/* Direct-To-Film Ink Crack-Proof Spec Badge */}
+          <g transform="translate(110, 310)">
+            <rect x="0" y="0" width="180" height="34" rx="17" fill="#18181B" stroke="#27272A" strokeWidth="1" />
+            <text x="90" y="16" textAnchor="middle" fill={inkAccent} fontSize="7" fontWeight="900" letterSpacing="2">
+              1200 DPI ARCHIVAL DTF
+            </text>
+            <text x="90" y="27" textAnchor="middle" fill="#A1A1AA" fontSize="6.5" fontWeight="600" letterSpacing="1">
+              50+ WASH ZERO-CRACK GUARANTEE
+            </text>
+          </g>
+
+          {/* Vignette Lighting */}
+          <rect width="400" height="440" fill={`url(#macro-vignette-${seed})`} pointerEvents="none" />
+          <text x="200" y="420" textAnchor="middle" fill="#71717A" fontSize="8" fontWeight="700" letterSpacing="2">
+            03 / MACRO FABRIC WEAVE &amp; ATELIER LABEL VIEW
+          </text>
+        </svg>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // ANGLE 2: FRONT MINIMAL CREST & CLEAN DRAPE STUDIO VIEW
+  // =========================================================================
+  if (angle === 2) {
+    return (
+      <div className={`relative w-full h-full flex items-center justify-center bg-gradient-to-b from-zinc-900 via-zinc-950 to-black overflow-hidden select-none ${className}`}>
+        <svg viewBox="0 0 400 440" className="w-full h-full">
+          <defs>
+            <linearGradient id={`front-fold-${seed}`} x1="0%" y1="0%" x2="100%" y2="5%">
+              <stop offset="0%" stopColor="#000000" stopOpacity="0.36" />
+              <stop offset="22%" stopColor="#FFFFFF" stopOpacity="0.06" />
+              <stop offset="48%" stopColor="#000000" stopOpacity="0.16" />
+              <stop offset="76%" stopColor="#FFFFFF" stopOpacity="0.05" />
+              <stop offset="100%" stopColor="#000000" stopOpacity="0.4" />
+            </linearGradient>
+            <radialGradient id={`studio-glow-front-${seed}`} cx="50%" cy="45%" r="55%">
+              <stop offset="0%" stopColor={inkAccent} stopOpacity="0.14" />
+              <stop offset="100%" stopColor="#09090B" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+
+          <circle cx="200" cy="210" r="175" fill={`url(#studio-glow-front-${seed})`} />
+          <ellipse cx="200" cy="396" rx="115" ry="12" fill="#000000" opacity="0.55" />
+
+          {/* HOODIE FRONT */}
+          {isHoodie && (
+            <g>
+              <path d="M92,102 L32,265 L68,280 L108,168 Z" fill={palette.sleeve} />
+              <path d="M308,102 L368,265 L332,280 L292,168 Z" fill={palette.sleeve} />
+              <path d="M32,265 L68,280 L62,296 L26,281 Z" fill={palette.rib} />
+              <path d="M368,265 L332,280 L338,296 L374,281 Z" fill={palette.rib} />
+              <path d="M92,102 Q200,112 308,102 L302,362 L98,362 Z" fill={palette.body} />
+              <rect x="98" y="360" width="204" height="22" rx="3" fill={palette.rib} />
+              <path d="M134,104 C128,42 162,26 200,26 C238,26 272,42 266,104 Q200,118 134,104 Z" fill={palette.body} stroke="#000000" strokeOpacity="0.35" strokeWidth="2" />
+              <path d="M150,104 C150,58 174,44 200,44 C226,44 250,58 250,104 Q200,114 150,104 Z" fill={palette.rib} />
+              {/* Kangaroo Pocket */}
+              <path d="M132,360 L146,278 L254,278 L268,360 Z" fill={palette.body} stroke="#000000" strokeOpacity="0.25" strokeWidth="1.5" />
+              <path d="M146,278 L138,320" stroke="#000000" strokeOpacity="0.35" strokeWidth="1.5" />
+              <path d="M254,278 L262,320" stroke="#000000" strokeOpacity="0.35" strokeWidth="1.5" />
+            </g>
+          )}
+
+          {/* CREWNECK FRONT */}
+          {isCrewneck && (
+            <g>
+              <path d="M90,94 L28,262 L66,278 L108,164 Z" fill={palette.sleeve} />
+              <path d="M310,94 L372,262 L334,278 L292,164 Z" fill={palette.sleeve} />
+              <path d="M28,262 L66,278 L60,294 L22,278 Z" fill={palette.rib} />
+              <path d="M372,262 L334,278 L340,294 L378,278 Z" fill={palette.rib} />
+              <path d="M90,94 L148,74 Q200,92 252,74 L310,94 L302,360 L98,360 Z" fill={palette.body} />
+              <rect x="98" y="358" width="204" height="22" rx="3" fill={palette.rib} />
+              <path d="M148,74 Q200,104 252,74 Q244,62 200,66 Q156,62 148,74 Z" fill={palette.rib} />
+              <path d="M156,78 Q200,114 244,78" fill="none" stroke={palette.rib} strokeWidth="9" />
+              <polygon points="184,89 216,89 200,114" fill="none" stroke="#000000" strokeOpacity="0.35" strokeWidth="1.8" />
+            </g>
+          )}
+
+          {/* VARSITY FRONT */}
+          {isVarsity && (
+            <g>
+              <path d="M90,94 L28,262 L66,278 L108,164 Z" fill={palette.sleeve} />
+              <path d="M310,94 L372,262 L334,278 L292,164 Z" fill={palette.sleeve} />
+              <path d="M28,262 L66,278 L60,294 L22,278 Z" fill={palette.rib} stroke={inkAccent} strokeWidth="2" />
+              <path d="M372,262 L334,278 L340,294 L378,278 Z" fill={palette.rib} stroke={inkAccent} strokeWidth="2" />
+              <path d="M90,94 L148,74 Q200,92 252,74 L310,94 L302,360 L98,360 Z" fill={palette.body} />
+              <line x1="200" y1="92" x2="200" y2="358" stroke="#111114" strokeWidth="5" />
+              {/* Snap Buttons */}
+              <circle cx="200" cy="120" r="4" fill="#D4D4D8" stroke="#18181B" strokeWidth="1" />
+              <circle cx="200" cy="165" r="4" fill="#D4D4D8" stroke="#18181B" strokeWidth="1" />
+              <circle cx="200" cy="210" r="4" fill="#D4D4D8" stroke="#18181B" strokeWidth="1" />
+              <circle cx="200" cy="255" r="4" fill="#D4D4D8" stroke="#18181B" strokeWidth="1" />
+              <circle cx="200" cy="300" r="4" fill="#D4D4D8" stroke="#18181B" strokeWidth="1" />
+              <rect x="98" y="358" width="204" height="22" rx="3" fill={palette.rib} />
+              <line x1="98" y1="366" x2="302" y2="366" stroke="#F4F4F5" strokeWidth="2" opacity="0.8" />
+              <line x1="98" y1="373" x2="302" y2="373" stroke={inkAccent} strokeWidth="2" opacity="0.9" />
+              <path d="M150,74 Q200,104 250,74" fill="none" stroke={palette.rib} strokeWidth="12" strokeLinecap="round" />
+            </g>
+          )}
+
+          {/* OVERSIZED TEE FRONT */}
+          {!isHoodie && !isCrewneck && !isVarsity && !isDeskMat && (
+            <g>
+              <path d="M88,92 L26,184 L68,212 L104,158 Z" fill={palette.sleeve} />
+              <path d="M312,92 L374,184 L332,212 L296,158 Z" fill={palette.sleeve} />
+              <path d="M88,92 L148,70 Q200,88 252,70 L312,92 L304,372 L96,372 Z" fill={palette.body} />
+              <path d="M148,70 Q200,98 252,70 Q244,58 200,62 Q156,58 148,70 Z" fill={palette.rib} />
+              <path d="M152,74 Q200,106 248,74" fill="none" stroke={palette.rib} strokeWidth="9" />
+            </g>
+          )}
+
+          {/* MINIMAL LEFT-CHEST ARCHIVAL CREST (Angle 2 Signature) */}
+          {!isDeskMat && (
+            <g transform="translate(155, 172)" style={{ mixBlendMode: palette.isLight ? 'multiply' : 'screen' }}>
+              <circle cx="0" cy="0" r="16" fill="none" stroke={inkAccent} strokeWidth="1.5" />
+              <circle cx="0" cy="0" r="12" fill="none" stroke={inkPrimary} strokeWidth="0.8" strokeDasharray="2 2" />
+              <text x="0" y="3" textAnchor="middle" fill={inkPrimary} fontSize="7" fontWeight="900" letterSpacing="1">
+                RE
+              </text>
+              <text x="0" y="24" textAnchor="middle" fill={inkPrimary} fontSize="5" fontWeight="800" letterSpacing="1.2">
+                EST. 2026
+              </text>
+              <text x="0" y="31" textAnchor="middle" fill={inkAccent} fontSize="4.5" fontWeight="900" letterSpacing="1.5">
+                TIRUPUR
+              </text>
+            </g>
+          )}
+
+          {/* 3D Fabric Drape Shadow */}
+          <path
+            d="M92,90 L308,90 L304,375 L96,375 Z"
+            fill={`url(#front-fold-${seed})`}
+            style={{ mixBlendMode: 'multiply', pointerEvents: 'none' }}
+          />
+
+          <text x="200" y="422" textAnchor="middle" fill="#A1A1AA" fontSize="8" fontWeight="700" letterSpacing="2">
+            02 / FRONT MINIMAL CREST &amp; TAILORED DRAPE
+          </text>
+        </svg>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // ANGLE 1: HERO MAIN/BACK ARTWORK STUDIO FLAT-LAY (Default)
+  // =========================================================================
   if (isDeskMat) {
     return (
       <div className={`relative w-full h-full flex items-center justify-center bg-zinc-950 overflow-hidden select-none ${className}`}>
@@ -146,23 +473,17 @@ export default function PrebuiltMockupRenderer({
               <rect x="28" y="110" width="344" height="165" rx="14" />
             </clipPath>
           </defs>
-          {/* Dark Walnut / Obsidian Studio Desk Surface */}
           <rect width="400" height="400" fill={`url(#desk-glow-${seed})`} />
-          {/* Drop Shadow under Desk Mat */}
           <rect x="32" y="116" width="344" height="165" rx="14" fill="#000000" opacity="0.65" />
-          {/* 900x400mm Extended Mat Surface with Full-Bleed Artwork */}
           <g clipPath={`url(#mat-clip-${seed})`}>
             <rect x="28" y="110" width="344" height="165" fill={palette.body} />
-            {/* Topographic / Cyber Grid lines across mat */}
             <path d="M28,145 Q140,120 240,165 T372,140 M28,225 Q160,190 270,240 T372,210" fill="none" stroke={inkAccent} strokeWidth="1.5" opacity="0.35" />
             <circle cx="290" cy="192" r="68" fill={inkAccent} opacity="0.18" />
             <g transform="translate(200, 188)">
               {renderDieCutArtwork(0.82)}
             </g>
           </g>
-          {/* Stitched Anti-Fray Edge Border */}
           <rect x="28" y="110" width="344" height="165" rx="14" fill="none" stroke={inkAccent} strokeWidth="2.5" strokeDasharray="4 2" opacity="0.85" />
-          {/* Minimalist 65% Mechanical Keyboard & Wireless Mouse Silhouette for Scale */}
           <rect x="56" y="162" width="102" height="42" rx="5" fill="#18181B" stroke="#3F3F46" strokeWidth="1.2" opacity="0.92" />
           <rect x="61" y="167" width="92" height="32" rx="3" fill="#09090B" />
           <rect x="318" y="172" width="22" height="34" rx="11" fill="#18181B" stroke="#3F3F46" strokeWidth="1.2" opacity="0.92" />
@@ -174,12 +495,10 @@ export default function PrebuiltMockupRenderer({
     );
   }
 
-  // 2. APPAREL STUDIO GHOST-MANNEQUIN FLAT-LAY RENDERER (Hoodie vs. Crewneck vs. Varsity vs. Tee)
   return (
     <div className={`relative w-full h-full flex items-center justify-center bg-gradient-to-b from-zinc-900 via-zinc-950 to-black overflow-hidden select-none ${className}`}>
       <svg viewBox="0 0 400 440" className="w-full h-full">
         <defs>
-          {/* Realistic Fabric Fold & Drape Shadow Gradient placed OVER the artwork */}
           <linearGradient id={`fold-drape-${seed}`} x1="0%" y1="0%" x2="100%" y2="5%">
             <stop offset="0%" stopColor="#000000" stopOpacity="0.38" />
             <stop offset="18%" stopColor="#FFFFFF" stopOpacity="0.06" />
@@ -195,112 +514,104 @@ export default function PrebuiltMockupRenderer({
           </radialGradient>
         </defs>
 
-        {/* Subtle Studio Backlight Glow */}
         <circle cx="200" cy="210" r="175" fill={`url(#studio-vignette-${seed})`} />
-
-        {/* Drop Shadow Under Garment */}
         <ellipse cx="200" cy="396" rx="115" ry="12" fill="#000000" opacity="0.55" />
 
-        {/* SILHOUETTE A: 380 GSM HEAVYWEIGHT BOXY HOODIE (Double-lined hood, NO drawstrings, kangaroo pocket) */}
+        {/* SILHOUETTE A: 380 GSM HEAVYWEIGHT HOODIE */}
         {isHoodie && (
           <g>
-            {/* Long Dropped Sleeves */}
             <path d="M92,102 L32,265 L68,280 L108,168 Z" fill={palette.sleeve} />
             <path d="M308,102 L368,265 L332,280 L292,168 Z" fill={palette.sleeve} />
-            {/* Ribbed Cuffs */}
             <path d="M32,265 L68,280 L62,296 L26,281 Z" fill={palette.rib} />
             <path d="M368,265 L332,280 L338,296 L374,281 Z" fill={palette.rib} />
-            {/* Boxy Torso Body */}
             <path d="M92,102 Q200,112 308,102 L302,362 L98,362 Z" fill={palette.body} />
-            {/* Heavy Ribbed Waistband Hem */}
             <rect x="98" y="360" width="204" height="22" rx="3" fill={palette.rib} />
-            {/* Double-Lined Streetwear Hood (Clean, No Strings) */}
             <path d="M134,104 C128,42 162,26 200,26 C238,26 272,42 266,104 Q200,118 134,104 Z" fill={palette.body} stroke="#000000" strokeOpacity="0.35" strokeWidth="2" />
             <path d="M150,104 C150,58 174,44 200,44 C226,44 250,58 250,104 Q200,114 150,104 Z" fill={palette.rib} />
-            {/* Inside Neck Woven Label */}
             <rect x="184" y="84" width="32" height="12" rx="1.5" fill="#18181B" stroke={inkAccent} strokeWidth="0.8" />
             <text x="200" y="92" textAnchor="middle" fill="#FFFFFF" fontSize="5" fontWeight="800" letterSpacing="1">RAREEMBER</text>
-            {/* Subtle Kangaroo Pocket Seam at Lower Torso */}
             <path d="M132,360 L146,298 L254,298 L268,360" fill="none" stroke="#000000" strokeOpacity="0.28" strokeWidth="2" />
           </g>
         )}
 
-        {/* SILHOUETTE B: 320 GSM WINTER CREWNECK SWEATSHIRT (Round ribbed collar + V-stitch, ZERO hood!) */}
+        {/* SILHOUETTE B: 320 GSM CREWNECK (Zero Hood, No Strings) */}
         {isCrewneck && (
           <g>
-            {/* Long Dropped Sleeves */}
             <path d="M90,94 L28,262 L66,278 L108,164 Z" fill={palette.sleeve} />
             <path d="M310,94 L372,262 L334,278 L292,164 Z" fill={palette.sleeve} />
-            {/* Ribbed Cuffs */}
             <path d="M28,262 L66,278 L60,294 L22,278 Z" fill={palette.rib} />
             <path d="M372,262 L334,278 L340,294 L378,278 Z" fill={palette.rib} />
-            {/* Boxy Crewneck Torso */}
             <path d="M90,94 L148,74 Q200,92 252,74 L310,94 L302,360 L98,360 Z" fill={palette.body} />
-            {/* Heavy Derby Ribbed Waistband */}
             <rect x="98" y="358" width="204" height="22" rx="3" fill={palette.rib} />
-            {/* Thick Ribbed Crewneck Collar + Heritage V-Gusset Stitch (No Hood!) */}
             <path d="M148,74 Q200,104 252,74 Q244,62 200,66 Q156,62 148,74 Z" fill={palette.rib} />
             <path d="M156,78 Q200,114 244,78" fill="none" stroke={palette.rib} strokeWidth="9" />
             <polygon points="184,89 216,89 200,114" fill="none" stroke="#000000" strokeOpacity="0.35" strokeWidth="1.8" />
-            {/* Inside Collar Tag */}
             <rect x="184" y="70" width="32" height="11" rx="1.5" fill="#18181B" stroke={inkAccent} strokeWidth="0.8" />
             <text x="200" y="78" textAnchor="middle" fill="#FFFFFF" fontSize="5" fontWeight="800" letterSpacing="1">RAREEMBER</text>
           </g>
         )}
 
-        {/* SILHOUETTE C: 350 GSM CONTRAST-SLEEVE VARSITY JACKET (Cream sleeves, striped rib collar/cuffs, snap buttons) */}
+        {/* SILHOUETTE C: 350 GSM CONTRAST VARSITY JACKET */}
         {isVarsity && (
           <g>
-            {/* Cream Contrast Leather/Fleece Sleeves */}
             <path d="M90,94 L28,262 L66,278 L108,164 Z" fill={palette.sleeve} />
             <path d="M310,94 L372,262 L334,278 L292,164 Z" fill={palette.sleeve} />
-            {/* Striped Varsity Cuffs */}
             <path d="M28,262 L66,278 L60,294 L22,278 Z" fill={palette.rib} stroke={inkAccent} strokeWidth="2" />
             <path d="M372,262 L334,278 L340,294 L378,278 Z" fill={palette.rib} stroke={inkAccent} strokeWidth="2" />
-            {/* Varsity Wool Body */}
             <path d="M90,94 L148,74 Q200,92 252,74 L310,94 L302,360 L98,360 Z" fill={palette.body} />
-            {/* Striped Varsity Ribbed Hem */}
             <rect x="98" y="358" width="204" height="22" rx="3" fill={palette.rib} />
             <line x1="98" y1="366" x2="302" y2="366" stroke="#F4F4F5" strokeWidth="2" opacity="0.8" />
             <line x1="98" y1="373" x2="302" y2="373" stroke={inkAccent} strokeWidth="2" opacity="0.9" />
-            {/* Striped Varsity Collar */}
             <path d="M150,74 Q200,104 250,74" fill="none" stroke={palette.rib} strokeWidth="12" strokeLinecap="round" />
             <path d="M152,74 Q200,104 248,74" fill="none" stroke="#F4F4F5" strokeWidth="2" opacity="0.8" />
           </g>
         )}
 
-        {/* SILHOUETTE D: 240 GSM DROP-SHOULDER OVERSIZED & ACID-WASH TEE */}
+        {/* SILHOUETTE D: 240 GSM DROP-SHOULDER OVERSIZED TEE */}
         {!isHoodie && !isCrewneck && !isVarsity && (
           <g>
-            {/* Boxy Dropped Half-Sleeves */}
             <path d="M88,92 L26,184 L68,212 L104,158 Z" fill={palette.sleeve} />
             <path d="M312,92 L374,184 L332,212 L296,158 Z" fill={palette.sleeve} />
-            {/* Heavy 240 GSM Boxy Torso */}
             <path d="M88,92 L148,70 Q200,88 252,70 L312,92 L304,372 L96,372 Z" fill={palette.body} />
-            {/* Thick 1.2-Inch Ribbed Streetwear Crew Collar */}
             <path d="M148,70 Q200,98 252,70 Q244,58 200,62 Q156,58 148,70 Z" fill={palette.rib} />
             <path d="M152,74 Q200,106 248,74" fill="none" stroke={palette.rib} strokeWidth="9" />
-            {/* Inside Neck Branded DTF Label */}
             <rect x="184" y="67" width="32" height="11" rx="1.5" fill="#18181B" stroke={inkAccent} strokeWidth="0.8" />
             <text x="200" y="75" textAnchor="middle" fill="#FFFFFF" fontSize="5" fontWeight="800" letterSpacing="1">RAREEMBER</text>
           </g>
         )}
 
-        {/* LAYER 2: DIE-CUT TRANSPARENT STREETWEAR ARTWORK (Printed directly on the fabric) */}
+        {/* MAIN OVERSIZED ARTWORK */}
         <g transform="translate(200, 214)">
           {renderDieCutArtwork(1.08)}
         </g>
 
-        {/* LAYER 3: 3D FABRIC CREASES & STUDIO LIGHTING OVERLAY (Passes OVER the artwork for realism!) */}
+        {/* 3D FABRIC CREASES & STUDIO LIGHTING OVERLAY */}
         <path
           d="M92,90 L308,90 L304,375 L96,375 Z"
           fill={`url(#fold-drape-${seed})`}
           style={{ mixBlendMode: 'multiply', pointerEvents: 'none' }}
         />
 
-        {/* Subtle Studio Spec Watermark at Bottom */}
+        {/* Subtle Bottom Woven Brand Tag */}
+        <g transform="translate(104, 344)">
+          <rect width="72" height="12" rx="2" fill="#0D0D0F" stroke="#27272A" strokeWidth="0.8" />
+          <text x="36" y="8.5" textAnchor="middle" fill="#A1A1AA" fontSize="5" fontWeight="800" letterSpacing="1.2">
+            ATELIER • TIRUPUR LOOM
+          </text>
+        </g>
+
+        {/* Corner Inset Badge for Combos */}
+        {comboBadge && (
+          <g transform="translate(376, 26)">
+            <rect x="-140" y="0" width="140" height="24" rx="12" fill="#000000" fillOpacity="0.88" stroke={inkAccent} strokeWidth="1" />
+            <text x="-70" y="15.5" textAnchor="middle" fill="#FFFFFF" fontSize="8" fontWeight="800" letterSpacing="1.2">
+              {comboBadge.toUpperCase()}
+            </text>
+          </g>
+        )}
+
         <text x="200" y="422" textAnchor="middle" fill="#A1A1AA" fontSize="8.5" fontWeight="700" letterSpacing="2">
-          {palette.name.toUpperCase()} • {isHoodie ? '380 GSM FLEECE HOODIE' : isCrewneck ? '320 GSM CREWNECK' : isVarsity ? '350 GSM VARSITY JACKET' : isAcidWash ? '240 GSM ACID-WASH TEE' : '240 GSM OVERSIZED TEE'}
+          {palette.name.toUpperCase()} • {gsmLabel}
         </text>
       </svg>
     </div>

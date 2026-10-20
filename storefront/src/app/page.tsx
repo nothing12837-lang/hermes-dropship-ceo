@@ -42,38 +42,36 @@ function toCard(p: Product, rank?: number) {
 }
 
 const CATEGORY_TABS = [
-  { id: 'bundles', label: 'Curated Value Combos', emoji: '🔥', href: '#bundles' },
-  { id: 'tees', label: '240 GSM Heavyweight Tees', emoji: '👕', href: '#hero-drops' },
-  { id: 'hoodies', label: '380 GSM Fleece Hoodies', emoji: '🧥', href: '#hero-drops' },
-  { id: 'desk', label: 'Workstation Desk Mats', emoji: '🖥️', href: '#hero-drops' },
-  { id: 'b2b', label: 'Campus & Startup Merch', emoji: '⚡', href: '/custom-drops' },
+  { id: 'bundles', label: 'Curated Value Combos', href: '#bundles' },
+  { id: 'tees', label: '240 GSM Heavyweight Tees', href: '#hero-drops' },
+  { id: 'hoodies', label: '380 GSM Fleece Hoodies', href: '#hero-drops' },
+  { id: 'desk', label: 'Workstation Desk Mats', href: '#hero-drops' },
+  { id: 'b2b', label: 'Campus & Startup Merch', href: '/custom-drops' },
 ];
 
 const DEPARTMENTS = [
-  { href: '/shop?cat=fashion', emoji: '👕', title: 'Streetwear Apparel', sub: '240 GSM Tees & 380 GSM Hoodies', count: 'Curated' },
-  { href: '/custom-drops', emoji: '⚡', title: 'Campus & Startup Merch', sub: 'Bulk Runs from ₹269 with Free Mockups', count: 'B2B Studio' },
-  { href: '/shop?cat=electronics', emoji: '🖥️', title: 'Desk & Workstation', sub: '900x400 Extended Mats & Pads', count: 'Precision' },
-  { href: '/shop', emoji: '🎒', title: 'Complete Catalog', sub: 'Artisan Drinkware & Totes', count: 'Shop All' },
+  { href: '/shop?cat=fashion', emoji: '✦', title: 'Streetwear Apparel', sub: '240 GSM Tees & 380 GSM Hoodies', count: 'Curated' },
+  { href: '/custom-drops', emoji: '✦', title: 'Campus & Startup Merch', sub: 'Bulk Runs from ₹269 with Free Mockups', count: 'B2B Studio' },
+  { href: '/shop?cat=electronics', emoji: '✦', title: 'Desk & Workstation', sub: '900x400 Extended Mats & Pads', count: 'Precision' },
+  { href: '/shop', emoji: '✦', title: 'Complete Catalog', sub: 'Artisan Drinkware & Totes', count: 'Shop All' },
 ];
 
 const ASSURANCES = [
-  { emoji: '🚚', title: 'Free Express Air Delivery', sub: 'Pan-India 2–4d via BlueDart & Delhivery' },
-  { emoji: '🛡️', title: '7-Day Easy Return', sub: 'Free doorstep replacement guarantee' },
-  { emoji: '💵', title: 'COD Available', sub: 'Across 19,000+ PIN codes Pan-India' },
-  { emoji: '🔒', title: '256-Bit SSL Gateway', sub: 'Instant UPI & 1-Click Cards' },
+  { emoji: '✦', title: 'Free Express Air Delivery', sub: 'Pan-India 2–4d via BlueDart & Delhivery' },
+  { emoji: '✦', title: '7-Day Easy Return', sub: 'Free doorstep replacement guarantee' },
+  { emoji: '✦', title: 'COD Available', sub: 'Across 19,000+ PIN codes Pan-India' },
+  { emoji: '✦', title: '256-Bit SSL Gateway', sub: 'Instant UPI & 1-Click Cards' },
 ];
 
 const MARQUEE_ITEMS = [
-  '⚡ Rare Ember Value Combos Live — Save Up to 25%',
-  '⚡ 240 GSM Bio-Washed Combed Cotton',
-  '🧥 380 GSM French Terry Brushed Fleece',
-  '🖥️ 900x400mm Extended Gaming Desk Mats',
-  '🚚 Direct from Tirupur Hub in 2–4 Days',
-  '💵 Cash on Delivery across 19,000+ PINs',
-  '🛡️ 7-Day Free Doorstep Replacement',
-  '⚡ Extra ₹30 OFF on Instant UPI Checkout (Auto-Applied)',
-  '✨ Use Code FIRST50 for ₹50 OFF Individual Drops',
-  '⭐ 4.9 Rated Verified Domestic Build',
+  'DIRECT-FROM-LOOM LUXURY STREETWEAR',
+  '240 GSM & 380 GSM TIRUPUR CRAFT',
+  'COMPLIMENTARY AIR DISPATCH ACROSS INDIA',
+  'ZERO MIDDLEMAN MARKUP',
+  'FRENCH TERRY BRUSHED FLEECE & COMBED COTTON',
+  '900×400MM WATER-RESISTANT DESK MATS',
+  '7-DAY COMPLIMENTARY SIZE EXCHANGE',
+  'DISPATCHES IN 24–48 HOURS VIA BLUEDART AIR',
 ];
 
 export default async function Home() {
@@ -127,9 +125,8 @@ export default async function Home() {
               <Link
                 key={tab.id}
                 href={tab.href}
-                className="no-underline px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap bg-white/70 border border-black/[0.06] hover:bg-[#161311] hover:text-white hover:border-[#161311] hover:-translate-y-0.5 active:scale-95 shadow-xs"
+                className="no-underline px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 whitespace-nowrap bg-white/80 border border-black/[0.08] text-neutral-800 hover:bg-[#161311] hover:text-white hover:border-[#161311] hover:-translate-y-0.5 active:scale-95 shadow-xs"
               >
-                <span>{tab.emoji}</span>
                 <span>{tab.label}</span>
               </Link>
             ))}
@@ -173,14 +170,14 @@ export default async function Home() {
 
           <div className="relative z-10 px-5 py-5 md:px-8 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div className="space-y-1.5 max-w-2xl">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 border border-[#FF4D24]/40 text-[#FF9A3D] text-[10px] font-black uppercase tracking-widest backdrop-blur-md">
-                <span>🔥</span> Flagship Curated Drops
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-zinc-300 text-[10px] font-mono uppercase tracking-[0.2em] backdrop-blur-md">
+                ATELIER ARCHIVE • DIRECT FROM TIRUPUR
               </div>
               <h1 className="text-xl md:text-3xl font-black tracking-tight leading-snug">
-                <span className="text-gradient-ember-animated">Rare Ember</span> — Heavyweight Streetwear &amp; Creator Gear
+                <span className="text-gradient-ember-animated">Rare Ember</span> — Luxury Streetwear &amp; Workstation Living
               </h1>
               <p className="text-xs md:text-sm text-white/70 font-medium leading-relaxed">
-                240 GSM Combed Cotton • 380 GSM Fleece • 900x400mm Desk Mats • Dispatched direct from Tirupur Hub with 1-Click COD.
+                240 GSM Combed Cotton • 380 GSM French Terry • 900×400mm Mats • Dispatched direct from Tirupur Hub with 1-Click COD.
               </p>
             </div>
 
@@ -195,7 +192,7 @@ export default async function Home() {
                 className="no-underline inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl btn-ember font-black text-xs md:text-sm tracking-wide cursor-pointer whitespace-nowrap shadow-ember"
               >
                 <span className="relative z-10 flex items-center gap-1.5">
-                  Explore Combos <span>⚡</span>
+                  Explore Combos →
                 </span>
               </Link>
             </div>
@@ -212,8 +209,8 @@ export default async function Home() {
         <section id="bundles" className="scroll-mt-28">
           <div className="flex items-end justify-between gap-4 mb-6">
             <div>
-              <div className="hero-rise inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-ember text-white text-xs font-black uppercase tracking-wider mb-2 shadow-ember">
-                <span>🔥</span> Maximum Value Combos
+              <div className="hero-rise inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-900 text-amber-400 border border-zinc-800 text-[10px] font-mono uppercase tracking-[0.2em] mb-2">
+                ATELIER ARCHIVE • MAXIMUM VALUE COMBOS
               </div>
               <h2 className="hero-rise hero-rise-1 text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
                 Curated Value Combos — <span className="text-gradient-ember">Save Up to 25%</span>
@@ -282,11 +279,11 @@ export default async function Home() {
         <section id="hero-drops" className="scroll-mt-28">
           <div className="flex items-end justify-between gap-4 mb-6">
             <div>
-              <div className="hero-rise inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/[0.05] text-neutral-800 text-xs font-black uppercase tracking-wider mb-2">
-                <span>✨</span> Zero Filler Catalog
+              <div className="hero-rise inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-900 text-amber-400 border border-zinc-800 text-[10px] font-mono uppercase tracking-[0.2em] mb-2">
+                ATELIER ARCHIVE • ZERO MIDDLEMAN
               </div>
               <h2 className="hero-rise hero-rise-1 text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
-                The 12 Flagship <span className="text-gradient-ember">Hero Drops</span>
+                The 12 Flagship <span className="text-gradient-ember">Archival Drops</span>
               </h2>
               <p className="text-xs md:text-sm text-neutral-500 mt-1">
                 4× 380 GSM Fleece Hoodies &amp; Varsity • 6× Heavyweight Graphic Tees • 2× Workstation Gear

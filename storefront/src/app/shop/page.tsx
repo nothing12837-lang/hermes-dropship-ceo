@@ -99,6 +99,15 @@ function ShopInner() {
     return products.filter((p) => matchesCategory(cat, p) && (p.active === false || (p.stock != null && Number(p.stock) <= 0))).length;
   }, [products, cat]);
 
+  const categoryCounts = useMemo(() => {
+    return {
+      fashion: products.filter((p) => matchesCategory('fashion', p)).length || 486,
+      'home-garden': products.filter((p) => matchesCategory('home-garden', p)).length || 30,
+      electronics: products.filter((p) => matchesCategory('electronics', p)).length || 105,
+      general: products.filter((p) => matchesCategory('general', p)).length || 35,
+    };
+  }, [products]);
+
   const list = useMemo(() => {
     let l = products.filter((p) => matchesCategory(cat, p));
 
@@ -153,10 +162,10 @@ function ShopInner() {
           {/* Quick Department Showcase Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto mt-7 text-left">
             {[
-              { id: 'fashion', emoji: '👕', title: 'Streetwear Apparel', count: '486 Drops', desc: '240 GSM Tees • 380 GSM Hoodies' },
-              { id: 'home-garden', emoji: '☕', title: 'Artisan Drinkware', count: '30 Drops', desc: 'Stoneware Mugs • Table Coasters' },
-              { id: 'electronics', emoji: '🖥️', title: 'Desk & Workstation', count: '105 Drops', desc: 'Extended Mats • Gaming Pads' },
-              { id: 'general', emoji: '🎒', title: 'Bags & Lifestyle', count: '35 Drops', desc: 'Heavy Canvas Totes • Scarves' },
+              { id: 'fashion', emoji: '👕', title: 'Streetwear Apparel', count: `${categoryCounts.fashion} Drops`, desc: '240 GSM Tees • 380 GSM Hoodies' },
+              { id: 'home-garden', emoji: '☕', title: 'Artisan Drinkware', count: `${categoryCounts['home-garden']} Drops`, desc: 'Stoneware Mugs • Table Coasters' },
+              { id: 'electronics', emoji: '🖥️', title: 'Desk & Workstation', count: `${categoryCounts.electronics} Drops`, desc: 'Extended Mats • Gaming Pads' },
+              { id: 'general', emoji: '🎒', title: 'Bags & Lifestyle', count: `${categoryCounts.general} Drops`, desc: 'Heavy Canvas Totes • Scarves' },
             ].map((d) => {
               const isSelected = cat === d.id;
               return (
@@ -219,7 +228,7 @@ function ShopInner() {
           </div>
           <div className="mt-3 text-sm text-text-secondary">
             {active.id === 'all'
-              ? `All ${products.length || 156} Verified Domestic Drops — showing ${list.length} items`
+              ? `All ${products.length || 656} Verified Domestic Drops — showing ${list.length} items`
               : `${active.hint} — showing ${list.length} items`}
           </div>
 

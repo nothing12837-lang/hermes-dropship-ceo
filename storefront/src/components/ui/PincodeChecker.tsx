@@ -19,30 +19,6 @@ export default function PincodeChecker() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<PincodeResult | null>(null);
   const [error, setError] = useState('');
-  const [timeLeft, setTimeLeft] = useState({ hours: 4, minutes: 27, seconds: 40 });
-
-  // Countdown timer for same-day dispatch cutoff (e.g. 6 PM)
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const now = new Date();
-      const cutoff = new Date();
-      cutoff.setHours(18, 0, 0, 0); // 6:00 PM cutoff
-
-      let diff = cutoff.getTime() - now.getTime();
-      if (diff <= 0) {
-        // Next day cutoff
-        cutoff.setDate(cutoff.getDate() + 1);
-        diff = cutoff.getTime() - now.getTime();
-      }
-
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-      setTimeLeft({ hours, minutes, seconds });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
 
   // Load saved postal code from previous session
   useEffect(() => {
@@ -243,15 +219,15 @@ export default function PincodeChecker() {
         </div>
       )}
 
-      {/* Same-day dispatch cutoff timer */}
+      {/* Atelier Dispatch Guarantee */}
       <div className="mt-3 pt-2.5 border-t border-black/[0.05] flex items-center justify-between text-[11px] text-neutral-600">
         <span className="flex items-center gap-1.5 font-medium">
-          <span>⏰</span> Order within{' '}
-          <strong className="text-amber-600 font-mono">
-            {String(timeLeft.hours).padStart(2, '0')}h : {String(timeLeft.minutes).padStart(2, '0')}m : {String(timeLeft.seconds).padStart(2, '0')}s
-          </strong>
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          <span>Atelier Dispatch Guarantee:</span>
         </span>
-        <span className="text-[11px] text-emerald-700 font-semibold">for dispatch today</span>
+        <span className="text-[11px] text-neutral-700 font-medium">
+          Crafted &amp; Quality-Checked in Tirupur • Express Air (2–4d)
+        </span>
       </div>
     </div>
   );
