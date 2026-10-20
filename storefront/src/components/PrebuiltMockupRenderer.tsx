@@ -53,7 +53,7 @@ export default function PrebuiltMockupRenderer({
   else if (isHoodie) basePhoto = STUDIO_GARMENTS.hoodie;
   else if (isAcidWash) basePhoto = STUDIO_GARMENTS.acidWashTee;
 
-  // Resolve pre-rendered real studio photographic mockup
+  // Resolve official Qikink studio generated mockup on plain cloth
   const motifKey = svgMotif || 'ronin';
   const silKey = isDeskMat
     ? 'deskmat'
@@ -67,15 +67,23 @@ export default function PrebuiltMockupRenderer({
     ? 'acid'
     : 'tee';
 
-  const prebuiltMockupPath = `/mockups/mockup-${motifKey}-${silKey}.webp`;
+  // Official Qikink Plain Garment Mockups
+  let prebuiltMockupPath = `/mockups/mockup-${motifKey}-${silKey}.webp`;
+  if (silKey === 'tee') {
+    prebuiltMockupPath = '/mockups/qikink-ronin-oversized-tee-black.png';
+  } else if (silKey === 'hoodie') {
+    prebuiltMockupPath = '/mockups/qikink-ronin-oversized-hoodie-black.png';
+  } else if (silKey === 'crewneck') {
+    prebuiltMockupPath = '/mockups/qikink-ronin-crewneck-sweatshirt-black.png';
+  }
 
   return (
-    <div className={`relative w-full h-full overflow-hidden bg-[#0D0D10] select-none ${className}`}>
-      {/* 1. Real Pre-Rendered Studio Garment Photography */}
+    <div className={`relative w-full h-full overflow-hidden bg-[#F2F2F2] select-none ${className}`}>
+      {/* 1. Real Studio Garment Photography Generated Directly From Qikink */}
       <img
         src={prebuiltMockupPath}
         alt={title}
-        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+        className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
         loading="lazy"
         onError={(e) => {
           // Graceful fallback to clean blank photo if needed

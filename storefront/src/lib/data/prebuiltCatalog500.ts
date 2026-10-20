@@ -231,7 +231,14 @@ export function generate500PrebuiltProducts(): any[] {
 
       const motifKey = design.svgMotif || 'ronin';
       const mockupSilKey = isDeskMatSlot ? 'deskmat' : sil.key === 'acid-or-mat' ? 'acid' : sil.key === 'oversized-tee' ? 'tee' : sil.key;
-      const studioMockupUrl = `/mockups/mockup-${motifKey}-${mockupSilKey}.webp`;
+      let studioMockupUrl = `/mockups/mockup-${motifKey}-${mockupSilKey}.webp`;
+      if (mockupSilKey === 'tee') {
+        studioMockupUrl = '/mockups/qikink-ronin-oversized-tee-black.png';
+      } else if (mockupSilKey === 'hoodie') {
+        studioMockupUrl = '/mockups/qikink-ronin-oversized-hoodie-black.png';
+      } else if (mockupSilKey === 'crewneck') {
+        studioMockupUrl = '/mockups/qikink-ronin-crewneck-sweatshirt-black.png';
+      }
       const activeImage = studioMockupUrl;
 
       const desc = `${design.tagline} Pre-designed archival drop crafted in Tirupur using ${
