@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Shirt, Sparkles, Monitor, ShoppingBag, Truck, ShieldCheck, Banknote, Lock } from 'lucide-react';
 import ProductCard from '@/components/ui/ProductCard';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { formatPrice, computeDiscount, type Product } from '@/lib/data/products';
@@ -50,17 +51,17 @@ const CATEGORY_TABS = [
 ];
 
 const DEPARTMENTS = [
-  { href: '/shop?cat=fashion', emoji: '👕', title: 'Streetwear Apparel', sub: '240 GSM Tees & 380 GSM Hoodies', count: 'Curated' },
-  { href: '/custom-drops', emoji: '⚡', title: 'Campus & Startup Merch', sub: 'Bulk Runs from ₹269 with Free Mockups', count: 'B2B Studio' },
-  { href: '/shop?cat=electronics', emoji: '🖥️', title: 'Desk & Workstation', sub: '900x400 Extended Mats & Pads', count: 'Precision' },
-  { href: '/shop', emoji: '🎒', title: 'Complete Catalog', sub: 'Artisan Drinkware & Totes', count: 'Shop All' },
+  { href: '/shop?cat=fashion', icon: Shirt, title: 'Streetwear Apparel', sub: '240 GSM Tees & 380 GSM Hoodies', count: 'Curated', color: 'text-[#FF4D24] bg-orange-50' },
+  { href: '/custom-drops', icon: Sparkles, title: 'Campus & Startup Merch', sub: 'Bulk Runs from ₹269 with Free Mockups', count: 'B2B Studio', color: 'text-amber-600 bg-amber-50' },
+  { href: '/shop?cat=electronics', icon: Monitor, title: 'Desk & Workstation', sub: '900x400 Extended Mats & Pads', count: 'Precision', color: 'text-cyan-600 bg-cyan-50' },
+  { href: '/shop', icon: ShoppingBag, title: 'Complete Catalog', sub: 'Artisan Drinkware & Totes', count: 'Shop All', color: 'text-purple-600 bg-purple-50' },
 ];
 
 const ASSURANCES = [
-  { emoji: '🚚', title: 'Free Express Air Delivery', sub: 'Pan-India 2–4d via BlueDart & Delhivery' },
-  { emoji: '🛡️', title: '7-Day Easy Return', sub: 'Free doorstep replacement guarantee' },
-  { emoji: '💵', title: 'COD Available', sub: 'Across 19,000+ PIN codes Pan-India' },
-  { emoji: '🔒', title: '256-Bit SSL Gateway', sub: 'Instant UPI & 1-Click Cards' },
+  { icon: Truck, title: 'Free Express Air Delivery', sub: 'Pan-India 2–4d via BlueDart & Delhivery', color: 'text-emerald-600 bg-emerald-50' },
+  { icon: ShieldCheck, title: '7-Day Easy Return', sub: 'Free doorstep replacement guarantee', color: 'text-blue-600 bg-blue-50' },
+  { icon: Banknote, title: 'COD Available', sub: 'Across 19,000+ PIN codes Pan-India', color: 'text-amber-600 bg-amber-50' },
+  { icon: Lock, title: '256-Bit SSL Gateway', sub: 'Instant UPI & 1-Click Cards', color: 'text-purple-600 bg-purple-50' },
 ];
 
 const MARQUEE_ITEMS = [
@@ -120,7 +121,7 @@ export default async function Home() {
   return (
     <main className="page-top min-h-screen text-[#161311] pb-16">
       {/* COMPACT PRODUCT-FIRST CATEGORY BAR */}
-      <section className="glass-strong sticky top-16 z-30 transition-all">
+      <section className="glass-strong relative z-20 border-b border-black/[0.04] transition-all">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
           <div className="flex items-center gap-2 shrink-0">
             {CATEGORY_TABS.map((tab) => (
@@ -346,7 +347,9 @@ export default async function Home() {
                     style={{ background: 'linear-gradient(135deg, rgba(255,154,61,0.08), rgba(232,36,75,0.04))' }}
                   />
                   <div className="flex items-center justify-between relative z-10">
-                    <span className="text-3xl transition-transform duration-500 group-hover:scale-115 group-hover:-rotate-6">{d.emoji}</span>
+                    <span className={`w-10 h-10 rounded-xl flex items-center justify-center ${d.color} transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3`}>
+                      <d.icon className="w-5 h-5" />
+                    </span>
                     <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-black/[0.05] text-neutral-600 group-hover:bg-[#FF4D24] group-hover:text-white transition-colors">
                       {d.count}
                     </span>
@@ -365,8 +368,10 @@ export default async function Home() {
         <section className="deferred-section grid grid-cols-2 md:grid-cols-4 gap-3 pt-6 border-t border-black/[0.06] text-xs">
           {ASSURANCES.map((a, i) => (
             <ScrollReveal key={a.title} delay={i * 70}>
-              <div className="group h-full p-4 rounded-2xl bg-white border border-black/[0.05] flex items-center gap-3 hover:border-ember/30 hover:shadow-md transition-all duration-400">
-                <span className="text-2xl transition-transform duration-500 group-hover:scale-115 group-hover:-rotate-6">{a.emoji}</span>
+              <div className="group h-full p-4 rounded-2xl bg-white border border-black/[0.05] flex items-center gap-3 hover:border-[#FF4D24]/30 hover:shadow-md transition-all duration-400">
+                <span className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${a.color} transition-transform duration-500 group-hover:scale-110`}>
+                  <a.icon className="w-5 h-5" />
+                </span>
                 <div>
                   <span className="block font-bold text-neutral-900">{a.title}</span>
                   <span className="text-[11px] text-neutral-500">{a.sub}</span>

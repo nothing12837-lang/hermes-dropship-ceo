@@ -512,10 +512,18 @@ export function ProductClient({ product }: Props) {
     /case|phone|iphone|samsung/i.test(product.id);
 
   const isKidsApparel = /kid|boy|girl|baby|toddler|infant/i.test(product.title + ' ' + product.id);
-  const isDeskMatInitial = /desk|pad|mat/i.test(product.title + ' ' + product.id);
-  const isDrinkwareInitial = /mug|cup|bottle|tumbler/i.test(product.title + ' ' + product.id);
+  const isComboCheck = Boolean(
+    BUNDLE_SUB_ITEMS[product.id] ||
+    (product.id.startsWith('bundle-') && product.images && product.images.length > 1)
+  );
+  const firstComboItem = BUNDLE_SUB_ITEMS[product.id]?.[0];
+  const firstItemCheckName = (isComboCheck && firstComboItem ? firstComboItem.name : product.title) + ' ' + (isComboCheck && firstComboItem ? firstComboItem.id : product.id);
+  const firstItemCheckLower = firstItemCheckName.toLowerCase();
+  const firstIsApparel = /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel/i.test(firstItemCheckLower);
+  const firstIsMat = !firstIsApparel && /desk|pad|mat/i.test(firstItemCheckLower);
+  const firstIsMug = !firstIsApparel && /mug|cup|bottle|tumbler/i.test(firstItemCheckLower);
 
-  const initialSingleSize = isKidsApparel ? '5-6Y' : isDeskMatInitial ? '900×400mm' : isDrinkwareInitial ? '330ml' : 'L';
+  const initialSingleSize = isKidsApparel ? '5-6Y' : firstIsApparel ? 'L' : firstIsMat ? '900x400mm' : firstIsMug ? '330ml' : 'L';
   const [selectedSize, setSelectedSize] = useState<string>(initialSingleSize);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [sizeUnit, setSizeUnit] = useState<'in' | 'cm'>('in');
@@ -1714,9 +1722,6 @@ export function ProductClient({ product }: Props) {
               <span style={{ color: '#059669', fontWeight: 800, fontSize: '0.95rem', background: '#ecfdf5', padding: '0.2rem 0.55rem', borderRadius: '0.5rem', border: '1px solid #a7f3d0' }}>
                 {discountPercent}% OFF
               </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-bold text-xs border border-emerald-200">
-                ✓ 100% Genuine Quality
-              </span>
             </div>
 
             {/* Real Honest Inventory & Verification Badges */}
@@ -1896,8 +1901,20 @@ export function ProductClient({ product }: Props) {
                             <p className="text-xs text-neutral-500 mt-2 flex items-center gap-1.5 flex-wrap">
                               <span className="font-black text-[#FF4D24]">{activeItemIsKids ? '⚡ Kids Regular Fit:' : '⚡ Drop-Shoulder Oversized Fit:'}</span>
                               <span>
-                                Size <strong>{selectedSize}</strong> ({currentSpecs[selectedSize]?.chest || 'Standard'} Chest) • {
-                                  activeItemIsKids
+                                {(() => {
+                                  const chestMap: Record<string, string> = {
+                                    'S': '38"',
+                                    'M': '40"',
+                                    'L': '42"',
+                                    'XL': '44"',
+                                    '2XL': '46"',
+                                    '3XL': '48"',
+                                  };
+                                  const displaySize = ((SIZES as readonly string[]).includes(selectedSize) || (KIDS_SIZES as readonly string[]).includes(selectedSize)) ? selectedSize : 'L';
+                                  const activeChest = currentSpecs[displaySize]?.chest || chestMap[displaySize] || '42"';
+                                  return <>Size <strong>{displaySize}</strong> ({activeChest} Chest) • </>;
+                                })()}
+                                {activeItemIsKids
                                     ? '180 GSM 100% Super Combed Bio-Washed Cotton (Gentle on skin, pre-shrunk).'
                                     : activeItemIsHoodie
                                     ? '380 GSM Heavyweight French Terry Fleece (Structured Boxy Silhouette).'

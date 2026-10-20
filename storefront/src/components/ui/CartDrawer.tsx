@@ -428,18 +428,18 @@ export default function CartDrawer() {
                 </div>
               </div>
 
-              <div className="flex justify-between font-bold text-sm mb-2 text-[#18181B]">
-                <span className="text-[#18181B] font-bold">Subtotal</span>
-                <span className="text-[#18181B] font-black">{formatCartPrice(subtotal)}</span>
+              <div className="flex justify-between font-bold text-sm mb-2 text-zinc-900">
+                <span className="text-zinc-900 font-bold">Subtotal</span>
+                <span className="text-zinc-950 font-black">{formatCartPrice(subtotal)}</span>
               </div>
 
-              <div className="flex justify-between text-xs font-bold mb-3 text-[#18181B]">
-                <span className="text-[#18181B] font-bold">Standard Air Shipping</span>
+              <div className="flex justify-between text-xs font-bold mb-3 text-zinc-900">
+                <span className="text-zinc-900 font-bold">Standard Air Shipping</span>
                 <span className="text-emerald-700 font-black">FREE ⚡</span>
               </div>
 
-              <div className="flex justify-between font-black text-xl text-[#18181B] pt-3 border-t border-neutral-200 mb-3">
-                <span className="text-[#18181B] font-black">Total</span>
+              <div className="flex justify-between font-black text-xl text-zinc-950 pt-3 border-t border-neutral-200 mb-3">
+                <span className="text-zinc-900 font-bold">Total</span>
                 <span className="text-[#FF4D24] font-black">{formatCartPrice(subtotal)}</span>
               </div>
 
@@ -447,7 +447,7 @@ export default function CartDrawer() {
                 onClick={handleCheckout}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
-                className="block text-center w-full bg-[#18181B] hover:bg-black text-white py-4 rounded-full font-black text-sm tracking-tight border-none cursor-pointer shadow-lg active:scale-95 transition-all"
+                className="block text-center w-full bg-zinc-950 hover:bg-black text-white py-4 rounded-full font-bold text-sm tracking-tight border-none cursor-pointer shadow-lg active:scale-95 transition-all"
               >
                 {`PROCEED TO CHECKOUT ⚡ • ${formatCartPrice(subtotal)}`}
               </motion.button>

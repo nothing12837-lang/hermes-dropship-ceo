@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Shirt, Coffee, Monitor, ShoppingBag } from 'lucide-react';
 import ProductCard from '@/components/ui/ProductCard';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { COPY } from '@/lib/data/copy';
@@ -153,10 +154,10 @@ function ShopInner() {
           {/* Quick Department Showcase Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto mt-7 text-left">
             {[
-              { id: 'fashion', emoji: '👕', title: 'Streetwear Apparel', count: '486 Drops', desc: '240 GSM Tees • 380 GSM Hoodies' },
-              { id: 'home-garden', emoji: '☕', title: 'Artisan Drinkware', count: '30 Drops', desc: 'Stoneware Mugs • Table Coasters' },
-              { id: 'electronics', emoji: '🖥️', title: 'Desk & Workstation', count: '105 Drops', desc: 'Extended Mats • Gaming Pads' },
-              { id: 'general', emoji: '🎒', title: 'Bags & Lifestyle', count: '35 Drops', desc: 'Heavy Canvas Totes • Scarves' },
+              { id: 'fashion', icon: Shirt, title: 'Streetwear Apparel', count: '486 Drops', desc: '240 GSM Tees • 380 GSM Hoodies', color: 'text-[#FF4D24]' },
+              { id: 'home-garden', icon: Coffee, title: 'Artisan Drinkware', count: '30 Drops', desc: 'Stoneware Mugs • Table Coasters', color: 'text-amber-500' },
+              { id: 'electronics', icon: Monitor, title: 'Desk & Workstation', count: '105 Drops', desc: 'Extended Mats • Gaming Pads', color: 'text-cyan-500' },
+              { id: 'general', icon: ShoppingBag, title: 'Bags & Lifestyle', count: '35 Drops', desc: 'Heavy Canvas Totes • Scarves', color: 'text-purple-500' },
             ].map((d) => {
               const isSelected = cat === d.id;
               return (
@@ -171,7 +172,7 @@ function ShopInner() {
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl">{d.emoji}</span>
+                    <span className={`w-8 h-8 rounded-lg flex items-center justify-center ${isSelected ? "bg-white/10 text-white" : "bg-black/[0.04] " + d.color}`}><d.icon className="w-5 h-5" /></span>
                     <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${isSelected ? 'bg-[#FF4D24] text-white' : 'bg-black/[0.05] text-neutral-600'}`}>
                       {d.count}
                     </span>

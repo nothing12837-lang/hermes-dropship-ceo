@@ -141,8 +141,12 @@ export default function ProductCard({
   const isInStock = inStock !== false && (stock == null || stock > 0);
   const productHref = `/product/${(slug || id).replace(/^meesho-/, '')}`;
   const cleanTitle = cleanBrandTitle(title);
-
   const isBundle = id.startsWith('bundle-');
+
+  const isApparel = /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel/i.test(cleanTitle + ' ' + id);
+  const isDeskMatOrMugOrAccessory = /mat|pad|desk|mug|cup|bottle|tote|bag|case|accessory|frame/i.test(cleanTitle + ' ' + id);
+  const isComboWithDeskMatOrMug = isBundle && /mat|pad|desk|mug|workstation|coder|founding/i.test(cleanTitle + ' ' + id);
+  const ctaLabel = isComboWithDeskMatOrMug || isDeskMatOrMugOrAccessory || !isApparel ? 'ACQUIRE NOW →' : 'ORDER NOW ⚡';
   const bundleFallbackList = BUNDLE_FALLBACK_IMAGES[id];
   const rawBundleImgs = bundleFallbackList || (images && images.length > 1 ? images : []);
   const bundleResolvedImages = rawBundleImgs
@@ -175,6 +179,10 @@ export default function ProductCard({
   const handleOrderNow = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (isBundle) {
+      router.push(productHref);
+      return;
+    }
     add(id, 1, {
       title: cleanTitle,
       price: Number((inr / 85).toFixed(2)),
@@ -350,10 +358,7 @@ export default function ProductCard({
               <span>Temporarily Out of Stock • Restocking Soon</span>
             </div>
           )}
-          <h3
-            className="text-[15px] font-bold leading-snug mb-2 overflow-hidden text-[#1d1d1f] transition-colors duration-300 group-hover:text-ember-deep"
-            style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
-          >
+          <h3 className="text-[15px] font-bold leading-snug mb-2 text-[#1d1d1f] transition-colors duration-300 group-hover:text-ember-deep line-clamp-2 min-h-[2.6rem]">
             {cleanTitle}
           </h3>
 
@@ -394,8 +399,7 @@ export default function ProductCard({
             className="w-full py-3 rounded-full font-black text-[13px] tracking-wide border-none cursor-pointer btn-ember flex items-center justify-center gap-1.5"
           >
             <span className="relative z-10 flex items-center gap-1.5">
-              ORDER NOW
-              <span>⚡</span>
+              {ctaLabel}
             </span>
           </button>
         ) : (

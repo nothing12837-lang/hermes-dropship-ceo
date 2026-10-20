@@ -16,7 +16,7 @@ const links = [
   { href: '/shop', label: 'Shop' },
   { href: '/custom-drops', label: 'Custom Merch ⚡' },
   { href: '/quiz', label: 'Quiz' },
-  { href: '/blog', label: 'Journal' },
+  { href: '/journal', label: 'Journal' },
   { href: '/track', label: 'Track' },
 ];
 
@@ -26,7 +26,7 @@ const drawerLinks = [
   { href: '/custom-drops', label: 'Custom Merch (B2B)' },
   { href: '/shop?cat=new', label: 'New drops' },
   { href: '/quiz', label: 'Find my match' },
-  { href: '/blog', label: 'Journal' },
+  { href: '/journal', label: 'Journal' },
   { href: '/track', label: 'Track order' },
   { href: '/wishlist', label: 'Wishlist' },
 ];
