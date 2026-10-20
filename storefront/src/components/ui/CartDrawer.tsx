@@ -420,18 +420,18 @@ export default function CartDrawer() {
               </div>
 
               <div className="flex justify-between font-bold text-sm mb-2 text-[#18181B]">
-                <span>Subtotal</span>
+                <span className="text-[#18181B] font-bold">Subtotal</span>
                 <span className="text-[#18181B] font-black">{formatCartPrice(subtotal)}</span>
               </div>
 
-              <div className="flex justify-between text-xs text-neutral-600 font-bold mb-3">
-                <span>Standard Air Shipping</span>
+              <div className="flex justify-between text-xs font-bold mb-3 text-[#18181B]">
+                <span className="text-[#18181B] font-bold">Standard Air Shipping</span>
                 <span className="text-emerald-700 font-black">FREE ⚡</span>
               </div>
 
               <div className="flex justify-between font-black text-xl text-[#18181B] pt-3 border-t border-neutral-200 mb-3">
-                <span>Total</span>
-                <span className="text-[#FF4D24]">{formatCartPrice(subtotal)}</span>
+                <span className="text-[#18181B] font-black">Total</span>
+                <span className="text-[#FF4D24] font-black">{formatCartPrice(subtotal)}</span>
               </div>
 
               <motion.button

@@ -153,10 +153,10 @@ function ShopInner() {
           {/* Quick Department Showcase Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto mt-7 text-left">
             {[
-              { id: 'fashion', emoji: '👕', title: 'Streetwear Apparel', count: '86 Drops', desc: '240 GSM Tees • 380 GSM Hoodies' },
+              { id: 'fashion', emoji: '👕', title: 'Streetwear Apparel', count: '486 Drops', desc: '240 GSM Tees • 380 GSM Hoodies' },
               { id: 'home-garden', emoji: '☕', title: 'Artisan Drinkware', count: '30 Drops', desc: 'Stoneware Mugs • Table Coasters' },
-              { id: 'electronics', emoji: '🖥️', title: 'Desk & Workstation', count: '5 Drops', desc: 'Extended Mats • Gaming Pads' },
-              { id: 'general', emoji: '🎒', title: 'Bags & Lifestyle', count: '26 Drops', desc: 'Heavy Canvas Totes • Scarves' },
+              { id: 'electronics', emoji: '🖥️', title: 'Desk & Workstation', count: '105 Drops', desc: 'Extended Mats • Gaming Pads' },
+              { id: 'general', emoji: '🎒', title: 'Bags & Lifestyle', count: '35 Drops', desc: 'Heavy Canvas Totes • Scarves' },
             ].map((d) => {
               const isSelected = cat === d.id;
               return (
