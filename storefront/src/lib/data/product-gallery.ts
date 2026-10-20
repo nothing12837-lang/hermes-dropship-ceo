@@ -2,6 +2,14 @@
 // Authentic Qikink S3 mockups and variations for all 147 products.
 
 export const CURATED_PRODUCT_GALLERIES: Record<string, string[]> = {
+  "qikink-64950694-oversized-jersey": [
+    "/products/user-oversized-jersey-64950694.jpg",
+    "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32475347/images/Front_1_c_1.jpg"
+  ],
+  "rare-ember-unisex-oversized-jersey-64950694": [
+    "/products/user-oversized-jersey-64950694.jpg",
+    "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32475347/images/Front_1_c_1.jpg"
+  ],
   "bundle-winter-spec-ops": [
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/32/3f45e6d3-837a-461b-9f52-b2c615eb14e4.jpg",

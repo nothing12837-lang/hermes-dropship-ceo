@@ -106,6 +106,46 @@ export const SHOP_CATEGORIES = [
 
 export const products: Product[] = [
   {
+    id: "qikink-64950694-oversized-jersey",
+    slug: "rare-ember-unisex-oversized-jersey-64950694",
+    title: "Unisex Oversized Jersey — Creator Edition",
+    price: 489,
+    price_inr: 489,
+    compareAtPrice: 899,
+    compare_at_price: 899,
+    emoji: "🎽",
+    tag: "CREATOR EDITION",
+    tagColor: "#FF4D24",
+    tagBg: "bg-[#FF4D24]/10 text-[#FF4D24]",
+    short: "Sublimation-engineered unisex oversized jersey in breathable athletic mesh. Custom designed creator edition crafted with high-definition fade-proof print.",
+    story: "Engineered for effortless streetwear styling and breathable athletic comfort. Crafted from 180 GSM moisture-wicking poly-mesh fabric featuring a relaxed oversized silhouette, drop shoulders, and vibrant high-definition all-over sublimation printing.",
+    details: [
+      "180 GSM Breathable Poly-Mesh Athletic Fabric",
+      "High-Definition All-Over Sublimation Print (Zero-Crack, Zero-Fade)",
+      "Relaxed Contemporary Oversized Silhouette with Drop Shoulders",
+      "Ribbed Crew Collar & Precision Double-Stitched Athletic Hems",
+      "Dispatched directly from Tirupur Hub via BlueDart / Delhivery Express"
+    ],
+    rating: 5.0,
+    reviews: 18,
+    image_url: "/products/user-oversized-jersey-64950694.jpg",
+    images: [
+      "/products/user-oversized-jersey-64950694.jpg",
+      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32475347/images/Front_1_c_1.jpg"
+    ],
+    category: "fashion",
+    market: "IN",
+    supplier: "RareEmber™ Studio • Qikink Tirupur Hub",
+    is_trending: true,
+    is_new: true,
+    gradient: "from-orange-500/20 to-red-500/20",
+    badges: ["Creator Drop", "Sublimation Mesh", "Pan-India Express", "₹489 Special"],
+    stock: 50,
+    active: true,
+    sizes: ["XS", "S", "M", "L", "XL", "2XL"],
+    colors: ["White"]
+  },
+  {
     id: "bundle-streetwear-duo",
     slug: "bundle-streetwear-duo",
     title: "The Streetwear Duo — 2x Heavyweight Oversized Tees",

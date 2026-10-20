@@ -4,6 +4,8 @@
  */
 
 export const FALLBACK_IMAGES: Record<string, string> = {
+  "qikink-64950694-oversized-jersey": "/products/user-oversized-jersey-64950694.jpg",
+  "rare-ember-unisex-oversized-jersey-64950694": "/products/user-oversized-jersey-64950694.jpg",
   "bundle-winter-spec-ops": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
   "bundle-3am-coder": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
   "bundle-college-fest-varsity": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/95/b3298941-1294-4945-ac9c-c5aaafd3403d.jpg",

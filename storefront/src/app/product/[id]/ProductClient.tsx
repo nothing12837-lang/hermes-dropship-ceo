@@ -20,7 +20,7 @@ import { trackViewItem, trackAddToCart } from '@/lib/telemetry/dataLayer';
 
 const PERSPECTIVE_LABELS = ['Hero Front', 'Detail Macro', 'In-Room Setup', 'Unboxed & Scale'];
 
-const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL'] as const;
+const SIZES = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'] as const;
 
 const KIDS_SIZES = ['3-4Y', '5-6Y', '7-8Y', '9-10Y', '11-12Y', '13-14Y'] as const;
 
@@ -43,6 +43,7 @@ const KIDS_SIZE_SPECS: Record<string, { chest: string; length: string }> = {
 };
 
 const SIZE_GUIDE_ROWS = [
+  { size: 'XS', chestIn: 36, chestCm: 91, lengthIn: 26, lengthCm: 66, shoulderIn: 17, shoulderCm: 43 },
   { size: 'S', chestIn: 38, chestCm: 96, lengthIn: 27, lengthCm: 68, shoulderIn: 18, shoulderCm: 46 },
   { size: 'M', chestIn: 40, chestCm: 101, lengthIn: 28, lengthCm: 71, shoulderIn: 19, shoulderCm: 48 },
   { size: 'L', chestIn: 42, chestCm: 106, lengthIn: 29, lengthCm: 74, shoulderIn: 20, shoulderCm: 51 },
@@ -52,6 +53,7 @@ const SIZE_GUIDE_ROWS = [
 ];
 
 const SIZE_SPECS: Record<string, { chest: string; length: string }> = {
+  XS: { chest: '36"', length: '26"' },
   S: { chest: '38"', length: '27"' },
   M: { chest: '40"', length: '28"' },
   L: { chest: '42"', length: '29"' },

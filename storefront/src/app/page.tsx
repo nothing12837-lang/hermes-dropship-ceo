@@ -97,6 +97,8 @@ export default async function Home() {
 
   // 2. The 12 Flagship Drops (380 GSM Hoodies, Heavyweight Tees, Varsity & Workstation)
   const heroDropIds = [
+    // Creator Edition Feature Drop (Qikink ID: 64950694)
+    'qikink-64950694-oversized-jersey',
     // 4 380 GSM Heavyweight Winter Hoodies & Varsity
     're-prebuilt-blr-01-hoodie',
     're-prebuilt-desi-01-hoodie',
