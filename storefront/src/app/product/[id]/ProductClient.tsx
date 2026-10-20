@@ -504,7 +504,7 @@ export function ProductClient({ product }: Props) {
   const [qty, setQty] = useState(1);
 
   const isApparel =
-    /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|shorts|jacket|vest|polo|dress|skirt|legging|romper/i.test(product.title + ' ' + product.id);
+    /jersey|tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|shorts|jacket|vest|polo|dress|skirt|legging|romper/i.test(product.title + ' ' + product.id);
 
   const supportsPrintPlacement =
     /tee|t-shirt|hoodie|sweatshirt|jacket|polo|vest/i.test(product.title + ' ' + product.id);
@@ -521,11 +521,11 @@ export function ProductClient({ product }: Props) {
   const firstComboItem = BUNDLE_SUB_ITEMS[product.id]?.[0];
   const firstItemCheckName = (isComboCheck && firstComboItem ? firstComboItem.name : product.title) + ' ' + (isComboCheck && firstComboItem ? firstComboItem.id : product.id);
   const firstItemCheckLower = firstItemCheckName.toLowerCase();
-  const firstIsApparel = /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel/i.test(firstItemCheckLower);
+  const firstIsApparel = /jersey|tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel/i.test(firstItemCheckLower);
   const firstIsMat = !firstIsApparel && /desk|pad|mat/i.test(firstItemCheckLower);
   const firstIsMug = !firstIsApparel && /mug|cup|bottle|tumbler/i.test(firstItemCheckLower);
 
-  const initialSingleSize = isKidsApparel ? '5-6Y' : firstIsApparel ? 'L' : firstIsMat ? '900x400mm' : firstIsMug ? '330ml' : 'L';
+  const initialSingleSize = isKidsApparel ? '5-6Y' : (product.sizes?.[0] || (firstIsApparel ? 'L' : firstIsMat ? '900x400mm' : firstIsMug ? '330ml' : 'L'));
   const [selectedSize, setSelectedSize] = useState<string>(initialSingleSize);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [sizeUnit, setSizeUnit] = useState<'in' | 'cm'>('in');
@@ -557,7 +557,7 @@ export function ProductClient({ product }: Props) {
 
   const searchParams = useSearchParams();
   const isCustomizeMode = searchParams ? searchParams.get('customize') === '1' : false;
-  const isPrebuilt = (product as any).isPrebuilt !== false && !isCustomizeMode;
+  const isPrebuilt = Boolean(((product as any).isPrebuilt === true || (product as any).id?.startsWith('re-prebuilt-')) && !isCustomizeMode);
 
   const isMultiBundle = isComboProduct && comboItems.length > 1;
   const sizeStepNum = isMultiBundle ? 2 : 1;

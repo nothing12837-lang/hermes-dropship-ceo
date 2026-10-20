@@ -109,6 +109,7 @@ export const products: Product[] = [
     id: "qikink-64950694-oversized-jersey",
     slug: "rare-ember-unisex-oversized-jersey-64950694",
     title: "Unisex Oversized Jersey — Creator Edition",
+    isPrebuilt: false,
     price: 489,
     price_inr: 489,
     compareAtPrice: 899,
