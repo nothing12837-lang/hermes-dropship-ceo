@@ -106,6 +106,52 @@ export const SHOP_CATEGORIES = [
 
 export const products: Product[] = [
   {
+    id: "qikink-64951032-girls-crew-tshirt",
+    slug: "rare-ember-girls-crew-neck-tshirt-64951032",
+    title: "Girl's Classic Crew Neck T-Shirt — Ronin Edition",
+    isPrebuilt: false,
+    price: 399,
+    price_inr: 399,
+    compareAtPrice: 699,
+    compare_at_price: 699,
+    emoji: "🌸",
+    tag: "KIDS STREETWEAR",
+    tagColor: "#EC4899",
+    tagBg: "bg-pink-500/10 text-pink-500",
+    short: "100% combed cotton classic crew neck tee featuring the iconic Ronin DTF artwork. Gentle bio-washed fabric designed for all-day comfort.",
+    story: "Crafted in Tirupur from 180 GSM premium 100% combed bio-washed cotton, this classic girl's crew neck t-shirt pairs daily play comfort with our high-definition, fade-proof Ronin artwork. Pre-shrunk with gentle anti-chafe stitching.",
+    details: [
+      "180 GSM 100% Combed Bio-Washed Cotton",
+      "High-Definition Ronin Chest DTF Print (OEKO-TEX Certified)",
+      "Ribbed Crew Collar & Double-Stitched Durability",
+      "Gentle Anti-Chafe Seams for Sensitive Skin",
+      "Dispatched directly from Tirupur Hub via BlueDart / Delhivery Express"
+    ],
+    rating: 5.0,
+    reviews: 14,
+    image_url: "/products/user-girl-tee-64951032.jpg",
+    images: [
+      "/products/user-girl-tee-64951032.jpg",
+      "/products/user-girl-tee-64951032-pink.jpg",
+      "/products/user-girl-tee-64951032-black.jpg",
+      "/products/user-girl-tee-64951032-navy.jpg",
+      "/products/user-girl-tee-64951032-red.jpg",
+      "/products/user-girl-tee-64951032-grey.jpg",
+      "/products/user-girl-tee-64951032-royalblue.jpg"
+    ],
+    category: "fashion",
+    market: "IN",
+    supplier: "RareEmber™ Studio • Qikink Tirupur Hub",
+    is_trending: true,
+    is_new: true,
+    gradient: "from-pink-500/20 to-rose-500/20",
+    badges: ["Ronin Edition", "180 GSM Cotton", "7 Colors", "₹399 Special"],
+    stock: 50,
+    active: true,
+    sizes: ["0-12M", "1-2Y", "2-3Y", "3-4Y", "5-6Y"],
+    colors: ["White", "Pink", "Black", "Navy Blue", "Red", "Grey Melange", "Royal Blue"]
+  },
+  {
     id: "qikink-64950694-oversized-jersey",
     slug: "rare-ember-unisex-oversized-jersey-64950694",
     title: "Unisex Oversized Jersey — Creator Edition",

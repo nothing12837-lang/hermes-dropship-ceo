@@ -2,6 +2,24 @@
 // Authentic Qikink S3 mockups and variations for all 147 products.
 
 export const CURATED_PRODUCT_GALLERIES: Record<string, string[]> = {
+  "qikink-64951032-girls-crew-tshirt": [
+    "/products/user-girl-tee-64951032.jpg",
+    "/products/user-girl-tee-64951032-pink.jpg",
+    "/products/user-girl-tee-64951032-black.jpg",
+    "/products/user-girl-tee-64951032-navy.jpg",
+    "/products/user-girl-tee-64951032-red.jpg",
+    "/products/user-girl-tee-64951032-grey.jpg",
+    "/products/user-girl-tee-64951032-royalblue.jpg"
+  ],
+  "rare-ember-girls-crew-neck-tshirt-64951032": [
+    "/products/user-girl-tee-64951032.jpg",
+    "/products/user-girl-tee-64951032-pink.jpg",
+    "/products/user-girl-tee-64951032-black.jpg",
+    "/products/user-girl-tee-64951032-navy.jpg",
+    "/products/user-girl-tee-64951032-red.jpg",
+    "/products/user-girl-tee-64951032-grey.jpg",
+    "/products/user-girl-tee-64951032-royalblue.jpg"
+  ],
   "qikink-64950694-oversized-jersey": [
     "/products/user-oversized-jersey-64950694.jpg",
     "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32475347/images/Front_1_c_1.jpg"

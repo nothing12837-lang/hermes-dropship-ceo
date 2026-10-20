@@ -99,6 +99,7 @@ export default async function Home() {
   const heroDropIds = [
     // Creator Edition Feature Drop (Qikink ID: 64950694)
     'qikink-64950694-oversized-jersey',
+    'qikink-64951032-girls-crew-tshirt',
     // 4 380 GSM Heavyweight Winter Hoodies & Varsity
     're-prebuilt-blr-01-hoodie',
     're-prebuilt-desi-01-hoodie',

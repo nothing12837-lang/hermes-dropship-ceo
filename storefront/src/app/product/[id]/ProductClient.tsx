@@ -22,7 +22,7 @@ const PERSPECTIVE_LABELS = ['Hero Front', 'Detail Macro', 'In-Room Setup', 'Unbo
 
 const SIZES = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'] as const;
 
-const KIDS_SIZES = ['3-4Y', '5-6Y', '7-8Y', '9-10Y', '11-12Y', '13-14Y'] as const;
+const KIDS_SIZES = ['0-12M', '1-2Y', '2-3Y', '3-4Y', '5-6Y', '7-8Y', '9-10Y', '11-12Y', '13-14Y'] as const;
 
 const KIDS_SIZE_GUIDE_ROWS = [
   { size: '3-4Y', chestIn: 24, chestCm: 61, lengthIn: 16, lengthCm: 41, shoulderIn: 11, shoulderCm: 28 },
@@ -34,6 +34,9 @@ const KIDS_SIZE_GUIDE_ROWS = [
 ];
 
 const KIDS_SIZE_SPECS: Record<string, { chest: string; length: string }> = {
+  '0-12M': { chest: '20"', length: '13"' },
+  '1-2Y': { chest: '22"', length: '14"' },
+  '2-3Y': { chest: '23"', length: '15"' },
   '3-4Y': { chest: '24"', length: '16"' },
   '5-6Y': { chest: '26"', length: '18"' },
   '7-8Y': { chest: '28"', length: '20"' },

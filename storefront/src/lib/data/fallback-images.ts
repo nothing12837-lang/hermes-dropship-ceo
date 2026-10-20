@@ -4,6 +4,8 @@
  */
 
 export const FALLBACK_IMAGES: Record<string, string> = {
+  "qikink-64951032-girls-crew-tshirt": "/products/user-girl-tee-64951032.jpg",
+  "rare-ember-girls-crew-neck-tshirt-64951032": "/products/user-girl-tee-64951032.jpg",
   "qikink-64950694-oversized-jersey": "/products/user-oversized-jersey-64950694.jpg",
   "rare-ember-unisex-oversized-jersey-64950694": "/products/user-oversized-jersey-64950694.jpg",
   "bundle-winter-spec-ops": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
