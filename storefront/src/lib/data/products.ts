@@ -61,31 +61,17 @@ import { generate500PrebuiltProducts } from './prebuiltCatalog500';
 export const USD_TO_INR_RATE = 85;
 
 export function getClientMarket(): 'IN' | 'GLOBAL' {
-  if (typeof window === 'undefined') return 'IN';
-  try {
-    const saved = localStorage.getItem('rareember_market');
-    if (saved === 'IN' || saved === 'GLOBAL') return saved;
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-    const isIndia =
-      tz.includes('Calcutta') ||
-      tz.includes('Kolkata') ||
-      tz.includes('Asia/Kolkata') ||
-      navigator.language.includes('en-IN') ||
-      (Boolean(navigator.languages) && navigator.languages.some((l) => l.includes('en-IN')));
-    return isIndia ? 'IN' : 'GLOBAL';
-  } catch {
-    return 'IN';
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem('rareember_market', 'IN');
+    } catch {}
   }
+  return 'IN';
 }
 
-export function formatPrice(num: number, marketOverride?: 'IN' | 'GLOBAL'): string {
-  const m = marketOverride ?? getClientMarket();
-  if (m === 'IN') {
-    const val = num >= 80 ? Math.round(num) : Math.round(num * USD_TO_INR_RATE);
-    return `₹${val.toLocaleString('en-IN')}`;
-  }
-  const val = num >= 80 ? num / USD_TO_INR_RATE : num;
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
+export function formatPrice(num: number, _marketOverride?: 'IN' | 'GLOBAL'): string {
+  const val = num >= 80 ? Math.round(num) : Math.round(num * USD_TO_INR_RATE);
+  return `₹${val.toLocaleString('en-IN')}`;
 }
 
 export function cleanBrandTitle(rawTitle: string): string {

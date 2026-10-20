@@ -27,6 +27,11 @@ function toCard(p: Product, rank?: number) {
     gradient: p.gradient || 'linear-gradient(135deg, #18181b, #09090b)',
     imageUrl: p.image_url,
     images: p.images,
+    isPrebuilt: (p as any).isPrebuilt,
+    lockedSvgMotif: (p as any).lockedSvgMotif,
+    lockedGraphicTitle: (p as any).lockedGraphicTitle,
+    lockedGraphicPlacement: (p as any).lockedGraphicPlacement,
+    lockedAccentHex: (p as any).lockedAccentHex,
     chapter: undefined,
     pet: undefined,
     rating: p.rating,
@@ -37,7 +42,7 @@ function toCard(p: Product, rank?: number) {
 }
 
 const CATEGORY_TABS = [
-  { id: 'bundles', label: 'Hero Bundles (Save ₹400+)', emoji: '🔥', href: '#bundles' },
+  { id: 'bundles', label: 'Curated Value Combos', emoji: '🔥', href: '#bundles' },
   { id: 'tees', label: '240 GSM Heavyweight Tees', emoji: '👕', href: '#hero-drops' },
   { id: 'hoodies', label: '380 GSM Fleece Hoodies', emoji: '🧥', href: '#hero-drops' },
   { id: 'desk', label: 'Workstation Desk Mats', emoji: '🖥️', href: '#hero-drops' },
@@ -89,23 +94,23 @@ export default async function Home() {
     .map((id) => allProducts.find((p) => p.id === id))
     .filter((p): p is Product => Boolean(p));
 
-  // 2. The 12 Curated Hero Drops (6 Graphic Tees, 3 Hoodies, 3 Workstation items)
+  // 2. The 12 Flagship Drops (380 GSM Hoodies, Heavyweight Tees, Varsity & Workstation)
   const heroDropIds = [
-    // 6 Graphic / Acid Wash Oversized Tees
+    // 4 380 GSM Heavyweight Winter Hoodies & Varsity
+    're-prebuilt-blr-01-hoodie',
+    're-prebuilt-del-01-hoodie',
+    'qikink-hoodies-acid-wash-hoodie-uh62',
+    're-prebuilt-ind-01-varsity',
+    // 6 240 GSM Combed Streetwear Graphic & Acid Wash Tees
+    're-prebuilt-blr-02-oversized-tee',
     'qikink-t-shirts-acid-wash-oversized-t-shirt-uc61',
+    're-prebuilt-mum-02-oversized-tee',
     'qikink-t-shirts-oversized-t-shirt-standard-us22',
     'qikink-t-shirts-terry-oversized-t-shirt-ut27',
-    'qikink-t-shirts-tie-and-dye-oversized-t-shirt-ut58',
-    'qikink-t-shirts-oversized-jersey-t-shirt-uj35',
-    'qikink-t-shirts-oversized-raglan-t-shirt-ur50',
-    // 3 380 GSM Fleece Hoodies
-    'qikink-hoodies-oversized-hoodie-uh32',
-    'qikink-hoodies-acid-wash-hoodie-uh62',
-    'qikink-hoodies-pullover-hoodie-uh83',
-    // 3 Workstation Desk Gear
+    're-prebuilt-goa-02-oversized-tee',
+    // 2 Premium Workstation & Lifestyle Drops (No generic phone cases or mousepads)
     'qikink-accessories-desk-mat',
-    'qikink-accessories-mouse-pad',
-    'qikink-accessories-mobile-glass-phone-case',
+    'qikink-accessories-coffee-mug',
   ];
 
   const heroDrops = heroDropIds
@@ -190,7 +195,7 @@ export default async function Home() {
                 className="no-underline inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl btn-ember font-black text-xs md:text-sm tracking-wide cursor-pointer whitespace-nowrap shadow-ember"
               >
                 <span className="relative z-10 flex items-center gap-1.5">
-                  Explore Bundles <span>⚡</span>
+                  Explore Combos <span>⚡</span>
                 </span>
               </Link>
             </div>
@@ -203,7 +208,7 @@ export default async function Home() {
           />
         </section>
 
-        {/* SECTION 1: HIGH-MARGIN HERO BUNDLES (AOV ₹899–₹1,199) */}
+        {/* SECTION 1: CURATED VALUE COMBOS (AOV ₹1,099–₹1,849) */}
         <section id="bundles" className="scroll-mt-28">
           <div className="flex items-end justify-between gap-4 mb-6">
             <div>
@@ -284,7 +289,7 @@ export default async function Home() {
                 The 12 Flagship <span className="text-gradient-ember">Hero Drops</span>
               </h2>
               <p className="text-xs md:text-sm text-neutral-500 mt-1">
-                6× Acid Wash &amp; Heavyweight Tees • 3× 380 GSM French Terry Hoodies • 3× Workstation Gear
+                4× 380 GSM Fleece Hoodies &amp; Varsity • 6× Heavyweight Graphic Tees • 2× Workstation Gear
               </p>
             </div>
             <Link

@@ -23,51 +23,37 @@ const GeoContext = createContext<GeoContextType>({
 });
 
 export function GeoProvider({ children }: { children: React.ReactNode }) {
+  // RareEmber is exclusively an Indian streetwear & creator brand (INR ₹).
+  // Default and lock to IN market so all visitors see clean ₹ prices.
   const [market, setMarketState] = useState<MarketRegion>('IN');
 
   useEffect(() => {
-    // Check saved market preference first
-    const saved = localStorage.getItem('rareember_market') as MarketRegion | null;
-    if (saved === 'IN' || saved === 'GLOBAL') {
-      setMarketState(saved);
-      return;
-    }
-
-    // Auto-detect visitor location via lightweight timezone & locale check
+    setMarketState('IN');
     try {
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-      const isIndia = tz.includes('Calcutta') || tz.includes('Kolkata') || navigator.language.includes('en-IN');
-      const detected = isIndia ? 'IN' : 'GLOBAL';
-      setMarketState(detected);
-      localStorage.setItem('rareember_market', detected);
-    } catch {
-      setMarketState('IN');
-    }
+      // Purge any stale GLOBAL value from browser storage
+      localStorage.setItem('rareember_market', 'IN');
+      if (typeof document !== 'undefined') {
+        document.cookie = 'rareember_market=IN; path=/; max-age=31536000; SameSite=Lax';
+      }
+    } catch {}
   }, []);
 
   const setMarket = (m: MarketRegion) => {
-    setMarketState(m);
+    setMarketState('IN'); // Always maintain IN for Indian domestic fulfillment
     try {
-      localStorage.setItem('rareember_market', m);
+      localStorage.setItem('rareember_market', 'IN');
       if (typeof document !== 'undefined') {
-        document.cookie = `rareember_market=${m}; path=/; max-age=31536000; SameSite=Lax`;
-      }
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('rareember_market_changed', { detail: m }));
+        document.cookie = 'rareember_market=IN; path=/; max-age=31536000; SameSite=Lax';
       }
     } catch {}
   };
 
-  const currency = market === 'IN' ? 'INR' : 'USD';
-  const currencySymbol = market === 'IN' ? '₹' : '$';
+  const currency = 'INR';
+  const currencySymbol = '₹';
 
   const formatPrice = (priceUsd: number, priceInr?: number) => {
-    if (market === 'IN') {
-      const val = priceInr ?? (priceUsd >= 80 ? Math.round(priceUsd) : Math.round(priceUsd * 85));
-      return `₹${val.toLocaleString('en-IN')}`;
-    }
-    const val = priceUsd >= 80 ? (priceUsd / 85) : priceUsd;
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
+    const val = priceInr ?? (priceUsd >= 80 ? Math.round(priceUsd) : Math.round(priceUsd * 85));
+    return `₹${val.toLocaleString('en-IN')}`;
   };
 
   const formatPriceByMarket = formatPrice;
@@ -82,3 +68,4 @@ export function GeoProvider({ children }: { children: React.ReactNode }) {
 export function useGeo() {
   return useContext(GeoContext);
 }
+
