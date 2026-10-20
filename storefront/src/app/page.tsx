@@ -98,19 +98,19 @@ export default async function Home() {
   const heroDropIds = [
     // 4 380 GSM Heavyweight Winter Hoodies & Varsity
     're-prebuilt-blr-01-hoodie',
-    're-prebuilt-del-01-hoodie',
-    'qikink-hoodies-acid-wash-hoodie-uh62',
-    're-prebuilt-ind-01-varsity',
+    're-prebuilt-desi-01-hoodie',
+    're-prebuilt-myth-01-hoodie',
+    're-prebuilt-desi-05-varsity',
     // 6 240 GSM Combed Streetwear Graphic & Acid Wash Tees
     're-prebuilt-blr-02-oversized-tee',
     'qikink-t-shirts-acid-wash-oversized-t-shirt-uc61',
-    're-prebuilt-mum-02-oversized-tee',
+    're-prebuilt-myth-01-oversized-tee',
     'qikink-t-shirts-oversized-t-shirt-standard-us22',
     'qikink-t-shirts-terry-oversized-t-shirt-ut27',
-    're-prebuilt-goa-02-oversized-tee',
-    // 2 Premium Workstation & Lifestyle Drops (No generic phone cases or mousepads)
+    're-prebuilt-blr-01-varsity',
+    // 2 Premium Workstation Desk Gear
     'qikink-accessories-desk-mat',
-    'qikink-accessories-coffee-mug',
+    're-prebuilt-blr-02-deskmat',
   ];
 
   const heroDrops = heroDropIds
