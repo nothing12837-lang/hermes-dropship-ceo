@@ -39,9 +39,70 @@ export interface BlankGarment {
   isMug: boolean;
   skuPrefix: string;
   sizes: string[];
+  colors?: string[];
 }
 
+export type QikinkPlacement = 'Front' | 'Back' | 'Left Pocket' | 'Right Pocket' | 'Left Sleeve' | 'Right Sleeve';
+
+export const QIKINK_PLACEMENT_OPTIONS: {
+  id: QikinkPlacement;
+  label: string;
+  view: 'front' | 'back';
+  top: string;
+  left: string;
+  width: string;
+  height: string;
+  safeLabel: string;
+}[] = [
+  { id: 'Front', label: 'Front', view: 'front', top: '22%', left: '26%', width: '48%', height: '52%', safeLabel: 'CENTER FRONT • 10" × 12"' },
+  { id: 'Back', label: 'Back', view: 'back', top: '20%', left: '22%', width: '56%', height: '56%', safeLabel: 'OVERSIZED BACK • 12" × 14"' },
+  { id: 'Left Pocket', label: 'Left Pocket', view: 'front', top: '24%', left: '27%', width: '22%', height: '22%', safeLabel: 'LEFT POCKET • 3.5" × 3.5"' },
+  { id: 'Right Pocket', label: 'Right Pocket', view: 'front', top: '24%', left: '51%', width: '22%', height: '22%', safeLabel: 'RIGHT POCKET • 3.5" × 3.5"' },
+  { id: 'Left Sleeve', label: 'Left Sleeve', view: 'front', top: '26%', left: '7%', width: '22%', height: '30%', safeLabel: 'LEFT SLEEVE • 3" × 5"' },
+  { id: 'Right Sleeve', label: 'Right Sleeve', view: 'front', top: '26%', left: '71%', width: '22%', height: '30%', safeLabel: 'RIGHT SLEEVE • 3" × 5"' },
+];
+
+export const QIKINK_GARMENT_COLORS = [
+  { name: 'White', hex: '#FFFFFF', isLight: true },
+  { name: 'Black', hex: '#111111', isLight: false },
+  { name: 'Navy Blue', hex: '#1E293B', isLight: false },
+  { name: 'Grey Melange', hex: '#9CA3AF', isLight: true },
+  { name: 'Red', hex: '#DC2626', isLight: false },
+  { name: 'Royal Blue', hex: '#2563EB', isLight: false },
+  { name: 'Bottle Green', hex: '#14532D', isLight: false },
+];
+
+export const QUICK_TRENDING_DESIGNS = [
+  { id: 'ST-001', title: 'Oversized Raw Cut', path: '/designs/500-trending-collection/01-streetwear-typography/ST-001-oversized.png', cat: 'Streetwear' },
+  { id: 'AM-001', title: 'Cyber Ronin 浪人', path: '/designs/500-trending-collection/02-anime-mecha/AM-001-ronin.png', cat: 'Anime Mecha' },
+  { id: 'DP-001', title: 'Raftar रफ्तार', path: '/designs/500-trending-collection/03-indian-desi-pop/DP-001-speed.png', cat: 'Desi Pop' },
+  { id: 'TC-001', title: 'Commit Or Die', path: '/designs/500-trending-collection/04-tech-coder/TC-001-commit-or-die.png', cat: 'Tech & Dev' },
+  { id: 'GA-001', title: 'One More Rep', path: '/designs/500-trending-collection/05-gym-alpha/GA-001-one-more-rep.png', cat: 'Gym Alpha' },
+  { id: 'MS-001', title: 'Amor Fati', path: '/designs/500-trending-collection/06-minimalist-stoic/MS-001-amor-fati.png', cat: 'Stoic' },
+  { id: 'ST-002', title: 'No Signal', path: '/designs/500-trending-collection/01-streetwear-typography/ST-002-no-signal.png', cat: 'Streetwear' },
+  { id: 'AM-002', title: 'Heavy Mecha 機甲', path: '/designs/500-trending-collection/02-anime-mecha/AM-002-mecha.png', cat: 'Anime Mecha' },
+  { id: 'DP-002', title: 'Jugaad जुगाड़', path: '/designs/500-trending-collection/03-indian-desi-pop/DP-002-jugaad.png', cat: 'Desi Pop' },
+  { id: 'TC-002', title: 'Sudo Mode Admin', path: '/designs/500-trending-collection/04-tech-coder/TC-002-sudo-mode.png', cat: 'Tech & Dev' },
+  { id: 'GA-002', title: 'Iron Never Lies', path: '/designs/500-trending-collection/05-gym-alpha/GA-002-iron-never-lies.png', cat: 'Gym Alpha' },
+  { id: 'MS-002', title: 'Memento Mori', path: '/designs/500-trending-collection/06-minimalist-stoic/MS-002-memento-mori.png', cat: 'Stoic' },
+];
+
 export const SEVEN_CORE_BLANKS: BlankGarment[] = [
+  {
+    id: 'blank-jersey',
+    name: 'Unisex Oversized Jersey | UJ35',
+    badge: 'CREATOR JERSEY',
+    gsm: '220 GSM Polyester Aeroknit • All-Over Sublimation / DTF Print',
+    price: 489,
+    frontImage: '/products/user-oversized-jersey-64950694.jpg',
+    backImage: 'https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32475347/images/Front_1_c_1.jpg',
+    isApparel: true,
+    isDeskMat: false,
+    isMug: false,
+    skuPrefix: 'UJ35',
+    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'],
+    colors: ['White', 'Black', 'Navy Blue', 'Grey Melange', 'Red', 'Royal Blue'],
+  },
   {
     id: 'blank-hoodie',
     name: '380 GSM Heavyweight Winter Hoodie',
@@ -160,18 +221,21 @@ export function CustomDropsClient() {
   const baseParam = searchParams?.get('base') || '';
   const initialBlank = (() => {
     const b = baseParam.toLowerCase();
+    if (b.includes('jersey') || b.includes('uj35') || b.includes('64950694')) return 'blank-jersey';
     if (b.includes('hoodie')) return 'blank-hoodie';
     if (b.includes('crewneck')) return 'blank-crewneck';
     if (b.includes('varsity')) return 'blank-varsity';
     if (b.includes('acid')) return 'blank-acid-tee';
     if (b.includes('deskmat') || b.includes('mat')) return 'blank-deskmat';
     if (b.includes('mug')) return 'blank-mug';
-    return 'blank-oversized-tee';
+    return 'blank-jersey';
   })();
 
   const [selectedBlankId, setSelectedBlankId] = useState<string>(initialBlank);
   const [customView, setCustomView] = useState<'front' | 'back'>('front');
-  const [customPlacement, setCustomPlacement] = useState<string>('Center Chest');
+  const [selectedPlacement, setSelectedPlacement] = useState<QikinkPlacement>('Front');
+  const [selectedLabColor, setSelectedLabColor] = useState<string>('White');
+  const [showTrendingDrawer, setShowTrendingDrawer] = useState<boolean>(false);
   const [customMode, setCustomMode] = useState<'image' | 'text'>('image');
   const [customImage, setCustomImage] = useState<string | null>(null);
   const [customImageName, setCustomImageName] = useState<string>('');
@@ -182,20 +246,23 @@ export function CustomDropsClient() {
   const [uploadingLabImage, setUploadingLabImage] = useState<boolean>(false);
   const [orderNotice, setOrderNotice] = useState<string | null>(null);
 
-  const currentBlank = SEVEN_CORE_BLANKS.find((b) => b.id === selectedBlankId) || SEVEN_CORE_BLANKS[3];
+  const currentBlank = SEVEN_CORE_BLANKS.find((b) => b.id === selectedBlankId) || SEVEN_CORE_BLANKS[0];
+
+  const handleSelectPlacement = (plc: QikinkPlacement) => {
+    setSelectedPlacement(plc);
+    const cfg = QIKINK_PLACEMENT_OPTIONS.find((p) => p.id === plc) || QIKINK_PLACEMENT_OPTIONS[0];
+    setCustomView(cfg.view);
+  };
 
   useEffect(() => {
     if (currentBlank.isDeskMat) {
       setSelectedLabSize('900×400mm');
-      setCustomPlacement('Full Surface');
+      setSelectedPlacement('Front');
     } else if (currentBlank.isMug) {
       setSelectedLabSize('11 Oz (330ml)');
-      setCustomPlacement('Full Wrap');
+      setSelectedPlacement('Front');
     } else {
       setSelectedLabSize('L');
-      if (customPlacement === 'Full Surface' || customPlacement === 'Full Wrap') {
-        setCustomPlacement('Center Chest');
-      }
     }
   }, [currentBlank.id]);
 
@@ -238,14 +305,15 @@ export function CustomDropsClient() {
       imageUrl: customView === 'back' && currentBlank.backImage ? currentBlank.backImage : currentBlank.frontImage,
       gradient: 'linear-gradient(135deg, rgba(255,77,36,0.1), rgba(0,0,0,0.05))',
       size: selectedLabSize,
+      color: selectedLabColor,
       customText: customMode === 'text' && customText.trim() ? customText.trim() : undefined,
-      customPlacement,
+      customPlacement: selectedPlacement,
       customTextColor: customMode === 'text' ? customTextColor : undefined,
       customFont: customMode === 'text' ? customFont : undefined,
       customImage: customMode === 'image' && customImage ? customImage : undefined,
       customImageName: customImageName || (customText ? `Text: ${customText}` : 'Custom Tirupur Print'),
     });
-    setOrderNotice(`✓ Added custom ${currentBlank.name} to cart! Redirecting to checkout...`);
+    setOrderNotice(`✓ Added custom ${currentBlank.name} (${selectedPlacement} • ${selectedLabColor}) to cart! Redirecting to checkout...`);
     setTimeout(() => {
       router.push('/checkout');
     }, 400);
@@ -397,35 +465,47 @@ export function CustomDropsClient() {
       </section>
 
       {/* ======================================================== */}
-      {/* SECTION: RAREEMBER™ CUSTOM LAB (DEDICATED VISUAL STUDIO) */}
+      {/* SECTION: RAREEMBER™ CUSTOM LAB (QIKINK-INSPIRED SIMPLE CREATOR) */}
       {/* ======================================================== */}
       <section id="custom-lab" className="max-w-6xl mx-auto px-4 md:px-8 py-12 relative z-20">
         <div className="p-6 md:p-10 rounded-3xl bg-[#0c0b0a] text-white border-2 border-[#FF4D24]/40 shadow-[0_20px_50px_rgba(0,0,0,0.25)] space-y-8">
-          {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-6">
+          
+          {/* Qikink Breadcrumb & Header */}
+          <div className="border-b border-white/10 pb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 text-xs font-black text-[#FF9A3D] uppercase tracking-wider mb-1">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>RareEmber™ Custom Design Studio</span>
+              <div className="flex items-center gap-2 text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2">
+                <span>Choose Collections</span>
+                <span className="text-[#FF4D24]">›</span>
+                <span>Select Products</span>
+                <span className="text-[#FF4D24]">›</span>
+                <span className="text-white font-black bg-white/10 px-2 py-0.5 rounded-md">Create Product</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-                Design Your Custom Drop on Any Premium Blank
+              <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight flex items-center gap-2.5 flex-wrap">
+                <span>{currentBlank.name}</span>
+                <span className="text-xs font-black px-2.5 py-1 rounded-full bg-[#FF4D24]/20 border border-[#FF4D24]/50 text-[#FF9A3D]">
+                  ₹{currentBlank.price}
+                </span>
               </h2>
               <p className="text-xs md:text-sm text-neutral-400 mt-1">
-                Select your blank silhouette, upload your artwork or custom text, and order 1 piece or a full batch.
+                {currentBlank.gsm} • High-Definition OEKO-TEX® DTF &amp; Sublimation
               </p>
             </div>
-            <span className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-neutral-300 self-start md:self-auto">
-              🏭 Direct Tirupur Factory Queue
-            </span>
+            <div className="flex items-center gap-2 self-start md:self-auto">
+              <span className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-neutral-300">
+                🏭 Direct Tirupur Factory Queue
+              </span>
+            </div>
           </div>
 
-          {/* 1. Blank Garment Picker (7 Core Silhouettes) */}
+          {/* 1. Choose Product (Silhouette) */}
           <div>
-            <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-3">
-              1. Choose Blank Silhouette (7 Core Flagship Blanks)
-            </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
+            <div className="flex items-center justify-between mb-2.5">
+              <label className="text-xs font-black uppercase tracking-wider text-neutral-400">
+                1. Select Product Silhouette
+              </label>
+              <span className="text-[11px] font-bold text-[#FF9A3D]">8 Flagship Blanks</span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {SEVEN_CORE_BLANKS.map((blank) => {
                 const isSelected = selectedBlankId === blank.id;
                 return (
@@ -440,18 +520,16 @@ export function CustomDropsClient() {
                     }`}
                   >
                     <div>
-                      <div className="flex items-center justify-between gap-1 mb-1.5">
+                      <div className="flex items-center justify-between gap-1 mb-1">
                         <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-white/10 text-[#FF9A3D]">
-                          {blank.badge}
+                          {blank.skuPrefix}
                         </span>
                         <span className="text-xs font-black text-white">₹{blank.price}</span>
                       </div>
-                      <div className="font-black text-xs text-white leading-tight">{blank.name}</div>
-                      <div className="text-[10px] text-neutral-400 mt-1 truncate">{blank.gsm}</div>
+                      <div className="font-black text-xs text-white leading-tight truncate">{blank.name}</div>
                     </div>
-                    <div className="mt-2 text-[9px] font-bold text-[#FF4D24] flex items-center gap-1">
-                      <span>●</span>
-                      <span>{isSelected ? 'ACTIVE BLANK' : 'TAP TO SELECT'}</span>
+                    <div className="mt-2 text-[9px] font-bold text-[#FF4D24]">
+                      {isSelected ? '● ACTIVE' : 'Select ➔'}
                     </div>
                   </button>
                 );
@@ -459,39 +537,21 @@ export function CustomDropsClient() {
             </div>
           </div>
 
-          {/* 2. Visual Studio: Canvas (Left) + Controls (Right) */}
+          {/* Visual Studio: Canvas (Left) + Qikink Controls (Right) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* LEFT CANVAS: Visual Garment Preview */}
-            <div className="lg:col-span-6 bg-neutral-950 rounded-3xl p-4 border border-white/10 flex flex-col items-center">
-              <div className="w-full flex items-center justify-between mb-3 px-2">
-                <span className="text-xs font-black text-white truncate max-w-[200px]">
-                  {currentBlank.name}
+            
+            {/* LEFT: Live Garment Canvas with Dynamic Placement */}
+            <div className="lg:col-span-6 bg-neutral-950 rounded-3xl p-5 border border-white/10 flex flex-col items-center">
+              <div className="w-full flex items-center justify-between mb-3 px-1">
+                <span className="text-xs font-bold text-neutral-300">
+                  Preview: <strong className="text-white">{currentBlank.name}</strong>
                 </span>
-                {currentBlank.isApparel && currentBlank.backImage && (
-                  <div className="flex items-center gap-1 bg-white/10 p-1 rounded-xl">
-                    <button
-                      type="button"
-                      onClick={() => setCustomView('front')}
-                      className={`px-3 py-1 rounded-lg text-xs font-black transition-all cursor-pointer ${
-                        customView === 'front' ? 'bg-[#FF4D24] text-white' : 'text-neutral-400 hover:text-white'
-                      }`}
-                    >
-                      Front
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setCustomView('back')}
-                      className={`px-3 py-1 rounded-lg text-xs font-black transition-all cursor-pointer ${
-                        customView === 'back' ? 'bg-[#FF4D24] text-white' : 'text-neutral-400 hover:text-white'
-                      }`}
-                    >
-                      Back
-                    </button>
-                  </div>
-                )}
+                <span className="text-[11px] font-mono font-bold text-[#FF9A3D] bg-white/10 px-2.5 py-1 rounded-full border border-white/15">
+                  {selectedPlacement} View
+                </span>
               </div>
 
-              {/* Garment Mockup Container with Live Overlay */}
+              {/* Garment Mockup Container */}
               <div className="relative w-full aspect-square max-w-[420px] rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 flex items-center justify-center">
                 <Image
                   src={activeCanvasImage}
@@ -501,182 +561,235 @@ export function CustomDropsClient() {
                   style={{ objectFit: 'cover' }}
                 />
 
-                {/* Print Safe Zone Box */}
-                <div
-                  className="absolute pointer-events-none border border-dashed border-[#FF4D24]/70 rounded-xl flex items-center justify-center p-2"
-                  style={{
-                    width: currentBlank.isDeskMat ? '80%' : currentBlank.isMug ? '70%' : '54%',
-                    height: currentBlank.isDeskMat ? '70%' : currentBlank.isMug ? '60%' : '56%',
-                    top: currentBlank.isDeskMat ? '15%' : currentBlank.isMug ? '20%' : '24%',
-                    left: currentBlank.isDeskMat ? '10%' : currentBlank.isMug ? '15%' : '23%',
-                  }}
-                >
-                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#FF4D24] text-white text-[9px] font-black px-2 py-0.5 rounded-full whitespace-nowrap shadow-md">
-                    {currentBlank.isDeskMat ? 'FULL SURFACE PRINT' : currentBlank.isMug ? 'FULL WRAP' : customPlacement}
-                  </span>
+                {/* Dynamic Print Safe Zone based on Qikink Placement */}
+                {(() => {
+                  const plcConfig = QIKINK_PLACEMENT_OPTIONS.find((p) => p.id === selectedPlacement) || QIKINK_PLACEMENT_OPTIONS[0];
+                  const boxStyle = currentBlank.isDeskMat
+                    ? { width: '82%', height: '72%', top: '14%', left: '9%' }
+                    : currentBlank.isMug
+                    ? { width: '70%', height: '60%', top: '20%', left: '15%' }
+                    : {
+                        width: plcConfig.width,
+                        height: plcConfig.height,
+                        top: plcConfig.top,
+                        left: plcConfig.left,
+                      };
 
-                  {/* Render Custom Image or Text */}
-                  {customMode === 'image' && customImage && (
-                    <div className="w-full h-full flex items-center justify-center">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={customImage}
-                        alt="Custom Logo"
-                        className="max-w-[90%] max-h-[90%] object-contain filter drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
-                      />
-                    </div>
-                  )}
-
-                  {customMode === 'text' && (
+                  return (
                     <div
-                      className={`${customFont} text-center`}
-                      style={{
-                        color: customTextColor,
-                        fontSize: 'clamp(14px, 2.5vw, 28px)',
-                        textShadow: '0 2px 8px rgba(0,0,0,0.9)',
-                      }}
+                      className="absolute pointer-events-none border-2 border-dashed border-[#FF4D24] rounded-xl flex items-center justify-center p-2 transition-all duration-300 bg-[#FF4D24]/[0.04]"
+                      style={boxStyle}
                     >
-                      {customText.trim() || 'YOUR BRAND'}
-                    </div>
-                  )}
+                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#FF4D24] text-white text-[9px] font-black px-2.5 py-0.5 rounded-full whitespace-nowrap shadow-md uppercase tracking-wider">
+                        {currentBlank.isDeskMat
+                          ? 'FULL SURFACE PRINT'
+                          : currentBlank.isMug
+                          ? 'PANORAMIC WRAP'
+                          : plcConfig.safeLabel}
+                      </span>
 
-                  {customMode === 'image' && !customImage && (
-                    <div className="text-[11px] font-bold text-white/50 text-center">
-                      Upload Logo to Preview
+                      {/* Custom Artwork or Text */}
+                      {customMode === 'image' && customImage && (
+                        <div className="w-full h-full flex items-center justify-center">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={customImage}
+                            alt="Custom Print"
+                            className="max-w-[90%] max-h-[90%] object-contain filter drop-shadow-[0_8px_20px_rgba(0,0,0,0.7)]"
+                          />
+                        </div>
+                      )}
+
+                      {customMode === 'text' && (
+                        <div
+                          className={`${customFont} text-center select-none`}
+                          style={{
+                            color: customTextColor,
+                            fontSize: 'clamp(14px, 2.5vw, 26px)',
+                            textShadow: '0 2px 8px rgba(0,0,0,0.9)',
+                          }}
+                        >
+                          {customText.trim() || 'YOUR BRAND'}
+                        </div>
+                      )}
+
+                      {customMode === 'image' && !customImage && (
+                        <div className="text-[11px] font-bold text-white/60 text-center flex flex-col items-center gap-1">
+                          <span>+ Add Design</span>
+                          <span className="text-[9px] text-[#FF9A3D]">({selectedPlacement})</span>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
+                  );
+                })()}
               </div>
 
-              <div className="text-[11px] text-neutral-400 text-center mt-3">
-                💡 1200 DPI OEKO-TEX® Direct-to-Film archival reproduction • Zero cracking guaranteed
+              <div className="w-full mt-3 flex items-center justify-between text-[11px] text-neutral-400 px-1">
+                <span>Color: <strong className="text-white">{selectedLabColor}</strong></span>
+                <span>Placement: <strong className="text-white">{selectedPlacement}</strong></span>
+                <span>Size: <strong className="text-white">{selectedLabSize}</strong></span>
               </div>
             </div>
 
-            {/* RIGHT CONTROLS: Upload, Text, Size, CTA */}
-            <div className="lg:col-span-6 space-y-5">
-              {/* Placement Presets (Apparel) */}
+            {/* RIGHT: The 5 Simple Qikink Steps */}
+            <div className="lg:col-span-6 space-y-6">
+
+              {/* STEP 2: Placement Selector (Front, Back, Left Pocket, Right Pocket, Left Sleeve, Right Sleeve) */}
               {currentBlank.isApparel && (
                 <div>
-                  <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
-                    Print Placement Preset
+                  <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2.5">
+                    2. Choose Placement (Qikink Direct Zones)
                   </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {[
-                      { label: 'Center Chest', desc: '10" × 12"' },
-                      { label: 'Oversized Back', desc: '12" × 14"' },
-                      { label: 'Pocket Crest', desc: '4" × 4"' },
-                    ].map((p) => (
-                      <button
-                        key={p.label}
-                        type="button"
-                        onClick={() => {
-                          setCustomPlacement(p.label);
-                          if (p.label === 'Oversized Back') setCustomView('back');
-                          else setCustomView('front');
-                        }}
-                        className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer ${
-                          customPlacement === p.label
-                            ? 'border-[#FF4D24] bg-[#FF4D24]/20 text-white font-black'
-                            : 'border-white/10 bg-white/5 text-neutral-400 hover:text-white'
-                        }`}
-                      >
-                        <div className="text-xs font-bold">{p.label}</div>
-                        <div className="text-[10px] text-neutral-400">{p.desc}</div>
-                      </button>
-                    ))}
+                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
+                    {QIKINK_PLACEMENT_OPTIONS.map((plc) => {
+                      const isActive = selectedPlacement === plc.id;
+                      return (
+                        <button
+                          key={plc.id}
+                          type="button"
+                          onClick={() => handleSelectPlacement(plc.id)}
+                          className={`py-2 px-1 rounded-xl text-center transition-all cursor-pointer border ${
+                            isActive
+                              ? 'border-[#FF4D24] bg-[#FF4D24] text-white font-black shadow-md scale-[1.02]'
+                              : 'border-white/10 bg-white/5 text-neutral-300 hover:bg-white/10'
+                          }`}
+                        >
+                          <span className="block text-xs font-bold truncate leading-tight">{plc.label}</span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )}
 
-              {/* Upload PNG/SVG vs Custom Text Toggle */}
+              {/* STEP 3: Design Upload or Pick from 500 Trending Designs */}
               <div>
-                <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
-                  Personalization Mode
+                <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2.5">
+                  3. Design
                 </label>
-                <div className="grid grid-cols-2 gap-2 p-1 bg-white/5 rounded-2xl border border-white/10">
+                
+                {/* Mode Selector */}
+                <div className="grid grid-cols-3 gap-1.5 p-1 bg-white/5 rounded-2xl border border-white/10 mb-3">
                   <button
                     type="button"
-                    onClick={() => setCustomMode('image')}
-                    className={`py-2 px-3 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-                      customMode === 'image'
+                    onClick={() => { setCustomMode('image'); setShowTrendingDrawer(false); }}
+                    className={`py-2 px-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1 ${
+                      customMode === 'image' && !showTrendingDrawer
                         ? 'bg-[#FF4D24] text-white shadow-md'
                         : 'text-neutral-400 hover:text-white'
                     }`}
                   >
-                    <span>🖼️</span>
-                    <span>Upload Logo (PNG/SVG)</span>
+                    <span>📁</span>
+                    <span>Upload Logo</span>
                   </button>
                   <button
                     type="button"
-                    onClick={() => setCustomMode('text')}
-                    className={`py-2 px-3 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                    onClick={() => { setCustomMode('image'); setShowTrendingDrawer(true); }}
+                    className={`py-2 px-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1 ${
+                      showTrendingDrawer
+                        ? 'bg-[#FF4D24] text-white shadow-md'
+                        : 'text-neutral-400 hover:text-white'
+                    }`}
+                  >
+                    <span>⚡</span>
+                    <span>500 Designs</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setCustomMode('text'); setShowTrendingDrawer(false); }}
+                    className={`py-2 px-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1 ${
                       customMode === 'text'
                         ? 'bg-[#FF4D24] text-white shadow-md'
                         : 'text-neutral-400 hover:text-white'
                     }`}
                   >
                     <span>🔤</span>
-                    <span>Add Custom Text</span>
+                    <span>Custom Text</span>
                   </button>
                 </div>
-              </div>
 
-              {/* Mode 1: File Upload */}
-              {customMode === 'image' && (
-                <div className="space-y-2">
-                  <label className="block p-4 rounded-2xl border-2 border-dashed border-white/20 bg-white/5 hover:bg-white/10 transition-all cursor-pointer text-center">
-                    <span className="text-2xl block mb-1">☁️</span>
-                    <span className="text-xs font-black text-white block">
-                      {uploadingLabImage ? 'Uploading Logo...' : 'Click to Upload High-Res PNG, SVG, or WEBP'}
-                    </span>
-                    <span className="text-[10px] text-neutral-400 mt-0.5 block">
-                      Transparent background recommended • Up to 15MB
-                    </span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleLabUpload}
-                      className="hidden"
-                    />
-                  </label>
-
-                  {customImage && (
-                    <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between gap-2">
-                      <span className="text-xs font-bold text-white truncate max-w-[200px]">
-                        ✓ {customImageName || 'Custom Artwork Attached'}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setCustomImage(null);
-                          setCustomImageName('');
-                        }}
-                        className="text-xs text-rose-400 font-bold hover:underline cursor-pointer"
-                      >
-                        Remove
-                      </button>
+                {/* Option A: Quick Pick from 500 Trending Designs */}
+                {showTrendingDrawer && (
+                  <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/15 space-y-2.5 mb-3">
+                    <div className="flex items-center justify-between text-xs font-bold text-neutral-300">
+                      <span>Pick from Trending Archival Designs:</span>
+                      <a href="/designs/500-trending-collection/index.html" target="_blank" className="text-[#FF9A3D] hover:underline text-[11px]">
+                        Browse All 500 ➔
+                      </a>
                     </div>
-                  )}
-                </div>
-              )}
+                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                      {QUICK_TRENDING_DESIGNS.map((d) => (
+                        <button
+                          key={d.id}
+                          type="button"
+                          onClick={() => {
+                            setCustomImage(d.path);
+                            setCustomImageName(d.title);
+                            setShowTrendingDrawer(false);
+                          }}
+                          className="group relative aspect-square rounded-xl bg-neutral-900 border border-white/10 hover:border-[#FF4D24] p-1.5 flex flex-col items-center justify-center transition-all cursor-pointer hover:scale-105"
+                          title={d.title}
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={d.path} alt={d.title} className="max-w-full max-h-full object-contain" />
+                          <span className="text-[8px] font-bold text-neutral-400 truncate w-full text-center mt-1">
+                            {d.id}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-              {/* Mode 2: Custom Text */}
-              {customMode === 'text' && (
-                <div className="space-y-3">
-                  <input
-                    type="text"
-                    value={customText}
-                    onChange={(e) => setCustomText(e.target.value.slice(0, 30))}
-                    placeholder="Enter Custom Text (e.g. EMBER BUILDERS 2026)"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-white/15 bg-white/5 text-white font-bold text-sm focus:outline-none focus:border-[#FF4D24]"
-                  />
-
-                  {/* Typography Font */}
-                  <div>
-                    <label className="block text-[11px] font-black uppercase text-neutral-400 mb-1">
-                      Typography Font
+                {/* Option B: Upload File */}
+                {customMode === 'image' && !showTrendingDrawer && (
+                  <div className="space-y-2">
+                    <label className="block p-4 rounded-2xl border-2 border-dashed border-white/20 bg-white/5 hover:bg-white/10 transition-all cursor-pointer text-center">
+                      <span className="text-xl block mb-1">☁️</span>
+                      <span className="text-xs font-black text-white block">
+                        {uploadingLabImage ? 'Uploading Logo...' : 'Click or Drag & Drop PNG/SVG Design'}
+                      </span>
+                      <span className="text-[10px] text-neutral-400 mt-0.5 block">
+                        Transparent background recommended • Up to 15MB
+                      </span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleLabUpload}
+                        className="hidden"
+                      />
                     </label>
+
+                    {customImage && (
+                      <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between gap-2">
+                        <span className="text-xs font-bold text-white truncate max-w-[220px]">
+                          ✓ {customImageName || 'Custom Artwork Attached'}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCustomImage(null);
+                            setCustomImageName('');
+                          }}
+                          className="text-xs text-rose-400 font-bold hover:underline cursor-pointer"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Option C: Custom Text */}
+                {customMode === 'text' && (
+                  <div className="space-y-3">
+                    <input
+                      type="text"
+                      value={customText}
+                      onChange={(e) => setCustomText(e.target.value.slice(0, 30))}
+                      placeholder="Enter Custom Text (e.g. EMBER BUILDERS 2026)"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-white/15 bg-white/5 text-white font-bold text-sm focus:outline-none focus:border-[#FF4D24]"
+                    />
                     <div className="grid grid-cols-2 gap-1.5">
                       {[
                         { label: 'Streetwear Sans', font: 'font-sans font-black tracking-wider uppercase' },
@@ -699,57 +812,76 @@ export function CustomDropsClient() {
                       ))}
                     </div>
                   </div>
+                )}
+              </div>
 
-                  {/* Ink Color */}
-                  <div>
-                    <label className="block text-[11px] font-black uppercase text-neutral-400 mb-1">
-                      Ink Color
-                    </label>
-                    <div className="flex items-center gap-2">
-                      {[
-                        { color: '#FFFFFF', name: 'White' },
-                        { color: '#FF4D24', name: 'Ember Orange' },
-                        { color: '#06B6D4', name: 'Cyan' },
-                        { color: '#F59E0B', name: 'Gold' },
-                        { color: '#18181B', name: 'Stealth Black' },
-                        { color: '#EF4444', name: 'Crimson' },
-                      ].map((c) => (
-                        <button
-                          key={c.color}
-                          type="button"
-                          onClick={() => setCustomTextColor(c.color)}
-                          className={`w-7 h-7 rounded-full border-2 transition-all cursor-pointer ${
-                            customTextColor === c.color ? 'ring-2 ring-[#FF4D24] scale-110' : 'opacity-70 hover:opacity-100'
-                          }`}
-                          style={{ backgroundColor: c.color }}
-                          title={c.name}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Size Selector */}
+              {/* STEP 4: Product Colors (Qikink Default Color & Swatches) */}
               <div>
-                <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
-                  Select Size
-                </label>
-                <div className="flex items-center gap-2 flex-wrap">
-                  {currentBlank.sizes.map((s) => (
-                    <button
-                      key={s}
-                      type="button"
-                      onClick={() => setSelectedLabSize(s)}
-                      className={`px-3.5 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
-                        selectedLabSize === s
-                          ? 'bg-[#FF4D24] text-white shadow-md'
-                          : 'bg-white/5 border border-white/10 text-neutral-300 hover:bg-white/10'
-                      }`}
-                    >
-                      {s}
-                    </button>
-                  ))}
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs font-black uppercase tracking-wider text-neutral-400">
+                    4. Product Colors
+                  </label>
+                  <span className="text-xs font-bold text-neutral-300">
+                    Default Color: <strong className="text-white">{selectedLabColor}</strong>
+                  </span>
+                </div>
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  {QIKINK_GARMENT_COLORS.map((c) => {
+                    const isSelected = selectedLabColor === c.name;
+                    return (
+                      <button
+                        key={c.name}
+                        type="button"
+                        onClick={() => setSelectedLabColor(c.name)}
+                        className={`group relative flex items-center gap-1.5 py-1.5 px-3 rounded-full border transition-all cursor-pointer ${
+                          isSelected
+                            ? 'border-[#FF4D24] bg-white/15 text-white font-black ring-1 ring-[#FF4D24]'
+                            : 'border-white/10 bg-white/5 text-neutral-300 hover:border-white/30'
+                        }`}
+                      >
+                        <span
+                          className={`w-4 h-4 rounded-full border shadow-xs ${c.isLight ? 'border-black/30' : 'border-white/30'}`}
+                          style={{ backgroundColor: c.hex }}
+                        />
+                        <span className="text-xs">{c.name}</span>
+                        {isSelected && <span className="text-[#FF4D24] text-xs">✓</span>}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* STEP 5: Available Sizes (Qikink XS, S, M, L, XL, XXL) */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs font-black uppercase tracking-wider text-neutral-400">
+                    5. Available Sizes
+                  </label>
+                  <span className="text-[11px] font-bold text-neutral-400">
+                    Base: <strong className="text-white">₹{currentBlank.price}</strong>
+                  </span>
+                </div>
+                <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5">
+                  {currentBlank.sizes.map((s) => {
+                    const isSelected = selectedLabSize === s;
+                    return (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => setSelectedLabSize(s)}
+                        className={`py-2 px-1 rounded-xl text-center transition-all cursor-pointer border ${
+                          isSelected
+                            ? 'border-[#FF4D24] bg-[#FF4D24] text-white font-black shadow-md'
+                            : 'border-white/10 bg-white/5 text-neutral-300 hover:bg-white/10'
+                        }`}
+                      >
+                        <span className="block text-xs font-black">{s}</span>
+                        <span className="block text-[9px] text-white/70 font-semibold mt-0.5">
+                          ₹{currentBlank.price}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -760,14 +892,14 @@ export function CustomDropsClient() {
                 </div>
               )}
 
-              {/* Action Buttons: Order 1 Piece or Bulk Transfer */}
+              {/* STEP 6: Actions (Order 1 Piece or Transfer to Bulk) */}
               <div className="pt-2 space-y-2.5">
                 <button
                   type="button"
                   onClick={handleOrderSingleLabPiece}
                   className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#FF4D24] to-[#E8244B] hover:brightness-110 active:scale-95 text-white font-black text-sm uppercase tracking-wider shadow-[0_10px_25px_rgba(255,77,36,0.35)] transition-all cursor-pointer border-none flex items-center justify-center gap-2"
                 >
-                  <span>ORDER 1 CUSTOM PIECE ⚡</span>
+                  <span>ORDER CUSTOM DROP NOW ⚡</span>
                   <span>•</span>
                   <span>₹{currentBlank.price}</span>
                 </button>
@@ -780,6 +912,7 @@ export function CustomDropsClient() {
                   <span>Transfer Design to Bulk Calculator (25+ Units) ↓</span>
                 </button>
               </div>
+
             </div>
           </div>
         </div>

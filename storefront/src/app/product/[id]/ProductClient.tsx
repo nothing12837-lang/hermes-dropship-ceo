@@ -2448,67 +2448,54 @@ export function ProductClient({ product }: Props) {
                     </div>
                   </div>
 
-                  {/* 4 VALIDATED PRINT PRESETS (APPAREL ONLY) */}
+                  {/* QIKINK-STYLE 6 PLACEMENT TABS (APPAREL ONLY) */}
                   {activeItemIsApparel ? (
                     <div>
                       <span className="text-[11px] font-black uppercase tracking-wider text-neutral-400 block mb-1.5">
-                        Print Placement Presets:
+                        Choose Placement (Qikink Direct Zones):
                       </span>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                      <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
                         {[
-                          { id: 'front-center', label: '🎯 Center Chest', sub: '10" × 12"', placement: 'Center Chest', view: 'front', x: 0, y: -10, scale: 100 },
-                          { id: 'pocket-crest', label: '👕 Pocket Crest', sub: '3.5" × 3.5"', placement: 'Pocket Crest', view: 'front', x: -24, y: -20, scale: 65 },
-                          { id: 'back-oversized', label: '🔄 Oversized Back', sub: '12" × 14"', placement: 'Oversized Back', view: 'back', x: 0, y: 0, scale: 125 },
-                          { id: 'minimal-clean', label: '🚫 Minimal Clean', sub: 'Solid Blank', placement: 'Minimal Clean', view: 'front', x: 0, y: 0, scale: 100, isClean: true },
+                          { id: 'front-center', label: 'Front', sub: 'Center 10"×12"', placement: 'Center Chest', view: 'front', x: 0, y: -10, scale: 100 },
+                          { id: 'back-oversized', label: 'Back', sub: 'Back 12"×14"', placement: 'Oversized Back', view: 'back', x: 0, y: 0, scale: 125 },
+                          { id: 'pocket-left', label: 'Left Pocket', sub: 'Left 3.5"×3.5"', placement: 'Left Pocket', view: 'front', x: -24, y: -20, scale: 65 },
+                          { id: 'pocket-right', label: 'Right Pocket', sub: 'Right 3.5"×3.5"', placement: 'Right Pocket', view: 'front', x: 24, y: -20, scale: 65 },
+                          { id: 'sleeve-left', label: 'Left Sleeve', sub: 'Left 3"×5"', placement: 'Left Sleeve', view: 'front', x: -42, y: -8, scale: 75 },
+                          { id: 'sleeve-right', label: 'Right Sleeve', sub: 'Right 3"×5"', placement: 'Right Sleeve', view: 'front', x: 42, y: -8, scale: 75 },
                         ].map((preset) => {
-                          const isPresetActive = preset.isClean
-                            ? (!customImage && !customText.trim())
-                            : (customPlacement === preset.placement && (customImage || customText.trim()));
+                          const isPresetActive = customPlacement === preset.placement && (customImage || customText.trim());
 
                           return (
                             <button
                               key={preset.id}
                               type="button"
                               onClick={() => {
-                                if (preset.isClean) {
-                                  setCustomImage(null);
-                                  setCustomImageName('Clean Blank Drop');
-                                  setCustomText('');
-                                  setCustomPlacement('Minimal Clean');
+                                setCustomPlacement(preset.placement);
+                                setCustomView(preset.view as 'front' | 'back');
+                                setCustomPosX(preset.x);
+                                setCustomPosY(preset.y);
+                                setCustomScale(preset.scale);
+                                setCustomRotation(0);
+                                setCustomFlip(false);
+                                if (!customImage && !customText.trim() && TRENDING_GRAPHICS_VAULT[0]) {
+                                  setCustomImage(TRENDING_GRAPHICS_VAULT[0].mockUrl);
+                                  setCustomImageName(TRENDING_GRAPHICS_VAULT[0].title);
                                   if (isComboProduct) {
                                     setBundleItemGraphics((prev) => ({
                                       ...prev,
-                                      [selectedComboItemIndex]: { title: 'Original Drop', image: null },
+                                      [selectedComboItemIndex]: { title: TRENDING_GRAPHICS_VAULT[0].title, image: TRENDING_GRAPHICS_VAULT[0].mockUrl },
                                     }));
-                                  }
-                                } else {
-                                  setCustomPlacement(preset.placement);
-                                  setCustomView(preset.view as 'front' | 'back');
-                                  setCustomPosX(preset.x);
-                                  setCustomPosY(preset.y);
-                                  setCustomScale(preset.scale);
-                                  setCustomRotation(0);
-                                  setCustomFlip(false);
-                                  if (!customImage && !customText.trim() && TRENDING_GRAPHICS_VAULT[0]) {
-                                    setCustomImage(TRENDING_GRAPHICS_VAULT[0].mockUrl);
-                                    setCustomImageName(TRENDING_GRAPHICS_VAULT[0].title);
-                                    if (isComboProduct) {
-                                      setBundleItemGraphics((prev) => ({
-                                        ...prev,
-                                        [selectedComboItemIndex]: { title: TRENDING_GRAPHICS_VAULT[0].title, image: TRENDING_GRAPHICS_VAULT[0].mockUrl },
-                                      }));
-                                    }
                                   }
                                 }
                               }}
-                              className={`p-2 rounded-xl border text-center transition-all cursor-pointer ${
+                              className={`py-2 px-1 rounded-xl border text-center transition-all cursor-pointer ${
                                 isPresetActive
-                                  ? 'border-[#FF4D24] bg-[#FF4D24]/20 ring-1 ring-[#FF4D24] text-white shadow-sm'
+                                  ? 'border-[#FF4D24] bg-[#FF4D24] text-white font-black shadow-md'
                                   : 'border-white/10 bg-white/5 hover:bg-white/10 text-neutral-300'
                               }`}
                             >
                               <div className="text-xs font-black">{preset.label}</div>
-                              <div className="text-[10px] text-neutral-400 font-bold mt-0.5">{preset.sub}</div>
+                              <div className="text-[9px] text-neutral-400 font-bold mt-0.5">{preset.sub}</div>
                             </button>
                           );
                         })}
