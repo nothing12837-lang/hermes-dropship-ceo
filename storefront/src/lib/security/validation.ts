@@ -28,6 +28,7 @@ export interface CheckoutItemInput {
   id: string;
   qty: number;
   size?: string;
+  color?: string;
   phoneModel?: string;
   customText?: string;
   customPlacement?: string;
@@ -50,6 +51,7 @@ export function sanitizeCheckoutItems(v: unknown): CheckoutItemInput[] | null {
       id,
       qty,
       size,
+      color,
       phoneModel,
       customText,
       customPlacement,
@@ -69,6 +71,7 @@ export function sanitizeCheckoutItems(v: unknown): CheckoutItemInput[] | null {
       id: id.trim(),
       qty: q,
       size: typeof size === 'string' && size.length <= 10 ? size.trim() : undefined,
+      color: typeof color === 'string' && color.length <= 50 ? color.trim() : undefined,
       phoneModel: typeof phoneModel === 'string' && phoneModel.length <= 50 ? phoneModel.trim() : undefined,
       customText: typeof customText === 'string' && customText.length <= 100 ? customText.trim() : undefined,
       customPlacement: typeof customPlacement === 'string' && customPlacement.length <= 50 ? customPlacement.trim() : undefined,

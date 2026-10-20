@@ -42,6 +42,7 @@ export async function notifyTelegramOrder(order: {
       .map((it, idx) => {
         const itemTitle = it.title || it.name || it.id || `Item ${idx + 1}`;
         const variantParts = [
+          (it as any).color ? `Color: ${(it as any).color}` : '',
           it.size ? `Size: ${it.size}` : '',
           it.phoneModel,
           (it as any).selectedStyle ? `Style: ${(it as any).selectedStyle}` : '',

@@ -86,7 +86,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       closeCart: () => setIsOpen(false),
       add: (id, qty = 1, meta?: Partial<CartItem>) => {
         const addQty = Math.max(1, Math.floor(qty));
-        const variantSuffix = [meta?.size, meta?.phoneModel, meta?.customText, meta?.customImageName].filter(Boolean).join('-');
+        const variantSuffix = [meta?.color, meta?.size, meta?.phoneModel, meta?.customText, meta?.customImageName].filter(Boolean).join('-');
         const cartItemId = variantSuffix ? `${id}__${variantSuffix}` : id;
 
         setItems((prev) => {

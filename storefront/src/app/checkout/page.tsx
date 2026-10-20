@@ -267,6 +267,7 @@ export default function CheckoutPage() {
               imageUrl: d.imageUrl || (d.product as any).image_url,
               selectedStyle: (d as any).selectedStyle,
               size: d.size,
+              color: (d as any).color,
               phoneModel: d.phoneModel,
               customText: d.customText,
               customPlacement: d.customPlacement,
@@ -345,6 +346,7 @@ export default function CheckoutPage() {
             imageUrl: d.imageUrl || (d.product as any).image_url,
             selectedStyle: (d as any).selectedStyle,
             size: d.size,
+            color: (d as any).color,
             phoneModel: d.phoneModel,
             customText: d.customText,
             customPlacement: d.customPlacement,
@@ -788,8 +790,13 @@ export default function CheckoutPage() {
                       <span className="block font-bold text-xs text-white truncate">
                         {cleanBrandTitle(d.product.title)}
                       </span>
-                      {(d.size || d.phoneModel || d.customText) && (
+                      {(d.size || (d as any).color || d.phoneModel || d.customText) && (
                         <div className="flex flex-wrap gap-1 mt-0.5 mb-0.5 text-[10px]">
+                          {(d as any).color && (
+                            <span className="px-1.5 py-0.5 rounded bg-white/10 text-neutral-300 border border-white/15 font-semibold">
+                              Color: {(d as any).color}
+                            </span>
+                          )}
                           {d.size && (
                             <span className="px-1.5 py-0.5 rounded bg-white/10 text-neutral-300 border border-white/15 font-semibold">
                               Size: {d.size}

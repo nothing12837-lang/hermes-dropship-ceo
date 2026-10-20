@@ -287,8 +287,13 @@ export default function CartDrawer() {
                               {cleanBrandTitle(d.product.title)}
                             </p>
                           </Link>
-                          {(d.size || d.phoneModel || d.customText || (d as any).customImageName || (d as any).customImage) && (
+                          {(d.size || d.color || d.phoneModel || d.customText || (d as any).customImageName || (d as any).customImage) && (
                             <div className="flex flex-wrap gap-1 mt-1 text-[11px]">
+                              {d.color && (
+                                <span className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-neutral-900 dark:text-neutral-100 border border-black/10 dark:border-white/10 font-bold">
+                                  Color: {d.color}
+                                </span>
+                              )}
                               {d.size && (
                                 <span className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-neutral-900 dark:text-neutral-100 border border-black/10 dark:border-white/10 font-bold">
                                   Size: {d.size}

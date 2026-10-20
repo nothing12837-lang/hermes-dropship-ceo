@@ -180,6 +180,7 @@ export async function POST(req: NextRequest) {
       imageUrl?: string;
       selectedStyle?: string;
       size?: string;
+      color?: string;
       phoneModel?: string;
       customText?: string;
       customPlacement?: string;
@@ -219,6 +220,7 @@ export async function POST(req: NextRequest) {
         imageUrl: item.imageUrl || (prod as any).image_url,
         selectedStyle: item.selectedStyle || (item.imageUrl ? 'Selected Design' : undefined),
         size: item.size,
+        color: item.color,
         phoneModel: item.phoneModel,
         customText: item.customText,
         customPlacement: item.customPlacement,

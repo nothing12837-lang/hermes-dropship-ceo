@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -499,6 +499,41 @@ interface Props {
   product: Product;
 }
 
+const COLOR_HEX_MAP: Record<string, string> = {
+  white: '#FFFFFF',
+  pink: '#F472B6',
+  black: '#18181B',
+  navy: '#1E293B',
+  'navy blue': '#1E293B',
+  red: '#DC2626',
+  grey: '#9CA3AF',
+  'grey melange': '#9CA3AF',
+  gray: '#9CA3AF',
+  'royal blue': '#2563EB',
+  blue: '#3B82F6',
+  green: '#16A34A',
+  yellow: '#EAB308',
+  orange: '#F97316',
+  purple: '#9333EA',
+  lavender: '#C084FC',
+  beige: '#D4C5B9',
+  maroon: '#800000',
+  olive: '#556B2F',
+  charcoal: '#374151',
+  brown: '#78350F',
+};
+
+function getColorHex(colorName?: string): string {
+  if (!colorName) return '#18181B';
+  const clean = colorName.toLowerCase().trim();
+  return COLOR_HEX_MAP[clean] || '#64748B';
+}
+
+function isColorLight(hex: string): boolean {
+  const clean = hex.toLowerCase().trim();
+  return clean === '#ffffff' || clean === '#fff' || clean === '#d4c5b9' || clean === '#f472b6';
+}
+
 export function ProductClient({ product }: Props) {
   const router = useRouter();
   const { add } = useCart();
@@ -527,6 +562,16 @@ export function ProductClient({ product }: Props) {
   const firstIsApparel = /jersey|tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel/i.test(firstItemCheckLower);
   const firstIsMat = !firstIsApparel && /desk|pad|mat/i.test(firstItemCheckLower);
   const firstIsMug = !firstIsApparel && /mug|cup|bottle|tumbler/i.test(firstItemCheckLower);
+
+  const availableColors: string[] = useMemo(() => {
+    if (product.colors && Array.isArray(product.colors) && product.colors.length > 0) {
+      return product.colors;
+    }
+    return [];
+  }, [product.colors]);
+
+  const hasColors = availableColors.length > 0;
+  const [selectedColor, setSelectedColor] = useState<string>(() => availableColors[0] || '');
 
   const initialSingleSize = product.sizes?.[0] || (isKidsApparel ? '0-12M' : firstIsApparel ? 'L' : firstIsMat ? '900x400mm' : firstIsMug ? '330ml' : 'L');
   const [selectedSize, setSelectedSize] = useState<string>(initialSingleSize);
@@ -563,8 +608,9 @@ export function ProductClient({ product }: Props) {
   const isPrebuilt = Boolean(((product as any).isPrebuilt === true || (product as any).id?.startsWith('re-prebuilt-')) && !isCustomizeMode);
 
   const isMultiBundle = isComboProduct && comboItems.length > 1;
-  const sizeStepNum = isMultiBundle ? 2 : 1;
-  const artStepNum = isMultiBundle ? 3 : 2;
+  const colorStepNum = 1;
+  const sizeStepNum = isMultiBundle ? 2 : hasColors && availableColors.length > 1 ? 2 : 1;
+  const artStepNum = isMultiBundle ? 3 : hasColors && availableColors.length > 1 ? 3 : 2;
 
   const [selectedComboItemIndex, setSelectedComboItemIndex] = useState<number>(0);
   const [bundleItemSizes, setBundleItemSizes] = useState<Record<number, string>>(() => {
@@ -693,6 +739,13 @@ export function ProductClient({ product }: Props) {
     product.images
   );
   const [selectedImgIndex, setSelectedImgIndex] = useState(0);
+  const handleSelectColor = (colorName: string, index?: number) => {
+    setSelectedColor(colorName);
+    const colorIndex = index !== undefined ? index : availableColors.findIndex((c) => c.toLowerCase() === colorName.toLowerCase());
+    if (colorIndex >= 0 && galleryImages[colorIndex]) {
+      setSelectedImgIndex(colorIndex);
+    }
+  };
   const [failedImages, setFailedImages] = useState<Record<number, boolean>>({});
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
@@ -1193,6 +1246,7 @@ export function ProductClient({ product }: Props) {
     selectedStyle: isMultiBundle ? bundleGraphicSummary : undefined,
     gradient: product.gradient,
     size: bundleSizeSummary,
+    color: selectedColor || (hasColors ? availableColors[0] : undefined),
     phoneModel: isPhoneCase ? selectedPhoneModel : undefined,
     customText: isCustomizing && customMode === 'text' && customText.trim() ? customText.trim() : undefined,
     customPlacement: isCustomizing && supportsPrintPlacement
@@ -1588,10 +1642,10 @@ export function ProductClient({ product }: Props) {
               <div style={{ marginTop: '0.85rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.45rem', padding: '0 0.15rem' }}>
                   <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#161311' }}>
-                    Product Photos &amp; Angles
+                    {hasColors && availableColors.length > 1 ? 'Available Colors & Views' : 'Product Photos & Angles'}
                   </span>
                   <span style={{ fontSize: '0.7rem', color: '#78716c', fontWeight: 600 }}>
-                    Tap to preview angle
+                    {hasColors && availableColors.length > 1 ? 'Tap to switch color & view' : 'Tap to preview angle'}
                   </span>
                 </div>
                 <div
@@ -1618,8 +1672,13 @@ export function ProductClient({ product }: Props) {
                       }}
                     >
                       <button
-                        onClick={() => setSelectedImgIndex(idx)}
-                        aria-label={`View photo ${idx + 1}`}
+                        onClick={() => {
+                          setSelectedImgIndex(idx);
+                          if (availableColors[idx]) {
+                            setSelectedColor(availableColors[idx]);
+                          }
+                        }}
+                        aria-label={availableColors[idx] ? `View ${availableColors[idx]} color` : `View photo ${idx + 1}`}
                         style={{
                           position: 'relative',
                           width: '4.75rem',
@@ -1666,7 +1725,7 @@ export function ProductClient({ product }: Props) {
                           letterSpacing: '0.01em',
                         }}
                       >
-                        {idx === 0 ? 'Hero View' : `Angle ${idx + 1}`}
+                        {availableColors[idx] ? availableColors[idx] : idx === 0 ? 'Hero View' : `Angle ${idx + 1}`}
                       </span>
                     </div>
                   );
@@ -1851,6 +1910,88 @@ export function ProductClient({ product }: Props) {
               </div>
             )}
 
+            {/* COLORWAY SELECTOR (When product has colorways) */}
+            {hasColors && availableColors.length > 0 && (
+              <div className="mt-5 p-4 rounded-2xl bg-white border border-black/10 shadow-xs">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-black uppercase tracking-wider text-neutral-600 flex items-center gap-1.5">
+                    <span>🎨</span>
+                    <span>{availableColors.length > 1 ? `Step ${colorStepNum}: Select Color` : 'Colorway'}</span>
+                  </span>
+                  <span className="text-xs font-black text-neutral-900 bg-neutral-100 px-3 py-1 rounded-full border border-black/10 flex items-center gap-2 shadow-xs">
+                    <span
+                      className="w-3 h-3 rounded-full border border-black/20 shrink-0"
+                      style={{ backgroundColor: getColorHex(selectedColor || availableColors[0]) }}
+                    />
+                    <span>Color: <strong>{selectedColor || availableColors[0]}</strong></span>
+                  </span>
+                </div>
+
+                {availableColors.length > 1 ? (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                    {availableColors.map((colorName, idx) => {
+                      const isSelected = (selectedColor || availableColors[0]).toLowerCase() === colorName.toLowerCase();
+                      const hex = getColorHex(colorName);
+                      const isLight = isColorLight(hex);
+
+                      return (
+                        <button
+                          key={colorName}
+                          type="button"
+                          onClick={() => handleSelectColor(colorName, idx)}
+                          className={`group relative p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-2.5 ${
+                            isSelected
+                              ? 'bg-neutral-900 text-white border-2 border-[#FF4D24] shadow-md ring-1 ring-[#FF4D24]/40 scale-[1.02]'
+                              : 'bg-white hover:bg-neutral-50 text-neutral-800 border-black/15 hover:border-black/35'
+                          }`}
+                        >
+                          <span
+                            className={`w-6 h-6 rounded-full shrink-0 flex items-center justify-center border shadow-xs transition-transform group-hover:scale-110 ${
+                              isLight ? 'border-black/25' : 'border-white/30'
+                            }`}
+                            style={{ backgroundColor: hex }}
+                          >
+                            {isSelected && (
+                              <svg
+                                className={`w-3.5 h-3.5 ${isLight ? 'text-neutral-900' : 'text-white'}`}
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="3.5"
+                              >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                              </svg>
+                            )}
+                          </span>
+
+                          <div className="min-w-0 flex-1">
+                            <span className="block text-xs font-black truncate leading-tight">
+                              {colorName}
+                            </span>
+                            <span
+                              className={`block text-[10px] font-semibold truncate ${
+                                isSelected ? 'text-[#FF9A3D]' : 'text-neutral-500'
+                              }`}
+                            >
+                              {isSelected ? '✓ Selected' : 'In Stock'}
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="p-3 rounded-xl bg-neutral-50 border border-black/10 flex items-center gap-2 text-xs font-bold text-neutral-700">
+                    <span
+                      className="w-4 h-4 rounded-full border border-black/20 shrink-0"
+                      style={{ backgroundColor: getColorHex(availableColors[0]) }}
+                    />
+                    <span>Primary Color: <strong>{availableColors[0]}</strong></span>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* DYNAMIC STEP 2/1: SMART SIZE & FIT SELECTOR (Item-Aware) */}
             <div className="mt-4">
                   {activeItemIsApparel ? (
@@ -1917,7 +2058,7 @@ export function ProductClient({ product }: Props) {
                                   };
                                   const displaySize = ((SIZES as readonly string[]).includes(selectedSize) || (KIDS_SIZES as readonly string[]).includes(selectedSize)) ? selectedSize : 'L';
                                   const activeChest = currentSpecs[displaySize]?.chest || chestMap[displaySize] || '42"';
-                                  return <>Size <strong>{displaySize}</strong> ({activeChest} Chest) • </>;
+                                  return <>Size <strong>{displaySize}</strong> ({activeChest} Chest) {selectedColor ? <>• Color: <strong>{selectedColor}</strong> </> : null}• </>;
                                 })()}
                                 {activeItemIsKids
                                     ? '180 GSM 100% Super Combed Bio-Washed Cotton (Gentle on skin, pre-shrunk).'
@@ -3180,7 +3321,7 @@ export function ProductClient({ product }: Props) {
                 </span>
                 {isApparel && (
                   <span className="text-[10px] font-black uppercase bg-[#161311] text-white px-2 py-0.5 rounded-md">
-                    {selectedSize}
+                    {selectedColor ? `${selectedColor} • ` : ''}{selectedSize}
                   </span>
                 )}
               </div>
