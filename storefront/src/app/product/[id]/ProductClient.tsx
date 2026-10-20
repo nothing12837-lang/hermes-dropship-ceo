@@ -248,7 +248,7 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
       name: '380 GSM Fleece Hoodie',
       badge: 'French Terry',
       emoji: '🔥',
-      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg',
       backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg',
       printArea: {
         width: '46%',
@@ -315,7 +315,7 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
       name: '380 GSM Ronin Hoodie',
       badge: 'Heavyweight Fleece',
       emoji: '🔥',
-      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg',
       backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg',
       printArea: {
         width: '46%',
@@ -331,7 +331,7 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
       name: '320 GSM Fleece Joggers',
       badge: 'Thermal Terry',
       emoji: '👖',
-      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/88/54a72d34-d368-4663-88c9-7006fa99e82c.webp',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/32/3f45e6d3-837a-461b-9f52-b2c615eb14e4.jpg',
       printArea: {
         width: '40%',
         height: '40%',
@@ -348,7 +348,7 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
       name: '380 GSM Git Commit Hoodie',
       badge: 'Brushed Fleece',
       emoji: '💻',
-      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg',
       backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg',
       printArea: {
         width: '46%',
@@ -379,7 +379,7 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
       name: '3AM Fuel Ceramic Mug',
       badge: '11 Oz Stoneware',
       emoji: '☕',
-      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/44/d010667e-bb22-48a5-8278-eb285869a84b.jpg',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/26/b10e9b51-65a6-43f7-9e93-0e184c5853e9.jpg',
       printArea: {
         width: '42%',
         height: '46%',
@@ -396,7 +396,7 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
       name: '350 GSM Varsity Jacket',
       badge: 'Contrast Sleeve Fleece',
       emoji: '🏆',
-      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/95/9253c511-d703-4e4b-97e3-059ad4bb5234.webp',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/95/b3298941-1294-4945-ac9c-c5aaafd3403d.jpg',
       printArea: {
         width: '46%',
         height: '44%',
@@ -428,7 +428,7 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
       name: '380 GSM Mecha Hoodie',
       badge: 'Heavyweight Fleece',
       emoji: '🧥',
-      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/variations/d507fbbe-b92c-499d-83b6-ae9543e1104e.webp',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg',
       printArea: {
         width: '46%',
         height: '44%',
@@ -460,7 +460,7 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
       name: '320 GSM Kernel Crewneck',
       badge: 'Derby Ribbed Fleece',
       emoji: '💻',
-      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/83/7d142171-ec5c-4ebc-b17b-60be7fa75971.jpg',
+      plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/4/23175e0b-febe-4d12-83e2-f9a76506d24f.jpg',
       printArea: {
         width: '46%',
         height: '44%',
@@ -729,7 +729,7 @@ export function ProductClient({ product }: Props) {
     if (isHoodieOrSweatshirt) {
       return customView === 'back'
         ? 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg'
-        : 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg';
+        : 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg';
     }
     if (isDeskMat) {
       return 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg';
@@ -1113,14 +1113,22 @@ export function ProductClient({ product }: Props) {
     ? comboItems
         .map((item, idx) => {
           const itemLower = (item.name + ' ' + item.id).toLowerCase();
-          const isApp = /tee|t-shirt|hoodie|sweatshirt|crop|apparel/i.test(itemLower);
-          const shortName = isApp
-            ? (item.name.includes('Tee') ? 'Tee' : item.name.includes('Hoodie') ? 'Hoodie' : 'Garment')
-            : item.name.includes('Desk Mat')
+          const isApp = /tee|t-shirt|hoodie|sweatshirt|jogger|sweatpant|jacket|varsity|crop|top|crewneck|tracksuit|apparel/i.test(itemLower);
+          const shortName = itemLower.includes('hoodie')
+            ? 'Hoodie'
+            : itemLower.includes('jogger') || itemLower.includes('sweatpant')
+            ? 'Joggers'
+            : itemLower.includes('varsity') || itemLower.includes('jacket')
+            ? 'Varsity'
+            : itemLower.includes('crewneck') || itemLower.includes('sweatshirt')
+            ? 'Crewneck'
+            : itemLower.includes('desk') || itemLower.includes('mat')
             ? 'Desk Mat'
-            : item.name.includes('Mug')
+            : itemLower.includes('mug')
             ? 'Mug'
-            : item.name;
+            : itemLower.includes('tee') || itemLower.includes('shirt')
+            ? 'Tee'
+            : item.name.split(' ')[0] || 'Item';
           const sizeOrSpec =
             bundleItemSizes[idx] ||
             (isApp ? 'L' : /desk|mat/i.test(itemLower) ? '900×400mm' : /mug/i.test(itemLower) ? '330ml' : 'Standard');
@@ -1135,7 +1143,21 @@ export function ProductClient({ product }: Props) {
     ? comboItems
         .map((item, idx) => {
           const itemLower = (item.name + ' ' + item.id).toLowerCase();
-          const shortName = itemLower.includes('desk') ? 'Desk Mat' : itemLower.includes('mug') ? 'Mug' : 'Tee';
+          const shortName = itemLower.includes('hoodie')
+            ? 'Hoodie'
+            : itemLower.includes('jogger') || itemLower.includes('sweatpant')
+            ? 'Joggers'
+            : itemLower.includes('varsity') || itemLower.includes('jacket')
+            ? 'Varsity'
+            : itemLower.includes('crewneck') || itemLower.includes('sweatshirt')
+            ? 'Crewneck'
+            : itemLower.includes('desk') || itemLower.includes('mat')
+            ? 'Desk Mat'
+            : itemLower.includes('mug')
+            ? 'Mug'
+            : itemLower.includes('tee') || itemLower.includes('shirt')
+            ? 'Tee'
+            : item.name.split(' ')[0] || 'Item';
           return `${shortName}: ${bundleItemGraphics[idx]?.title || 'Original Drop'}`;
         })
         .join(' • ')
@@ -1724,7 +1746,7 @@ export function ProductClient({ product }: Props) {
                   {comboItems.map((item, idx) => {
                     const isCurrent = selectedComboItemIndex === idx;
                     const itemLower = (item.name + ' ' + item.id).toLowerCase();
-                    const itemIsApp = /tee|t-shirt|hoodie|sweatshirt|crop|jogger|jacket|polo/i.test(itemLower);
+                    const itemIsApp = /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel/i.test(itemLower);
                     const itemIsMat = /desk|pad|mat/i.test(itemLower);
                     const itemIsMug = /mug|cup|bottle/i.test(itemLower);
 
@@ -1745,7 +1767,7 @@ export function ProductClient({ product }: Props) {
                         onClick={() => {
                           setSelectedComboItemIndex(idx);
                           const itemLower = (item.name + ' ' + item.id).toLowerCase();
-                          const itemIsApp = /tee|t-shirt|hoodie|sweatshirt|crop|apparel/i.test(itemLower);
+                          const itemIsApp = /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel/i.test(itemLower);
                           const itemIsMat = /desk|pad|mat/i.test(itemLower);
                           const itemIsMug = /mug|cup|bottle/i.test(itemLower);
                           const itemIsKids = /kid|boy|girl|baby|toddler/i.test(itemLower);

@@ -37,11 +37,11 @@ function toCard(p: Product, rank?: number) {
 }
 
 const CATEGORY_TABS = [
-  { id: 'bundles', label: '🔥 Hero Bundles (Save ₹400+)', emoji: '🔥', href: '#bundles' },
-  { id: 'tees', label: '👕 240 GSM Heavyweight Tees', emoji: '👕', href: '#hero-drops' },
-  { id: 'hoodies', label: '🧥 380 GSM Fleece Hoodies', emoji: '🧥', href: '#hero-drops' },
-  { id: 'desk', label: '🖥️ Workstation Desk Mats', emoji: '🖥️', href: '#hero-drops' },
-  { id: 'b2b', label: '⚡ Campus & Startup Merch', emoji: '⚡', href: '/custom-drops' },
+  { id: 'bundles', label: 'Hero Bundles (Save ₹400+)', emoji: '🔥', href: '#bundles' },
+  { id: 'tees', label: '240 GSM Heavyweight Tees', emoji: '👕', href: '#hero-drops' },
+  { id: 'hoodies', label: '380 GSM Fleece Hoodies', emoji: '🧥', href: '#hero-drops' },
+  { id: 'desk', label: 'Workstation Desk Mats', emoji: '🖥️', href: '#hero-drops' },
+  { id: 'b2b', label: 'Campus & Startup Merch', emoji: '⚡', href: '/custom-drops' },
 ];
 
 const DEPARTMENTS = [

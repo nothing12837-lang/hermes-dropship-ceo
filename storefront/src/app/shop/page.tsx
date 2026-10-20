@@ -10,7 +10,7 @@ import { formatPrice, computeDiscount, SHOP_CATEGORIES, products as localProduct
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { supabase, type ProductRow } from '@/lib/supabase';
 
-const TABS = [{ id: 'all', label: 'All Catalog', hint: 'All 147 Verified Domestic Drops', emoji: '🛍️' }, ...SHOP_CATEGORIES, { id: 'new', label: 'Fresh Drops', hint: 'Latest In-Hub Arrivals', emoji: '✨' }];
+const TABS = [{ id: 'all', label: 'All Catalog', hint: 'Verified Domestic Drops', emoji: '🛍️' }, ...SHOP_CATEGORIES, { id: 'new', label: 'Fresh Drops', hint: 'Latest In-Hub Arrivals', emoji: '✨' }];
 
 const DB_CATEGORIES = new Set(['electronics', 'fashion', 'home-garden', 'home-living', 'general', 'decor', 'tech']);
 
@@ -215,7 +215,9 @@ function ShopInner() {
             ))}
           </div>
           <div className="mt-3 text-sm text-text-secondary">
-            {active.hint} — showing {list.length} items
+            {active.id === 'all'
+              ? `All ${products.length || 156} Verified Domestic Drops — showing ${list.length} items`
+              : `${active.hint} — showing ${list.length} items`}
           </div>
 
         <div className="flex gap-3 flex-wrap justify-center mt-6">

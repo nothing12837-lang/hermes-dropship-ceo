@@ -2,8 +2,34 @@
 // Authentic Qikink S3 mockups and variations for all 147 products.
 
 export const CURATED_PRODUCT_GALLERIES: Record<string, string[]> = {
+  "bundle-winter-spec-ops": [
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/32/3f45e6d3-837a-461b-9f52-b2c615eb14e4.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/320/c87587e9-0faa-4c24-8c3d-a74f012c3eb3.webp"
+  ],
+  "bundle-3am-coder": [
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/26/b10e9b51-65a6-43f7-9e93-0e184c5853e9.jpg"
+  ],
+  "bundle-college-fest-varsity": [
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/95/b3298941-1294-4945-ac9c-c5aaafd3403d.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg"
+  ],
+  "bundle-winter-layering": [
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg"
+  ],
+  "bundle-crewneck-workstation": [
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/4/23175e0b-febe-4d12-83e2-f9a76506d24f.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/42/e1aabdde-178c-4773-9b54-93df46230600.jpg"
+  ],
   "bundle-winter-heavyweight": [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/323/1f4a0177-315c-4dd0-ad0a-395c38aa4f83.webp",
@@ -675,7 +701,7 @@ export const CURATED_PRODUCT_GALLERIES: Record<string, string[]> = {
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/3/f1623455-a0fb-49fd-b761-a221def7bae0.webp"
   ],
   "qikink-hoodies-oversized-hoodie-uh32": [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/3e0706ce-c308-4932-a292-6b67c48a88fd.webp",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/59997b19-aa61-45ff-a4b8-06e900035f8d.webp",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/03c426f5-ec7e-4c8a-8e63-1b05343a09a0.webp",

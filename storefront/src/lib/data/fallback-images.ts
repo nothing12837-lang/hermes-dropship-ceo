@@ -4,9 +4,14 @@
  */
 
 export const FALLBACK_IMAGES: Record<string, string> = {
+  "bundle-winter-spec-ops": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
+  "bundle-3am-coder": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
+  "bundle-college-fest-varsity": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/95/b3298941-1294-4945-ac9c-c5aaafd3403d.jpg",
+  "bundle-winter-layering": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg",
+  "bundle-crewneck-workstation": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/4/23175e0b-febe-4d12-83e2-f9a76506d24f.jpg",
   "bundle-streetwear-duo": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
   "bundle-creator-workstation": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
-  "bundle-winter-heavyweight": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
+  "bundle-winter-heavyweight": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
   "bundle-founding-50": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
   "qikink-accessories-desk-mat": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
   "qikink-accessories-mobile-clear-phone-case": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/325/c0b869cd-33d3-4167-a9ec-365dbc0860fd.webp",
@@ -85,7 +90,7 @@ export const FALLBACK_IMAGES: Record<string, string> = {
   "qikink-hoodies-unisex-hoodie-uh24": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
   "qikink-bottomwear-joggers-uj29": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/32/3f45e6d3-837a-461b-9f52-b2c615eb14e4.jpg",
   "qikink-t-shirts-oversized-t-shirt-uc22": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/3/4d542001-463c-416c-86ea-93effc54f669.jpg",
-  "qikink-hoodies-oversized-hoodie-uh32": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
+  "qikink-hoodies-oversized-hoodie-uh32": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
   "qikink-t-shirts-short-sleeve-oversized-shirt-uc28": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/119/22618348-6284-4d1d-a039-c45243d37e62.jpg",
   "qikink-t-shirts-oversized-t-shirt-standard-us22": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg",
   "qikink-hoodies-oversized-sweatshirt-uh35": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/42/e1aabdde-178c-4773-9b54-93df46230600.jpg",

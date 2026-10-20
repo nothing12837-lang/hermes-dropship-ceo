@@ -207,9 +207,9 @@ export const products: Product[] = [
     ],
     rating: 5.0,
     reviews: 39,
-    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
+    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
     images: [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c05-41a5-45b1-9856-5c6ac1e7f33f.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/323/1f4a0177-315c-4dd0-ad0a-395c38aa4f83.webp",
@@ -289,12 +289,12 @@ export const products: Product[] = [
     ],
     rating: 5.0,
     reviews: 42,
-    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
+    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
     images: [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/88/54a72d34-d368-4663-88c9-7006fa99e82c.webp",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/32/3f45e6d3-837a-461b-9f52-b2c615eb14e4.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/88/variations/ca752f9b-640c-48c0-8488-ea9bf5c13e55.webp"
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/320/c87587e9-0faa-4c24-8c3d-a74f012c3eb3.webp"
     ],
     category: "fashion",
     market: "IN",
@@ -329,11 +329,11 @@ export const products: Product[] = [
     ],
     rating: 4.9,
     reviews: 57,
-    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
+    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
     images: [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/44/d010667e-bb22-48a5-8278-eb285869a84b.jpg"
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/26/b10e9b51-65a6-43f7-9e93-0e184c5853e9.jpg"
     ],
     category: "fashion",
     market: "IN",
@@ -368,9 +368,9 @@ export const products: Product[] = [
     ],
     rating: 5.0,
     reviews: 34,
-    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/95/9253c511-d703-4e4b-97e3-059ad4bb5234.webp",
+    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/95/b3298941-1294-4945-ac9c-c5aaafd3403d.jpg",
     images: [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/95/9253c511-d703-4e4b-97e3-059ad4bb5234.webp",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/95/b3298941-1294-4945-ac9c-c5aaafd3403d.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg"
     ],
@@ -407,11 +407,11 @@ export const products: Product[] = [
     ],
     rating: 4.9,
     reviews: 41,
-    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/variations/d507fbbe-b92c-499d-83b6-ae9543e1104e.webp",
+    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg",
     images: [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/variations/d507fbbe-b92c-499d-83b6-ae9543e1104e.webp",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg",
       "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg"
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg"
     ],
     category: "fashion",
     market: "IN",
@@ -446,10 +446,11 @@ export const products: Product[] = [
     ],
     rating: 4.8,
     reviews: 29,
-    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/83/7d142171-ec5c-4ebc-b17b-60be7fa75971.jpg",
+    image_url: "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/4/23175e0b-febe-4d12-83e2-f9a76506d24f.jpg",
     images: [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/83/7d142171-ec5c-4ebc-b17b-60be7fa75971.jpg",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg"
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/4/23175e0b-febe-4d12-83e2-f9a76506d24f.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg",
+      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/42/e1aabdde-178c-4773-9b54-93df46230600.jpg"
     ],
     category: "fashion",
     market: "IN",
@@ -2677,7 +2678,7 @@ export const products: Product[] = [
   "stock": 500,
   "rating": 4.4,
   "reviews": 45,
-  "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/82/ddc7518f-afc2-4370-8d1a-43db4863d356.jpg",
+  "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
   "supplier": "RareEmber™ Tirupur Studio",
   "short": "Unisex Oversized Hoodie Made from 400 GSM 90% cotton and 10% polyester fabric with a drop shoulder oversized fit, derby ribbed cuffs and hem",
   "story": "Unisex Oversized Hoodie Made from 400 GSM 90% cotton and 10% polyester fabric with a drop shoulder oversized fit, derby ribbed cuffs and hem, super combed, pre-shrunk and bio-washed finish.",

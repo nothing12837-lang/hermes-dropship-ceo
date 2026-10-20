@@ -187,17 +187,17 @@ export default function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', stiffness: 280, damping: 30 }}
-            className="fixed top-0 right-0 bottom-0 w-[min(460px,100vw)] z-[150] bg-bg-surface/95 backdrop-blur-2xl border-l border-border-subtle shadow-2xl flex flex-col"
+            className="fixed top-0 right-0 bottom-0 w-[min(460px,100vw)] z-[150] bg-white text-[#18181B] border-l border-neutral-200 shadow-2xl flex flex-col"
           >
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.05 }}
-              className="p-6 border-b border-border-subtle flex justify-between items-center"
+              className="p-6 border-b border-neutral-200 flex justify-between items-center bg-white"
             >
-              <div className="font-display text-xl text-text-primary">
+              <div className="font-display text-xl text-[#18181B] font-black">
                 Your Pack 🛒{' '}
-                <span className="font-normal text-text-secondary text-sm">
+                <span className="font-bold text-neutral-500 text-sm">
                   ({detailed.length})
                 </span>
               </div>
@@ -205,7 +205,7 @@ export default function CartDrawer() {
                 onClick={closeCart}
                 whileHover={{ scale: 1.1, rotate: 90 }}
                 whileTap={{ scale: 0.9 }}
-                className="w-10 h-10 rounded-full border border-border-subtle bg-bg-surface cursor-pointer text-text-secondary flex items-center justify-center transition-colors hover:border-ember"
+                className="w-10 h-10 rounded-full border border-neutral-200 bg-neutral-100 hover:bg-neutral-200 cursor-pointer text-[#18181B] flex items-center justify-center transition-colors font-bold"
               >
                 ✕
               </motion.button>
@@ -403,7 +403,7 @@ export default function CartDrawer() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              className="p-6 border-t border-black/[0.06] bg-white/80 backdrop-blur-md"
+              className="p-6 border-t border-neutral-200 bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.06)]"
             >
               <div className="bg-[#FFF9F1] rounded-2xl p-3.5 mb-4 border border-black/[0.05]">
                 <div className="flex items-center gap-2">
@@ -419,17 +419,17 @@ export default function CartDrawer() {
                 </div>
               </div>
 
-              <div className="flex justify-between font-bold text-sm mb-2 text-neutral-800">
+              <div className="flex justify-between font-bold text-sm mb-2 text-[#18181B]">
                 <span>Subtotal</span>
-                <span className="text-neutral-950 font-black">{formatCartPrice(subtotal)}</span>
+                <span className="text-[#18181B] font-black">{formatCartPrice(subtotal)}</span>
               </div>
 
-              <div className="flex justify-between text-xs text-neutral-700 font-medium mb-3">
-                <span>Standard Shipping</span>
-                <span className="text-emerald-700 font-bold">FREE ⚡</span>
+              <div className="flex justify-between text-xs text-neutral-600 font-bold mb-3">
+                <span>Standard Air Shipping</span>
+                <span className="text-emerald-700 font-black">FREE ⚡</span>
               </div>
 
-              <div className="flex justify-between font-black text-xl text-neutral-950 pt-3 border-t border-black/[0.06] mb-3">
+              <div className="flex justify-between font-black text-xl text-[#18181B] pt-3 border-t border-neutral-200 mb-3">
                 <span>Total</span>
                 <span className="text-[#FF4D24]">{formatCartPrice(subtotal)}</span>
               </div>
@@ -438,13 +438,13 @@ export default function CartDrawer() {
                 onClick={handleCheckout}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
-                className="block text-center w-full bg-[#1d1d1f] hover:bg-black text-white py-3.5 rounded-full font-black text-sm tracking-tight border-none cursor-pointer shadow-md active:scale-95 transition-all"
+                className="block text-center w-full bg-[#18181B] hover:bg-black text-white py-4 rounded-full font-black text-sm tracking-tight border-none cursor-pointer shadow-lg active:scale-95 transition-all"
               >
                 {`PROCEED TO CHECKOUT ⚡ • ${formatCartPrice(subtotal)}`}
               </motion.button>
 
               <p className="text-center text-xs mt-3">
-                <Link href="/shop" onClick={closeCart} className="text-neutral-700 hover:text-neutral-950 font-bold no-underline transition-colors">
+                <Link href="/shop" onClick={closeCart} className="text-neutral-600 hover:text-[#18181B] font-bold no-underline transition-colors">
                   ← Keep exploring
                 </Link>
               </p>
