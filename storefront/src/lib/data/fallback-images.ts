@@ -164,6 +164,7 @@ export const FALLBACK_IMAGES: Record<string, string> = {
 
 /** DB image first, curated fallback second, undefined last. */
 export function resolveProductImage(id: string, imageUrl?: string | null): string | undefined {
-  if (imageUrl && imageUrl.trim().length > 0) return imageUrl;
+  if (imageUrl && imageUrl.trim().length > 0 && !imageUrl.includes('ddc7518f')) return imageUrl;
+  if (imageUrl && imageUrl.includes('ddc7518f')) return FALLBACK_IMAGES[id] || 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg';
   return FALLBACK_IMAGES[id];
 }

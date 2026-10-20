@@ -1265,23 +1265,25 @@ export function resolveProductGallery(
   category?: string,
   explicitImages?: string[] | null
 ): string[] {
+  const sanitize = (url: string) => url.includes('ddc7518f') ? 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg' : url;
+
   if (CURATED_PRODUCT_GALLERIES[id] && CURATED_PRODUCT_GALLERIES[id].length >= 2) {
-    return CURATED_PRODUCT_GALLERIES[id];
+    return CURATED_PRODUCT_GALLERIES[id].map(sanitize);
   }
 
   const matchedKey = Object.keys(CURATED_PRODUCT_GALLERIES).find(
     (k) => id.includes(k) || k.includes(id)
   );
   if (matchedKey && CURATED_PRODUCT_GALLERIES[matchedKey].length >= 2) {
-    return CURATED_PRODUCT_GALLERIES[matchedKey];
+    return CURATED_PRODUCT_GALLERIES[matchedKey].map(sanitize);
   }
 
   if (Array.isArray(explicitImages) && explicitImages.length >= 2) {
-    const valid = explicitImages.filter((u) => Boolean(u && u.trim().length > 0));
+    const valid = explicitImages.filter((u) => Boolean(u && u.trim().length > 0)).map(sanitize);
     if (valid.length >= 2) return valid;
   }
 
-  const fallback = primaryUrl && primaryUrl.trim().length > 0 ? primaryUrl.trim() : null;
+  const fallback = primaryUrl && primaryUrl.trim().length > 0 ? sanitize(primaryUrl.trim()) : null;
   if (fallback) {
     return [fallback];
   }
