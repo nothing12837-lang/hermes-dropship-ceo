@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getProductFromDB } from '@/lib/products-server';
@@ -161,7 +162,9 @@ export default async function ProductPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <ProductClient product={product} />
+      <Suspense fallback={null}>
+        <ProductClient product={product} />
+      </Suspense>
     </>
   );
 }

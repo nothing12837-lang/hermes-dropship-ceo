@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="stoicGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+
+  <rect x="70" y="70" width="660" height="660" rx="36" fill="#0C0A09" stroke="#D97706" stroke-width="3" stroke-opacity="0.4" />
+
+  <!-- Stoic Maxim Header -->
+  <text x="400" y="150" fill="#F59E0B" font-family="'Times New Roman', serif" font-size="52" font-weight="900" text-anchor="middle" letter-spacing="8">
+    MEMENTO MORI
+  </text>
+  <text x="400" y="190" fill="#A1A1AA" font-family="'Courier New', monospace" font-size="14" font-weight="700" text-anchor="middle" letter-spacing="4">
+    AMOR FATI • THE OBSTACLE IS THE WAY
+  </text>
+
+  <!-- Classical Marble Bust / Hourglass & Laurel Silhouette -->
+  <g transform="translate(400, 410)">
+    <!-- Classical Greek Columns Background -->
+    <rect x="-180" y="-140" width="24" height="280" fill="#1C1917" stroke="#292524" stroke-width="2" />
+    <rect x="156" y="-140" width="24" height="280" fill="#1C1917" stroke="#292524" stroke-width="2" />
+
+    <!-- Laurel Wreath Circle -->
+    <circle cx="0" cy="0" r="150" fill="none" stroke="url(#stoicGrad)" stroke-width="6" stroke-dasharray="14 10" />
+
+    <!-- Central Hourglass & Skull / Flame Silhouette -->
+    <!-- Hourglass top & bottom triangles -->
+    <polygon points="-60,-90 60,-90 0,0" fill="#1C1917" stroke="#F59E0B" stroke-width="6" />
+    <polygon points="-60,90 60,90 0,0" fill="#1C1917" stroke="#F59E0B" stroke-width="6" />
+    <!-- Falling Sand / Embers -->
+    <circle cx="0" cy="35" r="16" fill="url(#stoicGrad)" />
+    <circle cx="0" cy="60" r="24" fill="url(#stoicGrad)" />
+
+    <!-- Roman Numeral MCMXCVIII -->
+    <text x="0" y="10" fill="#FFFFFF" font-family="'Times New Roman', serif" font-size="18" font-weight="700" text-anchor="middle" letter-spacing="3">
+      MARCUS AURELIUS
+    </text>
+  </g>
+
+  <!-- Bottom Archival Seal -->
+  <rect x="180" y="620" width="440" height="40" rx="10" fill="#1C1917" stroke="#D97706" stroke-width="2" />
+  <text x="400" y="646" fill="#FDE68A" font-family="'Times New Roman', serif" font-size="15" font-weight="800" text-anchor="middle" letter-spacing="4">
+    IRON MINDSET • TIRUPUR HEAVYWEIGHT
+  </text>
+</svg>

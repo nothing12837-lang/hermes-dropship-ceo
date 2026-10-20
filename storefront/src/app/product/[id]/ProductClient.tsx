@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { getMotifSvgPath } from '@/lib/data/prebuiltCatalog500';
 import { useCart } from '@/lib/store/cart';
 import { useWishlist } from '@/lib/store/wishlist';
 import { formatPrice, computeDiscount, PET_META, bundles, getProduct } from '@/lib/data/products';
@@ -542,6 +543,10 @@ export function ProductClient({ product }: Props) {
         }))
       : []
   );
+
+  const searchParams = useSearchParams();
+  const isCustomizeMode = searchParams ? searchParams.get('customize') === '1' : false;
+  const isPrebuilt = (product as any).isPrebuilt !== false && !isCustomizeMode;
 
   const isMultiBundle = isComboProduct && comboItems.length > 1;
   const sizeStepNum = isMultiBundle ? 2 : 1;
@@ -1291,6 +1296,39 @@ export function ProductClient({ product }: Props) {
                 <span style={{ fontSize: '6rem', filter: 'drop-shadow(0 12px 30px rgba(0,0,0,0.15))' }}>
                   {product.emoji}
                 </span>
+              )}
+
+              {/* LIVE PREBUILT GRAPHIC MOTIF OVERLAY */}
+              {((product as any).lockedSvgMotif || (product as any).id?.startsWith('re-prebuilt-')) && (product as any).lockedSvgMotif && selectedImgIndex === 0 && !isCustomizing && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    pointerEvents: 'none',
+                    zIndex: 10,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    top: activePrintZone.top,
+                    left: activePrintZone.left,
+                    width: activePrintZone.width,
+                    height: activePrintZone.height,
+                  }}
+                >
+                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={getMotifSvgPath((product as any).lockedSvgMotif)}
+                      alt={(product as any).lockedGraphicTitle || displayTitle}
+                      style={{
+                        maxWidth: '92%',
+                        maxHeight: '92%',
+                        objectFit: 'contain',
+                        filter: 'drop-shadow(0 12px 28px rgba(0,0,0,0.55))',
+                      }}
+                    />
+                  </div>
+                </div>
               )}
 
               {/* LIVE FINISHED STREETWEAR GRAPHIC & PERSONALIZATION OVERLAY */}
@@ -2063,7 +2101,8 @@ export function ProductClient({ product }: Props) {
                   )}
                 </div>
 
-            {/* DYNAMIC STEP 3/2: TWO-MODE ARTWORK SELECTOR (PROGRESSIVE DISCLOSURE) */}
+            {/* DYNAMIC STEP 3/2: TWO-MODE ARTWORK SELECTOR (PROGRESSIVE DISCLOSURE - ONLY IF CUSTOMIZING) */}
+            {!isPrebuilt && (
             <div className="mt-5">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-black uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
@@ -2552,6 +2591,7 @@ export function ProductClient({ product }: Props) {
                 </div>
               )}
             </div>
+            )}
 
             {/* Added to Bag Toast Alert */}
             {addedAlert && (
@@ -2682,6 +2722,29 @@ export function ProductClient({ product }: Props) {
                     {wished ? '♥' : '♡'}
                   </button>
                 </div>
+
+                {/* SLEEK DARK CALLOUT CARD FOR PRE-BUILT PRODUCTS */}
+                {isPrebuilt && (
+                  <div className="mt-4 p-4 rounded-2xl bg-[#0c0b0a] text-white border border-white/10 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 text-left">
+                      <span className="text-2xl shrink-0">🎨</span>
+                      <div>
+                        <div className="text-xs font-black text-white">
+                          Don&apos;t want this pre-built design?
+                        </div>
+                        <div className="text-[11px] text-neutral-400 mt-0.5">
+                          Print your own custom logo, text, or artwork on any blank Hoodie, Tee, or Desk Mat
+                        </div>
+                      </div>
+                    </div>
+                    <Link
+                      href={`/custom-drops?base=${product.id}`}
+                      className="shrink-0 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#FF4D24] to-[#E8244B] text-white text-xs font-black uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all text-center no-underline shadow-md"
+                    >
+                      Open Custom Design Studio ➔
+                    </Link>
+                  </div>
+                )}
               </div>
             )}
 

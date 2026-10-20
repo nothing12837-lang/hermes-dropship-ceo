@@ -22,10 +22,11 @@ function isDisallowedRow(p: ProductRow): boolean {
 export function matchesCategory(cat: string, p: ProductRow): boolean {
   if (isDisallowedRow(p)) return false;
   if (cat === 'all') return true;
-  if (cat === 'new') return p.is_new === true;
-  if (cat === 'home-garden') return p.category === 'home-garden' || p.category === 'home-living' || p.category === 'decor';
-  if (cat === 'electronics') return p.category === 'electronics' || p.category === 'tech';
-  if (cat === 'general') return p.category === 'general' || p.category === 'lifestyle' || p.category === 'viral';
+  if (cat === 'new') return Boolean(p.is_new === true || (p as any).isPrebuilt === true);
+  if (cat === 'home-garden') return Boolean(p.category === 'home-garden' || p.category === 'home-living' || p.category === 'decor');
+  if (cat === 'electronics') return Boolean(p.category === 'electronics' || p.category === 'tech' || (p as any).subCategory === 'Extended Desk Mats' || (p.id && p.id.includes('deskmat')));
+  if (cat === 'fashion') return Boolean(p.category === 'fashion' || p.category === 'apparel' || ((p as any).isPrebuilt === true && !p.id?.includes('deskmat')));
+  if (cat === 'general') return Boolean(p.category === 'general' || p.category === 'lifestyle' || p.category === 'viral');
   return (p.category ?? 'general') === cat;
 }
 
@@ -73,7 +74,9 @@ function ShopInner() {
             return;
           }
           const filtered = ((data ?? []) as ProductRow[]).filter((p) => !isDisallowedRow(p));
-          setProducts(filtered);
+          const dbIds = new Set(filtered.map((p) => p.id));
+          const extraLocal = (localProducts as any[]).filter((p) => !dbIds.has(p.id) && !isDisallowedRow(p));
+          setProducts([...filtered, ...extraLocal] as ProductRow[]);
         }
       })
       .catch((err: unknown) => {
@@ -321,6 +324,11 @@ function ShopInner() {
                   inStock={p.active !== false && (p.stock == null || Number(p.stock) > 0)}
                   stock={p.stock != null ? Number(p.stock) : undefined}
                   priority={i < 3}
+                  isPrebuilt={(p as any).isPrebuilt}
+                  lockedSvgMotif={(p as any).lockedSvgMotif}
+                  lockedGraphicTitle={(p as any).lockedGraphicTitle}
+                  lockedGraphicPlacement={(p as any).lockedGraphicPlacement}
+                  lockedAccentHex={(p as any).lockedAccentHex}
                 />
               </motion.div>
             ))}

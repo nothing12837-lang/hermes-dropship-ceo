@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bauhausBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+  </defs>
+
+  <rect x="70" y="70" width="660" height="660" rx="36" fill="#F8FAFC" stroke="#0F172A" stroke-width="6" />
+
+  <!-- Bauhaus Typography Header -->
+  <text x="120" y="150" fill="#0F172A" font-family="'Helvetica Neue', Arial, sans-serif" font-size="52" font-weight="900" letter-spacing="1">
+    BAUHAUS 1919
+  </text>
+  <text x="120" y="185" fill="#DC2626" font-family="'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="900" letter-spacing="5">
+    WEIMAR • FORM FOLLOWS FUNCTION
+  </text>
+
+  <!-- Architectural Primary Geometry -->
+  <g transform="translate(400, 410)">
+    <!-- Primary Red Square -->
+    <rect x="-170" y="-130" width="160" height="160" fill="#EF4444" />
+    <!-- Primary Yellow Triangle -->
+    <polygon points="40,-130 190,120 -110,120" fill="#FACC15" opacity="0.9" />
+    <!-- Primary Blue Circle -->
+    <circle cx="50" cy="10" r="100" fill="url(#bauhausBlue)" opacity="0.9" />
+
+    <!-- Pure Black Diagonal Accent Line -->
+    <line x1="-190" y1="130" x2="190" y2="-130" stroke="#0F172A" stroke-width="8" />
+    <circle cx="-190" cy="130" r="14" fill="#0F172A" />
+    <circle cx="190" cy="-130" r="14" fill="#0F172A" />
+  </g>
+
+  <!-- Minimal Swiss Grid Footer -->
+  <line x1="120" y1="620" x2="680" y2="620" stroke="#0F172A" stroke-width="3" />
+  <text x="120" y="655" fill="#0F172A" font-family="'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="900" letter-spacing="3">
+    LESS BUT BETTER • RARE EMBER STUDIO • 001
+  </text>
+</svg>

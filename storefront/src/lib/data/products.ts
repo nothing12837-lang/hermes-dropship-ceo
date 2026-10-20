@@ -39,7 +39,24 @@ export interface Product {
   badges?: string[];
   stock?: number;
   active?: boolean;
+  name?: string;
+  isPrebuilt?: boolean;
+  isCustomBlank?: boolean;
+  lockedGraphicTitle?: string;
+  lockedGraphicPlacement?: string;
+  lockedAccentHex?: string;
+  lockedSvgMotif?: string;
+  subtitle?: string;
+  subCategory?: string;
+  collection?: string;
+  badge?: string;
+  sizes?: string[];
+  colors?: string[];
+  qikinkSkuPrefix?: string;
+  image?: string;
 }
+
+import { generate500PrebuiltProducts } from './prebuiltCatalog500';
 
 export const USD_TO_INR_RATE = 85;
 
@@ -4690,6 +4707,7 @@ export const products: Product[] = [
   "gradient": "linear-gradient(135deg, #18181b, #09090b)",
   "active": true
 },
+...generate500PrebuiltProducts(),
 ];
 
 export const PET_META: Record<string, any> = {

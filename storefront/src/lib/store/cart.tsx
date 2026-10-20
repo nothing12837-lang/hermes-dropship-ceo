@@ -24,6 +24,8 @@ export interface CartItem {
   customImage?: string;
   customImageName?: string;
   phoneModel?: string;
+  customTextColor?: string;
+  customFont?: string;
 }
 
 interface CartCtx {

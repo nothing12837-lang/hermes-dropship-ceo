@@ -1,8 +1,12 @@
+// storefront/src/app/custom-drops/CustomDropsClient.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { useCart } from '@/lib/store/cart';
 import { MerchAgentModal } from '@/components/ai/MerchAgentModal';
 
 type ProductType = 'tee' | 'hoodie' | 'mat';
@@ -22,7 +26,126 @@ const PRICING_TIERS: PricingTier[] = [
   { min: 251, max: 1000, teePrice: 269, hoodiePrice: 549, matPrice: 299 },
 ];
 
+export interface BlankGarment {
+  id: string;
+  name: string;
+  badge: string;
+  gsm: string;
+  price: number;
+  frontImage: string;
+  backImage?: string;
+  isApparel: boolean;
+  isDeskMat: boolean;
+  isMug: boolean;
+  skuPrefix: string;
+  sizes: string[];
+}
+
+export const SEVEN_CORE_BLANKS: BlankGarment[] = [
+  {
+    id: 'blank-hoodie',
+    name: '380 GSM Heavyweight Winter Hoodie',
+    badge: 'WINTER BESTSELLER',
+    gsm: '380 GSM Combed French Terry Cotton Fleece • Double-Lined Hood',
+    price: 1099,
+    frontImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg',
+    backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg',
+    isApparel: true,
+    isDeskMat: false,
+    isMug: false,
+    skuPrefix: 'UHd',
+    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+  },
+  {
+    id: 'blank-crewneck',
+    name: '320 GSM Winter Crewneck Sweatshirt',
+    badge: 'CAMPUS FAVORITE',
+    gsm: '320 GSM Super Combed Terry Fleece • Derby Ribbed Collar',
+    price: 899,
+    frontImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/4/23175e0b-febe-4d12-83e2-f9a76506d24f.jpg',
+    backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/4/23175e0b-febe-4d12-83e2-f9a76506d24f.jpg',
+    isApparel: true,
+    isDeskMat: false,
+    isMug: false,
+    skuPrefix: 'USs',
+    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+  },
+  {
+    id: 'blank-varsity',
+    name: '350 GSM Contrast Varsity Jacket',
+    badge: 'COLLEGE FEST HEADLINER',
+    gsm: '350 GSM Heavyweight Fleece Varsity • Snap Buttons',
+    price: 1399,
+    frontImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/95/b3298941-1294-4945-ac9c-c5aaafd3403d.jpg',
+    backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/95/b3298941-1294-4945-ac9c-c5aaafd3403d.jpg',
+    isApparel: true,
+    isDeskMat: false,
+    isMug: false,
+    skuPrefix: 'UVJ',
+    sizes: ['S', 'M', 'L', 'XL', '2XL'],
+  },
+  {
+    id: 'blank-oversized-tee',
+    name: '240 GSM Drop-Shoulder Oversized Tee',
+    badge: 'SIGNATURE DROP',
+    gsm: '240 GSM Bio-Washed Combed Cotton • Drop-Shoulder Fit',
+    price: 649,
+    frontImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg',
+    backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg',
+    isApparel: true,
+    isDeskMat: false,
+    isMug: false,
+    skuPrefix: 'UOst',
+    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+  },
+  {
+    id: 'blank-acid-tee',
+    name: '240 GSM Vintage Acid-Wash Heavy Tee',
+    badge: 'VINTAGE CHARCOAL',
+    gsm: '240 GSM Custom Enzyme Acid-Wash Cotton • Vintage Fade',
+    price: 699,
+    frontImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp',
+    backImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp',
+    isApparel: true,
+    isDeskMat: false,
+    isMug: false,
+    skuPrefix: 'ATe',
+    sizes: ['S', 'M', 'L', 'XL', '2XL'],
+  },
+  {
+    id: 'blank-deskmat',
+    name: '900×400mm Extended Creator Desk Mat',
+    badge: 'WORKSTATION GRADE',
+    gsm: '3mm Micro-Weave Cloth • Stitched Anti-Fray Edges • Rubber Base',
+    price: 699,
+    frontImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg',
+    isApparel: false,
+    isDeskMat: true,
+    isMug: false,
+    skuPrefix: 'MPad-900x400',
+    sizes: ['900×400mm'],
+  },
+  {
+    id: 'blank-mug',
+    name: '11 Oz High-Fired Ceramic Coffee Mug',
+    badge: 'MICROWAVE SAFE',
+    gsm: '330ml Gloss Ceramic Stoneware • High-Gloss Sublimation Glaze',
+    price: 399,
+    frontImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/26/b10e9b51-65a6-43f7-9e93-0e184c5853e9.jpg',
+    isApparel: false,
+    isDeskMat: false,
+    isMug: true,
+    skuPrefix: 'Mug-11oz',
+    sizes: ['11 Oz (330ml)'],
+  },
+];
+
 export function CustomDropsClient() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { add } = useCart();
+
+  // B2B Bulk State
   const [productType, setProductType] = useState<ProductType>('tee');
   const [quantity, setQuantity] = useState<number>(35);
   const [orgName, setOrgName] = useState<string>('');
@@ -33,9 +156,112 @@ export function CustomDropsClient() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isAiAgentOpen, setIsAiAgentOpen] = useState<boolean>(false);
 
-  // Calculate pricing based on tier
+  // Dedicated Interactive Custom Lab State
+  const baseParam = searchParams?.get('base') || '';
+  const initialBlank = (() => {
+    const b = baseParam.toLowerCase();
+    if (b.includes('hoodie')) return 'blank-hoodie';
+    if (b.includes('crewneck')) return 'blank-crewneck';
+    if (b.includes('varsity')) return 'blank-varsity';
+    if (b.includes('acid')) return 'blank-acid-tee';
+    if (b.includes('deskmat') || b.includes('mat')) return 'blank-deskmat';
+    if (b.includes('mug')) return 'blank-mug';
+    return 'blank-oversized-tee';
+  })();
+
+  const [selectedBlankId, setSelectedBlankId] = useState<string>(initialBlank);
+  const [customView, setCustomView] = useState<'front' | 'back'>('front');
+  const [customPlacement, setCustomPlacement] = useState<string>('Center Chest');
+  const [customMode, setCustomMode] = useState<'image' | 'text'>('image');
+  const [customImage, setCustomImage] = useState<string | null>(null);
+  const [customImageName, setCustomImageName] = useState<string>('');
+  const [customText, setCustomText] = useState<string>('');
+  const [customTextColor, setCustomTextColor] = useState<string>('#FFFFFF');
+  const [customFont, setCustomFont] = useState<string>('font-sans font-black tracking-wider uppercase');
+  const [selectedLabSize, setSelectedLabSize] = useState<string>('L');
+  const [uploadingLabImage, setUploadingLabImage] = useState<boolean>(false);
+  const [orderNotice, setOrderNotice] = useState<string | null>(null);
+
+  const currentBlank = SEVEN_CORE_BLANKS.find((b) => b.id === selectedBlankId) || SEVEN_CORE_BLANKS[3];
+
+  useEffect(() => {
+    if (currentBlank.isDeskMat) {
+      setSelectedLabSize('900×400mm');
+      setCustomPlacement('Full Surface');
+    } else if (currentBlank.isMug) {
+      setSelectedLabSize('11 Oz (330ml)');
+      setCustomPlacement('Full Wrap');
+    } else {
+      setSelectedLabSize('L');
+      if (customPlacement === 'Full Surface' || customPlacement === 'Full Wrap') {
+        setCustomPlacement('Center Chest');
+      }
+    }
+  }, [currentBlank.id]);
+
+  const handleLabUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 15 * 1024 * 1024) {
+      alert('Please upload an image smaller than 15MB.');
+      return;
+    }
+    setCustomImageName(file.name);
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCustomImage(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+
+    try {
+      setUploadingLabImage(true);
+      const fd = new FormData();
+      fd.append('file', file);
+      const res = await fetch('/api/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (data?.ok && data?.url) {
+        setCustomImage(data.url);
+      }
+    } catch {
+      // preview retained
+    } finally {
+      setUploadingLabImage(false);
+    }
+  };
+
+  const handleOrderSingleLabPiece = () => {
+    add(currentBlank.id, 1, {
+      title: `Custom ${currentBlank.name}`,
+      price: Number((currentBlank.price / 85).toFixed(2)),
+      price_inr: currentBlank.price,
+      emoji: currentBlank.isDeskMat ? '🖥️' : currentBlank.isMug ? '☕' : '👕',
+      imageUrl: customView === 'back' && currentBlank.backImage ? currentBlank.backImage : currentBlank.frontImage,
+      gradient: 'linear-gradient(135deg, rgba(255,77,36,0.1), rgba(0,0,0,0.05))',
+      size: selectedLabSize,
+      customText: customMode === 'text' && customText.trim() ? customText.trim() : undefined,
+      customPlacement,
+      customTextColor: customMode === 'text' ? customTextColor : undefined,
+      customFont: customMode === 'text' ? customFont : undefined,
+      customImage: customMode === 'image' && customImage ? customImage : undefined,
+      customImageName: customImageName || (customText ? `Text: ${customText}` : 'Custom Tirupur Print'),
+    });
+    setOrderNotice(`✓ Added custom ${currentBlank.name} to cart! Redirecting to checkout...`);
+    setTimeout(() => {
+      router.push('/checkout');
+    }, 400);
+  };
+
+  const handleTransferToBulk = () => {
+    if (currentBlank.isDeskMat) setProductType('mat');
+    else if (currentBlank.id.includes('hoodie') || currentBlank.id.includes('crewneck') || currentBlank.id.includes('varsity')) setProductType('hoodie');
+    else setProductType('tee');
+
+    const el = document.getElementById('estimator');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Bulk Tier Calculations
   const tier = PRICING_TIERS.find((t) => quantity >= t.min && quantity <= t.max) || PRICING_TIERS[0];
-  
   const unitPrice =
     productType === 'tee'
       ? tier.teePrice
@@ -58,16 +284,24 @@ export function CustomDropsClient() {
 
   const generateWhatsAppUrl = () => {
     const text = encodeURIComponent(
-      `👋 Hi RareEmber Team! I want a custom bulk quote:\n\n` +
-      `• Organization / College: ${orgName || 'College Club / Startup'}\n` +
-      `• Contact Person: ${contactName || 'Lead Organizer'}\n` +
-      `• Product: ${getProductName()}\n` +
-      `• Quantity: ${quantity} units\n` +
-      `• Target Event Date: ${eventDate || 'Next 2-3 weeks'}\n` +
-      `• Estimated Budget: ₹${totalEstimate.toLocaleString('en-IN')}\n\n` +
+      `👋 Hi RareEmber Team! I want a custom bulk quote:
+
+` +
+      `• Organization / College: ${orgName || 'College Club / Startup'}
+` +
+      `• Contact Person: ${contactName || 'Lead Organizer'}
+` +
+      `• Product: ${getProductName()}
+` +
+      `• Quantity: ${quantity} units
+` +
+      `• Target Event Date: ${eventDate || 'Next 2-3 weeks'}
+` +
+      `• Estimated Budget: ₹${totalEstimate.toLocaleString('en-IN')}
+
+` +
       `Please share free digital mockups & dispatch timeline!`
     );
-    // WhatsApp direct link to RareEmber Founder line
     const waNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '';
     return waNumber ? `https://wa.me/${waNumber.replace(/\D/g, '')}?text=${text}` : `https://wa.me/?text=${text}`;
   };
@@ -99,6 +333,8 @@ export function CustomDropsClient() {
     }
   };
 
+  const activeCanvasImage =
+    customView === 'back' && currentBlank.backImage ? currentBlank.backImage : currentBlank.frontImage;
 
   return (
     <main className="page-top min-h-screen text-[#161311] pb-24 bg-[#FFFBF5]">
@@ -151,17 +387,406 @@ export function CustomDropsClient() {
               <span>🏛️ Talk to Hermes AI • Instant Quote &amp; 20% Advance</span>
             </button>
             <a
-              href="#estimator"
+              href="#custom-lab"
               className="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider backdrop-blur-md transition-all no-underline text-center"
             >
-              Bulk Calculator ↓
+              Open Custom Design Studio ↓
             </a>
           </div>
         </div>
       </section>
 
+      {/* ======================================================== */}
+      {/* SECTION: RAREEMBER™ CUSTOM LAB (DEDICATED VISUAL STUDIO) */}
+      {/* ======================================================== */}
+      <section id="custom-lab" className="max-w-6xl mx-auto px-4 md:px-8 py-12 relative z-20">
+        <div className="p-6 md:p-10 rounded-3xl bg-[#0c0b0a] text-white border-2 border-[#FF4D24]/40 shadow-[0_20px_50px_rgba(0,0,0,0.25)] space-y-8">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-6">
+            <div>
+              <div className="inline-flex items-center gap-2 text-xs font-black text-[#FF9A3D] uppercase tracking-wider mb-1">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>RareEmber™ Custom Design Studio</span>
+              </div>
+              <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
+                Design Your Custom Drop on Any Premium Blank
+              </h2>
+              <p className="text-xs md:text-sm text-neutral-400 mt-1">
+                Select your blank silhouette, upload your artwork or custom text, and order 1 piece or a full batch.
+              </p>
+            </div>
+            <span className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-neutral-300 self-start md:self-auto">
+              🏭 Direct Tirupur Factory Queue
+            </span>
+          </div>
+
+          {/* 1. Blank Garment Picker (7 Core Silhouettes) */}
+          <div>
+            <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-3">
+              1. Choose Blank Silhouette (7 Core Flagship Blanks)
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
+              {SEVEN_CORE_BLANKS.map((blank) => {
+                const isSelected = selectedBlankId === blank.id;
+                return (
+                  <button
+                    key={blank.id}
+                    type="button"
+                    onClick={() => setSelectedBlankId(blank.id)}
+                    className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                      isSelected
+                        ? 'border-[#FF4D24] bg-[#FF4D24]/15 ring-2 ring-[#FF4D24] text-white shadow-lg'
+                        : 'border-white/10 bg-white/5 hover:bg-white/10 text-neutral-300'
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-1 mb-1.5">
+                        <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-white/10 text-[#FF9A3D]">
+                          {blank.badge}
+                        </span>
+                        <span className="text-xs font-black text-white">₹{blank.price}</span>
+                      </div>
+                      <div className="font-black text-xs text-white leading-tight">{blank.name}</div>
+                      <div className="text-[10px] text-neutral-400 mt-1 truncate">{blank.gsm}</div>
+                    </div>
+                    <div className="mt-2 text-[9px] font-bold text-[#FF4D24] flex items-center gap-1">
+                      <span>●</span>
+                      <span>{isSelected ? 'ACTIVE BLANK' : 'TAP TO SELECT'}</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 2. Visual Studio: Canvas (Left) + Controls (Right) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* LEFT CANVAS: Visual Garment Preview */}
+            <div className="lg:col-span-6 bg-neutral-950 rounded-3xl p-4 border border-white/10 flex flex-col items-center">
+              <div className="w-full flex items-center justify-between mb-3 px-2">
+                <span className="text-xs font-black text-white truncate max-w-[200px]">
+                  {currentBlank.name}
+                </span>
+                {currentBlank.isApparel && currentBlank.backImage && (
+                  <div className="flex items-center gap-1 bg-white/10 p-1 rounded-xl">
+                    <button
+                      type="button"
+                      onClick={() => setCustomView('front')}
+                      className={`px-3 py-1 rounded-lg text-xs font-black transition-all cursor-pointer ${
+                        customView === 'front' ? 'bg-[#FF4D24] text-white' : 'text-neutral-400 hover:text-white'
+                      }`}
+                    >
+                      Front
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCustomView('back')}
+                      className={`px-3 py-1 rounded-lg text-xs font-black transition-all cursor-pointer ${
+                        customView === 'back' ? 'bg-[#FF4D24] text-white' : 'text-neutral-400 hover:text-white'
+                      }`}
+                    >
+                      Back
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Garment Mockup Container with Live Overlay */}
+              <div className="relative w-full aspect-square max-w-[420px] rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 flex items-center justify-center">
+                <Image
+                  src={activeCanvasImage}
+                  alt={currentBlank.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 420px"
+                  style={{ objectFit: 'cover' }}
+                />
+
+                {/* Print Safe Zone Box */}
+                <div
+                  className="absolute pointer-events-none border border-dashed border-[#FF4D24]/70 rounded-xl flex items-center justify-center p-2"
+                  style={{
+                    width: currentBlank.isDeskMat ? '80%' : currentBlank.isMug ? '70%' : '54%',
+                    height: currentBlank.isDeskMat ? '70%' : currentBlank.isMug ? '60%' : '56%',
+                    top: currentBlank.isDeskMat ? '15%' : currentBlank.isMug ? '20%' : '24%',
+                    left: currentBlank.isDeskMat ? '10%' : currentBlank.isMug ? '15%' : '23%',
+                  }}
+                >
+                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#FF4D24] text-white text-[9px] font-black px-2 py-0.5 rounded-full whitespace-nowrap shadow-md">
+                    {currentBlank.isDeskMat ? 'FULL SURFACE PRINT' : currentBlank.isMug ? 'FULL WRAP' : customPlacement}
+                  </span>
+
+                  {/* Render Custom Image or Text */}
+                  {customMode === 'image' && customImage && (
+                    <div className="w-full h-full flex items-center justify-center">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={customImage}
+                        alt="Custom Logo"
+                        className="max-w-[90%] max-h-[90%] object-contain filter drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
+                      />
+                    </div>
+                  )}
+
+                  {customMode === 'text' && (
+                    <div
+                      className={`${customFont} text-center`}
+                      style={{
+                        color: customTextColor,
+                        fontSize: 'clamp(14px, 2.5vw, 28px)',
+                        textShadow: '0 2px 8px rgba(0,0,0,0.9)',
+                      }}
+                    >
+                      {customText.trim() || 'YOUR BRAND'}
+                    </div>
+                  )}
+
+                  {customMode === 'image' && !customImage && (
+                    <div className="text-[11px] font-bold text-white/50 text-center">
+                      Upload Logo to Preview
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="text-[11px] text-neutral-400 text-center mt-3">
+                💡 1200 DPI OEKO-TEX® Direct-to-Film archival reproduction • Zero cracking guaranteed
+              </div>
+            </div>
+
+            {/* RIGHT CONTROLS: Upload, Text, Size, CTA */}
+            <div className="lg:col-span-6 space-y-5">
+              {/* Placement Presets (Apparel) */}
+              {currentBlank.isApparel && (
+                <div>
+                  <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+                    Print Placement Preset
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { label: 'Center Chest', desc: '10" × 12"' },
+                      { label: 'Oversized Back', desc: '12" × 14"' },
+                      { label: 'Pocket Crest', desc: '4" × 4"' },
+                    ].map((p) => (
+                      <button
+                        key={p.label}
+                        type="button"
+                        onClick={() => {
+                          setCustomPlacement(p.label);
+                          if (p.label === 'Oversized Back') setCustomView('back');
+                          else setCustomView('front');
+                        }}
+                        className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer ${
+                          customPlacement === p.label
+                            ? 'border-[#FF4D24] bg-[#FF4D24]/20 text-white font-black'
+                            : 'border-white/10 bg-white/5 text-neutral-400 hover:text-white'
+                        }`}
+                      >
+                        <div className="text-xs font-bold">{p.label}</div>
+                        <div className="text-[10px] text-neutral-400">{p.desc}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Upload PNG/SVG vs Custom Text Toggle */}
+              <div>
+                <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+                  Personalization Mode
+                </label>
+                <div className="grid grid-cols-2 gap-2 p-1 bg-white/5 rounded-2xl border border-white/10">
+                  <button
+                    type="button"
+                    onClick={() => setCustomMode('image')}
+                    className={`py-2 px-3 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                      customMode === 'image'
+                        ? 'bg-[#FF4D24] text-white shadow-md'
+                        : 'text-neutral-400 hover:text-white'
+                    }`}
+                  >
+                    <span>🖼️</span>
+                    <span>Upload Logo (PNG/SVG)</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCustomMode('text')}
+                    className={`py-2 px-3 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                      customMode === 'text'
+                        ? 'bg-[#FF4D24] text-white shadow-md'
+                        : 'text-neutral-400 hover:text-white'
+                    }`}
+                  >
+                    <span>🔤</span>
+                    <span>Add Custom Text</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Mode 1: File Upload */}
+              {customMode === 'image' && (
+                <div className="space-y-2">
+                  <label className="block p-4 rounded-2xl border-2 border-dashed border-white/20 bg-white/5 hover:bg-white/10 transition-all cursor-pointer text-center">
+                    <span className="text-2xl block mb-1">☁️</span>
+                    <span className="text-xs font-black text-white block">
+                      {uploadingLabImage ? 'Uploading Logo...' : 'Click to Upload High-Res PNG, SVG, or WEBP'}
+                    </span>
+                    <span className="text-[10px] text-neutral-400 mt-0.5 block">
+                      Transparent background recommended • Up to 15MB
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleLabUpload}
+                      className="hidden"
+                    />
+                  </label>
+
+                  {customImage && (
+                    <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between gap-2">
+                      <span className="text-xs font-bold text-white truncate max-w-[200px]">
+                        ✓ {customImageName || 'Custom Artwork Attached'}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCustomImage(null);
+                          setCustomImageName('');
+                        }}
+                        className="text-xs text-rose-400 font-bold hover:underline cursor-pointer"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Mode 2: Custom Text */}
+              {customMode === 'text' && (
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    value={customText}
+                    onChange={(e) => setCustomText(e.target.value.slice(0, 30))}
+                    placeholder="Enter Custom Text (e.g. EMBER BUILDERS 2026)"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-white/15 bg-white/5 text-white font-bold text-sm focus:outline-none focus:border-[#FF4D24]"
+                  />
+
+                  {/* Typography Font */}
+                  <div>
+                    <label className="block text-[11px] font-black uppercase text-neutral-400 mb-1">
+                      Typography Font
+                    </label>
+                    <div className="grid grid-cols-2 gap-1.5">
+                      {[
+                        { label: 'Streetwear Sans', font: 'font-sans font-black tracking-wider uppercase' },
+                        { label: 'Cyber Monospace', font: 'font-mono font-bold tracking-widest uppercase' },
+                        { label: 'Athletic Block', font: 'font-sans font-extrabold uppercase' },
+                        { label: 'Vintage Serif', font: 'font-serif font-bold italic' },
+                      ].map((f) => (
+                        <button
+                          key={f.label}
+                          type="button"
+                          onClick={() => setCustomFont(f.font)}
+                          className={`py-1.5 px-2 rounded-xl text-xs font-bold border transition-all ${
+                            customFont === f.font
+                              ? 'border-[#FF4D24] bg-[#FF4D24]/15 text-[#FF9A3D]'
+                              : 'border-white/10 bg-white/5 text-neutral-300'
+                          }`}
+                        >
+                          {f.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Ink Color */}
+                  <div>
+                    <label className="block text-[11px] font-black uppercase text-neutral-400 mb-1">
+                      Ink Color
+                    </label>
+                    <div className="flex items-center gap-2">
+                      {[
+                        { color: '#FFFFFF', name: 'White' },
+                        { color: '#FF4D24', name: 'Ember Orange' },
+                        { color: '#06B6D4', name: 'Cyan' },
+                        { color: '#F59E0B', name: 'Gold' },
+                        { color: '#18181B', name: 'Stealth Black' },
+                        { color: '#EF4444', name: 'Crimson' },
+                      ].map((c) => (
+                        <button
+                          key={c.color}
+                          type="button"
+                          onClick={() => setCustomTextColor(c.color)}
+                          className={`w-7 h-7 rounded-full border-2 transition-all cursor-pointer ${
+                            customTextColor === c.color ? 'ring-2 ring-[#FF4D24] scale-110' : 'opacity-70 hover:opacity-100'
+                          }`}
+                          style={{ backgroundColor: c.color }}
+                          title={c.name}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Size Selector */}
+              <div>
+                <label className="block text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+                  Select Size
+                </label>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {currentBlank.sizes.map((s) => (
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() => setSelectedLabSize(s)}
+                      className={`px-3.5 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                        selectedLabSize === s
+                          ? 'bg-[#FF4D24] text-white shadow-md'
+                          : 'bg-white/5 border border-white/10 text-neutral-300 hover:bg-white/10'
+                      }`}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Order Notice Toast */}
+              {orderNotice && (
+                <div className="p-3 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold">
+                  {orderNotice}
+                </div>
+              )}
+
+              {/* Action Buttons: Order 1 Piece or Bulk Transfer */}
+              <div className="pt-2 space-y-2.5">
+                <button
+                  type="button"
+                  onClick={handleOrderSingleLabPiece}
+                  className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#FF4D24] to-[#E8244B] hover:brightness-110 active:scale-95 text-white font-black text-sm uppercase tracking-wider shadow-[0_10px_25px_rgba(255,77,36,0.35)] transition-all cursor-pointer border-none flex items-center justify-center gap-2"
+                >
+                  <span>ORDER 1 CUSTOM PIECE ⚡</span>
+                  <span>•</span>
+                  <span>₹{currentBlank.price}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleTransferToBulk}
+                  className="w-full py-3 rounded-2xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs uppercase tracking-wider border border-white/10 transition-all cursor-pointer flex items-center justify-center gap-2"
+                >
+                  <span>Transfer Design to Bulk Calculator (25+ Units) ↓</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CALCULATOR & ESTIMATOR */}
-      <section id="estimator" className="max-w-5xl mx-auto px-4 md:px-8 -mt-8 relative z-20">
+      <section id="estimator" className="max-w-5xl mx-auto px-4 md:px-8 mt-4 relative z-20">
         <div className="bg-white rounded-3xl p-6 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-black/[0.08]">
           <div className="border-b border-black/[0.06] pb-6 mb-8">
             <h2 className="text-xl md:text-3xl font-black text-[#161311] tracking-tight">
@@ -349,15 +974,11 @@ export function CustomDropsClient() {
                   href={generateWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs md:text-sm tracking-wide flex items-center justify-center gap-2 transition-all no-underline shadow-lg cursor-pointer"
+                  className="w-full py-3.5 px-4 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all no-underline border border-white/15"
                 >
                   <span>💬</span>
-                  <span>Lock Quote on WhatsApp (Instant)</span>
+                  <span>WhatsApp Merch Lead with this Quote</span>
                 </a>
-
-                <p className="text-[10px] text-center text-white/50">
-                  ⚡ 20% advance booking reserves fabric batch. Remaining 80% on dispatch.
-                </p>
               </div>
             </div>
           </div>
@@ -365,115 +986,116 @@ export function CustomDropsClient() {
       </section>
 
       {/* QUICK INQUIRY FORM */}
-      <section className="max-w-3xl mx-auto px-4 md:px-8 mt-16">
-        <div className="bg-white rounded-3xl p-6 md:p-8 border border-black/[0.08] shadow-sm">
-          <div className="text-center space-y-1.5 mb-6">
-            <h3 className="text-xl md:text-2xl font-black text-[#161311]">
-              Need a Custom Spec or Sample Delivered?
+      <section className="max-w-5xl mx-auto px-4 md:px-8 mt-12">
+        <div className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-black/[0.08]">
+          <div className="max-w-2xl mx-auto text-center mb-8">
+            <span className="text-[#FF4D24] text-xs font-black uppercase tracking-wider">Fast Turnaround</span>
+            <h3 className="text-2xl md:text-3xl font-black text-neutral-900 mt-1">
+              Lock Your Order / Request Sample Swatches
             </h3>
-            <p className="text-xs text-neutral-500">
-              Drop your club or event details below and our production desk will send 3D proofs within 2 hours.
+            <p className="text-xs md:text-sm text-neutral-500 mt-1.5">
+              Fill in your details and our Tirupur production manager will send digital 3D mockups and fabric specs via WhatsApp within 2 hours.
             </p>
           </div>
 
           {isSubmitted ? (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center space-y-3"
-            >
-              <span className="text-3xl block">🎉</span>
-              <h4 className="font-black text-emerald-900 text-base">Inquiry Received!</h4>
+            <div className="p-8 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-3 max-w-md mx-auto">
+              <span className="text-4xl block">🎉</span>
+              <h4 className="font-black text-lg text-emerald-950">Inquiry Received!</h4>
               <p className="text-xs text-emerald-800 leading-relaxed">
-                Thank you, <b>{contactName || 'Organizer'}</b>! Founder Ajay Rajbhar will reach out on WhatsApp (<b>{phone}</b>) within 2 hours with digital design mockups and payment link for <b>{orgName || 'your team'}</b>.
+                Thank you! Our Merch Desk has logged your requirement for <b>{quantity} units</b> of <b>{getProductName()}</b>. We will WhatsApp you the 3D mockups within 2 hours.
               </p>
-              <a
-                href={generateWhatsAppUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block mt-2 px-5 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs no-underline"
-              >
-                Speed up on WhatsApp →
-              </a>
-            </motion.div>
-          ) : (
-            <form action="#" method="GET" onSubmit={(e) => { e.preventDefault(); handleSubmit(e); }} className="space-y-4 text-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-bold text-neutral-700 mb-1">College Club / Startup Name</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. RVCE Coding Club, HackFest, Acme Tech"
-                    value={orgName}
-                    onChange={(e) => setOrgName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-black/[0.1] focus:outline-none focus:border-[#FF4D24] text-xs font-medium"
-                  />
-                </div>
-                <div>
-                  <label className="block font-bold text-neutral-700 mb-1">Contact Person Name</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Rahul Sharma (Club Lead)"
-                    value={contactName}
-                    onChange={(e) => setContactName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-black/[0.1] focus:outline-none focus:border-[#FF4D24] text-xs font-medium"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-bold text-neutral-700 mb-1">WhatsApp Number</label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="e.g. 9876543210"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-black/[0.1] focus:outline-none focus:border-[#FF4D24] text-xs font-medium"
-                  />
-                </div>
-                <div>
-                  <label className="block font-bold text-neutral-700 mb-1">Target Event Date</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Nov 15th, 2026"
-                    value={eventDate}
-                    onChange={(e) => setEventDate(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-black/[0.1] focus:outline-none focus:border-[#FF4D24] text-xs font-medium"
-                  />
-                </div>
-              </div>
-
               <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-3 rounded-xl bg-[#161311] hover:bg-black text-white font-black text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md disabled:opacity-50"
+                type="button"
+                onClick={() => setIsSubmitted(false)}
+                className="mt-2 text-xs font-bold text-emerald-900 underline cursor-pointer bg-transparent border-none"
               >
-                {isSubmitting ? 'Dispatching to Production Desk...' : 'Request Free 3D Design Proof & Spec Sheet ➔'}
+                Submit another inquiry
               </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-neutral-700 mb-1">
+                  College / Startup / Organization *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={orgName}
+                  onChange={(e) => setOrgName(e.target.value)}
+                  placeholder="e.g. PES University ACM Club or Stealth AI"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-black/15 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#FF4D24]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-neutral-700 mb-1">
+                  Lead Organizer / Contact Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={contactName}
+                  onChange={(e) => setContactName(e.target.value)}
+                  placeholder="e.g. Rahul Sharma"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-black/15 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#FF4D24]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-neutral-700 mb-1">
+                  WhatsApp Mobile Number *
+                </label>
+                <input
+                  type="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="e.g. 9876543210"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-black/15 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#FF4D24]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-neutral-700 mb-1">
+                  Target Event / Delivery Date
+                </label>
+                <input
+                  type="date"
+                  value={eventDate}
+                  onChange={(e) => setEventDate(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-black/15 text-xs text-neutral-900 font-semibold focus:outline-none focus:border-[#FF4D24]"
+                />
+              </div>
+
+              <div className="sm:col-span-2 pt-2">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-3.5 rounded-2xl bg-[#161311] hover:bg-black text-white font-black text-xs md:text-sm uppercase tracking-wider transition-all cursor-pointer border-none shadow-md disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Transmitting to Factory Desk...' : 'Request Free 3D Mockup & Lock Factory Slot ⚡'}
+                </button>
+              </div>
             </form>
           )}
         </div>
       </section>
 
-      {/* WHY RAREMBER SECTION */}
+      {/* WHY RAREEMBER SECTION */}
       <section className="max-w-5xl mx-auto px-4 md:px-8 mt-16">
-        <div className="text-center space-y-2 mb-10">
-          <span className="text-xs font-black uppercase tracking-widest text-[#FF4D24]">Factory Direct Moat</span>
-          <h3 className="text-2xl md:text-4xl font-black text-[#161311]">
-            Why 100+ Organizers Trust RareEmber
-          </h3>
+        <div className="text-center mb-8">
+          <span className="text-[#FF4D24] text-xs font-black uppercase tracking-wider">Direct Manufacturing</span>
+          <h3 className="text-2xl md:text-3xl font-black text-neutral-900 mt-1">Why Top College Fests Trust RareEmber</h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-6 rounded-3xl bg-white border border-black/[0.06] space-y-3">
             <span className="text-3xl block">🏭</span>
-            <h4 className="font-black text-sm text-neutral-900">Direct From Tirupur Hub</h4>
+            <h4 className="font-black text-sm text-neutral-900">Direct Tirupur Mill Output</h4>
             <p className="text-xs text-neutral-600 leading-relaxed">
-              No middlemen, no Delhi retail resellers. We manufacture and print directly at Tamil Nadu&apos;s knitwear capital with strict GSM control.
+              No middleman brokers or retail markups. We produce straight from our partnered knitting mills in Tirupur, giving you 50% lower prices than local printers.
             </p>
           </div>
 
