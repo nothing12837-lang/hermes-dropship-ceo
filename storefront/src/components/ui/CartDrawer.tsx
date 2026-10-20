@@ -10,6 +10,7 @@ import PrebuiltMockupRenderer from '@/components/PrebuiltMockupRenderer';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { resolveProductImage } from '@/lib/data/fallback-images';
+import { CURATED_PRODUCT_GALLERIES } from '@/lib/data/product-gallery';
 import { supabase } from '@/lib/supabase-client';
 import MagneticButton from './MagneticButton';
 import { useGeo } from '@/context/GeoContext';
@@ -62,19 +63,40 @@ export default function CartDrawer() {
   const detailed = items
     .map((i) => {
       const found = products.find((p) => p.id === i.id || p.id === i.id.split('__')[0]);
+      const resolvedColorImage = (() => {
+        const itemColor = (i as any).color;
+        if (found && itemColor && found.colors) {
+          const colorIdx = found.colors.findIndex(
+            (c) => c.toLowerCase() === itemColor.toLowerCase()
+          );
+          if (colorIdx >= 0) {
+            if (Array.isArray(found.images) && found.images[colorIdx]) {
+              return found.images[colorIdx];
+            }
+            if (CURATED_PRODUCT_GALLERIES[found.id]?.[colorIdx]) {
+              return CURATED_PRODUCT_GALLERIES[found.id][colorIdx];
+            }
+          }
+        }
+        if (i.imageUrl) return i.imageUrl;
+        return found ? resolveProductImage(found.id, found.image_url) : resolveProductImage(i.id, i.imageUrl);
+      })();
+
       if (found) {
         return {
           ...i,
+          imageUrl: resolvedColorImage || i.imageUrl,
           product: {
             ...found,
             price_inr: found.price_inr ?? found.price,
-            image_url: resolveProductImage(found.id, found.image_url),
+            image_url: resolvedColorImage || resolveProductImage(found.id, found.image_url),
           },
         };
       }
       const inferredInr = i.price_inr != null ? Number(i.price_inr) : (i.price && i.price >= 80 ? Math.round(i.price) : Math.round((i.price || 4.99) * 85));
       return {
         ...i,
+        imageUrl: resolvedColorImage || i.imageUrl,
         product: {
           id: i.id,
           slug: i.id,
@@ -82,7 +104,7 @@ export default function CartDrawer() {
           price: Number(i.price ?? inferredInr),
           price_inr: inferredInr,
           emoji: i.emoji || '🛍️',
-          image_url: resolveProductImage(i.id, i.imageUrl),
+          image_url: resolvedColorImage || resolveProductImage(i.id, i.imageUrl),
           gradient: i.gradient || 'linear-gradient(135deg, #f1f5f9, #e2e8f0)',
           short: '',
           story: '',
@@ -269,9 +291,9 @@ export default function CartDrawer() {
                               accentHex={(d.product as any).lockedAccentHex}
                               className="w-full h-full"
                             />
-                          ) : d.product.image_url ? (
+                          ) : (d.imageUrl || d.product.image_url) ? (
                             <Image
-                              src={d.product.image_url}
+                              src={(d.imageUrl || d.product.image_url)!}
                               alt={d.product.title}
                               fill
                               sizes="64px"

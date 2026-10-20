@@ -1237,12 +1237,21 @@ export function ProductClient({ product }: Props) {
     ? customImageName
     : undefined;
 
+  const colorMockupUrl = useMemo(() => {
+    const activeColor = selectedColor || (hasColors ? availableColors[0] : undefined);
+    if (activeColor && availableColors.length > 0) {
+      const idx = availableColors.findIndex((c) => c.toLowerCase() === activeColor.toLowerCase());
+      if (idx >= 0 && galleryImages[idx]) return galleryImages[idx];
+    }
+    return currentSrc || product.image_url;
+  }, [selectedColor, hasColors, availableColors, galleryImages, currentSrc, product.image_url]);
+
   const getItemMeta = () => ({
     title: displayTitle,
     price: effectivePriceUsd,
     price_inr: effectiveInr,
     emoji: product.emoji,
-    imageUrl: currentSrc || product.image_url,
+    imageUrl: colorMockupUrl || currentSrc || product.image_url,
     selectedStyle: isMultiBundle ? bundleGraphicSummary : undefined,
     gradient: product.gradient,
     size: bundleSizeSummary,

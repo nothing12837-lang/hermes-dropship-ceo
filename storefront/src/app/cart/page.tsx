@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useCart } from '@/lib/store/cart';
 import { useGeo } from '@/context/GeoContext';
+import { products } from '@/lib/data/products';
+import { CURATED_PRODUCT_GALLERIES } from '@/lib/data/product-gallery';
 
 export default function CartPage() {
   const { items, setQty, remove, count } = useCart();
@@ -75,10 +77,24 @@ export default function CartPage() {
 
         <div style={{ background: 'white', borderRadius: '1.4rem', border: '1px solid rgba(0,0,0,0.06)', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.04)' }}>
           <div style={{ padding: '1.5rem', display: 'grid', gap: '1.5rem' }}>
-            {items.map((item) => (
+            {items.map((item) => {
+              const itemImage = (() => {
+                if (item.imageUrl) return item.imageUrl;
+                const found = products.find((p) => p.id === item.id || p.id === item.id.split('__')[0]);
+                if (found && item.color && found.colors) {
+                  const colorIdx = found.colors.findIndex((c) => c.toLowerCase() === item.color?.toLowerCase());
+                  if (colorIdx >= 0) {
+                    if (Array.isArray(found.images) && found.images[colorIdx]) return found.images[colorIdx];
+                    if (CURATED_PRODUCT_GALLERIES[found.id]?.[colorIdx]) return CURATED_PRODUCT_GALLERIES[found.id][colorIdx];
+                  }
+                }
+                return (item as any).image_url || 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=200';
+              })();
+
+              return (
               <div key={item.id} style={{ display: 'flex', gap: '1rem', alignItems: 'center', borderBottom: '1px solid #f4f0eb', paddingBottom: '1.2rem' }}>
                 <img
-                  src={item.imageUrl || (item as any).image_url || 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=200'}
+                  src={itemImage}
                   alt={item.title || 'Cart product'}
                   style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '0.8rem', flexShrink: 0 }}
                 />
@@ -86,6 +102,20 @@ export default function CartPage() {
                   <div style={{ fontWeight: 800, fontSize: '1rem', color: '#1a1412', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {item.title}
                   </div>
+                  {(item.color || item.size) && (
+                    <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.25rem', fontSize: '0.75rem', fontWeight: 700 }}>
+                      {item.color && (
+                        <span style={{ background: '#f5f5f4', padding: '0.15rem 0.45rem', borderRadius: '0.35rem', border: '1px solid #e7e5e4', color: '#44403c' }}>
+                          Color: {item.color}
+                        </span>
+                      )}
+                      {item.size && (
+                        <span style={{ background: '#f5f5f4', padding: '0.15rem 0.45rem', borderRadius: '0.35rem', border: '1px solid #e7e5e4', color: '#44403c' }}>
+                          Size: {item.size}
+                        </span>
+                      )}
+                    </div>
+                  )}
                   <div style={{ color: '#FF4D24', fontWeight: 900, marginTop: '0.2rem' }}>
                     {formatPrice(item.price || 5.99, item.price_inr || 449)}
                   </div>
@@ -114,8 +144,9 @@ export default function CartPage() {
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
+        </div>
 
           <div style={{ background: '#fdf9f4', padding: '1.5rem', borderTop: '1px solid #f4f0eb' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
