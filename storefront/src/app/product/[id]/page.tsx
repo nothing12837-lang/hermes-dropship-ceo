@@ -67,13 +67,28 @@ export default async function ProductPage({ params }: Props) {
 
   const canonicalUrl = `${siteUrl}/product/${cleanSlug}`;
 
+  const isDrinkware = product.title.toLowerCase().includes('mug') || product.title.toLowerCase().includes('sipper');
+  const isDeskGear = product.title.toLowerCase().includes('mat') || product.title.toLowerCase().includes('mousepad');
+  const resolvedMaterial = isDrinkware
+    ? 'High-Density Heat-Retaining Ceramic'
+    : isDeskGear
+    ? 'Waterproof Micro-Weave Cloth & Non-Slip Rubber Base'
+    : '100% Super-Combed Bio-Washed Cotton (240 GSM Heavyweight)';
+
   const productSchema = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.title,
     image: product.image_url ? [product.image_url] : [`${siteUrl}/flame-icon.png`],
     description: product.short || product.title,
+    disambiguatingDescription: `Authentic Rare Ember drop. Crafted with ${resolvedMaterial}. Pan-India express air shipping in 2-4 days via BlueDart & Delhivery with Cash on Delivery (COD) and 7-day easy returns.`,
     sku: (product.slug || product.id).replace(/^qikink-?/i, 'RE-').toUpperCase(),
+    category: isDrinkware ? 'Artisan Drinkware' : isDeskGear ? 'Desk & Creator Gear' : 'Streetwear Apparel',
+    material: resolvedMaterial,
+    audience: {
+      '@type': 'PeopleAudience',
+      suggestedGender: 'unisex',
+    },
     brand: {
       '@type': 'Brand',
       name: 'Rare Ember',

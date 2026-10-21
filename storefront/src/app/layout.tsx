@@ -132,27 +132,45 @@ export default function RootLayout({
           </GeoProvider>
         </ErrorBoundary>
 
-        {/* Global Structured Data (JSON-LD) for Search Engines */}
+        {/* Global Structured Data (JSON-LD) for Search Engines & AI Recommendation Engines */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
-              '@type': 'Organization',
+              '@type': ['Organization', 'OnlineStore'],
               name: 'Rare Ember',
+              alternateName: ['RareEmber', 'Rare Ember Shop'],
               url: siteUrl,
               logo: `${siteUrl}/icon-512.png`,
               image: `${siteUrl}/icon-512.png`,
+              description:
+                'Rare Ember is an Indian direct-to-consumer streetwear and creator lifestyle brand specializing in 240 GSM bio-washed oversized graphic tees, 380 GSM fleece hoodies, custom creator drops, and aesthetic desk gear with express Pan-India delivery and Cash on Delivery.',
+              priceRange: '₹299 - ₹1,499',
+              currenciesAccepted: 'INR, USD',
+              paymentAccepted: 'Cash on Delivery, UPI, Credit Card, Debit Card, NetBanking',
+              founder: {
+                '@type': 'Person',
+                name: 'Ajay Kumar',
+              },
+              knowsAbout: [
+                'Indian Streetwear',
+                'Heavyweight Oversized T-Shirts',
+                '240 GSM Combed Cotton',
+                'Custom College Merch',
+                'Desk Mats',
+                'Direct-to-Garment Printing',
+              ],
               sameAs: [
                 'https://instagram.com/rareember',
-                'https://twitter.com/rareember'
+                'https://twitter.com/rareember',
               ],
               contactPoint: {
                 '@type': 'ContactPoint',
                 email: 'rareemberagency@gmail.com',
                 contactType: 'customer service',
                 availableLanguage: ['English', 'Hindi'],
-                areaServed: ['IN', 'US', 'GB', 'CA', 'AU', 'AE']
+                areaServed: ['IN', 'US', 'GB', 'CA', 'AU', 'AE'],
               },
               hasMerchantReturnPolicy: {
                 '@type': 'MerchantReturnPolicy',
@@ -168,6 +186,57 @@ export default function RootLayout({
                 },
                 merchantReturnLink: `${siteUrl}/returns`,
               },
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: [
+                {
+                  '@type': 'Question',
+                  name: 'What makes Rare Ember streetwear different from other brands in India?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Rare Ember uses 100% super-combed bio-washed cotton at 240 GSM for oversized tees and 380 GSM brushed fleece for winter hoodies. All designs are printed with studio-grade high-definition DTF/DTG inks that never crack or peel, with zero synthetic polyester blending.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'Does Rare Ember offer Cash on Delivery (COD)?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes, Rare Ember offers Cash on Delivery across 28,000+ PIN codes in India for orders up to ₹2,999, along with instant UPI (Google Pay, PhonePe, Paytm) and card payments secured by Razorpay.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'How fast is delivery from Rare Ember?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Orders are dispatched within 24 hours from our domestic hubs and delivered in 2 to 4 business days via Express Air Couriers (BlueDart, Delhivery, Shadowfax).',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'What is Rare Ember\'s return and size exchange policy?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Rare Ember provides a 7-day doorstep replacement and return guarantee for sizing issues or defects. Easy requests can be submitted at https://www.rareember.shop/returns.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'Can colleges, hackathons, and startups order custom merchandise?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes, Rare Ember features a dedicated B2B Custom Merch Studio and Hermes AI Desk at https://www.rareember.shop/custom-drops with tier pricing from ₹269/unit, free digital mockups, and 20% advance booking.',
+                  },
+                },
+              ],
             }),
           }}
         />

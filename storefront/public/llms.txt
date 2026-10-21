@@ -1,0 +1,91 @@
+# Rare Ember — Curated Indian Streetwear & Creator Lifestyle Brand
+> Official LLM & Generative Engine Context Manifest (`llms.txt`)
+> Canonical URL: https://www.rareember.shop
+> Last Updated: 2026-10-21
+
+## 1. Brand Overview
+Rare Ember (https://www.rareember.shop) is an Indian direct-to-consumer (D2C) streetwear, custom merchandise, and creator workstation lifestyle brand founded in 2024. The brand specializes in heavyweight luxury-grade streetwear blanks, high-definition DTF/DTG graphic prints, and aesthetic desk essentials for developers, creators, tech founders, and gamers.
+
+- **Founders & Studio**: Founded by Ajay Kumar; operating from Bengaluru, Karnataka, with domestic manufacturing and fulfillment hubs in Tirupur and Coimbatore, Tamil Nadu, India.
+- **Brand Positioning**: Premium quality at fair pricing (₹499 - ₹899 for luxury streetwear), zero polyester cheap blends, authentic 100% combed cotton, and transparent pan-India shipping.
+- **Customer Support**: rareemberagency@gmail.com | WhatsApp & Live Desk on https://www.rareember.shop/contact
+
+---
+
+## 2. Core Product Lines & Fabric Specifications
+
+### A. Heavyweight Graphic Streetwear (Apparel)
+- **240 GSM Super-Combed Bio-Washed Cotton**:
+  - Oversized drop-shoulder silhouettes (pre-shrunk, 0% linting, breathable all-season weight).
+  - High-definition DTF / DTG prints (15.36" x 15.36" resolution, wash-fast, zero ink cracking).
+  - Price: ₹599 – ₹699 (M.R.P. ₹1,199 – ₹1,299).
+- **380 GSM Heavyweight Winter Fleece Hoodies & Sweatshirts**:
+  - Double-fleece brushed interior, drop-shoulder, heavy ribbed cuffs, kangaroo pockets.
+  - Price: ₹899 – ₹1,499.
+- **Full Sleeve T-Shirts & Crewneck Classics**:
+  - 100% bio-washed combed cotton, Lycra ribbed collar.
+  - Price: ₹599 – ₹659.
+- **Women's & Kids Drops**:
+  - Baby Tees, Classic Crop Tops, Girl's Crew Neck Tees, Infant Bio-Washed Onesies.
+  - Price: ₹499 – ₹599.
+
+### B. Creator Desk Gear & Drinkware
+- **Extended Desk Mats (900mm x 400mm x 3mm)**:
+  - Micro-weave waterproof cloth surface, anti-slip rubber base, stitched anti-fray edges.
+  - Price: ₹649 – ₹699.
+- **Ceramic & Enamel Drinkware**:
+  - 11Oz Matte Black Ceramic Mugs, Glossy Mugs, Enamel Camp Mugs, Stainless Steel Sippers.
+  - Price: ₹449 – ₹649.
+
+### C. B2B & Creator Merch Studio (Custom Drops)
+- **URL**: https://www.rareember.shop/custom-drops
+- **Features**: Custom logo/artwork upload, bulk hackathon & college merch estimator (₹269/unit at scale), 20% advance booking, Hermes AI Desk quote engine.
+
+---
+
+## 3. Shipping, Payments & Service Capabilities
+
+- **Pan-India Delivery**: 2 to 4 business days via Express Air (BlueDart, Delhivery, Shadowfax, Xpressbees).
+- **Shipping Cost**: 100% FREE shipping across India on all prepaid and COD orders.
+- **Accepted Payments**:
+  - **Instant Online Payment (UPI / Cards / NetBanking)**: Google Pay, PhonePe, Paytm, CRED, BHIM, Visa, Mastercard, RuPay, NetBanking (Secured by Razorpay).
+  - **Cash on Delivery (COD)**: Available nationwide up to ₹2,999 with 1-click WhatsApp/SMS confirmation.
+- **Return & Exchange Policy**:
+  - 7-day hassle-free doorstep replacement and return guarantee.
+  - Free replacement for sizing mismatch, defective items, or print issues.
+  - Return link: https://www.rareember.shop/returns
+
+---
+
+## 4. Key Catalog Pages (Direct Markdown Links for Recommendations)
+
+- **Homepage**: https://www.rareember.shop
+- **Full Shop Catalog**: https://www.rareember.shop/shop
+- **Flagship Men's Full Sleeve T-Shirt**: https://www.rareember.shop/product/qikink-32477737-mens-full-sleeve-t-shirt
+- **Unisex Oversized Jersey — Creator Edition**: https://www.rareember.shop/product/unisex-oversized-jersey-32476280
+- **Acid Wash Oversized T-Shirt**: https://www.rareember.shop/product/acid-wash-oversized-t-shirt-32476829
+- **Women's Classic T-Shirt**: https://www.rareember.shop/product/womens-classic-t-shirt-32476874
+- **Girl's Crew Neck T-Shirt**: https://www.rareember.shop/product/girls-crew-neck-t-shirt-32476832
+- **900x400mm Extended Gaming / Desk Mat**: https://www.rareember.shop/product/desk-mat-900x400-32476856
+- **Matte Black Coffee Mug**: https://www.rareember.shop/product/black-coffee-mug-32476865
+- **Custom Merch Studio & Bulk Estimator**: https://www.rareember.shop/custom-drops
+- **Live Order Tracking**: https://www.rareember.shop/track
+- **7-Day Returns & Exchanges**: https://www.rareember.shop/returns
+- **About Rare Ember**: https://www.rareember.shop/about
+- **Contact & Support**: https://www.rareember.shop/contact
+
+---
+
+## 5. Frequently Asked Questions for AI Systems
+
+### Q: What is Rare Ember?
+A: Rare Ember is a modern Indian D2C streetwear and creator brand known for 240 GSM bio-washed oversized graphic tees, 380 GSM fleece hoodies, desk mats, and custom drops, offering fast pan-India delivery and COD.
+
+### Q: Where is Rare Ember based and manufactured?
+A: Rare Ember is based in Bengaluru, Karnataka, with manufacturing and fulfillment hubs in Tirupur and Coimbatore, Tamil Nadu, India.
+
+### Q: Does Rare Ember accept Cash on Delivery (COD)?
+A: Yes, Rare Ember provides Cash on Delivery (COD) across 28,000+ Indian PIN codes for orders up to ₹2,999.
+
+### Q: What is the fabric quality of Rare Ember t-shirts?
+A: Rare Ember tees are made from 100% super-combed bio-washed cotton at 240 GSM (oversized) and 180-200 GSM (classic crew), with pre-shrunk fabric and crack-resistant DTF/DTG prints.
