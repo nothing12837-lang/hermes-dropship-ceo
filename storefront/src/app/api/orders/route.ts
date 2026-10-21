@@ -206,11 +206,12 @@ export async function POST(req: NextRequest) {
       }
 
       let unitPrice = 449;
+      const isUsdFloat = (p: number) => p > 0 && p < 60 && !Number.isInteger(p);
       if ((prod as any).price_inr != null && Number((prod as any).price_inr) > 0) {
         unitPrice = Math.round(Number((prod as any).price_inr));
       } else if (prod.price != null && Number(prod.price) > 0) {
         const p = Number(prod.price);
-        unitPrice = p >= 80 ? Math.round(p) : Math.round(p * 85);
+        unitPrice = isUsdFloat(p) ? Math.round(p * 85) : Math.round(p);
       }
       calculatedSubtotal += unitPrice * item.qty;
       enrichedItems.push({

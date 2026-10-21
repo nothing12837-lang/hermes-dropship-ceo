@@ -31,6 +31,8 @@ export default function CartDrawer() {
   const { market } = useGeo();
   const isIndia = market === 'IN';
 
+  const isUsdFloat = (p: number) => p > 0 && p < 60 && !Number.isInteger(p);
+
   const getItemPrice = (item: { price?: number; price_inr?: number }) => {
     if (isIndia) {
       if (item.price_inr != null && Number(item.price_inr) > 0) {
@@ -38,7 +40,7 @@ export default function CartDrawer() {
       }
       if (item.price != null && Number(item.price) > 0) {
         const p = Number(item.price);
-        return p >= 80 ? Math.round(p) : Math.round(p * 85);
+        return isUsdFloat(p) ? Math.round(p * 85) : Math.round(p);
       }
       return 449;
     }
@@ -58,8 +60,8 @@ export default function CartDrawer() {
       const usdVal = val >= 80 ? val / 85 : val;
       return `$${Number(usdVal).toFixed(2)}`;
     }
-    const inrVal = val >= 80 ? val : Math.round(val * 85);
-    return `₹${Math.round(inrVal).toLocaleString('en-IN')}`;
+    const inrVal = isUsdFloat(val) ? Math.round(val * 85) : Math.round(val);
+    return `₹${inrVal.toLocaleString('en-IN')}`;
   };
 
   const detailed = items
@@ -95,7 +97,7 @@ export default function CartDrawer() {
           },
         };
       }
-      const inferredInr = i.price_inr != null ? Number(i.price_inr) : (i.price && i.price >= 80 ? Math.round(i.price) : Math.round((i.price || 4.99) * 85));
+      const inferredInr = i.price_inr != null ? Number(i.price_inr) : (i.price ? (isUsdFloat(Number(i.price)) ? Math.round(Number(i.price) * 85) : Math.round(Number(i.price))) : 449);
       return {
         ...i,
         imageUrl: resolvedColorImage || i.imageUrl,

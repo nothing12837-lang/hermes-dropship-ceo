@@ -1231,7 +1231,10 @@ export function ProductClient({ product }: Props) {
     ];
   })();
 
-  const baseInr = product.price_inr || (product.price >= 80 ? product.price : Math.round(product.price * 85));
+  const isUsdFloat = (p: number) => p > 0 && p < 60 && !Number.isInteger(p);
+  const baseInr = product.price_inr != null 
+    ? Number(product.price_inr) 
+    : (isUsdFloat(product.price) ? Math.round(product.price * 85) : product.price);
   const customizationFeeInr = isCustomizing && supportsPrintPlacement && customPlacement.includes('Both Sides') ? 149 : 0;
   const effectiveInr = baseInr + customizationFeeInr;
   const effectivePriceUsd = Number((effectiveInr / 85).toFixed(2));

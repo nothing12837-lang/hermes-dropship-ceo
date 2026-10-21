@@ -1,5 +1,49 @@
 [
   {
+    "id": "rare-ember-gateway-test-pass",
+    "slug": "rare-ember-gateway-test-pass",
+    "title": "Rare Ember VIP Founder Pass — Live Razorpay Verification Drop",
+    "baseTitle": "VIP Founder Pass",
+    "short": "Official ₹10 Live Payment Gateway Verification Pass. Instant confirmation with live Razorpay UPI, Cards & NetBanking.",
+    "story": "Official live payment gateway verification drop for Rare Ember. Engineered to verify live Razorpay UPI QR, NetBanking, and credit/debit card processing end-to-end with instantaneous server reconciliation.",
+    "details": [
+      "Official Live Razorpay Gateway Verification Token",
+      "Instant Live UPI / Credit & Debit Card / NetBanking Verification",
+      "Direct Domestic Fulfillment & Instant SMS/Email Order Confirmation",
+      "100% Secure 256-Bit SSL Encrypted Razorpay Checkout",
+      "Fast 2–4 Day Pan-India Dispatch with 7-Day Replacement Guarantee"
+    ],
+    "price": 10,
+    "price_inr": 10,
+    "compareAtPrice": 99,
+    "compare_at_price": 99,
+    "old_price": 99,
+    "rating": 5,
+    "reviews": 24,
+    "image_url": "/flame-icon.png",
+    "images": [
+      "/flame-icon.png",
+      "/rareember-logo.png"
+    ],
+    "category": "mens",
+    "gender": "men",
+    "is_printed": true,
+    "design_code": "gateway_test_token",
+    "print_design_name": "VIP Founder Pass Token",
+    "colors": [
+      "Founder Gold"
+    ],
+    "sizes": [
+      "Standard Pass"
+    ],
+    "active": true,
+    "stock": 999,
+    "tag": "LIVE TEST DROP (₹10)",
+    "tagColor": "#FFFFFF",
+    "tagBg": "#10B981",
+    "gradient": "linear-gradient(135deg, #10b981, #059669)"
+  },
+  {
     "id": "qikink-32477737-mens-full-sleeve-t-shirt",
     "slug": "mens-full-sleeve-t-shirt-32477737",
     "title": "Men's Full Sleeve T-Shirt — Rare Ember Signature Graphic",

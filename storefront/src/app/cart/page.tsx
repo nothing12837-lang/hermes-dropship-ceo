@@ -11,12 +11,14 @@ export default function CartPage() {
   const { formatPrice, market } = useGeo();
   const isIndia = market === 'IN';
 
+  const isUsdFloat = (p: number) => p > 0 && p < 60 && !Number.isInteger(p);
+
   const getItemPrice = (item: { price?: number; price_inr?: number }) => {
     if (isIndia) {
       if (item.price_inr != null && Number(item.price_inr) > 0) return Math.round(Number(item.price_inr));
       if (item.price != null && Number(item.price) > 0) {
         const p = Number(item.price);
-        return p >= 80 ? Math.round(p) : Math.round(p * 85);
+        return isUsdFloat(p) ? Math.round(p * 85) : Math.round(p);
       }
       return 449;
     }

@@ -14,7 +14,11 @@ interface GeoContextType {
 }
 
 const formatInrPrice = (priceUsd: number, priceInr?: number): string => {
-  const val = priceInr ?? (priceUsd >= 80 ? Math.round(priceUsd) : Math.round(priceUsd * 85));
+  if (priceInr != null && !Number.isNaN(Number(priceInr))) {
+    return `₹${Math.round(Number(priceInr)).toLocaleString('en-IN')}`;
+  }
+  const isUsdFloat = priceUsd > 0 && priceUsd < 60 && !Number.isInteger(priceUsd);
+  const val = isUsdFloat ? Math.round(priceUsd * 85) : Math.round(priceUsd);
   return `₹${val.toLocaleString('en-IN')}`;
 };
 

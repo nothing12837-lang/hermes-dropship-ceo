@@ -130,13 +130,14 @@ export async function POST(req: NextRequest) {
       }
 
       let unitPrice = 0;
+      const isUsdFloat = (p: number) => p > 0 && p < 60 && !Number.isInteger(p);
       if (dbProd) {
         if (isIndia) {
           if (dbProd.price_inr != null && Number(dbProd.price_inr) > 0) {
             unitPrice = Number(dbProd.price_inr);
           } else {
             const p = Number(dbProd.price);
-            unitPrice = p >= 80 ? Math.round(p) : Math.round(p * 85);
+            unitPrice = isUsdFloat(p) ? Math.round(p * 85) : Math.round(p);
           }
         } else {
           const p = Number(dbProd.price);
@@ -144,7 +145,9 @@ export async function POST(req: NextRequest) {
         }
       } else if (staticProd) {
         if (isIndia) {
-          unitPrice = staticProd.price_inr || (staticProd.price >= 80 ? Math.round(staticProd.price) : Math.round(staticProd.price * 85));
+          unitPrice = staticProd.price_inr != null && Number(staticProd.price_inr) > 0
+            ? Number(staticProd.price_inr)
+            : (isUsdFloat(staticProd.price) ? Math.round(staticProd.price * 85) : Math.round(staticProd.price));
         } else {
           unitPrice = staticProd.price >= 80 ? Number((staticProd.price / 85).toFixed(2)) : staticProd.price;
         }

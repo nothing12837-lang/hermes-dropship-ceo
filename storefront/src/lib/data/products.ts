@@ -87,7 +87,8 @@ export function getClientMarket(): 'IN' | 'GLOBAL' {
 }
 
 export function formatPrice(num: number, _marketOverride?: 'IN' | 'GLOBAL'): string {
-  const val = num >= 80 ? Math.round(num) : Math.round(num * USD_TO_INR_RATE);
+  const isUsdFloat = num > 0 && num < 60 && !Number.isInteger(num);
+  const val = isUsdFloat ? Math.round(num * USD_TO_INR_RATE) : Math.round(num);
   return `₹${val.toLocaleString('en-IN')}`;
 }
 
@@ -102,15 +103,16 @@ export function cleanBrandTitle(rawTitle: string): string {
 
 export function computeDiscount(rawPrice: number, rawCompare?: number, priceInr?: number): number | undefined {
   if (!rawCompare || rawCompare <= 0) return undefined;
+  const isUsdFloat = (n: number) => n > 0 && n < 60 && !Number.isInteger(n);
   const actualPriceInr = priceInr && priceInr > 0 
     ? priceInr 
-    : (rawPrice >= 80 ? rawPrice : Math.round(rawPrice * USD_TO_INR_RATE));
-  const actualCompareInr = rawCompare >= 80 
-    ? rawCompare 
-    : Math.round(rawCompare * USD_TO_INR_RATE);
+    : (isUsdFloat(rawPrice) ? Math.round(rawPrice * USD_TO_INR_RATE) : Math.round(rawPrice));
+  const actualCompareInr = isUsdFloat(rawCompare) 
+    ? Math.round(rawCompare * USD_TO_INR_RATE) 
+    : Math.round(rawCompare);
   if (actualCompareInr <= actualPriceInr) return undefined;
   const pct = Math.round((1 - actualPriceInr / actualCompareInr) * 100);
-  if (pct < 5 || pct > 80) return undefined;
+  if (pct < 5 || pct > 95) return undefined;
   return pct;
 }
 
@@ -127,8 +129,19 @@ export const SHOP_CATEGORIES = [
 export function enforcePriceFloor(p: Product): Product {
   const pid = (p.id || '').toLowerCase();
   const title = (p.title || '').toLowerCase();
-  let price = p.price_inr || p.price;
-  let compare = p.compareAtPrice || p.compare_at_price;
+  let price = p.price_inr ?? p.price;
+  let compare = p.compareAtPrice ?? p.compare_at_price;
+
+  // Preserve test drops / gateway verification price without enforcing higher retail floor
+  if (pid.includes('test') || pid.includes('gateway') || p.price === 10 || p.price_inr === 10) {
+    return {
+      ...p,
+      price: 10,
+      price_inr: 10,
+      compareAtPrice: compare || 99,
+      compare_at_price: compare || 99,
+    };
+  }
 
   if (pid.includes('64950694') || pid.includes('32476280') || (title.includes('oversized') && title.includes('jersey'))) {
     price = 679;

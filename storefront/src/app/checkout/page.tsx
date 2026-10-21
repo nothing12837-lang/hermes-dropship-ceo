@@ -193,7 +193,10 @@ export default function CheckoutPage() {
               },
             };
           }
-          const inferredInr = i.price_inr != null ? Number(i.price_inr) : (i.price && i.price >= 80 ? Math.round(i.price) : Math.round((i.price || 4.99) * 85));
+          const isUsdFloat = (p: number) => p > 0 && p < 60 && !Number.isInteger(p);
+          const inferredInr = i.price_inr != null 
+            ? Number(i.price_inr) 
+            : (i.price ? (isUsdFloat(Number(i.price)) ? Math.round(Number(i.price) * 85) : Math.round(Number(i.price))) : 449);
           return {
             ...i,
             imageUrl: resolvedColorImage || i.imageUrl,
@@ -234,7 +237,8 @@ export default function CheckoutPage() {
   const getProductItemPrice = (p: { price: number; price_inr?: number }) => {
     if (isIndia) {
       if (p.price_inr && p.price_inr > 0) return p.price_inr;
-      return p.price >= 80 ? Math.round(p.price) : Math.round(p.price * 85);
+      const isUsdFloat = p.price > 0 && p.price < 60 && !Number.isInteger(p.price);
+      return isUsdFloat ? Math.round(p.price * 85) : Math.round(p.price);
     }
     return p.price >= 80 ? p.price / 85 : p.price;
   };
@@ -276,8 +280,9 @@ export default function CheckoutPage() {
       const usdVal = val >= 80 ? val / 85 : val;
       return `$${Number(usdVal).toFixed(2)}`;
     }
-    const inrVal = val >= 80 ? val : Math.round(val * 85);
-    return `₹${Math.round(inrVal).toLocaleString('en-IN')}`;
+    const isUsdFloat = val > 0 && val < 60 && !Number.isInteger(val);
+    const inrVal = isUsdFloat ? Math.round(val * 85) : Math.round(val);
+    return `₹${inrVal.toLocaleString('en-IN')}`;
   };
 
   const applyCoupon = () => {
