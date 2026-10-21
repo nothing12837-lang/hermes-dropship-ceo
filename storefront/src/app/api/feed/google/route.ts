@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import { products as staticCatalog } from '@/lib/data/products';
+import qikinkCatalog from '@/lib/data/qikink-products.json';
 
 export const runtime = 'nodejs';
 export const revalidate = 3600; // Cache feed for 1 hour
@@ -15,33 +14,22 @@ function escapeXml(unsafe: string): string {
 }
 
 export async function GET() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  // All catalog products currently archived for next collection drop
-  const catalogItems: any[] = [];
-
+  const catalogItems = qikinkCatalog;
   const siteUrl = 'https://www.rareember.shop';
 
   const itemsXml = catalogItems
     .map((p) => {
+      const cleanSlug = p.slug || p.id;
       const id = escapeXml(String(p.id));
       const title = escapeXml(String(p.title || 'RareEmber Curated Drop'));
       const desc = escapeXml(
-        String((p as any).description || p.story || p.short || `${title} - Premium curated lifestyle item by RareEmber. Pan-India express delivery with Cash on Delivery.`)
+        String((p as any).description || p.short || `${title} - Premium 100% combed cotton apparel by RareEmber. Pan-India express delivery with Cash on Delivery.`)
       );
-      const link = `${siteUrl}/product/${id}`;
+      const link = `${siteUrl}/product/${cleanSlug}`;
       const imageLink = escapeXml(String(p.image_url || `${siteUrl}/flame-icon.png`));
       
-      let priceVal = 449;
-      if (p.price_inr && Number(p.price_inr) > 0) {
-        priceVal = Number(p.price_inr);
-      } else if (p.price && Number(p.price) > 0) {
-        const num = Number(p.price);
-        priceVal = num >= 80 ? Math.round(num) : Math.round(num * 85);
-      }
-
-      const category = escapeXml(String(p.category || 'Apparel & Accessories'));
+      const priceVal = Number(p.price || p.price_inr || 599);
+      const category = escapeXml(String(p.category || 'Apparel & Accessories > Clothing'));
 
       return `    <item>
       <g:id>${id}</g:id>
