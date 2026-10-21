@@ -44,22 +44,36 @@ export async function GET(req: NextRequest) {
   if (!supabase) return NextResponse.json({ error: 'Supabase not configured' }, { status: 503 });
 
   const params = new URL(req.url).searchParams;
-  const limit = Math.min(50, Math.max(1, parseInt(params.get('limit') ?? '20', 10) || 20));
+  const limit = Math.min(100, Math.max(1, parseInt(params.get('limit') ?? '50', 10) || 50));
   const status = params.get('status')?.trim();
 
-  // Live-safe column set (see migration 0002): extension columns may not
-  // exist yet on older databases; the admin page renders them as null.
+  // Primary: Select every single detail (items, payment_method, shipping_name, address, tracking_url, totals)
   let query = supabase
     .from('orders')
     .select(
-      'id,user_email,total_amount,status,cj_order_id,meesho_order_id,meesho_url,tracking_number,created_at,shipping_address'
+      'id,user_email,total_amount,subtotal,shipping,status,cj_order_id,meesho_order_id,meesho_url,tracking_number,tracking_url,items,payment_method,shipping_name,shipping_address,created_at'
     )
     .order('created_at', { ascending: false })
     .limit(limit);
   if (status) query = query.eq('status', status);
 
-  const { data, error } = await query;
-  if (error) return NextResponse.json({ error: 'Order query failed' }, { status: 500 });
+  let { data, error } = await query;
+  if (error) {
+    console.warn('[Admin API] Comprehensive column select warning, falling back to base columns:', error.message);
+    // Safe fallback if optional legacy columns are absent
+    let fallbackQuery = supabase
+      .from('orders')
+      .select('id,user_email,total_amount,status,cj_order_id,tracking_number,tracking_url,items,payment_method,shipping_name,shipping_address,created_at')
+      .order('created_at', { ascending: false })
+      .limit(limit);
+    if (status) fallbackQuery = fallbackQuery.eq('status', status);
+    const fallbackRes = await fallbackQuery;
+    if (!fallbackRes.error) {
+      data = fallbackRes.data as any;
+    } else {
+      return NextResponse.json({ error: 'Order query failed' }, { status: 500 });
+    }
+  }
   return NextResponse.json({ orders: data ?? [] });
 }
 

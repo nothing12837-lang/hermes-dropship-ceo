@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useCart } from '@/lib/store/cart';
-import { MerchAgentModal } from '@/components/ai/MerchAgentModal';
 
 type ProductType = 'tee' | 'hoodie' | 'mat';
 
@@ -431,13 +430,14 @@ export function CustomDropsClient() {
           </div>
 
           <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <button
-              type="button"
-              onClick={() => setIsAiAgentOpen(true)}
-              className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF4D24] via-[#ff3b0f] to-[#E8244B] text-white font-black text-xs uppercase tracking-wider shadow-[0_8px_25px_rgba(255,77,36,0.4)] hover:scale-105 active:scale-95 transition-all cursor-pointer border-none flex items-center justify-center gap-2"
+            <a
+              href="https://wa.me/919118211860?text=Hi%20Rare%20Ember%20Tirupur%20Desk!%20I%20need%20a%20bulk%20custom%20merch%20quote."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF4D24] via-[#ff3b0f] to-[#E8244B] text-white font-black text-xs uppercase tracking-wider shadow-[0_8px_25px_rgba(255,77,36,0.4)] hover:scale-105 active:scale-95 transition-all no-underline flex items-center justify-center gap-2"
             >
-              <span>🏛️ Talk to Hermes AI • Instant Quote &amp; 20% Advance</span>
-            </button>
+              <span>🏭 Talk to Tirupur Production Desk • Instant Quote</span>
+            </a>
             <a
               href="#custom-lab"
               className="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider backdrop-blur-md transition-all no-underline text-center"
@@ -1189,26 +1189,19 @@ export function CustomDropsClient() {
         </div>
       </section>
 
-      {/* FLOATING AI AGENT BUTTON */}
+      {/* FLOATING DIRECT SUPPORT BUTTON */}
       <div className="fixed bottom-6 right-6 z-40">
-        <button
-          type="button"
-          onClick={() => setIsAiAgentOpen(true)}
-          className="px-5 py-3 rounded-full bg-[#161311] text-white hover:bg-black font-black text-xs uppercase tracking-wider shadow-2xl border border-white/20 flex items-center gap-2 cursor-pointer transition-all hover:scale-105 active:scale-95 ring-2 ring-[#FF4D24]/50"
+        <a
+          href="https://wa.me/919118211860?text=Hi%20Rare%20Ember%20Desk!%20I%20have%20a%20question%20about%20custom%20drops."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-5 py-3 rounded-full bg-[#161311] text-white hover:bg-black font-black text-xs uppercase tracking-wider shadow-2xl border border-white/20 flex items-center gap-2 transition-all hover:scale-105 active:scale-95 ring-2 ring-[#FF4D24]/50 no-underline"
         >
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span>🏛️ Hermes AI Desk</span>
+          <span>💬 WhatsApp Tirupur Desk</span>
           <span className="text-[#FF9A3D]">⚡</span>
-        </button>
+        </a>
       </div>
-
-      {/* AI AGENT MODAL */}
-      <MerchAgentModal
-        isOpen={isAiAgentOpen}
-        onClose={() => setIsAiAgentOpen(false)}
-        defaultProduct={productType}
-        defaultQty={quantity}
-      />
     </main>
   );
 }

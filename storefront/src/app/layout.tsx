@@ -233,7 +233,7 @@ export default function RootLayout({
                   name: 'Can colleges, hackathons, and startups order custom merchandise?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Yes, Rare Ember features a dedicated B2B Custom Merch Studio and Hermes AI Desk at https://www.rareember.shop/custom-drops with tier pricing from ₹269/unit, free digital mockups, and 20% advance booking.',
+                    text: 'Yes, Rare Ember features a dedicated B2B Custom Merch Studio and Tirupur Production Desk at https://www.rareember.shop/custom-drops with tier pricing from ₹269/unit, free digital mockups, and 20% advance booking.',
                   },
                 },
               ],

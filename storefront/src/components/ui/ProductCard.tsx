@@ -141,17 +141,11 @@ export default function ProductCard({
   const productHref = `/product/${(slug || id).replace(/^meesho-/, '')}`;
   const cleanTitle = cleanBrandTitle(title);
   const isBundle = id.startsWith('bundle-');
-
-  const isApparel = /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel/i.test(cleanTitle + ' ' + id);
-  const isDeskMatOrMugOrAccessory = /mat|pad|desk|mug|cup|bottle|tote|bag|case|accessory|frame/i.test(cleanTitle + ' ' + id);
-  const isComboWithDeskMatOrMug = isBundle && /mat|pad|desk|mug|workstation|coder|founding/i.test(cleanTitle + ' ' + id);
-  const ctaLabel = isComboWithDeskMatOrMug || isDeskMatOrMugOrAccessory || !isApparel ? 'ACQUIRE NOW →' : 'ORDER NOW ⚡';
-  const bundleFallbackList = BUNDLE_FALLBACK_IMAGES[id];
-  const rawBundleImgs = bundleFallbackList || (images && images.length > 1 ? images : []);
-  const bundleResolvedImages = rawBundleImgs
-    .map((img, idx) => resolveProductImage(`${id}__${idx}`, img))
-    .filter(Boolean) as string[];
-  const hasMultipleImages = isBundle && bundleResolvedImages.length >= 2;
+  const bundleResolvedImages = (images && images.length > 0 ? images : []).filter(Boolean);
+  // User Requirement: "create bundels too pack of 2 and 3 with all one img front"
+  // Disable multi-image collage so cards always show a clean, high-resolution single front hero image.
+  const hasMultipleImages = false;
+  const ctaLabel = isBundle ? 'ACQUIRE BUNDLE ⚡' : 'ORDER NOW ⚡';
 
   const inr = rawPrice ?? (parseFloat(price.replace(/[^0-9.]/g, '')) || 449);
   const displayPrice = rawPrice ? geoFormatPrice(rawPrice) : price;
@@ -279,18 +273,31 @@ export default function ProductCard({
               )}
             </>
           ) : showImage ? (
-            <Image
-              src={resolvedSrc as string}
-              alt={cleanTitle}
-              fill
-              priority={isLcpCandidate}
-              loading={isLcpCandidate ? undefined : 'lazy'}
-              sizes="(max-width: 640px) 48vw, (max-width: 1024px) 30vw, 280px"
-              quality={75}
-              style={{ objectFit: 'cover' }}
-              className="group-hover:scale-108 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-              onError={() => setImgFailed(true)}
-            />
+            <>
+              <Image
+                src={resolvedSrc as string}
+                alt={cleanTitle}
+                fill
+                priority={isLcpCandidate}
+                loading={isLcpCandidate ? undefined : 'lazy'}
+                sizes="(max-width: 640px) 48vw, (max-width: 1024px) 30vw, 280px"
+                quality={75}
+                style={{ objectFit: 'cover' }}
+                className="group-hover:scale-108 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                onError={() => setImgFailed(true)}
+              />
+              {isBundle && (
+                <div className="absolute bottom-2 left-2 sm:bottom-2.5 sm:left-2.5 z-20 px-2.5 py-1 rounded-full bg-[#161311]/92 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-black tracking-wider uppercase border border-amber-500/40 shadow-xl flex items-center gap-1.5 whitespace-nowrap">
+                  <span className="text-[#FF9A3D]">⚡</span>
+                  <span>
+                    {id.includes('pack-of-3') || cleanTitle.toLowerCase().includes('pack of 3')
+                      ? 'PACK OF 3'
+                      : 'PACK OF 2'}
+                  </span>
+                  <span className="text-emerald-400 font-extrabold">• VALUE COMBO</span>
+                </div>
+              )}
+            </>
           ) : (
             <span className="text-5xl sm:text-7xl flex items-center justify-center h-full group-hover:scale-110 transition-transform duration-500">
               {emoji}

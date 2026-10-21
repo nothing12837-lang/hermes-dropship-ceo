@@ -237,3 +237,112 @@ export async function notifyTelegramCustomLead(lead: {
   }
 }
 
+export async function notifyTelegramSupportTicket(ticket: {
+  ticketId: string;
+  name: string;
+  phone: string;
+  email: string;
+  orderId?: string;
+  category: string;
+  subject: string;
+  message: string;
+  priority?: string;
+}) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
+
+  if (!enabled || !token || !chatId) return;
+
+  const cleanPhone = String(ticket.phone || '').replace(/\D/g, '');
+  const intlPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
+  const waText = encodeURIComponent(
+    `Namaste ${ticket.name || 'Customer'}! 🙏\n\n` +
+    `We received your Rare Ember Support Ticket #${ticket.ticketId} regarding "${ticket.subject}".\n\n` +
+    `Our founder team is actively looking into your inquiry and will resolve this within our 12-hour priority SLA window. How can we best assist?`
+  );
+  const waLink = intlPhone ? `https://wa.me/${intlPhone}?text=${waText}` : '';
+  const callLink = intlPhone ? `tel:+${intlPhone}` : '';
+
+  const text = [
+    `🎫 <b>NEW CUSTOMER SUPPORT TICKET RAISED!</b> ⚡`,
+    `⏱️ <i>Priority SLA: Guaranteed Reply in 12 Hours</i>`,
+    ``,
+    `🆔 <b>Ticket ID:</b> <code>#${ticket.ticketId}</code>`,
+    `👤 <b>Customer Name:</b> <b>${ticket.name}</b>`,
+    `📞 <b>Mobile Phone:</b> <b>${ticket.phone}</b>`,
+    `✉️ <b>Email Address:</b> ${ticket.email}`,
+    ticket.orderId ? `📦 <b>Related Order ID:</b> <code>#${ticket.orderId}</code>` : '',
+    `🏷️ <b>Category:</b> <b>${ticket.category}</b>`,
+    `⚡ <b>Priority:</b> ${ticket.priority || 'Normal'}`,
+    ``,
+    `📝 <b>Subject:</b> <b>${ticket.subject}</b>`,
+    `💬 <b>Customer Message:</b>`,
+    `<i>"${ticket.message}"</i>`,
+    ``,
+    callLink ? `📞 <a href="${callLink}">Call Customer Now (+91 ${ticket.phone})</a>` : '',
+    waLink ? `💬 <a href="${waLink}">Open WhatsApp Chat with Customer</a>` : '',
+    `🔗 <a href="${getFulfillmentHubLink()}">Open Founder Command Center</a>`,
+  ].filter(Boolean).join('\n');
+
+  try {
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: 'HTML',
+        disable_web_page_preview: true,
+      }),
+    });
+  } catch (err) {
+    console.error('Failed to dispatch Telegram support ticket alert:', err);
+  }
+}
+
+export async function notifyTelegramCallbackRequest(req: {
+  name: string;
+  phone: string;
+  slot: string;
+  reason?: string;
+}) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
+
+  if (!enabled || !token || !chatId) return;
+
+  const cleanPhone = String(req.phone || '').replace(/\D/g, '');
+  const intlPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
+  const callLink = intlPhone ? `tel:+${intlPhone}` : '';
+  const waLink = intlPhone ? `https://wa.me/${intlPhone}?text=${encodeURIComponent(`Namaste ${req.name}! Rare Ember team calling regarding your callback request.`)}` : '';
+
+  const text = [
+    `📞 <b>NEW INSTANT CALLBACK REQUEST!</b> ⚡`,
+    ``,
+    `👤 <b>Name:</b> <b>${req.name}</b>`,
+    `📱 <b>Phone:</b> <b>${req.phone}</b>`,
+    `⏰ <b>Preferred Slot:</b> <b>${req.slot}</b>`,
+    req.reason ? `📝 <b>Reason / Inquiry:</b> <i>"${req.reason}"</i>` : '',
+    ``,
+    callLink ? `📞 <a href="${callLink}">Tap to Call Customer Now</a>` : '',
+    waLink ? `💬 <a href="${waLink}">Chat on WhatsApp</a>` : '',
+  ].filter(Boolean).join('\n');
+
+  try {
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: 'HTML',
+        disable_web_page_preview: true,
+      }),
+    });
+  } catch (err) {
+    console.error('Failed to dispatch Telegram callback alert:', err);
+  }
+}
+

@@ -1,12 +1,28 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
+
+interface AdminOrderItem {
+  id?: string;
+  product_id?: string;
+  title?: string;
+  name?: string;
+  color?: string;
+  size?: string;
+  qty?: number;
+  price?: number;
+  price_inr?: number;
+  imageUrl?: string;
+  selectedStyle?: string;
+}
 
 interface AdminOrder {
   id: string;
   user_email: string;
   total_amount: number;
+  subtotal?: number;
+  shipping?: number;
   status: string;
   cj_order_id: string | null;
   meesho_order_id?: string | null;
@@ -14,8 +30,11 @@ interface AdminOrder {
   rto_risk_level?: string | null;
   tracking_number: string | null;
   tracking_url: string | null;
+  payment_method?: string | null;
+  shipping_name?: string | null;
+  shipping_address?: Record<string, any> | null;
+  items?: AdminOrderItem[] | null;
   created_at: string;
-  shipping_address?: Record<string, string> | null;
 }
 
 const KEY_STORAGE = 'rareember_admin_vault_key';
@@ -26,6 +45,8 @@ export default function AdminOrdersPage() {
   const [unlocked, setUnlocked] = useState(false);
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [statusFilter, setStatusFilter] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState<'orders' | 'estimates' | 'support' | 'system'>('orders');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [actionSuccess, setActionSuccess] = useState('');
@@ -41,7 +62,7 @@ export default function AdminOrdersPage() {
     setError('');
     setActionSuccess('');
     try {
-      const params = new URLSearchParams({ limit: '50' });
+      const params = new URLSearchParams({ limit: '100' });
       if (statusFilter) params.set('status', statusFilter);
       const res = await fetch(`/api/admin/orders?${params.toString()}`, { headers: headers() });
       const data = await res.json();
@@ -60,11 +81,10 @@ export default function AdminOrdersPage() {
     const saved = sessionStorage.getItem(KEY_STORAGE);
     if (saved) {
       setKey(saved);
-      // Auto-unlock with saved key
       void (async () => {
         try {
-          const res = await fetch('/api/admin/orders?limit=50', {
-            headers: { Authorization: `Bearer ${saved}` }
+          const res = await fetch('/api/admin/orders?limit=100', {
+            headers: { Authorization: `Bearer ${saved}` },
           });
           if (res.ok) {
             const data = await res.json();
@@ -80,7 +100,7 @@ export default function AdminOrdersPage() {
 
   const handleUnlock = () => {
     if (!key.trim()) {
-      setError('Please enter your secret vault key.');
+      setError('Please enter your secret master key.');
       return;
     }
     sessionStorage.setItem(KEY_STORAGE, key.trim());
@@ -102,7 +122,7 @@ export default function AdminOrdersPage() {
       const res = await fetch('/api/admin/orders', {
         method: 'PATCH',
         headers: { ...headers(), 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId, status: newStatus, tracking_number: trackingNum })
+        body: JSON.stringify({ orderId, status: newStatus, tracking_number: trackingNum }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to update order');
@@ -116,7 +136,7 @@ export default function AdminOrdersPage() {
   };
 
   const handleMarkShipped = (orderId: string) => {
-    const tracking = window.prompt('Enter courier tracking number (Delhivery / BlueDart):');
+    const tracking = window.prompt('Enter courier tracking number (Delhivery / BlueDart / Shadowfax):');
     if (tracking === null) return;
     void updateOrderStatus(orderId, 'shipped', tracking.trim() || undefined);
   };
@@ -135,7 +155,7 @@ export default function AdminOrdersPage() {
       if (!res.ok) {
         if (data.reason && data.reason.includes('Test/temp order') && !force) {
           const reallyForce = window.confirm(
-            '⚠️ Warning: This order was identified as a test/temp order.\n\nDo you really want to force-send it to the Qikink factory floor? (This may initiate real manufacturing and courier dispatch).'
+            '⚠️ Warning: This order was identified as a test order.\n\nDo you want to force-send it to the live Qikink factory floor? (This may initiate real manufacturing).'
           );
           if (reallyForce) {
             return void handleTriggerQikink(orderId, true);
@@ -181,10 +201,103 @@ export default function AdminOrdersPage() {
     setTimeout(() => setActionSuccess(''), 3000);
   };
 
-  // Metrics
-  const totalRevenue = orders.reduce((sum, o) => sum + (Number(o.total_amount) || 0), 0);
-  const pendingOrders = orders.filter((o) => o.status === 'pending' || o.status === 'processing').length;
-  const shippedOrders = orders.filter((o) => o.status === 'shipped' || o.status === 'delivered').length;
+  // ── FINANCIAL & UNIT ECONOMICS CALCULATIONS ──
+  const metrics = useMemo(() => {
+    const totalRevenue = orders.reduce((sum, o) => sum + (Number(o.total_amount) || 0), 0);
+    const paidRevenue = orders
+      .filter((o) => o.status === 'paid' || o.status === 'processing' || o.status === 'shipped' || o.status === 'delivered')
+      .reduce((sum, o) => sum + (Number(o.total_amount) || 0), 0);
+    const pendingCodRevenue = orders
+      .filter((o) => o.status === 'pending_cod' || (o.status === 'pending' && o.payment_method === 'cod'))
+      .reduce((sum, o) => sum + (Number(o.total_amount) || 0), 0);
+
+    // Calculate total items across all orders
+    let totalItemsCount = 0;
+    let estimatedFactoryCost = 0;
+
+    orders.forEach((o) => {
+      if (Array.isArray(o.items) && o.items.length > 0) {
+        o.items.forEach((item) => {
+          const qty = Number(item.qty || 1);
+          totalItemsCount += qty;
+          const t = (item.title || item.name || '').toLowerCase();
+          // Unit base cost estimation:
+          if (t.includes('hoodie')) {
+            estimatedFactoryCost += 579 * qty;
+          } else if (t.includes('jersey')) {
+            estimatedFactoryCost += 349 * qty;
+          } else if (t.includes('mat')) {
+            estimatedFactoryCost += 299 * qty;
+          } else if (t.includes('crop') || t.includes('dress')) {
+            estimatedFactoryCost += 320 * qty;
+          } else {
+            estimatedFactoryCost += 279 * qty; // standard 240 GSM tee base landed cost
+          }
+        });
+      } else {
+        totalItemsCount += 1;
+        estimatedFactoryCost += 280; // default estimated baseline
+      }
+    });
+
+    const estimatedLogisticsCost = orders.length * 75; // average Air Express courier charge per parcel
+    const netProjectedProfit = totalRevenue - estimatedFactoryCost - estimatedLogisticsCost;
+    const netMarginPct = totalRevenue > 0 ? Math.round((netProjectedProfit / totalRevenue) * 100) : 48;
+
+    // ── 30-DAY FORWARD ESTIMATES ──
+    const activeOrdersCount = Math.max(orders.length, 1);
+    // Average order value
+    const aov = totalRevenue > 0 ? Math.round(totalRevenue / activeOrdersCount) : 659;
+    // Projected 30-day velocity estimate (assuming min 3-5 orders/day initial momentum)
+    const projectedDailyOrders = Math.max(orders.length > 3 ? orders.length / 3 : 3, 2);
+    const projected30DayOrders = Math.round(projectedDailyOrders * 30);
+    const projected30DayGMV = projected30DayOrders * aov;
+    const projected30DayProfit = Math.round(projected30DayGMV * (netMarginPct / 100));
+
+    // Recommended operating capital to keep in Qikink wallet
+    const recommendedWalletBuffer = Math.round(projectedDailyOrders * 7 * 350); // 7 days of production buffer
+
+    return {
+      totalRevenue,
+      paidRevenue,
+      pendingCodRevenue,
+      totalOrders: orders.length,
+      totalItemsCount,
+      estimatedFactoryCost,
+      estimatedLogisticsCost,
+      netProjectedProfit: Math.max(0, netProjectedProfit),
+      netMarginPct: Math.max(25, netMarginPct),
+      aov,
+      projected30DayOrders,
+      projected30DayGMV,
+      projected30DayProfit,
+      recommendedWalletBuffer,
+    };
+  }, [orders]);
+
+  // Filter orders by search query
+  const filteredOrders = useMemo(() => {
+    if (!searchQuery.trim()) return orders;
+    const q = searchQuery.toLowerCase().trim();
+    return orders.filter((o) => {
+      const email = (o.user_email || '').toLowerCase();
+      const id = o.id.toLowerCase();
+      const name = (o.shipping_name || o.shipping_address?.name || '').toLowerCase();
+      const phone = String(o.shipping_address?.phone || '').toLowerCase();
+      const city = String(o.shipping_address?.city || '').toLowerCase();
+      const state = String(o.shipping_address?.state || '').toLowerCase();
+      const pin = String(o.shipping_address?.zip || o.shipping_address?.pincode || '').toLowerCase();
+      return (
+        id.includes(q) ||
+        email.includes(q) ||
+        name.includes(q) ||
+        phone.includes(q) ||
+        city.includes(q) ||
+        state.includes(q) ||
+        pin.includes(q)
+      );
+    });
+  }, [orders, searchQuery]);
 
   // 1. LOCKED VAULT LOGIN SCREEN
   if (!unlocked) {
@@ -192,7 +305,7 @@ export default function AdminOrdersPage() {
       <main className="min-h-screen bg-[#0B0F19] text-white flex items-center justify-center px-4 pt-28 pb-16">
         <div className="w-full max-w-md bg-[#131B2E] border border-orange-500/20 rounded-2xl p-8 shadow-2xl relative overflow-hidden backdrop-blur-xl">
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 via-amber-400 to-orange-600" />
-          
+
           <div className="text-center mb-6">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-orange-500/10 border border-orange-500/30 text-3xl mb-4 shadow-inner">
               🛡️
@@ -200,7 +313,7 @@ export default function AdminOrdersPage() {
             <h1 className="text-2xl font-black tracking-tight text-white flex items-center justify-center gap-2">
               RareEmber <span className="text-orange-500">Command Center</span>
             </h1>
-            <p className="text-sm text-slate-400 mt-2">
+            <p className="text-xs text-slate-400 mt-2">
               Restricted Founder Protocol • Authorized Access Only
             </p>
           </div>
@@ -264,24 +377,23 @@ export default function AdminOrdersPage() {
 
   // 2. UNLOCKED EXECUTIVE DASHBOARD
   return (
-    <main className="min-h-screen bg-[#0B0F19] text-white pt-28 pb-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto space-y-8">
-        
+    <main className="min-h-screen bg-[#0B0F19] text-white pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto space-y-6">
         {/* Top Header Bar */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-[#131B2E] border border-slate-800 rounded-2xl p-6 shadow-xl">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-[#131B2E] border border-slate-800 rounded-2xl p-5 shadow-xl">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-3xl shadow-inner">
+            <div className="w-14 h-14 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-3xl shadow-inner shrink-0">
               👑
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-black tracking-tight text-white">RareEmber Command Center</h1>
-                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-                  LIVE 24x7
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white">RareEmber Command Center</h1>
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> LIVE OPS
                 </span>
               </div>
-              <p className="text-xs text-slate-400 mt-1">
-                Founder: <span className="text-white font-bold">Ajay Rajbhar</span> • Production Operations & Orders
+              <p className="text-xs text-slate-400 mt-0.5">
+                Founder: <span className="text-white font-bold">Ajay Kumar</span> • Real-Time Order Stream & Future Projections
               </p>
             </div>
           </div>
@@ -289,270 +401,637 @@ export default function AdminOrdersPage() {
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
             <Link
               href="/"
-              className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 transition-all"
+              target="_blank"
+              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 transition-all no-underline"
             >
-              View Live Store ↗
+              Live Store ↗
+            </Link>
+            <Link
+              href="/support"
+              target="_blank"
+              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 transition-all no-underline"
+            >
+              Help Desk ↗
             </Link>
             <button
               onClick={handleLock}
-              className="px-3.5 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-xs font-bold text-red-400 transition-all flex items-center gap-1.5 cursor-pointer"
+              className="px-3 py-1.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-xs font-bold text-red-400 transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <span>🔒</span> Lock Vault
             </button>
           </div>
         </div>
 
-        {/* Real-Time Business KPIs */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-[#131B2E] border border-slate-800 rounded-2xl p-5 shadow-lg">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Sales</p>
-            <h2 className="text-2xl sm:text-3xl font-black text-amber-400 mt-2 font-mono">
-              ₹{totalRevenue.toLocaleString('en-IN')}
+        {/* Executive KPI Matrix */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+          <div className="bg-[#131B2E] border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg">
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Gross Sales</p>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-amber-400 mt-1 font-mono">
+              ₹{metrics.totalRevenue.toLocaleString('en-IN')}
             </h2>
-            <p className="text-[11px] text-slate-400 mt-1">Gross store volume</p>
+            <p className="text-[10px] text-slate-400 mt-1">
+              Prepaid: <span className="text-emerald-400 font-bold">₹{metrics.paidRevenue.toLocaleString('en-IN')}</span> • COD: ₹{metrics.pendingCodRevenue.toLocaleString('en-IN')}
+            </p>
           </div>
 
-          <div className="bg-[#131B2E] border border-slate-800 rounded-2xl p-5 shadow-lg">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Orders</p>
-            <h2 className="text-2xl sm:text-3xl font-black text-white mt-2 font-mono">
+          <div className="bg-[#131B2E] border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg">
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Projected Net Margin</p>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-emerald-400 mt-1 font-mono">
+              ₹{metrics.netProjectedProfit.toLocaleString('en-IN')}{' '}
+              <span className="text-xs font-normal text-slate-400">({metrics.netMarginPct}%)</span>
+            </h2>
+            <p className="text-[10px] text-slate-400 mt-1">Post-factory landed cost & air freight</p>
+          </div>
+
+          <div className="bg-[#131B2E] border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg">
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total Orders</p>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-white mt-1 font-mono">
               {orders.length}
             </h2>
-            <p className="text-[11px] text-slate-400 mt-1">All recorded transactions</p>
+            <p className="text-[10px] text-slate-400 mt-1">{metrics.totalItemsCount} units total volume</p>
           </div>
 
-          <div className="bg-[#131B2E] border border-slate-800 rounded-2xl p-5 shadow-lg">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Pending Dispatch</p>
-            <h2 className="text-2xl sm:text-3xl font-black text-orange-400 mt-2 font-mono">
-              {pendingOrders}
+          <div className="bg-[#131B2E] border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg">
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">30-Day Forward GMV</p>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-cyan-400 mt-1 font-mono">
+              ₹{metrics.projected30DayGMV.toLocaleString('en-IN')}
             </h2>
-            <p className="text-[11px] text-slate-400 mt-1">Awaiting courier pickup</p>
-          </div>
-
-          <div className="bg-[#131B2E] border border-slate-800 rounded-2xl p-5 shadow-lg">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Fulfilled</p>
-            <h2 className="text-2xl sm:text-3xl font-black text-emerald-400 mt-2 font-mono">
-              {shippedOrders}
-            </h2>
-            <p className="text-[11px] text-slate-400 mt-1">Dispatched / Delivered</p>
+            <p className="text-[10px] text-slate-400 mt-1">
+              Est. Profit: <span className="text-emerald-400 font-bold">₹{metrics.projected30DayProfit.toLocaleString('en-IN')}</span>
+            </p>
           </div>
         </div>
 
         {/* Global Feedback Banners */}
         {actionSuccess && (
-          <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm font-bold flex items-center justify-between">
+          <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold flex items-center justify-between">
             <span>✅ {actionSuccess}</span>
             <button onClick={() => setActionSuccess('')} className="text-xs opacity-70 hover:opacity-100">✕</button>
           </div>
         )}
         {error && (
-          <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-bold flex items-center justify-between">
+          <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold flex items-center justify-between">
             <span>⚠️ {error}</span>
             <button onClick={() => setError('')} className="text-xs opacity-70 hover:opacity-100">✕</button>
           </div>
         )}
 
-        {/* Filters and Controls */}
-        <div className="flex flex-wrap items-center justify-between gap-4 bg-[#131B2E] border border-slate-800 rounded-2xl p-4">
-          <div className="flex flex-wrap items-center gap-2">
-            {[
-              { id: '', label: 'All' },
-              { id: 'pending', label: 'Pending' },
-              { id: 'paid', label: 'Paid (COD/UPI)' },
-              { id: 'processing', label: 'Processing' },
-              { id: 'shipped', label: 'Shipped' },
-              { id: 'delivered', label: 'Delivered' }
-            ].map((f) => (
-              <button
-                key={f.id}
-                onClick={() => setStatusFilter(f.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                  statusFilter === f.id
-                    ? 'bg-orange-500 text-white shadow-md shadow-orange-500/20'
-                    : 'bg-[#0B0F19] text-slate-300 hover:bg-slate-800 border border-slate-800'
-                }`}
-              >
-                {f.label}
-              </button>
-            ))}
+        {/* Primary Navigation Tabs */}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setActiveTab('orders')}
+              className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                activeTab === 'orders'
+                  ? 'bg-orange-500 text-white shadow-md shadow-orange-500/20'
+                  : 'bg-[#131B2E] text-slate-300 hover:bg-slate-800 border border-slate-800'
+              }`}
+            >
+              📦 Live Orders &amp; Fulfillment ({filteredOrders.length})
+            </button>
+
+            <button
+              onClick={() => setActiveTab('estimates')}
+              className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                activeTab === 'estimates'
+                  ? 'bg-orange-500 text-white shadow-md shadow-orange-500/20'
+                  : 'bg-[#131B2E] text-slate-300 hover:bg-slate-800 border border-slate-800'
+              }`}
+            >
+              🔮 Future Estimates &amp; Unit Economics
+            </button>
+
+            <button
+              onClick={() => setActiveTab('support')}
+              className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                activeTab === 'support'
+                  ? 'bg-orange-500 text-white shadow-md shadow-orange-500/20'
+                  : 'bg-[#131B2E] text-slate-300 hover:bg-slate-800 border border-slate-800'
+              }`}
+            >
+              🎫 Support Tickets &amp; 12h SLA
+            </button>
           </div>
 
-          <button
-            onClick={() => void load()}
-            disabled={loading}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
-          >
-            <span className={loading ? 'animate-spin' : ''}>↻</span>
-            {loading ? 'Refreshing…' : 'Refresh Data'}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => void load()}
+              disabled={loading}
+              className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+            >
+              <span className={loading ? 'animate-spin' : ''}>↻</span>
+              {loading ? 'Refreshing…' : 'Refresh'}
+            </button>
+          </div>
         </div>
 
-        {/* Orders Feed */}
-        <div className="space-y-4">
-          {orders.map((o) => {
-            const addr = o.shipping_address;
-            const fullAddr = addr
-              ? `${addr.name || ''}, ${addr.street || addr.address || ''}, ${addr.city || ''}, ${addr.state || ''} - ${addr.zip || addr.pincode || ''}`
-              : 'Direct Online Checkout';
-            const phone = addr?.phone || '';
+        {/* ── TAB 1: ORDERS & FULFILLMENT STREAM ── */}
+        {activeTab === 'orders' && (
+          <div className="space-y-4">
+            {/* Filter & Search Bar */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#131B2E] border border-slate-800 rounded-2xl p-3.5">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {[
+                  { id: '', label: 'All' },
+                  { id: 'paid', label: 'Paid (Prepaid)' },
+                  { id: 'pending_cod', label: 'Pending COD' },
+                  { id: 'processing', label: 'Processing' },
+                  { id: 'shipped', label: 'Shipped' },
+                  { id: 'delivered', label: 'Delivered' },
+                ].map((f) => (
+                  <button
+                    key={f.id}
+                    onClick={() => setStatusFilter(f.id)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      statusFilter === f.id
+                        ? 'bg-orange-500 text-white shadow-xs'
+                        : 'bg-[#0B0F19] text-slate-300 hover:bg-slate-800 border border-slate-800'
+                    }`}
+                  >
+                    {f.label}
+                  </button>
+                ))}
+              </div>
 
-            return (
-              <div
-                key={o.id}
-                className="bg-[#131B2E] border border-slate-800 rounded-2xl p-6 shadow-lg hover:border-slate-700 transition-all space-y-4"
-              >
-                {/* Header row */}
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono text-sm font-black text-orange-400">
-                      #{o.id.slice(0, 8)}
-                    </span>
-                    <button
-                      onClick={() => copyToClipboard(o.id, 'Order ID')}
-                      className="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 hover:text-white"
-                      title="Copy full UUID"
-                    >
-                      Copy
-                    </button>
-                    <span className="text-xs text-slate-400">
-                      {new Date(o.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
-                    </span>
-                  </div>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search by ID, Phone, Name, City..."
+                  className="w-full sm:w-64 bg-[#0B0F19] border border-slate-700 rounded-xl px-3.5 py-1.5 text-xs text-white placeholder-slate-500 outline-none focus:border-orange-500"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+            </div>
 
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${
-                        o.status === 'delivered'
-                          ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-400'
-                          : o.status === 'shipped'
-                          ? 'bg-cyan-500/10 border border-cyan-500/30 text-cyan-400'
-                          : o.status === 'processing'
-                          ? 'bg-purple-500/10 border border-purple-500/30 text-purple-400'
-                          : o.status === 'paid'
-                          ? 'bg-blue-500/10 border border-blue-500/30 text-blue-400'
-                          : 'bg-amber-500/10 border border-amber-500/30 text-amber-400'
-                      }`}
-                    >
-                      {o.status}
-                    </span>
-                    <span className="text-lg font-black text-white font-mono">
-                      ₹{Number(o.total_amount).toLocaleString('en-IN')}
-                    </span>
-                  </div>
-                </div>
+            {/* Orders Feed */}
+            <div className="space-y-4">
+              {filteredOrders.map((o) => {
+                const addr = o.shipping_address || {};
+                const customerName = o.shipping_name || addr.name || 'Customer';
+                const phone = String(addr.phone || '').replace(/\D/g, '');
+                const formattedPhone = phone.slice(-10);
+                const flat = addr.flat || addr.flatHouse || '';
+                const street = addr.street || addr.areaStreet || addr.address || addr.line1 || '';
+                const landmark = addr.landmark || '';
+                const city = addr.city || '';
+                const state = addr.state || '';
+                const zip = addr.zip || addr.pincode || '';
+                const addressType = addr.address_type || addr.addressType || 'Home';
+                const isCod = o.payment_method === 'cod';
 
-                {/* Details grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                  <div className="space-y-1.5 bg-[#0B0F19] p-3.5 rounded-xl border border-slate-800/80">
-                    <p className="text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Customer Contact</p>
-                    <p className="text-white font-bold">{o.user_email || 'Guest Customer'}</p>
-                    {phone && (
-                      <p className="text-slate-300 font-mono">📱 +91 {phone}</p>
-                    )}
-                  </div>
+                const fullDeliveryAddress = [
+                  flat,
+                  street,
+                  landmark ? `(Landmark: ${landmark})` : '',
+                  city,
+                  `${state} - ${zip}`,
+                ].filter(Boolean).join(', ');
 
-                  <div className="space-y-1.5 bg-[#0B0F19] p-3.5 rounded-xl border border-slate-800/80">
-                    <p className="text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Shipping Destination</p>
-                    <p className="text-slate-200">{fullAddr}</p>
-                    {o.tracking_number && (
-                      <p className="text-cyan-400 font-mono font-bold">
-                        📍 Courier Tracking: {o.tracking_number}
-                      </p>
-                    )}
-                    {o.cj_order_id && (
-                      <p className="text-emerald-400 font-mono font-bold flex items-center gap-1.5">
-                        <span>⚡</span> Qikink Order ID: #{o.cj_order_id}
-                      </p>
-                    )}
-                  </div>
-                </div>
+                const fullCourierLabel = `Name: ${customerName}\nPhone: +91 ${formattedPhone}\nAddress: ${flat ? `${flat}, ` : ''}${street}\n${landmark ? `Landmark: ${landmark}\n` : ''}City: ${city}\nState: ${state} - ${zip}\nPayment: ${isCod ? `Cash on Delivery (₹${o.total_amount})` : 'PREPAID'}`;
 
-                {/* Operational Quick Actions */}
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-                  <div className="flex flex-wrap items-center gap-2">
-                    {/* Qikink Dispatch Action */}
-                    <button
-                      onClick={() => handleTriggerQikink(o.id)}
-                      disabled={updatingId === o.id}
-                      className="px-3 py-1.5 rounded-lg bg-orange-600/20 hover:bg-orange-600/30 border border-orange-500/40 text-orange-400 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
-                    >
-                      <span>🏭</span> {o.cj_order_id && /^\d+$/.test(o.cj_order_id) ? '⚡ Qikink Synced' : '🚀 Send to Qikink'}
-                    </button>
-
-                    {/* WhatsApp Action */}
-                    {phone && (() => {
-                      const digits = phone.replace(/\D/g, '');
-                      const waNum = digits.length === 12 && digits.startsWith('91') ? digits : (digits.length === 10 ? `91${digits}` : digits);
-                      return (
-                        <a
-                          href={`https://wa.me/${waNum}?text=${encodeURIComponent(
-                            `Namaste! RareEmber se aapka order #${o.id.slice(0, 8)} confirm ho gaya hai. Dispatch details jald hi share karenge!`
-                          )}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="px-3 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-400 text-xs font-bold flex items-center gap-1.5 transition-all"
+                return (
+                  <div
+                    key={o.id}
+                    className="bg-[#131B2E] border border-slate-800 rounded-2xl p-5 shadow-lg hover:border-slate-700 transition-all space-y-4"
+                  >
+                    {/* Header Row */}
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                      <div className="flex items-center gap-2.5 flex-wrap">
+                        <span className="font-mono text-xs sm:text-sm font-black text-orange-400">
+                          #{o.id.slice(0, 8)}
+                        </span>
+                        <button
+                          onClick={() => copyToClipboard(o.id, 'Full Order UUID')}
+                          className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 hover:text-white cursor-pointer"
                         >
-                          <span>💬</span> WhatsApp Customer
-                        </a>
-                      );
-                    })()}
+                          Copy UUID
+                        </button>
+                        <span className="text-[11px] text-slate-400">
+                          {new Date(o.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+                        </span>
 
-                    {/* Copy Address */}
-                    <button
-                      onClick={() => copyToClipboard(fullAddr, 'Shipping Address')}
-                      className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-all cursor-pointer"
-                    >
-                      📋 Copy Shipping Label
-                    </button>
+                        {isCod ? (
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-500/15 border border-amber-500/30 text-amber-300">
+                            💵 CASH ON DELIVERY
+                          </span>
+                        ) : (
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">
+                            ⚡ PREPAID (ONLINE/UPI)
+                          </span>
+                        )}
+                      </div>
 
-                    {/* Delete Order Action */}
-                    <button
-                      onClick={() => void handleDeleteOrder(o.id)}
-                      disabled={updatingId === o.id}
-                      className="px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/50 border border-red-500/30 text-red-400 text-xs font-bold flex items-center gap-1 transition-all cursor-pointer disabled:opacity-50"
-                      title="Permanently delete this order"
-                    >
-                      <span>🗑️</span> Delete
-                    </button>
+                      <div className="flex items-center gap-3">
+                        <span
+                          className={`px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider ${
+                            o.status === 'delivered'
+                              ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-400'
+                              : o.status === 'shipped'
+                              ? 'bg-cyan-500/10 border border-cyan-500/30 text-cyan-400'
+                              : o.status === 'processing'
+                              ? 'bg-purple-500/10 border border-purple-500/30 text-purple-400'
+                              : o.status === 'paid'
+                              ? 'bg-blue-500/10 border border-blue-500/30 text-blue-400'
+                              : 'bg-amber-500/10 border border-amber-500/30 text-amber-400'
+                          }`}
+                        >
+                          {o.status}
+                        </span>
+                        <span className="text-lg font-black text-white font-mono">
+                          ₹{Number(o.total_amount).toLocaleString('en-IN')}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Customer & Address Details Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs">
+                      {/* Customer Contact */}
+                      <div className="space-y-2 bg-[#0B0F19] p-4 rounded-xl border border-slate-800">
+                        <div className="flex items-center justify-between">
+                          <p className="text-slate-400 font-bold uppercase text-[10px] tracking-wider">
+                            Customer Details
+                          </p>
+                          <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 capitalize">
+                            📍 {addressType}
+                          </span>
+                        </div>
+                        <p className="text-sm font-black text-white">{customerName}</p>
+                        <p className="text-slate-300 flex items-center gap-1.5">
+                          <span>✉️</span> {o.user_email || 'No email provided'}
+                        </p>
+                        {formattedPhone && (
+                          <div className="flex items-center gap-2 pt-1">
+                            <span className="text-slate-200 font-mono font-bold">
+                              📱 +91 {formattedPhone}
+                            </span>
+                            <a
+                              href={`tel:+91${formattedPhone}`}
+                              className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 text-[10px] font-bold no-underline"
+                            >
+                              📞 Call
+                            </a>
+                            <a
+                              href={`https://wa.me/91${formattedPhone}?text=${encodeURIComponent(
+                                `Namaste ${customerName}! Rare Ember se aapka order #${o.id.slice(0, 8)} confirm ho gaya hai. Dispatch updates jald share karenge.`
+                              )}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 text-[10px] font-bold no-underline"
+                            >
+                              💬 WhatsApp
+                            </a>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Shipping Address */}
+                      <div className="space-y-2 bg-[#0B0F19] p-4 rounded-xl border border-slate-800">
+                        <div className="flex items-center justify-between">
+                          <p className="text-slate-400 font-bold uppercase text-[10px] tracking-wider">
+                            Delivery Destination
+                          </p>
+                          <button
+                            onClick={() => copyToClipboard(fullCourierLabel, 'Courier Label')}
+                            className="text-[10px] font-bold text-orange-400 hover:underline cursor-pointer"
+                          >
+                            📋 Copy Full Label
+                          </button>
+                        </div>
+                        <p className="text-slate-200 leading-relaxed">
+                          {fullDeliveryAddress || 'Address in checkout notes'}
+                        </p>
+                        {landmark && (
+                          <p className="text-[11px] text-amber-300">
+                            <strong>Landmark:</strong> {landmark}
+                          </p>
+                        )}
+                        {o.tracking_number && (
+                          <div className="pt-1 flex items-center gap-2">
+                            <span className="text-cyan-400 font-mono font-bold text-xs">
+                              🚚 AWB: {o.tracking_number}
+                            </span>
+                            {o.tracking_url && (
+                              <a
+                                href={o.tracking_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[10px] text-cyan-300 underline font-bold"
+                              >
+                                Live Tracker ↗
+                              </a>
+                            )}
+                          </div>
+                        )}
+                        {o.cj_order_id && (
+                          <p className="text-emerald-400 font-mono font-bold text-xs flex items-center gap-1.5">
+                            <span>🏭</span> Qikink Order: #{o.cj_order_id}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Ordered Items Breakdown */}
+                    {Array.isArray(o.items) && o.items.length > 0 && (
+                      <div className="space-y-2 bg-[#0B0F19]/60 p-3.5 rounded-xl border border-slate-800/80">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                          Ordered Items ({o.items.length})
+                        </p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                          {o.items.map((item, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center gap-3 bg-[#131B2E] p-2.5 rounded-xl border border-slate-800"
+                            >
+                              {item.imageUrl && (
+                                <img
+                                  src={item.imageUrl}
+                                  alt={item.title || 'Product'}
+                                  className="w-12 h-12 rounded-lg object-cover border border-slate-700 shrink-0"
+                                />
+                              )}
+                              <div className="min-w-0 flex-1">
+                                <p className="text-xs font-bold text-white truncate">
+                                  {item.title || item.name || 'Drop Item'}
+                                </p>
+                                <div className="flex items-center gap-1.5 text-[10px] text-slate-400 mt-0.5 flex-wrap">
+                                  {item.color && (
+                                    <span className="px-1.5 py-0.5 bg-slate-800 rounded text-slate-300">
+                                      {item.color}
+                                    </span>
+                                  )}
+                                  {item.size && (
+                                    <span className="px-1.5 py-0.5 bg-slate-800 rounded text-slate-300">
+                                      {item.size}
+                                    </span>
+                                  )}
+                                  <span className="font-bold text-amber-400">Qty: {item.qty || 1}</span>
+                                </div>
+                                <p className="text-xs font-mono font-bold text-slate-300 mt-0.5">
+                                  ₹{Number(item.price_inr || item.price || 0).toLocaleString('en-IN')}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Operational Quick Actions */}
+                    <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800/60">
+                      <div className="flex flex-wrap items-center gap-2">
+                        {/* Qikink Dispatch */}
+                        <button
+                          onClick={() => handleTriggerQikink(o.id)}
+                          disabled={updatingId === o.id}
+                          className="px-3 py-1.5 rounded-lg bg-orange-600/20 hover:bg-orange-600/30 border border-orange-500/40 text-orange-400 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
+                        >
+                          <span>🏭</span>{' '}
+                          {o.cj_order_id && /^\d+$/.test(o.cj_order_id)
+                            ? '⚡ Dispatched to Factory'
+                            : '🚀 Dispatch to Qikink Floor'}
+                        </button>
+
+                        {/* Add / Update Tracking Number */}
+                        <button
+                          onClick={() => handleMarkShipped(o.id)}
+                          disabled={updatingId === o.id}
+                          className="px-3 py-1.5 rounded-lg bg-cyan-600/20 hover:bg-cyan-600/30 border border-cyan-500/30 text-cyan-400 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
+                        >
+                          <span>🚚</span> {o.tracking_number ? 'Update Tracking' : 'Enter Courier AWB'}
+                        </button>
+
+                        {/* Delete Order */}
+                        <button
+                          onClick={() => void handleDeleteOrder(o.id)}
+                          disabled={updatingId === o.id}
+                          className="px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/50 border border-red-500/30 text-red-400 text-xs font-bold flex items-center gap-1 transition-all cursor-pointer disabled:opacity-50"
+                        >
+                          <span>🗑️</span> Delete
+                        </button>
+                      </div>
+
+                      {/* Status Transition Buttons */}
+                      <div className="flex items-center gap-2">
+                        {o.status !== 'shipped' && o.status !== 'delivered' && (
+                          <button
+                            onClick={() => void updateOrderStatus(o.id, 'shipped')}
+                            disabled={updatingId === o.id}
+                            className="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-black transition-all cursor-pointer disabled:opacity-50"
+                          >
+                            Mark Shipped
+                          </button>
+                        )}
+                        {o.status === 'shipped' && (
+                          <button
+                            onClick={() => void updateOrderStatus(o.id, 'delivered')}
+                            disabled={updatingId === o.id}
+                            className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black transition-all cursor-pointer disabled:opacity-50"
+                          >
+                            Mark Delivered
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   </div>
+                );
+              })}
 
-                  {/* Status Toggles */}
-                  <div className="flex items-center gap-2">
-                    {o.status !== 'shipped' && o.status !== 'delivered' && (
-                      <button
-                        onClick={() => handleMarkShipped(o.id)}
-                        disabled={updatingId === o.id}
-                        className="px-3.5 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-extrabold shadow-sm transition-all cursor-pointer disabled:opacity-50"
-                      >
-                        {updatingId === o.id ? 'Updating…' : '🚚 Mark as Shipped'}
-                      </button>
-                    )}
+              {filteredOrders.length === 0 && !loading && (
+                <div className="bg-[#131B2E] border border-slate-800 rounded-2xl p-12 text-center space-y-3">
+                  <span className="text-4xl">📦</span>
+                  <h3 className="text-lg font-bold text-white">No Orders Found</h3>
+                  <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                    {searchQuery
+                      ? 'No orders match your search keyword. Clear the search bar to view all records.'
+                      : 'No orders in this status view yet.'}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
-                    {o.status === 'shipped' && (
-                      <button
-                        onClick={() => void updateOrderStatus(o.id, 'delivered')}
-                        disabled={updatingId === o.id}
-                        className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold shadow-sm transition-all cursor-pointer disabled:opacity-50"
-                      >
-                        {updatingId === o.id ? 'Updating…' : '✔ Mark Delivered'}
-                      </button>
-                    )}
+        {/* ── TAB 2: FUTURE ESTIMATES & FINANCIAL INTELLIGENCE ── */}
+        {activeTab === 'estimates' && (
+          <div className="space-y-6">
+            {/* 30-Day Forward Forecast Deck */}
+            <div className="bg-[#131B2E] border border-orange-500/30 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-black uppercase tracking-wider mb-2">
+                  <span>🔮</span> 30-Day Forward Revenue &amp; Growth Runway
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-black text-white">
+                  Financial Projections &amp; Operating Run-Rate
+                </h2>
+                <p className="text-xs text-slate-400 mt-1 max-w-2xl">
+                  Dynamic mathematical projection based on your live order velocity, average order value (AOV: ₹{metrics.aov}), and Qikink print-on-demand landed economics.
+                </p>
+              </div>
+
+              {/* Forecast Metrics Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="bg-[#0B0F19] p-5 rounded-2xl border border-slate-800 space-y-1">
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                    Projected 30-Day GMV
+                  </p>
+                  <p className="text-2xl sm:text-3xl font-black text-amber-400 font-mono">
+                    ₹{metrics.projected30DayGMV.toLocaleString('en-IN')}
+                  </p>
+                  <p className="text-[11px] text-slate-400">
+                    Est. ~{metrics.projected30DayOrders} orders @ ₹{metrics.aov}/order
+                  </p>
+                </div>
+
+                <div className="bg-[#0B0F19] p-5 rounded-2xl border border-slate-800 space-y-1">
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                    Projected Net Profit
+                  </p>
+                  <p className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono">
+                    ₹{metrics.projected30DayProfit.toLocaleString('en-IN')}
+                  </p>
+                  <p className="text-[11px] text-slate-400">
+                    Net profit margin: <strong className="text-emerald-400 font-bold">{metrics.netMarginPct}%</strong>
+                  </p>
+                </div>
+
+                <div className="bg-[#0B0F19] p-5 rounded-2xl border border-slate-800 space-y-1">
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                    Recommended Wallet Buffer
+                  </p>
+                  <p className="text-2xl sm:text-3xl font-black text-cyan-400 font-mono">
+                    ₹{metrics.recommendedWalletBuffer.toLocaleString('en-IN')}
+                  </p>
+                  <p className="text-[11px] text-slate-400">
+                    Maintain in Qikink wallet to prevent auto-fulfillment pauses
+                  </p>
+                </div>
+              </div>
+
+              {/* Unit Economics Breakdown Table */}
+              <div className="bg-[#0B0F19] p-6 rounded-2xl border border-slate-800 space-y-4">
+                <h3 className="text-sm font-black text-white uppercase tracking-wider">
+                  Unit Economics Breakdown (Per Typical Apparel Drop)
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+                  <div className="p-3 rounded-xl bg-[#131B2E] border border-slate-800">
+                    <p className="text-slate-400 text-[10px] uppercase font-bold">Avg Customer Price</p>
+                    <p className="text-lg font-black text-white mt-1">₹659</p>
+                    <p className="text-[10px] text-slate-400">Direct-to-consumer</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-[#131B2E] border border-slate-800">
+                    <p className="text-slate-400 text-[10px] uppercase font-bold">Factory Landed Cost</p>
+                    <p className="text-lg font-black text-rose-400 mt-1">-₹279</p>
+                    <p className="text-[10px] text-slate-400">Blank + DTF printing</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-[#131B2E] border border-slate-800">
+                    <p className="text-slate-400 text-[10px] uppercase font-bold">Courier &amp; Packaging</p>
+                    <p className="text-lg font-black text-rose-400 mt-1">-₹75</p>
+                    <p className="text-[10px] text-slate-400">Air Express Pan-India</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-[#131B2E] border border-emerald-500/30">
+                    <p className="text-emerald-400 text-[10px] uppercase font-bold">Net Profit / Unit</p>
+                    <p className="text-lg font-black text-emerald-400 mt-1">+₹305</p>
+                    <p className="text-[10px] text-emerald-300 font-bold">46.3% Net Margin</p>
                   </div>
                 </div>
               </div>
-            );
-          })}
 
-          {orders.length === 0 && !loading && (
-            <div className="bg-[#131B2E] border border-slate-800 rounded-2xl p-12 text-center space-y-3">
-              <span className="text-4xl">📦</span>
-              <h3 className="text-lg font-bold text-white">No Orders Found</h3>
-              <p className="text-xs text-slate-400 max-w-sm mx-auto">
-                No orders match your current filter. When a customer checks out, the live order card will appear here automatically!
-              </p>
+              {/* Courier Delivery Turnaround Expectations */}
+              <div className="bg-[#0B0F19] p-6 rounded-2xl border border-slate-800 space-y-3 text-xs text-slate-300">
+                <h3 className="text-sm font-black text-white uppercase tracking-wider">
+                  Logistics &amp; Delivery Turnaround Expectations
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="p-3 rounded-xl bg-[#131B2E] border border-slate-800">
+                    <p className="font-bold text-white">🏙️ Tier 1 Metros</p>
+                    <p className="text-emerald-400 font-bold text-sm mt-0.5">2 – 3 Days</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Bengaluru, Mumbai, Delhi-NCR, Chennai, Hyderabad</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-[#131B2E] border border-slate-800">
+                    <p className="font-bold text-white">🌆 Tier 2 Hubs</p>
+                    <p className="text-cyan-400 font-bold text-sm mt-0.5">3 – 4 Days</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Pune, Ahmedabad, Jaipur, Varanasi, Lucknow, Kolkata</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-[#131B2E] border border-slate-800">
+                    <p className="font-bold text-white">🏞️ Rest of India</p>
+                    <p className="text-amber-400 font-bold text-sm mt-0.5">4 – 6 Days</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Northeast, J&amp;K, Remote &amp; Rural PINs</p>
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
+        {/* ── TAB 3: CUSTOMER CARE & SUPPORT TICKETS ── */}
+        {activeTab === 'support' && (
+          <div className="bg-[#131B2E] border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-black uppercase tracking-wider mb-2">
+                  <span>⏱️</span> 12-Hour SLA Active
+                </div>
+                <h2 className="text-2xl font-black text-white">
+                  Support Tickets &amp; Customer Callback Requests
+                </h2>
+                <p className="text-xs text-slate-400 mt-1">
+                  Customer tickets submitted on <Link href="/support" target="_blank" className="text-orange-400 underline font-bold">/support</Link> are instantly dispatched to your Telegram bot.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <a
+                  href="https://t.me/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black no-underline"
+                >
+                  Open Telegram Bot ↗
+                </a>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div className="bg-[#0B0F19] p-5 rounded-2xl border border-slate-800 space-y-3">
+                <span className="text-2xl block">💬</span>
+                <h3 className="text-sm font-black text-white">Live Telegram Alerts</h3>
+                <p className="text-slate-400 leading-relaxed">
+                  Every time a customer submits a ticket or requests a callback, your Telegram Bot (<strong>@rareember</strong>) sends you an immediate push notification with:
+                </p>
+                <ul className="list-disc list-inside text-slate-300 space-y-1">
+                  <li>Unique Ticket ID (e.g. #RE-TKT-829104)</li>
+                  <li>Customer Name, Phone &amp; Email</li>
+                  <li>1-Click Direct Call &amp; 1-Click WhatsApp link</li>
+                  <li>Issue summary &amp; description</li>
+                </ul>
+              </div>
+
+              <div className="bg-[#0B0F19] p-5 rounded-2xl border border-slate-800 space-y-3">
+                <span className="text-2xl block">⏱️</span>
+                <h3 className="text-sm font-black text-white">12-Hour Founder SLA Guarantee</h3>
+                <p className="text-slate-400 leading-relaxed">
+                  Rare Ember promises customers a guaranteed response within 12 hours. Resolving tickets promptly ensures:
+                </p>
+                <ul className="list-disc list-inside text-slate-300 space-y-1">
+                  <li>Zero chargebacks or disputed payments on Razorpay</li>
+                  <li>Higher repeat purchase rate and 5-star customer reviews</li>
+                  <li>Instant resolution for size exchanges and address corrections</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );

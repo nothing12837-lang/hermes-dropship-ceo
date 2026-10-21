@@ -44,12 +44,14 @@ function toCard(p: Product, rank?: number) {
 }
 
 const CATEGORY_TABS = [
-  { id: 'mens-printed', label: "Men's Printed", emoji: '🔥', href: '/shop?cat=mens-printed' },
+  { id: 'bundles', label: 'Pack of 2 & 3 Bundles', emoji: '⚡', href: '#value-bundles' },
+  { id: 'mens-printed', label: "Men's Graphic Drops", emoji: '🔥', href: '/shop?cat=mens-printed' },
   { id: 'printed', label: 'All Graphic Prints', emoji: '✨', href: '/shop?cat=printed' },
   { id: 'womens', label: "Women's Drops", emoji: '👗', href: '/shop?cat=womens' },
   { id: 'kids', label: 'Kids Streetwear', emoji: '🧸', href: '/shop?cat=kids' },
   { id: 'blanks', label: 'Premium Blanks', emoji: '⚡', href: '/shop?cat=blanks' },
-  { id: 'custom-drops', label: 'Custom Design Studio', emoji: '🎨', href: '/custom-drops' },
+  { id: 'bulk-orders', label: 'Bulk & Factory Merch', emoji: '🏭', href: '/bulk-orders' },
+  { id: 'support', label: 'Help Desk & Tickets', emoji: '🎫', href: '/support' },
 ];
 
 const DEPARTMENTS = [
@@ -81,19 +83,22 @@ const MARQUEE_ITEMS = [
 export default async function Home() {
   const allProducts = await getProductsFromDB();
 
-  // 1. Men's Graphic Printed Streetwear (User requirement: prioritize frontpage showcase)
+  // 1. Pack of 2 & Pack of 3 Value Bundles
+  const bundleDrops = allProducts.filter((p) => p.id.startsWith('bundle-'));
+
+  // 2. Men's Graphic Printed Streetwear (Priority showcase)
   const mensPrinted = allProducts.filter(
-    (p) => (p.gender === 'men' || p.category === 'mens') && (p.is_printed === true || (p as any).isPrinted === true)
+    (p) => (p.gender === 'men' || p.category === 'mens') && (p.is_printed === true || (p as any).isPrinted === true) && !p.id.startsWith('bundle-')
   );
 
-  // 2. Women's & Kids' Printed Graphic Drops
+  // 3. Women's & Kids' Printed Graphic Drops
   const otherPrinted = allProducts.filter(
-    (p) => (p.gender === 'women' || p.gender === 'kids' || p.category === 'womens' || p.category === 'kids') && (p.is_printed === true || (p as any).isPrinted === true)
+    (p) => (p.gender === 'women' || p.gender === 'kids' || p.category === 'womens' || p.category === 'kids') && (p.is_printed === true || (p as any).isPrinted === true) && !p.id.startsWith('bundle-')
   );
 
-  // 3. Essential Streetwear Blanks (Acid Wash, Solid Oversized Tees, Polos, Minimal Silhouettes)
+  // 4. Essential Streetwear Blanks (Acid Wash, Solid Oversized Tees, Polos, Minimal Silhouettes)
   const blanks = allProducts.filter(
-    (p) => p.is_printed === false || (p as any).isPrinted === false
+    (p) => (p.is_printed === false || (p as any).isPrinted === false) && !p.id.startsWith('bundle-')
   );
 
   return (
@@ -169,13 +174,19 @@ export default async function Home() {
                 <span className="font-mono text-xs sm:text-sm font-black text-[#FF4D24] tracking-wider">PREPAID30</span>
                 <span className="text-[9px] sm:text-[10px] text-white/60 font-medium">(₹30 OFF)</span>
               </div>
-              <Link
-                href="/custom-drops"
+              <a
+                href="#value-bundles"
                 className="no-underline inline-flex items-center justify-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl btn-ember font-black text-xs sm:text-sm tracking-wide cursor-pointer whitespace-nowrap shadow-ember"
               >
                 <span className="relative z-10 flex items-center gap-1.5">
-                  Custom Studio <span>🎨</span>
+                  Pack of 2 &amp; 3 Bundles <span>⚡</span>
                 </span>
+              </a>
+              <Link
+                href="/bulk-orders"
+                className="no-underline inline-flex items-center justify-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm tracking-wide transition-all border border-white/15 whitespace-nowrap"
+              >
+                <span>🏭</span> Bulk Orders
               </Link>
             </div>
           </div>
@@ -187,7 +198,41 @@ export default async function Home() {
           />
         </section>
 
-        {/* SECTION 1: MEN'S PRINTED STREETWEAR (PRIORITY USER SPOTLIGHT) */}
+        {/* SECTION 1: VALUE BUNDLES (PACK OF 2 & PACK OF 3) */}
+        {bundleDrops.length > 0 && (
+          <section id="value-bundles" className="scroll-mt-28">
+            <div className="flex items-end justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
+              <div>
+                <div className="hero-rise inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-700 text-[10px] sm:text-xs font-black uppercase tracking-wider mb-1.5 sm:mb-2">
+                  <span>⚡</span> Multi-Pack Value Combos
+                </div>
+                <h2 className="hero-rise hero-rise-1 text-xl sm:text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
+                  Pack of 2 &amp; Pack of 3 <span className="text-gradient-ember">Value Bundles</span>
+                </h2>
+                <p className="text-[11px] sm:text-xs md:text-sm text-neutral-500 mt-0.5 sm:mt-1">
+                  Save up to ₹1,100 on multi-piece drops. Premium 240 GSM tees and 380 GSM fleece hoodies with unified express air delivery.
+                </p>
+              </div>
+              <Link
+                href="/shop"
+                className="text-xs font-extrabold text-[#1C1310] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b-2 border-black/15 hover:border-ember transition-all group whitespace-nowrap"
+              >
+                <span>Explore All</span>
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </Link>
+            </div>
+
+            {/* Bundles Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+              {bundleDrops.map((p, i) => (
+                <ScrollReveal key={p.id} delay={i * 40}>
+                  <ProductCard {...toCard(p)} priority={i === 0} />
+                </ScrollReveal>
+              ))}
+            </div>
+          </section>
+        )}
+        {/* SECTION 2: MEN'S PRINTED STREETWEAR (PRIORITY USER SPOTLIGHT) */}
         {mensPrinted.length > 0 && (
           <section id="mens-printed" className="scroll-mt-28">
             <div className="flex items-end justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">

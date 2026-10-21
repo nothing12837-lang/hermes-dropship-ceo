@@ -315,31 +315,72 @@ export default function CheckoutPage() {
   const pay = async () => {
     setError('');
     if (hpCompany) return setError('Automated submission rejected.');
-    // Guest checkout fully supported; user_id attached if signed in
-    if (!email.includes('@')) return setError('Please enter a valid email address for tracking.');
-    if (!name.trim()) return setError('Please enter your full name for courier delivery.');
+
+    // COMPULSORY FIELD 1: Full Name
+    const cleanName = name.trim();
+    if (!cleanName || cleanName.length < 2) {
+      return setError('Full Name is compulsory for courier delivery. Please enter your name.');
+    }
+
+    // COMPULSORY FIELD 2: 10-Digit Mobile Phone
     const digits = phone.replace(/\D/g, '');
     const normalizedPhone = digits.length === 12 && digits.startsWith('91') ? digits.slice(2) : (digits.length === 11 && digits.startsWith('0') ? digits.slice(1) : digits);
-    if (!normalizedPhone || normalizedPhone.length !== 10) return setError('Please enter a valid 10-digit mobile number for order & COD confirmation.');
-    
-    // Structured Indian Address validation
-    const resolvedFlat = flatHouse.trim();
-    const resolvedStreet = areaStreet.trim();
-    const resolvedLandmark = landmark.trim();
+    if (!normalizedPhone || normalizedPhone.length !== 10) {
+      return setError('Mobile Number is compulsory. Please enter a valid 10-digit number for order & delivery confirmation.');
+    }
+    if (!/^[6-9]\d{9}$/.test(normalizedPhone)) {
+      return setError('Invalid Mobile Number. Indian mobile numbers must start with 6, 7, 8, or 9.');
+    }
+
+    // COMPULSORY FIELD 3: Email Address
+    const cleanEmail = email.trim();
+    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+      return setError('Email Address is compulsory for order confirmation, tracking updates, and GST invoice.');
+    }
+
+    // COMPULSORY FIELD 4: 6-Digit PIN Code
     const resolvedZip = zip.trim();
+    if (!resolvedZip || (isIndia && !/^\d{6}$/.test(resolvedZip))) {
+      return setError('6-Digit Indian PIN code is compulsory for courier routing.');
+    }
+
+    // COMPULSORY FIELD 5: Flat / House No. & Building
+    const resolvedFlat = flatHouse.trim();
+    if (!resolvedFlat || resolvedFlat.length < 2) {
+      return setError('Flat / House No. and Building / Society Name is compulsory.');
+    }
+
+    // COMPULSORY FIELD 6: Street / Colony / Locality
+    const resolvedStreet = areaStreet.trim();
+    if (!resolvedStreet || resolvedStreet.length < 3) {
+      return setError('Street, Colony, Locality, or Area is compulsory for delivery rider navigation.');
+    }
+
+    // COMPULSORY FIELD 7: City / District
     const resolvedCity = city.trim();
+    if (!resolvedCity || resolvedCity.length < 2) {
+      return setError('City / District is compulsory.');
+    }
+
+    // COMPULSORY FIELD 8: State / Union Territory
     const resolvedState = state.trim();
+    if (!resolvedState) {
+      return setError('State / Union Territory is compulsory. Please select your state.');
+    }
+
+    // STATE & PIN CODE MATCHING
+    if (pincodeInfo && pincodeInfo.state) {
+      const pinStateNorm = pincodeInfo.state.trim().toLowerCase();
+      const userStateNorm = resolvedState.toLowerCase();
+      if (pinStateNorm !== userStateNorm) {
+        return setError(`PIN Code & State Mismatch: PIN code ${resolvedZip} is located in ${pincodeInfo.state}, but you selected "${resolvedState}". Please select "${pincodeInfo.state}" to avoid courier delivery failure.`);
+      }
+    }
+
+    // Landmark (Optional for extra delivery precision)
+    const resolvedLandmark = landmark.trim();
 
     const fullStreetLine = [resolvedFlat, resolvedStreet].filter(Boolean).join(', ') || address.trim();
-    if (!fullStreetLine) {
-      return setError('Please enter your House/Flat No. and Street/Colony address.');
-    }
-    if (!resolvedCity) {
-      return setError('Please enter your City / District.');
-    }
-    if (!resolvedZip || (isIndia && !/^\d{6}$/.test(resolvedZip))) {
-      return setError('Please enter a valid 6-digit Indian PIN code.');
-    }
 
     const finalFullAddress = resolvedLandmark
       ? `${fullStreetLine} (Landmark: ${resolvedLandmark})`
@@ -722,11 +763,12 @@ export default function CheckoutPage() {
               <div className="flex flex-col gap-4">
                 {/* Email */}
                 <div>
-                  <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1.5">
-                    Email Address (For Courier Tracking Updates & Invoice) *
+                  <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
+                    Email Address (For Courier Tracking Updates & GST Invoice) <span className="text-rose-500 font-bold">* (Compulsory)</span>
                   </label>
                   <input
                     type="email"
+                    required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@example.com"
@@ -737,11 +779,12 @@ export default function CheckoutPage() {
                 {/* Contact Row: Full Name & Mobile */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1.5">
-                      Full Name *
+                    <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
+                      Full Name <span className="text-rose-500 font-bold">* (Compulsory)</span>
                     </label>
                     <input
                       type="text"
+                      required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="First & Last name (for courier delivery)"
@@ -751,8 +794,8 @@ export default function CheckoutPage() {
 
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-[11px] font-bold text-neutral-600 uppercase tracking-wider">
-                        Mobile Number (10-Digit) *
+                      <label className="text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
+                        Mobile Number (10-Digit) <span className="text-rose-500 font-bold">* (Compulsory)</span>
                       </label>
                       <span className="text-[10px] text-emerald-700 font-semibold flex items-center gap-1">
                         <span>💬</span> WhatsApp Tracking
@@ -764,6 +807,7 @@ export default function CheckoutPage() {
                       </span>
                       <input
                         type="tel"
+                        required
                         value={phone}
                         onChange={(e) => {
                           let d = e.target.value.replace(/\D/g, '');
@@ -783,8 +827,8 @@ export default function CheckoutPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-[11px] font-bold text-neutral-600 uppercase tracking-wider">
-                        {market === 'IN' ? '6-Digit PIN Code *' : 'Postal / ZIP Code *'}
+                      <label className="text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
+                        {market === 'IN' ? '6-Digit PIN Code' : 'Postal / ZIP Code'} <span className="text-rose-500 font-bold">* (Compulsory)</span>
                       </label>
                       {pincodeLoading && (
                         <span className="text-[10px] text-[#FF4D24] font-medium animate-pulse flex items-center gap-1">
@@ -796,6 +840,7 @@ export default function CheckoutPage() {
                     <div className="relative">
                       <input
                         type="text"
+                        required
                         value={zip}
                         onChange={(e) => {
                           const val = e.target.value.replace(/\D/g, '').slice(0, 6);
@@ -825,7 +870,7 @@ export default function CheckoutPage() {
                           <span>⚡</span> Express Courier Serviceable
                         </p>
                         <p className="text-[11px] text-emerald-700 mt-0.5">
-                          Hub: {pincodeInfo.city}, {pincodeInfo.state} (Air Priority)
+                          Postal Hub: <strong>{pincodeInfo.city}</strong>, <strong>{pincodeInfo.state}</strong> (Air Priority)
                         </p>
                       </div>
                     ) : (
@@ -839,11 +884,12 @@ export default function CheckoutPage() {
 
                 {/* Structured Address: Flat / House No. & Building */}
                 <div>
-                  <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1.5">
-                    Flat / House No., Floor, Building / Society Name *
+                  <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
+                    Flat / House No., Floor, Building / Society Name <span className="text-rose-500 font-bold">* (Compulsory)</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={flatHouse}
                     onChange={(e) => setFlatHouse(e.target.value)}
                     placeholder="e.g. Flat 402, Sunshine Heights, 4th Floor"
@@ -853,11 +899,12 @@ export default function CheckoutPage() {
 
                 {/* Structured Address: Street / Area / Sector */}
                 <div>
-                  <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1.5">
-                    Street, Colony, Sector, Locality / Area *
+                  <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
+                    Street, Colony, Sector, Locality / Area <span className="text-rose-500 font-bold">* (Compulsory)</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={areaStreet}
                     onChange={(e) => setAreaStreet(e.target.value)}
                     placeholder="e.g. 12th Main Road, HAL 2nd Stage, Indiranagar"
@@ -867,8 +914,8 @@ export default function CheckoutPage() {
 
                 {/* Landmark (Indian Delivery Courier Essential!) */}
                 <div>
-                  <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1.5">
-                    Famous Landmark (Optional — Helps Delivery Rider Find Your Door)
+                  <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
+                    Famous Landmark <span className="text-neutral-400 font-normal">(Optional — Helps Delivery Rider Find Your Door)</span>
                   </label>
                   <input
                     type="text"
@@ -879,26 +926,33 @@ export default function CheckoutPage() {
                   />
                 </div>
 
-                {/* City & State (Auto-filled from PIN, editable) */}
+                {/* City & State (Auto-filled from PIN with matching validation) */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1.5">
-                      City / District *
+                    <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
+                      City / District <span className="text-rose-500 font-bold">* (Compulsory)</span>
                     </label>
                     <input
                       type="text"
+                      required
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
                       placeholder="e.g. Bengaluru, Varanasi, Delhi"
                       className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
                     />
+                    {pincodeInfo?.city && city && (
+                      <p className="mt-1 text-[11px] text-emerald-700 font-bold flex items-center gap-1">
+                        <span>✓</span> Verified Postal District: {pincodeInfo.city}
+                      </p>
+                    )}
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1.5">
-                      State / Union Territory *
+                    <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
+                      State / Union Territory <span className="text-rose-500 font-bold">* (Compulsory)</span>
                     </label>
                     <select
+                      required
                       value={state}
                       onChange={(e) => setState(e.target.value)}
                       className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all cursor-pointer"
@@ -910,6 +964,28 @@ export default function CheckoutPage() {
                         </option>
                       ))}
                     </select>
+
+                    {/* Live State & PIN Code Match Indicator / Warning */}
+                    {pincodeInfo?.state && state && state.toLowerCase() !== pincodeInfo.state.toLowerCase() && (
+                      <div className="mt-2 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs flex items-center justify-between gap-2">
+                        <span className="flex items-center gap-1.5">
+                          <span>⚠️</span>
+                          <span>PIN <strong>{zip}</strong> is in <strong>{pincodeInfo.state}</strong>.</span>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setState(pincodeInfo.state)}
+                          className="px-2.5 py-1 rounded-lg bg-amber-600 text-white font-bold text-[10px] hover:bg-amber-700 shrink-0 cursor-pointer"
+                        >
+                          Align to {pincodeInfo.state}
+                        </button>
+                      </div>
+                    )}
+                    {pincodeInfo?.state && state && state.toLowerCase() === pincodeInfo.state.toLowerCase() && (
+                      <p className="mt-1 text-[11px] text-emerald-700 font-bold flex items-center gap-1">
+                        <span>✓</span> Matches PIN Postal State ({pincodeInfo.state})
+                      </p>
+                    )}
                   </div>
                 </div>
 

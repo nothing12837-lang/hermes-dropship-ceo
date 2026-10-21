@@ -6,14 +6,14 @@ export const COPY = {
   brand: 'Rare Ember',
   slogan: 'Curated Streetwear & Creator Lifestyle. Delivered fast.',
   tagline: 'Heavyweight streetwear, artisan drinkware & aesthetic desk essentials.',
-  promise: '2–4 days express shipping • 24/7 live AI support • Real-time tracking',
+  promise: '2–4 days express shipping • 12-hour support guarantee • Real-time tracking',
 
   // EXACT trust bar text — clean and professional.
   trustBar: [
     { icon: '🚚', title: 'Express Dispatch', sub: '2–4 days via BlueDart' },
-    { icon: '💬', title: '24/7 Live Support', sub: 'Instant tracking & help' },
+    { icon: '⏱️', title: '12-Hour Support', sub: 'Guaranteed founder resolution' },
     { icon: '📍', title: 'Real-Time Tracking', sub: 'Instant SMS & email ETA' },
-    { icon: '↩️', title: '7-Day Replacement', sub: 'Zero-risk guarantee' },
+    { icon: '↩️', title: '7-Day Replacement', sub: 'Free doorstep guarantee' },
   ],
 
   announcement: 'Pan-India 2–4 Days Express Delivery • Cash on Delivery (COD) Available • 7-Day Easy Replacement',
@@ -22,30 +22,32 @@ export const COPY = {
     blurb: 'Curated heavyweight streetwear, artisan drinkware, and aesthetic creator desk gear — delivered fast across India with full white-label packaging.',
     cols: [
       {
-        title: 'Story',
+        title: 'Story & Merch',
         links: [
           { label: 'About Rare Ember', href: '/about' },
-          { label: 'Custom Merch (B2B)', href: '/custom-drops' },
-          { label: 'How It Works', href: '/about' },
-          { label: 'Quality Guarantee', href: '/about' },
+          { label: 'Bulk Orders (B2B)', href: '/bulk-orders' },
+          { label: 'Custom Design Studio', href: '/custom-drops' },
+          { label: 'Pack of 2 & 3 Bundles', href: '/#value-bundles' },
         ],
       },
       {
-        title: 'Shop',
+        title: 'Shop Drops',
         links: [
           { label: 'All Catalog', href: '/shop' },
-          { label: 'Streetwear Apparel', href: '/shop?cat=fashion' },
-          { label: 'Artisan Drinkware', href: '/shop?cat=home-garden' },
-          { label: 'Desk & Creator Gear', href: '/shop?cat=electronics' },
-          { label: 'Lifestyle Essentials', href: '/shop?cat=general' },
+          { label: "Men's Graphic Prints", href: '/shop?cat=mens-printed' },
+          { label: "Women's Drops", href: '/shop?cat=womens' },
+          { label: 'Kids Streetwear', href: '/shop?cat=kids' },
+          { label: 'Essential Blanks', href: '/shop?cat=blanks' },
         ],
       },
       {
-        title: 'Customer Care',
+        title: 'Priority Help & Support',
         links: [
+          { label: 'Raise Ticket (12h Reply)', href: '/support' },
+          { label: 'Request Founder Callback', href: '/support' },
+          { label: 'Instagram @rareember', href: 'https://instagram.com/rareember' },
           { label: 'Live Order Tracking', href: '/track' },
-          { label: '7-Day Easy Replacements', href: '/returns' },
-          { label: 'Contact Us', href: '/contact' },
+          { label: '7-Day Replacements', href: '/returns' },
           { label: 'rareemberagency@gmail.com', href: 'mailto:rareemberagency@gmail.com' },
         ],
       },

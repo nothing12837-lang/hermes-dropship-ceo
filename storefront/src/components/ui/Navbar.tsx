@@ -14,21 +14,21 @@ import FestiveEffects from './FestiveEffects';
 
 const links = [
   { href: '/shop', label: 'Shop' },
-  { href: '/custom-drops', label: 'Custom Merch ⚡' },
-  { href: '/quiz', label: 'Quiz' },
-  { href: '/journal', label: 'Journal' },
+  { href: '/#value-bundles', label: 'Bundles (Pack of 2 & 3) ⚡' },
+  { href: '/bulk-orders', label: 'Bulk Orders' },
+  { href: '/support', label: 'Support 🎫' },
   { href: '/track', label: 'Track' },
 ];
 
 const drawerLinks = [
   { href: '/', label: 'Home' },
-  { href: '/shop', label: 'Shop all' },
-  { href: '/custom-drops', label: 'Custom Merch (B2B)' },
-  { href: '/shop?cat=new', label: 'New drops' },
-  { href: '/quiz', label: 'Find my match' },
-  { href: '/journal', label: 'Journal' },
-  { href: '/track', label: 'Track order' },
-  { href: '/wishlist', label: 'Wishlist' },
+  { href: '/shop', label: 'Shop All Drops' },
+  { href: '/#value-bundles', label: '⚡ Pack of 2 & 3 Bundles' },
+  { href: '/bulk-orders', label: '🏭 Bulk & Factory Merch' },
+  { href: '/custom-drops', label: '🎨 Custom Design Studio' },
+  { href: '/support', label: '🎫 Help Center (12h SLA)' },
+  { href: '/track', label: '📦 Track Order' },
+  { href: '/wishlist', label: '❤️ Wishlist' },
 ];
 
 export default function Navbar() {
