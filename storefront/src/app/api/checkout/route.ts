@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import Razorpay from 'razorpay';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { clientIp, normalizeEmail, sanitizeCheckoutItems, sanitizeMessage } from '@/lib/security/validation';
-import { products as staticCatalog } from '@/lib/data/products';
+import { products as staticCatalog, getProduct } from '@/lib/data/products';
 import { validateCouponCode } from '@/lib/festivals';
 
 function getRazorpay(): Razorpay | null {
@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
     let byId = new Map<string, DbProduct>();
 
     if (supabase) {
-      const ids = [...new Set(items.map((i) => i.id))];
+      const ids = [...new Set(items.map((i) => i.id.split('__')[0]))];
       const { data: rows } = await supabase
         .from('products')
         .select('id, title, price, price_inr, image_url, active, stock')
@@ -122,8 +122,9 @@ export async function POST(req: NextRequest) {
     }
 
     for (const item of items) {
-      const dbProd = byId.get(item.id);
-      const staticProd = staticCatalog.find((p) => p.id === item.id);
+      const baseId = item.id.split('__')[0];
+      const dbProd = byId.get(baseId) || byId.get(item.id);
+      const staticProd = getProduct(baseId) || getProduct(item.id) || staticCatalog.find((p) => p.id === baseId || p.id === item.id || p.slug === baseId);
       if (!dbProd && !staticProd) {
         return NextResponse.json({ error: `Product "${item.id}" is no longer available in catalog` }, { status: 400 });
       }

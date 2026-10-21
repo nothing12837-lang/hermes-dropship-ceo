@@ -5,7 +5,7 @@ import { clientIp, isValidOrderId, normalizeEmail, sanitizeCheckoutItems } from 
 import { notifyTelegramOrder } from '@/lib/notifications/telegram';
 import { isAdmin } from '@/lib/security/auth';
 import { validateCouponCode } from '@/lib/festivals';
-import { products as fallbackCatalog } from '@/lib/data/products';
+import { products as fallbackCatalog, getProduct } from '@/lib/data/products';
 import { fulfillQikinkOrder, isTestOrder } from '@/lib/fulfillment/qikink';
 
 // GET /api/orders?email=x&orderId=y — Public /track read path & Admin lookup
@@ -158,7 +158,7 @@ export async function POST(req: NextRequest) {
     const sb = createClient(url, key);
 
     // Fetch product catalog to recalculate prices & verify stock server-side
-    const itemIds = validatedItems.map((i) => i.id);
+    const itemIds = [...new Set(validatedItems.map((i) => i.id.split('__')[0]))];
     const { data: dbProducts, error: prodErr } = await sb
       .from('products')
       .select('id, title, price_inr, price, active, stock')
@@ -193,7 +193,8 @@ export async function POST(req: NextRequest) {
     }> = [];
 
     for (const item of validatedItems) {
-      const prod = prodMap.get(item.id) || fallbackCatalog.find((f) => f.id === item.id);
+      const baseId = item.id.split('__')[0];
+      const prod = prodMap.get(baseId) || prodMap.get(item.id) || getProduct(baseId) || getProduct(item.id) || fallbackCatalog.find((f) => f.id === baseId || f.id === item.id || f.slug === baseId);
       if (!prod) {
         return NextResponse.json({ error: `Product "${item.id}" is not available in catalog` }, { status: 400 });
       }

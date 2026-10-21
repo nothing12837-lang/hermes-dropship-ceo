@@ -137,9 +137,12 @@ export const bundles: Record<string, string[]> = {};
 export function getProduct(id: string): Product | undefined {
   if (!id) return undefined;
   const cleanId = id.trim().toLowerCase();
+  const baseId = cleanId.split('__')[0];
   return products.find((p) => 
+    p.id.toLowerCase() === baseId || 
+    p.slug.toLowerCase() === baseId ||
     p.id.toLowerCase() === cleanId || 
     p.slug.toLowerCase() === cleanId ||
-    (p.qikinkClientProductId && cleanId.includes(p.qikinkClientProductId))
+    (p.qikinkClientProductId && (cleanId.includes(p.qikinkClientProductId) || baseId.includes(p.qikinkClientProductId)))
   );
 }
