@@ -13828,5 +13828,405 @@
     "color": "White",
     "size": "XS",
     "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476280/images/Front_1_c_1.jpg"
+  },
+  "32477737_white_s": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nqc",
+    "product_sku": "MRnFs-Wh-S",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "White",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_1.jpg"
+  },
+  "32477737_white_m": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nqd",
+    "product_sku": "MRnFs-Wh-M",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "White",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_1.jpg"
+  },
+  "32477737_white_l": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nqe",
+    "product_sku": "MRnFs-Wh-L",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "White",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_1.jpg"
+  },
+  "32477737_white_xl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nqf",
+    "product_sku": "MRnFs-Wh-XL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "White",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_1.jpg"
+  },
+  "32477737_white_xxl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nqY",
+    "product_sku": "MRnFs-Wh-XXL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "White",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_1.jpg"
+  },
+  "32477737_black_s": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nqZ",
+    "product_sku": "MRnFs-Bk-S",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Black",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_2.jpg"
+  },
+  "32477737_black_m": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nqa",
+    "product_sku": "MRnFs-Bk-M",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Black",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_2.jpg"
+  },
+  "32477737_black_l": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nqb",
+    "product_sku": "MRnFs-Bk-L",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Black",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_2.jpg"
+  },
+  "32477737_black_xl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nqU",
+    "product_sku": "MRnFs-Bk-XL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Black",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_2.jpg"
+  },
+  "32477737_black_xxl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nqV",
+    "product_sku": "MRnFs-Bk-XXL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Black",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_2.jpg"
+  },
+  "32477737_navy blue_s": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nuc",
+    "product_sku": "MRnFs-Nb-S",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Navy Blue",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_3.jpg"
+  },
+  "32477737_navy blue_m": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nud",
+    "product_sku": "MRnFs-Nb-M",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Navy Blue",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_3.jpg"
+  },
+  "32477737_navy blue_l": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nue",
+    "product_sku": "MRnFs-Nb-L",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Navy Blue",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_3.jpg"
+  },
+  "32477737_navy blue_xl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nuf",
+    "product_sku": "MRnFs-Nb-XL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Navy Blue",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_3.jpg"
+  },
+  "32477737_navy blue_xxl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nuY",
+    "product_sku": "MRnFs-Nb-XXL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Navy Blue",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_3.jpg"
+  },
+  "32477737_grey melange_s": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nuZ",
+    "product_sku": "MRnFs-Gm-S",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Grey Melange",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_4.jpg"
+  },
+  "32477737_grey melange_m": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nua",
+    "product_sku": "MRnFs-Gm-M",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Grey Melange",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_4.jpg"
+  },
+  "32477737_grey melange_l": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nub",
+    "product_sku": "MRnFs-Gm-L",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Grey Melange",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_4.jpg"
+  },
+  "32477737_grey melange_xl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nuU",
+    "product_sku": "MRnFs-Gm-XL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Grey Melange",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_4.jpg"
+  },
+  "32477737_grey melange_xxl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX8nuV",
+    "product_sku": "MRnFs-Gm-XXL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Grey Melange",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_4.jpg"
+  },
+  "32477737_bottle green_s": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XKc",
+    "product_sku": "MRnFs-Gn-S",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Bottle Green",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_8.jpg"
+  },
+  "32477737_bottle green_m": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XKd",
+    "product_sku": "MRnFs-Gn-M",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Bottle Green",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_8.jpg"
+  },
+  "32477737_bottle green_l": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XKe",
+    "product_sku": "MRnFs-Gn-L",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Bottle Green",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_8.jpg"
+  },
+  "32477737_bottle green_xl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XKf",
+    "product_sku": "MRnFs-Gn-XL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Bottle Green",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_8.jpg"
+  },
+  "32477737_bottle green_xxl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XKY",
+    "product_sku": "MRnFs-Gn-XXL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Bottle Green",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_8.jpg"
+  },
+  "32477737_royal blue_s": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XKZ",
+    "product_sku": "MRnFs-Rb-S",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Royal Blue",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_9.jpg"
+  },
+  "32477737_royal blue_m": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XKa",
+    "product_sku": "MRnFs-Rb-M",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Royal Blue",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_9.jpg"
+  },
+  "32477737_royal blue_l": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XKb",
+    "product_sku": "MRnFs-Rb-L",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Royal Blue",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_9.jpg"
+  },
+  "32477737_royal blue_xl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XKU",
+    "product_sku": "MRnFs-Rb-XL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Royal Blue",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_9.jpg"
+  },
+  "32477737_royal blue_xxl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XKV",
+    "product_sku": "MRnFs-Rb-XXL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Royal Blue",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_9.jpg"
+  },
+  "32477737_red_s": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XOc",
+    "product_sku": "MRnFs-Rd-S",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Red",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_10.jpg"
+  },
+  "32477737_red_m": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XOd",
+    "product_sku": "MRnFs-Rd-M",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Red",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_10.jpg"
+  },
+  "32477737_red_l": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XOe",
+    "product_sku": "MRnFs-Rd-L",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Red",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_10.jpg"
+  },
+  "32477737_red_xl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XOf",
+    "product_sku": "MRnFs-Rd-XL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Red",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_10.jpg"
+  },
+  "32477737_red_xxl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XOY",
+    "product_sku": "MRnFs-Rd-XXL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Red",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_10.jpg"
+  },
+  "32477737_maroon_s": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XOZ",
+    "product_sku": "MRnFs-Mn-S",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Maroon",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_25.jpg"
+  },
+  "32477737_maroon_m": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XOa",
+    "product_sku": "MRnFs-Mn-M",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Maroon",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_25.jpg"
+  },
+  "32477737_maroon_l": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XOb",
+    "product_sku": "MRnFs-Mn-L",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Maroon",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_25.jpg"
+  },
+  "32477737_maroon_xl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XOU",
+    "product_sku": "MRnFs-Mn-XL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Maroon",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_25.jpg"
+  },
+  "32477737_maroon_xxl": {
+    "product_id": "32477737",
+    "variant_sku": "v-9R2o0i6GaVZW18AIMxQuubfXpQjX9XOV",
+    "product_sku": "MRnFs-Mn-XXL",
+    "cost_price": 414.91,
+    "selling_price": 659,
+    "color": "Maroon",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_25.jpg"
   }
 }
