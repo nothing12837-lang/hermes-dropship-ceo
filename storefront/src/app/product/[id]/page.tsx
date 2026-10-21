@@ -83,12 +83,27 @@ export default async function ProductPage({ params }: Props) {
       url: canonicalUrl,
       priceCurrency: 'INR',
       price: product.price_inr || product.price || 999,
-      priceValidUntil: '2027-12-31',
+      validFrom: '2026-01-01T00:00:00Z',
+      priceValidUntil: '2027-12-31T23:59:59Z',
       itemCondition: 'https://schema.org/NewCondition',
       availability: 'https://schema.org/InStock',
       seller: {
         '@type': 'Organization',
         name: 'Rare Ember',
+      },
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        applicableCountry: 'IN',
+        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+        merchantReturnDays: 7,
+        returnMethod: 'https://schema.org/ReturnByMail',
+        returnFees: 'https://schema.org/FreeReturn',
+        returnShippingFeesAmount: {
+          '@type': 'MonetaryAmount',
+          value: '0',
+          currency: 'INR',
+        },
+        merchantReturnLink: `${siteUrl}/returns`,
       },
       shippingDetails: {
         '@type': 'OfferShippingDetails',

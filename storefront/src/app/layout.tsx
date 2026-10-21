@@ -154,6 +154,20 @@ export default function RootLayout({
                 availableLanguage: ['English', 'Hindi'],
                 areaServed: ['IN', 'US', 'GB', 'CA', 'AU', 'AE']
               },
+              hasMerchantReturnPolicy: {
+                '@type': 'MerchantReturnPolicy',
+                applicableCountry: 'IN',
+                returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+                merchantReturnDays: 7,
+                returnMethod: 'https://schema.org/ReturnByMail',
+                returnFees: 'https://schema.org/FreeReturn',
+                returnShippingFeesAmount: {
+                  '@type': 'MonetaryAmount',
+                  value: '0',
+                  currency: 'INR',
+                },
+                merchantReturnLink: `${siteUrl}/returns`,
+              },
             }),
           }}
         />
