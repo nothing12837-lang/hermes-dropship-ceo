@@ -237,6 +237,32 @@ export function isTestOrder(order: any): boolean {
   if (!order) return false;
   if (order.is_test === true || order.test === true) return true;
 
+  // 1. Explicit ₹10 Live Payment Gateway Verification Pass / Test Drops
+  const items = Array.isArray(order.items) ? order.items : [];
+  const hasTestProduct = items.some((item: any) => {
+    const itemId = String(item?.id || item?.product_id || '').toLowerCase();
+    const itemTitle = String(item?.title || item?.name || '').toLowerCase();
+    return (
+      itemId.includes('gateway-test') ||
+      itemId.includes('test-pass') ||
+      itemId.includes('rare-ember-gateway-test-pass') ||
+      itemId.includes('gateway_test') ||
+      itemTitle.includes('founder pass') ||
+      itemTitle.includes('verification drop') ||
+      itemTitle.includes('live test drop') ||
+      Number(item?.price || 0) <= 50
+    );
+  });
+  if (hasTestProduct) {
+    return true;
+  }
+
+  // 2. Orders with subtotal/total <= 50 (strictly payment gateway verification drops)
+  const total = Number(order.total_amount ?? order.total ?? 0);
+  if (total > 0 && total <= 50) {
+    return true;
+  }
+
   const email = (order.user_email || order.email || '').toLowerCase().trim();
   const addr = (order.shipping_address as Record<string, string>) || {};
   const phone = String(addr.phone || order.phone || '').replace(/\D/g, '');
@@ -531,8 +557,14 @@ export async function fulfillQikinkOrder(
   }
 
   // Safety Gate: Block test / temp orders from physical printing
-  if (isTestOrder(order) && !options?.force) {
+  if (isTestOrder(order)) {
     console.log(`[Qikink] Test/temp order ${orderId} detected (${order.user_email}). Skipped Qikink factory transmission.`);
+    try {
+      await supabase
+        .from('orders')
+        .update({ cj_order_id: 'TEST_ORDER_SKIPPED' })
+        .eq('id', orderId);
+    } catch {}
     return {
       ok: false,
       reason: 'Test/temp order detected. Qikink factory transmission blocked to prevent unwanted printing/shipping.',

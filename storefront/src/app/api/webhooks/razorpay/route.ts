@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import crypto from 'crypto';
-import { fulfillQikinkOrder } from '@/lib/fulfillment/qikink';
+import { fulfillQikinkOrder, isTestOrder } from '@/lib/fulfillment/qikink';
 import { notifyTelegramOrder } from '@/lib/notifications/telegram';
 
 export const runtime = 'nodejs';
@@ -109,10 +109,16 @@ export async function POST(req: NextRequest) {
       let fulfilled: { ok: boolean; cjOrderId?: string; reason?: string } = { ok: false };
       try {
         if (order) {
-          const result = await fulfillQikinkOrder(supabase, order.id);
-          fulfilled = result.ok
-            ? { ok: true, cjOrderId: result.qikinkOrderId }
-            : { ok: false, reason: result.reason };
+          if (isTestOrder(order)) {
+            console.log(`[Razorpay Webhook] Order ${order.id} is a test/gateway verification drop (${order.user_email}). Skipping Qikink factory dispatch.`);
+            await supabase.from('orders').update({ cj_order_id: 'TEST_ORDER_SKIPPED' }).eq('id', order.id);
+            fulfilled = { ok: false, reason: 'Test/gateway verification drop. Qikink factory transmission blocked.' };
+          } else {
+            const result = await fulfillQikinkOrder(supabase, order.id);
+            fulfilled = result.ok
+              ? { ok: true, cjOrderId: result.qikinkOrderId }
+              : { ok: false, reason: result.reason };
+          }
         }
       } catch (err) {
         console.error('Auto-fulfillment error:', err instanceof Error ? err.message : err);

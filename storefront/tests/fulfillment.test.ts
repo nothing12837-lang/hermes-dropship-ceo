@@ -17,6 +17,23 @@ describe('isTestOrder', () => {
     expect(isTestOrder({ shipping_address: { line1: 'Dummy Street 123' }, user_email: 'real@gmail.com' })).toBe(true);
   });
 
+  it('detects ₹10 live gateway test drop and passes as test order', () => {
+    expect(isTestOrder({
+      user_email: 'realbuyer@gmail.com',
+      shipping_name: 'Rahul Sharma',
+      phone: '9820112345',
+      items: [{ id: 'rare-ember-gateway-test-pass', price: 10, qty: 1 }],
+      total_amount: 10,
+    })).toBe(true);
+
+    expect(isTestOrder({
+      user_email: 'realbuyer@gmail.com',
+      shipping_name: 'Rahul Sharma',
+      phone: '9820112345',
+      total_amount: 10,
+    })).toBe(true);
+  });
+
   it('passes genuine production orders', () => {
     const order = {
       user_email: 'ajaykumar.tech@gmail.com',
