@@ -2412,10 +2412,11 @@
     "old_price": 1799,
     "rating": 4.9,
     "reviews": 142,
-    "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32475347/images/Front_1_c_1.jpg",
+    "image_url": "/images/bundles/bundle-pack-2-black-white.jpg",
     "images": [
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32475347/images/Front_1_c_1.jpg",
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32475347/images/Front_1_c_2.jpg"
+      "/images/bundles/bundle-pack-2-black-white.jpg",
+      "/images/bundles/bundle-pack-2-black-navy.jpg",
+      "/images/bundles/bundle-pack-2-white-grey.jpg"
     ],
     "category": "mens",
     "gender": "men",
@@ -2427,7 +2428,13 @@
       "Black & Navy Blue",
       "White & Grey Melange"
     ],
-    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
     "tag": "PACK OF 2 (SAVE ₹700)",
     "tagBg": "bg-amber-500/10 text-amber-600",
     "tagColor": "#D97706",
@@ -2459,10 +2466,10 @@
     "old_price": 2499,
     "rating": 5.0,
     "reviews": 186,
-    "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_1.jpg",
+    "image_url": "/images/bundles/bundle-pack-3-monochrome.jpg",
     "images": [
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_1.jpg",
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_2.jpg"
+      "/images/bundles/bundle-pack-3-monochrome.jpg",
+      "/images/bundles/bundle-pack-3-darkmode.jpg"
     ],
     "category": "mens",
     "gender": "men",
@@ -2473,7 +2480,13 @@
       "Monochrome Trio (Black, White, Grey)",
       "Dark Mode Trio (Black, Navy, Bottle Green)"
     ],
-    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
     "tag": "PACK OF 3 (SAVE ₹1,000)",
     "tagBg": "bg-emerald-500/10 text-emerald-600",
     "tagColor": "#059669",
@@ -2482,51 +2495,5 @@
     "is_new": true,
     "is_trending": true,
     "gradient": "linear-gradient(135deg, rgba(16,185,129,0.15), rgba(59,130,246,0.1))"
-  },
-  {
-    "id": "bundle-pack-of-2-hoodies",
-    "slug": "bundle-pack-of-2-winter-hoodies",
-    "title": "Pack of 2 — 380 GSM Heavyweight Winter Fleece Hoodies",
-    "baseTitle": "Pack of 2 Winter Hoodies",
-    "short": "The Heavyweight Winter Armor Duo. 380 GSM French Terry brushed fleece with double-lined hood and kangaroo pouch. Save ₹1,100.",
-    "story": "Two 380 GSM heavyweight winter hoodies crafted from premium French Terry combed cotton fleece. Built for sub-zero street nights and all-day comfort.",
-    "details": [
-      "Set includes: 2x 380 GSM Winter Fleece Hoodies",
-      "Fabric: 380 GSM French Terry Brushed Cotton Fleece",
-      "Fit: Heavyweight Structured Fit with double-lined hood",
-      "Savings: Save ₹1,100 compared to individual retail",
-      "Dispatch: Dispatched from Domestic Tirupur Hub in 24–48 Hours",
-      "Free 7-Day Doorstep Replacement Guarantee"
-    ],
-    "price": 1899,
-    "price_inr": 1899,
-    "compareAtPrice": 2999,
-    "compare_at_price": 2999,
-    "old_price": 2999,
-    "rating": 4.9,
-    "reviews": 98,
-    "image_url": "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
-    "images": [
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/5/9bd43925-3bff-4f53-9d92-80c14714fd19.jpg",
-      "https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/118/7b58b1da-f241-4994-a5a2-f1a4ec2b5c94.jpg"
-    ],
-    "category": "mens",
-    "gender": "men",
-    "is_printed": false,
-    "design_code": "bundle-hoodies-2",
-    "print_design_name": "Winter Heavyweight Duo",
-    "colors": [
-      "Pitch Black & Heather Grey",
-      "Pitch Black & Deep Navy"
-    ],
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "tag": "PACK OF 2 HOODIES (SAVE ₹1,100)",
-    "tagBg": "bg-purple-500/10 text-purple-600",
-    "tagColor": "#7C3AED",
-    "badge": "WINTER BUNDLE",
-    "active": true,
-    "is_new": true,
-    "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(147,51,234,0.15), rgba(236,72,153,0.1))"
   }
 ]

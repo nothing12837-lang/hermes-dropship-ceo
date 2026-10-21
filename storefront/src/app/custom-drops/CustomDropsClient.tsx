@@ -430,14 +430,12 @@ export function CustomDropsClient() {
           </div>
 
           <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <a
-              href="https://wa.me/919118211860?text=Hi%20Rare%20Ember%20Tirupur%20Desk!%20I%20need%20a%20bulk%20custom%20merch%20quote."
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/support"
               className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF4D24] via-[#ff3b0f] to-[#E8244B] text-white font-black text-xs uppercase tracking-wider shadow-[0_8px_25px_rgba(255,77,36,0.4)] hover:scale-105 active:scale-95 transition-all no-underline flex items-center justify-center gap-2"
             >
-              <span>🏭 Talk to Tirupur Production Desk • Instant Quote</span>
-            </a>
+              <span>🏭 Talk to Production Desk • Instant Quote</span>
+            </Link>
             <a
               href="#custom-lab"
               className="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider backdrop-blur-md transition-all no-underline text-center"
@@ -1191,16 +1189,14 @@ export function CustomDropsClient() {
 
       {/* FLOATING DIRECT SUPPORT BUTTON */}
       <div className="fixed bottom-6 right-6 z-40">
-        <a
-          href="https://wa.me/919118211860?text=Hi%20Rare%20Ember%20Desk!%20I%20have%20a%20question%20about%20custom%20drops."
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          href="/support"
           className="px-5 py-3 rounded-full bg-[#161311] text-white hover:bg-black font-black text-xs uppercase tracking-wider shadow-2xl border border-white/20 flex items-center gap-2 transition-all hover:scale-105 active:scale-95 ring-2 ring-[#FF4D24]/50 no-underline"
         >
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span>💬 WhatsApp Tirupur Desk</span>
+          <span>💬 Priority Care Desk</span>
           <span className="text-[#FF9A3D]">⚡</span>
-        </a>
+        </Link>
       </div>
     </main>
   );

@@ -222,8 +222,8 @@ export default async function Home() {
               </Link>
             </div>
 
-            {/* Bundles Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+            {/* Bundles Grid: Clean Pack of 2 & Pack of 3 */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 max-w-4xl mx-auto gap-4 md:gap-6">
               {bundleDrops.map((p, i) => (
                 <ScrollReveal key={p.id} delay={i * 40}>
                   <ProductCard {...toCard(p)} priority={i === 0} />

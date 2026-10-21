@@ -565,10 +565,7 @@ export function ProductClient({ product }: Props) {
     /case|phone|iphone|samsung/i.test(product.id);
 
   const isKidsApparel = /kid|boy|girl|baby|toddler|infant/i.test(product.title + ' ' + product.id);
-  const isComboCheck = Boolean(
-    BUNDLE_SUB_ITEMS[product.id] ||
-    (product.id.startsWith('bundle-') && product.images && product.images.length > 1)
-  );
+  const isComboCheck = Boolean(BUNDLE_SUB_ITEMS[product.id]);
   const firstComboItem = BUNDLE_SUB_ITEMS[product.id]?.[0];
   const firstItemCheckName = (isComboCheck && firstComboItem ? firstComboItem.name : product.title) + ' ' + (isComboCheck && firstComboItem ? firstComboItem.id : product.id);
   const firstItemCheckLower = firstItemCheckName.toLowerCase();
@@ -591,30 +588,9 @@ export function ProductClient({ product }: Props) {
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [sizeUnit, setSizeUnit] = useState<'in' | 'cm'>('in');
   const [selectedPhoneModel, setSelectedPhoneModel] = useState<string>(PHONE_MODELS[0]);
-  const isComboProduct = Boolean(
-    BUNDLE_SUB_ITEMS[product.id] ||
-    (product.id.startsWith('bundle-') && product.images && product.images.length > 1)
-  );
+  const isComboProduct = Boolean(BUNDLE_SUB_ITEMS[product.id]);
 
-  const comboItems: BundleSubItem[] = BUNDLE_SUB_ITEMS[product.id] || (
-    product.id.startsWith('bundle-') && product.images && product.images.length > 1
-      ? product.images.slice(0, 3).map((img, i) => ({
-          id: `combo-item-${i}`,
-          name: `Combo Product ${i + 1}`,
-          badge: 'Included in Bundle',
-          emoji: '📦',
-          plainImage: img,
-          printArea: {
-            width: '52%',
-            height: '56%',
-            top: '22%',
-            left: '24%',
-            aspectRatio: '3/4',
-            safeZoneLabel: 'DTF SAFE PRINT ZONE',
-          },
-        }))
-      : []
-  );
+  const comboItems: BundleSubItem[] = BUNDLE_SUB_ITEMS[product.id] || [];
 
   const searchParams = useSearchParams();
   const isCustomizeMode = searchParams ? searchParams.get('customize') === '1' : false;
@@ -1953,6 +1929,32 @@ export function ProductClient({ product }: Props) {
                   <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-1">
                     {availableColors.map((colorName, idx) => {
                       const isSelected = (selectedColor || availableColors[0]).toLowerCase() === colorName.toLowerCase();
+                      const isComboColor = colorName.includes('&') || colorName.includes(',') || colorName.includes('Trio') || colorName.includes('Duo');
+
+                      if (isComboColor) {
+                        return (
+                          <button
+                            key={colorName}
+                            type="button"
+                            onClick={() => handleSelectColor(colorName, idx)}
+                            className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all flex items-center gap-2 cursor-pointer ${
+                              isSelected
+                                ? 'border-[#FF4D24] bg-[#FF4D24]/10 text-[#FF4D24] ring-2 ring-[#FF4D24]/30 shadow-xs font-black'
+                                : 'border-black/10 bg-neutral-50 text-neutral-700 hover:border-black/20 hover:bg-neutral-100'
+                            }`}
+                          >
+                            {galleryImages[idx] && (
+                              <img
+                                src={galleryImages[idx]}
+                                alt=""
+                                className="w-6 h-6 rounded-md object-cover border border-black/10 shrink-0"
+                              />
+                            )}
+                            <span>{colorName}</span>
+                          </button>
+                        );
+                      }
+
                       const hex = getColorHex(colorName);
                       const isLight = isColorLight(hex);
 

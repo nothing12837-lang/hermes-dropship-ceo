@@ -34,14 +34,12 @@ export default function BulkOrdersPage() {
             </p>
 
             <div className="pt-3 flex flex-wrap items-center gap-3">
-              <a
-                href="https://wa.me/919118211860?text=Namaste%20Rare%20Ember!%20I%20need%20a%20bulk%20merchandise%20quote%20for%20our%20team."
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/support"
                 className="no-underline px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF4D24] to-[#E8244B] text-white font-black text-xs uppercase tracking-wider shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
               >
-                <span>💬</span> WhatsApp Tirupur Production Desk
-              </a>
+                <span>💬</span> Request Bulk Quote &amp; Digital Proof
+              </Link>
 
               <Link
                 href="/custom-drops#custom-lab"
@@ -102,16 +100,12 @@ export default function BulkOrdersPage() {
                   </div>
                 </div>
 
-                <a
-                  href={`https://wa.me/919118211860?text=${encodeURIComponent(
-                    `Hi Rare Ember! I am interested in the ${tier.label} for ~${tier.min} units. Can you share sample proof?`
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#161311] hover:bg-black text-white text-xs font-bold text-center no-underline transition-all"
+                <Link
+                  href="/support"
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#161311] hover:bg-black text-white text-xs font-bold text-center no-underline transition-all block"
                 >
-                  Book Quote ↗
-                </a>
+                  Book Quote &amp; SLA ↗
+                </Link>
               </div>
             ))}
           </div>

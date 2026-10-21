@@ -14,6 +14,7 @@ const TICKET_CATEGORIES = [
 ];
 
 const TIME_SLOTS = [
+  { id: 'whatsapp', label: '💬 Message Me on WhatsApp (Direct Chat)' },
   { id: 'morning', label: '🌅 Morning Slot (10:00 AM – 1:00 PM IST)' },
   { id: 'afternoon', label: '☀️ Afternoon Slot (2:00 PM – 5:00 PM IST)' },
   { id: 'evening', label: '🌙 Evening Slot (6:00 PM – 9:00 PM IST)' },
@@ -133,7 +134,7 @@ export default function SupportClient() {
               <span className="text-base">🔄</span> 7-Day Free Doorstep Replacement
             </span>
             <span className="flex items-center gap-1.5 bg-black/40 px-3 py-1.5 rounded-xl border border-white/10 text-neutral-300">
-              <span className="text-base">🇮🇳</span> Direct Domestic Tirupur Hub Desk
+              <span className="text-base">🛡️</span> Verified Secure Care Desk
             </span>
           </div>
         </div>
@@ -550,20 +551,25 @@ export default function SupportClient() {
             <div className="bg-emerald-50/60 border border-emerald-500/20 rounded-3xl p-6 flex flex-col justify-between space-y-4 shadow-sm">
               <div className="space-y-2">
                 <span className="text-3xl block">💬</span>
-                <h3 className="text-lg font-black text-neutral-950">WhatsApp Official Desk</h3>
+                <h3 className="text-lg font-black text-neutral-950">WhatsApp Concierge</h3>
                 <p className="text-xs text-neutral-600 leading-relaxed">
-                  Instant real-time chat for tracking numbers, size assistance, and dispatch updates.
+                  Prefer chatting on WhatsApp? Request a message below and our founder &amp; operations desk will text your WhatsApp number directly.
                 </p>
-                <p className="text-xs font-mono font-bold text-emerald-800">+91 91182 11860</p>
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-100/80 px-2.5 py-1 rounded-lg">
+                  <span>⚡</span> Direct Chat Request Active
+                </span>
               </div>
-              <a
-                href="https://wa.me/919118211860?text=Hi%20Rare%20Ember%20Support!%20I%20have%20an%20inquiry%20regarding%20my%20order."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 w-full py-3 px-4 rounded-xl bg-emerald-600 text-white text-xs font-black no-underline shadow-md hover:bg-emerald-700 transition-all"
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('callback');
+                  setCallSlot('💬 Message Me on WhatsApp (Direct Chat)');
+                  setCallReason('Requesting WhatsApp chat assistance for my order/inquiry');
+                }}
+                className="inline-flex items-center justify-center gap-1.5 w-full py-3 px-4 rounded-xl bg-emerald-600 text-white text-xs font-black shadow-md hover:bg-emerald-700 transition-all cursor-pointer"
               >
-                Chat on WhatsApp ↗
-              </a>
+                Request WhatsApp Message 💬
+              </button>
             </div>
           </div>
 
