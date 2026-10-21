@@ -14,6 +14,16 @@ import { validateCouponCode } from '@/lib/festivals';
 import { scoreRtoRisk } from '@/lib/rto';
 import { trackBeginCheckout, trackAddShippingInfo } from '@/lib/telemetry/dataLayer';
 
+export const INDIAN_STATES = [
+  'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
+  'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka',
+  'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram',
+  'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu',
+  'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal',
+  'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu',
+  'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry'
+];
+
 export default function CheckoutPage() {
   const router = useRouter();
   const { market } = useGeo();
@@ -22,8 +32,16 @@ export default function CheckoutPage() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+  const [flatHouse, setFlatHouse] = useState('');
+  const [areaStreet, setAreaStreet] = useState('');
+  const [landmark, setLandmark] = useState('');
   const [city, setCity] = useState('');
+  const [state, setState] = useState('');
   const [zip, setZip] = useState('');
+  const [addressType, setAddressType] = useState<'home' | 'office' | 'other'>('home');
+  const [pincodeLoading, setPincodeLoading] = useState(false);
+  const [pincodeInfo, setPincodeInfo] = useState<{ city: string; state: string; valid: boolean } | null>(null);
+  const [hasSavedAddress, setHasSavedAddress] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'online' | 'cod'>('online');
   const [coupon, setCoupon] = useState('');
   const [couponApplied, setCouponApplied] = useState(false);
@@ -60,12 +78,37 @@ export default function CheckoutPage() {
     });
 
     try {
-      const savedPin = localStorage.getItem('rareember_pincode');
-      const savedPinData = localStorage.getItem('rareember_pincode_data');
-      if (savedPin) setZip(savedPin);
-      if (savedPinData) {
-        const parsed = JSON.parse(savedPinData);
-        if (parsed.city) setCity(parsed.city);
+      const savedAddressRaw = localStorage.getItem('rareember_saved_address');
+      if (savedAddressRaw) {
+        const s = JSON.parse(savedAddressRaw);
+        if (s.name) setName(s.name);
+        if (s.email) setEmail(s.email);
+        if (s.phone) setPhone(s.phone);
+        if (s.flatHouse) setFlatHouse(s.flatHouse);
+        if (s.areaStreet) setAreaStreet(s.areaStreet);
+        if (s.landmark) setLandmark(s.landmark);
+        if (s.city) setCity(s.city);
+        if (s.state) setState(s.state);
+        if (s.zip) setZip(s.zip);
+        if (s.addressType) setAddressType(s.addressType);
+        if (s.flatHouse || s.areaStreet || s.line1) {
+          setHasSavedAddress(true);
+          if (s.zip && s.zip.length === 6) {
+            setPincodeInfo({ city: s.city || '', state: s.state || '', valid: true });
+          }
+        }
+      } else {
+        const savedPin = localStorage.getItem('rareember_pincode');
+        const savedPinData = localStorage.getItem('rareember_pincode_data');
+        if (savedPin) setZip(savedPin);
+        if (savedPinData) {
+          const parsed = JSON.parse(savedPinData);
+          if (parsed.city) setCity(parsed.city);
+          if (parsed.state) setState(parsed.state);
+          if (savedPin && parsed.city) {
+            setPincodeInfo({ city: parsed.city, state: parsed.state || '', valid: true });
+          }
+        }
       }
     } catch {}
 
@@ -73,6 +116,42 @@ export default function CheckoutPage() {
       subscription.unsubscribe();
     };
   }, []);
+
+  const lookupPincode = async (cleanPin: string) => {
+    if (cleanPin.length !== 6 || !/^\d{6}$/.test(cleanPin)) {
+      setPincodeInfo(null);
+      return;
+    }
+    setPincodeLoading(true);
+    try {
+      const res = await fetch(`https://api.postalpincode.in/pincode/${cleanPin}`);
+      const data = await res.json();
+      if (data && data[0]?.Status === 'Success' && data[0].PostOffice?.length > 0) {
+        const po = data[0].PostOffice[0];
+        const detectedCity = po.District || po.Name || '';
+        const detectedState = po.State || '';
+        if (detectedCity) setCity(detectedCity);
+        if (detectedState) setState(detectedState);
+        setPincodeInfo({
+          city: detectedCity,
+          state: detectedState,
+          valid: true,
+        });
+        localStorage.setItem('rareember_pincode', cleanPin);
+        localStorage.setItem('rareember_pincode_data', JSON.stringify({
+          pincode: cleanPin,
+          city: detectedCity,
+          state: detectedState,
+        }));
+      } else {
+        setPincodeInfo({ city: '', state: '', valid: true });
+      }
+    } catch {
+      // Offline fallback: don't block shopper
+    } finally {
+      setPincodeLoading(false);
+    }
+  };
 
   const detailed = useMemo(
     () =>
@@ -237,17 +316,52 @@ export default function CheckoutPage() {
     const digits = phone.replace(/\D/g, '');
     const normalizedPhone = digits.length === 12 && digits.startsWith('91') ? digits.slice(2) : (digits.length === 11 && digits.startsWith('0') ? digits.slice(1) : digits);
     if (!normalizedPhone || normalizedPhone.length !== 10) return setError('Please enter a valid 10-digit mobile number for order & COD confirmation.');
-    if (!address.trim()) return setError('Please enter your delivery street address.');
-    if (!zip.trim()) return setError('Please enter your PIN / postal code.');
+    
+    // Structured Indian Address validation
+    const resolvedFlat = flatHouse.trim();
+    const resolvedStreet = areaStreet.trim();
+    const resolvedLandmark = landmark.trim();
+    const resolvedZip = zip.trim();
+    const resolvedCity = city.trim();
+    const resolvedState = state.trim();
+
+    const fullStreetLine = [resolvedFlat, resolvedStreet].filter(Boolean).join(', ') || address.trim();
+    if (!fullStreetLine) {
+      return setError('Please enter your House/Flat No. and Street/Colony address.');
+    }
+    if (!resolvedCity) {
+      return setError('Please enter your City / District.');
+    }
+    if (!resolvedZip || (isIndia && !/^\d{6}$/.test(resolvedZip))) {
+      return setError('Please enter a valid 6-digit Indian PIN code.');
+    }
+
+    const finalFullAddress = resolvedLandmark
+      ? `${fullStreetLine} (Landmark: ${resolvedLandmark})`
+      : fullStreetLine;
+
+    const shippingAddressPayload = {
+      line1: finalFullAddress,
+      line2: resolvedLandmark ? `Landmark: ${resolvedLandmark}` : (resolvedStreet || ''),
+      flat: resolvedFlat,
+      street: resolvedStreet,
+      landmark: resolvedLandmark,
+      city: resolvedCity,
+      state: resolvedState,
+      zip: resolvedZip,
+      phone: normalizedPhone,
+      address_type: addressType,
+    };
+
     if (detailed.length === 0) return setError('Your cart is empty. Add a product first.');
     if (loading || processing) return;
     if (paymentMethod === 'cod') {
       if (isAboveCodThreshold) {
         return setError('Cash on Delivery is limited to orders up to ₹2,999. Please select Instant Online Payment (UPI / Cards) for priority doorstep dispatch.');
       }
-      const rto = scoreRtoRisk({ phone, pincode: zip, totalInr: 0 });
+      const rto = scoreRtoRisk({ phone, pincode: resolvedZip, totalInr: 0 });
       if (rto.recommendation === 'PREPAID_ONLY') {
-        return setError(`Cash on Delivery is currently unavailable for PIN code ${zip}. Please select Instant Online Payment (UPI / Cards) for priority doorstep delivery.`);
+        return setError(`Cash on Delivery is currently unavailable for PIN code ${resolvedZip}. Please select Instant Online Payment (UPI / Cards) for priority doorstep delivery.`);
       }
     }
 
@@ -267,6 +381,21 @@ export default function CheckoutPage() {
     );
 
     localStorage.setItem('rareember_email', email);
+    try {
+      localStorage.setItem('rareember_saved_address', JSON.stringify({
+        name: name.trim(),
+        email: email.trim(),
+        phone: normalizedPhone,
+        flatHouse: resolvedFlat,
+        areaStreet: resolvedStreet,
+        landmark: resolvedLandmark,
+        city: resolvedCity,
+        state: resolvedState,
+        zip: resolvedZip,
+        addressType,
+      }));
+    } catch {}
+
     setLoading(true);
     setProcessing(true);
 
@@ -280,7 +409,7 @@ export default function CheckoutPage() {
             email,
             name,
             phone: normalizedPhone,
-            address: { line1: address, city, zip, phone: normalizedPhone },
+            address: shippingAddressPayload,
             items: detailed.map((d) => ({
               id: d.id,
               product_id: d.id.split('__')[0],
@@ -359,7 +488,7 @@ export default function CheckoutPage() {
           email,
           name,
           phone: normalizedPhone,
-          address: { line1: address, city, zip, phone: normalizedPhone },
+          address: shippingAddressPayload,
           items: detailed.map((d) => ({
             id: d.id,
             product_id: d.id.split('__')[0],
@@ -537,7 +666,7 @@ export default function CheckoutPage() {
           <div className="lg:col-span-7 flex flex-col gap-6">
             {/* Step 1: Destination */}
             <div className="rounded-[1.75rem] bg-white border border-black/[0.06] p-6 md:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
-              <div className="flex items-center justify-between mb-5">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
                 <div className="flex items-center gap-2.5">
                   <span className="w-7 h-7 rounded-full bg-[#161311] text-white text-xs font-black flex items-center justify-center">
                     1
@@ -546,110 +675,264 @@ export default function CheckoutPage() {
                     Delivery Destination & Contact
                   </h2>
                 </div>
-                {zip && (
-                  <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full">
-                    📍 PIN Verified
+                {zip.trim().length === 6 && (
+                  <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    📍 {city ? `${city}${state ? `, ${state}` : ''}` : 'PIN Verified'}
                   </span>
                 )}
               </div>
 
-              <div className="flex flex-col gap-3.5">
+              {hasSavedAddress && (
+                <div className="mb-5 p-3.5 rounded-2xl bg-amber-500/[0.08] border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-xl">⚡</span>
+                    <div>
+                      <span className="font-bold text-neutral-900">Saved address auto-filled:</span>{' '}
+                      <span className="text-neutral-700">
+                        {flatHouse ? `${flatHouse}, ${areaStreet}` : address} — {city}, {state} ({zip})
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFlatHouse('');
+                      setAreaStreet('');
+                      setLandmark('');
+                      setAddress('');
+                      setCity('');
+                      setState('');
+                      setZip('');
+                      setPincodeInfo(null);
+                      setHasSavedAddress(false);
+                    }}
+                    className="text-[#FF4D24] hover:underline font-bold text-xs whitespace-nowrap self-end sm:self-auto cursor-pointer"
+                  >
+                    + Use Different Address
+                  </button>
+                </div>
+              )}
+
+              <div className="flex flex-col gap-4">
+                {/* Email */}
                 <div>
-                  <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1">
-                    Email Address (For Courier Tracking Updates) *
+                  <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1.5">
+                    Email Address (For Courier Tracking Updates & Invoice) *
                   </label>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@example.com"
-                    className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all"
+                    className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
                   />
                 </div>
 
-                <div>
-                  <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1">
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="First & Last name"
-                    className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1">
-                    Door / Street Address *
-                  </label>
-                  <input
-                    type="text"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    placeholder="Flat/House no., Street, Landmark"
-                    className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-3.5">
+                {/* Contact Row: Full Name & Mobile */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1">
-                      Phone (10-digit, COD confirm) *
+                    <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1.5">
+                      Full Name *
                     </label>
                     <input
-                      type="tel"
-                      value={phone}
-                      onChange={(e) => {
-                        let d = e.target.value.replace(/\D/g, '');
-                        if (d.length === 11 && d.startsWith('0')) d = d.slice(1);
-                        if (d.length === 12 && d.startsWith('91')) d = d.slice(2);
-                        setPhone(d.slice(0, 10));
-                      }}
-                      placeholder="98765 43210"
-                      maxLength={14}
-                      className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all"
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="First & Last name (for courier delivery)"
+                      className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
                     />
                   </div>
+
                   <div>
-                    <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="text-[11px] font-bold text-neutral-600 uppercase tracking-wider">
+                        Mobile Number (10-Digit) *
+                      </label>
+                      <span className="text-[10px] text-emerald-700 font-semibold flex items-center gap-1">
+                        <span>💬</span> WhatsApp Tracking
+                      </span>
+                    </div>
+                    <div className="flex rounded-xl border border-black/10 bg-neutral-50/50 overflow-hidden focus-within:border-[#FF4D24] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#FF4D24]/10 transition-all">
+                      <span className="inline-flex items-center gap-1.5 px-3 bg-neutral-100 text-neutral-700 text-xs font-bold border-r border-black/10 select-none">
+                        <span>🇮🇳</span> +91
+                      </span>
+                      <input
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => {
+                          let d = e.target.value.replace(/\D/g, '');
+                          if (d.length === 11 && d.startsWith('0')) d = d.slice(1);
+                          if (d.length === 12 && d.startsWith('91')) d = d.slice(2);
+                          setPhone(d.slice(0, 10));
+                        }}
+                        placeholder="98765 43210"
+                        maxLength={14}
+                        className="w-full px-3 py-3 text-sm bg-transparent text-neutral-900 outline-none placeholder:text-neutral-400"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* PIN Code Lookup Row (Positioned early so city & state auto-fill!) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="text-[11px] font-bold text-neutral-600 uppercase tracking-wider">
+                        {market === 'IN' ? '6-Digit PIN Code *' : 'Postal / ZIP Code *'}
+                      </label>
+                      {pincodeLoading && (
+                        <span className="text-[10px] text-[#FF4D24] font-medium animate-pulse flex items-center gap-1">
+                          <span className="w-2 h-2 rounded-full bg-[#FF4D24] animate-ping" />
+                          Checking Postal Hub...
+                        </span>
+                      )}
+                    </div>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={zip}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+                          setZip(val);
+                          if (val.length === 6) {
+                            lookupPincode(val);
+                          } else {
+                            setPincodeInfo(null);
+                          }
+                        }}
+                        placeholder={market === 'IN' ? 'e.g. 560001, 110001' : 'e.g. 10001'}
+                        maxLength={6}
+                        className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 font-mono tracking-wider outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
+                      />
+                      {zip.length === 6 && !pincodeLoading && (
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold">
+                          ✓
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col justify-end">
+                    {pincodeInfo?.city ? (
+                      <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-500/20 text-emerald-800 text-xs">
+                        <p className="font-bold flex items-center gap-1.5">
+                          <span>⚡</span> Express Courier Serviceable
+                        </p>
+                        <p className="text-[11px] text-emerald-700 mt-0.5">
+                          Hub: {pincodeInfo.city}, {pincodeInfo.state} (Air Priority)
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="p-2.5 rounded-xl bg-neutral-100/70 border border-black/5 text-neutral-500 text-[11px]">
+                        <p className="font-semibold text-neutral-700">🚚 Pan-India Delivery Network</p>
+                        <p className="text-[10px] mt-0.5">Enter 6-digit PIN to auto-detect City & State</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Structured Address: Flat / House No. & Building */}
+                <div>
+                  <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1.5">
+                    Flat / House No., Floor, Building / Society Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={flatHouse}
+                    onChange={(e) => setFlatHouse(e.target.value)}
+                    placeholder="e.g. Flat 402, Sunshine Heights, 4th Floor"
+                    className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
+                  />
+                </div>
+
+                {/* Structured Address: Street / Area / Sector */}
+                <div>
+                  <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1.5">
+                    Street, Colony, Sector, Locality / Area *
+                  </label>
+                  <input
+                    type="text"
+                    value={areaStreet}
+                    onChange={(e) => setAreaStreet(e.target.value)}
+                    placeholder="e.g. 12th Main Road, HAL 2nd Stage, Indiranagar"
+                    className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
+                  />
+                </div>
+
+                {/* Landmark (Indian Delivery Courier Essential!) */}
+                <div>
+                  <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1.5">
+                    Famous Landmark (Optional — Helps Delivery Rider Find Your Door)
+                  </label>
+                  <input
+                    type="text"
+                    value={landmark}
+                    onChange={(e) => setLandmark(e.target.value)}
+                    placeholder="e.g. Near Metro Station / Opp. SBI Bank / Behind Community Park"
+                    className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
+                  />
+                </div>
+
+                {/* City & State (Auto-filled from PIN, editable) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1.5">
                       City / District *
                     </label>
                     <input
                       type="text"
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
-                      placeholder="City"
-                      className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all"
+                      placeholder="e.g. Bengaluru, Varanasi, Delhi"
+                      className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1.5">
+                      State / Union Territory *
+                    </label>
+                    <select
+                      value={state}
+                      onChange={(e) => setState(e.target.value)}
+                      className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all cursor-pointer"
+                    >
+                      <option value="">Select State</option>
+                      {INDIAN_STATES.map((s) => (
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-3.5">
-                  <div>
-                    <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-1">
-                      {market === 'IN' ? '6-Digit PIN Code *' : 'Postal / ZIP Code *'}
-                    </label>
-                    <input
-                      type="text"
-                      value={zip}
-                      onChange={(e) => setZip(e.target.value)}
-                      placeholder={market === 'IN' ? 'e.g. 110001' : 'e.g. 10001'}
-                      maxLength={10}
-                      className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all"
-                    />
-                  </div>
-                  <div className="flex items-end">
-                    {zip.trim().length >= 6 ? (
-                      <p className="text-[11px] font-bold px-2.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 flex items-center gap-1">
-                        <span>⚡</span>
-                        <span>Express Delivery Serviceable</span>
-                      </p>
-                    ) : (
-                      <p className="text-[11px] font-medium text-neutral-400 py-1.5">
-                        Free delivery across India
-                      </p>
-                    )}
+
+                {/* Address Type Tagging */}
+                <div>
+                  <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-2">
+                    Address Type (Delivery Instructions)
+                  </label>
+                  <div className="grid grid-cols-3 gap-2.5">
+                    {[
+                      { id: 'home', label: '🏠 Home', sub: '9 AM - 9 PM, All Days' },
+                      { id: 'office', label: '🏢 Work / Office', sub: '10 AM - 6 PM, Mon-Sat' },
+                      { id: 'other', label: '📍 Other', sub: 'Anytime' },
+                    ].map((t) => (
+                      <button
+                        key={t.id}
+                        type="button"
+                        onClick={() => setAddressType(t.id as any)}
+                        className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                          addressType === t.id
+                            ? 'border-[#FF4D24] bg-[#FF4D24]/[0.06] text-neutral-950 font-bold shadow-xs'
+                            : 'border-black/10 bg-neutral-50/40 text-neutral-700 hover:border-black/20'
+                        }`}
+                      >
+                        <div className="text-xs font-bold leading-tight">{t.label}</div>
+                        <div className="text-[10px] text-neutral-500 mt-0.5 leading-tight">{t.sub}</div>
+                      </button>
+                    ))}
                   </div>
                 </div>
 
