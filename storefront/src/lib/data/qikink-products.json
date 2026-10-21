@@ -17,7 +17,7 @@
     "price": 679,
     "price_inr": 679,
     "compareAtPrice": 1299,
-    "compare_at_price": 975,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 200,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476431/images/Front_1_c_1.jpg",
@@ -71,7 +71,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 1299
   },
   {
     "id": "qikink-32476824-mens-full-sleeve-t-shirt",
@@ -91,7 +92,7 @@
     "price": 649,
     "price_inr": 649,
     "compareAtPrice": 1199,
-    "compare_at_price": 913,
+    "compare_at_price": 1199,
     "rating": 4.8,
     "reviews": 110,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476824/images/Front_1_c_1.jpg",
@@ -145,7 +146,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 1199
   },
   {
     "id": "qikink-32476620-unisex-terry-oversized-tee",
@@ -165,7 +167,7 @@
     "price": 699,
     "price_inr": 699,
     "compareAtPrice": 1299,
-    "compare_at_price": 1083,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 185,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476620/images/Front_1_c_1.jpg",
@@ -230,7 +232,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 1299
   },
   {
     "id": "qikink-32476280-unisex-oversized-jersey",
@@ -250,7 +253,7 @@
     "price": 679,
     "price_inr": 679,
     "compareAtPrice": 1299,
-    "compare_at_price": 758,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 245,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476280/images/Front_1_c_1.jpg",
@@ -288,7 +291,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 1299
   },
   {
     "id": "qikink-32476332-unisex-oversized-classic-t-shirt",
@@ -308,7 +312,7 @@
     "price": 649,
     "price_inr": 649,
     "compareAtPrice": 1199,
-    "compare_at_price": 866,
+    "compare_at_price": 1199,
     "rating": 4.8,
     "reviews": 205,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476332/images/Front_1_c_1.jpg",
@@ -380,7 +384,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 1199
   },
   {
     "id": "qikink-32476663-unisex-supima-t-shirt",
@@ -400,7 +405,7 @@
     "price": 649,
     "price_inr": 649,
     "compareAtPrice": 1199,
-    "compare_at_price": 897,
+    "compare_at_price": 1199,
     "rating": 4.8,
     "reviews": 170,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476663/images/Front_1_c_1.jpg",
@@ -454,7 +459,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 1199
   },
   {
     "id": "qikink-32476636-unisex-raglan-t-shirt",
@@ -474,7 +480,7 @@
     "price": 599,
     "price_inr": 599,
     "compareAtPrice": 999,
-    "compare_at_price": 772,
+    "compare_at_price": 999,
     "rating": 4.8,
     "reviews": 175,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476636/images/Front_1_c_11.jpg",
@@ -518,7 +524,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 999
   },
   {
     "id": "qikink-32476295-unisex-oversized-raglan",
@@ -538,7 +545,7 @@
     "price": 649,
     "price_inr": 649,
     "compareAtPrice": 1199,
-    "compare_at_price": 975,
+    "compare_at_price": 1199,
     "rating": 4.8,
     "reviews": 230,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476295/images/Front_1_c_11.jpg",
@@ -586,7 +593,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 1199
   },
   {
     "id": "qikink-32476313-unisex-classic-crew-t-shirt",
@@ -606,7 +614,7 @@
     "price": 599,
     "price_inr": 599,
     "compareAtPrice": 999,
-    "compare_at_price": 928,
+    "compare_at_price": 999,
     "rating": 4.8,
     "reviews": 220,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476313/images/Front_1_c_2.jpg",
@@ -674,7 +682,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 999
   },
   {
     "id": "qikink-32476299-unisex-ringer-t-shirt",
@@ -694,7 +703,7 @@
     "price": 599,
     "price_inr": 599,
     "compareAtPrice": 999,
-    "compare_at_price": 928,
+    "compare_at_price": 999,
     "rating": 4.8,
     "reviews": 225,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476299/images/Front_1_c_16.jpg",
@@ -742,7 +751,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 999
   },
   {
     "id": "qikink-32476772-unisex-v-neck-t-shirt",
@@ -762,7 +772,7 @@
     "price": 599,
     "price_inr": 599,
     "compareAtPrice": 999,
-    "compare_at_price": 808,
+    "compare_at_price": 999,
     "rating": 4.8,
     "reviews": 125,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476772/images/Front_1_c_1.jpg",
@@ -808,7 +818,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 999
   },
   {
     "id": "qikink-32476699-unisex-stretch-t-shirt",
@@ -828,7 +839,7 @@
     "price": 599,
     "price_inr": 599,
     "compareAtPrice": 999,
-    "compare_at_price": 927,
+    "compare_at_price": 999,
     "rating": 4.8,
     "reviews": 160,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476699/images/Front_1_c_1.jpg",
@@ -885,7 +896,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 999
   },
   {
     "id": "qikink-32476681-unisex-basic-t-shirt",
@@ -905,7 +917,7 @@
     "price": 499,
     "price_inr": 499,
     "compareAtPrice": 899,
-    "compare_at_price": 572,
+    "compare_at_price": 899,
     "rating": 4.8,
     "reviews": 165,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476681/images/Front_1_c_1.jpg",
@@ -963,7 +975,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 899
   },
   {
     "id": "qikink-32476629-unisex-oversized-shirt",
@@ -983,7 +996,7 @@
     "price": 699,
     "price_inr": 699,
     "compareAtPrice": 1299,
-    "compare_at_price": 1083,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 180,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476629/images/Left_Pocket_1_c_1.jpg",
@@ -1037,7 +1050,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 1299
   },
   {
     "id": "qikink-32476319-unisex-standard-crew-t-shirt",
@@ -1057,7 +1071,7 @@
     "price": 599,
     "price_inr": 599,
     "compareAtPrice": 999,
-    "compare_at_price": 773,
+    "compare_at_price": 999,
     "rating": 4.8,
     "reviews": 215,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476319/images/Front_1_c_1.jpg",
@@ -1098,7 +1112,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 999
   },
   {
     "id": "qikink-32476284-unisex-dryfit-t-shirt",
@@ -1118,7 +1133,7 @@
     "price": 499,
     "price_inr": 499,
     "compareAtPrice": 899,
-    "compare_at_price": 587,
+    "compare_at_price": 899,
     "rating": 4.8,
     "reviews": 235,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476284/images/Front_1_c_1.jpg",
@@ -1157,7 +1172,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 899
   },
   {
     "id": "qikink-32476281-unisex-jersey-t-shirt",
@@ -1177,7 +1193,7 @@
     "price": 649,
     "price_inr": 649,
     "compareAtPrice": 1199,
-    "compare_at_price": 636,
+    "compare_at_price": 1199,
     "rating": 4.8,
     "reviews": 240,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476281/images/Front_1_c_1.jpg",
@@ -1216,7 +1232,8 @@
     "active": true,
     "is_new": true,
     "is_trending": true,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 1199
   },
   {
     "id": "qikink-32476756-t-shirt-dress",
@@ -1236,7 +1253,7 @@
     "price": 649,
     "price_inr": 649,
     "compareAtPrice": 1099,
-    "compare_at_price": 897,
+    "compare_at_price": 1099,
     "rating": 4.8,
     "reviews": 135,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476756/images/Front_1_c_1.jpg",
@@ -1286,7 +1303,8 @@
     "active": true,
     "is_new": true,
     "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 1099
   },
   {
     "id": "qikink-32476736-maternity-dress",
@@ -1306,7 +1324,7 @@
     "price": 649,
     "price_inr": 649,
     "compareAtPrice": 1099,
-    "compare_at_price": 820,
+    "compare_at_price": 1099,
     "rating": 4.8,
     "reviews": 145,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476736/images/Front_1_c_1.jpg",
@@ -1344,7 +1362,8 @@
     "active": true,
     "is_new": true,
     "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 1099
   },
   {
     "id": "qikink-32476722-crop-tank",
@@ -1364,7 +1383,7 @@
     "price": 549,
     "price_inr": 549,
     "compareAtPrice": 899,
-    "compare_at_price": 665,
+    "compare_at_price": 899,
     "rating": 4.8,
     "reviews": 150,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476722/images/Front_1_c_1.jpg",
@@ -1413,7 +1432,8 @@
     "active": true,
     "is_new": true,
     "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 899
   },
   {
     "id": "qikink-32476716-baby-tee",
@@ -1433,7 +1453,7 @@
     "price": 599,
     "price_inr": 599,
     "compareAtPrice": 999,
-    "compare_at_price": 711,
+    "compare_at_price": 999,
     "rating": 4.8,
     "reviews": 155,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476716/images/Front_1_c_1.jpg",
@@ -1483,7 +1503,8 @@
     "active": true,
     "is_new": true,
     "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 999
   },
   {
     "id": "qikink-32476832-girls-crew-neck-t-shirt",
@@ -1503,7 +1524,7 @@
     "price": 499,
     "price_inr": 499,
     "compareAtPrice": 899,
-    "compare_at_price": 494,
+    "compare_at_price": 899,
     "rating": 4.8,
     "reviews": 105,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_1.jpg",
@@ -1560,7 +1581,8 @@
     "active": true,
     "is_new": true,
     "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 899
   },
   {
     "id": "qikink-32476744-boys-crew-neck-t-shirt",
@@ -1580,7 +1602,7 @@
     "price": 499,
     "price_inr": 499,
     "compareAtPrice": 899,
-    "compare_at_price": 696,
+    "compare_at_price": 899,
     "rating": 4.8,
     "reviews": 140,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_1.jpg",
@@ -1647,7 +1669,8 @@
     "active": true,
     "is_new": true,
     "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 899
   },
   {
     "id": "qikink-32476800-mens-sleeveless-t-shirt",
@@ -1667,7 +1690,7 @@
     "price": 599,
     "price_inr": 599,
     "compareAtPrice": 999,
-    "compare_at_price": 665,
+    "compare_at_price": 999,
     "rating": 4.8,
     "reviews": 115,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476800/images/Front_1_c_1.jpg",
@@ -1724,7 +1747,8 @@
     "active": true,
     "is_new": true,
     "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 999
   },
   {
     "id": "qikink-32476788-mens-polo",
@@ -1744,7 +1768,7 @@
     "price": 649,
     "price_inr": 649,
     "compareAtPrice": 1099,
-    "compare_at_price": 814,
+    "compare_at_price": 1099,
     "rating": 4.8,
     "reviews": 120,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476788/images/Left_Pocket_1_c_1.jpg",
@@ -1805,7 +1829,8 @@
     "active": true,
     "is_new": true,
     "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 1099
   },
   {
     "id": "qikink-32476438-unisex-acid-washed-oversized-tee",
@@ -1825,7 +1850,7 @@
     "price": 679,
     "price_inr": 679,
     "compareAtPrice": 1299,
-    "compare_at_price": 928,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 190,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476438/images/Front_1_c_2.jpg",
@@ -1875,7 +1900,8 @@
     "active": true,
     "is_new": true,
     "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 1299
   },
   {
     "id": "qikink-32476436-unisex-tie-dye-oversized-t-shirt",
@@ -1895,7 +1921,7 @@
     "price": 699,
     "price_inr": 699,
     "compareAtPrice": 1299,
-    "compare_at_price": 1052,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 195,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476436/images/Front_1_c_7.jpg",
@@ -1946,7 +1972,8 @@
     "active": true,
     "is_new": true,
     "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 1299
   },
   {
     "id": "qikink-32476326-unisex-classic-crew-t-shirt",
@@ -1966,7 +1993,7 @@
     "price": 549,
     "price_inr": 549,
     "compareAtPrice": 899,
-    "compare_at_price": 804,
+    "compare_at_price": 899,
     "rating": 4.8,
     "reviews": 210,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476326/images/Front_1_c_1.jpg",
@@ -2031,7 +2058,8 @@
     "active": true,
     "is_new": true,
     "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 899
   },
   {
     "id": "qikink-32476874-womens-classic-t-shirt",
@@ -2051,7 +2079,7 @@
     "price": 499,
     "price_inr": 499,
     "compareAtPrice": 899,
-    "compare_at_price": 539,
+    "compare_at_price": 899,
     "rating": 4.8,
     "reviews": 95,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476874/images/Front_1_c_1.jpg",
@@ -2128,7 +2156,8 @@
     "active": true,
     "is_new": true,
     "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 899
   },
   {
     "id": "qikink-32476851-crop-top",
@@ -2148,7 +2177,7 @@
     "price": 499,
     "price_inr": 499,
     "compareAtPrice": 899,
-    "compare_at_price": 494,
+    "compare_at_price": 899,
     "rating": 4.8,
     "reviews": 100,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476851/images/Front_1_c_1.jpg",
@@ -2208,7 +2237,8 @@
     "active": true,
     "is_new": true,
     "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 899
   },
   {
     "id": "qikink-32476764-womens-tank-top",
@@ -2228,7 +2258,7 @@
     "price": 599,
     "price_inr": 599,
     "compareAtPrice": 999,
-    "compare_at_price": 525,
+    "compare_at_price": 999,
     "rating": 4.8,
     "reviews": 130,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476764/images/Front_1_c_1.jpg",
@@ -2278,6 +2308,7 @@
     "active": true,
     "is_new": true,
     "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))"
+    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
+    "old_price": 999
   }
 ]

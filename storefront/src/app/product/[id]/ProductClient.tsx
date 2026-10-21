@@ -1183,9 +1183,9 @@ export function ProductClient({ product }: Props) {
 
   // Anchor M.R.P. mathematically so it is never broken, never divides by 100 or passes small USD numbers
   const mrpInr = (() => {
-    if (product.old_price && product.old_price > baseInr) return Math.round(product.old_price);
-    if (product.compare_at_price && product.compare_at_price > baseInr) return Math.round(product.compare_at_price);
     if (product.compareAtPrice && product.compareAtPrice > baseInr) return Math.round(product.compareAtPrice);
+    if (product.compare_at_price && product.compare_at_price > baseInr) return Math.round(product.compare_at_price);
+    if (product.old_price && product.old_price > baseInr) return Math.round(product.old_price);
     if (product.compareAtPrice && product.compareAtPrice * 85 > baseInr) return Math.round(product.compareAtPrice * 85);
     if (product.compare_at_price && product.compare_at_price * 85 > baseInr) return Math.round(product.compare_at_price * 85);
     const raw = Math.round(baseInr / 0.56);

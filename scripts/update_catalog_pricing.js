@@ -65,6 +65,8 @@ products.forEach((p) => {
     p.price = rule.price;
     p.price_inr = rule.price;
     p.compareAtPrice = rule.mrp;
+    p.compare_at_price = rule.mrp;
+    p.old_price = rule.mrp;
   }
 });
 
