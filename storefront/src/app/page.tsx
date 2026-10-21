@@ -257,43 +257,6 @@ export default async function Home() {
           </section>
         )}
 
-        {/* B2B CAMPUS & STARTUP MERCH SPOTLIGHT BANNER */}
-        <section className="rounded-2xl sm:rounded-3xl bg-gradient-to-r from-[#171412] via-[#211b17] to-[#171412] text-white p-4 sm:p-6 md:p-8 border border-white/10 shadow-xl relative overflow-hidden">
-          <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
-            <span className="aurora-blob" style={{ width: 300, height: 300, top: -100, right: -50, background: 'rgba(255,77,36,0.3)' }} />
-          </div>
-
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
-            <div className="space-y-1.5 sm:space-y-2 max-w-xl text-center md:text-left">
-              <span className="inline-flex items-center gap-1.5 px-3 py-0.5 sm:py-1 rounded-full bg-white/10 text-[#FF9A3D] text-[10px] sm:text-[11px] font-black uppercase tracking-wider">
-                ⚡ Campus &amp; Startup Merch Studio
-              </span>
-              <h3 className="text-lg sm:text-2xl md:text-3xl font-black tracking-tight leading-snug">
-                Organizing a Hackathon, College Fest or Team Launch?
-              </h3>
-              <p className="text-[11px] sm:text-xs md:text-sm text-white/70 leading-relaxed">
-                Zero setup fees. Bulk 240 GSM Heavyweight Tees &amp; 380 GSM Hoodies from <b>₹269/unit</b>. 
-                Chat with our <b>Hermes AI Desk</b> for instant tier quotes, 20% advance booking, and free mockups.
-              </p>
-            </div>
-
-            <div className="shrink-0 flex flex-col sm:flex-row gap-2.5 sm:gap-3 w-full sm:w-auto">
-              <Link
-                href="/custom-drops"
-                className="px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl bg-gradient-to-r from-[#FF4D24] to-[#f59e0b] hover:opacity-95 text-white font-black text-xs uppercase tracking-wider text-center no-underline transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5"
-              >
-                <span>🏛️</span> Talk to Hermes AI Desk ➔
-              </Link>
-              <Link
-                href={process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ? `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER.replace(/\D/g, '')}?text=Hi%20Ajay%2C%20I%20need%20custom%20merch%20for%20our%20team` : '/custom-drops'}
-                className="px-4 py-2.5 sm:px-5 sm:py-3 rounded-lg sm:rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs uppercase tracking-wider text-center no-underline transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5"
-              >
-                <span>💬</span> Custom Merch Desk
-              </Link>
-            </div>
-          </div>
-        </section>
-
         {/* SECTION 3: ESSENTIAL STREETWEAR BLANKS */}
         {blanks.length > 0 && (
           <section id="streetwear-blanks" className="scroll-mt-28">
