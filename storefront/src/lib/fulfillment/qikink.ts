@@ -1,4 +1,5 @@
 import { SupabaseClient } from '@supabase/supabase-js';
+import qikinkVariantsMap from '@/lib/data/qikink-variants-map.json';
 
 export interface QikinkFulfillmentResult {
   ok: boolean;
@@ -79,7 +80,20 @@ export function resolveQikinkSku(item: {
   qikinkTemplateSku?: string;
   color?: string;
 }): string {
-  // 1. If product uses a pre-saved Qikink Dashboard "My Products" template SKU, return directly
+  // 1. Exact match in Qikink variants map (1,383 verified factory SKUs)
+  const rawId = item.id || '';
+  const clientProductId = rawId.match(/(\d{8})/)?.[1];
+  if (clientProductId) {
+    const colorKey = (item.color || 'white').toLowerCase().trim();
+    const sizeKey = (item.size || 'm').toLowerCase().trim();
+    const mapKey = `${clientProductId}_${colorKey}_${sizeKey}`;
+    const mapped = (qikinkVariantsMap as Record<string, any>)[mapKey];
+    if (mapped?.product_sku) {
+      return mapped.product_sku;
+    }
+  }
+
+  // 2. If product uses a pre-saved Qikink Dashboard "My Products" template SKU, return directly
   if (item.qikinkTemplateSku) {
     const cleanSize = (item.size || 'L').toUpperCase();
     return item.qikinkTemplateSku.replace('{Size}', cleanSize);
