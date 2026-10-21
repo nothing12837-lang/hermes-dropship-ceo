@@ -918,6 +918,28 @@ export default function AdminOrdersPage() {
                 </div>
               </div>
 
+              {/* Strategic Milestone Deck */}
+              <div className="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-transparent p-5 rounded-2xl border border-amber-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">🎯</span>
+                    <h3 className="text-sm font-black text-white uppercase tracking-wider">
+                      Strategic Milestone: 10 Successful Orders
+                    </h3>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                      {orders.filter((o) => o.status === 'confirmed' || o.status === 'processing' || o.status === 'delivered').length} / 10 Completed
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-300 max-w-xl">
+                    Pack of 2 &amp; Pack of 3 Value Bundles are strategically paused. Once RareEmber crosses 10 successful verified orders, the bundle engine and multi-item discount combinations will automatically be listed on the storefront.
+                  </p>
+                </div>
+                <div className="shrink-0 text-right">
+                  <span className="text-xs font-mono font-bold text-slate-400 block">Next Unlock:</span>
+                  <span className="text-xs font-black text-amber-400">⚡ Pack of 2 &amp; 3 Bundles</span>
+                </div>
+              </div>
+
               {/* Unit Economics Breakdown Table */}
               <div className="bg-[#0B0F19] p-6 rounded-2xl border border-slate-800 space-y-4">
                 <h3 className="text-sm font-black text-white uppercase tracking-wider">

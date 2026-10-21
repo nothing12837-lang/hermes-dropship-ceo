@@ -19,8 +19,8 @@ const TABS = [
 
 function isDisallowedRow(p: ProductRow): boolean {
   const targetId = `${p.id || ''} ${p.slug || ''} ${p.title || ''}`.toLowerCase();
-  // Filter legacy pet products and low-margin novelty filler items (Directive 3)
-  return /calmcloud|ember-glow|warm-paw|lickmat|pawtrack|cozy-nest|aesthetic-scratch|smart-fetch|button-badge|button_badge|button badge|temporary-tattoo|temporary tattoo|tattoo|scrunchies|bow scrunchie|bookmark|balaclava|arm sleeves|arm sleeve|basic t-shirt pc/i.test(targetId);
+  // Filter legacy pet products, low-margin novelty filler items, and bundles (paused until 10 successful orders)
+  return /calmcloud|ember-glow|warm-paw|lickmat|pawtrack|cozy-nest|aesthetic-scratch|smart-fetch|button-badge|button_badge|button badge|temporary-tattoo|temporary tattoo|tattoo|scrunchies|bow scrunchie|bookmark|balaclava|arm sleeves|arm sleeve|basic t-shirt pc|^bundle-|bundle/i.test(targetId);
 }
 
 export function matchesCategory(cat: string, p: any): boolean {

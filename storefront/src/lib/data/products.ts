@@ -274,10 +274,10 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
   }
 ];
 
-export const products: Product[] = [
-  ...((qikinkCatalog as unknown as Product[]).map(enforcePriceFloor)),
-  ...BUNDLE_FALLBACK_PRODUCTS.map(enforcePriceFloor),
-];
+// Bundles paused until store reaches 10 successful orders (per strategic roadmap)
+export const products: Product[] = (qikinkCatalog as unknown as Product[])
+  .filter((p) => !p.id.startsWith('bundle-'))
+  .map(enforcePriceFloor);
 
 export const PET_META: Record<string, any> = {
   dog: { emoji: '🐕', label: 'For Dogs', color: '#9a3412', bg: '#fff7ed' },
