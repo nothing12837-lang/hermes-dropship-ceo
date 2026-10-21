@@ -35,6 +35,7 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   images: {
+    unoptimized: true, // Prevents hitting Vercel 5,000 free-tier Image Transformation limits; loads directly from S3 & fast CDNs
     remotePatterns: [
       { protocol: 'https', hostname: 'qikink-stores.s3.ap-south-1.amazonaws.com' },
       { protocol: 'https', hostname: '*.amazonaws.com' },
@@ -42,10 +43,6 @@ const nextConfig = {
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: 'videos.pexels.com' },
     ],
-    formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 86400, // 24 hours edge cache for responsive images
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   experimental: {
     optimizePackageImports: ['framer-motion', '@react-three/fiber', '@react-three/drei'],
