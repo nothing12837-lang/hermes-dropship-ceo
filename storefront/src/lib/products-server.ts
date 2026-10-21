@@ -178,9 +178,9 @@ export function isDisallowedProduct(p: { id?: string; slug?: string }): boolean 
   return DISALLOWED_KEYWORDS.some((kw) => targetId.includes(kw));
 }
 
-// Server-side product fetch: All catalog products currently archived for next collection drop.
+// Server-side product fetch: Return all genuine Qikink drops
 export async function getProductsFromDB(): Promise<Product[]> {
-  return [];
+  return localProducts.map(sanitizeLocalProduct);
 }
 
 async function serverClient() {
@@ -191,14 +191,14 @@ async function serverClient() {
   return createClient<Database>(url, key);
 }
 
-/** Homepage: up to `limit` trending products (purely tech, lifestyle, home). */
+/** Homepage: up to `limit` trending products */
 export async function getTrendingProducts(limit = 8): Promise<Product[]> {
-  return [];
+  return localProducts.slice(0, limit).map(sanitizeLocalProduct);
 }
 
-/** Homepage: newest arrivals first (purely tech, lifestyle, home). */
+/** Homepage: newest arrivals first */
 export async function getNewProducts(limit = 8): Promise<Product[]> {
-  return [];
+  return localProducts.slice(0, limit).map(sanitizeLocalProduct);
 }
 
 
@@ -218,10 +218,12 @@ function sanitizeLocalProduct(p: Product): Product {
 }
 
 function findLocalProduct(term: string): Product | null {
+  if (!term) return null;
   const cleanTerm = term.trim().toLowerCase();
   const cleanedSlug = cleanBrandSlug(cleanTerm);
   const match = localProducts.find((p) => {
     if (p.id.toLowerCase() === cleanTerm || p.slug.toLowerCase() === cleanTerm) return true;
+    if (p.qikinkClientProductId && cleanTerm.includes(p.qikinkClientProductId)) return true;
     if ((cleanTerm === "64950694" || cleanTerm === "64951032") && (p.id.includes(cleanTerm) || p.slug.includes(cleanTerm))) return true;
     const pCleanSlug = cleanBrandSlug(p.slug).toLowerCase();
     if (pCleanSlug === cleanedSlug || pCleanSlug === cleanTerm) return true;
@@ -235,6 +237,6 @@ function findLocalProduct(term: string): Product | null {
   return match && !isDisallowedProduct(match) ? sanitizeLocalProduct(match) : null;
 }
 
-export async function getProductFromDB(_id: string): Promise<Product | null> {
-  return null;
+export async function getProductFromDB(id: string): Promise<Product | null> {
+  return findLocalProduct(id);
 }

@@ -15,6 +15,7 @@ export const metadata = {
 function toCard(p: Product, rank?: number) {
   return {
     id: p.id,
+    slug: p.slug,
     emoji: p.emoji || '🛍️',
     tag: p.tag || 'New',
     tagColor: p.tagColor,
@@ -94,31 +95,8 @@ export default async function Home() {
     .map((id) => allProducts.find((p) => p.id === id))
     .filter((p): p is Product => Boolean(p));
 
-  // 2. The 12 Flagship Drops (380 GSM Hoodies, Heavyweight Tees, Varsity & Workstation)
-  const heroDropIds = [
-    // Creator Edition Feature Drop (Qikink ID: 64950694)
-    'qikink-64950694-oversized-jersey',
-    'qikink-64951032-girls-crew-tshirt',
-    // 4 380 GSM Heavyweight Winter Hoodies & Varsity
-    're-prebuilt-blr-01-hoodie',
-    're-prebuilt-desi-01-hoodie',
-    're-prebuilt-myth-01-hoodie',
-    're-prebuilt-desi-05-varsity',
-    // 6 240 GSM Combed Streetwear Graphic & Acid Wash Tees
-    're-prebuilt-blr-02-oversized-tee',
-    'qikink-t-shirts-acid-wash-oversized-t-shirt-uc61',
-    're-prebuilt-myth-01-oversized-tee',
-    'qikink-t-shirts-oversized-t-shirt-standard-us22',
-    'qikink-t-shirts-terry-oversized-t-shirt-ut27',
-    're-prebuilt-blr-01-varsity',
-    // 2 Premium Workstation Desk Gear
-    'qikink-accessories-desk-mat',
-    're-prebuilt-blr-02-deskmat',
-  ];
-
-  const heroDrops = heroDropIds
-    .map((id) => allProducts.find((p) => p.id === id))
-    .filter((p): p is Product => Boolean(p));
+  // 2. The 12 Flagship Drops from user's genuine catalog
+  const heroDrops = allProducts.slice(0, 12);
 
   return (
     <main className="page-top min-h-screen text-[#161311] pb-16">
@@ -211,41 +189,70 @@ export default async function Home() {
           />
         </section>
 
-        {/* SECTION 1 & 2: CONDITIONAL HERO DROPS OR NEW COLLECTION LAUNCHING SOON */}
-        {bundles.length > 0 || heroDrops.length > 0 ? (
-          <>
-            {/* SECTION 1: CURATED VALUE COMBOS */}
-            <section id="bundles" className="scroll-mt-28">
-              <div className="flex items-end justify-between gap-4 mb-6">
-                <div>
-                  <div className="hero-rise inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-ember text-white text-xs font-black uppercase tracking-wider mb-2 shadow-ember">
-                    <span>🔥</span> Maximum Value Combos
-                  </div>
-                  <h2 className="hero-rise hero-rise-1 text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
-                    Curated Value Combos — <span className="text-gradient-ember">Save Up to 25%</span>
-                  </h2>
-                  <p className="text-xs md:text-sm text-neutral-500 mt-1">
-                    Save up to ₹1,200 with combined express air shipping. 380 GSM fleece hoodies, varsity jackets &amp; 100% bio-washed Tirupur combed cotton.
-                  </p>
+        {/* SECTION 1: HERO DROPS OR BUNDLES OR VAULT REFRESH */}
+        {bundles.length > 0 ? (
+          <section id="bundles" className="scroll-mt-28">
+            <div className="flex items-end justify-between gap-4 mb-6">
+              <div>
+                <div className="hero-rise inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-ember text-white text-xs font-black uppercase tracking-wider mb-2 shadow-ember">
+                  <span>🔥</span> Maximum Value Combos
                 </div>
-                <Link
-                  href="/shop"
-                  className="text-xs font-extrabold text-[#1C1310] hover:text-[#FF4D24] no-underline flex items-center gap-1.5 shrink-0 pb-1 border-b-2 border-black/15 hover:border-ember transition-all group"
-                >
-                  <span>Explore All</span>
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                </Link>
+                <h2 className="hero-rise hero-rise-1 text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
+                  Curated Value Combos — <span className="text-gradient-ember">Save Up to 25%</span>
+                </h2>
+                <p className="text-xs md:text-sm text-neutral-500 mt-1">
+                  Save up to ₹1,200 with combined express air shipping. 380 GSM fleece hoodies, varsity jackets &amp; 100% bio-washed Tirupur combed cotton.
+                </p>
               </div>
+              <Link
+                href="/shop"
+                className="text-xs font-extrabold text-[#1C1310] hover:text-[#FF4D24] no-underline flex items-center gap-1.5 shrink-0 pb-1 border-b-2 border-black/15 hover:border-ember transition-all group"
+              >
+                <span>Explore All</span>
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </Link>
+            </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                {bundles.map((p, i) => (
-                  <ScrollReveal key={p.id} delay={i * 50}>
-                    <ProductCard {...toCard(p, i + 1)} priority={i < 2} />
-                  </ScrollReveal>
-                ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              {bundles.map((p, i) => (
+                <ScrollReveal key={p.id} delay={i * 50}>
+                  <ProductCard {...toCard(p, i + 1)} priority={i < 2} />
+                </ScrollReveal>
+              ))}
+            </div>
+          </section>
+        ) : heroDrops.length > 0 ? (
+          <section id="hero-drops" className="scroll-mt-28">
+            <div className="flex items-end justify-between gap-4 mb-6">
+              <div>
+                <div className="hero-rise inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/[0.05] text-neutral-800 text-xs font-black uppercase tracking-wider mb-2">
+                  <span>✨</span> Tirupur Direct Drops
+                </div>
+                <h2 className="hero-rise hero-rise-1 text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
+                  The Flagship <span className="text-gradient-ember">Collection</span>
+                </h2>
+                <p className="text-xs md:text-sm text-neutral-500 mt-1">
+                  100% Bio-Washed Combed Cotton • Aeroknit Mesh Jerseys • Dispatched direct from Tirupur Hub with 1-Click COD
+                </p>
               </div>
-            </section>
-          </>
+              <Link
+                href="/shop"
+                className="text-xs font-extrabold text-[#1C1310] hover:text-[#FF4D24] no-underline flex items-center gap-1.5 shrink-0 pb-1 border-b-2 border-black/15 hover:border-ember transition-all group"
+              >
+                <span>View All 31 Drops</span>
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </Link>
+            </div>
+
+            {/* 12 Hero Drops Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {heroDrops.map((p, i) => (
+                <ScrollReveal key={p.id} delay={i * 35}>
+                  <ProductCard {...toCard(p)} />
+                </ScrollReveal>
+              ))}
+            </div>
+          </section>
         ) : (
           /* VAULT REFRESH / NEW COLLECTION LAUNCHING SOON */
           <section className="rounded-3xl bg-neutral-900 text-white p-8 md:p-14 border border-white/10 shadow-2xl relative overflow-hidden text-center my-4">
@@ -319,8 +326,8 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* SECTION 2: THE 12 FLAGSHIP HERO DROPS (ONLY IF ACTIVE PRODUCTS EXIST) */}
-        {heroDrops.length > 0 && (
+        {/* SECTION 2: THE 12 FLAGSHIP HERO DROPS (WHEN BUNDLES ALSO EXIST) */}
+        {bundles.length > 0 && heroDrops.length > 0 && (
           <section id="hero-drops" className="scroll-mt-28">
             <div className="flex items-end justify-between gap-4 mb-6">
               <div>

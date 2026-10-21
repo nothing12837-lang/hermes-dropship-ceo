@@ -40,7 +40,7 @@ function ShopInner() {
   const [query, setQuery] = useState(search.get('q') || '');
   const [sort, setSort] = useState('featured');
   const [stockFilter, setStockFilter] = useState<'all' | 'in_stock' | 'out_of_stock'>('all');
-  const [products, setProducts] = useState<ProductRow[]>([]);
+  const [products, setProducts] = useState<ProductRow[]>(localProducts as unknown as ProductRow[]);
 
   useEffect(() => {
     setCat(TABS.some((t) => t.id === param) ? param : 'all');
@@ -50,8 +50,7 @@ function ShopInner() {
   }, [param, search]);
 
   useEffect(() => {
-    // All previous catalog products cleared. Setting catalog to empty for next collection drop.
-    setProducts([]);
+    setProducts(localProducts as unknown as ProductRow[]);
   }, [cat]);
 
   const inStockCount = useMemo(() => {
@@ -262,6 +261,7 @@ function ShopInner() {
               >
                 <ProductCard
                   id={p.id}
+                  slug={p.slug || undefined}
                   emoji={p.emoji || '🛍️'}
                   tag={p.is_trending ? 'Trending' : p.tag || 'New'}
                   tagColor={p.tag_color || '#FFFFFF'}

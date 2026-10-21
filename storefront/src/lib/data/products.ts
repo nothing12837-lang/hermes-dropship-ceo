@@ -52,9 +52,24 @@ export interface Product {
   badge?: string;
   sizes?: string[];
   colors?: string[];
+  colorImages?: Record<string, string>;
   qikinkSkuPrefix?: string;
+  qikinkClientProductId?: string;
+  qikinkPrintType?: string;
+  sizeChartLink?: string;
+  variants?: Array<{
+    product_sku?: string;
+    variant_sku: string;
+    color: string;
+    size: string;
+    cost_price?: string;
+    selling_price: number;
+    variant_image?: string;
+  }>;
   image?: string;
 }
+
+import qikinkCatalog from './qikink-products.json';
 
 export const USD_TO_INR_RATE = 85;
 
@@ -103,7 +118,7 @@ export const SHOP_CATEGORIES = [
 ];
 
 
-export const products: Product[] = [];
+export const products: Product[] = qikinkCatalog as unknown as Product[];
 
 export const PET_META: Record<string, any> = {
   dog: { emoji: '🐕', label: 'For Dogs', color: '#9a3412', bg: '#fff7ed' },
@@ -114,5 +129,11 @@ export const PET_META: Record<string, any> = {
 export const bundles: Record<string, string[]> = {};
 
 export function getProduct(id: string): Product | undefined {
-  return products.find((p) => p.id === id || p.slug === id);
+  if (!id) return undefined;
+  const cleanId = id.trim().toLowerCase();
+  return products.find((p) => 
+    p.id.toLowerCase() === cleanId || 
+    p.slug.toLowerCase() === cleanId ||
+    (p.qikinkClientProductId && cleanId.includes(p.qikinkClientProductId))
+  );
 }

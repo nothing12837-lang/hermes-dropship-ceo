@@ -59,8 +59,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Sitemap fetch live products error:', err);
   }
 
-  // All catalog products currently archived for next collection drop
-  const activeProducts: MetadataRoute.Sitemap = [];
+  // All 31 genuine user-created Qikink drops indexed for Google
+  const activeProducts: MetadataRoute.Sitemap = fallbackProducts.map((p) => ({
+    url: `${base}/product/${p.slug || p.id}`,
+    lastModified: now,
+    changeFrequency: 'daily' as const,
+    priority: 0.85,
+  }));
 
   // Blog Article Pages from Supabase (Aarav's Content Engine)
   let liveBlogs: Array<{ slug: string; updated_at?: string }> = [];

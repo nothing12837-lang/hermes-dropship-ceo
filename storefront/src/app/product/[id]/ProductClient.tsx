@@ -34,14 +34,22 @@ const KIDS_SIZE_GUIDE_ROWS = [
 
 const KIDS_SIZE_SPECS: Record<string, { chest: string; length: string }> = {
   '0-12M': { chest: '20"', length: '13"' },
+  '12-23M': { chest: '22"', length: '14"' },
+  '24-35M': { chest: '23"', length: '15"' },
+  '36-47M': { chest: '24"', length: '16"' },
   '1-2Y': { chest: '22"', length: '14"' },
   '2-3Y': { chest: '23"', length: '15"' },
   '3-4Y': { chest: '24"', length: '16"' },
   '5-6Y': { chest: '26"', length: '18"' },
+  '5Yrs': { chest: '26"', length: '18"' },
   '7-8Y': { chest: '28"', length: '20"' },
+  '7Yrs': { chest: '28"', length: '20"' },
   '9-10Y': { chest: '30"', length: '22"' },
+  '9Yrs': { chest: '30"', length: '22"' },
   '11-12Y': { chest: '32"', length: '24"' },
+  '11Yrs': { chest: '32"', length: '24"' },
   '13-14Y': { chest: '34"', length: '25"' },
+  '13Yrs': { chest: '34"', length: '25"' },
 };
 
 const SIZE_GUIDE_ROWS = [
@@ -51,7 +59,10 @@ const SIZE_GUIDE_ROWS = [
   { size: 'L', chestIn: 42, chestCm: 106, lengthIn: 29, lengthCm: 74, shoulderIn: 20, shoulderCm: 51 },
   { size: 'XL', chestIn: 44, chestCm: 112, lengthIn: 30, lengthCm: 76, shoulderIn: 21, shoulderCm: 53 },
   { size: '2XL', chestIn: 46, chestCm: 117, lengthIn: 31, lengthCm: 79, shoulderIn: 22, shoulderCm: 56 },
+  { size: 'XXL', chestIn: 46, chestCm: 117, lengthIn: 31, lengthCm: 79, shoulderIn: 22, shoulderCm: 56 },
   { size: '3XL', chestIn: 48, chestCm: 122, lengthIn: 32, lengthCm: 81, shoulderIn: 23, shoulderCm: 58 },
+  { size: '4XL', chestIn: 50, chestCm: 127, lengthIn: 33, lengthCm: 84, shoulderIn: 24, shoulderCm: 60 },
+  { size: '5XL', chestIn: 52, chestCm: 132, lengthIn: 34, lengthCm: 86, shoulderIn: 25, shoulderCm: 62 },
 ];
 
 const SIZE_SPECS: Record<string, { chest: string; length: string }> = {
@@ -61,7 +72,10 @@ const SIZE_SPECS: Record<string, { chest: string; length: string }> = {
   L: { chest: '42"', length: '29"' },
   XL: { chest: '44"', length: '30"' },
   '2XL': { chest: '46"', length: '31"' },
+  XXL: { chest: '46"', length: '31"' },
   '3XL': { chest: '48"', length: '32"' },
+  '4XL': { chest: '50"', length: '33"' },
+  '5XL': { chest: '52"', length: '34"' },
 };
 
 const PHONE_MODELS = [
@@ -2020,11 +2034,13 @@ export function ProductClient({ product }: Props) {
 
                       {(() => {
                         const activeItemIsKids = /kid|boy|girl|baby|toddler|infant/i.test(activeItemLower);
-                        const currentSizeList = activeItemIsKids ? KIDS_SIZES : SIZES;
+                        const currentSizeList = (product.sizes && Array.isArray(product.sizes) && product.sizes.length > 0)
+                          ? product.sizes
+                          : (activeItemIsKids ? KIDS_SIZES : SIZES);
                         const currentSpecs = activeItemIsKids ? KIDS_SIZE_SPECS : SIZE_SPECS;
                         return (
                           <>
-                            <div className="grid grid-cols-6 gap-1.5">
+                            <div className="flex flex-wrap gap-1.5">
                               {currentSizeList.map((s) => {
                                 const isSelected = selectedSize === s;
                                 return (
@@ -2037,7 +2053,7 @@ export function ProductClient({ product }: Props) {
                                         setBundleItemSizes((prev) => ({ ...prev, [selectedComboItemIndex]: s }));
                                       }
                                     }}
-                                    className={`py-2 px-1 rounded-xl text-center transition-all cursor-pointer flex flex-col items-center justify-center min-h-[50px] ${
+                                    className={`py-2 px-3 rounded-xl text-center transition-all cursor-pointer flex flex-col items-center justify-center min-h-[50px] min-w-[54px] flex-1 sm:flex-none ${
                                       isSelected
                                         ? 'bg-neutral-900 text-white border-2 border-[#FF4D24] shadow-md'
                                         : 'bg-white text-neutral-800 border border-black/10 hover:border-black/25'
