@@ -115,9 +115,9 @@ export function computeDiscount(rawPrice: number, rawCompare?: number, priceInr?
 }
 
 export const SHOP_CATEGORIES = [
-  { id: 'mens-printed', label: "Men's Printed", count: 17, hint: 'Heavyweight DTF & Sublimation Drops', emoji: '🔥' },
-  { id: 'printed', label: 'All Graphic Prints', count: 23, hint: 'Every High-Definition Fade-Proof Print', emoji: '✨' },
-  { id: 'mens', label: "Men's & Unisex", count: 22, hint: 'Oversized Tees, Hoodies & Jerseys', emoji: '👕' },
+  { id: 'mens-printed', label: "Men's Printed", count: 18, hint: 'Heavyweight DTF & Sublimation Drops', emoji: '🔥' },
+  { id: 'printed', label: 'All Graphic Prints', count: 24, hint: 'Every High-Definition Fade-Proof Print', emoji: '✨' },
+  { id: 'mens', label: "Men's & Unisex", count: 23, hint: 'Oversized Tees, Hoodies & Jerseys', emoji: '👕' },
   { id: 'womens', label: "Women's Drops", count: 7, hint: 'Baby Tees, Crop Tops & Graphic Dresses', emoji: '👗' },
   { id: 'kids', label: "Kids Streetwear", count: 2, hint: '100% Super Combed Cotton Graphic Tees', emoji: '🧸' },
   { id: 'blanks', label: 'Premium Blanks', count: 8, hint: 'Essential Acid Wash, Tie-Dye & Garment Blanks', emoji: '⚡' },
