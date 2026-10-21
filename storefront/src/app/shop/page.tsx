@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense, useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Shirt, Coffee, Monitor, ShoppingBag } from 'lucide-react';
@@ -49,47 +50,8 @@ function ShopInner() {
   }, [param, search]);
 
   useEffect(() => {
-    let cancelled = false;
-    let q = supabase
-      .from('products')
-      .select('id, title, slug, price, price_inr, compare_at_price, category, image_url, images, rating, reviews, stock, active, is_new, short, gradient')
-      .eq('active', true);
-    if (cat === 'home-garden') {
-      q = q.in('category', ['home-garden', 'home-living', 'decor']);
-    } else if (cat === 'electronics') {
-      q = q.in('category', ['electronics', 'tech']);
-    } else if (cat === 'general') {
-      q = q.in('category', ['general', 'lifestyle', 'viral']);
-    } else if (cat === 'fashion') {
-      q = q.in('category', ['fashion', 'apparel']);
-    } else if (DB_CATEGORIES.has(cat)) {
-      q = q.eq('category', cat);
-    }
-    Promise.resolve(q.order('created_at', { ascending: false }))
-      .then(({ data, error }: any) => {
-        if (!cancelled) {
-          if (error || !data || data.length === 0) {
-            if (error) console.error('Shop fetch error:', error.message);
-            const fallback = (localProducts as any[]).filter((p) => !isDisallowedRow(p));
-            setProducts(fallback as ProductRow[]);
-            return;
-          }
-          const filtered = ((data ?? []) as ProductRow[]).filter((p) => !isDisallowedRow(p));
-          const dbIds = new Set(filtered.map((p) => p.id));
-          const extraLocal = (localProducts as any[]).filter((p) => !dbIds.has(p.id) && !isDisallowedRow(p));
-          setProducts([...filtered, ...extraLocal] as ProductRow[]);
-        }
-      })
-      .catch((err: unknown) => {
-        if (!cancelled) {
-          console.error('Shop promise error:', err);
-          const fallback = (localProducts as any[]).filter((p) => !isDisallowedRow(p));
-          setProducts(fallback as ProductRow[]);
-        }
-      });
-    return () => {
-      cancelled = true;
-    };
+    // All previous catalog products cleared. Setting catalog to empty for next collection drop.
+    setProducts([]);
   }, [cat]);
 
   const inStockCount = useMemo(() => {
@@ -337,9 +299,33 @@ function ShopInner() {
         </motion.div>
 
         {list.length === 0 && (
-          <div className="text-center py-16 text-text-secondary">
-            <div className="text-4xl mb-4">🕵️</div>
-            <p className="font-bold">Nothing here yet — try another category or search.</p>
+          <div className="max-w-2xl mx-auto text-center py-16 px-6 rounded-3xl bg-neutral-900/60 border border-white/10 shadow-2xl backdrop-blur-xl my-6">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#FF4D24]/20 to-[#E8244B]/20 border border-[#FF4D24]/40 flex items-center justify-center text-3xl shadow-inner">
+              ⚡
+            </div>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-[#FF9A3D] text-[11px] font-black uppercase tracking-wider mb-3">
+              Vault Refresh In Progress
+            </span>
+            <h2 className="text-2xl md:text-4xl font-black text-white tracking-tight mb-3">
+              New Collection Launching Soon
+            </h2>
+            <p className="text-neutral-400 text-sm leading-relaxed max-w-lg mx-auto mb-8">
+              All previous catalog pieces have been archived. We are curating our next official drop of heavyweight apparel and creator gear direct from our Tirupur studio.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link
+                href="/custom-drops"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#FF4D24] to-[#f59e0b] hover:opacity-95 text-white font-black text-xs uppercase tracking-wider no-underline shadow-md active:scale-95 transition-all flex items-center justify-center gap-2"
+              >
+                <span>🎨</span> Open Custom Design Studio
+              </Link>
+              <Link
+                href="/"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider no-underline transition-all flex items-center justify-center"
+              >
+                Back to Home
+              </Link>
+            </div>
           </div>
         )}
 

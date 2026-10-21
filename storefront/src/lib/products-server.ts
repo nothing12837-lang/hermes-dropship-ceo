@@ -178,29 +178,9 @@ export function isDisallowedProduct(p: { id?: string; slug?: string }): boolean 
   return DISALLOWED_KEYWORDS.some((kw) => targetId.includes(kw));
 }
 
-// Server-side product fetch: Supabase first, local fallback (never breaks the store).
+// Server-side product fetch: All catalog products currently archived for next collection drop.
 export async function getProductsFromDB(): Promise<Product[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key =
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return localProducts.filter((p) => !isDisallowedProduct(p)).map(sanitizeLocalProduct);
-  try {
-    const sb = createClient<Database>(url, key);
-    const { data, error } = await sb
-      .from('products')
-      .select('*')
-      .eq('active', true)
-      .order('chapter', { ascending: true });
-    if (error || !data || data.length === 0) return localProducts.filter((p) => !isDisallowedProduct(p)).map(sanitizeLocalProduct);
-    const dbProducts = data.filter((r) => !isDisallowedProduct(r)).map(mapRowToProduct);
-    const existingIds = new Set(dbProducts.map((p) => p.id));
-    const extraLocal = localProducts
-      .filter((p) => !existingIds.has(p.id) && !isDisallowedProduct(p))
-      .map(sanitizeLocalProduct);
-    return [...dbProducts, ...extraLocal];
-  } catch {
-    return localProducts.filter((p) => !isDisallowedProduct(p)).map(sanitizeLocalProduct);
-  }
+  return [];
 }
 
 async function serverClient() {
@@ -213,53 +193,12 @@ async function serverClient() {
 
 /** Homepage: up to `limit` trending products (purely tech, lifestyle, home). */
 export async function getTrendingProducts(limit = 8): Promise<Product[]> {
-  const sb = await serverClient();
-  if (sb) {
-    try {
-      const { data, error } = await sb
-        .from('products')
-        .select('*')
-        .eq('active', true)
-        .eq('is_trending', true)
-        .order('reviews', { ascending: false })
-        .limit(30);
-      if (!error && data && data.length > 0) {
-        const mapped = data.filter((r) => !isDisallowedProduct(r)).map(mapRowToProduct);
-        const sorted = mapped.sort((a, b) => (b.rating * b.reviews) - (a.rating * a.reviews));
-        return sorted.slice(0, limit);
-      }
-    } catch {
-      // fall through to local
-    }
-  }
-  return localProducts
-    .filter((p) => !isDisallowedProduct(p) && p.is_trending)
-    .slice(0, limit);
+  return [];
 }
 
 /** Homepage: newest arrivals first (purely tech, lifestyle, home). */
 export async function getNewProducts(limit = 8): Promise<Product[]> {
-  const sb = await serverClient();
-  if (sb) {
-    try {
-      const { data, error } = await sb
-        .from('products')
-        .select('*')
-        .eq('active', true)
-        .eq('is_new', true)
-        .order('created_at', { ascending: false })
-        .limit(30);
-      if (!error && data && data.length > 0) {
-        return data.filter((r) => !isDisallowedProduct(r)).map(mapRowToProduct).slice(0, limit);
-      }
-    } catch {
-      // fall through to local
-    }
-  }
-  return localProducts
-    .filter((p) => !isDisallowedProduct(p) && p.is_new)
-    .map(sanitizeLocalProduct)
-    .slice(0, limit);
+  return [];
 }
 
 
@@ -296,45 +235,6 @@ function findLocalProduct(term: string): Product | null {
   return match && !isDisallowedProduct(match) ? sanitizeLocalProduct(match) : null;
 }
 
-export async function getProductFromDB(id: string): Promise<Product | null> {
-  if (!id) return null;
-  const cleanId = id.trim().toLowerCase();
-  // Immediate rejection for any medicinal, orthopedic, or pet URL
-  if (DISALLOWED_KEYWORDS.some((kw) => cleanId.includes(kw))) {
-    return null;
-  }
-
-  const cleanedSlug = cleanBrandSlug(cleanId);
-  const localMatch = findLocalProduct(cleanId);
-
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key =
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) {
-    return localMatch;
-  }
-  try {
-    const safeCleanId = String(id).trim().replace(/[^a-zA-Z0-9_:-]/g, '').slice(0, 128);
-    if (!safeCleanId) return localMatch;
-
-    const sb = createClient<Database>(url, key);
-    const meeshoPrefixed = safeCleanId.startsWith('meesho-') ? safeCleanId : `meesho-${safeCleanId}`;
-    const unprefixed = safeCleanId.replace(/^meesho-/, '');
-    const { data, error } = await sb
-      .from('products')
-      .select('*')
-      .or(`id.eq.${safeCleanId},slug.eq.${safeCleanId},slug.eq.${cleanedSlug},id.eq.${meeshoPrefixed},slug.eq.${meeshoPrefixed},id.eq.${unprefixed},slug.eq.${unprefixed}`)
-      .eq('active', true)
-      .maybeSingle();
-
-    if (error || !data) {
-      return localMatch;
-    }
-    if (isDisallowedProduct(data)) {
-      return null;
-    }
-    return mapRowToProduct(data);
-  } catch {
-    return localMatch;
-  }
+export async function getProductFromDB(_id: string): Promise<Product | null> {
+  return null;
 }

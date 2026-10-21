@@ -59,19 +59,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Sitemap fetch live products error:', err);
   }
 
-  const activeProducts = liveProducts.length > 0
-    ? liveProducts.map(p => ({
-        url: `${base}/product/${p.slug || p.id}`,
-        lastModified: p.updated_at ? new Date(p.updated_at) : now,
-        changeFrequency: 'weekly' as const,
-        priority: 0.85
-      }))
-    : fallbackProducts.filter(p => !isDisallowedProduct(p)).map(p => ({
-        url: `${base}/product/${p.slug || p.id}`,
-        lastModified: now,
-        changeFrequency: 'weekly' as const,
-        priority: 0.85
-      }));
+  // All catalog products currently archived for next collection drop
+  const activeProducts: MetadataRoute.Sitemap = [];
 
   // Blog Article Pages from Supabase (Aarav's Content Engine)
   let liveBlogs: Array<{ slug: string; updated_at?: string }> = [];

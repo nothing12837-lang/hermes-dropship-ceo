@@ -18,24 +18,8 @@ export async function GET() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  let catalogItems = staticCatalog;
-
-  if (url && key) {
-    try {
-      const sb = createClient(url, key);
-      const { data, error } = await sb
-        .from('products')
-        .select('*')
-        .eq('active', true)
-        .order('id', { ascending: true });
-
-      if (!error && data && data.length > 0) {
-        catalogItems = data;
-      }
-    } catch (e) {
-      console.warn('Fallback to static catalog for Google feed:', e);
-    }
-  }
+  // All catalog products currently archived for next collection drop
+  const catalogItems: any[] = [];
 
   const siteUrl = 'https://www.rareember.shop';
 
