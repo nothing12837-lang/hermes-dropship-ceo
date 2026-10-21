@@ -14,10 +14,10 @@ export default function Template({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
       key={path}
-      initial={{ opacity: 0, y: 18, filter: 'blur(6px)' }}
-      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      exit={{ opacity: 0, filter: 'blur(4px)' }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>
