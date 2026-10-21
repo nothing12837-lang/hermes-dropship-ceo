@@ -1,89 +1,50 @@
 import { describe, expect, it } from 'vitest';
-import {
-  buildCJAddress,
-  normalizeCJUpdate,
-  resolveFulfillmentItems,
-  splitName,
-} from '@/lib/fulfillment/cj';
+import { isTestOrder, expandBundleItems } from '@/lib/fulfillment/qikink';
 
-describe('splitName', () => {
-  it('splits first and rest', () => {
-    expect(splitName('Ada Lovelace Smith')).toEqual({ firstName: 'Ada', lastName: 'Lovelace Smith' });
+describe('isTestOrder', () => {
+  it('detects test emails', () => {
+    expect(isTestOrder({ user_email: 'test@example.com' })).toBe(true);
+    expect(isTestOrder({ user_email: 'customer@gmail.com', phone: '9123456789', shipping_name: 'Rahul Sharma' })).toBe(false);
   });
-  it('handles single names', () => {
-    expect(splitName('Madonna')).toEqual({ firstName: 'Madonna', lastName: 'Customer' });
+
+  it('detects dummy phone numbers', () => {
+    expect(isTestOrder({ user_email: 'real@gmail.com', phone: '9876543210' })).toBe(true);
+    expect(isTestOrder({ user_email: 'real@gmail.com', phone: '0000000000' })).toBe(true);
   });
-  it('handles blanks', () => {
-    expect(splitName('   ')).toEqual({ firstName: 'RareEmber', lastName: 'Customer' });
+
+  it('detects test addresses and names', () => {
+    expect(isTestOrder({ shipping_name: 'Test Customer', user_email: 'real@gmail.com', phone: '9812345678' })).toBe(true);
+    expect(isTestOrder({ shipping_address: { line1: 'Dummy Street 123' }, user_email: 'real@gmail.com' })).toBe(true);
+  });
+
+  it('passes genuine production orders', () => {
+    const order = {
+      user_email: 'ajaykumar.tech@gmail.com',
+      shipping_name: 'Ajay Kumar',
+      phone: '9820112345',
+      shipping_address: {
+        line1: 'Flat 402, Lotus Residency',
+        city: 'Bengaluru',
+        state: 'Karnataka',
+        zip: '560001',
+      },
+    };
+    expect(isTestOrder(order)).toBe(false);
   });
 });
 
-describe('buildCJAddress', () => {
-  const base = {
-    user_email: 'a@b.com',
-    shipping_name: 'Ada Lovelace',
-    shipping_address: { line1: '1 Main St', city: 'Austin', zip: '78701' },
-  };
-  it('builds a CJ address with US defaults', () => {
-    const res = buildCJAddress(base);
-    expect(res.ok).toBe(true);
-    if (res.ok) {
-      expect(res.address).toMatchObject({
-        firstName: 'Ada',
-        lastName: 'Lovelace',
-        country: 'US',
-        email: 'a@b.com',
-      });
-    }
+describe('expandBundleItems', () => {
+  it('passes regular single items through unchanged', () => {
+    const items = [{ id: 'qikink-32477737-mens-full-sleeve-t-shirt', qty: 2, size: 'L' }];
+    const res = expandBundleItems(items);
+    expect(res).toHaveLength(1);
+    expect(res[0].id).toBe('qikink-32477737-mens-full-sleeve-t-shirt');
   });
-  it('rejects incomplete addresses', () => {
-    const res = buildCJAddress({ ...base, shipping_address: { city: 'Austin', zip: '78701' } });
-    expect(res.ok).toBe(false);
-  });
-});
 
-describe('resolveFulfillmentItems', () => {
-  it('keeps SKUs, reports skipped lines', () => {
-    const { lines, skipped } = resolveFulfillmentItems(
-      [
-        { id: 'a', qty: 2 },
-        { id: 'b', qty: 1 },
-      ],
-      [{ id: 'a', title: 'A', cj_sku: 'CJ-A' }]
-    );
-    expect(lines).toEqual([{ sku: 'CJ-A', qty: 2 }]);
-    expect(skipped).toEqual(['b']);
-  });
-  it('clamps quantities', () => {
-    const { lines } = resolveFulfillmentItems(
-      [{ id: 'a', qty: 500 }],
-      [{ id: 'a', title: 'A', cj_sku: 'CJ-A' }]
-    );
-    expect(lines[0].qty).toBe(99);
-  });
-});
-
-describe('normalizeCJUpdate', () => {
-  it('accepts canonical payloads', () => {
-    const res = normalizeCJUpdate({
-      cj_order_id: 'CJ-1',
-      tracking_number: 'T1',
-      tracking_url: 'https://t/1',
-      status: 'shipped',
-    });
-    expect(res).toEqual({
-      ok: true,
-      update: { cjOrderId: 'CJ-1', trackingNumber: 'T1', trackingUrl: 'https://t/1', status: 'shipped' },
-    });
-  });
-  it('accepts camelCase aliases and defaults status', () => {
-    const res = normalizeCJUpdate({ orderId: 'CJ-2' });
-    expect(res.ok).toBe(true);
-    if (res.ok) expect(res.update.status).toBe('shipped');
-  });
-  it('rejects missing ids and non-objects', () => {
-    expect(normalizeCJUpdate({}).ok).toBe(false);
-    expect(normalizeCJUpdate(null).ok).toBe(false);
-    expect(normalizeCJUpdate('x').ok).toBe(false);
+  it('expands multi-piece winter bundles into sub-items', () => {
+    const items = [{ id: 'bundle-winter-spec-ops', qty: 1, size: 'XL' }];
+    const res = expandBundleItems(items);
+    expect(res.length).toBeGreaterThan(1);
+    expect(res[0].size).toBe('XL');
   });
 });
