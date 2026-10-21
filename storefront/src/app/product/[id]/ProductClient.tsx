@@ -1791,21 +1791,21 @@ export function ProductClient({ product }: Props) {
               </span>
             </div>
 
-            <h1 style={{ fontSize: 'clamp(1.75rem,3.5vw,2.75rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.25 }}>
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black tracking-tight text-neutral-900 leading-tight">
               {displayTitle}
             </h1>
-            <p style={{ color: '#52453e', marginTop: '0.6rem', lineHeight: 1.6, fontSize: '0.98rem', fontWeight: 500 }}>
+            <p className="text-neutral-600 mt-1.5 sm:mt-2 text-xs sm:text-sm md:text-base leading-relaxed font-medium">
               {cleanSubtitle}
             </p>
 
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '2rem', fontWeight: 900, color: '#212121' }}>
+            <div className="flex items-baseline gap-2 sm:gap-3 mt-3 sm:mt-4 flex-wrap">
+              <span className="text-2xl sm:text-3xl md:text-4xl font-black text-neutral-900 tracking-tight">
                 {geoFormatPrice(effectivePriceUsd, effectiveInr)}
               </span>
-              <span style={{ color: '#8a7b6b', textDecoration: 'line-through', fontSize: '1.05rem', fontWeight: 500 }}>
+              <span className="text-xs sm:text-sm md:text-base text-neutral-400 line-through font-medium">
                 M.R.P.: {geoFormatPrice(mrpUsd, mrpInr)}
               </span>
-              <span style={{ color: '#059669', fontWeight: 800, fontSize: '0.95rem', background: '#ecfdf5', padding: '0.2rem 0.55rem', borderRadius: '0.5rem', border: '1px solid #a7f3d0' }}>
+              <span className="text-[10px] sm:text-xs font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
                 {discountPercent}% OFF
               </span>
             </div>
@@ -1934,15 +1934,15 @@ export function ProductClient({ product }: Props) {
 
             {/* COLORWAY SELECTOR (When product has colorways) */}
             {hasColors && availableColors.length > 0 && (
-              <div className="mt-5 p-4 rounded-2xl bg-white border border-black/10 shadow-xs">
-                <div className="flex items-center justify-between mb-3">
+              <div className="mt-4 p-3.5 sm:p-4 rounded-2xl bg-white border border-black/10 shadow-xs">
+                <div className="flex items-center justify-between mb-2.5">
                   <span className="text-xs font-black uppercase tracking-wider text-neutral-600 flex items-center gap-1.5">
                     <span>🎨</span>
                     <span>{availableColors.length > 1 ? `Step ${colorStepNum}: Select Color` : 'Colorway'}</span>
                   </span>
-                  <span className="text-xs font-black text-neutral-900 bg-neutral-100 px-3 py-1 rounded-full border border-black/10 flex items-center gap-2 shadow-xs">
+                  <span className="text-xs font-black text-neutral-900 bg-neutral-100 px-2.5 py-1 rounded-full border border-black/10 flex items-center gap-1.5 shadow-xs">
                     <span
-                      className="w-3 h-3 rounded-full border border-black/20 shrink-0"
+                      className="w-2.5 h-2.5 rounded-full border border-black/20 shrink-0"
                       style={{ backgroundColor: getColorHex(selectedColor || availableColors[0]) }}
                     />
                     <span>Color: <strong>{selectedColor || availableColors[0]}</strong></span>
@@ -1950,7 +1950,7 @@ export function ProductClient({ product }: Props) {
                 </div>
 
                 {availableColors.length > 1 ? (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-1">
                     {availableColors.map((colorName, idx) => {
                       const isSelected = (selectedColor || availableColors[0]).toLowerCase() === colorName.toLowerCase();
                       const hex = getColorHex(colorName);
@@ -1961,16 +1961,16 @@ export function ProductClient({ product }: Props) {
                           key={colorName}
                           type="button"
                           onClick={() => handleSelectColor(colorName, idx)}
-                          className={`group relative p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-2.5 ${
+                          title={colorName}
+                          aria-label={`Select ${colorName}`}
+                          className={`group relative w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-all cursor-pointer p-0 shrink-0 ${
                             isSelected
-                              ? 'bg-neutral-900 text-white border-2 border-[#FF4D24] shadow-md ring-1 ring-[#FF4D24]/40 scale-[1.02]'
-                              : 'bg-white hover:bg-neutral-50 text-neutral-800 border-black/15 hover:border-black/35'
+                              ? 'ring-2 ring-[#FF4D24] ring-offset-2 scale-110 shadow-md'
+                              : 'ring-1 ring-black/20 hover:scale-110 hover:ring-black/40'
                           }`}
                         >
                           <span
-                            className={`w-6 h-6 rounded-full shrink-0 flex items-center justify-center border shadow-xs transition-transform group-hover:scale-110 ${
-                              isLight ? 'border-black/25' : 'border-white/30'
-                            }`}
+                            className="w-full h-full rounded-full flex items-center justify-center border border-black/10 shadow-xs"
                             style={{ backgroundColor: hex }}
                           >
                             {isSelected && (
@@ -1985,27 +1985,14 @@ export function ProductClient({ product }: Props) {
                               </svg>
                             )}
                           </span>
-
-                          <div className="min-w-0 flex-1">
-                            <span className="block text-xs font-black truncate leading-tight">
-                              {colorName}
-                            </span>
-                            <span
-                              className={`block text-[10px] font-semibold truncate ${
-                                isSelected ? 'text-[#FF9A3D]' : 'text-neutral-500'
-                              }`}
-                            >
-                              {isSelected ? '✓ Selected' : 'In Stock'}
-                            </span>
-                          </div>
                         </button>
                       );
                     })}
                   </div>
                 ) : (
-                  <div className="p-3 rounded-xl bg-neutral-50 border border-black/10 flex items-center gap-2 text-xs font-bold text-neutral-700">
+                  <div className="p-2.5 rounded-xl bg-neutral-50 border border-black/10 flex items-center gap-2 text-xs font-bold text-neutral-700">
                     <span
-                      className="w-4 h-4 rounded-full border border-black/20 shrink-0"
+                      className="w-3.5 h-3.5 rounded-full border border-black/20 shrink-0"
                       style={{ backgroundColor: getColorHex(availableColors[0]) }}
                     />
                     <span>Primary Color: <strong>{availableColors[0]}</strong></span>
@@ -2040,7 +2027,7 @@ export function ProductClient({ product }: Props) {
                         const currentSpecs = activeItemIsKids ? KIDS_SIZE_SPECS : SIZE_SPECS;
                         return (
                           <>
-                            <div className="flex flex-wrap gap-1.5">
+                            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 gap-1.5 sm:gap-2">
                               {currentSizeList.map((s) => {
                                 const isSelected = selectedSize === s;
                                 return (
@@ -2053,14 +2040,14 @@ export function ProductClient({ product }: Props) {
                                         setBundleItemSizes((prev) => ({ ...prev, [selectedComboItemIndex]: s }));
                                       }
                                     }}
-                                    className={`py-2 px-3 rounded-xl text-center transition-all cursor-pointer flex flex-col items-center justify-center min-h-[50px] min-w-[54px] flex-1 sm:flex-none ${
+                                    className={`py-1.5 sm:py-2 px-1 sm:px-2 rounded-lg sm:rounded-xl text-center transition-all cursor-pointer flex flex-col items-center justify-center min-h-[40px] sm:min-h-[46px] ${
                                       isSelected
-                                        ? 'bg-neutral-900 text-white border-2 border-[#FF4D24] shadow-md'
-                                        : 'bg-white text-neutral-800 border border-black/10 hover:border-black/25'
+                                        ? 'bg-neutral-900 text-white border-2 border-[#FF4D24] shadow-sm'
+                                        : 'bg-white text-neutral-800 border border-black/15 hover:border-black/30'
                                     }`}
                                   >
-                                    <span className="text-sm font-black">{s}</span>
-                                    <span className={`text-[9px] font-bold ${isSelected ? 'text-[#FF9A3D]' : 'text-neutral-500'}`}>
+                                    <span className="text-xs sm:text-sm font-black leading-none">{s}</span>
+                                    <span className={`text-[8px] sm:text-[9px] font-bold mt-1 leading-none ${isSelected ? 'text-[#FF9A3D]' : 'text-neutral-500'}`}>
                                       {currentSpecs[s]?.chest || ''}
                                     </span>
                                   </button>

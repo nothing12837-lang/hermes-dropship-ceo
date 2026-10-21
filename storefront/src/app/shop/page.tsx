@@ -4,7 +4,7 @@ import { Suspense, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Shirt, Coffee, Monitor, ShoppingBag } from 'lucide-react';
+import { Shirt, Flame, Sparkles, ShieldCheck } from 'lucide-react';
 import ProductCard from '@/components/ui/ProductCard';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { COPY } from '@/lib/data/copy';
@@ -12,24 +12,27 @@ import { formatPrice, computeDiscount, SHOP_CATEGORIES, products as localProduct
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { supabase, type ProductRow } from '@/lib/supabase';
 
-const TABS = [{ id: 'all', label: 'All Catalog', hint: 'Verified Domestic Drops', emoji: '🛍️' }, ...SHOP_CATEGORIES, { id: 'new', label: 'Fresh Drops', hint: 'Latest In-Hub Arrivals', emoji: '✨' }];
-
-const DB_CATEGORIES = new Set(['electronics', 'fashion', 'home-garden', 'home-living', 'general', 'decor', 'tech']);
+const TABS = [
+  { id: 'all', label: 'All Catalog', count: 31, hint: 'Complete Domestic Hub Drops', emoji: '🛍️' },
+  ...SHOP_CATEGORIES,
+];
 
 function isDisallowedRow(p: ProductRow): boolean {
   const targetId = `${p.id || ''} ${p.slug || ''}`.toLowerCase();
   return /calmcloud|ember-glow|warm-paw|lickmat|pawtrack|cozy-nest|aesthetic-scratch|smart-fetch/i.test(targetId);
 }
 
-export function matchesCategory(cat: string, p: ProductRow): boolean {
+export function matchesCategory(cat: string, p: any): boolean {
   if (isDisallowedRow(p)) return false;
   if (cat === 'all') return true;
-  if (cat === 'new') return Boolean(p.is_new === true || (p as any).isPrebuilt === true);
-  if (cat === 'home-garden') return Boolean(p.category === 'home-garden' || p.category === 'home-living' || p.category === 'decor');
-  if (cat === 'electronics') return Boolean(p.category === 'electronics' || p.category === 'tech' || (p as any).subCategory === 'Extended Desk Mats' || (p.id && p.id.includes('deskmat')));
-  if (cat === 'fashion') return Boolean(p.category === 'fashion' || p.category === 'apparel' || ((p as any).isPrebuilt === true && !p.id?.includes('deskmat')));
-  if (cat === 'general') return Boolean(p.category === 'general' || p.category === 'lifestyle' || p.category === 'viral');
-  return (p.category ?? 'general') === cat;
+  if (cat === 'new') return Boolean(p.is_new === true);
+  if (cat === 'mens-printed') return Boolean((p.gender === 'men' || p.category === 'mens') && (p.is_printed === true || p.isPrinted === true));
+  if (cat === 'printed') return Boolean(p.is_printed === true || p.isPrinted === true);
+  if (cat === 'mens') return Boolean(p.gender === 'men' || p.category === 'mens');
+  if (cat === 'womens') return Boolean(p.gender === 'women' || p.category === 'womens' || p.category === 'women');
+  if (cat === 'kids') return Boolean(p.gender === 'kids' || p.category === 'kids');
+  if (cat === 'blanks') return Boolean(p.is_printed === false || p.isPrinted === false);
+  return (p.category ?? 'mens') === cat;
 }
 
 function ShopInner() {
@@ -101,24 +104,24 @@ function ShopInner() {
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="inline-block px-5 py-2 rounded-full glass text-xs font-extrabold tracking-[0.2em] uppercase text-text-secondary shadow-xs">
+            <div className="inline-block px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full glass text-[10px] sm:text-xs font-black tracking-[0.2em] uppercase text-text-secondary shadow-xs">
               What We Craft &amp; Deliver
             </div>
-            <h1 className="font-display text-4xl md:text-7xl text-text-primary mt-4 tracking-tight">
-              Curated Streetwear &amp; <span className="text-gradient-ember-animated">Creator Living.</span>
+            <h1 className="font-display text-2xl sm:text-4xl md:text-6xl text-text-primary mt-3 sm:mt-4 tracking-tight">
+              Curated Streetwear &amp; <span className="text-gradient-ember-animated">Graphic Drops.</span>
             </h1>
-            <p className="text-text-secondary text-sm md:text-base leading-relaxed max-w-2xl mx-auto mt-3">
-              Heavyweight bio-washed tees, 380 GSM fleece hoodies, artisan ceramic mugs, extended desk mats &amp; canvas totes — 100% genuine domestic build with Pan-India 2–4 day COD express delivery.
+            <p className="text-text-secondary text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto mt-2 sm:mt-3 font-medium">
+              Heavyweight 240 GSM bio-washed tees, aeroknit jerseys, Y2K baby tees &amp; premium blanks — 100% genuine domestic build from our Tirupur hub with Pan-India 1-Click COD.
             </p>
           </motion.div>
 
-          {/* Quick Department Showcase Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto mt-7 text-left">
+          {/* Quick Pillar Showcase Cards */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 max-w-4xl mx-auto mt-5 sm:mt-7 text-left">
             {[
-              { id: 'fashion', icon: Shirt, title: 'Streetwear Apparel', count: '486 Drops', desc: '240 GSM Tees • 380 GSM Hoodies', color: 'text-[#FF4D24]' },
-              { id: 'home-garden', icon: Coffee, title: 'Artisan Drinkware', count: '30 Drops', desc: 'Stoneware Mugs • Table Coasters', color: 'text-amber-500' },
-              { id: 'electronics', icon: Monitor, title: 'Desk & Workstation', count: '105 Drops', desc: 'Extended Mats • Gaming Pads', color: 'text-cyan-500' },
-              { id: 'general', icon: ShoppingBag, title: 'Bags & Lifestyle', count: '35 Drops', desc: 'Heavy Canvas Totes • Scarves', color: 'text-purple-500' },
+              { id: 'mens-printed', icon: Flame, title: "Men's Printed", count: '17 Drops', desc: 'Heavyweight DTF & Sublimation', color: 'text-[#FF4D24]' },
+              { id: 'printed', icon: Sparkles, title: 'All Graphic Prints', count: '23 Drops', desc: 'Fade-Proof Streetwear Art', color: 'text-amber-500' },
+              { id: 'womens', icon: Shirt, title: "Women's Drops", count: '7 Drops', desc: 'Baby Tees, Crop Tops & Dresses', color: 'text-pink-500' },
+              { id: 'blanks', icon: ShieldCheck, title: 'Premium Blanks', count: '8 Drops', desc: 'Acid Wash, Tie-Dye & Basics', color: 'text-neutral-600' },
             ].map((d) => {
               const isSelected = cat === d.id;
               return (
@@ -126,21 +129,21 @@ function ShopInner() {
                   key={d.id}
                   type="button"
                   onClick={() => setCat(d.id)}
-                  className={`p-3.5 rounded-2xl border transition-all duration-300 text-left cursor-pointer flex flex-col justify-between gap-2.5 ${
+                  className={`p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border transition-all duration-300 text-left cursor-pointer flex flex-col justify-between gap-1.5 sm:gap-2.5 ${
                     isSelected
-                      ? 'bg-[#161311] text-white border-[#FF4D24] shadow-lg -translate-y-1'
-                      : 'bg-white/80 hover:bg-white border-black/[0.06] text-[#161311] hover:border-black/15 hover:-translate-y-0.5 shadow-xs'
+                      ? 'bg-[#161311] text-white border-[#FF4D24] shadow-md -translate-y-0.5'
+                      : 'bg-white/80 hover:bg-white border-black/[0.06] text-[#161311] hover:border-black/15 shadow-xs'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className={`w-8 h-8 rounded-lg flex items-center justify-center ${isSelected ? "bg-white/10 text-white" : "bg-black/[0.04] " + d.color}`}><d.icon className="w-5 h-5" /></span>
-                    <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${isSelected ? 'bg-[#FF4D24] text-white' : 'bg-black/[0.05] text-neutral-600'}`}>
+                    <span className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center ${isSelected ? "bg-white/10 text-white" : "bg-black/[0.04] " + d.color}`}><d.icon className="w-4 h-4 sm:w-5 sm:h-5" /></span>
+                    <span className={`text-[8px] sm:text-[9px] font-black uppercase px-1.5 sm:px-2 py-0.5 rounded-full ${isSelected ? 'bg-[#FF4D24] text-white' : 'bg-black/[0.05] text-neutral-600'}`}>
                       {d.count}
                     </span>
                   </div>
                   <div>
-                    <span className="block font-black text-xs md:text-sm">{d.title}</span>
-                    <span className={`text-[10px] font-medium leading-tight block mt-0.5 ${isSelected ? 'text-neutral-300' : 'text-neutral-500'}`}>
+                    <span className="block font-black text-xs sm:text-sm">{d.title}</span>
+                    <span className={`text-[9px] sm:text-[10px] font-medium leading-tight block mt-0.5 ${isSelected ? 'text-neutral-300' : 'text-neutral-500'}`}>
                       {d.desc}
                     </span>
                   </div>
@@ -149,68 +152,56 @@ function ShopInner() {
             })}
           </div>
 
-          <div className="flex gap-2 flex-wrap justify-center mt-7">
+          {/* Responsive Horizontal Scroll Category Pills */}
+          <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-2 px-1 max-w-full justify-start sm:justify-center mt-5 sm:mt-7">
             {TABS.map((c) => (
-              <motion.button
+              <button
                 key={c.id}
+                type="button"
                 onClick={() => setCat(c.id)}
-                whileHover={{ y: -3 }}
-                whileTap={{ scale: 0.95 }}
-                layout
-                transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-                className="relative px-6 py-3 rounded-full border cursor-pointer font-extrabold text-sm min-h-[44px] transition-colors duration-200"
-                style={{
-                  borderColor: cat === c.id ? 'transparent' : 'var(--color-border-subtle)',
-                  background: cat === c.id ? 'transparent' : 'var(--color-bg-surface)',
-                  color: cat === c.id ? 'white' : 'var(--color-text-primary)',
-                  boxShadow: cat === c.id ? 'var(--shadow-ember)' : 'var(--shadow-xs)',
-                  zIndex: 1,
-                }}
+                className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border cursor-pointer font-black text-xs sm:text-sm whitespace-nowrap min-h-[34px] sm:min-h-[40px] transition-all flex items-center gap-1.5 shrink-0 ${
+                  cat === c.id
+                    ? 'bg-neutral-900 text-white border-[#FF4D24] shadow-md ring-1 ring-[#FF4D24]/40'
+                    : 'bg-white/80 hover:bg-white text-neutral-700 border-black/10 hover:border-black/25'
+                }`}
               >
-                {cat === c.id && (
-                  <motion.span
-                    layoutId="shop-active-pill"
-                    className="absolute inset-0 rounded-full bg-gradient-ember"
-                    transition={{ type: 'spring', stiffness: 400, damping: 34 }}
-                    style={{ zIndex: -1 }}
-                  />
-                )}
-                {'emoji' in c && c.emoji ? `${c.emoji} ` : ''}{c.label}
-              </motion.button>
+                {'emoji' in c && c.emoji ? <span className="text-sm">{c.emoji}</span> : null}
+                <span>{c.label}</span>
+              </button>
             ))}
           </div>
-          <div className="mt-3 text-sm text-text-secondary">
+          <div className="mt-2 text-xs text-text-secondary font-medium">
             {active.id === 'all'
-              ? `All ${products.length || 656} Verified Domestic Drops — showing ${list.length} items`
+              ? `All ${products.length} Verified Domestic Drops — showing ${list.length} items`
               : `${active.hint} — showing ${list.length} items`}
           </div>
 
-        <div className="flex gap-3 flex-wrap justify-center mt-6">
+        <div className="flex gap-2 sm:gap-3 flex-wrap justify-center items-center mt-4 sm:mt-5 max-w-xl mx-auto">
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search oversized tees, fleece hoodies, desk mats..."
-            className="flex-1 min-w-[220px] max-w-[420px] px-5 py-3.5 rounded-full border border-border-subtle bg-bg-surface text-text-primary outline-none min-h-[44px] placeholder:text-text-muted/50 focus:border-ember transition-colors"
+            placeholder="Search drops, graphics, colors, sizes..."
+            className="flex-1 min-w-[180px] px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-border-subtle bg-bg-surface text-text-primary text-xs sm:text-sm outline-none placeholder:text-text-muted/60 focus:border-ember transition-colors shadow-xs"
           />
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value)}
-            className="px-5 py-3.5 rounded-full border border-border-subtle bg-bg-surface text-text-primary font-bold min-h-[44px] outline-none cursor-pointer"
+            className="px-3 py-2 sm:py-2.5 rounded-xl border border-border-subtle bg-bg-surface text-text-primary text-xs sm:text-sm font-bold outline-none cursor-pointer shadow-xs"
           >
-            <option value="featured">Featured</option>
-            <option value="rating">Top rated</option>
-            <option value="low">Price low → high</option>
-            <option value="high">Price high → low</option>
+            <option value="featured">Featured First</option>
+            <option value="rating">Top Rated</option>
+            <option value="low">Price: Low → High</option>
+            <option value="high">Price: High → Low</option>
           </select>
         </div>
 
         {/* Modern Stock Availability Filter */}
-        <div className="flex gap-2 flex-wrap justify-center items-center mt-5">
+        <div className="flex gap-1.5 sm:gap-2 flex-wrap justify-center items-center mt-3 sm:mt-4">
           <div className="inline-flex p-1 bg-bg-surface border border-border-subtle rounded-full backdrop-blur-md shadow-xs">
             <button
               type="button"
               onClick={() => setStockFilter('all')}
-              className={`px-4 py-2 rounded-full text-xs font-black transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-full text-[11px] font-black transition-all cursor-pointer ${
                 stockFilter === 'all'
                   ? 'bg-[#1d1d1f] text-white shadow-xs'
                   : 'text-text-secondary hover:text-text-primary'
@@ -221,19 +212,19 @@ function ShopInner() {
             <button
               type="button"
               onClick={() => setStockFilter('in_stock')}
-              className={`px-4 py-2 rounded-full text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-3 py-1.5 rounded-full text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
                 stockFilter === 'in_stock'
                   ? 'bg-emerald-600 text-white shadow-xs'
                   : 'text-text-secondary hover:text-emerald-700'
               }`}
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               In Stock ({inStockCount})
             </button>
             <button
               type="button"
               onClick={() => setStockFilter('out_of_stock')}
-              className={`px-4 py-2 rounded-full text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-3 py-1.5 rounded-full text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
                 stockFilter === 'out_of_stock'
                   ? 'bg-rose-600 text-white shadow-xs'
                   : 'text-text-secondary hover:text-rose-600'
@@ -247,8 +238,8 @@ function ShopInner() {
         </div>
       </section>
 
-      <div className="max-w-6xl mx-auto px-6 pt-10 pb-20">
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="max-w-7xl mx-auto px-2.5 sm:px-6 pt-6 sm:pt-8 pb-20">
+        <motion.div layout className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6">
           <AnimatePresence mode="popLayout">
             {list.map((p, i) => (
               <motion.div

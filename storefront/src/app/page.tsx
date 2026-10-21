@@ -8,8 +8,8 @@ import { getProductsFromDB } from '@/lib/products-server';
 export const revalidate = 60; // 60s ISR: Edge cached in Mumbai (bom1) for <10ms instant response
 
 export const metadata = {
-  title: 'Rare Ember — Curated Streetwear, Workstation Gear & Value Combos',
-  description: 'Curated 240 GSM heavyweight streetwear, 380 GSM fleece hoodies & aesthetic desk gear. 100% Domestic Tirupur Hub POD, express air dispatch & 7-day replacements.',
+  title: 'Rare Ember — Curated Streetwear, Workstation Gear & Graphic Drops',
+  description: 'Curated 240 GSM heavyweight streetwear, graphic printed tees, 380 GSM fleece hoodies & aesthetic desk gear. 100% Domestic Tirupur Hub POD, express air dispatch & 7-day replacements.',
 };
 
 function toCard(p: Product, rank?: number) {
@@ -17,7 +17,7 @@ function toCard(p: Product, rank?: number) {
     id: p.id,
     slug: p.slug,
     emoji: p.emoji || '🛍️',
-    tag: p.tag || 'New',
+    tag: p.tag || (p.is_printed ? 'Graphic Print' : 'Essential Blank'),
     tagColor: p.tagColor,
     tagBg: p.tagBg,
     title: p.title,
@@ -44,17 +44,19 @@ function toCard(p: Product, rank?: number) {
 }
 
 const CATEGORY_TABS = [
+  { id: 'mens-printed', label: "Men's Printed", emoji: '🔥', href: '/shop?cat=mens-printed' },
+  { id: 'printed', label: 'All Graphic Prints', emoji: '✨', href: '/shop?cat=printed' },
+  { id: 'womens', label: "Women's Drops", emoji: '👗', href: '/shop?cat=womens' },
+  { id: 'kids', label: 'Kids Streetwear', emoji: '🧸', href: '/shop?cat=kids' },
+  { id: 'blanks', label: 'Premium Blanks', emoji: '⚡', href: '/shop?cat=blanks' },
   { id: 'custom-drops', label: 'Custom Design Studio', emoji: '🎨', href: '/custom-drops' },
-  { id: 'b2b', label: 'Campus & Startup Merch', emoji: '⚡', href: '/custom-drops' },
-  { id: 'estimator', label: 'Bulk Price Estimator', emoji: '📊', href: '/custom-drops#estimator' },
-  { id: 'vault', label: 'Vault Drop Status', emoji: '✨', href: '/shop' },
 ];
 
 const DEPARTMENTS = [
-  { href: '/shop?cat=fashion', icon: Shirt, title: 'Streetwear Apparel', sub: '240 GSM Tees & 380 GSM Hoodies', count: 'Curated', color: 'text-[#FF4D24] bg-orange-50' },
-  { href: '/custom-drops', icon: Sparkles, title: 'Campus & Startup Merch', sub: 'Bulk Runs from ₹269 with Free Mockups', count: 'B2B Studio', color: 'text-amber-600 bg-amber-50' },
-  { href: '/shop?cat=electronics', icon: Monitor, title: 'Desk & Workstation', sub: '900x400 Extended Mats & Pads', count: 'Precision', color: 'text-cyan-600 bg-cyan-50' },
-  { href: '/shop', icon: ShoppingBag, title: 'Complete Catalog', sub: 'Artisan Drinkware & Totes', count: 'Shop All', color: 'text-purple-600 bg-purple-50' },
+  { href: '/shop?cat=mens-printed', icon: Shirt, title: "Men's Graphic Prints", sub: '17 Heavyweight Oversized & DTF Drops', count: '17 Drops', color: 'text-[#FF4D24] bg-orange-50' },
+  { href: '/shop?cat=womens', icon: Sparkles, title: "Women's Collection", sub: 'Crop Tops, Classic Tees & A-Line Dresses', count: '7 Drops', color: 'text-amber-600 bg-amber-50' },
+  { href: '/shop?cat=kids', icon: Monitor, title: 'Kids Graphic Tees', sub: 'Bio-Washed 100% Combed Cotton', count: '2 Drops', color: 'text-cyan-600 bg-cyan-50' },
+  { href: '/shop?cat=blanks', icon: ShoppingBag, title: 'Essential Blanks', sub: 'Acid Wash, Polos & Minimal Silhouettes', count: '8 Drops', color: 'text-purple-600 bg-purple-50' },
 ];
 
 const ASSURANCES = [
@@ -65,10 +67,9 @@ const ASSURANCES = [
 ];
 
 const MARQUEE_ITEMS = [
-  '⚡ Rare Ember Value Combos Live — Save Up to 25%',
-  '⚡ 240 GSM Bio-Washed Combed Cotton',
-  '🧥 380 GSM French Terry Brushed Fleece',
-  '🖥️ 900x400mm Extended Gaming Desk Mats',
+  '⚡ 100% Fade-Proof High-Density DTF & Sublimation Prints',
+  '⚡ 240 GSM Bio-Washed Combed Cotton Streetwear',
+  '🧥 380 GSM French Terry Brushed Fleece Drops',
   '🚚 Direct from Tirupur Hub in 2–4 Days',
   '💵 Cash on Delivery across 19,000+ PINs',
   '🛡️ 7-Day Free Doorstep Replacement',
@@ -80,35 +81,32 @@ const MARQUEE_ITEMS = [
 export default async function Home() {
   const allProducts = await getProductsFromDB();
 
-  // 1. Curated Winter & Value Combos (Engine 1: AOV ₹1,099–₹1,849)
-  const bundleIds = [
-    'bundle-winter-spec-ops',
-    'bundle-3am-coder',
-    'bundle-college-fest-varsity',
-    'bundle-winter-layering',
-    'bundle-crewneck-workstation',
-    'bundle-founding-50',
-    'bundle-streetwear-duo',
-    'bundle-creator-workstation',
-  ];
-  const bundles = bundleIds
-    .map((id) => allProducts.find((p) => p.id === id))
-    .filter((p): p is Product => Boolean(p));
+  // 1. Men's Graphic Printed Streetwear (User requirement: prioritize frontpage showcase)
+  const mensPrinted = allProducts.filter(
+    (p) => (p.gender === 'men' || p.category === 'mens') && (p.is_printed === true || (p as any).isPrinted === true)
+  );
 
-  // 2. The 12 Flagship Drops from user's genuine catalog
-  const heroDrops = allProducts.slice(0, 12);
+  // 2. Women's & Kids' Printed Graphic Drops
+  const otherPrinted = allProducts.filter(
+    (p) => (p.gender === 'women' || p.gender === 'kids' || p.category === 'womens' || p.category === 'kids') && (p.is_printed === true || (p as any).isPrinted === true)
+  );
+
+  // 3. Essential Streetwear Blanks (Acid Wash, Solid Oversized Tees, Polos, Minimal Silhouettes)
+  const blanks = allProducts.filter(
+    (p) => p.is_printed === false || (p as any).isPrinted === false
+  );
 
   return (
     <main className="page-top min-h-screen text-[#161311] pb-16">
       {/* COMPACT PRODUCT-FIRST CATEGORY BAR */}
       <section className="glass-strong relative z-20 border-b border-black/[0.04] transition-all">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
-          <div className="flex items-center gap-2 shrink-0">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 md:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-3 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {CATEGORY_TABS.map((tab) => (
               <Link
                 key={tab.id}
                 href={tab.href}
-                className="no-underline px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap bg-white/70 border border-black/[0.06] hover:bg-[#161311] hover:text-white hover:border-[#161311] hover:-translate-y-0.5 active:scale-95 shadow-xs"
+                className="no-underline px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap bg-white/80 border border-black/[0.06] hover:bg-[#161311] hover:text-white hover:border-[#161311] hover:-translate-y-0.5 active:scale-95 shadow-xs"
               >
                 <span>{tab.emoji}</span>
                 <span>{tab.label}</span>
@@ -130,12 +128,12 @@ export default async function Home() {
       </section>
 
       {/* TRUST MARQUEE STRIP */}
-      <section className="overflow-hidden py-3 border-b border-black/[0.05]" aria-hidden>
-        <div className="flex w-max animate-marquee gap-3">
+      <section className="overflow-hidden py-2 sm:py-2.5 border-b border-black/[0.05]" aria-hidden>
+        <div className="flex w-max animate-marquee gap-2.5">
           {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
             <span
               key={i}
-              className="px-4 py-1.5 rounded-full bg-white/70 border border-black/[0.06] text-[11px] font-bold text-text-secondary whitespace-nowrap backdrop-blur-sm"
+              className="px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-white/70 border border-black/[0.06] text-[10px] sm:text-[11px] font-bold text-text-secondary whitespace-nowrap backdrop-blur-sm"
             >
               {item}
             </span>
@@ -143,37 +141,37 @@ export default async function Home() {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-4 flex flex-col gap-10">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 md:px-8 pt-3 sm:pt-4 flex flex-col gap-8 sm:gap-12">
 
         {/* NARROW & SLEEK STREETWEAR HERO BANNER */}
-        <section className="relative overflow-hidden rounded-2xl text-white grain bg-gradient-night shadow-[0_16px_40px_rgba(48,26,12,0.2)] border border-white/10">
+        <section className="relative overflow-hidden rounded-xl sm:rounded-2xl text-white grain bg-gradient-night shadow-[0_12px_32px_rgba(48,26,12,0.18)] border border-white/10">
           <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none">
             <span className="aurora-blob hero-rise" style={{ width: 280, height: 280, top: -100, right: -50, background: 'rgba(255,154,61,0.35)' }} />
             <span className="aurora-blob aurora-blob-b hero-rise hero-rise-2" style={{ width: 220, height: 220, bottom: -80, left: -40, background: 'rgba(232,36,75,0.25)' }} />
           </div>
 
-          <div className="relative z-10 px-5 py-5 md:px-8 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div className="space-y-1.5 max-w-2xl">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 border border-[#FF4D24]/40 text-[#FF9A3D] text-[10px] font-black uppercase tracking-widest backdrop-blur-md">
-                <span>🔥</span> Flagship Curated Drops
+          <div className="relative z-10 px-4 py-4 sm:px-6 sm:py-6 md:px-8 flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4">
+            <div className="space-y-1 sm:space-y-1.5 max-w-2xl">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 border border-[#FF4D24]/40 text-[#FF9A3D] text-[9px] sm:text-[10px] font-black uppercase tracking-widest backdrop-blur-md">
+                <span>🔥</span> Genuine Tirupur Hub Drops
               </div>
-              <h1 className="text-xl md:text-3xl font-black tracking-tight leading-snug">
-                <span className="text-gradient-ember-animated">Rare Ember</span> — Heavyweight Streetwear &amp; Creator Gear
+              <h1 className="text-lg sm:text-2xl md:text-3xl font-black tracking-tight leading-snug">
+                <span className="text-gradient-ember-animated">Rare Ember</span> — Graphic Streetwear &amp; Designer Drops
               </h1>
-              <p className="text-xs md:text-sm text-white/70 font-medium leading-relaxed">
-                240 GSM Combed Cotton • 380 GSM Fleece • 900x400mm Desk Mats • Dispatched direct from Tirupur Hub with 1-Click COD.
+              <p className="text-[11px] sm:text-xs md:text-sm text-white/70 font-medium leading-relaxed">
+                240 GSM Bio-Washed Combed Cotton • High-Density Fade-Proof Prints • Dispatched direct from Tirupur Hub with 1-Click COD.
               </p>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0 flex-wrap sm:flex-nowrap">
-              <div className="relative overflow-hidden bg-black/50 backdrop-blur-md border border-[#FF4D24]/45 rounded-xl px-3.5 py-2 flex items-center gap-2">
-                <span className="text-[10px] font-bold text-[#FF9A3D] uppercase tracking-wider">UPI Offer:</span>
-                <span className="font-mono text-sm font-black text-[#FF4D24] tracking-wider">PREPAID30</span>
-                <span className="text-[10px] text-white/60 font-medium">(₹30 OFF)</span>
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0 flex-wrap sm:flex-nowrap">
+              <div className="relative overflow-hidden bg-black/50 backdrop-blur-md border border-[#FF4D24]/45 rounded-lg sm:rounded-xl px-2.5 py-1.5 sm:px-3 sm:py-2 flex items-center gap-1.5 sm:gap-2">
+                <span className="text-[9px] sm:text-[10px] font-bold text-[#FF9A3D] uppercase tracking-wider">UPI Offer:</span>
+                <span className="font-mono text-xs sm:text-sm font-black text-[#FF4D24] tracking-wider">PREPAID30</span>
+                <span className="text-[9px] sm:text-[10px] text-white/60 font-medium">(₹30 OFF)</span>
               </div>
               <Link
                 href="/custom-drops"
-                className="no-underline inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl btn-ember font-black text-xs md:text-sm tracking-wide cursor-pointer whitespace-nowrap shadow-ember"
+                className="no-underline inline-flex items-center justify-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl btn-ember font-black text-xs sm:text-sm tracking-wide cursor-pointer whitespace-nowrap shadow-ember"
               >
                 <span className="relative z-10 flex items-center gap-1.5">
                   Custom Studio <span>🎨</span>
@@ -189,136 +187,106 @@ export default async function Home() {
           />
         </section>
 
-        {/* SECTION 1: HERO DROPS OR BUNDLES OR VAULT REFRESH */}
-        {bundles.length > 0 ? (
-          <section id="bundles" className="scroll-mt-28">
-            <div className="flex items-end justify-between gap-4 mb-6">
+        {/* SECTION 1: MEN'S PRINTED STREETWEAR (PRIORITY USER SPOTLIGHT) */}
+        {mensPrinted.length > 0 && (
+          <section id="mens-printed" className="scroll-mt-28">
+            <div className="flex items-end justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
               <div>
-                <div className="hero-rise inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-ember text-white text-xs font-black uppercase tracking-wider mb-2 shadow-ember">
-                  <span>🔥</span> Maximum Value Combos
+                <div className="hero-rise inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-ember text-white text-[10px] sm:text-xs font-black uppercase tracking-wider mb-1.5 sm:mb-2 shadow-ember">
+                  <span>🔥</span> Flagship Graphic Prints
                 </div>
-                <h2 className="hero-rise hero-rise-1 text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
-                  Curated Value Combos — <span className="text-gradient-ember">Save Up to 25%</span>
+                <h2 className="hero-rise hero-rise-1 text-xl sm:text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
+                  Men&apos;s Graphic <span className="text-gradient-ember">Streetwear Drops</span>
                 </h2>
-                <p className="text-xs md:text-sm text-neutral-500 mt-1">
-                  Save up to ₹1,200 with combined express air shipping. 380 GSM fleece hoodies, varsity jackets &amp; 100% bio-washed Tirupur combed cotton.
+                <p className="text-[11px] sm:text-xs md:text-sm text-neutral-500 mt-0.5 sm:mt-1">
+                  High-Density Fade-Proof Prints • 240 GSM Bio-Washed Combed Cotton • Dispatched in 2-4 Days with 1-Click COD
                 </p>
               </div>
               <Link
-                href="/shop"
-                className="text-xs font-extrabold text-[#1C1310] hover:text-[#FF4D24] no-underline flex items-center gap-1.5 shrink-0 pb-1 border-b-2 border-black/15 hover:border-ember transition-all group"
+                href="/shop?cat=mens-printed"
+                className="text-xs font-extrabold text-[#1C1310] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b-2 border-black/15 hover:border-ember transition-all group whitespace-nowrap"
               >
-                <span>Explore All</span>
+                <span>View All ({mensPrinted.length})</span>
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              {bundles.map((p, i) => (
-                <ScrollReveal key={p.id} delay={i * 50}>
-                  <ProductCard {...toCard(p, i + 1)} priority={i < 2} />
+            {/* Men's Printed Grid: 2-column on mobile, 4-column on desktop */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6">
+              {mensPrinted.map((p, i) => (
+                <ScrollReveal key={p.id} delay={Math.min(i * 30, 240)}>
+                  <ProductCard {...toCard(p)} priority={i < 4} />
                 </ScrollReveal>
               ))}
             </div>
           </section>
-        ) : heroDrops.length > 0 ? (
-          <section id="hero-drops" className="scroll-mt-28">
-            <div className="flex items-end justify-between gap-4 mb-6">
+        )}
+
+        {/* SECTION 2: WOMEN'S & KIDS' PRINTED GRAPHIC DROPS */}
+        {otherPrinted.length > 0 && (
+          <section id="other-printed" className="scroll-mt-28">
+            <div className="flex items-end justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
               <div>
-                <div className="hero-rise inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/[0.05] text-neutral-800 text-xs font-black uppercase tracking-wider mb-2">
-                  <span>✨</span> Tirupur Direct Drops
+                <div className="hero-rise inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/[0.05] text-neutral-800 text-[10px] sm:text-xs font-black uppercase tracking-wider mb-1.5 sm:mb-2">
+                  <span>✨</span> Graphic Art Drops
                 </div>
-                <h2 className="hero-rise hero-rise-1 text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
-                  The Flagship <span className="text-gradient-ember">Collection</span>
+                <h2 className="hero-rise hero-rise-1 text-xl sm:text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
+                  Women&apos;s &amp; Kids&apos; <span className="text-gradient-ember">Printed Edition</span>
                 </h2>
-                <p className="text-xs md:text-sm text-neutral-500 mt-1">
-                  100% Bio-Washed Combed Cotton • Aeroknit Mesh Jerseys • Dispatched direct from Tirupur Hub with 1-Click COD
+                <p className="text-[11px] sm:text-xs md:text-sm text-neutral-500 mt-0.5 sm:mt-1">
+                  Aesthetic Typographic Prints &amp; Pastel Graphics on Super-Combed Bio-Washed Cotton
                 </p>
               </div>
               <Link
-                href="/shop"
-                className="text-xs font-extrabold text-[#1C1310] hover:text-[#FF4D24] no-underline flex items-center gap-1.5 shrink-0 pb-1 border-b-2 border-black/15 hover:border-ember transition-all group"
+                href="/shop?cat=printed"
+                className="text-xs font-extrabold text-[#1C1310] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b-2 border-black/15 hover:border-ember transition-all group whitespace-nowrap"
               >
-                <span>View All 31 Drops</span>
+                <span>Explore Prints</span>
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
             </div>
 
-            {/* 12 Hero Drops Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-              {heroDrops.map((p, i) => (
-                <ScrollReveal key={p.id} delay={i * 35}>
+            {/* Other Printed Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6">
+              {otherPrinted.map((p, i) => (
+                <ScrollReveal key={p.id} delay={Math.min(i * 30, 240)}>
                   <ProductCard {...toCard(p)} />
                 </ScrollReveal>
               ))}
             </div>
           </section>
-        ) : (
-          /* VAULT REFRESH / NEW COLLECTION LAUNCHING SOON */
-          <section className="rounded-3xl bg-neutral-900 text-white p-8 md:p-14 border border-white/10 shadow-2xl relative overflow-hidden text-center my-4">
-            <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none opacity-25">
-              <span className="aurora-blob" style={{ width: 450, height: 450, top: -150, right: -100, background: 'rgba(255,77,36,0.35)' }} />
-            </div>
-
-            <div className="relative z-10 max-w-2xl mx-auto space-y-4">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 border border-[#FF4D24]/40 text-[#FF9A3D] text-[11px] font-black uppercase tracking-wider">
-                ⚡ Vault Refresh In Progress
-              </span>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
-                New Collection <span className="text-gradient-ember">Launching Soon</span>
-              </h2>
-              <p className="text-xs md:text-base text-neutral-300 leading-relaxed max-w-xl mx-auto">
-                All previous catalog drops have been archived. We are preparing our next flagship drop of heavyweight streetwear and creator gear direct from our Tirupur studio.
-              </p>
-
-              <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
-                <Link
-                  href="/custom-drops"
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#FF4D24] to-[#f59e0b] hover:opacity-95 text-white font-black text-xs uppercase tracking-wider text-center no-underline transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"
-                >
-                  <span>🎨</span> Open Custom Design Studio ➔
-                </Link>
-                <Link
-                  href="/custom-drops#estimator"
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider text-center no-underline transition-all flex items-center justify-center"
-                >
-                  Bulk Price Estimator
-                </Link>
-              </div>
-            </div>
-          </section>
         )}
 
         {/* B2B CAMPUS & STARTUP MERCH SPOTLIGHT BANNER */}
-        <section className="rounded-3xl bg-gradient-to-r from-[#171412] via-[#211b17] to-[#171412] text-white p-6 md:p-8 border border-white/10 shadow-xl relative overflow-hidden">
+        <section className="rounded-2xl sm:rounded-3xl bg-gradient-to-r from-[#171412] via-[#211b17] to-[#171412] text-white p-4 sm:p-6 md:p-8 border border-white/10 shadow-xl relative overflow-hidden">
           <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
             <span className="aurora-blob" style={{ width: 300, height: 300, top: -100, right: -50, background: 'rgba(255,77,36,0.3)' }} />
           </div>
 
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="space-y-2 max-w-xl text-center md:text-left">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-[#FF9A3D] text-[11px] font-black uppercase tracking-wider">
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
+            <div className="space-y-1.5 sm:space-y-2 max-w-xl text-center md:text-left">
+              <span className="inline-flex items-center gap-1.5 px-3 py-0.5 sm:py-1 rounded-full bg-white/10 text-[#FF9A3D] text-[10px] sm:text-[11px] font-black uppercase tracking-wider">
                 ⚡ Campus &amp; Startup Merch Studio
               </span>
-              <h3 className="text-xl md:text-3xl font-black tracking-tight leading-snug">
+              <h3 className="text-lg sm:text-2xl md:text-3xl font-black tracking-tight leading-snug">
                 Organizing a Hackathon, College Fest or Team Launch?
               </h3>
-              <p className="text-xs md:text-sm text-white/70 leading-relaxed">
+              <p className="text-[11px] sm:text-xs md:text-sm text-white/70 leading-relaxed">
                 Zero setup fees. Bulk 240 GSM Heavyweight Tees &amp; 380 GSM Hoodies from <b>₹269/unit</b>. 
-                Chat with our <b>Hermes AI Desk</b> for instant tier quotes, 20% advance booking, and free 3D mockups in 2 hours.
+                Chat with our <b>Hermes AI Desk</b> for instant tier quotes, 20% advance booking, and free mockups.
               </p>
             </div>
 
-            <div className="shrink-0 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <div className="shrink-0 flex flex-col sm:flex-row gap-2.5 sm:gap-3 w-full sm:w-auto">
               <Link
                 href="/custom-drops"
-                className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#FF4D24] to-[#f59e0b] hover:opacity-95 text-white font-black text-xs uppercase tracking-wider text-center no-underline transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5"
+                className="px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl bg-gradient-to-r from-[#FF4D24] to-[#f59e0b] hover:opacity-95 text-white font-black text-xs uppercase tracking-wider text-center no-underline transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5"
               >
                 <span>🏛️</span> Talk to Hermes AI Desk ➔
               </Link>
               <Link
                 href={process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ? `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER.replace(/\D/g, '')}?text=Hi%20Ajay%2C%20I%20need%20custom%20merch%20for%20our%20team` : '/custom-drops'}
-                className="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs uppercase tracking-wider text-center no-underline transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5"
+                className="px-4 py-2.5 sm:px-5 sm:py-3 rounded-lg sm:rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs uppercase tracking-wider text-center no-underline transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5"
               >
                 <span>💬</span> Custom Merch Desk
               </Link>
@@ -326,34 +294,34 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* SECTION 2: THE 12 FLAGSHIP HERO DROPS (WHEN BUNDLES ALSO EXIST) */}
-        {bundles.length > 0 && heroDrops.length > 0 && (
-          <section id="hero-drops" className="scroll-mt-28">
-            <div className="flex items-end justify-between gap-4 mb-6">
+        {/* SECTION 3: ESSENTIAL STREETWEAR BLANKS */}
+        {blanks.length > 0 && (
+          <section id="streetwear-blanks" className="scroll-mt-28">
+            <div className="flex items-end justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
               <div>
-                <div className="hero-rise inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/[0.05] text-neutral-800 text-xs font-black uppercase tracking-wider mb-2">
-                  <span>✨</span> Zero Filler Catalog
+                <div className="hero-rise inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/[0.05] text-neutral-800 text-[10px] sm:text-xs font-black uppercase tracking-wider mb-1.5 sm:mb-2">
+                  <span>⚡</span> Minimalist Wardrobe
                 </div>
-                <h2 className="hero-rise hero-rise-1 text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
-                  The 12 Flagship <span className="text-gradient-ember">Hero Drops</span>
+                <h2 className="hero-rise hero-rise-1 text-xl sm:text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
+                  Essential Streetwear <span className="text-gradient-ember">Blanks</span>
                 </h2>
-                <p className="text-xs md:text-sm text-neutral-500 mt-1">
-                  4× 380 GSM Fleece Hoodies &amp; Varsity • 6× Heavyweight Graphic Tees • 2× Workstation Gear
+                <p className="text-[11px] sm:text-xs md:text-sm text-neutral-500 mt-0.5 sm:mt-1">
+                  Acid Wash Oversized, Raglan Sleeves, Solid Crop Tops &amp; Polos for clean everyday luxury
                 </p>
               </div>
               <Link
-                href="/shop"
-                className="text-xs font-extrabold text-[#1C1310] hover:text-[#FF4D24] no-underline flex items-center gap-1.5 shrink-0 pb-1 border-b-2 border-black/15 hover:border-ember transition-all group"
+                href="/shop?cat=blanks"
+                className="text-xs font-extrabold text-[#1C1310] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b-2 border-black/15 hover:border-ember transition-all group whitespace-nowrap"
               >
-                <span>View All Catalog</span>
+                <span>View Blanks ({blanks.length})</span>
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
             </div>
 
-            {/* 12 Hero Drops Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-              {heroDrops.map((p, i) => (
-                <ScrollReveal key={p.id} delay={i * 35}>
+            {/* Blanks Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6">
+              {blanks.map((p, i) => (
+                <ScrollReveal key={p.id} delay={Math.min(i * 30, 240)}>
                   <ProductCard {...toCard(p)} />
                 </ScrollReveal>
               ))}
@@ -361,17 +329,17 @@ export default async function Home() {
           </section>
         )}
 
-        {/* SECTION 3: ORGANIZED DEPARTMENT SHORTCUTS */}
+        {/* SECTION 4: ORGANIZED DEPARTMENT SHORTCUTS */}
         <section className="deferred-section">
-          <div className="mb-5 flex items-end justify-between">
+          <div className="mb-4 sm:mb-5 flex items-end justify-between">
             <div>
-              <div className="hero-rise inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/[0.05] text-neutral-800 text-[11px] font-black uppercase tracking-wider mb-2">
+              <div className="hero-rise inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/[0.05] text-neutral-800 text-[10px] sm:text-[11px] font-black uppercase tracking-wider mb-1.5 sm:mb-2">
                 <span>✨</span> Curated Brand Pillars
               </div>
-              <h3 className="hero-rise text-xl md:text-3xl font-black tracking-tight text-[#1C1310]">
+              <h3 className="hero-rise text-lg sm:text-2xl md:text-3xl font-black tracking-tight text-[#1C1310]">
                 What We Craft &amp; Deliver
               </h3>
-              <p className="hero-rise hero-rise-1 text-xs md:text-sm text-neutral-500 mt-1">
+              <p className="hero-rise hero-rise-1 text-[11px] sm:text-xs md:text-sm text-neutral-500 mt-0.5 sm:mt-1">
                 Explore our domestic product pillars — all made on-demand with 1-click COD
               </p>
             </div>
@@ -383,12 +351,12 @@ export default async function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5">
             {DEPARTMENTS.map((d, i) => (
               <ScrollReveal key={d.href} delay={i * 50}>
                 <Link
                   href={d.href}
-                  className="group p-5 rounded-2xl bg-white border border-black/[0.06] hover:border-[#FF4D24]/40 hover:-translate-y-1.5 hover:shadow-lg transition-all duration-500 text-[#161311] no-underline flex flex-col justify-between gap-3 relative overflow-hidden"
+                  className="group p-3 sm:p-5 rounded-xl sm:rounded-2xl bg-white border border-black/[0.06] hover:border-[#FF4D24]/40 hover:-translate-y-1.5 hover:shadow-lg transition-all duration-500 text-[#161311] no-underline flex flex-col justify-between gap-2.5 sm:gap-3 relative overflow-hidden"
                 >
                   <span
                     aria-hidden
@@ -396,16 +364,16 @@ export default async function Home() {
                     style={{ background: 'linear-gradient(135deg, rgba(255,154,61,0.08), rgba(232,36,75,0.04))' }}
                   />
                   <div className="flex items-center justify-between relative z-10">
-                    <span className={`w-10 h-10 rounded-xl flex items-center justify-center ${d.color} transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3`}>
-                      <d.icon className="w-5 h-5" />
+                    <span className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center ${d.color} transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3`}>
+                      <d.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                     </span>
-                    <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-black/[0.05] text-neutral-600 group-hover:bg-[#FF4D24] group-hover:text-white transition-colors">
+                    <span className="text-[9px] sm:text-[10px] font-black uppercase px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded-full bg-black/[0.05] text-neutral-600 group-hover:bg-[#FF4D24] group-hover:text-white transition-colors">
                       {d.count}
                     </span>
                   </div>
                   <div className="relative z-10">
-                    <span className="block font-black text-sm group-hover:text-[#FF4D24] transition-colors">{d.title}</span>
-                    <span className="text-[11px] text-neutral-500 font-medium leading-tight block mt-0.5">{d.sub}</span>
+                    <span className="block font-black text-xs sm:text-sm group-hover:text-[#FF4D24] transition-colors">{d.title}</span>
+                    <span className="text-[10px] sm:text-[11px] text-neutral-500 font-medium leading-tight block mt-0.5">{d.sub}</span>
                   </div>
                 </Link>
               </ScrollReveal>
@@ -413,17 +381,17 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* SECTION 4: ASSURANCE BAR */}
-        <section className="deferred-section grid grid-cols-2 md:grid-cols-4 gap-3 pt-6 border-t border-black/[0.06] text-xs">
+        {/* SECTION 5: ASSURANCE BAR */}
+        <section className="deferred-section grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 pt-4 sm:pt-6 border-t border-black/[0.06] text-xs">
           {ASSURANCES.map((a, i) => (
             <ScrollReveal key={a.title} delay={i * 70}>
-              <div className="group h-full p-4 rounded-2xl bg-white border border-black/[0.05] flex items-center gap-3 hover:border-[#FF4D24]/30 hover:shadow-md transition-all duration-400">
-                <span className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${a.color} transition-transform duration-500 group-hover:scale-110`}>
-                  <a.icon className="w-5 h-5" />
+              <div className="group h-full p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-black/[0.05] flex items-center gap-2.5 sm:gap-3 hover:border-[#FF4D24]/30 hover:shadow-md transition-all duration-400">
+                <span className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 ${a.color} transition-transform duration-500 group-hover:scale-110`}>
+                  <a.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                 </span>
                 <div>
-                  <span className="block font-bold text-neutral-900">{a.title}</span>
-                  <span className="text-[11px] text-neutral-500">{a.sub}</span>
+                  <span className="block font-bold text-[11px] sm:text-xs text-neutral-900">{a.title}</span>
+                  <span className="text-[9px] sm:text-[11px] text-neutral-500">{a.sub}</span>
                 </div>
               </div>
             </ScrollReveal>

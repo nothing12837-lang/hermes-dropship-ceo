@@ -73,17 +73,17 @@ const BUNDLE_ITEM_NAMES: Record<string, string> = {
 interface ProductCardProps {
   id: string;
   slug?: string;
-  emoji: string;
-  tag: string;
-  tagColor: string;
-  tagBg: string;
+  emoji?: string;
+  tag?: string;
+  tagColor?: string;
+  tagBg?: string;
   title: string;
-  desc: string;
+  desc?: string;
   price: string;
   oldPrice?: string;
   rawPrice?: number;
   rawComparePrice?: number;
-  gradient: string;
+  gradient?: string;
   imageUrl?: string;
   chapter?: string;
   pet?: 'dog' | 'cat' | 'both';
@@ -105,14 +105,14 @@ interface ProductCardProps {
 export default function ProductCard({
   id,
   slug,
-  emoji,
+  emoji = '🛍️',
   tag,
   title,
   price,
   oldPrice,
   rawPrice,
   rawComparePrice,
-  gradient,
+  gradient = 'linear-gradient(135deg, #18181b, #09090b)',
   imageUrl,
   chapter,
   rating = 4.3,
@@ -196,60 +196,63 @@ export default function ProductCard({
   const isLcpCandidate = priority || (typeof rank === 'number' && rank <= 2);
 
   return (
-    <div className="group flex flex-col h-full rounded-[1.75rem] bg-white border border-black/[0.06] shadow-[0_2px_12px_rgba(48,26,12,0.05)] hover:shadow-[0_22px_48px_rgba(48,26,12,0.14)] hover:-translate-y-2 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden relative ring-ember-animated deferred-card gpu-smooth">
+    <div className="group flex flex-col h-full rounded-2xl sm:rounded-3xl bg-white border border-black/[0.08] hover:border-[#FF4D24]/40 shadow-[0_2px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_16px_36px_rgba(255,77,36,0.12)] hover:-translate-y-1.5 transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden relative ring-ember-animated deferred-card gpu-smooth">
       <Link href={productHref} className="no-underline flex flex-col flex-1">
         <div
-          className="relative aspect-square m-2.5 mb-0 rounded-2xl overflow-hidden shine-hover bg-neutral-900/5"
+          className="relative aspect-square m-1.5 sm:m-2.5 mb-0 rounded-xl sm:rounded-2xl overflow-hidden shine-hover bg-neutral-900/5"
           style={{ background: gradient }}
         >
           {hasMultipleImages ? (
             /* MULTI-IMAGE COMPOSITE BUNDLE SHOWCASE */
-            <div className="relative w-full h-full p-2.5 flex items-center justify-center">
+            <div className="relative w-full h-full p-2 sm:p-2.5 flex items-center justify-center">
               {/* Layer 2: Secondary Garment/Item (Bottom-Right) */}
-              <div className="absolute right-2 bottom-2 w-[65%] h-[65%] rounded-xl overflow-hidden shadow-lg border-2 border-white/90 transition-transform duration-500 ease-out group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:rotate-1">
+              <div className="absolute right-1.5 bottom-1.5 sm:right-2 sm:bottom-2 w-[65%] h-[65%] rounded-lg sm:rounded-xl overflow-hidden shadow-lg border-2 border-white/90 transition-transform duration-500 ease-out group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:rotate-1">
                 <Image
                   src={bundleResolvedImages[1]}
                   alt={`${cleanTitle} - Item 2`}
                   fill
                   sizes="(max-width: 640px) 40vw, 20vw"
+                  quality={75}
                   style={{ objectFit: 'cover' }}
                 />
               </div>
 
               {/* Layer 3: Accessory / Mug (only for 3-item packs like creator-workstation and 3am-coder) */}
               {(id.includes('creator-workstation') || id.includes('3am-coder')) && bundleResolvedImages.length >= 3 && (
-                <div className="absolute top-2 right-2 w-[42%] h-[42%] rounded-xl overflow-hidden shadow-xl border-2 border-white/95 z-10 transition-transform duration-500 ease-out group-hover:scale-105">
+                <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 w-[42%] h-[42%] rounded-lg sm:rounded-xl overflow-hidden shadow-xl border-2 border-white/95 z-10 transition-transform duration-500 ease-out group-hover:scale-105">
                   <Image
                     src={bundleResolvedImages[2]}
                     alt={`${cleanTitle} - Item 3`}
                     fill
                     sizes="(max-width: 640px) 25vw, 15vw"
+                    quality={75}
                     style={{ objectFit: 'cover' }}
                   />
                 </div>
               )}
 
               {/* Layer 1: Primary Garment/Item (Top-Left) */}
-              <div className="absolute left-2 top-2 w-[70%] h-[70%] rounded-xl overflow-hidden shadow-2xl border-2 border-white z-20 transition-transform duration-500 ease-out group-hover:scale-105 group-hover:-rotate-1">
+              <div className="absolute left-1.5 top-1.5 sm:left-2 sm:top-2 w-[70%] h-[70%] rounded-lg sm:rounded-xl overflow-hidden shadow-2xl border-2 border-white z-20 transition-transform duration-500 ease-out group-hover:scale-105 group-hover:-rotate-1">
                 <Image
                   src={bundleResolvedImages[0] || (resolvedSrc as string)}
                   alt={`${cleanTitle} - Item 1`}
                   fill
                   priority={isLcpCandidate}
-                  sizes="(max-width: 640px) 50vw, 25vw"
+                  sizes="(max-width: 640px) 48vw, 25vw"
+                  quality={75}
                   style={{ objectFit: 'cover' }}
                 />
               </div>
 
               {/* Multi-Item Included Floating Pill */}
-              <div className="absolute z-30 bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-[#161311]/92 backdrop-blur-md text-white text-[10px] font-black tracking-wider uppercase border border-white/20 shadow-xl flex items-center gap-1.5 whitespace-nowrap">
+              <div className="absolute z-30 bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#161311]/92 backdrop-blur-md text-white text-[8px] sm:text-[10px] font-black tracking-wider uppercase border border-white/20 shadow-xl flex items-center gap-1 sm:gap-1.5 whitespace-nowrap">
                 <span className="text-[#FF9A3D]">⚡</span>
                 <span>
                   {id.includes('creator-workstation') || id.includes('3am-coder')
-                    ? '3 ITEMS INCLUDED'
+                    ? '3 ITEMS'
                     : id.includes('streetwear-duo')
-                    ? '2x TEES INCLUDED'
-                    : '2 ITEMS INCLUDED'}
+                    ? '2x TEES'
+                    : '2 ITEMS'}
                 </span>
               </div>
             </div>
@@ -268,7 +271,7 @@ export default function ProductCard({
               />
               {lockedGraphicTitle && (
                 <span
-                  className="absolute bottom-2.5 left-2.5 z-10 text-[10px] font-black px-2.5 py-1 rounded-lg text-white shadow-md backdrop-blur-md border border-white/20 truncate max-w-[70%]"
+                  className="absolute bottom-2 left-2 sm:bottom-2.5 sm:left-2.5 z-10 text-[9px] sm:text-[10px] font-black px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-lg text-white shadow-md backdrop-blur-md border border-white/20 truncate max-w-[70%]"
                   style={{ backgroundColor: `${lockedAccentHex || '#FF4D24'}E6` }}
                 >
                   {lockedGraphicTitle}
@@ -282,13 +285,14 @@ export default function ProductCard({
               fill
               priority={isLcpCandidate}
               loading={isLcpCandidate ? undefined : 'lazy'}
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              sizes="(max-width: 640px) 48vw, (max-width: 1024px) 30vw, 280px"
+              quality={75}
               style={{ objectFit: 'cover' }}
-              className="group-hover:scale-110 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              className="group-hover:scale-108 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
               onError={() => setImgFailed(true)}
             />
           ) : (
-            <span className="text-7xl flex items-center justify-center h-full group-hover:scale-115 group-hover:-rotate-6 transition-transform duration-500">
+            <span className="text-5xl sm:text-7xl flex items-center justify-center h-full group-hover:scale-110 transition-transform duration-500">
               {emoji}
             </span>
           )}
@@ -296,18 +300,16 @@ export default function ProductCard({
           {/* Category / Curated / Out-of-Stock badge */}
           {!isInStock ? (
             <span
-              className="absolute top-3 left-3 z-10 bg-gradient-to-r from-rose-600 to-red-500 text-white text-[11px] font-black px-3.5 py-1.5 rounded-full uppercase tracking-wide shadow-md backdrop-blur-md"
-              style={{ transform: 'rotate(-4deg)' }}
+              className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 z-10 bg-gradient-to-r from-rose-600 to-red-500 text-white text-[9px] sm:text-[10px] md:text-[11px] font-black px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-full uppercase tracking-wide shadow-md"
             >
-              ⚠️ Out of Stock
+              ⚠️ Sold Out
             </span>
           ) : tag ? (
             <span
-              className="absolute top-3 left-3 z-10 text-[11px] font-black px-3.5 py-1.5 rounded-full uppercase tracking-wide backdrop-blur-md shadow-xs"
+              className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 z-10 text-[9px] sm:text-[10px] md:text-[11px] font-black px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-full uppercase tracking-wider backdrop-blur-md shadow-xs"
               style={{
-                transform: 'rotate(-4deg)',
                 background: tag.includes('Trending') ? 'var(--gradient-ember)' : 'rgba(255,255,255,0.95)',
-                color: tag.includes('Trending') ? '#fff' : 'var(--color-text-primary)',
+                color: tag.includes('Trending') ? '#fff' : '#1C1310',
               }}
             >
               {tag}
@@ -317,7 +319,7 @@ export default function ProductCard({
           <button
             onClick={handleWishlist}
             aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
-            className="absolute top-2.5 right-2.5 w-9 h-9 rounded-full border border-black/[0.06] cursor-pointer text-base flex items-center justify-center bg-white/92 backdrop-blur-md shadow-xs hover:scale-115 hover:border-ember/50 active:scale-95 transition-all z-10"
+            className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-full border border-black/[0.08] cursor-pointer text-xs sm:text-sm flex items-center justify-center bg-white/92 backdrop-blur-md shadow-xs hover:scale-110 hover:border-ember/50 active:scale-95 transition-all z-10"
             style={{ color: wished ? '#FF4D24' : '#1d1d1f' }}
           >
             <motion.span
@@ -332,81 +334,81 @@ export default function ProductCard({
           </button>
 
           {rank != null && (
-            <span className="absolute bottom-2 left-3 font-display text-5xl leading-none drop-shadow-[0_4px_14px_rgba(0,0,0,0.5)] text-white/95">
+            <span className="absolute bottom-1.5 left-2 sm:bottom-2 sm:left-3 font-display text-3xl sm:text-5xl leading-none drop-shadow-[0_4px_14px_rgba(0,0,0,0.5)] text-white/95">
               {String(rank).padStart(2, '0')}
             </span>
           )}
 
           {/* Discount chip */}
           {isInStock && calculatedDiscount > 0 && (
-            <span className="absolute bottom-2.5 right-2.5 text-[11px] font-black px-2.5 py-1 rounded-full text-white shadow-md bg-gradient-to-r from-emerald-500 to-teal-500">
+            <span className="absolute bottom-1.5 right-1.5 sm:bottom-2.5 sm:right-2.5 text-[9px] sm:text-[10px] md:text-[11px] font-black px-1.5 py-0.5 sm:px-2 sm:py-0.5 md:px-2.5 md:py-1 rounded-md sm:rounded-full text-white shadow-md bg-gradient-to-r from-emerald-600 to-teal-600">
               −{calculatedDiscount}%
             </span>
           )}
         </div>
 
-        <div className="p-4 flex flex-col flex-1">
+        <div className="p-2.5 sm:p-3.5 md:p-4 flex flex-col flex-1">
           {isInStock ? (
-            <div className="text-[11px] font-semibold text-emerald-700 flex items-center gap-1.5 mb-1.5">
-              <span className="live-dot w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 text-emerald-500" />
-              <span>In Stock • Verified Domestic Hub • COD Ready</span>
+            <div className="text-[10px] sm:text-[11px] font-semibold text-emerald-700 flex items-center gap-1 sm:gap-1.5 mb-1 sm:mb-1.5">
+              <span className="live-dot w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+              <span className="truncate">In Stock • 1-Click COD</span>
             </div>
           ) : (
-            <div className="text-[11px] font-bold text-rose-600 flex items-center gap-1.5 mb-1.5">
+            <div className="text-[10px] sm:text-[11px] font-bold text-rose-600 flex items-center gap-1 sm:gap-1.5 mb-1 sm:mb-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
-              <span>Temporarily Out of Stock • Restocking Soon</span>
+              <span className="truncate">Temporarily Restocking</span>
             </div>
           )}
-          <h3 className="text-[15px] font-bold leading-snug mb-2 text-[#1d1d1f] transition-colors duration-300 group-hover:text-ember-deep line-clamp-2 min-h-[2.6rem]">
+          <h3 className="text-xs sm:text-sm md:text-[15px] font-bold leading-tight sm:leading-snug mb-1.5 sm:mb-2 text-[#1d1d1f] transition-colors duration-300 group-hover:text-[#FF4D24] line-clamp-2 min-h-[2rem] sm:min-h-[2.4rem] md:min-h-[2.6rem]">
             {cleanTitle}
           </h3>
 
           {isBundle && (
-            <div className="text-[11px] font-bold text-[#FF4D24] bg-[#FF4D24]/10 px-2.5 py-1 rounded-lg inline-flex items-center gap-1.5 mb-2 w-fit border border-[#FF4D24]/20">
+            <div className="text-[10px] sm:text-[11px] font-bold text-[#FF4D24] bg-[#FF4D24]/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-lg inline-flex items-center gap-1 mb-1.5 w-fit border border-[#FF4D24]/20">
               <span>📦</span>
-              <span>
+              <span className="truncate max-w-[140px] sm:max-w-none">
                 {BUNDLE_ITEM_NAMES[id] || (
                   id.includes('streetwear-duo')
-                    ? '2x Heavyweight Tees Included'
+                    ? '2x Heavyweight Tees'
                     : id.includes('winter-heavyweight')
-                    ? '380 GSM Hoodie + Heavyweight Tee'
+                    ? '380 GSM Hoodie + Tee'
                     : id.includes('creator-workstation')
-                    ? 'Desk Mat + Tee + Ceramic Mug'
+                    ? 'Desk Mat + Tee + Mug'
                     : 'Curated Value Combo'
                 )}
               </span>
             </div>
           )}
           <div className="flex flex-col mt-auto pt-1">
-            <div className="flex items-baseline gap-2 flex-wrap">
-              <span className="text-lg font-black tracking-tight text-[#1d1d1f]">{displayPrice}</span>
+            <div className="flex items-baseline gap-1.5 sm:gap-2 flex-wrap">
+              <span className="text-sm sm:text-base md:text-lg font-black tracking-tight text-[#1d1d1f]">{displayPrice}</span>
               {displayOldPrice && (
-                <span className="text-xs text-text-muted line-through font-medium">M.R.P.: {displayOldPrice}</span>
+                <span className="text-[10px] sm:text-xs text-neutral-400 line-through font-medium">M.R.P.: {displayOldPrice}</span>
               )}
               {calculatedDiscount > 0 && (
-                <span className="text-xs font-extrabold text-emerald-600">({calculatedDiscount}% off)</span>
+                <span className="text-[10px] sm:text-xs font-black text-emerald-600">({calculatedDiscount}% off)</span>
               )}
             </div>
           </div>
         </div>
       </Link>
 
-      <div className="px-4 pb-4">
+      <div className="px-2.5 pb-2.5 sm:px-3.5 sm:pb-3.5 md:px-4 md:pb-4">
         {isInStock ? (
           <button
             onClick={handleOrderNow}
-            className="w-full py-3 rounded-full font-black text-[13px] tracking-wide border-none cursor-pointer btn-ember flex items-center justify-center gap-1.5"
+            className="w-full py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl md:rounded-full font-black text-[11px] sm:text-xs md:text-[13px] tracking-wide border-none cursor-pointer btn-ember flex items-center justify-center gap-1 sm:gap-1.5 active:scale-[0.98] shadow-xs"
           >
-            <span className="relative z-10 flex items-center gap-1.5">
+            <span className="relative z-10 flex items-center gap-1">
               {ctaLabel}
             </span>
           </button>
         ) : (
           <Link
             href={productHref}
-            className="w-full py-3 rounded-full font-bold text-sm tracking-tight border border-rose-200 cursor-pointer bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-300 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 no-underline"
+            className="w-full py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl md:rounded-full font-bold text-[11px] sm:text-xs tracking-tight border border-rose-200 cursor-pointer bg-rose-50 text-rose-700 hover:bg-rose-100 active:scale-[0.98] transition-all flex items-center justify-center gap-1 no-underline"
           >
-            <span>NOTIFY ME WHEN RESTOCKED 🔔</span>
+            <span>NOTIFY RESTOCK 🔔</span>
           </Link>
         )}
       </div>

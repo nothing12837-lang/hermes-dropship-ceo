@@ -121,7 +121,7 @@ export default function QuizPage() {
                   <ProductCard
                     key={p.id}
                     id={p.id}
-                    emoji={p.emoji}
+                    emoji={p.emoji || '🛍️'}
                     tag={'Aesthetic Match'}
                     tagColor="#ff4d24"
                     tagBg="rgba(255,77,36,0.12)"

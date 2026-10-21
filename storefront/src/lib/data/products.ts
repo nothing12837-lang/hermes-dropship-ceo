@@ -1,11 +1,11 @@
-export type ProductCategory = 'general' | 'electronics' | 'fashion' | 'home-garden' | 'home-living' | 'pets' | 'beds' | 'toys' | 'tech' | 'decor' | 'lifestyle';
+export type ProductCategory = 'general' | 'electronics' | 'fashion' | 'home-garden' | 'home-living' | 'pets' | 'beds' | 'toys' | 'tech' | 'decor' | 'lifestyle' | 'mens' | 'womens' | 'kids';
 export type PetType = 'dog' | 'cat' | 'both';
 export type AgeGroup = 'puppy' | 'adult' | 'senior' | 'all';
 
 export interface Product {
   id: string;
   slug: string;
-  emoji: string;
+  emoji?: string;
   tag: string;
   tagColor: string;
   tagBg: string;
@@ -23,6 +23,10 @@ export interface Product {
   image_url?: string;
   images?: string[];
   category?: ProductCategory;
+  gender?: 'men' | 'women' | 'kids';
+  is_printed?: boolean;
+  print_design_name?: string;
+  design_code?: string | null;
   market?: 'IN' | 'GLOBAL';
   supplier?: string;
   is_trending?: boolean;
@@ -111,10 +115,12 @@ export function computeDiscount(rawPrice: number, rawCompare?: number, priceInr?
 }
 
 export const SHOP_CATEGORIES = [
-  { id: 'fashion', label: 'Streetwear Apparel', count: 86, hint: 'Heavyweight Tees, 380 GSM Hoodies & Sweatshirts', emoji: '👕' },
-  { id: 'home-garden', label: 'Artisan Drinkware & Living', count: 30, hint: 'Ceramic Stoneware, Mugs & Coasters', emoji: '☕' },
-  { id: 'electronics', label: 'Desk & Creator Setup', count: 5, hint: 'Extended Gaming Desk Mats & Precision Pads', emoji: '🖥️' },
-  { id: 'general', label: 'Bags & Everyday Essentials', count: 26, hint: 'Reinforced Canvas Totes, Scarves & Accessories', emoji: '🎒' },
+  { id: 'mens-printed', label: "Men's Printed", count: 17, hint: 'Heavyweight DTF & Sublimation Drops', emoji: '🔥' },
+  { id: 'printed', label: 'All Graphic Prints', count: 23, hint: 'Every High-Definition Fade-Proof Print', emoji: '✨' },
+  { id: 'mens', label: "Men's & Unisex", count: 22, hint: 'Oversized Tees, Hoodies & Jerseys', emoji: '👕' },
+  { id: 'womens', label: "Women's Drops", count: 7, hint: 'Baby Tees, Crop Tops & Graphic Dresses', emoji: '👗' },
+  { id: 'kids', label: "Kids Streetwear", count: 2, hint: '100% Super Combed Cotton Graphic Tees', emoji: '🧸' },
+  { id: 'blanks', label: 'Premium Blanks', count: 8, hint: 'Essential Acid Wash, Tie-Dye & Garment Blanks', emoji: '⚡' },
 ];
 
 
