@@ -77,7 +77,10 @@ export default function PincodeChecker() {
       }
 
       try {
-        const res = await fetch(`https://api.postalpincode.in/pincode/${clean}`);
+        let res = await fetch(`/api/pincode/${clean}`);
+        if (!res.ok) {
+          res = await fetch(`https://api.postalpincode.in/pincode/${clean}`);
+        }
         const data = await res.json();
         if (data && data[0]?.Status === 'Success' && data[0].PostOffice?.length > 0) {
           const po = data[0].PostOffice[0];

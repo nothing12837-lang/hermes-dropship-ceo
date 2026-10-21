@@ -14,7 +14,7 @@ import { validateCouponCode } from '@/lib/festivals';
 import { scoreRtoRisk } from '@/lib/rto';
 import { trackBeginCheckout, trackAddShippingInfo } from '@/lib/telemetry/dataLayer';
 
-export const INDIAN_STATES = [
+const INDIAN_STATES = [
   'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
   'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka',
   'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram',
@@ -124,7 +124,12 @@ export default function CheckoutPage() {
     }
     setPincodeLoading(true);
     try {
-      const res = await fetch(`https://api.postalpincode.in/pincode/${cleanPin}`);
+      // 1. Try fast edge-cached internal route first (bypasses CSP & third-party limits)
+      let res = await fetch(`/api/pincode/${cleanPin}`);
+      if (!res.ok) {
+        // 2. Direct external fallback
+        res = await fetch(`https://api.postalpincode.in/pincode/${cleanPin}`);
+      }
       const data = await res.json();
       if (data && data[0]?.Status === 'Success' && data[0].PostOffice?.length > 0) {
         const po = data[0].PostOffice[0];

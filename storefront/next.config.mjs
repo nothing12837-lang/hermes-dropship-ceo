@@ -20,7 +20,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://qikink-stores.s3.ap-south-1.amazonaws.com https://*.amazonaws.com https://*.supabase.co https://images.unsplash.com",
-      "connect-src 'self' https://*.supabase.co https://api.razorpay.com https://lumberjack.razorpay.com",
+      "connect-src 'self' https://*.supabase.co https://api.razorpay.com https://lumberjack.razorpay.com https://api.postalpincode.in",
       "frame-src https://api.razorpay.com https://cdn.razorpay.com https://checkout.razorpay.com",
       "media-src 'self' https://videos.pexels.com",
       "object-src 'none'",
