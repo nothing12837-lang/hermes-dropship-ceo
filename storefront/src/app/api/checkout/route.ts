@@ -266,8 +266,12 @@ export async function POST(req: NextRequest) {
       currency: 'INR',
       key_id: process.env.RAZORPAY_KEY_ID,
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error('POST /api/checkout error:', err);
-    return NextResponse.json({ error: err instanceof Error ? err.message : 'Checkout failed' }, { status: 500 });
+    const message =
+      err?.message ||
+      err?.error?.description ||
+      (typeof err === 'string' ? err : 'Checkout failed');
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
