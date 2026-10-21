@@ -54,10 +54,12 @@ export default function CartDrawer() {
   };
 
   const formatCartPrice = (val: number) => {
-    if (isIndia) {
-      return `₹${Math.round(val).toLocaleString('en-IN')}`;
+    if (market === 'GLOBAL') {
+      const usdVal = val >= 80 ? val / 85 : val;
+      return `$${Number(usdVal).toFixed(2)}`;
     }
-    return `$${Number(val).toFixed(2)}`;
+    const inrVal = val >= 80 ? val : Math.round(val * 85);
+    return `₹${Math.round(inrVal).toLocaleString('en-IN')}`;
   };
 
   const detailed = items

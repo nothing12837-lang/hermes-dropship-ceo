@@ -13,47 +13,62 @@ interface GeoContextType {
   formatPriceByMarket: (priceUsd: number, priceInr?: number) => string;
 }
 
+const formatInrPrice = (priceUsd: number, priceInr?: number): string => {
+  const val = priceInr ?? (priceUsd >= 80 ? Math.round(priceUsd) : Math.round(priceUsd * 85));
+  return `₹${val.toLocaleString('en-IN')}`;
+};
+
 const GeoContext = createContext<GeoContextType>({
   market: 'IN',
   currency: 'INR',
   currencySymbol: '₹',
   setMarket: () => {},
-  formatPrice: (priceUsd: number, priceInr?: number) => `₹${Math.round(priceInr ?? (priceUsd >= 80 ? priceUsd : priceUsd * 85)).toLocaleString('en-IN')}`,
-  formatPriceByMarket: (priceUsd: number, priceInr?: number) => `₹${Math.round(priceInr ?? (priceUsd >= 80 ? priceUsd : priceUsd * 85)).toLocaleString('en-IN')}`,
+  formatPrice: formatInrPrice,
+  formatPriceByMarket: formatInrPrice,
 });
 
 export function GeoProvider({ children }: { children: React.ReactNode }) {
   // RareEmber is exclusively an Indian streetwear & creator brand (INR ₹).
-  // Default and lock to IN market so all visitors see clean ₹ prices.
+  // Hard-default and lock to IN market on SSR and client so $ never appears.
   const [market, setMarketState] = useState<MarketRegion>('IN');
 
   useEffect(() => {
-    setMarketState('IN');
+    // Only check if user explicitly switched to GLOBAL in localStorage
     try {
-      // Purge any stale GLOBAL value from browser storage
-      localStorage.setItem('rareember_market', 'IN');
-      if (typeof document !== 'undefined') {
-        document.cookie = 'rareember_market=IN; path=/; max-age=31536000; SameSite=Lax';
+      const saved = localStorage.getItem('rareember_market');
+      if (saved === 'GLOBAL') {
+        setMarketState('GLOBAL');
+      } else {
+        setMarketState('IN');
+        localStorage.setItem('rareember_market', 'IN');
       }
-    } catch {}
+    } catch {
+      setMarketState('IN');
+    }
   }, []);
 
   const setMarket = (m: MarketRegion) => {
-    setMarketState('IN'); // Always maintain IN for Indian domestic fulfillment
+    setMarketState(m);
     try {
-      localStorage.setItem('rareember_market', 'IN');
+      localStorage.setItem('rareember_market', m);
       if (typeof document !== 'undefined') {
-        document.cookie = 'rareember_market=IN; path=/; max-age=31536000; SameSite=Lax';
+        document.cookie = `rareember_market=${m}; path=/; max-age=31536000; SameSite=Lax`;
+      }
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('rareember_market_changed', { detail: m }));
       }
     } catch {}
   };
 
-  const currency = 'INR';
-  const currencySymbol = '₹';
+  const currency = market === 'GLOBAL' ? 'USD' : 'INR';
+  const currencySymbol = market === 'GLOBAL' ? '$' : '₹';
 
   const formatPrice = (priceUsd: number, priceInr?: number) => {
-    const val = priceInr ?? (priceUsd >= 80 ? Math.round(priceUsd) : Math.round(priceUsd * 85));
-    return `₹${val.toLocaleString('en-IN')}`;
+    if (market === 'GLOBAL') {
+      const val = priceUsd >= 80 ? priceUsd / 85 : priceUsd;
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
+    }
+    return formatInrPrice(priceUsd, priceInr);
   };
 
   const formatPriceByMarket = formatPrice;
@@ -69,3 +84,7 @@ export function useGeo() {
   return useContext(GeoContext);
 }
 
+// Aliases for explicit CurrencyContext / useCurrency imports
+export const CurrencyContext = GeoContext;
+export const CurrencyProvider = GeoProvider;
+export const useCurrency = useGeo;

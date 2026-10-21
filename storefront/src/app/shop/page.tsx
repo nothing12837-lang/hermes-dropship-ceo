@@ -18,8 +18,9 @@ const TABS = [
 ];
 
 function isDisallowedRow(p: ProductRow): boolean {
-  const targetId = `${p.id || ''} ${p.slug || ''}`.toLowerCase();
-  return /calmcloud|ember-glow|warm-paw|lickmat|pawtrack|cozy-nest|aesthetic-scratch|smart-fetch/i.test(targetId);
+  const targetId = `${p.id || ''} ${p.slug || ''} ${p.title || ''}`.toLowerCase();
+  // Filter legacy pet products and low-margin novelty filler items (Directive 3)
+  return /calmcloud|ember-glow|warm-paw|lickmat|pawtrack|cozy-nest|aesthetic-scratch|smart-fetch|button-badge|button_badge|button badge|temporary-tattoo|temporary tattoo|tattoo|scrunchies|bow scrunchie|bookmark|balaclava|arm sleeves|arm sleeve|basic t-shirt pc/i.test(targetId);
 }
 
 export function matchesCategory(cat: string, p: any): boolean {
@@ -172,7 +173,7 @@ function ShopInner() {
           </div>
           <div className="mt-2 text-xs text-text-secondary font-medium">
             {active.id === 'all'
-              ? `All ${products.length} Verified Domestic Drops — showing ${list.length} items`
+              ? `All ${list.length} Verified Domestic Drops — showing ${list.length} items`
               : `${active.hint} — showing ${list.length} items`}
           </div>
 

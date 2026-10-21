@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import PrebuiltMockupRenderer from '@/components/PrebuiltMockupRenderer';
 import { useCart } from '@/lib/store/cart';
 import { useWishlist } from '@/lib/store/wishlist';
-import { formatPrice, computeDiscount, PET_META, bundles, getProduct } from '@/lib/data/products';
+import { formatPrice, computeDiscount, PET_META, bundles, getProduct, products } from '@/lib/data/products';
 import type { Product } from '@/lib/data/products';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { resolveProductImages } from '@/lib/data/product-gallery';
@@ -583,7 +583,19 @@ export function ProductClient({ product }: Props) {
   const hasColors = availableColors.length > 0;
   const [selectedColor, setSelectedColor] = useState<string>(() => availableColors[0] || '');
 
-  const initialSingleSize = product.sizes?.[0] || (isKidsApparel ? '0-12M' : firstIsApparel ? 'L' : firstIsMat ? '900x400mm' : firstIsMug ? '330ml' : 'L');
+  // Default selectedSize to 'L' (42" Chest) on all apparel products so 1-click buyers don't accidentally order XS (Directive 4)
+  const initialSingleSize = (() => {
+    if (isKidsApparel) return product.sizes?.[0] || '0-12M';
+    if (firstIsMat) return '900x400mm';
+    if (firstIsMug) return '330ml';
+    if (firstIsApparel) {
+      if (product.sizes?.includes('L')) return 'L';
+      if (product.sizes?.includes('M')) return 'M';
+      if (product.sizes?.[0]) return product.sizes[0];
+      return 'L';
+    }
+    return product.sizes?.[0] || 'L';
+  })();
   const [selectedSize, setSelectedSize] = useState<string>(initialSingleSize);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [sizeUnit, setSizeUnit] = useState<'in' | 'cm'>('in');
@@ -595,6 +607,8 @@ export function ProductClient({ product }: Props) {
   const searchParams = useSearchParams();
   const isCustomizeMode = searchParams ? searchParams.get('customize') === '1' : false;
   const isPrebuilt = Boolean(((product as any).isPrebuilt === true || (product as any).id?.startsWith('re-prebuilt-')) && !isCustomizeMode);
+  // Hide Step 2: Artwork & Personalization on all pre-designed drops unless ?customize=1 is present (Directive 4)
+  const shouldShowArtworkStep = isCustomizeMode;
 
   const isMultiBundle = isComboProduct && comboItems.length > 1;
   const colorStepNum = 1;
@@ -766,9 +780,14 @@ export function ProductClient({ product }: Props) {
   const titleLower = (displayTitle || '').toLowerCase();
   const idLower = (product.id || '').toLowerCase();
 
-  const isHoodieOrSweatshirt = titleLower.includes('hoodie') || titleLower.includes('sweatshirt') || titleLower.includes('jacket') || idLower.includes('hoodie');
+  const isVarsityJacket = /varsity|bomber|baseball jacket/i.test(titleLower + ' ' + idLower);
+  const isCrewneckSweatshirt = (/sweatshirt|crewneck/i.test(titleLower + ' ' + idLower)) && !titleLower.includes('hoodie') && !isVarsityJacket;
+  const isHoodie = (titleLower.includes('hoodie') || idLower.includes('hoodie')) && !isVarsityJacket;
+  const isPolo = /polo/i.test(titleLower + ' ' + idLower);
+  const isJersey = /jersey/i.test(titleLower + ' ' + idLower);
+  const isHoodieOrSweatshirt = isHoodie || isCrewneckSweatshirt || isVarsityJacket;
   const isCropTopOrPolySpandex = titleLower.includes('crop top') || titleLower.includes('aop') || idLower.includes('crop-top') || idLower.includes('tops-all-over-print') || titleLower.includes('poly-spandex') || titleLower.includes('skirt') || titleLower.includes('dress');
-  const isJerseyOrDryFit = titleLower.includes('jersey') || titleLower.includes('dry fit') || idLower.includes('jersey') || idLower.includes('dry-fit') || titleLower.includes('sports bra');
+  const isJerseyOrDryFit = isJersey || titleLower.includes('dry fit') || idLower.includes('jersey') || idLower.includes('dry-fit') || titleLower.includes('sports bra');
   const isDeskMat = titleLower.includes('desk') || titleLower.includes('pad') || titleLower.includes('mat') || idLower.includes('desk-mat') || idLower.includes('mouse-pad');
   const isSteelBottleOrTumbler = titleLower.includes('bottle') || titleLower.includes('tumbler') || titleLower.includes('sipper') || titleLower.includes('flask');
   const isDrinkware = titleLower.includes('mug') || isSteelBottleOrTumbler || idLower.includes('drinkware') || idLower.includes('mug');
@@ -852,10 +871,11 @@ export function ProductClient({ product }: Props) {
         }
   );
 
-  const relatedIds = bundles[product.id] ?? [];
-  const related = relatedIds
-    .map((id) => getProduct(id))
-    .filter((p): p is Product => Boolean(p));
+  const NOVELTY_REGEX = /rare-ember-button-badge|rare-ember-temporary-tattoo|button-badge|temporary-tattoo|button_badge|scrunchies|bow scrunchie|bookmark|balaclava|arm sleeves|basic t-shirt pc/i;
+  const relatedIds: string[] = bundles[product.id] ?? [];
+  const related: Product[] = (relatedIds.length > 0 ? relatedIds : (products || []).slice(0, 10).map((p: Product) => p.id))
+    .map((id: string) => getProduct(id))
+    .filter((p): p is Product => Boolean(p && p.id !== product.id && !NOVELTY_REGEX.test(`${p.id} ${p.title} ${p.slug || ''}`)));
 
   const sanitizeRetailCopy = (raw: string, fallbackText: string) => {
     let s = (raw || '')
@@ -865,9 +885,13 @@ export function ProductClient({ product }: Props) {
       .replace(/,?\s*order\s+as\s+a\s+Rare\s+Ember\s+premium[^\n.]*/gi, '')
       .replace(/,\s*blue\s*$/i, ', smooth blue ballpoint ink.')
       .replace(/,\s*a\s*z\s*$/i, ' with dual interior pockets.')
+      .replace(/\bprinting\s+using\.?$/i, 'precision DTF printing.')
+      .replace(/\bFeatures\s+s\.?$/i, 'Features reinforced double-needle stitching.')
+      .replace(/\bsublimation\s+pri\.?$/i, 'vibrant sublimation printing.')
+      .replace(/\band\s+fad\.?$/i, 'and fade-resistant durability.')
       .replace(/[-–—\s]+$/, '')
-      .replace(/,\s*(?:pr|pre|bio|and|with|for|privat|priva|con)$/i, '')
-      .replace(/\s+(?:bio|Rar|pr|as a Rar|privat|priva|con)$/i, '')
+      .replace(/,\s*(?:pr|pre|bio|and|with|for|privat|priva|con|fad|pri)$/i, '')
+      .replace(/\s+(?:bio|Rar|pr|as a Rar|privat|priva|con|fad|pri)$/i, '')
       .replace(/^[,.\s]+/, '')
       .trim();
 
@@ -893,6 +917,10 @@ export function ProductClient({ product }: Props) {
       if (isHomeTextile) return '180 GSM heavyweight poly-lycra cushion cover with concealed zipper and vibrant edge-to-edge archival sublimation print.';
       if (isBottomwear) return '280 GSM French Terry Cotton relaxed streetwear joggers with zippered utility pockets and pre-shrunk bio-wash softness.';
       if (isSteelBottleOrTumbler) return 'Double-wall vacuum insulated 304 stainless steel bottle with leak-proof cap, keeps cold for 24h or hot for 12h.';
+      if (isVarsityJacket) return '350 GSM Heavyweight Fleece with Contrast Sleeves, Ribbed Collar & Snap-Button Front.';
+      if (isPolo) return '220 GSM Super Combed Cotton Pique with Structured Collar & Button Placket.';
+      if (isCrewneckSweatshirt) return '320 GSM Super Combed French Terry Fleece Ribbed Crewneck Collar.';
+      if (isHoodie) return '380 GSM Heavyweight Combed Cotton Fleece with Double-Lined Structured Hood.';
       if (isHoodieOrSweatshirt) return '380 GSM Heavyweight French Terry Fleece with Archival DTF Screen Print.';
       if (isCropTopOrPolySpandex) return '220 GSM 4-Way Stretch Poly-Spandex with Archival All-Over Print.';
       if (isJerseyOrDryFit) return '180 GSM Quick-Dry Honeycomb Mesh with Embedded Sublimation Print.';
@@ -934,6 +962,18 @@ export function ProductClient({ product }: Props) {
       }
       if (isSteelBottleOrTumbler) {
         return 'Crafted from 304 food-grade stainless steel with double-wall vacuum insulation. Keeps your drinks ice-cold for 24 hours or steaming hot for 12 hours with a 100% leak-proof lid and scratch-resistant laser engraving.';
+      }
+      if (isVarsityJacket) {
+        return 'Authentic collegiate streetwear silhouette crafted in Tirupur with premium 350 GSM heavyweight fleece, contrasting sleeves, dual welt pockets, and heavy-duty snap buttons.';
+      }
+      if (isPolo) {
+        return 'Crafted from 220 GSM super combed cotton pique with a structured ribbed collar, two-button front placket, and clean regular streetwear fit for all-day comfort.';
+      }
+      if (isCrewneckSweatshirt) {
+        return 'Crafted in Tirupur with 320 GSM super combed cotton French Terry fleece. Zero hood for a clean boxy drape with durable derby ribbed collar, cuffs, and hem.';
+      }
+      if (isHoodie) {
+        return 'Crafted in Tirupur with premium 380 GSM combed cotton fleece, double-lined structured hood with matching drawcords, and archival DTF print execution.';
       }
       if (isHoodieOrSweatshirt) {
         return 'Crafted in Tirupur with premium 380 GSM combed cotton fleece and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
@@ -1062,10 +1102,49 @@ export function ProductClient({ product }: Props) {
         'Dispatched in Shock-Absorbent Anti-Impact Protective Packaging',
       ];
     }
-    if (isHoodieOrSweatshirt) {
+    if (isVarsityJacket) {
+      return [
+        '350 GSM Heavyweight Fleece • Contrast Sleeves • Ribbed Varsity Collar & Snap-Button Front',
+        'High-Density Archival Chest & Back Streetwear Execution',
+        'Dual Welt Front Handwarmer Pockets & Metal Snap Button Closure',
+        'Striped Derby Ribbed Anti-Sag Hem & Cuffs with Reinforced Stitching',
+        'Pre-Shrunk Silicone Soft-Wash Treated for Zero Shrinkage',
+        'Pan-India Tracked 2–4 Day Express Delivery via BlueDart & Delhivery',
+      ];
+    }
+    if (isPolo) {
+      return [
+        '220 GSM Super Combed Cotton Pique • Structured Polo Collar & Button Placket • Regular Fit',
+        'Reinforced Collar Band with 2-Button Front Placket',
+        'Breathable Honeycomb Pique Weave for Daily Smart-Casual Rotation',
+        'Pre-Shrunk & Colorfast Treated for 50+ Wash Longevity',
+        'Precision Double-Needle Sleeve and Bottom Hemming',
+        'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
+      ];
+    }
+    if (isCrewneckSweatshirt) {
+      return [
+        '320 GSM Super Combed French Terry Fleece • Ribbed Crewneck Collar',
+        'Heavyweight 100% Combed Cotton French Terry (Zero Hood, Clean Silhouette)',
+        'Derby Ribbed Anti-Sag Collar, Hem & Cuffs with Reinforced Stitching',
+        '1200 DPI High-Density Archival DTF Screen Print (50+ Wash Tested)',
+        'Pre-Shrunk Silicone Soft-Wash Treated for Zero Shrinkage',
+        'Pan-India Tracked 2–4 Day Express Delivery via BlueDart & Delhivery',
+      ];
+    }
+    if (isHoodie) {
       return [
         '380 GSM Heavyweight 100% Combed Cotton French Terry Fleece',
         'Double-Lined Structured Hood with Heavy-Duty Matching Drawcords',
+        'Derby Ribbed Anti-Sag Hem & Cuffs with Reinforced Stitching',
+        '1200 DPI High-Density Archival DTF Screen Print (50+ Wash Tested)',
+        'Pre-Shrunk Silicone Soft-Wash Treated for Zero Shrinkage',
+        'Pan-India Tracked 2–4 Day Express Delivery via BlueDart & Delhivery',
+      ];
+    }
+    if (isHoodieOrSweatshirt) {
+      return [
+        '380 GSM Heavyweight 100% Combed Cotton French Terry Fleece',
         'Derby Ribbed Anti-Sag Hem & Cuffs with Reinforced Stitching',
         '1200 DPI High-Density Archival DTF Screen Print (50+ Wash Tested)',
         'Pre-Shrunk Silicone Soft-Wash Treated for Zero Shrinkage',
@@ -1800,9 +1879,6 @@ export function ProductClient({ product }: Props) {
                       <span className="w-2 h-2 rounded-full bg-rose-500" /> Temporarily Out of Stock • Restocking Soon
                     </span>
                   )}
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-800 font-semibold border border-blue-500/20">
-                    <span>🛡️</span> 100% Genuine & Quality Tested
-                  </span>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-900 font-semibold border border-amber-500/20">
                     <span>🚚</span> 2–4 Days Express Pan-India
                   </span>
@@ -2029,7 +2105,7 @@ export function ProductClient({ product }: Props) {
                         const currentSpecs = activeItemIsKids ? KIDS_SIZE_SPECS : SIZE_SPECS;
                         return (
                           <>
-                            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 gap-1.5 sm:gap-2">
+                            <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
                               {currentSizeList.map((s) => {
                                 const isSelected = selectedSize === s;
                                 return (
@@ -2271,8 +2347,8 @@ export function ProductClient({ product }: Props) {
                   )}
                 </div>
 
-            {/* DYNAMIC STEP 3/2: TWO-MODE ARTWORK SELECTOR (PROGRESSIVE DISCLOSURE - ONLY IF CUSTOMIZING) */}
-            {!isPrebuilt && (
+            {/* DYNAMIC STEP 3/2: TWO-MODE ARTWORK SELECTOR (PROGRESSIVE DISCLOSURE - ONLY IF CUSTOMIZING VIA ?customize=1) */}
+            {shouldShowArtworkStep && (
             <div className="mt-5">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-black uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
@@ -2880,8 +2956,8 @@ export function ProductClient({ product }: Props) {
                   </button>
                 </div>
 
-                {/* SLEEK DARK CALLOUT CARD FOR PRE-BUILT PRODUCTS */}
-                {isPrebuilt && (
+                {/* SLEEK DARK CALLOUT CARD FOR PRE-BUILT / PRE-DESIGNED DROPS */}
+                {!isCustomizeMode && (
                   <div className="mt-4 p-4 rounded-2xl bg-[#0c0b0a] text-white border border-white/10 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3">
                     <div className="flex items-center gap-3 text-left">
                       <span className="text-2xl shrink-0">🎨</span>

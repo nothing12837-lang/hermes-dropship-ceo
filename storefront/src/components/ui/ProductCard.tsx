@@ -148,7 +148,23 @@ export default function ProductCard({
   const ctaLabel = isBundle ? 'ACQUIRE BUNDLE ⚡' : 'ORDER NOW ⚡';
 
   const inr = rawPrice ?? (parseFloat(price.replace(/[^0-9.]/g, '')) || 449);
-  const displayPrice = rawPrice ? geoFormatPrice(rawPrice) : price;
+  const displayPrice = rawPrice ? geoFormatPrice(rawPrice) : (price.startsWith('₹') ? price : geoFormatPrice(inr));
+
+  // Fabric badge mapping (Directive 4):
+  // Hoodies -> "380 GSM Heavy Fleece"
+  // Sweatshirts/Joggers -> "320 GSM Terry"
+  // Varsity Jackets -> "350 GSM Varsity"
+  // Jerseys -> "180 GSM Quick-Dry Mesh"
+  const itemSearch = `${cleanTitle} ${id} ${tag || ''}`.toLowerCase();
+  const fabricTag = (() => {
+    if (tag && (tag.includes('Trending') || tag.includes('PACK OF'))) return tag;
+    if (/varsity|bomber/i.test(itemSearch)) return '350 GSM Varsity';
+    if (/hoodie/i.test(itemSearch)) return '380 GSM Heavy Fleece';
+    if (/sweatshirt|crewneck|jogger|sweatpant/i.test(itemSearch)) return '320 GSM Terry';
+    if (/jersey|dryfit|dry fit/i.test(itemSearch)) return '180 GSM Quick-Dry Mesh';
+    if (/polo/i.test(itemSearch)) return '220 GSM Pique';
+    return tag || '240 GSM Combed Cotton';
+  })();
 
   // Ensure M.R.P. is ALWAYS strictly higher than selling price and formatted accurately
   const calculatedCompareInr = (() => {
@@ -178,7 +194,7 @@ export default function ProductCard({
     }
     add(id, 1, {
       title: cleanTitle,
-      price: Number((inr / 85).toFixed(2)),
+      price: inr,
       price_inr: inr,
       emoji,
       imageUrl: (resolvedSrc as string) || imageUrl,
@@ -311,15 +327,15 @@ export default function ProductCard({
             >
               ⚠️ Sold Out
             </span>
-          ) : tag ? (
+          ) : fabricTag ? (
             <span
               className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 z-10 text-[9px] sm:text-[10px] md:text-[11px] font-black px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-full uppercase tracking-wider backdrop-blur-md shadow-xs"
               style={{
-                background: tag.includes('Trending') ? 'var(--gradient-ember)' : 'rgba(255,255,255,0.95)',
-                color: tag.includes('Trending') ? '#fff' : '#1C1310',
+                background: fabricTag.includes('Trending') ? 'var(--gradient-ember)' : 'rgba(255,255,255,0.95)',
+                color: fabricTag.includes('Trending') ? '#fff' : '#1C1310',
               }}
             >
-              {tag}
+              {fabricTag}
             </span>
           ) : null}
 
@@ -346,9 +362,9 @@ export default function ProductCard({
             </span>
           )}
 
-          {/* Discount chip */}
+          {/* Discount chip: Hidden on mobile (< 640px) to prevent badge collision on 2-col grids */}
           {isInStock && calculatedDiscount > 0 && (
-            <span className="absolute bottom-1.5 right-1.5 sm:bottom-2.5 sm:right-2.5 text-[9px] sm:text-[10px] md:text-[11px] font-black px-1.5 py-0.5 sm:px-2 sm:py-0.5 md:px-2.5 md:py-1 rounded-md sm:rounded-full text-white shadow-md bg-gradient-to-r from-emerald-600 to-teal-600">
+            <span className="hidden sm:inline-block absolute bottom-1.5 right-1.5 sm:bottom-2.5 sm:right-2.5 text-[9px] sm:text-[10px] md:text-[11px] font-black px-1.5 py-0.5 sm:px-2 sm:py-0.5 md:px-2.5 md:py-1 rounded-md sm:rounded-full text-white shadow-md bg-gradient-to-r from-emerald-600 to-teal-600">
               −{calculatedDiscount}%
             </span>
           )}
@@ -358,7 +374,7 @@ export default function ProductCard({
           {isInStock ? (
             <div className="text-[10px] sm:text-[11px] font-semibold text-emerald-700 flex items-center gap-1 sm:gap-1.5 mb-1 sm:mb-1.5">
               <span className="live-dot w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
-              <span className="truncate">In Stock • 1-Click COD</span>
+              <span className="truncate">In Stock • 2–4d COD</span>
             </div>
           ) : (
             <div className="text-[10px] sm:text-[11px] font-bold text-rose-600 flex items-center gap-1 sm:gap-1.5 mb-1 sm:mb-1.5">

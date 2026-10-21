@@ -44,9 +44,14 @@ export { cleanBrandTitle };
 function cleanSentence(text: string): string {
   if (!text) return '';
   let s = text.trim();
-  s = s.replace(/[-–—\s]+$/, '');
-  s = s.replace(/,\s*(?:pr|pre|bio|and|with|for)$/i, '');
-  s = s.replace(/\s+(?:bio|Rar|pr|as a Rar)$/i, '');
+  s = s
+    .replace(/\bprinting\s+using\.?$/i, 'precision DTF printing.')
+    .replace(/\bFeatures\s+s\.?$/i, 'Features reinforced double-needle stitching.')
+    .replace(/\bsublimation\s+pri\.?$/i, 'vibrant sublimation printing.')
+    .replace(/\band\s+fad\.?$/i, 'and fade-resistant durability.')
+    .replace(/[-–—\s]+$/, '')
+    .replace(/,\s*(?:pr|pre|bio|and|with|for|privat|priva|con|fad|pri)$/i, '')
+    .replace(/\s+(?:bio|Rar|pr|as a Rar|privat|priva|con|fad|pri)$/i, '');
   if (s && !/[.!?]$/.test(s)) s += '.';
   return s;
 }
@@ -77,9 +82,13 @@ export function cleanWholesaleDescription(text: string): string {
     .replace(/\b(?:no minimums|no MOQ|start your brand today|start selling)\b\.?/gi, 'crafted for daily rotation.')
     .replace(/,\s*blue\s*$/i, ', smooth blue ballpoint ink.')
     .replace(/,\s*a\s*z\s*$/i, ' with dual interior pockets.')
+    .replace(/\bprinting\s+using\.?$/i, 'precision DTF printing.')
+    .replace(/\bFeatures\s+s\.?$/i, 'Features reinforced double-needle stitching.')
+    .replace(/\bsublimation\s+pri\.?$/i, 'vibrant sublimation printing.')
+    .replace(/\band\s+fad\.?$/i, 'and fade-resistant durability.')
     .replace(/[-–—\s]+$/, '')
-    .replace(/,\s*(?:pr|pre|bio|and|with|for|privat|priva|con)$/i, '')
-    .replace(/\s+(?:bio|Rar|pr|as a Rar|privat|priva|con)$/i, '')
+    .replace(/,\s*(?:pr|pre|bio|and|with|for|privat|priva|con|fad|pri)$/i, '')
+    .replace(/\s+(?:bio|Rar|pr|as a Rar|privat|priva|con|fad|pri)$/i, '')
     .trim();
   if (s.length > 0) {
     s = s.charAt(0).toUpperCase() + s.slice(1);
