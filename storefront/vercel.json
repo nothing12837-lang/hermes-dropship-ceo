@@ -1,10 +1,18 @@
-{
+﻿{
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "regions": ["bom1"],
   "crons": [
     {
       "path": "/api/fulfillment/retry",
       "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/agent/daily",
+      "schedule": "30 2 * * *"
+    },
+    {
+      "path": "/api/agent/weekly",
+      "schedule": "30 2 * * 1"
     }
   ]
 }
