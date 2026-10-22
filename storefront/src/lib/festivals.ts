@@ -160,6 +160,18 @@ export const EVERGREEN_COUPONS: Record<
     minOrder: 499,
     desc: '10% OFF on cart value above ₹499',
   },
+  AJAY400: {
+    type: 'flat',
+    value: 400,
+    minOrder: 659,
+    desc: "Founder Exclusive: Flat ₹400 OFF on Men's Full Sleeve T-Shirt (Original Factory Cost ₹259)",
+  },
+  FOUNDER400: {
+    type: 'flat',
+    value: 400,
+    minOrder: 659,
+    desc: "Founder Exclusive: Flat ₹400 OFF on Men's Full Sleeve T-Shirt (Original Factory Cost ₹259)",
+  },
   WELCOME10: {
     type: 'percentage',
     value: 10,
