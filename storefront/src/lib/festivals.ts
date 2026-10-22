@@ -163,14 +163,20 @@ export const EVERGREEN_COUPONS: Record<
   AJAY400: {
     type: 'flat',
     value: 400,
-    minOrder: 659,
-    desc: "Founder Exclusive: Flat ₹400 OFF on Men's Full Sleeve T-Shirt (Original Factory Cost ₹259)",
+    minOrder: 499,
+    desc: "Founder Exclusive: Flat ₹400 OFF on Men's Full Sleeve T-Shirt",
   },
   FOUNDER400: {
     type: 'flat',
     value: 400,
+    minOrder: 499,
+    desc: "Founder Exclusive: Flat ₹400 OFF on Men's Full Sleeve T-Shirt",
+  },
+  ORIGINALPRICE: {
+    type: 'flat',
+    value: 640,
     minOrder: 659,
-    desc: "Founder Exclusive: Flat ₹400 OFF on Men's Full Sleeve T-Shirt (Original Factory Cost ₹259)",
+    desc: "Founder Exclusive: Landed Factory Cost (Flat ₹640 OFF -> Final ₹259)",
   },
   WELCOME10: {
     type: 'percentage',
