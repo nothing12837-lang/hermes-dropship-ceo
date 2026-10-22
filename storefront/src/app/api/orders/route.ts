@@ -419,7 +419,11 @@ export async function POST(req: NextRequest) {
     if (isTestOrder(newOrder)) {
       console.log(`[Orders API] Order ${finalOrderId} identified as test/temp order. Skipping Qikink factory dispatch.`);
     } else if (isCod) {
-      console.log(`[Orders API] COD Order ${finalOrderId} safely held in pending_cod awaiting customer confirmation.`);
+      console.log(`[Orders API] Dispatching COD Order ${finalOrderId} to Qikink manufacturing hub.`);
+      void fulfillQikinkOrder(sb, finalOrderId, newOrder).then((res) => {
+        if (res.ok) console.log(`[Orders API] COD Order ${finalOrderId} transmitted to Qikink: ${res.qikinkOrderId}`);
+        else console.warn(`[Orders API] COD Order ${finalOrderId} Qikink dispatch failed: ${res.reason}`);
+      });
     } else {
       // Prepaid orders are NOT paid yet at this point (Razorpay has not
       // captured the payment). Dispatching here printed and shipped free
