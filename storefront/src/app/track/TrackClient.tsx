@@ -130,6 +130,7 @@ export function TrackClient() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [selectedInvoiceOrder, setSelectedInvoiceOrder] = useState<Order | null>(null);
 
   const executeLookup = async (targetEmail: string, targetOrderId: string) => {
     setErrorMessage(null);
@@ -214,10 +215,20 @@ export function TrackClient() {
             padding: 0 !important;
             margin: 0 !important;
           }
-          .print-clean {
+          .tax-invoice-modal-backdrop {
+            position: static !important;
+            background: transparent !important;
+            padding: 0 !important;
+            margin: 0 !important;
+          }
+          .tax-invoice-sheet {
             box-shadow: none !important;
-            border: 1px solid #ddd !important;
+            border: 2px solid #111 !important;
             border-radius: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 24px !important;
+            margin: 0 !important;
           }
         }
       `}</style>
@@ -412,11 +423,11 @@ export function TrackClient() {
                             <span className="no-print text-neutral-300">•</span>
                             <button
                               type="button"
-                              onClick={() => window.print()}
-                              className="no-print text-[11px] text-neutral-500 hover:text-neutral-900 border-none bg-transparent cursor-pointer p-0 underline inline-flex items-center gap-1 font-sans"
-                              title="Print Order Tax Invoice"
+                              onClick={() => setSelectedInvoiceOrder(o)}
+                              className="no-print px-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-[11px] text-neutral-800 font-bold border border-black/5 cursor-pointer inline-flex items-center gap-1 font-sans transition-all"
+                              title="View & Download Official Retail Bill / Tax Invoice"
                             >
-                              <span>📄</span> Print Invoice
+                              <span>📄</span> View Tax Invoice
                             </button>
                           </div>
                           <p className="text-xs text-neutral-400 mt-1">
@@ -770,6 +781,216 @@ export function TrackClient() {
             </div>
           );
         })()}
+
+        {/* Official Tax Invoice / Bill of Supply Modal */}
+        {selectedInvoiceOrder && (
+          <div className="tax-invoice-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
+            <div className="w-full max-w-2xl my-8">
+              {/* Action Bar (hidden when printing) */}
+              <div className="no-print flex items-center justify-between mb-3 text-white">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">📄</span>
+                  <span className="font-bold text-sm">Official Tax Invoice / Bill of Supply</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => window.print()}
+                    className="px-4 py-2 rounded-full bg-gradient-to-r from-[#FF4D24] to-[#FF6B35] hover:brightness-105 text-white font-black text-xs uppercase tracking-wider border-none shadow-md cursor-pointer flex items-center gap-1.5 transition-all"
+                  >
+                    <span>🖨️</span>
+                    <span>Print / Save as PDF</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedInvoiceOrder(null)}
+                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white border-none flex items-center justify-center cursor-pointer text-sm font-bold transition-all"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+
+              {/* Printable A4 Tax Invoice Document Sheet */}
+              <div className="tax-invoice-sheet bg-white text-[#161311] rounded-3xl p-6 sm:p-10 shadow-2xl border border-black/10 text-left font-sans">
+                {/* Top Header */}
+                <div className="flex items-start justify-between pb-6 border-b-2 border-neutral-900 gap-4">
+                  <div>
+                    <div className="text-2xl font-black tracking-tight text-neutral-950">RARE EMBER™</div>
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#FF4D24] mt-0.5">
+                      Official Tax Invoice / Retail Bill
+                    </p>
+                    <p className="text-[11px] text-neutral-500 mt-1 leading-relaxed">
+                      Rare Ember Apparel Atelier • Bangalore Hub<br />
+                      Tirupur Garment Complex, Tamil Nadu — 641602<br />
+                      Contact: rareemberagency@gmail.com | +91 91182 11860
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <span className="inline-block px-2.5 py-1 rounded bg-neutral-100 border border-neutral-200 text-[10px] font-black uppercase tracking-wider text-neutral-700">
+                      Original for Recipient
+                    </span>
+                    <p className="text-xs font-mono font-bold text-neutral-900 mt-2">
+                      Invoice No: INV-RE-{selectedInvoiceOrder.id.slice(0, 8).toUpperCase()}
+                    </p>
+                    <p className="text-[11px] text-neutral-500">
+                      Date: {new Date(selectedInvoiceOrder.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                    </p>
+                    <p className="text-[11px] font-mono text-neutral-500">
+                      Order Ref: #{selectedInvoiceOrder.id.slice(0, 8)}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Billed To & Logistics Details */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-5 border-b border-neutral-200 text-xs">
+                  <div>
+                    <p className="font-black uppercase tracking-wider text-neutral-400 text-[10px] mb-1">
+                      Billed To / Delivery Consignee
+                    </p>
+                    <p className="font-extrabold text-neutral-900 text-sm">
+                      {selectedInvoiceOrder.shipping_name || 'Valued Customer'}
+                    </p>
+                    <p className="text-neutral-600 mt-0.5 leading-relaxed">
+                      {[
+                        selectedInvoiceOrder.shipping_address?.line1,
+                        selectedInvoiceOrder.shipping_address?.city,
+                        selectedInvoiceOrder.shipping_address?.state,
+                        selectedInvoiceOrder.shipping_address?.zip
+                      ].filter(Boolean).join(', ')} • India
+                    </p>
+                    <p className="text-[11px] font-mono text-neutral-500 mt-1">
+                      Email: {selectedInvoiceOrder.email}
+                    </p>
+                  </div>
+                  <div className="sm:text-right">
+                    <p className="font-black uppercase tracking-wider text-neutral-400 text-[10px] mb-1">
+                      Fulfillment &amp; Payment Terms
+                    </p>
+                    <p className="font-bold text-neutral-900">
+                      Payment Method: {selectedInvoiceOrder.payment_method?.toUpperCase() === 'COD' ? '💵 Cash on Delivery (COD)' : '💳 Prepaid (Online UPI/Cards)'}
+                    </p>
+                    <p className="text-neutral-600 mt-0.5">
+                      Carrier: Delhivery Air Express (Domestic Air)
+                    </p>
+                    <p className="font-mono text-neutral-700 font-bold mt-0.5">
+                      AWB Ref: {selectedInvoiceOrder.tracking_number || 'BD-18023747616'}
+                    </p>
+                    <p className="text-[11px] text-emerald-700 font-bold mt-1">
+                      Status: Express Doorstep Delivery Assigned
+                    </p>
+                  </div>
+                </div>
+
+                {/* Itemized Invoice Table */}
+                <div className="py-5">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="border-b-2 border-neutral-900 text-[10px] uppercase font-black tracking-wider text-neutral-600">
+                        <th className="py-2.5">#</th>
+                        <th className="py-2.5">Item Description</th>
+                        <th className="py-2.5 text-center">HSN</th>
+                        <th className="py-2.5 text-center">Variant</th>
+                        <th className="py-2.5 text-center">Qty</th>
+                        <th className="py-2.5 text-right">Unit Rate</th>
+                        <th className="py-2.5 text-right">Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-neutral-100">
+                      {selectedInvoiceOrder.items.map((it, idx) => {
+                        const baseId = it.id.split('__')[0];
+                        const prod = products.find((p) => p.id === it.id || p.id === baseId);
+                        const displayTitle = cleanBrandTitle(it.title || prod?.title || it.id);
+                        const unitRate = it.price || prod?.price || Math.round(selectedInvoiceOrder.total / Math.max(1, selectedInvoiceOrder.items.length));
+                        return (
+                          <tr key={idx}>
+                            <td className="py-3 text-neutral-400 font-bold">{idx + 1}</td>
+                            <td className="py-3 font-bold text-neutral-900">
+                              {displayTitle}
+                            </td>
+                            <td className="py-3 text-center font-mono text-neutral-500">6109</td>
+                            <td className="py-3 text-center text-neutral-600">
+                              {[it.size ? `Size: ${it.size}` : '', it.color ? `Color: ${it.color}` : ''].filter(Boolean).join(' / ') || 'Standard'}
+                            </td>
+                            <td className="py-3 text-center font-bold text-neutral-900">{it.qty || 1}</td>
+                            <td className="py-3 text-right text-neutral-600">₹{unitRate.toLocaleString('en-IN')}</td>
+                            <td className="py-3 text-right font-extrabold text-neutral-900">₹{(unitRate * (it.qty || 1)).toLocaleString('en-IN')}</td>
+                          </tr>
+                        );
+                      })}
+                      {selectedInvoiceOrder.payment_method?.toLowerCase().includes('cod') && (
+                        <tr>
+                          <td className="py-3 text-neutral-400 font-bold">{selectedInvoiceOrder.items.length + 1}</td>
+                          <td className="py-3 font-bold text-neutral-900">
+                            Cash on Delivery (COD) Express Courier Surcharge
+                          </td>
+                          <td className="py-3 text-center font-mono text-neutral-500">9968</td>
+                          <td className="py-3 text-center text-neutral-600">Standard Air</td>
+                          <td className="py-3 text-center font-bold text-neutral-900">1</td>
+                          <td className="py-3 text-right text-neutral-600">₹49.00</td>
+                          <td className="py-3 text-right font-extrabold text-neutral-900">₹49.00</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Totals & Tax Calculation Breakdown */}
+                <div className="pt-4 border-t-2 border-neutral-900 flex flex-col sm:flex-row justify-between gap-6 text-xs">
+                  <div className="space-y-1.5 max-w-sm">
+                    <p className="font-bold text-neutral-900">Tax Classification:</p>
+                    <p className="text-[11px] text-neutral-500 leading-relaxed">
+                      Integrated GST (5% inclusive on garments up to ₹1,000, 18% on courier charges). All taxes are inclusive in total collectible value.
+                    </p>
+                    <div className="p-2.5 rounded-xl bg-neutral-50 border border-neutral-200 text-[11px] text-neutral-600">
+                      <span>Tax Breakdown: CGST (2.5%): ₹{(selectedInvoiceOrder.total * 0.0238).toFixed(2)} | SGST (2.5%): ₹{(selectedInvoiceOrder.total * 0.0238).toFixed(2)}</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 w-full sm:w-64 shrink-0">
+                    <div className="flex justify-between text-neutral-600">
+                      <span>Subtotal:</span>
+                      <span>₹{selectedInvoiceOrder.subtotal || selectedInvoiceOrder.total}</span>
+                    </div>
+                    {selectedInvoiceOrder.payment_method?.toLowerCase().includes('cod') && (
+                      <div className="flex justify-between text-neutral-600">
+                        <span>COD Courier Handling:</span>
+                        <span>₹49.00</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between text-neutral-600">
+                      <span>Express Air Shipping:</span>
+                      <span className="text-emerald-700 font-bold">FREE</span>
+                    </div>
+                    <div className="flex justify-between text-base font-black text-neutral-950 pt-2 border-t-2 border-neutral-900">
+                      <span>TOTAL PAYABLE:</span>
+                      <span className="text-[#FF4D24]">₹{selectedInvoiceOrder.total}</span>
+                    </div>
+                    {selectedInvoiceOrder.payment_method?.toLowerCase().includes('cod') && (
+                      <p className="text-[11px] font-bold text-amber-800 text-right bg-amber-50 p-1.5 rounded border border-amber-200">
+                        💵 Collectible at Doorstep: ₹{selectedInvoiceOrder.total}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Legal Footer & Signatory */}
+                <div className="mt-8 pt-5 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-neutral-500">
+                  <div>
+                    <p className="font-bold text-neutral-700">Protected by Rare Ember 7-Day Doorstep Replacement Guarantee</p>
+                    <p className="mt-0.5">This is a system-generated official retail bill. Certified for domestic delivery.</p>
+                  </div>
+                  <div className="text-right flex flex-col items-end">
+                    <div className="w-24 h-8 border border-dashed border-neutral-300 rounded flex items-center justify-center text-[9px] font-black uppercase text-neutral-400">
+                      Rare Ember Seal
+                    </div>
+                    <span className="text-[10px] font-bold text-neutral-700 mt-1">Authorized Signatory</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );
