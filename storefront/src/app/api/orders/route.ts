@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { clientIp, isValidOrderId, normalizeEmail, sanitizeCheckoutItems } from '@/lib/security/validation';
 import { notifyTelegramOrder } from '@/lib/notifications/telegram';
+import { sendOrderConfirmationEmail } from '@/lib/notifications/email';
 import { isAdmin } from '@/lib/security/auth';
 import { validateCouponCode } from '@/lib/festivals';
 import { products as fallbackCatalog, getProduct, enforcePriceFloor } from '@/lib/data/products';
@@ -417,6 +418,27 @@ export async function POST(req: NextRequest) {
       items: enrichedItems,
       address: newOrder.shipping_address,
     }).catch((e) => console.error('Telegram background alert error:', e));
+
+    // Automated Order Confirmation Email to Customer
+    void sendOrderConfirmationEmail({
+      orderId: finalOrderId,
+      email,
+      name: body.name,
+      total: chargedTotal,
+      paymentMethod,
+      items: enrichedItems.map((it: any) => ({
+        title: it.title,
+        qty: it.qty,
+        price: it.price,
+        size: it.size,
+        color: it.color,
+      })),
+      address: {
+        city: addr.city,
+        state: addr.state,
+        zip: addr.zip,
+      },
+    }).catch((e) => console.error('Customer email confirmation error:', e));
 
     // Automated Order Dispatch to Qikink (Tirupur hub)
     // ONLY dispatch genuine customer orders; test/temp orders are strictly blocked.

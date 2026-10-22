@@ -1065,6 +1065,39 @@ export default function CheckoutPage() {
               </div>
             </div>
 
+            {/* Express Doorstep Delivery & Tracking Guarantee */}
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-500/[0.08] via-emerald-500/[0.04] to-transparent border border-emerald-500/25 flex flex-wrap items-center justify-between gap-3 shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-800 flex items-center justify-center text-xl shrink-0">
+                  ⚡
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs font-black text-emerald-950 uppercase tracking-wider">
+                      Doorstep Delivery ETA
+                    </p>
+                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
+                      Delhivery Air Express
+                    </span>
+                  </div>
+                  <p className="text-sm font-extrabold text-neutral-900 mt-0.5">
+                    {(() => {
+                      const start = new Date();
+                      start.setDate(start.getDate() + 3);
+                      const end = new Date();
+                      end.setDate(end.getDate() + 5);
+                      return `${start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+                    })()}{' '}
+                    <span className="text-xs font-medium text-neutral-500">(3–5 Business Days)</span>
+                  </p>
+                </div>
+              </div>
+              <div className="text-[11px] font-bold text-neutral-600 flex items-center gap-1.5 bg-white/80 px-3 py-1.5 rounded-full border border-black/5">
+                <span>📲</span>
+                <span>SMS &amp; WhatsApp Tracking Alerts</span>
+              </div>
+            </div>
+
             {/* Step 2: Payment Method */}
             <div className="rounded-[1.75rem] bg-white border border-black/[0.06] p-6 md:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
               <div className="flex items-center gap-2.5 mb-5">
