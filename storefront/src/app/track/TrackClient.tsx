@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChapterHeading } from '@/components/ui/Story';
-import { formatPrice, products, cleanBrandTitle } from '@/lib/data/products';
+import { products, cleanBrandTitle } from '@/lib/data/products';
 import { useGeo } from '@/context/GeoContext';
 
 interface OrderItem {
@@ -13,6 +13,10 @@ interface OrderItem {
   qty: number;
   title?: string;
   price?: number;
+  imageUrl?: string;
+  size?: string;
+  color?: string;
+  selectedStyle?: string;
 }
 
 interface Order {
@@ -26,6 +30,13 @@ interface Order {
   status: string;
   payment_method?: string;
   shipping_name?: string | null;
+  shipping_address?: {
+    city?: string | null;
+    state?: string | null;
+    zip?: string | null;
+    country?: string | null;
+    line1?: string | null;
+  } | null;
   tracking_number: string | null;
   tracking_url: string | null;
   created_at: string;
@@ -57,17 +68,17 @@ function getStatusDetails(status: string, paymentMethod?: string) {
   }
   if (s === 'processing' || s === 'fulfilled') {
     return {
-      label: 'Picked & Packed 📦',
-      badgeBg: 'bg-blue-500/10 text-blue-900 border-blue-500/20',
+      label: 'In Production & Quality Check 🧵',
+      badgeBg: 'bg-indigo-500/10 text-indigo-900 border-indigo-500/20',
       stepIndex: 1,
       stageOneTitle: isCod ? 'Order Confirmed ⚡' : 'Payment Confirmed 💳',
-      stageOneDesc: isCod ? 'COD order placed.' : 'Prepaid transaction verified.',
-      icon: '📦',
+      stageOneDesc: isCod ? 'COD order placed & verified.' : 'Prepaid transaction verified.',
+      icon: '🧵',
     };
   }
   if (s === 'shipped' || s === 'in transit') {
     return {
-      label: 'In Transit with Courier 🚚',
+      label: 'Dispatched with Delhivery Air 🚚',
       badgeBg: 'bg-purple-500/10 text-purple-900 border-purple-500/20',
       stepIndex: 2,
       stageOneTitle: isCod ? 'Order Confirmed ⚡' : 'Payment Confirmed 💳',
@@ -95,6 +106,19 @@ function getStatusDetails(status: string, paymentMethod?: string) {
   };
 }
 
+function getEstimatedDeliveryDate(createdAt: string): string {
+  const d = new Date(createdAt);
+  if (isNaN(d.getTime())) return '3–5 Business Days';
+  const start = new Date(d);
+  start.setDate(start.getDate() + 3);
+  const end = new Date(d);
+  end.setDate(end.getDate() + 5);
+
+  const startStr = start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const endStr = end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  return `${startStr} – ${endStr}`;
+}
+
 export function TrackClient() {
   const { formatPrice: geoFormatPrice } = useGeo();
   const searchParams = useSearchParams();
@@ -102,6 +126,7 @@ export function TrackClient() {
   const [orderId, setOrderId] = useState('');
   const [looked, setLooked] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showSearchForm, setShowSearchForm] = useState(false);
   const [orders, setOrders] = useState<Order[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -138,6 +163,9 @@ export function TrackClient() {
         setErrorMessage(data.error || 'Unable to locate order tracking details.');
       } else {
         setOrders(data.orders ?? []);
+        if (data.orders && data.orders.length > 0) {
+          setShowSearchForm(false);
+        }
       }
     } catch {
       setOrders([]);
@@ -147,8 +175,6 @@ export function TrackClient() {
     }
   };
 
-  // Declared after `executeLookup` so the function is not referenced before
-  // it is initialised.
   useEffect(() => {
     const qEmail = searchParams.get('email');
     const qOrder = searchParams.get('orderId') || searchParams.get('order_id');
@@ -156,6 +182,8 @@ export function TrackClient() {
       if (qEmail) setEmail(qEmail);
       if (qOrder) setOrderId(qOrder);
       executeLookup(qEmail || '', qOrder || '');
+    } else {
+      setShowSearchForm(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
@@ -172,69 +200,126 @@ export function TrackClient() {
 
   return (
     <main className="page-top min-h-screen bg-[#FFFBF5] text-[#161311] py-8 md:py-12">
+      {/* Print-only stylesheet */}
+      <style jsx global>{`
+        @media print {
+          body {
+            background: white !important;
+            color: black !important;
+          }
+          header, footer, nav, button, .no-print {
+            display: none !important;
+          }
+          main {
+            padding: 0 !important;
+            margin: 0 !important;
+          }
+          .print-clean {
+            box-shadow: none !important;
+            border: 1px solid #ddd !important;
+            border-radius: 0 !important;
+          }
+        }
+      `}</style>
+
       <div className="max-w-3xl mx-auto px-4 md:px-6">
-        <ChapterHeading index="📍" label="Order tracking" title="Where is" accent="my order?" />
-        <p className="text-neutral-500 text-sm -mt-6 mb-8">
-          Enter your Order ID and registered Email for real-time live package tracking with door-to-door courier milestones.
+        <ChapterHeading index="📍" label="Real-Time Order Tracking" title="Where is" accent="my order?" />
+        <p className="text-neutral-500 text-sm -mt-6 mb-8 no-print">
+          Door-to-door courier tracking with live manufacturing milestones, carrier AWB, and doorstep dispatch updates.
         </p>
 
-        {/* Search Card */}
-        <div className="rounded-[1.75rem] bg-white border border-black/[0.06] p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)] mb-8">
-          <div className="flex flex-col sm:flex-row gap-3">
-            <input
-              value={orderId}
-              onChange={(e) => setOrderId(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleManualLookup()}
-              placeholder="Order ID (e.g. 6c7e6415…)"
-              className="flex-1 px-4 py-3.5 text-sm rounded-full border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all"
-            />
-            <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleManualLookup()}
-              placeholder="Registered Email (you@email.com)"
-              className="flex-1 px-4 py-3.5 text-sm rounded-full border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all"
-            />
+        {/* Collapsible Search Card or Compact Banner */}
+        {orders.length > 0 && !showSearchForm ? (
+          <div className="no-print mb-8 p-4 rounded-2xl bg-white border border-black/[0.06] flex items-center justify-between gap-3 shadow-sm">
+            <div className="flex items-center gap-2.5 text-xs text-neutral-600">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span>
+                Tracking active order for <strong className="text-neutral-900">{email}</strong>
+              </span>
+            </div>
             <button
-              onClick={handleManualLookup}
-              disabled={loading}
-              className="px-6 py-3.5 rounded-full font-black text-xs uppercase tracking-wider text-white bg-[#1d1d1f] hover:bg-black active:scale-95 transition-all cursor-pointer border-none shadow-md disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+              onClick={() => setShowSearchForm(true)}
+              className="text-xs font-bold text-[#FF4D24] hover:underline bg-transparent border-none cursor-pointer flex items-center gap-1"
             >
-              {loading ? 'Searching…' : '📍 Track Order →'}
+              <span>🔍</span> Track Another Order
             </button>
           </div>
+        ) : (
+          <div className="no-print rounded-[1.75rem] bg-white border border-black/[0.06] p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)] mb-8">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <input
+                value={orderId}
+                onChange={(e) => setOrderId(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleManualLookup()}
+                placeholder="Order ID (e.g. 7792e434…)"
+                className="flex-1 px-4 py-3.5 text-sm rounded-full border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all font-mono"
+              />
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleManualLookup()}
+                placeholder="Registered Email (you@email.com)"
+                className="flex-1 px-4 py-3.5 text-sm rounded-full border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all"
+              />
+              <button
+                onClick={handleManualLookup}
+                disabled={loading}
+                className="px-6 py-3.5 rounded-full font-black text-xs uppercase tracking-wider text-white bg-[#1d1d1f] hover:bg-black active:scale-95 transition-all cursor-pointer border-none shadow-md disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+              >
+                {loading ? 'Searching…' : '📍 Track Order →'}
+              </button>
+            </div>
 
-          <div className="mt-3.5 pt-3 border-t border-black/[0.04] flex items-center justify-between flex-wrap gap-2 text-[11px] text-neutral-500">
-            <span>💡 Need to test or preview tracking?</span>
-            <button
-              type="button"
-              onClick={() => {
-                setOrderId('RE-2026-BLUEDART');
-                setEmail('vip@rareember.shop');
-                setLooked(true);
-                setErrorMessage(null);
-                setOrders([
-                  {
-                    id: 'RE-2026-BLUEDART-8842',
-                    email: 'vip@rareember.shop',
-                    items: [{ id: 'rareember-heavyweight-oversized-graphic-tee', qty: 1, title: 'Rare Ember Heavyweight Oversized Graphic Tee (240 GSM)' }],
-                    subtotal: 799,
-                    shipping: 0,
-                    total: 799,
-                    status: 'shipped',
-                    payment_method: 'online',
-                    tracking_number: 'BLUEDART-AIR-782194012',
-                    tracking_url: 'https://www.bluedart.com',
-                    created_at: new Date(Date.now() - 36 * 3600 * 1000).toISOString(),
-                  },
-                ]);
-              }}
-              className="font-bold text-[#FF4D24] hover:underline cursor-pointer bg-transparent border-none p-0 inline-flex items-center gap-1"
-            >
-              <span>⚡</span> Preview Sample Live Courier Timeline →
-            </button>
+            <div className="mt-3.5 pt-3 border-t border-black/[0.04] flex items-center justify-between flex-wrap gap-2 text-[11px] text-neutral-500">
+              <span>💡 Need to test or preview tracking?</span>
+              <button
+                type="button"
+                onClick={() => {
+                  setOrderId('RE-2026-DELHIVERY');
+                  setEmail('vip@rareember.shop');
+                  setLooked(true);
+                  setErrorMessage(null);
+                  setShowSearchForm(false);
+                  setOrders([
+                    {
+                      id: '7792e434-7bf5-4ff4-9296-cf2f4c2af57f',
+                      email: 'aj************@gmail.com',
+                      items: [
+                        {
+                          id: 'qikink-32477737-mens-full-sleeve-t-shirt__size-M__color-Grey_Melange',
+                          qty: 1,
+                          title: "Men's Full Sleeve T-Shirt — Rare Ember Signature Graphic",
+                          price: 899,
+                          size: 'M',
+                          color: 'Grey Melange',
+                          imageUrl: 'https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_4.jpg',
+                        },
+                      ],
+                      subtotal: 499,
+                      shipping: 49,
+                      total: 548,
+                      status: 'processing',
+                      payment_method: 'cod',
+                      shipping_name: 'Ajay Rajbhar',
+                      shipping_address: {
+                        city: 'Bangalore',
+                        state: 'Karnataka',
+                        zip: '562107',
+                        country: 'India',
+                      },
+                      tracking_number: 'BD-18023747616',
+                      tracking_url: null,
+                      created_at: new Date(Date.now() - 6 * 3600 * 1000).toISOString(),
+                    },
+                  ]);
+                }}
+                className="font-bold text-[#FF4D24] hover:underline cursor-pointer bg-transparent border-none p-0 inline-flex items-center gap-1"
+              >
+                <span>⚡</span> Preview Sample Live Courier Timeline →
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Results Section */}
         {looked && (
@@ -262,27 +347,34 @@ export function TrackClient() {
                 {orders.map((o) => {
                   const meta = getStatusDetails(o.status, o.payment_method);
                   const isCod = o.status.toLowerCase().includes('cod') || o.payment_method === 'cod';
-                  
+                  const estimatedDelivery = getEstimatedDeliveryDate(o.created_at);
+
                   const timeline = [
                     {
                       title: meta.stageOneTitle,
-                      desc: meta.stageOneDesc,
+                      desc: isCod
+                        ? 'Cash on Delivery verified & queued on factory ledger.'
+                        : 'Prepaid transaction verified via SSL gateway.',
                       icon: isCod ? '💵' : '💳',
+                      label: 'Verified',
                     },
                     {
-                      title: 'Picked & Packed 📦',
-                      desc: 'Factory quality check complete. Packed in tamper-proof bubble mailer.',
-                      icon: '📦',
+                      title: 'In Production & Quality Check 🧵',
+                      desc: 'Garment blank pulled from warehouse. High-def DTF print applied & dual QA inspected.',
+                      icon: '🧵',
+                      label: 'Printing & QA',
                     },
                     {
                       title: 'Dispatched with Courier 🚚',
-                      desc: 'Carrier scanned package. Moving across national transit hubs.',
+                      desc: 'Packed in tamper-proof bubble mailer. Handed to Delhivery Air Express.',
                       icon: '🚚',
+                      label: 'Air Transit',
                     },
                     {
                       title: 'Delivered to Doorstep 🏠',
-                      desc: 'Package handed over. 7-Day Easy Return Guarantee activated.',
+                      desc: 'Handed over at doorstep. 7-Day Free Replacement Guarantee active.',
                       icon: '🏠',
+                      label: 'Doorstep',
                     },
                   ];
 
@@ -290,93 +382,120 @@ export function TrackClient() {
                     ? o.items.reduce((acc, curr) => acc + (Number(curr.qty) || 1), 0)
                     : 1;
 
+                  // Clean tracking number & external courier URL
+                  const rawAwb = (o.tracking_number || '').replace(/^BD-/, '').trim();
+                  const courierUrl = o.tracking_url && !o.tracking_url.endsWith('?awb=')
+                    ? o.tracking_url
+                    : rawAwb
+                    ? `https://www.delhivery.com/track/package/${rawAwb}`
+                    : null;
+
                   return (
                     <div
                       key={o.id}
-                      className="rounded-[1.75rem] bg-white border border-black/[0.06] p-6 md:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.04)]"
+                      className="print-clean rounded-[2rem] bg-white border border-black/[0.06] p-6 md:p-8 shadow-[0_4px_30px_rgba(0,0,0,0.04)]"
                     >
                       {/* Top Header of Card */}
                       <div className="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-black/[0.06]">
                         <div>
                           <div className="flex items-center gap-2">
-                            <h2 className="text-sm md:text-base font-extrabold text-neutral-900 tracking-tight">
+                            <h2 className="text-base md:text-lg font-black text-neutral-900 tracking-tight font-mono">
                               Order #{o.id.slice(0, 8)}…
                             </h2>
                             <button
                               onClick={() => copyToClipboard(o.id)}
-                              className="text-[11px] text-neutral-400 hover:text-neutral-900 border-none bg-transparent cursor-pointer p-0 underline"
+                              className="no-print text-[11px] text-neutral-400 hover:text-neutral-900 border-none bg-transparent cursor-pointer p-0 underline font-sans"
                               title="Copy Full Order ID"
                             >
                               {copiedId === o.id ? '✓ Copied' : 'Copy ID'}
                             </button>
-                            <span className="text-neutral-300">•</span>
+                            <span className="no-print text-neutral-300">•</span>
                             <button
                               type="button"
                               onClick={() => window.print()}
-                              className="text-[11px] text-neutral-500 hover:text-neutral-900 border-none bg-transparent cursor-pointer p-0 underline inline-flex items-center gap-1"
+                              className="no-print text-[11px] text-neutral-500 hover:text-neutral-900 border-none bg-transparent cursor-pointer p-0 underline inline-flex items-center gap-1 font-sans"
                               title="Print Order Tax Invoice"
                             >
                               <span>📄</span> Print Invoice
                             </button>
                           </div>
-                          <p className="text-xs text-neutral-400 mt-0.5">
+                          <p className="text-xs text-neutral-400 mt-1">
                             Placed on {new Date(o.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })} • {totalItems} item{totalItems === 1 ? '' : 's'} • {geoFormatPrice(o.total)}
                           </p>
                         </div>
 
                         {/* Status Badge */}
-                        <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border ${meta.badgeBg}`}>
+                        <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold border ${meta.badgeBg}`}>
                           <span className="w-2 h-2 rounded-full bg-current animate-pulse" />
                           <span>{meta.label}</span>
                         </div>
                       </div>
 
-                      {/* Items Preview */}
-                      {o.items && o.items.length > 0 && (
-                        <div className="py-4 border-b border-black/[0.06]">
-                          <p className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 mb-2.5">
-                            Purchased Items
+                      {/* Estimated Delivery Highlight Banner */}
+                      <div className="mt-5 p-4 rounded-2xl bg-gradient-to-r from-amber-500/[0.08] via-orange-500/[0.05] to-transparent border border-amber-500/20 flex flex-wrap items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-xl bg-amber-500/15 text-amber-700 flex items-center justify-center text-lg shrink-0">
+                            ⚡
+                          </div>
+                          <div>
+                            <p className="text-xs font-black text-amber-950 uppercase tracking-wider">
+                              Estimated Doorstep Delivery
+                            </p>
+                            <p className="text-sm font-extrabold text-neutral-900">
+                              {estimatedDelivery}{' '}
+                              <span className="text-xs font-medium text-neutral-500">(Domestic Express)</span>
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-[11px] font-bold text-amber-900 bg-amber-100/70 border border-amber-300/40 px-3 py-1 rounded-full">
+                          {isCod ? '💵 COD — Cash / UPI on Delivery' : '✓ 100% Prepaid & Insured'}
+                        </div>
+                      </div>
+
+                      {/* Connected Fulfillment Stepper (Responsive) */}
+                      <div className="pt-7">
+                        <div className="flex items-center justify-between mb-4">
+                          <p className="text-[11px] font-black uppercase tracking-wider text-neutral-400">
+                            Fulfillment Journey
                           </p>
-                          <div className="flex flex-wrap gap-2.5">
-                            {o.items.map((it, idx) => {
-                              const prod = products.find((p) => p.id === it.id);
+                          <span className="text-[11px] font-semibold text-neutral-400">
+                            Stage {meta.stepIndex + 1} of 4
+                          </span>
+                        </div>
+
+                        {/* Progress Line Bar (Desktop/Tablet) */}
+                        <div className="relative mb-6 hidden sm:block">
+                          <div className="absolute top-1/2 left-0 right-0 h-1 bg-neutral-200/80 -translate-y-1/2 rounded-full z-0" />
+                          <div
+                            className="absolute top-1/2 left-0 h-1 bg-[#FF4D24] -translate-y-1/2 rounded-full transition-all duration-700 z-0"
+                            style={{
+                              width: `${Math.min(100, (meta.stepIndex / 3) * 100)}%`,
+                            }}
+                          />
+                          <div className="relative z-10 flex justify-between">
+                            {timeline.map((step, idx) => {
+                              const isDone = idx < meta.stepIndex;
+                              const isCurrent = idx === meta.stepIndex;
                               return (
-                                <div
-                                  key={idx}
-                                  className="flex items-center gap-2.5 p-2 pr-3 rounded-2xl bg-neutral-50 border border-black/[0.04] text-xs"
-                                >
-                                  <div className="w-8 h-8 rounded-xl bg-white border border-black/5 flex items-center justify-center shrink-0 overflow-hidden relative text-base">
-                                    {prod?.image_url ? (
-                                      <Image
-                                        src={prod.image_url}
-                                        alt={prod.title}
-                                        fill
-                                        className="object-cover"
-                                      />
-                                    ) : (
-                                      <span>{prod?.emoji || '🛍️'}</span>
-                                    )}
-                                  </div>
-                                  <div className="min-w-0">
-                                    <p className="font-bold text-neutral-900 truncate max-w-[160px]">
-                                      {cleanBrandTitle(prod?.title || it.title || it.id)}
-                                    </p>
-                                    <p className="text-[10px] text-neutral-400">
-                                      Qty: {it.qty || 1}
-                                    </p>
+                                <div key={idx} className="flex flex-col items-center">
+                                  <div
+                                    className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all ${
+                                      isDone
+                                        ? 'bg-emerald-500 text-white shadow-sm ring-4 ring-emerald-500/20'
+                                        : isCurrent
+                                        ? 'bg-[#161311] text-white shadow-md ring-4 ring-[#FF4D24]/30 scale-110'
+                                        : 'bg-white text-neutral-400 border-2 border-neutral-200'
+                                    }`}
+                                  >
+                                    {isDone ? '✓' : step.icon}
                                   </div>
                                 </div>
                               );
                             })}
                           </div>
                         </div>
-                      )}
 
-                      {/* 4-Stage Visual Milestones */}
-                      <div className="pt-6">
-                        <p className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 mb-4">
-                          Fulfillment Progress
-                        </p>
+                        {/* Stepper Cards Grid */}
                         <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
                           {timeline.map((step, idx) => {
                             const isDone = idx < meta.stepIndex;
@@ -386,22 +505,28 @@ export function TrackClient() {
                                 key={idx}
                                 className={`p-4 rounded-2xl border transition-all ${
                                   isCurrent
-                                    ? 'bg-[#161311] text-white border-black/10 shadow-md ring-2 ring-[#FF4D24]/20'
+                                    ? 'bg-[#161311] text-white border-black/10 shadow-lg ring-2 ring-[#FF4D24]/30'
                                     : isDone
                                     ? 'bg-emerald-500/[0.04] border-emerald-500/20 text-emerald-950'
                                     : 'bg-neutral-50/50 border-black/[0.04] text-neutral-400 opacity-60'
                                 }`}
                               >
                                 <div className="flex items-center justify-between mb-2">
-                                  <span className="text-xl">{step.icon}</span>
+                                  <span className="text-xl sm:hidden">{step.icon}</span>
                                   {isDone && (
-                                    <span className="text-[10px] font-black uppercase tracking-wider text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full">
+                                    <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
                                       ✓ Done
                                     </span>
                                   )}
                                   {isCurrent && (
-                                    <span className="text-[10px] font-black uppercase tracking-wider text-[#FF4D24] bg-white/10 px-2 py-0.5 rounded-full">
+                                    <span className="text-[10px] font-black uppercase tracking-wider text-[#FF4D24] bg-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D24] animate-ping" />
                                       Active
+                                    </span>
+                                  )}
+                                  {!isDone && !isCurrent && (
+                                    <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+                                      Upcoming
                                     </span>
                                   )}
                                 </div>
@@ -417,32 +542,160 @@ export function TrackClient() {
                         </div>
                       </div>
 
-          {/* Tracking link bar */}
-                      {(o.tracking_number || o.tracking_url) && (
-                        <div className="mt-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex flex-wrap items-center justify-between gap-3">
-                          <div className="flex items-center gap-2">
-                            <span className="text-lg">🚚</span>
+                      {/* Purchased Items Section */}
+                      {o.items && o.items.length > 0 && (
+                        <div className="py-6 border-b border-black/[0.06]">
+                          <p className="text-[11px] font-black uppercase tracking-wider text-neutral-400 mb-3">
+                            Purchased Drop Items
+                          </p>
+                          <div className="flex flex-col gap-2.5">
+                            {o.items.map((it, idx) => {
+                              const baseId = it.id.split('__')[0];
+                              const prod = products.find((p) => p.id === it.id || p.id === baseId);
+                              const itemImage = it.imageUrl || prod?.image_url;
+                              const displayTitle = cleanBrandTitle(it.title || prod?.title || it.id);
+                              const itemPrice = it.price || prod?.price || Math.round(o.total / Math.max(1, o.items.length));
+
+                              return (
+                                <div
+                                  key={idx}
+                                  className="flex items-center gap-3.5 p-3 rounded-2xl bg-neutral-50/70 border border-black/[0.04]"
+                                >
+                                  <div className="w-14 h-14 rounded-xl bg-white border border-black/5 flex items-center justify-center shrink-0 overflow-hidden relative shadow-sm">
+                                    {itemImage ? (
+                                      <Image
+                                        src={itemImage}
+                                        alt={displayTitle}
+                                        fill
+                                        sizes="56px"
+                                        className="object-cover"
+                                      />
+                                    ) : (
+                                      <span className="text-2xl">{prod?.emoji || '🛍️'}</span>
+                                    )}
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="font-bold text-xs sm:text-sm text-neutral-900 truncate">
+                                      {displayTitle}
+                                    </p>
+                                    <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                                      {it.size && (
+                                        <span className="text-[10px] font-bold bg-white border border-black/10 px-2 py-0.5 rounded-md text-neutral-700">
+                                          Size: {it.size}
+                                        </span>
+                                      )}
+                                      {it.color && (
+                                        <span className="text-[10px] font-bold bg-white border border-black/10 px-2 py-0.5 rounded-md text-neutral-700">
+                                          Color: {it.color}
+                                        </span>
+                                      )}
+                                      <span className="text-[10px] font-semibold text-neutral-500">
+                                        Qty: {it.qty || 1}
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="text-right shrink-0">
+                                    <p className="text-xs sm:text-sm font-black text-neutral-900">
+                                      {geoFormatPrice(itemPrice * (it.qty || 1))}
+                                    </p>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Delivery Destination & Payment Breakdown Card */}
+                      {o.shipping_address && (
+                        <div className="py-6 border-b border-black/[0.06]">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {/* Shipping Destination */}
+                            <div className="p-4 rounded-2xl bg-neutral-50/70 border border-black/[0.04] space-y-1">
+                              <div className="flex items-center gap-1.5 text-neutral-400">
+                                <span className="text-sm">📍</span>
+                                <span className="text-[10px] font-black uppercase tracking-wider">
+                                  Delivery Destination
+                                </span>
+                              </div>
+                              <p className="text-xs font-bold text-neutral-900">
+                                {o.shipping_name || 'Valued Customer'}
+                              </p>
+                              <p className="text-xs text-neutral-600 leading-relaxed">
+                                {[o.shipping_address.city, o.shipping_address.state, o.shipping_address.zip].filter(Boolean).join(', ')} • India
+                              </p>
+                              <p className="text-[10px] text-emerald-700 font-semibold pt-1">
+                                ✓ Domestic Pin Serviceable via Delhivery Air
+                              </p>
+                            </div>
+
+                            {/* Payment Summary */}
+                            <div className="p-4 rounded-2xl bg-neutral-50/70 border border-black/[0.04] space-y-1">
+                              <div className="flex items-center gap-1.5 text-neutral-400">
+                                <span className="text-sm">💵</span>
+                                <span className="text-[10px] font-black uppercase tracking-wider">
+                                  Billing & Payment
+                                </span>
+                              </div>
+                              <div className="flex items-center justify-between text-xs pt-0.5">
+                                <span className="text-neutral-600">Payment Mode:</span>
+                                <span className="font-bold text-neutral-900">
+                                  {isCod ? 'Cash on Delivery (COD)' : 'Prepaid (SSL Secured)'}
+                                </span>
+                              </div>
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="text-neutral-600">Grand Total:</span>
+                                <span className="font-black text-neutral-900">{geoFormatPrice(o.total)}</span>
+                              </div>
+                              {isCod && (
+                                <p className="text-[10px] text-amber-800 font-semibold bg-amber-500/10 px-2 py-1 rounded-md mt-1">
+                                  💡 Pay {geoFormatPrice(o.total)} via Cash or UPI QR to delivery executive
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Courier Tracking Link Bar */}
+                      {(o.tracking_number || courierUrl) && (
+                        <div className="mt-6 p-4 md:p-5 rounded-2xl bg-gradient-to-r from-purple-500/[0.07] to-indigo-500/[0.04] border border-purple-500/20 flex flex-wrap items-center justify-between gap-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-purple-500/15 text-purple-700 flex items-center justify-center text-xl shrink-0">
+                              🚚
+                            </div>
                             <div>
-                              <p className="text-xs font-bold text-amber-950">Courier Airway Bill (AWB)</p>
-                              <p className="text-[11px] text-amber-800 font-mono font-semibold">
-                                {o.tracking_number || 'Live Courier Dispatch'}
+                              <div className="flex items-center gap-2">
+                                <p className="text-xs font-black text-purple-950 uppercase tracking-wider">
+                                  Carrier: Delhivery Air Express
+                                </p>
+                                <span className="text-[10px] font-bold text-purple-700 bg-purple-100 px-2 py-0.2 rounded-full">
+                                  Domestic Air
+                                </span>
+                              </div>
+                              <p className="text-xs text-neutral-700 font-mono font-bold mt-0.5">
+                                AWB / Reference: {o.tracking_number || rawAwb}
+                              </p>
+                              <p className="text-[11px] text-neutral-500 mt-0.5">
+                                Scans update in real-time as the package moves through courier air hubs.
                               </p>
                             </div>
                           </div>
-                          {o.tracking_url && (
+                          {courierUrl && (
                             <a
-                              href={o.tracking_url}
+                              href={courierUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="px-4 py-2 rounded-full bg-[#1d1d1f] hover:bg-black text-white text-xs font-bold no-underline transition-all"
+                              className="no-print px-5 py-2.5 rounded-full bg-[#1d1d1f] hover:bg-black text-white text-xs font-bold no-underline transition-all shadow-md shrink-0 inline-flex items-center gap-1.5"
                             >
-                              Open Live Courier Map 📍 →
+                              <span>Open Live Delhivery Tracker</span>
+                              <span>📍 →</span>
                             </a>
                           )}
                         </div>
                       )}
 
-                      {/* 7-Day Replacement CTA Button */}
+                      {/* 7-Day Free Replacement Guarantee Banner */}
                       <div className="mt-5 pt-4 border-t border-black/[0.06] flex items-center justify-between flex-wrap gap-3">
                         <div className="text-xs text-neutral-500 flex items-center gap-2">
                           <span>🛡️</span>
@@ -450,7 +703,7 @@ export function TrackClient() {
                         </div>
                         <Link
                           href={`/returns?order_id=${encodeURIComponent(o.id)}&email=${encodeURIComponent(o.email)}`}
-                          className="px-4 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-900 text-xs font-bold transition-all no-underline inline-flex items-center gap-1.5"
+                          className="no-print px-4 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-900 text-xs font-bold transition-all no-underline inline-flex items-center gap-1.5"
                         >
                           <span>🔄</span> Request Size Replacement or Issue Resolution →
                         </Link>
@@ -468,13 +721,13 @@ export function TrackClient() {
           const currentOrderId = orderId.trim() || (orders.length > 0 ? orders[0].id : '');
           const currentEmail = email.trim() || (orders.length > 0 ? orders[0].email : '');
           const orderMention = currentOrderId ? `Order #${currentOrderId}` : 'my order';
-          
+
           const waMessage = currentOrderId
             ? `Hi Rare Ember Atelier Concierge, I need urgent dispatch help regarding Order ID: ${currentOrderId}${currentEmail ? ` (${currentEmail})` : ''}. Please check my order status.`
             : 'Hi Rare Ember Atelier Concierge, I need urgent dispatch help regarding my order. Please check my status.';
-            
+
           const waUrl = `https://wa.me/919118211860?text=${encodeURIComponent(waMessage)}`;
-          
+
           const emailSubject = currentOrderId
             ? `Urgent Dispatch Help — Order ${currentOrderId}`
             : 'Urgent Dispatch Help — Rare Ember Order';
@@ -482,7 +735,7 @@ export function TrackClient() {
           const mailUrl = `mailto:rareemberagency@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
           return (
-            <div className="mt-8 p-6 rounded-3xl bg-gradient-to-br from-[#161311] to-[#26201c] text-white border border-white/10 shadow-xl">
+            <div className="no-print mt-8 p-6 md:p-8 rounded-3xl bg-gradient-to-br from-[#161311] to-[#26201c] text-white border border-white/10 shadow-xl">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="space-y-1">
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF4D24]/20 border border-[#FF4D24]/40 text-[#FF9A3D] text-[11px] font-black uppercase tracking-wider">

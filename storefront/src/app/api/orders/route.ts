@@ -96,7 +96,12 @@ export async function GET(req: NextRequest) {
       const isPublic = !adminAuthorized;
       const addr = (o.shipping_address as Record<string, unknown>) || {};
       const safeAddress = isPublic
-        ? { city: addr.city || null, state: addr.state || null, country: addr.country || 'India' }
+        ? {
+            city: addr.city || null,
+            state: addr.state || null,
+            zip: addr.zip || null,
+            country: addr.country || 'India',
+          }
         : o.shipping_address;
 
       return {
@@ -104,6 +109,7 @@ export async function GET(req: NextRequest) {
         email: isPublic ? String(o.user_email ?? '').replace(/(?<=.{2}).(?=[^@]*?@)/g, '*') : String(o.user_email ?? ''),
         user_email: isPublic ? undefined : String(o.user_email ?? ''),
         items: Array.isArray(o.items) ? o.items : [],
+        subtotal: Number(o.subtotal ?? o.total_amount ?? 0),
         total: Number(o.total_amount ?? 0),
         total_amount: Number(o.total_amount ?? 0),
         status: String(o.status ?? 'pending'),
