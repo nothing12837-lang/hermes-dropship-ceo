@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import Razorpay from 'razorpay';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { clientIp, normalizeEmail, sanitizeCheckoutItems, sanitizeMessage } from '@/lib/security/validation';
-import { products as staticCatalog, getProduct } from '@/lib/data/products';
+import { products as staticCatalog, getProduct, enforcePriceFloor } from '@/lib/data/products';
 import { validateCouponCode } from '@/lib/festivals';
 
 function getRazorpay(): Razorpay | null {
@@ -125,34 +125,24 @@ export async function POST(req: NextRequest) {
 
     for (const item of items) {
       const baseId = item.id.split('__')[0];
-      const dbProd = byId.get(baseId) || byId.get(item.id);
-      const staticProd = getProduct(baseId) || getProduct(item.id) || staticCatalog.find((p) => p.id === baseId || p.id === item.id || p.slug === baseId);
-      if (!dbProd && !staticProd) {
+      const rawProd = (byId.get(baseId) || byId.get(item.id) || getProduct(baseId) || getProduct(item.id) || staticCatalog.find((p) => p.id === baseId || p.id === item.id || p.slug === baseId)) as any;
+      if (!rawProd) {
         return NextResponse.json({ error: `Product "${item.id}" is no longer available in catalog` }, { status: 400 });
       }
+      const prod = enforcePriceFloor(rawProd);
 
       let unitPrice = 0;
       const isUsdFloat = (p: number) => p > 0 && p < 60 && !Number.isInteger(p);
-      if (dbProd) {
-        if (isIndia) {
-          if (dbProd.price_inr != null && Number(dbProd.price_inr) > 0) {
-            unitPrice = Number(dbProd.price_inr);
-          } else {
-            const p = Number(dbProd.price);
-            unitPrice = isUsdFloat(p) ? Math.round(p * 85) : Math.round(p);
-          }
+      if (isIndia) {
+        if (prod.price_inr != null && Number(prod.price_inr) > 0) {
+          unitPrice = Number(prod.price_inr);
         } else {
-          const p = Number(dbProd.price);
-          unitPrice = p >= 80 ? Number((p / 85).toFixed(2)) : p;
+          const p = Number(prod.price);
+          unitPrice = isUsdFloat(p) ? Math.round(p * 85) : Math.round(p);
         }
-      } else if (staticProd) {
-        if (isIndia) {
-          unitPrice = staticProd.price_inr != null && Number(staticProd.price_inr) > 0
-            ? Number(staticProd.price_inr)
-            : (isUsdFloat(staticProd.price) ? Math.round(staticProd.price * 85) : Math.round(staticProd.price));
-        } else {
-          unitPrice = staticProd.price >= 80 ? Number((staticProd.price / 85).toFixed(2)) : staticProd.price;
-        }
+      } else {
+        const p = Number(prod.price);
+        unitPrice = p >= 80 ? Number((p / 85).toFixed(2)) : p;
       }
       subtotal += unitPrice * item.qty;
     }
@@ -164,16 +154,25 @@ export async function POST(req: NextRequest) {
     if (body.coupon_code) {
       if (hasBundle) {
         console.log(`[Checkout API] Coupon ${body.coupon_code} disallowed on bundle cart.`);
+        return NextResponse.json({ error: 'Coupon codes cannot be applied to combo bundles.' }, { status: 400 });
       } else {
         const couponCheck = validateCouponCode(body.coupon_code, subtotal);
         if (couponCheck.valid) {
           discountAmount = couponCheck.discountAmount;
           verifiedCoupon = body.coupon_code.trim().toUpperCase();
+        } else {
+          return NextResponse.json({
+            error: couponCheck.error || `Coupon code "${body.coupon_code}" is invalid or minimum order requirement not met.`
+          }, { status: 400 });
         }
       }
+    } else if (body.discount && Number(body.discount) > 0) {
+      // Auto prepaid UPI discount (capped at ₹50 for margin protection)
+      const maxAllowableAutoDiscount = 50;
+      discountAmount = Math.min(Number(body.discount), maxAllowableAutoDiscount);
     }
 
-    const finalTotal = Math.max(0, subtotal - discountAmount);
+    const finalTotal = Math.max(1, subtotal - discountAmount);
 
     // Insert helper: tries the full schema.sql shape first, then falls back
     // to the minimal live-safe columns if migration 0002 hasn't run yet.

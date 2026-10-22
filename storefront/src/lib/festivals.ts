@@ -27,10 +27,10 @@ export const INDIAN_FESTIVALS: ScheduledFestival[] = [
     greeting: '🪔 Happy Navratri & Happy Diwali Grand Festive Sale! ✨',
     subheading: 'Celebrate the festive season of lights! 2–4 days express delivery across 19,000+ PIN codes with COD.',
     couponCode: 'DIWALI100',
-    discountDescription: 'Flat ₹100 OFF on bundle orders above ₹1,099',
+    discountDescription: 'Flat ₹100 OFF on orders above ₹499',
     discountType: 'flat',
     discountValue: 100,
-    minOrderValue: 1099,
+    minOrderValue: 499,
     badgeEmoji: '🪔',
     effect: 'fireworks',
     startMonth: 10, // Oct 1
@@ -127,13 +127,13 @@ export const EVERGREEN_COUPONS: Record<
   FIRST50: {
     type: 'flat',
     value: 50,
-    minOrder: 699,
-    desc: 'Flat ₹50 OFF on orders above ₹699',
+    minOrder: 499,
+    desc: 'Flat ₹50 OFF on orders above ₹499',
   },
   PREPAID30: {
     type: 'flat',
     value: 30,
-    minOrder: 449,
+    minOrder: 399,
     desc: 'Flat ₹30 Instant Savings for 100% Prepaid UPI Checkout',
   },
   DUO99: {
@@ -157,20 +157,20 @@ export const EVERGREEN_COUPONS: Record<
   EMBER: {
     type: 'percentage',
     value: 10,
-    minOrder: 999,
-    desc: '10% OFF on cart value above ₹999',
+    minOrder: 499,
+    desc: '10% OFF on cart value above ₹499',
   },
   WELCOME10: {
     type: 'percentage',
     value: 10,
-    minOrder: 999,
-    desc: '10% OFF on cart value above ₹999',
+    minOrder: 499,
+    desc: '10% OFF on cart value above ₹499',
   },
   FIRST10: {
     type: 'percentage',
     value: 10,
-    minOrder: 999,
-    desc: '10% OFF first purchase above ₹999',
+    minOrder: 499,
+    desc: '10% OFF on First Order above ₹499',
   },
 };
 

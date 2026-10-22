@@ -24,6 +24,17 @@ const INDIAN_STATES = [
   'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry'
 ];
 
+const SIZE_CHEST_MAP: Record<string, string> = {
+  XS: '36" Chest',
+  S: '38" Chest',
+  M: '40" Chest',
+  L: '42" Chest',
+  XL: '44" Chest',
+  '2XL': '46" Chest',
+  XXL: '46" Chest',
+  '3XL': '48" Chest',
+};
+
 export default function CheckoutPage() {
   const router = useRouter();
   const { market } = useGeo();
@@ -1205,13 +1216,14 @@ export default function CheckoutPage() {
                       {(d.size || (d as any).color || d.phoneModel || d.customText) && (
                         <div className="flex flex-wrap gap-1 mt-0.5 mb-0.5 text-[10px]">
                           {(d as any).color && (
-                            <span className="px-1.5 py-0.5 rounded bg-white/10 text-neutral-300 border border-white/15 font-semibold">
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-white/10 text-neutral-200 border border-white/15 font-semibold">
+                              <span className="w-2 h-2 rounded-full border border-white/20" style={{ backgroundColor: (d as any).color.toLowerCase() === 'white' ? '#FFFFFF' : (d as any).color.toLowerCase() === 'black' ? '#111111' : (d as any).color.toLowerCase().includes('navy') ? '#1E293B' : (d as any).color.toLowerCase().includes('grey') ? '#9CA3AF' : (d as any).color.toLowerCase().includes('red') ? '#DC2626' : (d as any).color.toLowerCase().includes('blue') ? '#2563EB' : (d as any).color.toLowerCase().includes('green') ? '#15803D' : '#888888' }} />
                               Color: {(d as any).color}
                             </span>
                           )}
                           {d.size && (
-                            <span className="px-1.5 py-0.5 rounded bg-white/10 text-neutral-300 border border-white/15 font-semibold">
-                              Size: {d.size}
+                            <span className="px-1.5 py-0.5 rounded bg-white/10 text-neutral-200 border border-white/15 font-semibold">
+                              Size: {d.size}{SIZE_CHEST_MAP[d.size] ? ` (${SIZE_CHEST_MAP[d.size]})` : ''}
                             </span>
                           )}
                           {d.phoneModel && (

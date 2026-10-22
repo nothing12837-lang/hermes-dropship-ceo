@@ -5,7 +5,7 @@ import { clientIp, isValidOrderId, normalizeEmail, sanitizeCheckoutItems } from 
 import { notifyTelegramOrder } from '@/lib/notifications/telegram';
 import { isAdmin } from '@/lib/security/auth';
 import { validateCouponCode } from '@/lib/festivals';
-import { products as fallbackCatalog, getProduct } from '@/lib/data/products';
+import { products as fallbackCatalog, getProduct, enforcePriceFloor } from '@/lib/data/products';
 import { fulfillQikinkOrder, isTestOrder } from '@/lib/fulfillment/qikink';
 
 // GET /api/orders?email=x&orderId=y — Public /track read path & Admin lookup
@@ -233,10 +233,11 @@ export async function POST(req: NextRequest) {
 
     for (const item of validatedItems) {
       const baseId = item.id.split('__')[0];
-      const prod = prodMap.get(baseId) || prodMap.get(item.id) || getProduct(baseId) || getProduct(item.id) || fallbackCatalog.find((f) => f.id === baseId || f.id === item.id || f.slug === baseId);
-      if (!prod) {
+      const rawProd = (prodMap.get(baseId) || prodMap.get(item.id) || getProduct(baseId) || getProduct(item.id) || fallbackCatalog.find((f) => f.id === baseId || f.id === item.id || f.slug === baseId)) as any;
+      if (!rawProd) {
         return NextResponse.json({ error: `Product "${item.id}" is not available in catalog` }, { status: 400 });
       }
+      const prod = enforcePriceFloor(rawProd);
       if ((prod as any).active === false || ((prod as any).stock != null && Number((prod as any).stock) <= 0)) {
         return NextResponse.json(
           { error: `"${prod.title}" is currently out of stock. Order cannot be placed.` },
@@ -281,16 +282,24 @@ export async function POST(req: NextRequest) {
     if (body.coupon_code) {
       if (hasBundle) {
         console.log(`[Orders API] Coupon ${body.coupon_code} disallowed on bundle order.`);
+        return NextResponse.json({ error: 'Coupon codes cannot be applied to combo bundles.' }, { status: 400 });
       } else {
         const couponCheck = validateCouponCode(body.coupon_code, calculatedSubtotal);
         if (couponCheck.valid) {
           discountAmount = couponCheck.discountAmount;
           verifiedCoupon = String(body.coupon_code).trim().toUpperCase();
+        } else {
+          return NextResponse.json({
+            error: couponCheck.error || `Coupon code "${body.coupon_code}" is invalid or order requirements not met.`
+          }, { status: 400 });
         }
       }
+    } else if (body.discount && Number(body.discount) > 0) {
+      const maxAllowableAutoDiscount = 50;
+      discountAmount = Math.min(Number(body.discount), maxAllowableAutoDiscount);
     }
 
-    const finalTotal = Math.max(0, calculatedSubtotal - discountAmount);
+    const finalTotal = Math.max(1, calculatedSubtotal - discountAmount);
 
     // Cash-on-Delivery handling fee.
     //

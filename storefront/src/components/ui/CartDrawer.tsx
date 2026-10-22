@@ -26,6 +26,17 @@ const ulVariants = {
   visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
 };
 
+const SIZE_CHEST_MAP: Record<string, string> = {
+  XS: '36" Chest',
+  S: '38" Chest',
+  M: '40" Chest',
+  L: '42" Chest',
+  XL: '44" Chest',
+  '2XL': '46" Chest',
+  XXL: '46" Chest',
+  '3XL': '48" Chest',
+};
+
 export default function CartDrawer() {
   const { items, isOpen, closeCart, setQty, remove, add } = useCart();
   const { market } = useGeo();
@@ -316,13 +327,14 @@ export default function CartDrawer() {
                           {(d.size || d.color || d.phoneModel || d.customText || (d as any).customImageName || (d as any).customImage) && (
                             <div className="flex flex-wrap gap-1 mt-1 text-[11px]">
                               {d.color && (
-                                <span className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-neutral-900 dark:text-neutral-100 border border-black/10 dark:border-white/10 font-bold">
+                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-neutral-900 dark:text-neutral-100 border border-black/10 dark:border-white/10 font-bold">
+                                  <span className="w-2 h-2 rounded-full border border-black/20" style={{ backgroundColor: d.color.toLowerCase() === 'white' ? '#FFFFFF' : d.color.toLowerCase() === 'black' ? '#111111' : d.color.toLowerCase().includes('navy') ? '#1E293B' : d.color.toLowerCase().includes('grey') ? '#9CA3AF' : d.color.toLowerCase().includes('red') ? '#DC2626' : d.color.toLowerCase().includes('blue') ? '#2563EB' : d.color.toLowerCase().includes('green') ? '#15803D' : '#888888' }} />
                                   Color: {d.color}
                                 </span>
                               )}
                               {d.size && (
                                 <span className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-neutral-900 dark:text-neutral-100 border border-black/10 dark:border-white/10 font-bold">
-                                  Size: {d.size}
+                                  Size: {d.size}{SIZE_CHEST_MAP[d.size] ? ` (${SIZE_CHEST_MAP[d.size]})` : ''}
                                 </span>
                               )}
                               {d.phoneModel && (
@@ -342,6 +354,9 @@ export default function CartDrawer() {
                               )}
                             </div>
                           )}
+                          <div className="flex items-center gap-1 text-[10px] text-emerald-700 dark:text-emerald-400 font-bold mt-1">
+                            <span>🛡️ 7-Day Size Replacement Guarantee</span>
+                          </div>
                           <p className="text-ember font-extrabold mt-1">
                             {formatCartPrice(getItemPrice((d as any).product))}
                           </p>

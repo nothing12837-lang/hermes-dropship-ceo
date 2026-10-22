@@ -309,6 +309,15 @@ export function TrackClient() {
                             >
                               {copiedId === o.id ? '✓ Copied' : 'Copy ID'}
                             </button>
+                            <span className="text-neutral-300">•</span>
+                            <button
+                              type="button"
+                              onClick={() => window.print()}
+                              className="text-[11px] text-neutral-500 hover:text-neutral-900 border-none bg-transparent cursor-pointer p-0 underline inline-flex items-center gap-1"
+                              title="Print Order Tax Invoice"
+                            >
+                              <span>📄</span> Print Invoice
+                            </button>
                           </div>
                           <p className="text-xs text-neutral-400 mt-0.5">
                             Placed on {new Date(o.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })} • {totalItems} item{totalItems === 1 ? '' : 's'} • {geoFormatPrice(o.total)}
