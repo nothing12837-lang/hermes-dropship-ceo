@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { notifyTelegramCustomLead } from '@/lib/notifications/telegram';
+import { checkRateLimit } from '@/lib/security/rate-limit';
+import { clientIp } from '@/lib/security/validation';
 
 export const runtime = 'nodejs';
 
@@ -27,6 +29,12 @@ export async function GET() {
 // POST /api/custom-drops
 // Body: { orgName, contactName, phone, quantity, productType, eventDate, estimatedBudget }
 export async function POST(req: NextRequest) {
+  const ip = clientIp(req.headers);
+  const rl = checkRateLimit(`custom_drops:${ip}`, 5, 600_000);
+  if (!rl.allowed) {
+    return NextResponse.json({ ok: false, error: 'Too many quote requests. Please wait a few minutes or reach out directly on WhatsApp.' }, { status: 429 });
+  }
+
   try {
     const body = (await req.json().catch(() => ({}))) as {
       orgName?: string;

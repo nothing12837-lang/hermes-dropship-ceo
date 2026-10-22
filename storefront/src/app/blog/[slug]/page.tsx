@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { blogPosts } from '@/lib/data/content';
@@ -11,6 +12,25 @@ function isAllowedBlog(p: { slug?: string; title?: string; category?: string; ex
 
 export function generateStaticParams() {
   return blogPosts.filter(isAllowedBlog).map((b) => ({ slug: b.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const post = blogPosts.find((b) => b.slug === slug);
+  if (!post) {
+    return {
+      title: 'Journal & Stories | Rare Ember',
+    };
+  }
+  return {
+    title: `${post.title} | Rare Ember Journal`,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: 'article',
+    },
+  };
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {

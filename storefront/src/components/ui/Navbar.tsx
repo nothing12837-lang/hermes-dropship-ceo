@@ -10,25 +10,26 @@ import { useWishlist } from '@/lib/store/wishlist';
 import SmartSearch from './SmartSearch';
 import { supabase } from '@/lib/supabase-client';
 import { useGeo } from '@/context/GeoContext';
-import FestiveEffects from './FestiveEffects';
 
 const links = [
-  { href: '/shop', label: 'Shop' },
-  { href: '/#value-bundles', label: 'Bundles (Pack of 2 & 3) ⚡' },
+  { href: '/shop', label: 'Catalog' },
+  { href: '/shop?cat=mens-printed', label: 'Graphic Drops' },
+  { href: '/custom-drops', label: 'Custom Studio' },
   { href: '/bulk-orders', label: 'Bulk Orders' },
-  { href: '/support', label: 'Support 🎫' },
-  { href: '/track', label: 'Track' },
+  { href: '/track', label: 'Tracking' },
 ];
 
 const drawerLinks = [
   { href: '/', label: 'Home' },
-  { href: '/shop', label: 'Shop All Drops' },
-  { href: '/#value-bundles', label: '⚡ Pack of 2 & 3 Bundles' },
-  { href: '/bulk-orders', label: '🏭 Bulk & Factory Merch' },
-  { href: '/custom-drops', label: '🎨 Custom Design Studio' },
-  { href: '/support', label: '🎫 Help Center (12h SLA)' },
-  { href: '/track', label: '📦 Track Order' },
-  { href: '/wishlist', label: '❤️ Wishlist' },
+  { href: '/shop', label: 'All Catalog' },
+  { href: '/shop?cat=mens-printed', label: 'Graphic Streetwear' },
+  { href: '/shop?cat=blanks', label: 'Essential Blanks' },
+  { href: '/custom-drops', label: 'Custom Studio' },
+  { href: '/bulk-orders', label: 'Bulk & Factory Merch' },
+  { href: '/track', label: 'Track Order' },
+  { href: '/returns', label: '7-Day Replacements' },
+  { href: '/support', label: 'Customer Support' },
+  { href: '/wishlist', label: 'Saved Items' },
 ];
 
 export default function Navbar() {
@@ -81,142 +82,107 @@ export default function Navbar() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-[100]">
-        {/* Festive particles disabled for clean streetwear aesthetic */}
-
-        {/* Main bar */}
+        {/* Main Bar */}
         <div
-          className="glass-strong h-16 px-4 md:px-8 flex items-center gap-4 md:gap-8 transition-all duration-500 relative"
+          className="glass-strong h-16 px-4 md:px-8 flex items-center gap-4 md:gap-8 transition-all duration-300 relative border-b border-black/[0.08]"
           style={{
-            boxShadow: scrolled ? '0 12px 40px rgba(48,26,12,0.10)' : 'none',
+            boxShadow: scrolled ? '0 4px 20px rgba(18,16,14,0.06)' : 'none',
           }}
         >
-          {/* Gradient hairline */}
-          <div
-            aria-hidden
-            className="absolute left-0 right-0 bottom-0 h-[2px] opacity-80"
-            style={{
-              background:
-                'linear-gradient(90deg, transparent, rgba(255,77,36,0.65) 22%, rgba(247,183,51,0.75) 50%, rgba(232,36,75,0.6) 78%, transparent)',
-              opacity: scrolled ? 1 : 0.35,
-              transition: 'opacity 500ms ease',
-            }}
-          />
-
+          {/* Brand Logo & Name */}
           <Link
             href="/"
-            className="no-underline shrink-0 flex items-center gap-2.5 font-display text-2xl tracking-tight transition-transform active:scale-95 whitespace-nowrap group"
+            className="no-underline shrink-0 flex items-center gap-2.5 transition-transform active:scale-95 whitespace-nowrap group"
           >
-            <span className="relative flex items-center justify-center">
-              <Image
-                src="/flame-icon.png"
-                alt="RareEmber"
-                width={28}
-                height={28}
-                className="object-contain shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6"
-                priority
-              />
-              <span
-                aria-hidden
-                className="absolute -inset-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-md"
-                style={{ background: 'radial-gradient(circle, rgba(255,77,36,0.55), transparent 70%)' }}
-              />
-            </span>
-            <span className="whitespace-nowrap font-bold text-text-primary tracking-tight">
+            <Image
+              src="/flame-icon.png"
+              alt="Rare Ember"
+              width={26}
+              height={26}
+              className="object-contain shrink-0 transition-transform duration-300 group-hover:scale-105"
+              priority
+            />
+            <span className="whitespace-nowrap font-black text-lg md:text-xl text-[#12100E] tracking-tight">
               Rare Ember
             </span>
           </Link>
 
-          <div className="hidden lg:flex flex-1 max-w-[420px]">
+          {/* Desktop Search */}
+          <div className="hidden lg:flex flex-1 max-w-[380px]">
             <SmartSearch />
           </div>
 
-          <nav className="hidden lg:flex gap-7 text-sm font-semibold ml-auto">
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex gap-6 text-[13px] font-bold ml-auto text-neutral-800">
             {links.map((l) => (
               <Link
                 key={l.href + l.label}
                 href={l.href}
-                className="text-text-primary/90 no-underline hover:text-ember transition-colors py-1 link-underline"
+                className="text-[#12100E]/80 no-underline hover:text-[#FF4D24] transition-colors py-1 link-underline"
               >
                 {l.label}
               </Link>
             ))}
           </nav>
 
-          <div className="flex gap-2.5 items-center ml-auto lg:ml-0 shrink-0">
-            <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.94 }}>
-              <Link
-                href="/wishlist"
-                className="w-10 h-10 rounded-full border border-black/[0.07] bg-white/85 backdrop-blur-md hidden sm:flex items-center justify-center no-underline text-base relative shadow-xs hover:border-ember/50 hover:bg-white active:scale-95 transition-all"
-                aria-label="Wishlist"
-              >
-                <motion.span key={wishCount} initial={wishCount ? { scale: 0.5 } : false} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 14 }}>
-                  ♡
-                </motion.span>
-                {wishCount > 0 && (
-                  <motion.span
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ type: 'spring', stiffness: 500, damping: 16 }}
-                    className="absolute -top-1 -right-1 bg-gradient-ember text-white text-[0.65rem] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-md"
-                  >
-                    {wishCount}
-                  </motion.span>
-                )}
-              </Link>
-            </motion.div>
+          {/* Right Action Icons */}
+          <div className="flex gap-2 sm:gap-2.5 items-center ml-auto lg:ml-0 shrink-0">
+            {/* Wishlist Link */}
+            <Link
+              href="/wishlist"
+              className="w-9 h-9 rounded-lg border border-black/10 bg-white/90 hidden sm:flex items-center justify-center no-underline text-sm relative hover:border-[#FF4D24] transition-colors"
+              aria-label="Wishlist"
+            >
+              <span>♡</span>
+              {wishCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-[#FF4D24] text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">
+                  {wishCount}
+                </span>
+              )}
+            </Link>
 
-            <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.94 }}>
-              <Link
-                href={accountLink}
-                aria-label={session ? 'Profile' : 'Login'}
-                className={
-                  session
-                    ? 'w-10 h-10 rounded-full btn-ink hidden sm:flex items-center justify-center no-underline text-base'
-                    : 'text-sm font-semibold no-underline text-text-primary hidden sm:block px-4 py-2 rounded-full border border-black/[0.07] bg-white/85 backdrop-blur-md hover:border-ember/50 hover:text-ember active:scale-95 transition-all'
-                }
-              >
-                {session ? '👤' : 'Login'}
-              </Link>
-            </motion.div>
+            {/* Account / Login */}
+            <Link
+              href={accountLink}
+              aria-label={session ? 'Profile' : 'Login'}
+              className="text-xs font-bold no-underline text-[#12100E] hidden sm:block px-3 py-1.5 rounded-lg border border-black/10 bg-white/90 hover:border-black/30 transition-colors"
+            >
+              {session ? 'Account' : 'Sign In'}
+            </Link>
 
+            {/* Market Switcher */}
             <button
               onClick={() => {
                 const next = market === 'IN' ? 'GLOBAL' : 'IN';
                 setMarket(next);
                 router.refresh();
               }}
-              title={`Switch Market: Currently ${market === 'IN' ? 'India (INR)' : 'USA / Global (USD)'}`}
-              className="text-xs font-semibold px-3 py-1.5 rounded-full border border-black/[0.07] bg-white/85 backdrop-blur-md text-text-primary flex items-center gap-2 cursor-pointer shadow-xs hover:border-emerald-400/60 active:scale-95 transition-all"
+              title={`Market: ${market === 'IN' ? 'India (INR)' : 'Global (USD)'}`}
+              className="text-xs font-bold px-2.5 py-1.5 rounded-lg border border-black/10 bg-white/90 text-[#12100E] flex items-center gap-1.5 cursor-pointer hover:border-black/30 transition-colors"
             >
-              <span className="live-dot w-2 h-2 rounded-full bg-emerald-500 text-emerald-500" />
-              <span>{market === 'IN' ? '🇮🇳 INR' : '🇺🇸 USD'}</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span>{market === 'IN' ? 'INR (₹)' : 'USD ($)'}</span>
             </button>
 
-            <motion.button
+            {/* Cart Trigger */}
+            <button
               onClick={openCart}
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              className={`relative text-sm font-black px-5 py-2.5 rounded-full border-none cursor-pointer transition-all ${
+              className={`relative text-xs font-black px-4 py-2 rounded-lg cursor-pointer transition-all flex items-center gap-1.5 ${
                 count > 0 ? 'btn-ember' : 'btn-ink'
               }`}
             >
-              <span className="relative z-10 flex items-center gap-1.5">
-                Bag
-                <motion.span
-                  key={count}
-                  initial={{ scale: 0.4, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ type: 'spring', stiffness: 520, damping: 15 }}
-                  className="min-w-[22px] h-[22px] px-1 rounded-full bg-white/25 border border-white/40 text-[11px] font-black flex items-center justify-center"
-                >
+              <span>Bag</span>
+              {count > 0 && (
+                <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-white text-[#FF4D24] text-[10px] font-black flex items-center justify-center">
                   {count}
-                </motion.span>
-              </span>
-            </motion.button>
+                </span>
+              )}
+            </button>
 
+            {/* Mobile Menu Hamburger */}
             <button
               onClick={() => setMenuOpen(true)}
-              className="w-10 h-10 rounded-full border border-black/[0.07] bg-white/85 backdrop-blur-md cursor-pointer text-base lg:hidden flex items-center justify-center hover:border-ember/50 active:scale-95 transition-all"
+              className="w-9 h-9 rounded-lg border border-black/10 bg-white/90 cursor-pointer text-sm lg:hidden flex items-center justify-center hover:border-black/30 transition-colors"
               aria-label="Open menu"
             >
               ☰
@@ -224,12 +190,13 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile search */}
-        <div className="glass-strong px-4 pb-2.5 lg:hidden">
+        {/* Mobile Search Input */}
+        <div className="glass-strong px-3 py-2 lg:hidden border-b border-black/[0.08]">
           <SmartSearch />
         </div>
       </header>
 
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {menuOpen && (
           <>
@@ -237,73 +204,56 @@ export default function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="fixed inset-0 z-[199] bg-black/50 backdrop-blur-[3px]"
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-[199] bg-black/60 backdrop-blur-xs"
               onClick={() => setMenuOpen(false)}
             />
             <motion.aside
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'spring', stiffness: 300, damping: 32 }}
-              className="fixed top-0 right-0 bottom-0 w-[min(340px,88vw)] z-[200] shadow-2xl flex flex-col rounded-l-3xl overflow-hidden relative"
-              style={{ background: 'var(--gradient-night)' }}
+              transition={{ type: 'spring', stiffness: 320, damping: 32 }}
+              className="fixed top-0 right-0 bottom-0 w-[min(320px,85vw)] z-[200] shadow-2xl flex flex-col bg-[#12100E] text-white overflow-hidden"
             >
-              <div aria-hidden className="absolute inset-0 overflow-hidden grain pointer-events-none">
-                <span className="aurora-blob" style={{ width: 240, height: 240, top: -70, right: -70, background: 'rgba(255,77,36,0.4)' }} />
-                <span className="aurora-blob aurora-blob-c" style={{ width: 200, height: 200, bottom: 40, left: -80, background: 'rgba(247,183,51,0.28)' }} />
-              </div>
-
-              <div className="p-5 flex justify-between items-center relative z-10">
-                <span className="font-display text-2xl flex items-center gap-2 text-white">
-                  <Image src="/flame-icon.png" alt="Rare Ember" width={24} height={24} className="object-contain" />
+              <div className="p-4 flex justify-between items-center border-b border-white/10">
+                <span className="font-black text-lg flex items-center gap-2">
+                  <Image src="/flame-icon.png" alt="Rare Ember" width={22} height={22} className="object-contain" />
                   <span>Rare Ember</span>
                 </span>
                 <button
                   onClick={() => setMenuOpen(false)}
-                  className="w-10 h-10 rounded-full border border-white/15 bg-white/10 text-white cursor-pointer text-base backdrop-blur-md hover:border-ember/60 hover:rotate-90 transition-all"
+                  className="w-8 h-8 rounded-lg border border-white/15 bg-white/5 text-white/80 cursor-pointer text-xs hover:bg-white/15 transition-all flex items-center justify-center"
                   aria-label="Close menu"
                 >
                   ✕
                 </button>
               </div>
 
-              <nav className="flex flex-col p-3 gap-1 relative z-10">
-                {drawerLinks.map((item, i) => (
-                  <motion.div
-                    key={item.label}
-                    initial={{ opacity: 0, x: 40 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.08 + i * 0.055, ease: [0.16, 1, 0.3, 1] }}
-                  >
-                    <Link
-                      href={item.href}
-                      onClick={() => setMenuOpen(false)}
-                      className="text-white/85 no-underline py-3.5 px-4 font-display text-2xl hover:text-[#FF9A3D] transition-colors block"
-                    >
-                      {item.label}
-                    </Link>
-                  </motion.div>
-                ))}
-                <motion.div
-                  initial={{ opacity: 0, x: 40 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.08 + drawerLinks.length * 0.055, ease: [0.16, 1, 0.3, 1] }}
-                >
+              <nav className="flex flex-col p-4 gap-1 overflow-y-auto">
+                {drawerLinks.map((item) => (
                   <Link
-                    href={accountLink}
+                    key={item.label}
+                    href={item.href}
                     onClick={() => setMenuOpen(false)}
-                    className="text-white/85 no-underline py-3.5 px-4 font-display text-2xl hover:text-[#FF9A3D] transition-colors block"
+                    className="text-white/80 no-underline py-2.5 px-3 rounded-lg text-sm font-bold hover:text-white hover:bg-white/5 transition-colors"
                   >
-                    {session ? 'My Account (Profile)' : 'Sign In / Register'}
+                    {item.label}
                   </Link>
-                </motion.div>
+                ))}
+                <div className="my-2 border-t border-white/10" />
+                <Link
+                  href={accountLink}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-white/80 no-underline py-2.5 px-3 rounded-lg text-sm font-bold hover:text-white hover:bg-white/5 transition-colors"
+                >
+                  {session ? 'Account Profile' : 'Sign In / Register'}
+                </Link>
               </nav>
 
-              <div className="mt-auto p-5 relative z-10">
-                <div className="rounded-2xl bg-gradient-ember p-5 font-bold text-sm leading-relaxed text-white shadow-ember">
-                  Free standard shipping on every order. No minimums, no code.
-                </div>
+              <div className="mt-auto p-4 border-t border-white/10 bg-black/40">
+                <p className="text-xs text-white/60 font-medium leading-relaxed">
+                  Pan-India 2–4d express air dispatch. Standard delivery included in all prices.
+                </p>
               </div>
             </motion.aside>
           </>

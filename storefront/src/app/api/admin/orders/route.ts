@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { fulfillQikinkOrder } from '@/lib/fulfillment/qikink';
+import { sendOrderDeliveredInvoiceEmail } from '@/lib/notifications/email';
 import { isAdmin } from '@/lib/security/auth';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { clientIp } from '@/lib/security/validation';
@@ -104,7 +105,7 @@ export async function PATCH(req: NextRequest) {
       pending: ['paid', 'cancelled'],
       pending_cod: ['paid', 'cancelled'],
       paid: ['processing', 'cancelled', 'refunded'],
-      processing: ['shipped', 'cancelled', 'refunded'],
+      processing: ['shipped', 'delivered', 'cancelled', 'refunded'],
       shipped: ['delivered', 'refunded'],
       delivered: ['returned'],
       returned: [],
@@ -188,6 +189,45 @@ export async function PATCH(req: NextRequest) {
       .eq('id', orderId)
       .eq('status', currentStatus);
     if (error) return NextResponse.json({ error: 'Order update failed' }, { status: 500 });
+
+    // When status changes to delivered, automatically dispatch the Official Tax Invoice email
+    if (updates.status === 'delivered') {
+      try {
+        const { data: fullOrder } = await supabase
+          .from('orders')
+          .select('*')
+          .eq('id', orderId)
+          .maybeSingle();
+
+        if (fullOrder) {
+          const addr = (fullOrder.shipping_address as any) || {};
+          void sendOrderDeliveredInvoiceEmail({
+            orderId: String(fullOrder.id),
+            email: String(fullOrder.user_email || ''),
+            name: fullOrder.shipping_name,
+            phone: addr.phone || '',
+            total: Number(fullOrder.total_amount || 0),
+            subtotal: Number(fullOrder.subtotal || fullOrder.total_amount || 0),
+            paymentMethod: String(fullOrder.payment_method || 'cod'),
+            trackingNumber: fullOrder.tracking_number,
+            deliveryDate: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+            items: Array.isArray(fullOrder.items) ? fullOrder.items : [],
+            address: {
+              line1: addr.line1 || addr.street || '',
+              flat: addr.flat || addr.flatHouse || '',
+              street: addr.street || addr.areaStreet || '',
+              landmark: addr.landmark || '',
+              city: addr.city || '',
+              state: addr.state || '',
+              zip: addr.zip || '',
+            },
+          }).catch((err) => console.error('[Delivery Invoice Email] Dispatch failed:', err));
+        }
+      } catch (emailErr) {
+        console.error('[Admin Orders] Failed to query full order for delivery invoice:', emailErr);
+      }
+    }
+
     return NextResponse.json({ ok: true, orderId, updates });
   } catch (err: unknown) {
     return NextResponse.json({ error: 'Update failed' }, { status: 400 });
@@ -202,15 +242,55 @@ export async function POST(req: NextRequest) {
 
   let orderId: unknown;
   let force = false;
+  let action: string | undefined;
   try {
-    const body = (await req.json()) as { orderId?: unknown; force?: boolean };
+    const body = (await req.json()) as { orderId?: unknown; force?: boolean; action?: string };
     orderId = body.orderId;
     force = Boolean(body.force);
+    action = body.action;
   } catch {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
   if (typeof orderId !== 'string' || orderId.length === 0) {
     return NextResponse.json({ error: 'orderId required' }, { status: 400 });
+  }
+
+  // Action: Manually send/resend original Tax Invoice email for delivered order
+  if (action === 'send_invoice') {
+    const { data: fullOrder, error: fetchErr } = await supabase
+      .from('orders')
+      .select('*')
+      .eq('id', orderId)
+      .maybeSingle();
+
+    if (fetchErr || !fullOrder) {
+      return NextResponse.json({ error: 'Order not found' }, { status: 404 });
+    }
+
+    const addr = (fullOrder.shipping_address as any) || {};
+    const emailResult = await sendOrderDeliveredInvoiceEmail({
+      orderId: String(fullOrder.id),
+      email: String(fullOrder.user_email || ''),
+      name: fullOrder.shipping_name,
+      phone: addr.phone || '',
+      total: Number(fullOrder.total_amount || 0),
+      subtotal: Number(fullOrder.subtotal || fullOrder.total_amount || 0),
+      paymentMethod: String(fullOrder.payment_method || 'cod'),
+      trackingNumber: fullOrder.tracking_number,
+      deliveryDate: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+      items: Array.isArray(fullOrder.items) ? fullOrder.items : [],
+      address: {
+        line1: addr.line1 || addr.street || '',
+        flat: addr.flat || addr.flatHouse || '',
+        street: addr.street || addr.areaStreet || '',
+        landmark: addr.landmark || '',
+        city: addr.city || '',
+        state: addr.state || '',
+        zip: addr.zip || '',
+      },
+    });
+
+    return NextResponse.json({ ok: emailResult.ok, error: emailResult.error });
   }
 
   const result = await fulfillQikinkOrder(supabase, orderId, undefined, { force });

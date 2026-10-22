@@ -1,22 +1,22 @@
 import Link from 'next/link';
-import { Shirt, Sparkles, Monitor, ShoppingBag, Truck, ShieldCheck, Banknote, Lock } from 'lucide-react';
+import Image from 'next/image';
+import { Truck, ShieldCheck, Banknote, RefreshCw } from 'lucide-react';
 import ProductCard from '@/components/ui/ProductCard';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { formatPrice, computeDiscount, type Product } from '@/lib/data/products';
 import { getProductsFromDB } from '@/lib/products-server';
 
-export const revalidate = 60; // 60s ISR: Edge cached in Mumbai (bom1) for <10ms instant response
+export const revalidate = 60; // 60s ISR: Edge cached in Mumbai (bom1)
 
 export const metadata = {
-  title: 'Rare Ember — Curated Streetwear, Workstation Gear & Graphic Drops',
-  description: 'Curated 240 GSM heavyweight streetwear, graphic printed tees, 380 GSM fleece hoodies & aesthetic desk gear. 100% Domestic Tirupur Hub POD, express air dispatch & 7-day replacements.',
+  title: 'Rare Ember — Independent Heavyweight Streetwear & Graphic Drops',
+  description: '240 GSM combed cotton streetwear, 380 GSM French terry hoodies & original graphic drops. Tailored in India, dispatched via express air with 7-day doorstep replacements.',
 };
 
 function toCard(p: Product, rank?: number) {
   return {
     id: p.id,
     slug: p.slug,
-    emoji: p.emoji || '🛍️',
     tag: p.tag || (p.is_printed ? 'Graphic Print' : 'Essential Blank'),
     tagColor: p.tagColor,
     tagBg: p.tagBg,
@@ -26,7 +26,6 @@ function toCard(p: Product, rank?: number) {
     oldPrice: p.compareAtPrice ? formatPrice(p.compareAtPrice) : undefined,
     rawPrice: p.price_inr || p.price,
     rawComparePrice: p.compareAtPrice,
-    gradient: p.gradient || 'linear-gradient(135deg, #18181b, #09090b)',
     imageUrl: p.image_url,
     images: p.images,
     isPrebuilt: (p as any).isPrebuilt,
@@ -46,39 +45,36 @@ function toCard(p: Product, rank?: number) {
 }
 
 const CATEGORY_TABS = [
-  { id: 'mens-printed', label: "Men's Graphic Drops", emoji: '🔥', href: '/shop?cat=mens-printed' },
-  { id: 'printed', label: 'All Graphic Prints', emoji: '✨', href: '/shop?cat=printed' },
-  { id: 'womens', label: "Women's Drops", emoji: '👗', href: '/shop?cat=womens' },
-  { id: 'kids', label: 'Kids Streetwear', emoji: '🧸', href: '/shop?cat=kids' },
-  { id: 'blanks', label: 'Premium Blanks', emoji: '⚡', href: '/shop?cat=blanks' },
-  { id: 'bulk-orders', label: 'Bulk & Factory Merch', emoji: '🏭', href: '/bulk-orders' },
-  { id: 'support', label: 'Help Desk & Tickets', emoji: '🎫', href: '/support' },
-];
-
-const DEPARTMENTS = [
-  { href: '/shop?cat=mens-printed', icon: Shirt, title: "Men's Graphic Prints", sub: '17 Heavyweight Oversized & DTF Drops', count: '17 Drops', color: 'text-[#FF4D24] bg-orange-50' },
-  { href: '/shop?cat=womens', icon: Sparkles, title: "Women's Collection", sub: 'Crop Tops, Classic Tees & A-Line Dresses', count: '7 Drops', color: 'text-amber-600 bg-amber-50' },
-  { href: '/shop?cat=kids', icon: Monitor, title: 'Kids Graphic Tees', sub: 'Bio-Washed 100% Combed Cotton', count: '2 Drops', color: 'text-cyan-600 bg-cyan-50' },
-  { href: '/shop?cat=blanks', icon: ShoppingBag, title: 'Essential Blanks', sub: 'Acid Wash, Polos & Minimal Silhouettes', count: '8 Drops', color: 'text-purple-600 bg-purple-50' },
+  { id: 'all', label: 'All Catalog', href: '/shop' },
+  { id: 'mens-printed', label: "Men's Graphic Drops", href: '/shop?cat=mens-printed' },
+  { id: 'printed', label: 'All Graphic Prints', href: '/shop?cat=printed' },
+  { id: 'womens', label: "Women's Collection", href: '/shop?cat=womens' },
+  { id: 'blanks', label: 'Essential Blanks', href: '/shop?cat=blanks' },
+  { id: 'custom-drops', label: 'Custom Merch Studio', href: '/custom-drops' },
+  { id: 'bulk-orders', label: 'Bulk & Corporate', href: '/bulk-orders' },
 ];
 
 const ASSURANCES = [
-  { icon: Truck, title: 'Free Express Air Delivery', sub: 'Pan-India 2–4d via BlueDart & Delhivery', color: 'text-emerald-600 bg-emerald-50' },
-  { icon: ShieldCheck, title: '7-Day Easy Return', sub: 'Free doorstep replacement guarantee', color: 'text-blue-600 bg-blue-50' },
-  { icon: Banknote, title: 'COD Available', sub: 'Across 19,000+ PIN codes Pan-India', color: 'text-amber-600 bg-amber-50' },
-  { icon: Lock, title: '256-Bit SSL Gateway', sub: 'Instant UPI & 1-Click Cards', color: 'text-purple-600 bg-purple-50' },
-];
-
-const MARQUEE_ITEMS = [
-  '⚡ 100% Fade-Proof High-Density DTF & Sublimation Prints',
-  '⚡ 240 GSM Bio-Washed Combed Cotton Streetwear',
-  '🧥 380 GSM French Terry Brushed Fleece Drops',
-  '🚚 Direct from Tirupur Hub in 2–4 Days',
-  '💵 Cash on Delivery across 19,000+ PINs',
-  '🛡️ 7-Day Free Doorstep Replacement',
-  '⚡ Extra ₹30 OFF on Instant UPI Checkout (Auto-Applied)',
-  '✨ Use Code FIRST50 for ₹50 OFF Individual Drops',
-  '⭐ 4.9 Rated Verified Domestic Build',
+  {
+    icon: Truck,
+    title: 'Express Air Dispatch',
+    desc: 'Pan-India 2–4 business days via BlueDart & Delhivery Air. Standard delivery included in all prices.',
+  },
+  {
+    icon: ShieldCheck,
+    title: '7-Day Doorstep Replacement',
+    desc: 'Hassle-free size exchanges and print defect replacements directly at your door.',
+  },
+  {
+    icon: Banknote,
+    title: 'Cash on Delivery Available',
+    desc: 'Pay at your doorstep across 19,000+ PIN codes with a transparent ₹49 courier handling fee.',
+  },
+  {
+    icon: RefreshCw,
+    title: 'Domestic Tirupur Hub',
+    desc: 'Every garment is cut from bio-washed combed cotton, screenprinted, and inspected in Tamil Nadu.',
+  },
 ];
 
 export default async function Home() {
@@ -99,129 +95,145 @@ export default async function Home() {
     (p) => (p.is_printed === false || (p as any).isPrinted === false) && !p.id.startsWith('bundle-')
   );
 
+  // Flagship Hero Item for Editorial Visual
+  const heroDrop = mensPrinted[0] || allProducts[0];
+
   return (
-    <main className="page-top min-h-screen text-[#161311] pb-16">
-      {/* COMPACT PRODUCT-FIRST CATEGORY BAR */}
-      <section className="glass-strong relative z-20 border-b border-black/[0.04] transition-all">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 md:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-3 overflow-x-auto no-scrollbar">
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+    <main className="page-top min-h-screen text-[#12100E] pb-20">
+      {/* 1. RESTRAINED ANNOUNCEMENT & CATEGORY STRIP */}
+      <section className="bg-[#F4EFEA] border-b border-black/[0.08] relative z-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-2.5 flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-1.5 shrink-0">
             {CATEGORY_TABS.map((tab) => (
               <Link
                 key={tab.id}
                 href={tab.href}
-                className="no-underline px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap bg-white/80 border border-black/[0.06] hover:bg-[#161311] hover:text-white hover:border-[#161311] hover:-translate-y-0.5 active:scale-95 shadow-xs"
+                className="no-underline px-3 py-1.5 rounded-md text-xs font-bold text-[#12100E]/80 hover:text-[#12100E] hover:bg-black/[0.06] transition-colors whitespace-nowrap"
               >
-                <span>{tab.emoji}</span>
-                <span>{tab.label}</span>
+                {tab.label}
               </Link>
             ))}
           </div>
 
-          <div className="hidden lg:flex items-center gap-4 text-xs font-semibold text-neutral-500 shrink-0">
-            <span className="flex items-center gap-1.5 text-emerald-700">
-              <span className="live-dot w-1.5 h-1.5 rounded-full bg-emerald-500 text-emerald-500" />
-              Pan-India 2-4 Days Express Active
+          <div className="hidden lg:flex items-center gap-3 text-xs font-semibold text-neutral-600 shrink-0">
+            <span className="flex items-center gap-1.5 text-emerald-800">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+              Pan-India 2–4d Express Active
             </span>
             <span className="text-black/15">•</span>
-            <span>💵 Cash on Delivery (COD)</span>
+            <span>Delivery Included</span>
             <span className="text-black/15">•</span>
-            <span>🛡️ 7-Day Easy Return</span>
+            <span>COD Available</span>
           </div>
         </div>
       </section>
 
-      {/* TRUST MARQUEE STRIP */}
-      <section className="overflow-hidden py-2 sm:py-2.5 border-b border-black/[0.05]" aria-hidden>
-        <div className="flex w-max animate-marquee gap-2.5">
-          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
-            <span
-              key={i}
-              className="px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-white/70 border border-black/[0.06] text-[10px] sm:text-[11px] font-bold text-text-secondary whitespace-nowrap backdrop-blur-sm"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
-      </section>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-4 sm:pt-6 flex flex-col gap-12 sm:gap-16">
 
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 md:px-8 pt-3 sm:pt-4 flex flex-col gap-8 sm:gap-12">
-
-        {/* NARROW & SLEEK STREETWEAR HERO BANNER */}
-        <section className="relative overflow-hidden rounded-xl sm:rounded-2xl text-white grain bg-gradient-night shadow-[0_12px_32px_rgba(48,26,12,0.18)] border border-white/10">
-          <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none">
-            <span className="aurora-blob hero-rise" style={{ width: 280, height: 280, top: -100, right: -50, background: 'rgba(255,154,61,0.35)' }} />
-            <span className="aurora-blob aurora-blob-b hero-rise hero-rise-2" style={{ width: 220, height: 220, bottom: -80, left: -40, background: 'rgba(232,36,75,0.25)' }} />
-          </div>
-
-          <div className="relative z-10 px-4 py-4 sm:px-6 sm:py-6 md:px-8 flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4">
-            <div className="space-y-1 sm:space-y-1.5 max-w-2xl">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 border border-[#FF4D24]/40 text-[#FF9A3D] text-[9px] sm:text-[10px] font-black uppercase tracking-widest backdrop-blur-md">
-                <span>🔥</span> Genuine Tirupur Hub Drops
+        {/* 2. EDITORIAL STREETWEAR HERO SECTION */}
+        <section className="relative overflow-hidden rounded-2xl bg-[#12100E] text-white grain border border-white/10">
+          <div className="relative z-10 p-6 sm:p-10 md:p-12 lg:p-14 flex flex-col lg:flex-row lg:items-center justify-between gap-8 sm:gap-12">
+            <div className="space-y-4 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-white/10 text-white/90 text-[11px] font-bold tracking-widest uppercase">
+                <span>The Independent Series</span>
+                <span className="text-neutral-500">•</span>
+                <span>Tirupur Hub</span>
               </div>
-              <h1 className="text-lg sm:text-2xl md:text-3xl font-black tracking-tight leading-snug">
-                <span className="text-gradient-ember-animated">Rare Ember</span> — Graphic Streetwear &amp; Designer Drops
+
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-[1.08] text-white">
+                Heavyweight Silhouettes &amp; Original Graphic Drops.
               </h1>
-              <p className="text-[11px] sm:text-xs md:text-sm text-white/70 font-medium leading-relaxed">
-                240 GSM Bio-Washed Combed Cotton • High-Density Fade-Proof Prints • Dispatched direct from Tirupur Hub with 1-Click COD.
+
+              <p className="text-sm sm:text-base text-white/70 font-medium leading-relaxed max-w-xl">
+                Crafted from 240 GSM super-combed cotton and 380 GSM French terry. Designed and screenprinted in India, dispatched directly with express air delivery included.
               </p>
-            </div>
 
-            <div className="flex items-center gap-2 sm:gap-3 shrink-0 flex-wrap sm:flex-nowrap">
-              <div className="relative overflow-hidden bg-black/50 backdrop-blur-md border border-[#FF4D24]/45 rounded-lg sm:rounded-xl px-2.5 py-1.5 sm:px-3 sm:py-2 flex items-center gap-1.5 sm:gap-2">
-                <span className="text-[9px] sm:text-[10px] font-bold text-[#FF9A3D] uppercase tracking-wider">UPI Offer:</span>
-                <span className="font-mono text-xs sm:text-sm font-black text-[#FF4D24] tracking-wider">PREPAID30</span>
-                <span className="text-[9px] sm:text-[10px] text-white/60 font-medium">(₹30 OFF)</span>
+              <div className="pt-2 flex flex-wrap items-center gap-3">
+                <Link
+                  href="/shop?cat=mens-printed"
+                  className="no-underline inline-flex items-center justify-center px-6 py-3 rounded-lg btn-ember font-bold text-sm tracking-wide cursor-pointer"
+                >
+                  Explore Graphic Drops →
+                </Link>
+                <Link
+                  href="/custom-drops"
+                  className="no-underline inline-flex items-center justify-center px-5 py-3 rounded-lg bg-white/10 hover:bg-white/15 text-white font-bold text-sm border border-white/15 transition-colors"
+                >
+                  Custom Design Studio
+                </Link>
               </div>
-              <Link
-                href="/shop?cat=mens-printed"
-                className="no-underline inline-flex items-center justify-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl btn-ember font-black text-xs sm:text-sm tracking-wide cursor-pointer whitespace-nowrap shadow-ember"
-              >
-                <span className="relative z-10 flex items-center gap-1.5">
-                  Explore Graphic Drops <span>🔥</span>
-                </span>
-              </Link>
-              <Link
-                href="/bulk-orders"
-                className="no-underline inline-flex items-center justify-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm tracking-wide transition-all border border-white/15 whitespace-nowrap"
-              >
-                <span>🏭</span> Bulk Orders
-              </Link>
             </div>
-          </div>
 
-          <div
-            aria-hidden
-            className="absolute bottom-0 left-0 right-0 h-1"
-            style={{ background: 'linear-gradient(90deg, #FF9A3D, #FF4D24 35%, #E8244B 65%, #F7B733)' }}
-          />
+            {/* Hero Visual Spotlight */}
+            {heroDrop && (
+              <div className="w-full lg:w-[380px] shrink-0">
+                <Link
+                  href={`/product/${heroDrop.slug || heroDrop.id}`}
+                  className="no-underline block group relative rounded-xl overflow-hidden bg-neutral-900 border border-white/15 shadow-2xl"
+                >
+                  <div className="relative aspect-[4/5] overflow-hidden bg-neutral-950">
+                    <Image
+                      src={heroDrop.image_url || (heroDrop.images?.[0] as string)}
+                      alt={heroDrop.title}
+                      fill
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 380px"
+                      className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+                    />
+                    <span className="absolute top-3 left-3 text-[10px] font-bold px-2 py-0.5 rounded bg-black/80 text-white tracking-wider uppercase backdrop-blur-xs">
+                      Flagship Feature
+                    </span>
+                  </div>
+                  <div className="p-4 bg-[#181513] flex items-center justify-between">
+                    <div>
+                      <div className="text-xs font-bold text-white group-hover:text-[#FF4D24] transition-colors truncate max-w-[200px]">
+                        {heroDrop.title}
+                      </div>
+                      <div className="text-[11px] text-white/50 font-medium mt-0.5">
+                        240 GSM Combed Cotton • Express Air Included
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <div className="text-sm font-black text-white">
+                        {formatPrice(heroDrop.price_inr || heroDrop.price)}
+                      </div>
+                      <div className="text-[10px] text-white/50 line-through">
+                        {heroDrop.compareAtPrice ? formatPrice(heroDrop.compareAtPrice) : ''}
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            )}
+          </div>
         </section>
 
-        {/* SECTION 1: MEN'S PRINTED STREETWEAR (PRIORITY USER SPOTLIGHT) */}
+        {/* 3. SECTION: MEN'S GRAPHIC STREETWEAR (PRIORITY USER SPOTLIGHT) */}
         {mensPrinted.length > 0 && (
-          <section id="mens-printed" className="scroll-mt-28">
-            <div className="flex items-end justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
+          <section id="mens-printed" className="scroll-mt-24">
+            <div className="flex items-end justify-between gap-4 mb-6">
               <div>
-                <div className="hero-rise inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-ember text-white text-[10px] sm:text-xs font-black uppercase tracking-wider mb-1.5 sm:mb-2 shadow-ember">
-                  <span>🔥</span> Flagship Graphic Prints
+                <div className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">
+                  Collection 01
                 </div>
-                <h2 className="hero-rise hero-rise-1 text-xl sm:text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
-                  Men&apos;s Graphic <span className="text-gradient-ember">Streetwear Drops</span>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-[#12100E]">
+                  Men&apos;s Graphic Streetwear
                 </h2>
-                <p className="text-[11px] sm:text-xs md:text-sm text-neutral-500 mt-0.5 sm:mt-1">
-                  High-Density Fade-Proof Prints • 240 GSM Bio-Washed Combed Cotton • Dispatched in 2-4 Days with 1-Click COD
+                <p className="text-xs sm:text-sm text-neutral-600 mt-1">
+                  High-density DTF prints on 240 GSM bio-washed combed cotton. Dispatched in 2–4 business days.
                 </p>
               </div>
               <Link
                 href="/shop?cat=mens-printed"
-                className="text-xs font-extrabold text-[#1C1310] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b-2 border-black/15 hover:border-ember transition-all group whitespace-nowrap"
+                className="text-xs font-bold text-[#12100E] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#FF4D24] transition-colors"
               >
                 <span>View All ({mensPrinted.length})</span>
-                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                <span>→</span>
               </Link>
             </div>
 
-            {/* Men's Printed Grid: 2-column on mobile, 4-column on desktop */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6">
+            {/* Product Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
               {mensPrinted.map((p, i) => (
                 <ScrollReveal key={p.id} delay={Math.min(i * 30, 240)}>
                   <ProductCard {...toCard(p)} priority={i < 4} />
@@ -231,32 +243,84 @@ export default async function Home() {
           </section>
         )}
 
-        {/* SECTION 2: WOMEN'S & KIDS' PRINTED GRAPHIC DROPS */}
-        {otherPrinted.length > 0 && (
-          <section id="other-printed" className="scroll-mt-28">
-            <div className="flex items-end justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
+        {/* 4. EDITORIAL LOOKBOOK: THE CUT & FABRICATION */}
+        <section className="p-6 sm:p-10 rounded-2xl bg-[#F4EFEA] border border-black/[0.08]">
+          <div className="max-w-2xl mb-8">
+            <div className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">
+              Material &amp; Architecture
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-[#12100E]">
+              Streetwear Cuts Engineered to Hold Shape.
+            </h2>
+            <p className="text-xs sm:text-sm text-neutral-600 mt-1 leading-relaxed">
+              We reject thin fast-fashion fabrics that warp after two washes. Every piece is built around heavyweight domestic cotton with reinforced seams and pre-shrunk treatment.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-6 rounded-xl bg-white border border-black/[0.06] flex flex-col justify-between">
               <div>
-                <div className="hero-rise inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/[0.05] text-neutral-800 text-[10px] sm:text-xs font-black uppercase tracking-wider mb-1.5 sm:mb-2">
-                  <span>✨</span> Graphic Art Drops
+                <span className="text-xs font-mono font-bold text-[#FF4D24] uppercase tracking-wider">
+                  Silhouette 01
+                </span>
+                <h3 className="text-lg font-bold text-[#12100E] mt-1 mb-2">
+                  The 240 GSM Boxy Drop-Shoulder Tee
+                </h3>
+                <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
+                  Super-combed 100% bio-washed cotton. Features an extended drop-shoulder seam, wider chest proportions, and a dense 1.25-inch ribbed collar that doesn&apos;t bacon or sag.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-black/[0.06] flex items-center justify-between text-xs font-bold text-neutral-700">
+                <span>Fit: Relaxed Boxy</span>
+                <span>Weight: 240 GSM Combed</span>
+              </div>
+            </div>
+
+            <div className="p-6 rounded-xl bg-white border border-black/[0.06] flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-mono font-bold text-[#FF4D24] uppercase tracking-wider">
+                  Silhouette 02
+                </span>
+                <h3 className="text-lg font-bold text-[#12100E] mt-1 mb-2">
+                  The 380 GSM Heavy French Terry Hoodie
+                </h3>
+                <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
+                  Brushed loopback fleece exterior with a plush interior. Double-layered crossover hood engineered to stay structured without drawstrings, paired with 2x2 heavy ribbed cuffs.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-black/[0.06] flex items-center justify-between text-xs font-bold text-neutral-700">
+                <span>Fit: Structured Oversized</span>
+                <span>Weight: 380 GSM Terry</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 5. SECTION: WOMEN'S & ART EDITIONS */}
+        {otherPrinted.length > 0 && (
+          <section id="other-printed" className="scroll-mt-24">
+            <div className="flex items-end justify-between gap-4 mb-6">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">
+                  Collection 02
                 </div>
-                <h2 className="hero-rise hero-rise-1 text-xl sm:text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
-                  Women&apos;s &amp; Kids&apos; <span className="text-gradient-ember">Printed Edition</span>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-[#12100E]">
+                  Women&apos;s &amp; Art Editions
                 </h2>
-                <p className="text-[11px] sm:text-xs md:text-sm text-neutral-500 mt-0.5 sm:mt-1">
-                  Aesthetic Typographic Prints &amp; Pastel Graphics on Super-Combed Bio-Washed Cotton
+                <p className="text-xs sm:text-sm text-neutral-600 mt-1">
+                  Crop silhouettes, classic crewnecks, and aesthetic typographic graphics.
                 </p>
               </div>
               <Link
-                href="/shop?cat=printed"
-                className="text-xs font-extrabold text-[#1C1310] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b-2 border-black/15 hover:border-ember transition-all group whitespace-nowrap"
+                href="/shop?cat=womens"
+                className="text-xs font-bold text-[#12100E] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#FF4D24] transition-colors"
               >
-                <span>Explore Prints</span>
-                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                <span>View All ({otherPrinted.length})</span>
+                <span>→</span>
               </Link>
             </div>
 
-            {/* Other Printed Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
               {otherPrinted.map((p, i) => (
                 <ScrollReveal key={p.id} delay={Math.min(i * 30, 240)}>
                   <ProductCard {...toCard(p)} />
@@ -266,32 +330,31 @@ export default async function Home() {
           </section>
         )}
 
-        {/* SECTION 3: ESSENTIAL STREETWEAR BLANKS */}
+        {/* 6. SECTION: ESSENTIAL STREETWEAR BLANKS */}
         {blanks.length > 0 && (
-          <section id="streetwear-blanks" className="scroll-mt-28">
-            <div className="flex items-end justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
+          <section id="streetwear-blanks" className="scroll-mt-24">
+            <div className="flex items-end justify-between gap-4 mb-6">
               <div>
-                <div className="hero-rise inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/[0.05] text-neutral-800 text-[10px] sm:text-xs font-black uppercase tracking-wider mb-1.5 sm:mb-2">
-                  <span>⚡</span> Minimalist Wardrobe
+                <div className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">
+                  Collection 03
                 </div>
-                <h2 className="hero-rise hero-rise-1 text-xl sm:text-2xl md:text-4xl font-black tracking-tight text-[#1C1310]">
-                  Essential Streetwear <span className="text-gradient-ember">Blanks</span>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-[#12100E]">
+                  Essential Blanks
                 </h2>
-                <p className="text-[11px] sm:text-xs md:text-sm text-neutral-500 mt-0.5 sm:mt-1">
-                  Acid Wash Oversized, Raglan Sleeves, Solid Crop Tops &amp; Polos for clean everyday luxury
+                <p className="text-xs sm:text-sm text-neutral-600 mt-1">
+                  Acid-wash textures, heavyweight raglan tees, solid crewnecks, and minimal wardrobe staples.
                 </p>
               </div>
               <Link
                 href="/shop?cat=blanks"
-                className="text-xs font-extrabold text-[#1C1310] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b-2 border-black/15 hover:border-ember transition-all group whitespace-nowrap"
+                className="text-xs font-bold text-[#12100E] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#FF4D24] transition-colors"
               >
-                <span>View Blanks ({blanks.length})</span>
-                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                <span>View All ({blanks.length})</span>
+                <span>→</span>
               </Link>
             </div>
 
-            {/* Blanks Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
               {blanks.map((p, i) => (
                 <ScrollReveal key={p.id} delay={Math.min(i * 30, 240)}>
                   <ProductCard {...toCard(p)} />
@@ -301,74 +364,48 @@ export default async function Home() {
           </section>
         )}
 
-        {/* SECTION 4: ORGANIZED DEPARTMENT SHORTCUTS */}
-        <section className="deferred-section">
-          <div className="mb-4 sm:mb-5 flex items-end justify-between">
-            <div>
-              <div className="hero-rise inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/[0.05] text-neutral-800 text-[10px] sm:text-[11px] font-black uppercase tracking-wider mb-1.5 sm:mb-2">
-                <span>✨</span> Curated Brand Pillars
-              </div>
-              <h3 className="hero-rise text-lg sm:text-2xl md:text-3xl font-black tracking-tight text-[#1C1310]">
-                What We Craft &amp; Deliver
-              </h3>
-              <p className="hero-rise hero-rise-1 text-[11px] sm:text-xs md:text-sm text-neutral-500 mt-0.5 sm:mt-1">
-                Explore our domestic product pillars — all made on-demand with 1-click COD
-              </p>
+        {/* 7. CREDIBLE BRAND STORY */}
+        <section className="p-8 sm:p-12 rounded-2xl bg-[#12100E] text-white grain border border-white/10">
+          <div className="max-w-3xl space-y-4">
+            <span className="text-xs font-mono font-bold text-[#FF4D24] uppercase tracking-wider">
+              The Rare Ember Story
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight">
+              Independent Streetwear. Direct from the Loom.
+            </h2>
+            <p className="text-sm sm:text-base text-white/70 leading-relaxed">
+              We started Rare Ember because we were tired of generic fast-fashion tees with peel-and-stick prints and paper-thin cotton. Every silhouette in our catalog is engineered in Tirupur, India, from heavyweight combed cotton and dense French terry.
+            </p>
+            <p className="text-sm sm:text-base text-white/70 leading-relaxed">
+              By working on demand with direct air fulfillment, we eliminate dead inventory and wasteful markups. Every garment is inspected, packed in premium white-label packaging, and shipped directly to your door with express air delivery.
+            </p>
+            <div className="pt-2">
+              <Link
+                href="/about"
+                className="text-xs font-bold text-[#FF4D24] hover:underline inline-flex items-center gap-1"
+              >
+                Read more about our sourcing and production →
+              </Link>
             </div>
-            <Link
-              href="/shop"
-              className="text-xs font-bold text-[#FF4D24] hover:underline hidden sm:inline-block"
-            >
-              Explore All Categories →
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5">
-            {DEPARTMENTS.map((d, i) => (
-              <ScrollReveal key={d.href} delay={i * 50}>
-                <Link
-                  href={d.href}
-                  className="group p-3 sm:p-5 rounded-xl sm:rounded-2xl bg-white border border-black/[0.06] hover:border-[#FF4D24]/40 hover:-translate-y-1.5 hover:shadow-lg transition-all duration-500 text-[#161311] no-underline flex flex-col justify-between gap-2.5 sm:gap-3 relative overflow-hidden"
-                >
-                  <span
-                    aria-hidden
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    style={{ background: 'linear-gradient(135deg, rgba(255,154,61,0.08), rgba(232,36,75,0.04))' }}
-                  />
-                  <div className="flex items-center justify-between relative z-10">
-                    <span className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center ${d.color} transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3`}>
-                      <d.icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                    </span>
-                    <span className="text-[9px] sm:text-[10px] font-black uppercase px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded-full bg-black/[0.05] text-neutral-600 group-hover:bg-[#FF4D24] group-hover:text-white transition-colors">
-                      {d.count}
-                    </span>
-                  </div>
-                  <div className="relative z-10">
-                    <span className="block font-black text-xs sm:text-sm group-hover:text-[#FF4D24] transition-colors">{d.title}</span>
-                    <span className="text-[10px] sm:text-[11px] text-neutral-500 font-medium leading-tight block mt-0.5">{d.sub}</span>
-                  </div>
-                </Link>
-              </ScrollReveal>
-            ))}
           </div>
         </section>
 
-        {/* SECTION 5: ASSURANCE BAR */}
-        <section className="deferred-section grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 pt-4 sm:pt-6 border-t border-black/[0.06] text-xs">
-          {ASSURANCES.map((a, i) => (
-            <ScrollReveal key={a.title} delay={i * 70}>
-              <div className="group h-full p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-black/[0.05] flex items-center gap-2.5 sm:gap-3 hover:border-[#FF4D24]/30 hover:shadow-md transition-all duration-400">
-                <span className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 ${a.color} transition-transform duration-500 group-hover:scale-110`}>
-                  <a.icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                </span>
-                <div>
-                  <span className="block font-bold text-[11px] sm:text-xs text-neutral-900">{a.title}</span>
-                  <span className="text-[9px] sm:text-[11px] text-neutral-500">{a.sub}</span>
-                </div>
+        {/* 8. PURCHASE ASSURANCES & TRANSPARENCY */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-black/[0.08]">
+          {ASSURANCES.map((a) => (
+            <div
+              key={a.title}
+              className="p-5 rounded-xl bg-white border border-black/[0.08] flex flex-col justify-between"
+            >
+              <div>
+                <a.icon className="w-5 h-5 text-[#FF4D24] mb-3" />
+                <h3 className="text-sm font-bold text-[#12100E]">{a.title}</h3>
+                <p className="text-xs text-neutral-600 mt-1 leading-relaxed">{a.desc}</p>
               </div>
-            </ScrollReveal>
+            </div>
           ))}
         </section>
+
       </div>
     </main>
   );

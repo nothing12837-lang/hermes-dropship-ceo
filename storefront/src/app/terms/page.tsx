@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import Navbar from '@/components/ui/Navbar';
-import Footer from '@/components/ui/Footer';
 
 export const metadata = {
   title: 'Terms of Service | Rare Ember',
@@ -9,8 +7,6 @@ export const metadata = {
 
 export default function TermsPage() {
   return (
-    <>
-      <Navbar />
       <main className="min-h-screen bg-[#FFF9F1] pt-32 pb-24 px-6 md:px-12">
         <div className="max-w-4xl mx-auto bg-white/90 backdrop-blur-2xl rounded-3xl p-8 md:p-12 border border-black/[0.06] shadow-xl text-neutral-900">
           <div className="inline-block px-3 py-1 rounded-full bg-[#FF4D24]/10 text-[#FF4D24] text-xs font-bold uppercase tracking-wider mb-4">
@@ -72,7 +68,5 @@ export default function TermsPage() {
           </div>
         </div>
       </main>
-      <Footer />
-    </>
-  );
+      );
 }

@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { clientIp, isValidOrderId, normalizeEmail, sanitizeCheckoutItems } from '@/lib/security/validation';
 import { notifyTelegramOrder } from '@/lib/notifications/telegram';
-import { sendOrderConfirmationEmail } from '@/lib/notifications/email';
+import { sendOrderConfirmationEmail, sendOrderDeliveredInvoiceEmail } from '@/lib/notifications/email';
 import { isAdmin } from '@/lib/security/auth';
 import { validateCouponCode } from '@/lib/festivals';
 import { products as fallbackCatalog, getProduct, enforcePriceFloor } from '@/lib/data/products';
@@ -143,6 +143,56 @@ export async function POST(req: NextRequest) {
     // Anti-bot honeypot check
     if (body._hp_company) {
       return NextResponse.json({ error: 'Automated submission rejected' }, { status: 400 });
+    }
+
+    // Public / Buyer Tax Invoice email request (verified via track_order security-definer RPC)
+    if (body.action === 'email_invoice') {
+      const targetOrderId = String(body.orderId || '').trim();
+      const targetEmail = normalizeEmail(body.email);
+      if (!targetOrderId || !targetEmail) {
+        return NextResponse.json({ error: 'orderId and email required' }, { status: 400 });
+      }
+
+      const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+      if (!url || !key) return NextResponse.json({ error: 'Database service unavailable' }, { status: 503 });
+      const sb = createClient(url, key);
+
+      const { data, error } = await sb.rpc('track_order', {
+        p_order_id: targetOrderId,
+        p_email: targetEmail,
+      });
+
+      if (error || !data || data.length === 0) {
+        return NextResponse.json({ error: 'Order not found or email does not match' }, { status: 404 });
+      }
+
+      const order = data[0];
+      const addr = (order.shipping_address as any) || {};
+
+      const sendRes = await sendOrderDeliveredInvoiceEmail({
+        orderId: String(order.id),
+        email: String(order.user_email || targetEmail),
+        name: order.shipping_name,
+        phone: addr.phone || '',
+        total: Number(order.total_amount || 0),
+        subtotal: Number(order.subtotal || order.total_amount || 0),
+        paymentMethod: String(order.payment_method || 'cod'),
+        trackingNumber: order.tracking_number,
+        deliveryDate: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+        items: Array.isArray(order.items) ? order.items : [],
+        address: {
+          line1: addr.line1 || addr.street || '',
+          flat: addr.flat || addr.flatHouse || '',
+          street: addr.street || addr.areaStreet || '',
+          landmark: addr.landmark || '',
+          city: addr.city || '',
+          state: addr.state || '',
+          zip: addr.zip || '',
+        },
+      });
+
+      return NextResponse.json({ ok: sendRes.ok, error: sendRes.error });
     }
 
     // Payment method is a CLOSED enum. Any other value previously slipped past
@@ -291,6 +341,12 @@ export async function POST(req: NextRequest) {
         console.log(`[Orders API] Coupon ${body.coupon_code} disallowed on bundle order.`);
         return NextResponse.json({ error: 'Coupon codes cannot be applied to combo bundles.' }, { status: 400 });
       } else {
+        const normalizedCode = String(body.coupon_code).trim().toUpperCase();
+        if (isCod && normalizedCode === 'PREPAID30') {
+          return NextResponse.json({
+            error: 'The PREPAID30 coupon is exclusively valid for online prepaid orders.'
+          }, { status: 400 });
+        }
         const couponCheck = validateCouponCode(body.coupon_code, calculatedSubtotal);
         if (couponCheck.valid) {
           discountAmount = couponCheck.discountAmount;

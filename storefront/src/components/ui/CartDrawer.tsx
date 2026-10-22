@@ -118,7 +118,7 @@ export default function CartDrawer() {
           title: i.title || 'Curated Essential',
           price: Number(i.price ?? inferredInr),
           price_inr: inferredInr,
-          emoji: i.emoji || '🛍️',
+          emoji: i.emoji || '',
           image_url: resolvedColorImage || resolveProductImage(i.id, i.imageUrl),
           gradient: i.gradient || 'linear-gradient(135deg, #f1f5f9, #e2e8f0)',
           short: '',
@@ -234,7 +234,7 @@ export default function CartDrawer() {
               className="p-6 border-b border-neutral-200 flex justify-between items-center bg-white"
             >
               <div className="font-display text-xl text-[#18181B] font-black">
-                Your Pack 🛒{' '}
+                Shopping Bag{' '}
                 <span className="font-bold text-neutral-500 text-sm">
                   ({detailed.length})
                 </span>
@@ -261,15 +261,11 @@ export default function CartDrawer() {
                   animate={{ opacity: 1, y: 0 }}
                   className="text-center mt-16 text-text-secondary flex flex-col items-center gap-4"
                 >
-                  <motion.div
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="text-5xl"
-                  >
-                    🛍️
-                  </motion.div>
+                  <div className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center font-mono text-xs text-neutral-400">
+                    00
+                  </div>
                   <p className="font-extrabold text-lg text-text-primary">
-                    Your cart is empty
+                    Your bag is empty
                   </p>
                   <p className="text-sm">Discover our latest streetwear and creator drops.</p>
                   <Link href="/shop" onClick={closeCart}>
@@ -319,7 +315,7 @@ export default function CartDrawer() {
                           )}
                         </motion.div>
                         <div className="flex-1 min-w-0">
-                          <Link href={`/product/${((d.product as any)?.slug || d.id.split('__')[0]).replace(/^meesho-/, '')}`} className="no-inherit">
+                          <Link href={`/product/${(((d.product as any)?.slug || d.id.split('__')[0]).replace(/^qikink-(?:t-shirts-|tops-|hoodies-|accessories-|bottomwear-|bags-|drinkware-|home-decor-|kids-clothes-|pet-products-)?/, 'rare-ember-').replace(/^qikink-/, 'rare-ember-').replace(/^meesho-/, ''))}`} className="no-inherit">
                             <p className="font-extrabold text-sm text-text-primary truncate">
                               {cleanBrandTitle(d.product.title)}
                             </p>
@@ -349,13 +345,13 @@ export default function CartDrawer() {
                               )}
                               {((d as any).customImageName || (d as any).customImage) && (
                                 <span className="px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20 font-bold">
-                                  🖼️ Graphic: {(d as any).customImageName || 'Artwork Attached'} {d.customPlacement ? `(${d.customPlacement})` : ''}
+                                  Artwork: {(d as any).customImageName || 'Attached'} {d.customPlacement ? `(${d.customPlacement})` : ''}
                                 </span>
                               )}
                             </div>
                           )}
-                          <div className="flex items-center gap-1 text-[10px] text-emerald-700 dark:text-emerald-400 font-bold mt-1">
-                            <span>🛡️ 7-Day Size Replacement Guarantee</span>
+                          <div className="flex items-center gap-1 text-[10px] text-neutral-600 font-semibold mt-1">
+                            <span>7-Day Doorstep Replacement Guarantee</span>
                           </div>
                           <p className="text-ember font-extrabold mt-1">
                             {formatCartPrice(getItemPrice((d as any).product))}
@@ -398,7 +394,7 @@ export default function CartDrawer() {
                       className="mt-6"
                     >
                       <p className="font-bold text-xs uppercase tracking-wider text-neutral-500 mb-3">
-                        ✨ Complete Your Drop (1-Click Add-Ons)
+                        Recommended With Your Drop
                       </p>
                       {upsells.map((u) => (
                         <motion.div
@@ -423,7 +419,7 @@ export default function CartDrawer() {
                             )}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <Link href={`/product/${((u as any)?.slug || u.id).replace(/^meesho-/, '')}`} className="no-underline">
+                            <Link href={`/product/${(((u as any)?.slug || u.id).replace(/^qikink-(?:t-shirts-|tops-|hoodies-|accessories-|bottomwear-|bags-|drinkware-|home-decor-|kids-clothes-|pet-products-)?/, 'rare-ember-').replace(/^qikink-/, 'rare-ember-').replace(/^meesho-/, ''))}`} className="no-underline">
                               <p className="font-bold text-xs text-neutral-900 truncate">{u.title}</p>
                             </Link>
                             <p className="text-xs text-amber-600 font-extrabold mt-0.5">
@@ -460,32 +456,27 @@ export default function CartDrawer() {
               transition={{ delay: 0.15 }}
               className="p-6 border-t border-neutral-200 bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.06)]"
             >
-              <div className="bg-[#FFF9F1] rounded-2xl p-3.5 mb-4 border border-black/[0.05]">
-                <div className="flex items-center gap-2">
-                  <span className="text-base">🛡️</span>
-                  <div>
-                    <p className="text-xs font-black text-neutral-950">
-                      7-Day Easy Replacement
-                    </p>
-                    <p className="text-[11px] text-neutral-700 font-medium">
-                      Free replacements • Insured tracked delivery
-                    </p>
-                  </div>
-                </div>
+              <div className="bg-[#F4EFEA] rounded-xl p-3 mb-4 border border-black/[0.08]">
+                <p className="text-xs font-bold text-[#12100E]">
+                  7-Day Doorstep Replacement
+                </p>
+                <p className="text-[11px] text-neutral-600 font-medium">
+                  Hassle-free size exchanges and insured air delivery.
+                </p>
               </div>
 
-              <div className="flex justify-between text-sm mb-2 text-zinc-900 dark:text-white font-semibold">
-                <span className="text-zinc-900 dark:text-white font-semibold">Subtotal</span>
-                <span className="text-zinc-950 dark:text-white font-black">{formatCartPrice(subtotal)}</span>
+              <div className="flex justify-between text-sm mb-2 text-[#12100E] font-semibold">
+                <span>Subtotal</span>
+                <span className="font-bold">{formatCartPrice(subtotal)}</span>
               </div>
 
-              <div className="flex justify-between text-xs mb-3 text-zinc-900 dark:text-white font-semibold">
-                <span className="text-zinc-900 dark:text-white font-semibold">Shipping (Pan-India Air)</span>
-                <span className="text-emerald-700 dark:text-emerald-400 font-black">FREE ⚡</span>
+              <div className="flex justify-between text-xs mb-3 text-neutral-600 font-medium">
+                <span>Shipping (Express Air)</span>
+                <span className="text-emerald-700 font-bold">Included</span>
               </div>
 
-              <div className="flex justify-between font-black text-xl text-zinc-950 dark:text-white pt-3 border-t border-neutral-200 dark:border-zinc-800 mb-3">
-                <span className="text-zinc-900 dark:text-white font-semibold">Total</span>
+              <div className="flex justify-between font-black text-lg text-[#12100E] pt-3 border-t border-black/10 mb-4">
+                <span>Total</span>
                 <span className="text-[#FF4D24] font-black">{formatCartPrice(subtotal)}</span>
               </div>
 
@@ -493,9 +484,9 @@ export default function CartDrawer() {
                 onClick={handleCheckout}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
-                className="block text-center w-full bg-zinc-950 hover:bg-black text-white py-4 rounded-full font-bold text-sm tracking-tight border-none cursor-pointer shadow-lg active:scale-95 transition-all"
+                className="block text-center w-full btn-ember py-3.5 rounded-lg font-bold text-xs uppercase tracking-wider cursor-pointer border-none shadow-md active:scale-95 transition-all"
               >
-                {`PROCEED TO CHECKOUT ⚡ • ${formatCartPrice(subtotal)}`}
+                {`Proceed to Checkout • ${formatCartPrice(subtotal)}`}
               </motion.button>
 
               <p className="text-center text-xs mt-3">

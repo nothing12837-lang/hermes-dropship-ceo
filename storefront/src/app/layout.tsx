@@ -22,10 +22,10 @@ const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Rare Ember — Curated Streetwear, Drinkware & Creator Lifestyle",
+    default: "Rare Ember — Independent Heavyweight Streetwear & Graphic Drops",
     template: "%s | Rare Ember",
   },
-  description: "Discover premium heavyweight streetwear, artisan drinkware, and creator desk essentials at Rare Ember. Pan-India 2–4 days express delivery with UPI, Cards & Cash on Delivery (COD).",
+  description: "Independent Indian streetwear engineered from 240 GSM combed cotton and 380 GSM French terry. Dispatched direct from Tirupur Hub with express air delivery included.",
   keywords: [
     "Rare Ember",
     "Rare Ember store",
@@ -66,9 +66,9 @@ export const metadata: Metadata = {
     description: 'Trending electronics, curated fashion, and lifestyle essentials delivered fast. 100% Secure Checkout with Razorpay & Cash on Delivery.',
     images: [
       {
-        url: '/flame-icon.png',
-        width: 800,
-        height: 800,
+        url: '/rareember-logo.png',
+        width: 1024,
+        height: 1024,
         alt: 'RareEmber Logo',
       },
     ],
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'RareEmber™ — Curated Living & Express Delivery',
     description: 'Trending electronics, curated fashion, and lifestyle essentials delivered fast.',
-    images: ['/flame-icon.png'],
+    images: ['/rareember-logo.png'],
     creator: '@rareember',
   },
   icons: {
@@ -145,7 +145,7 @@ export default function RootLayout({
               name: 'Rare Ember',
               alternateName: ['RareEmber', 'Rare Ember Shop'],
               url: siteUrl,
-              logo: `${siteUrl}/icon-512.png`,
+              logo: `${siteUrl}/rareember-logo.png`,
               image: `${siteUrl}/icon-512.png`,
               description:
                 'Rare Ember is an Indian direct-to-consumer streetwear and creator lifestyle brand specializing in 240 GSM bio-washed oversized graphic tees, 380 GSM fleece hoodies, custom creator drops, and aesthetic desk gear with express Pan-India delivery and Cash on Delivery.',

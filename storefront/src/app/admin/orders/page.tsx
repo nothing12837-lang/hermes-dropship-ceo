@@ -195,6 +195,26 @@ export default function AdminOrdersPage() {
     }
   };
 
+  const handleSendInvoiceEmail = async (orderId: string) => {
+    setUpdatingId(orderId);
+    setError('');
+    setActionSuccess('');
+    try {
+      const res = await fetch('/api/admin/orders', {
+        method: 'POST',
+        headers: { ...headers(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, action: 'send_invoice' }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to dispatch tax invoice');
+      setActionSuccess(`✅ Official Tax Invoice & Delivery Receipt sent for Order #${orderId.slice(0, 8)}`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Invoice email dispatch failed');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     setActionSuccess(`Copied ${label} to clipboard!`);
@@ -827,6 +847,16 @@ export default function AdminOrdersPage() {
 
                       {/* Status Transition Buttons */}
                       <div className="flex items-center gap-2">
+                        {/* Send / Resend Official Tax Invoice Email */}
+                        <button
+                          onClick={() => void handleSendInvoiceEmail(o.id)}
+                          disabled={updatingId === o.id}
+                          className="px-3 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-400 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
+                          title="Send or resend the official Tax Invoice & Delivery Receipt to customer email"
+                        >
+                          <span>📄</span> Email Invoice
+                        </button>
+
                         {o.status !== 'shipped' && o.status !== 'delivered' && (
                           <button
                             onClick={() => void updateOrderStatus(o.id, 'shipped')}
@@ -836,13 +866,24 @@ export default function AdminOrdersPage() {
                             Mark Shipped
                           </button>
                         )}
+                        {o.status === 'processing' && (
+                          <button
+                            onClick={() => void updateOrderStatus(o.id, 'delivered')}
+                            disabled={updatingId === o.id}
+                            className="px-3 py-1.5 rounded-lg bg-emerald-700/80 hover:bg-emerald-600 text-white text-xs font-black transition-all cursor-pointer disabled:opacity-50"
+                            title="Mark directly delivered and email Tax Invoice"
+                          >
+                            Mark Delivered
+                          </button>
+                        )}
                         {o.status === 'shipped' && (
                           <button
                             onClick={() => void updateOrderStatus(o.id, 'delivered')}
                             disabled={updatingId === o.id}
                             className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black transition-all cursor-pointer disabled:opacity-50"
+                            title="Mark delivered and automatically email official Tax Invoice"
                           >
-                            Mark Delivered
+                            Mark Delivered &amp; Send Invoice
                           </button>
                         )}
                       </div>

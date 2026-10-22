@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import Navbar from '@/components/ui/Navbar';
-import Footer from '@/components/ui/Footer';
 
 export const metadata = {
   title: 'Privacy Policy & DPDP Act Compliance | Rare Ember',
@@ -9,8 +7,6 @@ export const metadata = {
 
 export default function PrivacyPage() {
   return (
-    <>
-      <Navbar />
       <main className="min-h-screen bg-[#FFF9F1] pt-32 pb-24 px-6 md:px-12">
         <div className="max-w-4xl mx-auto bg-white/90 backdrop-blur-2xl rounded-3xl p-8 md:p-12 border border-black/[0.06] shadow-xl text-neutral-900">
           <div className="flex flex-wrap items-center gap-2 mb-4">
@@ -154,7 +150,5 @@ export default function PrivacyPage() {
           </div>
         </div>
       </main>
-      <Footer />
-    </>
-  );
+      );
 }

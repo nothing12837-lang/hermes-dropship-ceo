@@ -51,58 +51,58 @@ function getStatusDetails(status: string, paymentMethod?: string) {
       label: 'Cash on Delivery Confirmed',
       badgeBg: 'bg-amber-500/10 text-amber-900 border-amber-500/20',
       stepIndex: 0,
-      stageOneTitle: 'Order Confirmed ⚡',
+      stageOneTitle: 'Order Confirmed',
       stageOneDesc: 'Cash on Delivery verified. Warehouse preparing dispatch.',
-      icon: '💵',
+      icon: '•',
     };
   }
   if (s === 'paid') {
     return {
-      label: 'Payment Verified ⚡',
+      label: 'Payment Verified',
       badgeBg: 'bg-emerald-500/10 text-emerald-800 border-emerald-500/20',
       stepIndex: 0,
-      stageOneTitle: 'Payment Confirmed 💳',
+      stageOneTitle: 'Payment Confirmed',
       stageOneDesc: 'Payment secured via 256-bit SSL gateway. Warehouse notified.',
-      icon: '💳',
+      icon: '•',
     };
   }
   if (s === 'processing' || s === 'fulfilled') {
     return {
-      label: 'In Production & Quality Check 🧵',
+      label: 'In Production & Quality Check',
       badgeBg: 'bg-indigo-500/10 text-indigo-900 border-indigo-500/20',
       stepIndex: 1,
-      stageOneTitle: isCod ? 'Order Confirmed ⚡' : 'Payment Confirmed 💳',
+      stageOneTitle: isCod ? 'Order Confirmed' : 'Payment Confirmed',
       stageOneDesc: isCod ? 'COD order placed & verified.' : 'Prepaid transaction verified.',
-      icon: '🧵',
+      icon: '•',
     };
   }
   if (s === 'shipped' || s === 'in transit') {
     return {
-      label: 'Dispatched with Delhivery Air 🚚',
+      label: 'Dispatched (Delhivery Air)',
       badgeBg: 'bg-purple-500/10 text-purple-900 border-purple-500/20',
       stepIndex: 2,
-      stageOneTitle: isCod ? 'Order Confirmed ⚡' : 'Payment Confirmed 💳',
+      stageOneTitle: isCod ? 'Order Confirmed' : 'Payment Confirmed',
       stageOneDesc: isCod ? 'COD order placed.' : 'Prepaid transaction verified.',
-      icon: '🚚',
+      icon: '•',
     };
   }
   if (s === 'delivered') {
     return {
-      label: 'Delivered to Doorstep 🏠',
+      label: 'Delivered to Destination',
       badgeBg: 'bg-emerald-500/10 text-emerald-800 border-emerald-500/20',
       stepIndex: 3,
-      stageOneTitle: isCod ? 'Order Confirmed ⚡' : 'Payment Confirmed 💳',
+      stageOneTitle: isCod ? 'Order Confirmed' : 'Payment Confirmed',
       stageOneDesc: isCod ? 'COD order placed.' : 'Prepaid transaction verified.',
-      icon: '🏠',
+      icon: '•',
     };
   }
   return {
-    label: isCod ? 'COD Order Placed' : 'Order Registered ⏳',
+    label: isCod ? 'COD Order Placed' : 'Order Registered',
     badgeBg: 'bg-neutral-500/10 text-neutral-800 border-neutral-500/20',
     stepIndex: 0,
     stageOneTitle: isCod ? 'Order Confirmed (COD)' : 'Order Received',
     stageOneDesc: 'Order registered in system. Preparing warehouse dispatch queue.',
-    icon: isCod ? '💵' : '⏳',
+    icon: '•',
   };
 }
 
@@ -131,6 +131,33 @@ export function TrackClient() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedInvoiceOrder, setSelectedInvoiceOrder] = useState<Order | null>(null);
+  const [emailingInvoice, setEmailingInvoice] = useState(false);
+  const [emailInvoiceSuccess, setEmailInvoiceSuccess] = useState<string | null>(null);
+
+  const handleEmailInvoice = async (targetOrder: Order) => {
+    setEmailingInvoice(true);
+    setEmailInvoiceSuccess(null);
+    try {
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'email_invoice',
+          orderId: targetOrder.id,
+          email: targetOrder.email,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to email invoice');
+      setEmailInvoiceSuccess('✅ Official Tax Invoice dispatched to your email!');
+      setTimeout(() => setEmailInvoiceSuccess(null), 6000);
+    } catch (err: any) {
+      setEmailInvoiceSuccess(err?.message || 'Invoice email dispatch failed');
+      setTimeout(() => setEmailInvoiceSuccess(null), 5000);
+    } finally {
+      setEmailingInvoice(false);
+    }
+  };
 
   const executeLookup = async (targetEmail: string, targetOrderId: string) => {
     setErrorMessage(null);
@@ -234,10 +261,17 @@ export function TrackClient() {
       `}</style>
 
       <div className="max-w-3xl mx-auto px-4 md:px-6">
-        <ChapterHeading index="📍" label="Real-Time Order Tracking" title="Where is" accent="my order?" />
-        <p className="text-neutral-500 text-sm -mt-6 mb-8 no-print">
-          Door-to-door courier tracking with live manufacturing milestones, carrier AWB, and doorstep dispatch updates.
-        </p>
+        <div className="mb-8 no-print">
+          <span className="font-mono text-xs uppercase tracking-widest text-[#FF4D24] block mb-2">
+            Logistics & Status
+          </span>
+          <h1 className="text-3xl md:text-5xl font-black tracking-tight text-[#12100E]">
+            Real-Time Order Tracking
+          </h1>
+          <p className="text-neutral-500 text-sm mt-2">
+            Door-to-door courier tracking with live manufacturing milestones, carrier AWB, and doorstep dispatch updates.
+          </p>
+        </div>
 
         {/* Collapsible Search Card or Compact Banner */}
         {orders.length > 0 && !showSearchForm ? (
@@ -252,7 +286,7 @@ export function TrackClient() {
               onClick={() => setShowSearchForm(true)}
               className="text-xs font-bold text-[#FF4D24] hover:underline bg-transparent border-none cursor-pointer flex items-center gap-1"
             >
-              <span>🔍</span> Track Another Order
+              <span>Track Another Order</span>
             </button>
           </div>
         ) : (
@@ -277,12 +311,12 @@ export function TrackClient() {
                 disabled={loading}
                 className="px-6 py-3.5 rounded-full font-black text-xs uppercase tracking-wider text-white bg-[#1d1d1f] hover:bg-black active:scale-95 transition-all cursor-pointer border-none shadow-md disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
               >
-                {loading ? 'Searching…' : '📍 Track Order →'}
+                {loading ? 'Searching…' : 'Track Order →'}
               </button>
             </div>
 
             <div className="mt-3.5 pt-3 border-t border-black/[0.04] flex items-center justify-between flex-wrap gap-2 text-[11px] text-neutral-500">
-              <span>💡 Need to test or preview tracking?</span>
+              <span>Need to test or preview tracking?</span>
               <button
                 type="button"
                 onClick={() => {
@@ -336,12 +370,12 @@ export function TrackClient() {
         {looked && (
           <div>
             {errorMessage ? (
-              <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold mb-6 flex items-center gap-2">
-                <span>⚠️</span> {errorMessage}
+              <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold mb-6 flex items-center gap-2">
+                <span>Notice:</span> {errorMessage}
               </div>
             ) : orders.length === 0 ? (
-              <div className="rounded-[1.75rem] bg-white border border-black/[0.06] p-8 text-center shadow-sm">
-                <span className="text-4xl block mb-3">🔍</span>
+              <div className="rounded-2xl bg-white border border-black/[0.08] p-8 text-center shadow-sm">
+                <span className="font-mono text-xs uppercase tracking-wider text-neutral-400 block mb-2">00 / NOT FOUND</span>
                 <h3 className="font-bold text-base text-neutral-900 mb-1">No orders located</h3>
                 <p className="text-xs text-neutral-500 max-w-sm mx-auto mb-5">
                   We couldn&apos;t find an order matching <span className="font-bold text-neutral-800">{orderId}</span> and <span className="font-bold text-neutral-800">{email}</span>. Double-check your confirmation receipt or try searching by email.
@@ -350,7 +384,7 @@ export function TrackClient() {
                   href="/shop"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1d1d1f] text-white text-xs font-bold no-underline hover:bg-black transition-all"
                 >
-                  Explore Trending Catalog ⚡ →
+                  Explore Catalog →
                 </Link>
               </div>
             ) : (
@@ -366,25 +400,21 @@ export function TrackClient() {
                       desc: isCod
                         ? 'Cash on Delivery verified & queued on factory ledger.'
                         : 'Prepaid transaction verified via SSL gateway.',
-                      icon: isCod ? '💵' : '💳',
                       label: 'Verified',
                     },
                     {
-                      title: 'In Production & Quality Check 🧵',
+                      title: 'In Production & Quality Check',
                       desc: 'Garment blank pulled from warehouse. High-def DTF print applied & dual QA inspected.',
-                      icon: '🧵',
                       label: 'Printing & QA',
                     },
                     {
-                      title: 'Dispatched with Courier 🚚',
-                      desc: 'Packed in tamper-proof bubble mailer. Handed to Delhivery Air Express.',
-                      icon: '🚚',
+                      title: 'Dispatched with Courier',
+                      desc: 'Packed in tamper-proof mailer. Handed to Delhivery Air Express.',
                       label: 'Air Transit',
                     },
                     {
-                      title: 'Delivered to Doorstep 🏠',
+                      title: 'Delivered to Doorstep',
                       desc: 'Handed over at doorstep. 7-Day Free Replacement Guarantee active.',
-                      icon: '🏠',
                       label: 'Doorstep',
                     },
                   ];
@@ -427,7 +457,7 @@ export function TrackClient() {
                               className="no-print px-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-[11px] text-neutral-800 font-bold border border-black/5 cursor-pointer inline-flex items-center gap-1 font-sans transition-all"
                               title="View & Download Official Retail Bill / Tax Invoice"
                             >
-                              <span>📄</span> View Tax Invoice
+                              <span>View Tax Invoice</span>
                             </button>
                           </div>
                           <p className="text-xs text-neutral-400 mt-1">
@@ -443,33 +473,33 @@ export function TrackClient() {
                       </div>
 
                       {/* Estimated Delivery Highlight Banner */}
-                      <div className="mt-5 p-4 rounded-2xl bg-gradient-to-r from-amber-500/[0.08] via-orange-500/[0.05] to-transparent border border-amber-500/20 flex flex-wrap items-center justify-between gap-3">
+                      <div className="mt-5 p-4 rounded-xl bg-neutral-50 border border-black/[0.08] flex flex-wrap items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-amber-500/15 text-amber-700 flex items-center justify-center text-lg shrink-0">
-                            ⚡
+                          <div className="w-8 h-8 rounded-lg bg-[#12100E] text-white flex items-center justify-center text-[10px] font-mono font-bold shrink-0">
+                            ETA
                           </div>
                           <div>
-                            <p className="text-xs font-black text-amber-950 uppercase tracking-wider">
+                            <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider font-mono">
                               Estimated Doorstep Delivery
                             </p>
                             <p className="text-sm font-extrabold text-neutral-900">
                               {estimatedDelivery}{' '}
-                              <span className="text-xs font-medium text-neutral-500">(Domestic Express)</span>
+                              <span className="text-xs font-normal text-neutral-500">(Domestic Express)</span>
                             </p>
                           </div>
                         </div>
-                        <div className="text-[11px] font-bold text-amber-900 bg-amber-100/70 border border-amber-300/40 px-3 py-1 rounded-full">
-                          {isCod ? '💵 COD — Cash / UPI on Delivery' : '✓ 100% Prepaid & Insured'}
+                        <div className="text-[11px] font-bold text-neutral-800 bg-white border border-black/[0.08] px-3 py-1 rounded-full font-mono">
+                          {isCod ? 'COD — Cash / UPI on Delivery' : 'Prepaid & Insured'}
                         </div>
                       </div>
 
                       {/* Connected Fulfillment Stepper (Responsive) */}
                       <div className="pt-7">
                         <div className="flex items-center justify-between mb-4">
-                          <p className="text-[11px] font-black uppercase tracking-wider text-neutral-400">
+                          <p className="text-[11px] font-mono uppercase tracking-wider text-neutral-400">
                             Fulfillment Journey
                           </p>
-                          <span className="text-[11px] font-semibold text-neutral-400">
+                          <span className="text-[11px] font-mono font-semibold text-neutral-400">
                             Stage {meta.stepIndex + 1} of 4
                           </span>
                         </div>
@@ -498,7 +528,7 @@ export function TrackClient() {
                                         : 'bg-white text-neutral-400 border-2 border-neutral-200'
                                     }`}
                                   >
-                                    {isDone ? '✓' : step.icon}
+                                    {isDone ? '✓' : idx + 1}
                                   </div>
                                 </div>
                               );
@@ -514,29 +544,29 @@ export function TrackClient() {
                             return (
                               <div
                                 key={idx}
-                                className={`p-4 rounded-2xl border transition-all ${
+                                className={`p-4 rounded-xl border transition-all ${
                                   isCurrent
-                                    ? 'bg-[#161311] text-white border-black/10 shadow-lg ring-2 ring-[#FF4D24]/30'
+                                    ? 'bg-[#161311] text-white border-black/10 shadow-lg ring-1 ring-[#FF4D24]/30'
                                     : isDone
-                                    ? 'bg-emerald-500/[0.04] border-emerald-500/20 text-emerald-950'
-                                    : 'bg-neutral-50/50 border-black/[0.04] text-neutral-400 opacity-60'
+                                    ? 'bg-white border-emerald-500/30 text-emerald-950'
+                                    : 'bg-white border-black/[0.06] text-neutral-400 opacity-60'
                                 }`}
                               >
                                 <div className="flex items-center justify-between mb-2">
-                                  <span className="text-xl sm:hidden">{step.icon}</span>
+                                  <span className="text-xs font-mono font-bold">{idx + 1}</span>
                                   {isDone && (
-                                    <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
-                                      ✓ Done
+                                    <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">
+                                      Done
                                     </span>
                                   )}
                                   {isCurrent && (
-                                    <span className="text-[10px] font-black uppercase tracking-wider text-[#FF4D24] bg-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#FF4D24] bg-white/10 px-2.5 py-0.5 rounded flex items-center gap-1">
                                       <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D24] animate-ping" />
                                       Active
                                     </span>
                                   )}
                                   {!isDone && !isCurrent && (
-                                    <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+                                    <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400">
                                       Upcoming
                                     </span>
                                   )}
@@ -582,7 +612,7 @@ export function TrackClient() {
                                         className="object-cover"
                                       />
                                     ) : (
-                                      <span className="text-2xl">{prod?.emoji || '🛍️'}</span>
+                                      <span className="text-xs font-mono font-bold text-neutral-400">RE</span>
                                     )}
                                   </div>
                                   <div className="flex-1 min-w-0">
@@ -622,10 +652,9 @@ export function TrackClient() {
                         <div className="py-6 border-b border-black/[0.06]">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {/* Shipping Destination */}
-                            <div className="p-4 rounded-2xl bg-neutral-50/70 border border-black/[0.04] space-y-1">
+                            <div className="p-4 rounded-xl bg-neutral-50 border border-black/[0.06] space-y-1">
                               <div className="flex items-center gap-1.5 text-neutral-400">
-                                <span className="text-sm">📍</span>
-                                <span className="text-[10px] font-black uppercase tracking-wider">
+                                <span className="text-[10px] font-mono uppercase tracking-wider">
                                   Delivery Destination
                                 </span>
                               </div>
@@ -641,10 +670,9 @@ export function TrackClient() {
                             </div>
 
                             {/* Payment Summary */}
-                            <div className="p-4 rounded-2xl bg-neutral-50/70 border border-black/[0.04] space-y-1">
+                            <div className="p-4 rounded-xl bg-neutral-50 border border-black/[0.06] space-y-1">
                               <div className="flex items-center gap-1.5 text-neutral-400">
-                                <span className="text-sm">💵</span>
-                                <span className="text-[10px] font-black uppercase tracking-wider">
+                                <span className="text-[10px] font-mono uppercase tracking-wider">
                                   Billing & Payment
                                 </span>
                               </div>
@@ -659,8 +687,8 @@ export function TrackClient() {
                                 <span className="font-black text-neutral-900">{geoFormatPrice(o.total)}</span>
                               </div>
                               {isCod && (
-                                <p className="text-[10px] text-amber-800 font-semibold bg-amber-500/10 px-2 py-1 rounded-md mt-1">
-                                  💡 Pay {geoFormatPrice(o.total)} via Cash or UPI QR to delivery executive
+                                <p className="text-[10px] text-neutral-700 font-medium bg-neutral-100 border border-black/[0.08] px-2 py-1 rounded mt-1">
+                                  Pay {geoFormatPrice(o.total)} via Cash or UPI QR to delivery executive
                                 </p>
                               )}
                             </div>
@@ -670,17 +698,17 @@ export function TrackClient() {
 
                       {/* Courier Tracking Link Bar */}
                       {(o.tracking_number || courierUrl) && (
-                        <div className="mt-6 p-4 md:p-5 rounded-2xl bg-gradient-to-r from-purple-500/[0.07] to-indigo-500/[0.04] border border-purple-500/20 flex flex-wrap items-center justify-between gap-4">
+                        <div className="mt-6 p-4 md:p-5 rounded-xl bg-neutral-50 border border-black/[0.08] flex flex-wrap items-center justify-between gap-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-purple-500/15 text-purple-700 flex items-center justify-center text-xl shrink-0">
-                              🚚
+                            <div className="w-10 h-10 rounded-lg bg-[#12100E] text-white flex items-center justify-center text-xs font-mono font-bold shrink-0">
+                              AIR
                             </div>
                             <div>
                               <div className="flex items-center gap-2">
-                                <p className="text-xs font-black text-purple-950 uppercase tracking-wider">
+                                <p className="text-xs font-black text-neutral-950 uppercase tracking-wider">
                                   Carrier: Delhivery Air Express
                                 </p>
-                                <span className="text-[10px] font-bold text-purple-700 bg-purple-100 px-2 py-0.2 rounded-full">
+                                <span className="text-[10px] font-mono font-bold text-neutral-700 bg-neutral-200 px-2 py-0.2 rounded">
                                   Domestic Air
                                 </span>
                               </div>
@@ -697,10 +725,10 @@ export function TrackClient() {
                               href={courierUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="no-print px-5 py-2.5 rounded-full bg-[#1d1d1f] hover:bg-black text-white text-xs font-bold no-underline transition-all shadow-md shrink-0 inline-flex items-center gap-1.5"
+                              className="no-print px-5 py-2.5 rounded-full bg-[#12100E] hover:bg-black text-white text-xs font-bold no-underline transition-all shadow-sm shrink-0 inline-flex items-center gap-1.5"
                             >
-                              <span>Open Live Delhivery Tracker</span>
-                              <span>📍 →</span>
+                              <span>Open Live Tracking</span>
+                              <span>→</span>
                             </a>
                           )}
                         </div>
@@ -709,14 +737,13 @@ export function TrackClient() {
                       {/* 7-Day Free Replacement Guarantee Banner */}
                       <div className="mt-5 pt-4 border-t border-black/[0.06] flex items-center justify-between flex-wrap gap-3">
                         <div className="text-xs text-neutral-500 flex items-center gap-2">
-                          <span>🛡️</span>
                           <span>Protected by Rare Ember 7-Day Free Replacement Guarantee</span>
                         </div>
                         <Link
                           href={`/returns?order_id=${encodeURIComponent(o.id)}&email=${encodeURIComponent(o.email)}`}
                           className="no-print px-4 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-900 text-xs font-bold transition-all no-underline inline-flex items-center gap-1.5"
                         >
-                          <span>🔄</span> Request Size Replacement or Issue Resolution →
+                          <span>Request Size Replacement or Resolution →</span>
                         </Link>
                       </div>
                     </div>
@@ -746,17 +773,17 @@ export function TrackClient() {
           const mailUrl = `mailto:rareemberagency@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
           return (
-            <div className="no-print mt-8 p-6 md:p-8 rounded-3xl bg-gradient-to-br from-[#161311] to-[#26201c] text-white border border-white/10 shadow-xl">
+            <div className="no-print mt-8 p-6 md:p-8 rounded-2xl bg-[#12100E] text-white border border-white/10 shadow-xl">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="space-y-1">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF4D24]/20 border border-[#FF4D24]/40 text-[#FF9A3D] text-[11px] font-black uppercase tracking-wider">
-                    <span>⚡</span> 12-Hour Priority SLA
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-[#FF4D24]/20 border border-[#FF4D24]/40 text-[#FF9A3D] text-[10px] font-mono font-bold uppercase tracking-wider">
+                    <span>12-Hour Priority SLA</span>
                   </div>
-                  <h3 className="text-base sm:text-lg font-black text-white">
-                    Need Urgent Dispatch Help? Chat with Atelier Concierge
+                  <h3 className="text-base sm:text-lg font-bold text-white">
+                    Need Dispatch Assistance? Contact Atelier Support
                   </h3>
                   <p className="text-xs text-neutral-400 max-w-lg leading-relaxed">
-                    Direct access to our domestic Tirupur dispatch hub. Tap below to chat instantly on WhatsApp or send an email with your {currentOrderId ? <strong>Order #{currentOrderId}</strong> : 'Order ID'} pre-filled.
+                    Direct access to our domestic Tirupur dispatch hub. Tap below to chat on WhatsApp or send an email with your {currentOrderId ? <strong>Order #{currentOrderId}</strong> : 'Order ID'} pre-filled.
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto shrink-0">
@@ -764,16 +791,14 @@ export function TrackClient() {
                     href={waUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#25D366] hover:bg-[#20ba5a] text-black font-black text-xs no-underline shadow-lg shadow-emerald-900/30 active:scale-95 transition-all cursor-pointer whitespace-nowrap"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#25D366] hover:bg-[#20ba5a] text-black font-bold text-xs no-underline active:scale-95 transition-all cursor-pointer whitespace-nowrap"
                   >
-                    <span>💬</span>
-                    <span>1-Tap WhatsApp Concierge</span>
+                    <span>WhatsApp Concierge</span>
                   </a>
                   <a
                     href={mailUrl}
-                    className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs no-underline border border-white/15 active:scale-95 transition-all cursor-pointer whitespace-nowrap"
+                    className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs no-underline border border-white/15 active:scale-95 transition-all cursor-pointer whitespace-nowrap"
                   >
-                    <span>✉️</span>
                     <span>Email Atelier</span>
                   </a>
                 </div>
@@ -789,30 +814,43 @@ export function TrackClient() {
               {/* Action Bar (hidden when printing) */}
               <div className="no-print flex items-center justify-between mb-3 text-white">
                 <div className="flex items-center gap-2">
-                  <span className="text-lg">📄</span>
-                  <span className="font-bold text-sm">Official Tax Invoice / Bill of Supply</span>
+                  <span className="font-mono text-xs font-bold uppercase tracking-wider">Official Tax Invoice / Bill of Supply</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => window.print()}
-                    className="px-4 py-2 rounded-full bg-gradient-to-r from-[#FF4D24] to-[#FF6B35] hover:brightness-105 text-white font-black text-xs uppercase tracking-wider border-none shadow-md cursor-pointer flex items-center gap-1.5 transition-all"
+                    onClick={() => void handleEmailInvoice(selectedInvoiceOrder)}
+                    disabled={emailingInvoice}
+                    className="px-3.5 py-2 rounded bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider border border-white/20 shadow-sm cursor-pointer flex items-center gap-1.5 transition-all disabled:opacity-50"
+                    title="Send official Tax Invoice copy directly to your email"
                   >
-                    <span>🖨️</span>
-                    <span>Print / Save as PDF</span>
+                    <span>{emailingInvoice ? 'Sending...' : 'Email Invoice'}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => window.print()}
+                    className="px-4 py-2 rounded bg-[#FF4D24] hover:bg-[#e03d15] text-white font-bold text-xs uppercase tracking-wider border-none shadow-md cursor-pointer flex items-center gap-1.5 transition-all"
+                  >
+                    <span>Print / PDF</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setSelectedInvoiceOrder(null)}
-                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white border-none flex items-center justify-center cursor-pointer text-sm font-bold transition-all"
+                    className="w-8 h-8 rounded bg-white/10 hover:bg-white/20 text-white border-none flex items-center justify-center cursor-pointer text-sm font-bold transition-all"
                   >
                     ✕
                   </button>
                 </div>
               </div>
 
+              {emailInvoiceSuccess && (
+                <div className="no-print mb-3 px-4 py-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold text-center">
+                  {emailInvoiceSuccess}
+                </div>
+              )}
+
               {/* Printable A4 Tax Invoice Document Sheet */}
-              <div className="tax-invoice-sheet bg-white text-[#161311] rounded-3xl p-6 sm:p-10 shadow-2xl border border-black/10 text-left font-sans">
+              <div className="tax-invoice-sheet bg-white text-[#161311] rounded-2xl p-6 sm:p-10 shadow-2xl border border-black/10 text-left font-sans">
                 {/* Top Header */}
                 <div className="flex items-start justify-between pb-6 border-b-2 border-neutral-900 gap-4">
                   <div>
@@ -868,7 +906,7 @@ export function TrackClient() {
                       Fulfillment &amp; Payment Terms
                     </p>
                     <p className="font-bold text-neutral-900">
-                      Payment Method: {selectedInvoiceOrder.payment_method?.toUpperCase() === 'COD' ? '💵 Cash on Delivery (COD)' : '💳 Prepaid (Online UPI/Cards)'}
+                      Payment Method: {selectedInvoiceOrder.payment_method?.toUpperCase() === 'COD' ? 'Cash on Delivery (COD)' : 'Prepaid (Online UPI/Cards)'}
                     </p>
                     <p className="text-neutral-600 mt-0.5">
                       Carrier: Delhivery Air Express (Domestic Air)
@@ -968,7 +1006,7 @@ export function TrackClient() {
                     </div>
                     {selectedInvoiceOrder.payment_method?.toLowerCase().includes('cod') && (
                       <p className="text-[11px] font-bold text-amber-800 text-right bg-amber-50 p-1.5 rounded border border-amber-200">
-                        💵 Collectible at Doorstep: ₹{selectedInvoiceOrder.total}
+                        Collectible at Doorstep: ₹{selectedInvoiceOrder.total}
                       </p>
                     )}
                   </div>

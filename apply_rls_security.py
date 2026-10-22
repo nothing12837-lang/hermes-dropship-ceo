@@ -1,7 +1,6 @@
 import os
 import sys
 import ssl
-import json
 import pg8000.native
 
 if hasattr(sys.stdout, 'reconfigure'):
@@ -16,100 +15,251 @@ if os.path.exists(env_path):
                 k, v = line.split("=", 1)
                 os.environ[k.strip()] = v.strip().strip('"').strip("'")
 
+# Credentials come from the environment only. No defaults, no literals.
+DB_USER = os.environ.get("SUPABASE_DB_USER", "postgres").strip()
+DB_HOST = os.environ.get("SUPABASE_DB_HOST", "").strip()
+DB_NAME = os.environ.get("SUPABASE_DB_NAME", "postgres").strip()
+DB_PASS = os.environ.get("SUPABASE_DB_PASS", "").strip()
+
+if not DB_HOST or not DB_PASS:
+    print("ERROR: SUPABASE_DB_HOST and SUPABASE_DB_PASS must be set in .env. Refusing to run.")
+    sys.exit(1)
+
+# Certificate verification stays ON. This connection is the database superuser.
 ctx = ssl.create_default_context()
 conn = pg8000.native.Connection(
-    user=os.environ.get("SUPABASE_DB_USER", "postgres").strip(),
-    host=os.environ.get("SUPABASE_DB_HOST", "db.qdkkxpfhwrwyoardlceo.supabase.co").strip(),
+    user=DB_USER,
+    host=DB_HOST,
     port=5432,
-    database=os.environ.get("SUPABASE_DB_NAME", "postgres").strip(),
-    password=os.environ.get("SUPABASE_DB_PASS", "").strip(),
-    ssl_context=ctx
+    database=DB_NAME,
+    password=DB_PASS,
+    ssl_context=ctx,
 )
+
+failures = []
+
+
+def check(label, sql):
+    """Run a statement and record failures instead of silently continuing."""
+    try:
+        conn.run(sql)
+        print(f"OK   {label}")
+    except Exception as exc:  # noqa: BLE001
+        failures.append(f"{label}: {exc}")
+        print(f"FAIL {label}: {exc}")
+
 
 print("Applying Row-Level-Security (RLS) hardening...")
 
-# 1. Enable RLS on agent_memory
-conn.run("ALTER TABLE agent_memory ENABLE ROW LEVEL SECURITY")
-print("✓ agent_memory: RLS enabled")
+# ------------------------------------------------------------------
+# 1. Enable (and FORCE) RLS on every agent-facing table.
+#    FORCE makes the policy apply to the table owner too, so the
+#    superuser-created tables are not a hole.
+# ------------------------------------------------------------------
+for table in (
+    "agent_memory",
+    "store_goals",
+    "blog_posts",
+    "scouted_products",
+    "orders_pnl",
+    "rto_risk_scores",
+    "orders",
+):
+    check(f"{table}: enable+force RLS", f"ALTER TABLE {table} ENABLE ROW LEVEL SECURITY")
+    check(f"{table}: force RLS", f"ALTER TABLE {table} FORCE ROW LEVEL SECURITY")
 
-# 2. Enable RLS on store_goals
-conn.run("ALTER TABLE store_goals ENABLE ROW LEVEL SECURITY")
-print("✓ store_goals: RLS enabled")
+# ------------------------------------------------------------------
+# 2. orders -- the table that matters.
+#
+#    History: the script created
+#      CREATE POLICY allow_public_order_insert ON orders FOR INSERT TO public
+#        WITH CHECK (true)
+#    With the PUBLIC anon key that let ANYONE insert a forged row,
+#    including status='paid', which the fulfilment retry worker then
+#    printed and shipped -- free merchandise.
+#
+#    It also dropped only four policy names, so legacy permissive
+#    policies (allow_service_and_anon_select_orders, allow_delete_orders,
+#    ...) survived and Postgres UNIONs policies with OR: one permissive
+#    policy is enough to open the whole table.
+#
+#    Now: every known policy name is dropped, anon/authenticated are
+#    REVOKED at the table level, and only a service_role policy remains.
+# ------------------------------------------------------------------
+LEGACY_ORDER_POLICIES = [
+    "allow_order_select",
+    "allow_order_insert",
+    "allow_order_update",
+    "allow_order_delete",
+    "allow_public_order_insert",
+    "allow_public_order_select",
+    "allow_public_order_update",
+    "allow_public_order_delete",
+    "allow_delete_orders",
+    "allow_service_and_anon_select_orders",
+    "allow_service_and_anon_update_orders",
+    "allow_service_role_all_orders",
+    "authenticated_view_own_orders",
+    "guest insert pending orders",
+    "public_read_orders",
+    "public_insert_orders",
+    "service_role_orders_all",
+]
+for name in LEGACY_ORDER_POLICIES:
+    check(f"orders: drop policy {name}", f'DROP POLICY IF EXISTS "{name}" ON public.orders')
 
-# 3. Enable RLS on blog_posts & add read policy
-conn.run("ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY")
-conn.run("DROP POLICY IF EXISTS \"public_read_published_blogs\" ON blog_posts")
-conn.run("CREATE POLICY \"public_read_published_blogs\" ON blog_posts FOR SELECT TO public USING (published = true)")
-print("✓ blog_posts: RLS enabled + public_read_published_blogs policy")
+check(
+    "orders: revoke anon",
+    "REVOKE ALL ON public.orders FROM anon",
+)
+check(
+    "orders: revoke authenticated",
+    "REVOKE ALL ON public.orders FROM authenticated",
+)
+check(
+    "orders: grant service_role",
+    "GRANT ALL ON public.orders TO service_role",
+)
+check(
+    "orders: service_role-only policy",
+    "CREATE POLICY service_role_orders_all ON public.orders "
+    "FOR ALL TO service_role USING (true) WITH CHECK (true)",
+)
 
-# 4. Enable RLS on scouted_products
-conn.run("ALTER TABLE scouted_products ENABLE ROW LEVEL SECURITY")
-print("✓ scouted_products: RLS enabled")
-
-# 5. Enable RLS on orders_pnl
-conn.run("ALTER TABLE orders_pnl ENABLE ROW LEVEL SECURITY")
-print("✓ orders_pnl: RLS enabled")
-
-# 6. Enable RLS on rto_risk_scores
-conn.run("ALTER TABLE rto_risk_scores ENABLE ROW LEVEL SECURITY")
-print("✓ rto_risk_scores: RLS enabled")
-
-# 7. Harden orders table
-conn.run("ALTER TABLE orders ENABLE ROW LEVEL SECURITY")
-conn.run("DROP POLICY IF EXISTS \"allow_order_select\" ON orders")
-conn.run("DROP POLICY IF EXISTS \"allow_order_insert\" ON orders")
-conn.run("DROP POLICY IF EXISTS \"authenticated_view_own_orders\" ON orders")
-conn.run("DROP POLICY IF EXISTS \"allow_public_order_insert\" ON orders")
-
-conn.run("CREATE POLICY \"allow_public_order_insert\" ON orders FOR INSERT TO public WITH CHECK (true)")
-conn.run("CREATE POLICY \"authenticated_view_own_orders\" ON orders FOR SELECT TO authenticated USING (auth.uid() = user_id)")
-print("✓ orders: Hardened RLS policies (allow_order_select removed, authenticated own orders + public insert)")
-
-# 8. Create secure track_order RPC function
-conn.run("""
-CREATE OR REPLACE FUNCTION track_order(p_order_id text, p_email text)
-RETURNS SETOF orders
+# ------------------------------------------------------------------
+# 3. track_order -- SECURITY DEFINER, so it runs as the owner and
+#    bypasses RLS. It used to return SETOF orders (every column,
+#    including user_email and user_id) and was granted to anon.
+#    Now it returns an explicit, non-identifying column list and is
+#    granted to authenticated only.
+# ------------------------------------------------------------------
+check(
+    "track_order: drop old signature",
+    "DROP FUNCTION IF EXISTS public.track_order(text, text)",
+)
+conn.run(
+    """
+CREATE OR REPLACE FUNCTION public.track_order(p_order_id text, p_email text)
+RETURNS TABLE (
+  id uuid,
+  status text,
+  total_amount numeric,
+  shipping_address jsonb,
+  tracking_number text,
+  tracking_url text,
+  created_at timestamptz
+)
 LANGUAGE sql
 SECURITY DEFINER
 SET search_path = public
 AS $$
-  SELECT * FROM orders
-  WHERE id::text = p_order_id
-    AND LOWER(user_email) = LOWER(p_email)
+  SELECT o.id, o.status, o.total_amount, o.shipping_address,
+         o.tracking_number, o.tracking_url, o.created_at
+  FROM public.orders o
+  WHERE o.id::text = p_order_id
+    AND LOWER(o.user_email) = LOWER(p_email)
   LIMIT 1;
 $$;
-""")
-conn.run("GRANT EXECUTE ON FUNCTION track_order(text, text) TO anon, authenticated")
-print("✓ track_order: RPC function created & granted to anon/authenticated")
+"""
+)
+print("OK   track_order: recreated with an explicit column list")
+check(
+    "track_order: revoke anon",
+    "REVOKE ALL ON FUNCTION public.track_order(text, text) FROM anon, PUBLIC",
+)
+check(
+    "track_order: grant authenticated",
+    "GRANT EXECUTE ON FUNCTION public.track_order(text, text) TO authenticated, service_role",
+)
 
-admin_sec = os.environ.get("ADMIN_SECRET", "").strip()
-conn.run(f"""
-CREATE OR REPLACE FUNCTION admin_lookup_orders(p_admin_secret text, p_order_id text DEFAULT NULL, p_email text DEFAULT NULL)
-RETURNS SETOF orders
-LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path = public
-AS $$
-BEGIN
-  IF p_admin_secret IS NULL OR p_admin_secret != '{admin_sec}' THEN
-    RAISE EXCEPTION 'Unauthorized';
-  END IF;
-  
-  RETURN QUERY
-  SELECT * FROM orders
-  WHERE (p_order_id IS NULL OR id::text ILIKE p_order_id || '%')
-    AND (p_email IS NULL OR LOWER(user_email) = LOWER(p_email))
-  ORDER BY created_at DESC
-  LIMIT 25;
-END;
-$$;
-""")
-conn.run("GRANT EXECUTE ON FUNCTION admin_lookup_orders(text, text, text) TO anon, authenticated")
-print("✓ admin_lookup_orders: Secure admin RPC function created")
+# ------------------------------------------------------------------
+# 4. admin_lookup_orders -- REMOVED.
+#
+#    It baked the ADMIN_SECRET into the function body with an f-string
+#    (SQL injection + the secret readable in pg_proc) and was granted to
+#    anon. Because the secret check was `p_admin_secret != '<secret>'`,
+#    an EMPTY ADMIN_SECRET made the check pass for the empty string,
+#    so `admin_lookup_orders('', ...)` returned 25 rows of order PII to
+#    any anonymous caller.
+#
+#    Admin reads now go through the service-role client in the app
+#    (see storefront/src/lib/supabase-server.ts).
+# ------------------------------------------------------------------
+check(
+    "admin_lookup_orders: drop",
+    "DROP FUNCTION IF EXISTS public.admin_lookup_orders(text, text, text)",
+)
 
-print("\n--- Verifying All Public Tables RLS Status ---")
-tables = conn.run("SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'public'")
-for t in tables:
-    print(f"  {t[0]}: RLS={t[1]}")
+# ------------------------------------------------------------------
+# 5. Public read policies that are legitimately public.
+# ------------------------------------------------------------------
+check(
+    "blog_posts: drop old policy",
+    'DROP POLICY IF EXISTS "public_read_published_blogs" ON blog_posts',
+)
+check(
+    "blog_posts: drop duplicate policy",
+    'DROP POLICY IF EXISTS "public read published blog_posts" ON blog_posts',
+)
+check(
+    "blog_posts: public read policy",
+    'CREATE POLICY "public_read_published_blogs" ON blog_posts '
+    "FOR SELECT TO public USING (published = true)",
+)
+
+# ------------------------------------------------------------------
+# 6. Storage bucket: the artwork bucket must not be world-writable.
+# ------------------------------------------------------------------
+check(
+    "storage: drop public upload policy",
+    'DROP POLICY IF EXISTS "Public Upload Artworks" ON storage.objects',
+)
+check(
+    "storage: revoke anon insert",
+    "REVOKE INSERT ON storage.objects FROM anon",
+)
+check(
+    "storage: authenticated upload policy",
+    'CREATE POLICY "Authenticated Upload Artworks" ON storage.objects '
+    "FOR INSERT TO authenticated, service_role "
+    "WITH CHECK (bucket_id = 'custom-artworks')",
+)
+
+# ------------------------------------------------------------------
+# 7. Verification -- assert, do not just print.
+# ------------------------------------------------------------------
+print("\n--- Verifying ---")
+res = conn.run(
+    "SELECT polname, polcmd, polroles::regrole[] FROM pg_policy "
+    "WHERE polrelid = 'public.orders'::regclass"
+)
+print("  orders policies:", res)
+bad = [
+    r
+    for r in res
+    if any(str(role).strip("{}") in ("anon", "public") for role in (r[2] or []))
+]
+if bad:
+    failures.append(f"orders still has permissive policies: {bad}")
+
+res2 = conn.run(
+    "SELECT proname, proacl FROM pg_proc "
+    "WHERE proname IN ('track_order', 'admin_lookup_orders') "
+    "AND pronamespace = 'public'::regnamespace"
+)
+print("  RPCs:", res2)
+for row in res2:
+    if row[0] == "admin_lookup_orders":
+        failures.append("admin_lookup_orders still exists")
+    if row[0] == "track_order" and row[1] and "=T/anon" in str(row[1]):
+        failures.append("track_order is still executable by anon")
 
 conn.close()
+
+if failures:
+    print("\nRLS HARDENING FAILED:")
+    for f in failures:
+        print("  -", f)
+    sys.exit(1)
+
+print("\nAll RLS hardening steps applied and verified.")

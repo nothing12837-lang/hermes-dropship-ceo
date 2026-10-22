@@ -1,77 +1,73 @@
-// ─── RareEmber — Single source of truth for copy ───
-// Source: PROJECT_CONTEXT.md §C + §E (authoritative — do not invent claims).
-// Tone: Warm, minimalist, sophisticated, slightly playful.
+// ─── Rare Ember — Authoritative Brand Copy ───
+// Voice: Direct, confident, editorial, human streetwear voice.
+// Zero AI slogans. Concrete product details, fabric weights, and genuine policies.
 
 export const COPY = {
   brand: 'Rare Ember',
-  slogan: 'Curated Streetwear & Creator Lifestyle. Delivered fast.',
-  tagline: 'Heavyweight streetwear, artisan drinkware & aesthetic desk essentials.',
-  promise: '2–4 days express shipping • 12-hour support guarantee • Real-time tracking',
+  slogan: 'Heavyweight streetwear and graphic drops. Crafted in India.',
+  tagline: '240 GSM combed cotton tees, 380 GSM French terry hoodies, and functional lifestyle goods.',
+  promise: '2–4 business days express air dispatch • Standard delivery included • 7-day doorstep replacement',
 
-  // EXACT trust bar text — clean and professional.
   trustBar: [
-    { icon: '🚚', title: 'Express Dispatch', sub: '2–4 days via BlueDart' },
-    { icon: '⏱️', title: '12-Hour Support', sub: 'Guaranteed founder resolution' },
-    { icon: '📍', title: 'Real-Time Tracking', sub: 'Instant SMS & email ETA' },
-    { icon: '↩️', title: '7-Day Replacement', sub: 'Free doorstep guarantee' },
+    { title: 'Express Air Dispatch', sub: '2–4 business days via BlueDart & Delhivery' },
+    { title: 'Tirupur Hub Production', sub: 'Bio-washed combed cotton & dense fleece' },
+    { title: 'Transparent Pricing', sub: 'All taxes & air shipping included in price' },
+    { title: '7-Day Replacement', sub: 'Free doorstep size & defect swaps' },
   ],
 
-  announcement: 'Pan-India 2–4 Days Express Delivery • Cash on Delivery (COD) Available • 7-Day Easy Replacement',
+  announcement: 'Pan-India 2–4 business days express air delivery • Shipping included in all prices • Cash on Delivery available',
 
   footer: {
-    blurb: 'Curated heavyweight streetwear, artisan drinkware, and aesthetic creator desk gear — delivered fast across India with full white-label packaging.',
+    blurb: 'Independent Indian streetwear. Engineered from heavyweight combed cotton and dense French terry. Dispatched direct from Tirupur with zero middleman markup.',
     cols: [
       {
-        title: 'Story & Merch',
-        links: [
-          { label: 'About Rare Ember', href: '/about' },
-          { label: 'Bulk Orders (B2B)', href: '/bulk-orders' },
-          { label: 'Custom Design Studio', href: '/custom-drops' },
-          { label: 'Pack of 2 & 3 Bundles', href: '/#value-bundles' },
-        ],
-      },
-      {
-        title: 'Shop Drops',
+        title: 'Collection',
         links: [
           { label: 'All Catalog', href: '/shop' },
-          { label: "Men's Graphic Prints", href: '/shop?cat=mens-printed' },
-          { label: "Women's Drops", href: '/shop?cat=womens' },
+          { label: "Men's Graphic Drops", href: '/shop?cat=mens-printed' },
+          { label: "Women's Collection", href: '/shop?cat=womens' },
           { label: 'Kids Streetwear', href: '/shop?cat=kids' },
           { label: 'Essential Blanks', href: '/shop?cat=blanks' },
         ],
       },
       {
-        title: 'Priority Help & Support',
+        title: 'Studio & Services',
         links: [
-          { label: 'Raise Ticket (12h Reply)', href: '/support' },
-          { label: 'Request Founder Callback', href: '/support' },
-          { label: 'Instagram @rareember', href: 'https://instagram.com/rareember' },
-          { label: 'Live Order Tracking', href: '/track' },
-          { label: '7-Day Replacements', href: '/returns' },
-          { label: 'rareemberagency@gmail.com', href: 'mailto:rareemberagency@gmail.com' },
+          { label: 'Custom Merch Studio', href: '/custom-drops' },
+          { label: 'Bulk & Corporate Orders', href: '/bulk-orders' },
+          { label: 'About Rare Ember', href: '/about' },
         ],
       },
       {
-        title: 'Legal & Policies',
+        title: 'Customer Support',
+        links: [
+          { label: 'Live Order Tracking', href: '/track' },
+          { label: '7-Day Replacement Portal', href: '/returns' },
+          { label: 'Help Desk & Support Ticket', href: '/support' },
+          { label: 'support@rareember.shop', href: 'mailto:support@rareember.shop' },
+        ],
+      },
+      {
+        title: 'Policies',
         links: [
           { label: 'Terms of Service', href: '/terms' },
           { label: 'Privacy Policy', href: '/privacy' },
-          { label: 'Refund & Return Policy', href: '/returns' },
-          { label: '256-Bit SSL Secured', href: '/checkout' },
+          { label: 'Cancellation & Refunds', href: '/returns' },
+          { label: 'Shipping & Delivery Policy', href: '/terms#shipping' },
         ],
       },
     ],
-    bottom: '© 2026 Rare Ember — Curated Streetwear & Creator Lifestyle',
-    signoff: 'White-Label Domestic Fulfillment Hub (Tirupur / Coimbatore, Tamil Nadu)',
+    bottom: '© 2026 Rare Ember. All rights reserved.',
+    signoff: 'Crafted & Dispatched from Tirupur Hub, Tamil Nadu, India.',
   },
 
   quiz: {
-    title: 'Find the perfect match.',
-    subtitle: '3 questions. 60 seconds. Curated for your aesthetic & lifestyle.',
+    title: 'Find your silhouette.',
+    subtitle: 'Answer 3 quick fit questions to find your size and cut.',
   },
 
   emptyCart: {
-    title: 'Your cart is empty.',
-    sub: 'Discover trending drops in our catalog.',
+    title: 'Your shopping bag is empty.',
+    sub: 'Explore our latest heavyweight graphic drops and blank silhouettes.',
   },
 } as const;

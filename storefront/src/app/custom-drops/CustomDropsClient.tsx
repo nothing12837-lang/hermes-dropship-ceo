@@ -284,7 +284,7 @@ export function CustomDropsClient() {
       title: `Custom ${currentBlank.name}`,
       price: Number((currentBlank.price / 85).toFixed(2)),
       price_inr: currentBlank.price,
-      emoji: currentBlank.isDeskMat ? '🖥️' : currentBlank.isMug ? '☕' : '👕',
+      emoji: '',
       imageUrl: customView === 'back' && currentBlank.backImage ? currentBlank.backImage : currentBlank.frontImage,
       gradient: 'linear-gradient(135deg, rgba(255,77,36,0.1), rgba(0,0,0,0.05))',
       size: selectedLabSize,
@@ -335,22 +335,13 @@ export function CustomDropsClient() {
 
   const generateWhatsAppUrl = () => {
     const text = encodeURIComponent(
-      `👋 Hi RareEmber Team! I want a custom bulk quote:
-
-` +
-      `• Organization / College: ${orgName || 'College Club / Startup'}
-` +
-      `• Contact Person: ${contactName || 'Lead Organizer'}
-` +
-      `• Product: ${getProductName()}
-` +
-      `• Quantity: ${quantity} units
-` +
-      `• Target Event Date: ${eventDate || 'Next 2-3 weeks'}
-` +
-      `• Estimated Budget: ₹${totalEstimate.toLocaleString('en-IN')}
-
-` +
+      `Hi RareEmber Team! I want a custom bulk quote:\n\n` +
+      `• Organization / College: ${orgName || 'College Club / Startup'}\n` +
+      `• Contact Person: ${contactName || 'Lead Organizer'}\n` +
+      `• Product: ${getProductName()}\n` +
+      `• Quantity: ${quantity} units\n` +
+      `• Target Event Date: ${eventDate || 'Next 2-3 weeks'}\n` +
+      `• Estimated Budget: ₹${totalEstimate.toLocaleString('en-IN')}\n\n` +
       `Please share free digital mockups & dispatch timeline!`
     );
     const waNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '';
@@ -390,58 +381,46 @@ export function CustomDropsClient() {
   return (
     <main className="page-top min-h-screen text-[#161311] pb-24 bg-[#FFFBF5]">
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden bg-[#121110] text-white py-16 px-4 md:px-8 border-b border-white/10">
-        <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none opacity-40">
-          <span
-            className="aurora-blob"
-            style={{ width: 400, height: 400, top: -150, right: -100, background: 'rgba(255,77,36,0.35)' }}
-          />
-          <span
-            className="aurora-blob"
-            style={{ width: 350, height: 350, bottom: -100, left: -50, background: 'rgba(14,165,233,0.25)' }}
-          />
-        </div>
-
-        <div className="max-w-5xl mx-auto relative z-10 text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-[#FF4D24]/40 text-[#FF9A3D] text-xs font-black uppercase tracking-wider backdrop-blur-md">
-            <span>⚡</span> B2B Campus &amp; Startup Merch Engine
+      <section className="relative overflow-hidden bg-[#12100E] text-white py-14 px-4 md:px-8 border-b border-white/10 grain">
+        <div className="max-w-4xl mx-auto relative z-10 text-center space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-white/10 text-white/90 text-[11px] font-bold uppercase tracking-wider">
+            Custom Silhouettes &amp; Studio Printing • Tirupur Hub
           </div>
 
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-            Custom High-Grade Merch for <br className="hidden sm:inline" />
-            <span className="text-gradient-ember-animated">Hackathons, Fests &amp; Startups</span>
+          <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
+            Custom Merch &amp; Bulk Silhouettes for Startups, Creators &amp; Teams.
           </h1>
 
           <p className="max-w-2xl mx-auto text-sm md:text-base text-white/70 font-medium leading-relaxed">
-            Zero setup fees. 100% Combed Heavyweight Cotton (240 GSM) &amp; Fleece (380 GSM). 
-            High-Definition fade-proof DTF prints. Dispatched direct from our Tirupur domestic hub in 4–6 days.
+            Direct production from 240 GSM combed cotton tees to 380 GSM heavyweight hoodies. 
+            High-density Direct-to-Film prints, zero screen fees, and express air delivery across India.
           </p>
 
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-4 text-xs font-bold text-white/80">
-            <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-              ✅ Zero Setup or Screen Fees
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3 text-xs font-semibold text-white/80">
+            <span className="bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">
+              Zero Setup or Screen Fees
             </span>
-            <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-              ⚡ Free 3D Mockup in 2 Hours
+            <span className="bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">
+              Digital Proof Included
             </span>
-            <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-              🚚 Pan-India Express Door Delivery
+            <span className="bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">
+              Pan-India Express Air Dispatch
             </span>
           </div>
 
           <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link
-              href="/support"
-              className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF4D24] via-[#ff3b0f] to-[#E8244B] text-white font-black text-xs uppercase tracking-wider shadow-[0_8px_25px_rgba(255,77,36,0.4)] hover:scale-105 active:scale-95 transition-all no-underline flex items-center justify-center gap-2"
-            >
-              <span>🏭 Talk to Production Desk • Instant Quote</span>
-            </Link>
             <a
               href="#custom-lab"
-              className="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider backdrop-blur-md transition-all no-underline text-center"
+              className="w-full sm:w-auto px-6 py-3 rounded-lg btn-ember text-white font-bold text-xs uppercase tracking-wider no-underline text-center"
             >
               Open Custom Design Studio ↓
             </a>
+            <Link
+              href="/support"
+              className="w-full sm:w-auto px-5 py-3 rounded-lg bg-white/10 hover:bg-white/15 text-white font-bold text-xs uppercase tracking-wider transition-all no-underline text-center border border-white/15"
+            >
+              Contact Production Desk
+            </Link>
           </div>
         </div>
       </section>
@@ -473,8 +452,8 @@ export function CustomDropsClient() {
               </p>
             </div>
             <div className="flex items-center gap-2 self-start md:self-auto">
-              <span className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-neutral-300">
-                🏭 Direct Tirupur Factory Queue
+              <span className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono font-bold text-neutral-300">
+                Direct Tirupur Factory Queue
               </span>
             </div>
           </div>
@@ -661,8 +640,7 @@ export function CustomDropsClient() {
                         : 'text-neutral-400 hover:text-white'
                     }`}
                   >
-                    <span>📁</span>
-                    <span>Upload Logo / Artwork</span>
+                    <span>Upload Artwork / Logo</span>
                   </button>
                   <button
                     type="button"
@@ -673,7 +651,6 @@ export function CustomDropsClient() {
                         : 'text-neutral-400 hover:text-white'
                     }`}
                   >
-                    <span>🔤</span>
                     <span>Custom Text</span>
                   </button>
                 </div>
@@ -681,9 +658,8 @@ export function CustomDropsClient() {
                 {/* Upload File */}
                 {customMode === 'image' && (
                   <div className="space-y-2">
-                    <label className="block p-4 rounded-2xl border-2 border-dashed border-white/20 bg-white/5 hover:bg-white/10 transition-all cursor-pointer text-center">
-                      <span className="text-xl block mb-1">☁️</span>
-                      <span className="text-xs font-black text-white block">
+                    <label className="block p-4 rounded-xl border-2 border-dashed border-white/20 bg-white/5 hover:bg-white/10 transition-all cursor-pointer text-center">
+                      <span className="text-xs font-bold text-white block">
                         {uploadingLabImage ? 'Uploading Logo...' : 'Click or Drag & Drop PNG/SVG Design'}
                       </span>
                       <span className="text-[10px] text-neutral-400 mt-0.5 block">
@@ -879,42 +855,42 @@ export function CustomDropsClient() {
                   <button
                     type="button"
                     onClick={() => setProductType('tee')}
-                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
+                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                       productType === 'tee'
-                        ? 'border-[#FF4D24] bg-[#FF4D24]/[0.04] ring-2 ring-[#FF4D24]/20'
+                        ? 'border-[#FF4D24] bg-[#FF4D24]/[0.04] ring-1 ring-[#FF4D24]'
                         : 'border-black/[0.08] hover:border-black/20 bg-neutral-50/50'
                     }`}
                   >
-                    <span className="text-2xl block mb-1">👕</span>
-                    <span className="block font-black text-xs text-neutral-900">240 GSM Oversized Tee</span>
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-400 block mb-1">TEE</span>
+                    <span className="block font-bold text-xs text-neutral-900">240 GSM Oversized Tee</span>
                     <span className="block text-[11px] text-[#FF4D24] font-bold mt-0.5">From ₹269/unit</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setProductType('hoodie')}
-                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
+                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                       productType === 'hoodie'
-                        ? 'border-[#FF4D24] bg-[#FF4D24]/[0.04] ring-2 ring-[#FF4D24]/20'
+                        ? 'border-[#FF4D24] bg-[#FF4D24]/[0.04] ring-1 ring-[#FF4D24]'
                         : 'border-black/[0.08] hover:border-black/20 bg-neutral-50/50'
                     }`}
                   >
-                    <span className="text-2xl block mb-1">🧥</span>
-                    <span className="block font-black text-xs text-neutral-900">380 GSM Fleece Hoodie</span>
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-400 block mb-1">FLEECE</span>
+                    <span className="block font-bold text-xs text-neutral-900">380 GSM Fleece Hoodie</span>
                     <span className="block text-[11px] text-[#FF4D24] font-bold mt-0.5">From ₹549/unit</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setProductType('mat')}
-                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
+                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                       productType === 'mat'
-                        ? 'border-[#FF4D24] bg-[#FF4D24]/[0.04] ring-2 ring-[#FF4D24]/20'
+                        ? 'border-[#FF4D24] bg-[#FF4D24]/[0.04] ring-1 ring-[#FF4D24]'
                         : 'border-black/[0.08] hover:border-black/20 bg-neutral-50/50'
                     }`}
                   >
-                    <span className="text-2xl block mb-1">🖥️</span>
-                    <span className="block font-black text-xs text-neutral-900">900x400 Desk Mat</span>
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-400 block mb-1">DESK</span>
+                    <span className="block font-bold text-xs text-neutral-900">900x400 Desk Mat</span>
                     <span className="block text-[11px] text-[#FF4D24] font-bold mt-0.5">From ₹299/unit</span>
                   </button>
                 </div>
@@ -966,38 +942,37 @@ export function CustomDropsClient() {
               </div>
 
               {/* Details List */}
-              <div className="bg-[#FFFBF5] rounded-2xl p-4 border border-black/[0.06] space-y-2 text-xs">
+              <div className="bg-[#FFFBF5] rounded-xl p-4 border border-black/[0.06] space-y-2 text-xs">
                 <div className="flex items-center justify-between text-neutral-700">
-                  <span>✨ <b>Fabric Specs:</b></span>
-                  <span className="font-semibold text-neutral-900">
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-neutral-500">Fabric Specs</span>
+                  <span className="font-bold text-neutral-900">
                     {productType === 'tee' ? '240 GSM Combed Cotton (Bio-Washed)' : productType === 'hoodie' ? '380 GSM Heavy French Terry Brushed' : '4mm Micro-Weave Rubber Backing'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-neutral-700">
-                  <span>🎨 <b>Print Technology:</b></span>
-                  <span className="font-semibold text-neutral-900">OEKO-TEX Certified HD DTF (Chest + Back)</span>
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-neutral-500">Print Technology</span>
+                  <span className="font-bold text-neutral-900">OEKO-TEX Certified HD DTF (Chest + Back)</span>
                 </div>
                 <div className="flex items-center justify-between text-neutral-700">
-                  <span>⚡ <b>Dispatch Lead Time:</b></span>
-                  <span className="font-semibold text-emerald-700">4–6 Working Days Direct to Campus/Office</span>
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-neutral-500">Dispatch Lead Time</span>
+                  <span className="font-bold text-emerald-700">4–6 Working Days Direct to Campus/Office</span>
                 </div>
               </div>
             </div>
 
             {/* RIGHT SUMMARY CARD (5 Cols) */}
-            <div className="lg:col-span-5 bg-gradient-to-br from-[#1c1917] to-[#0c0a09] text-white rounded-3xl p-6 md:p-7 shadow-xl border border-white/10 space-y-5">
+            <div className="lg:col-span-5 bg-[#12100E] text-white rounded-2xl p-6 md:p-7 shadow-xl border border-white/10 space-y-5">
               <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#FF9A3D]">Tier Quotation</span>
-                  <h3 className="text-xl font-black">{getProductName()}</h3>
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#FF4D24]">Tier Quotation</span>
+                  <h3 className="text-xl font-bold">{getProductName()}</h3>
                 </div>
-                <span className="text-2xl">🔥</span>
               </div>
 
               <div className="space-y-3 text-xs">
                 <div className="flex items-center justify-between text-white/70">
                   <span>Bulk Tier Unit Price:</span>
-                  <span className="text-base font-black text-white">₹{unitPrice}</span>
+                  <span className="text-base font-bold text-white">₹{unitPrice}</span>
                 </div>
                 <div className="flex items-center justify-between text-white/70">
                   <span>Standard Retail Value:</span>
@@ -1020,11 +995,11 @@ export function CustomDropsClient() {
               <div className="border-t border-white/10 pt-4 flex items-baseline justify-between">
                 <div>
                   <span className="text-xs text-white/60 block">Total Estimated Cost:</span>
-                  <span className="text-2xl md:text-3xl font-black text-gradient-ember-animated">
+                  <span className="text-2xl md:text-3xl font-black text-[#FF4D24]">
                     ₹{totalEstimate.toLocaleString('en-IN')}
                   </span>
                 </div>
-                <span className="text-[10px] font-black text-white/60 bg-white/10 px-2.5 py-1 rounded-full uppercase">
+                <span className="text-[10px] font-mono font-bold text-white/60 bg-white/10 px-2.5 py-1 rounded uppercase">
                   100% Prepaid
                 </span>
               </div>
@@ -1034,20 +1009,18 @@ export function CustomDropsClient() {
                 <button
                   type="button"
                   onClick={() => setIsAiAgentOpen(true)}
-                  className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-[#FF4D24] via-[#ff3b0f] to-[#f59e0b] hover:opacity-95 text-white font-black text-xs md:text-sm tracking-wide flex items-center justify-center gap-2 transition-all cursor-pointer border-none shadow-xl active:scale-95"
+                  className="w-full py-3.5 px-4 rounded-lg bg-[#FF4D24] hover:bg-[#e03d15] text-white font-bold text-xs md:text-sm tracking-wide flex items-center justify-center gap-2 transition-all cursor-pointer border-none shadow-sm active:scale-95"
                 >
-                  <span>🤖</span>
-                  <span>Negotiate &amp; Lock 20% Advance via AI Agent</span>
+                  <span>Negotiate &amp; Lock Advance via Assistant</span>
                 </button>
 
                 <a
                   href={generateWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3.5 px-4 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all no-underline border border-white/15"
+                  className="w-full py-3.5 px-4 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all no-underline border border-white/15"
                 >
-                  <span>💬</span>
-                  <span>WhatsApp Merch Lead with this Quote</span>
+                  <span>WhatsApp Merch Lead with this Quote →</span>
                 </a>
               </div>
             </div>
@@ -1069,11 +1042,11 @@ export function CustomDropsClient() {
           </div>
 
           {isSubmitted ? (
-            <div className="p-8 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-3 max-w-md mx-auto">
-              <span className="text-4xl block">🎉</span>
-              <h4 className="font-black text-lg text-emerald-950">Inquiry Received!</h4>
+            <div className="p-8 rounded-xl bg-emerald-50 border border-emerald-200 text-center space-y-3 max-w-md mx-auto">
+              <span className="font-mono text-xs uppercase tracking-wider text-emerald-800 font-bold block">CONFIRMED</span>
+              <h4 className="font-bold text-lg text-emerald-950">Inquiry Received</h4>
               <p className="text-xs text-emerald-800 leading-relaxed">
-                Thank you! Our Merch Desk has logged your requirement for <b>{quantity} units</b> of <b>{getProductName()}</b>. We will WhatsApp you the 3D mockups within 2 hours.
+                Thank you. Our team has logged your requirement for <b>{quantity} units</b> of <b>{getProductName()}</b>. We will reach out via WhatsApp with fabric specifications and digital proofs within 2 hours.
               </p>
               <button
                 type="button"
@@ -1161,27 +1134,27 @@ export function CustomDropsClient() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-3xl bg-white border border-black/[0.06] space-y-3">
-            <span className="text-3xl block">🏭</span>
-            <h4 className="font-black text-sm text-neutral-900">Direct Tirupur Mill Output</h4>
+          <div className="p-6 rounded-xl bg-white border border-black/[0.08] space-y-3">
+            <span className="font-mono text-xs font-bold text-[#FF4D24] uppercase tracking-wider block">01 / PRODUCTION</span>
+            <h4 className="font-bold text-sm text-neutral-900">Direct Tirupur Mill Output</h4>
             <p className="text-xs text-neutral-600 leading-relaxed">
-              No middleman brokers or retail markups. We produce straight from our partnered knitting mills in Tirupur, giving you 50% lower prices than local printers.
+              No middleman brokers or retail markups. Direct manufacturing with partnered knitting and finishing mills in Tirupur.
             </p>
           </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-black/[0.06] space-y-3">
-            <span className="text-3xl block">🛡️</span>
-            <h4 className="font-black text-sm text-neutral-900">100% Pre-Shrunk &amp; Bio-Washed</h4>
+          <div className="p-6 rounded-xl bg-white border border-black/[0.08] space-y-3">
+            <span className="font-mono text-xs font-bold text-[#FF4D24] uppercase tracking-wider block">02 / TEXTILES</span>
+            <h4 className="font-bold text-sm text-neutral-900">100% Pre-Shrunk &amp; Bio-Washed</h4>
             <p className="text-xs text-neutral-600 leading-relaxed">
-              Zero shrinkage after washing. 240+ GSM heavyweight drop-shoulder contemporary silhouette loved by developers and Gen-Z creators.
+              Substantial 240+ GSM combed cotton and 380 GSM fleece. Pre-shrunk, dense knit, structured silhouettes built to hold shape.
             </p>
           </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-black/[0.06] space-y-3">
-            <span className="text-3xl block">🚀</span>
-            <h4 className="font-black text-sm text-neutral-900">Guaranteed Event Timelines</h4>
+          <div className="p-6 rounded-xl bg-white border border-black/[0.08] space-y-3">
+            <span className="font-mono text-xs font-bold text-[#FF4D24] uppercase tracking-wider block">03 / LOGISTICS</span>
+            <h4 className="font-bold text-sm text-neutral-900">Guaranteed Event Timelines</h4>
             <p className="text-xs text-neutral-600 leading-relaxed">
-              We understand hackathon deadlines. We partner with BlueDart Air and Delhivery Surface to guarantee delivery before your event start date.
+              Strict delivery SLAs for hackathons, college fests, and company merch. Partnered with BlueDart Air and Delhivery Express.
             </p>
           </div>
         </div>
@@ -1191,11 +1164,10 @@ export function CustomDropsClient() {
       <div className="fixed bottom-6 right-6 z-40">
         <Link
           href="/support"
-          className="px-5 py-3 rounded-full bg-[#161311] text-white hover:bg-black font-black text-xs uppercase tracking-wider shadow-2xl border border-white/20 flex items-center gap-2 transition-all hover:scale-105 active:scale-95 ring-2 ring-[#FF4D24]/50 no-underline"
+          className="px-5 py-3 rounded-lg bg-[#12100E] text-white hover:bg-black font-bold text-xs uppercase tracking-wider shadow-xl border border-white/20 flex items-center gap-2 transition-all no-underline"
         >
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span>💬 Priority Care Desk</span>
-          <span className="text-[#FF9A3D]">⚡</span>
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span>Priority Care Desk</span>
         </Link>
       </div>
     </main>

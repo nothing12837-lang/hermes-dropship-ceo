@@ -50,7 +50,7 @@ QIKINK_CLIENT_ID = env_vars.get("QIKINK_CLIENT_ID", "")
 QIKINK_CLIENT_SECRET = env_vars.get("QIKINK_CLIENT_SECRET", "")
 QIKINK_API_URL = env_vars.get("QIKINK_API_URL", "https://api.qikink.com")
 SUPABASE_URL = env_vars.get("NEXT_PUBLIC_SUPABASE_URL", "https://qdkkxpfhwrwyoardlceo.supabase.co")
-SUPABASE_ANON_KEY = env_vars.get("NEXT_PUBLIC_SUPABASE_ANON_KEY", "")
+SUPABASE_ANON_KEY = env_vars.get("SUPABASE_SERVICE_ROLE_KEY") or env_vars.get("NEXT_PUBLIC_SUPABASE_ANON_KEY", "")
 TELEGRAM_BOT_TOKEN = env_vars.get("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID = env_vars.get("TELEGRAM_CHAT_ID", "5238068527")
 

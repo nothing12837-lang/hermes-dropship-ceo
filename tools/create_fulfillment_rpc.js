@@ -17,6 +17,7 @@ async function main() {
     RETURNS SETOF public.orders
     LANGUAGE plpgsql
     SECURITY DEFINER
+    SET search_path = ''
     AS $$
     BEGIN
       RETURN QUERY
@@ -35,6 +36,7 @@ async function main() {
     RETURNS VOID
     LANGUAGE plpgsql
     SECURITY DEFINER
+    SET search_path = ''
     AS $$
     BEGIN
       UPDATE public.orders
@@ -55,6 +57,14 @@ async function main() {
 
   await client.query(sql);
   console.log('Fulfillment RPC functions created successfully!');
+  // These definer functions must not be callable by the public anon key.
+  await client.query(`
+    REVOKE ALL ON FUNCTION get_order_for_fulfillment(TEXT) FROM PUBLIC, anon, authenticated;
+    REVOKE ALL ON FUNCTION update_order_fulfillment(TEXT, TEXT, TEXT, TEXT, TEXT) FROM PUBLIC, anon, authenticated;
+    GRANT EXECUTE ON FUNCTION get_order_for_fulfillment(TEXT) TO service_role;
+    GRANT EXECUTE ON FUNCTION update_order_fulfillment(TEXT, TEXT, TEXT, TEXT, TEXT) TO service_role;
+  `);
+
   await client.end();
 }
 

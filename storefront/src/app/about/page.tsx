@@ -1,155 +1,155 @@
 'use client';
 
 import Link from 'next/link';
-import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 export default function AboutPage() {
   return (
-    <main className="page-top min-h-screen bg-[#FFFBF5] text-[#161311] py-12 md:py-16">
-      <div className="max-w-6xl mx-auto px-4 md:px-8 flex flex-col gap-16">
+    <main className="page-top min-h-screen bg-[#FBF8F3] text-[#12100E] py-16 md:py-24">
+      <div className="max-w-5xl mx-auto px-4 md:px-8 flex flex-col gap-20">
         {/* HERO MISSION SECTION */}
         <section className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-black/[0.08] text-xs font-bold text-neutral-800 shadow-2xs mb-4">
-            <span className="w-2 h-2 rounded-full bg-[#FF4D24]" />
-            <span>00 — Our Story & Mission</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-black/[0.08] text-[11px] font-mono tracking-wider uppercase text-neutral-600 mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D24]" />
+            <span>01 — Origin & Philosophy</span>
           </div>
 
-          <h1 className="text-3xl md:text-5xl font-black tracking-tight text-neutral-950 leading-tight">
-            Handpicked Quality. <br />
-            <span className="bg-gradient-to-r from-[#FF4D24] via-[#FF6B35] to-[#FFB800] bg-clip-text text-transparent">
-              Delivered With Zero Surprises.
-            </span>
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-[#12100E] leading-[1.08]">
+            Heavyweight Cotton. <br />
+            Boxy Silhouettes. <br />
+            Constructed in Tirupur.
           </h1>
 
-          <p className="text-neutral-600 text-base md:text-lg mt-5 leading-relaxed font-medium">
-            Rare Ember began with a simple vision: curating premium heavyweight streetwear, artisan drinkware, and creator desk essentials. We connect verified domestic manufacturing hubs directly with Indian and global buyers, backed by automated dispatch, live tracking, and strict buyer protection.
+          <p className="text-neutral-600 text-base md:text-lg mt-6 leading-relaxed font-normal max-w-2xl">
+            Rare Ember is an independent Indian streetwear label built as an antidote to disposable fast fashion. We engineer garments from scratch using 240 GSM combed cotton jersey and 380 GSM French terry fleece—proportioned with dropped shoulders, wide sleeves, and dense ribbed collars built to hold shape wash after wash.
           </p>
         </section>
 
         {/* 4 CORE VALUE PILLARS */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
             {
-              e: '💎',
-              t: 'Curated Catalog',
-              d: 'Every item is handpicked for build quality, practical utility, and verified customer satisfaction ratings.',
+              num: '01',
+              title: 'Heavyweight Fabrication',
+              desc: 'Custom-milled 240 GSM combed cotton and 380 GSM loopback French terry. Pre-shrunk, substantial drape, and structured lines that never cling.',
             },
             {
-              e: '🏭',
-              t: 'Factory Verified',
-              d: 'Direct partnerships with vetted domestic and global fulfillment hubs. Strict quality inspections before dispatch.',
+              num: '02',
+              title: 'Tirupur Craft Production',
+              desc: 'Manufactured directly in India’s textile heartland. Flatlock and twin-needle edge finishing with 1x1 lycra-ribbed neckbands that resist stretching.',
             },
             {
-              e: '🚚',
-              t: 'Express Logistics',
-              d: 'Pan-India 2–5 day delivery via BlueDart & India Post, plus fast global air cargo with live tracking.',
+              num: '03',
+              title: 'Zero Waste Drops',
+              desc: 'Every drop is produced in disciplined batches. No deadstock mountains, no warehouse liquidations, and zero synthetic poly blends on core apparel.',
             },
             {
-              e: '⚡',
-              t: 'Automated Hub',
-              d: 'Zero lag: orders are verified, routed to nearest warehouse hubs, and dispatched within 24 to 48 hours.',
+              num: '04',
+              title: 'Transparent Logistics',
+              desc: 'Transparent pricing with nationwide courier dispatch included in every garment price. Verified doorstep tracking from factory floor to your city.',
             },
-          ].map((c, i) => (
-            <ScrollReveal key={c.t} delay={i * 60}>
-              <div className="h-full rounded-[1.75rem] bg-white border border-black/[0.06] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-lg transition-all">
-                <div className="text-3xl mb-3">{c.e}</div>
-                <h3 className="font-black text-base text-neutral-900 mb-2">{c.t}</h3>
-                <p className="text-xs text-neutral-500 leading-relaxed">{c.d}</p>
+          ].map((c) => (
+            <div
+              key={c.num}
+              className="bg-white border border-black/[0.08] p-8 flex flex-col justify-between"
+            >
+              <div>
+                <span className="font-mono text-xs font-bold text-[#FF4D24] tracking-widest block mb-4">
+                  SPEC // {c.num}
+                </span>
+                <h3 className="font-bold text-lg text-[#12100E] mb-2">{c.title}</h3>
+                <p className="text-sm text-neutral-600 leading-relaxed">{c.desc}</p>
               </div>
-            </ScrollReveal>
+            </div>
           ))}
         </section>
 
         {/* HOW WE WORK (STREAMLINED 3-STEP PIPELINE) */}
-        <section className="rounded-[2rem] bg-white border border-black/[0.06] p-6 md:p-10 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
-          <div className="max-w-xl mb-8">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#FF4D24] block mb-1">
-              Fulfillment Architecture
+        <section className="bg-white border border-black/[0.08] p-8 md:p-12">
+          <div className="max-w-xl mb-10">
+            <span className="text-[11px] font-mono uppercase tracking-widest text-[#FF4D24] block mb-2">
+              Production Pipeline
             </span>
-            <h2 className="text-2xl md:text-3xl font-black tracking-tight text-neutral-950">
-              How Rare Ember Works
+            <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#12100E]">
+              From Raw Yarn to Finished Garment
             </h2>
-            <p className="text-xs text-neutral-500 mt-1">
-              Transparent, automated, and backed by full buyer protection from click to doorstep.
+            <p className="text-sm text-neutral-500 mt-2">
+              Every Rare Ember piece moves through a rigorous three-stage production standard.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                n: '01',
-                t: 'Instant One-Click Order',
-                d: 'Browse curated collections, verify your PIN code for instant arrival ETA, and check out securely via UPI, Cards, or COD.',
+                step: 'Phase 01',
+                title: 'Pattern & Silhouette',
+                desc: 'Architectural streetwear cuts with relaxed drop shoulders, widened chest circumferences, and clean hem lengths drafted for streetwear layering.',
               },
               {
-                n: '02',
-                t: 'Automated Hub Dispatch',
-                d: 'Our system automatically verifies payment, routes the order to the closest fulfillment facility, and packages it within 24 hours.',
+                step: 'Phase 02',
+                title: 'Textile Milling & Print',
+                desc: 'Combed long-staple cotton spun with OEKO-TEX certified reactive dyes and high-resolution screen or DTG graphics cured for abrasion resistance.',
               },
               {
-                n: '03',
-                t: 'Track to Your Doorstep',
-                d: 'Live SMS & email tracking updates straight to your inbox. 7-day easy replacement policy for damaged or defective items.',
+                step: 'Phase 03',
+                title: 'Inspection & Dispatch',
+                desc: 'Individual garment measurement, seam stress testing, and express air packaging dispatched directly via BlueDart, Delhivery, or India Post.',
               },
             ].map((s) => (
-              <div
-                key={s.n}
-                className="p-6 rounded-2xl bg-neutral-50/70 border border-black/[0.05] flex flex-col justify-between"
-              >
-                <div>
-                  <span className="font-display text-2xl font-black text-[#FF4D24] block mb-2">
-                    {s.n}
-                  </span>
-                  <h4 className="font-bold text-sm text-neutral-900 mb-2">{s.t}</h4>
-                  <p className="text-xs text-neutral-500 leading-relaxed">{s.d}</p>
-                </div>
+              <div key={s.step} className="border-t border-black/[0.08] pt-6">
+                <span className="font-mono text-xs text-[#FF4D24] uppercase tracking-wider block mb-2">
+                  {s.step}
+                </span>
+                <h4 className="font-bold text-base text-[#12100E] mb-2">{s.title}</h4>
+                <p className="text-xs text-neutral-600 leading-relaxed">{s.desc}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* TRUST GUARANTEES GRID */}
-        <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="p-5 rounded-2xl bg-white border border-black/[0.06] text-center">
-            <span className="text-3xl block mb-2">🚚</span>
-            <span className="font-bold text-sm text-neutral-900 block">Free Express Delivery</span>
-            <span className="text-xs text-neutral-500">Every order, transparent ETA</span>
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="p-6 bg-white border border-black/[0.08]">
+            <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-widest block mb-2">Delivery</span>
+            <span className="font-bold text-sm text-[#12100E] block mb-1">Pan-India Courier</span>
+            <span className="text-xs text-neutral-500">Fast tracked delivery included across 19,000+ PIN codes.</span>
           </div>
-          <div className="p-5 rounded-2xl bg-white border border-black/[0.06] text-center">
-            <span className="text-3xl block mb-2">🛡️</span>
-            <span className="font-bold text-sm text-neutral-900 block">7-Day Replacement</span>
-            <span className="text-xs text-neutral-500">Free replacement for defects</span>
+          <div className="p-6 bg-white border border-black/[0.08]">
+            <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-widest block mb-2">Policy</span>
+            <span className="font-bold text-sm text-[#12100E] block mb-1">7-Day Replacements</span>
+            <span className="text-xs text-neutral-500">Hassle-free replacement for any size mismatch or defect.</span>
           </div>
-          <div className="p-5 rounded-2xl bg-white border border-black/[0.06] text-center">
-            <span className="text-3xl block mb-2">👑</span>
-            <span className="font-bold text-sm text-neutral-900 block">24/7 Dedicated Care</span>
-            <span className="text-xs text-neutral-500">Instant tracking & specs help</span>
+          <div className="p-6 bg-white border border-black/[0.08]">
+            <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-widest block mb-2">Customer Care</span>
+            <span className="font-bold text-sm text-[#12100E] block mb-1">Direct Support</span>
+            <span className="text-xs text-neutral-500">Real support team available over WhatsApp and email.</span>
           </div>
-          <div className="p-5 rounded-2xl bg-white border border-black/[0.06] text-center">
-            <span className="text-3xl block mb-2">🔒</span>
-            <span className="font-bold text-sm text-neutral-900 block">256-Bit SSL Razorpay</span>
-            <span className="text-xs text-neutral-500">Bank-grade security gateway</span>
+          <div className="p-6 bg-white border border-black/[0.08]">
+            <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-widest block mb-2">Security</span>
+            <span className="font-bold text-sm text-[#12100E] block mb-1">256-Bit SSL Razorpay</span>
+            <span className="text-xs text-neutral-500">Bank-grade encrypted payments via UPI, Cards, and NetBanking.</span>
           </div>
         </section>
 
         {/* CALL TO ACTION */}
-        <section className="rounded-[2.25rem] bg-[#161311] text-white p-8 md:p-14 text-center flex flex-col items-center shadow-2xl border border-white/10">
-          <span className="text-xs font-black uppercase tracking-wider text-amber-400 mb-2">
-            Explore Handpicked Catalog
-          </span>
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white max-w-xl">
-            Ready to find your next favorite item?
-          </h2>
-          <p className="text-neutral-400 text-sm mt-3 max-w-md">
-            New drops every Friday. Pan-India and global tracked shipping on every order.
-          </p>
-          <div className="mt-8">
+        <section className="bg-[#12100E] text-white p-10 md:p-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div className="max-w-xl">
+            <span className="font-mono text-[11px] uppercase tracking-widest text-[#FF4D24] block mb-3">
+              Drop Archive & Catalog
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">
+              Explore Active Streetwear Drops
+            </h2>
+            <p className="text-neutral-400 text-sm mt-3 leading-relaxed">
+              Boxy t-shirts, heavyweight winter hoodies, custom drops, and desk essentials.
+            </p>
+          </div>
+          <div>
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-[#FF4D24] to-[#FF8800] text-white font-extrabold text-sm tracking-tight no-underline hover:brightness-110 active:scale-95 transition-all shadow-lg"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-[#FF4D24] hover:bg-[#e03d15] text-white font-bold text-sm tracking-wide no-underline transition-colors"
             >
-              <span>Explore The Catalog</span>
-              <span>⚡</span>
+              <span>View Collection</span>
+              <span>→</span>
             </Link>
           </div>
         </section>

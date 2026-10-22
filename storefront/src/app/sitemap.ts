@@ -61,10 +61,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Sitemap fetch live products error:', err);
   }
 
-  // All 31 genuine user-created Qikink drops indexed for Google
-  const activeProducts: MetadataRoute.Sitemap = fallbackProducts.map((p) => ({
-    url: `${base}/product/${p.slug || p.id}`,
-    lastModified: now,
+  // Products indexed for Google (combines static catalog + any dynamic Supabase products)
+  const productMap = new Map<string, { slug: string; updated_at?: string }>();
+  fallbackProducts.forEach((p) => productMap.set(p.slug || p.id, { slug: p.slug || p.id }));
+  liveProducts.forEach((p) => {
+    const slug = p.slug || p.id;
+    if (slug) productMap.set(slug, { slug, updated_at: p.updated_at });
+  });
+
+  const activeProducts: MetadataRoute.Sitemap = Array.from(productMap.values()).map((p) => ({
+    url: `${base}/product/${p.slug}`,
+    lastModified: p.updated_at ? new Date(p.updated_at) : now,
     changeFrequency: 'daily' as const,
     priority: 0.85,
   }));

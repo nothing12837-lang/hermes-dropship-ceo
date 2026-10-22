@@ -872,10 +872,12 @@ export function ProductClient({ product }: Props) {
   );
 
   const NOVELTY_REGEX = /rare-ember-button-badge|rare-ember-temporary-tattoo|button-badge|temporary-tattoo|button_badge|scrunchies|bow scrunchie|bookmark|balaclava|arm sleeves|basic t-shirt pc/i;
-  const relatedIds: string[] = bundles[product.id] ?? [];
-  const related: Product[] = (relatedIds.length > 0 ? relatedIds : (products || []).slice(0, 10).map((p: Product) => p.id))
-    .map((id: string) => getProduct(id))
-    .filter((p): p is Product => Boolean(p && p.id !== product.id && !NOVELTY_REGEX.test(`${p.id} ${p.title} ${p.slug || ''}`)));
+  const related: Product[] = useMemo(() => {
+    const list = (products || []).filter((p) => p && p.id !== product.id && !NOVELTY_REGEX.test(`${p.id} ${p.title} ${p.slug || ''}`));
+    const sameCategory = list.filter((p) => p.category === product.category);
+    const pool = sameCategory.length >= 3 ? sameCategory : list;
+    return pool.slice(0, 4);
+  }, [product.id, product.category]);
 
   const sanitizeRetailCopy = (raw: string, fallbackText: string) => {
     let s = (raw || '')
@@ -1572,39 +1574,6 @@ export function ProductClient({ product }: Props) {
                 </div>
               )}
 
-              {/* Live Status Simulation Pill */}
-              {isCustomizing && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '1rem',
-                    right: '1rem',
-                    background: 'rgba(22, 19, 17, 0.92)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 77, 36, 0.45)',
-                    color: '#fff',
-                    padding: '0.4rem 0.85rem',
-                    borderRadius: '9999px',
-                    fontSize: '0.72rem',
-                    fontWeight: 800,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    zIndex: 12,
-                    boxShadow: '0 4px 14px rgba(0,0,0,0.25)',
-                  }}
-                >
-                  <span
-                    style={{
-                      width: '7px',
-                      height: '7px',
-                      borderRadius: '9999px',
-                      background: '#FF4D24',
-                    }}
-                  />
-                  <span>Live RareEmber™ Studio 3D Simulation</span>
-                </div>
-              )}
 
               {/* Photo Count Pill */}
               {galleryImages.length > 1 && (
@@ -1863,27 +1832,30 @@ export function ProductClient({ product }: Props) {
               <span className="text-xs sm:text-sm md:text-base text-neutral-400 line-through font-medium">
                 M.R.P.: {geoFormatPrice(mrpUsd, mrpInr)}
               </span>
-              <span className="text-[10px] sm:text-xs font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+              <span className="text-[10px] sm:text-xs font-bold text-[#FF4D24] bg-[#FF4D24]/10 px-2.5 py-0.5 rounded border border-[#FF4D24]/20">
                 {discountPercent}% OFF
+              </span>
+              <span className="text-[10px] sm:text-xs font-semibold text-neutral-700 bg-neutral-100 px-2.5 py-0.5 rounded border border-neutral-200">
+                Free Express Delivery Included
               </span>
             </div>
 
-            {/* Real Honest Inventory & Verification Badges */}
+            {/* Honest Inventory & Logistics Status */}
             {(() => {
               const isOutOfStock = (product as any).active === false || ((product as any).stock != null && Number((product as any).stock) <= 0);
               return (
                 <div className="flex flex-wrap items-center gap-2 mt-3 text-xs">
                   {!isOutOfStock ? (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-800 font-semibold border border-emerald-500/20">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" /> In Stock • Ready to Dispatch (Domestic Hub)
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/5 text-neutral-800 font-semibold border border-black/10">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" /> In Stock • Ready for Tirupur Dispatch
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 text-rose-800 font-bold border border-rose-500/20">
-                      <span className="w-2 h-2 rounded-full bg-rose-500" /> Temporarily Out of Stock • Restocking Soon
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-rose-50 text-rose-800 font-bold border border-rose-200">
+                      <span className="w-1.5 h-1.5 rounded-full bg-rose-500" /> Restocking Soon
                     </span>
                   )}
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-900 font-semibold border border-amber-500/20">
-                    <span>🚚</span> 2–4 Days Express Pan-India
+                  <span className="inline-flex items-center px-2.5 py-1 rounded bg-black/5 text-neutral-700 font-semibold border border-black/10">
+                    2–4 Business Days (BlueDart &amp; Delhivery Air)
                   </span>
                 </div>
               );
@@ -1891,13 +1863,13 @@ export function ProductClient({ product }: Props) {
 
             {/* Key Highlights */}
             <div style={{ marginTop: '1.25rem' }}>
-              <div style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#8a7b6b', marginBottom: '0.6rem' }}>
-                Product Highlights & Specs
+              <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#73675E', marginBottom: '0.5rem' }}>
+                Garment Specifications &amp; Details
               </div>
-              <ul style={{ display: 'grid', gap: '0.45rem', color: '#443731', fontSize: '0.88rem' }}>
+              <ul style={{ display: 'grid', gap: '0.4rem', color: '#332B25', fontSize: '0.85rem' }}>
                 {featureHighlights.map((d) => (
                   <li key={d} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-                    <span style={{ color: '#059669', fontWeight: 900, flexShrink: 0 }}>✓</span>
+                    <span style={{ color: '#FF4D24', fontWeight: 800, flexShrink: 0 }}>—</span>
                     <span>{d}</span>
                   </li>
                 ))}
@@ -2087,16 +2059,15 @@ export function ProductClient({ product }: Props) {
                   {activeItemIsApparel ? (
                     <div>
                       <div className="flex justify-between items-center mb-2">
-                        <span className="text-xs font-black uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
-                          <span>📏</span>
-                          <span>Step {sizeStepNum}: Select Size {isComboProduct && activeComboItem ? `for ${activeComboItem.name}` : ''}</span>
+                        <span className="text-xs font-black uppercase tracking-wider text-neutral-600">
+                          Select Size {isComboProduct && activeComboItem ? `for ${activeComboItem.name}` : ''}
                         </span>
                         <button
                           type="button"
                           onClick={() => setShowSizeGuide(true)}
                           className="text-xs font-bold text-[#FF4D24] hover:underline flex items-center gap-1 cursor-pointer bg-transparent border-none p-0"
                         >
-                          <span>📏 Size Guide &amp; Fit Advice ↗</span>
+                          <span>Size Guide &amp; Measurements ↗</span>
                         </button>
                       </div>
 
@@ -2137,7 +2108,7 @@ export function ProductClient({ product }: Props) {
                             </div>
 
                             <p className="text-xs text-neutral-500 mt-2 flex items-center gap-1.5 flex-wrap">
-                              <span className="font-black text-[#FF4D24]">{activeItemIsKids ? '⚡ Kids Regular Fit:' : '⚡ Drop-Shoulder Oversized Fit:'}</span>
+                              <span className="font-black text-[#12100E]">{activeItemIsKids ? 'Kids Regular Fit:' : 'Drop-Shoulder Oversized Fit:'}</span>
                               <span>
                                 {(() => {
                                   const chestMap: Record<string, string> = {
@@ -2888,24 +2859,23 @@ export function ProductClient({ product }: Props) {
                     fontSize: '1rem',
                     fontWeight: 900,
                     letterSpacing: '0.02em',
-                    borderRadius: '1rem',
-                    background: 'linear-gradient(135deg, #FF4D24 0%, #E8244B 100%)',
-                    boxShadow: '0 8px 24px -4px rgba(255, 77, 36, 0.4)',
+                    borderRadius: '0.75rem',
+                    background: '#FF4D24',
+                    boxShadow: '0 6px 20px rgba(255, 77, 36, 0.3)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '0.5rem',
                   }}
                 >
-                  <span>{isComboProduct ? 'ORDER BUNDLE NOW ⚡' : 'ORDER NOW ⚡'}</span>
+                  <span>{isComboProduct ? 'ORDER BUNDLE' : 'ORDER NOW'}</span>
                   <span>•</span>
                   <span>{geoFormatPrice(effectivePriceUsd * qty, effectiveInr * qty)}</span>
                 </button>
 
-                {/* Priority Dispatch Reassurance */}
-                <div className="flex items-center justify-center gap-1.5 text-xs text-neutral-600 font-bold text-center">
-                  <span className="text-[#FF4D24]">⚡</span>
-                  <span>Order in 3 hrs for priority dispatch tomorrow • Delivers in 2–4 Days (Free Air Express)</span>
+                {/* Dispatch Reassurance */}
+                <div className="flex items-center justify-center gap-1.5 text-xs text-neutral-600 font-medium text-center">
+                  <span>Dispatched direct from Tirupur Hub • 2–4 Business Days (Express Air Included)</span>
                 </div>
 
                 {/* Secondary Row: Quantity, Add to Bag, Wishlist */}
@@ -2934,10 +2904,10 @@ export function ProductClient({ product }: Props) {
                       ...secondaryAddBtn,
                       flex: 1,
                       padding: '0.85rem 1rem',
-                      borderRadius: '0.85rem',
+                      borderRadius: '0.75rem',
                     }}
                   >
-                    🛍️ Add to Bag
+                    Add to Bag
                   </button>
 
                   <button
@@ -2959,25 +2929,22 @@ export function ProductClient({ product }: Props) {
                   </button>
                 </div>
 
-                {/* SLEEK DARK CALLOUT CARD FOR PRE-BUILT / PRE-DESIGNED DROPS */}
+                {/* Clean Callout for Custom Studio */}
                 {!isCustomizeMode && (
-                  <div className="mt-4 p-4 rounded-2xl bg-[#0c0b0a] text-white border border-white/10 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <div className="flex items-center gap-3 text-left">
-                      <span className="text-2xl shrink-0">🎨</span>
-                      <div>
-                        <div className="text-xs font-black text-white">
-                          Don&apos;t want this pre-built design?
-                        </div>
-                        <div className="text-[11px] text-neutral-400 mt-0.5">
-                          Print your own custom logo, text, or artwork on any blank Hoodie, Tee, or Desk Mat
-                        </div>
+                  <div className="mt-4 p-4 rounded-xl bg-[#12100E] text-white border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div className="text-left">
+                      <div className="text-xs font-bold text-white">
+                        Looking for custom artwork or blank silhouettes?
+                      </div>
+                      <div className="text-[11px] text-neutral-400 mt-0.5">
+                        Print your own graphic, text, or brand logo on any blank hoodie or oversized tee.
                       </div>
                     </div>
                     <Link
                       href={`/custom-drops?base=${product.id}`}
-                      className="shrink-0 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#FF4D24] to-[#E8244B] text-white text-xs font-black uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all text-center no-underline shadow-md"
+                      className="shrink-0 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold uppercase tracking-wider transition-all text-center no-underline border border-white/15"
                     >
-                      Open Custom Design Studio ➔
+                      Open Custom Studio ➔
                     </Link>
                   </div>
                 )}
@@ -3141,9 +3108,12 @@ export function ProductClient({ product }: Props) {
 
         {related.length > 0 && (
           <section style={{ marginTop: 'clamp(2rem, 5vw, 3.5rem)' }}>
-            <h2 style={{ fontWeight: 900, fontSize: '1.6rem', marginBottom: '1.5rem' }}>
-              Pairs well with
-            </h2>
+            <div className="flex items-center gap-2 mb-4">
+              <span className="w-2 h-2 rounded-full bg-[#FF4D24]" />
+              <h2 style={{ fontWeight: 900, fontSize: '1.6rem', margin: 0 }}>
+                Recommended Drops • Complete Your Fit
+              </h2>
+            </div>
             <div
               style={{
                 display: 'grid',
@@ -3167,6 +3137,15 @@ export function ProductClient({ product }: Props) {
                   rawPrice={p.price}
                   rawComparePrice={p.compareAtPrice}
                   gradient={p.gradient}
+                  imageUrl={p.image_url || (p.images && p.images[0])}
+                  images={p.images}
+                  isPrebuilt={p.isPrebuilt}
+                  lockedSvgMotif={p.lockedSvgMotif}
+                  lockedGraphicTitle={p.lockedGraphicTitle}
+                  lockedGraphicPlacement={p.lockedGraphicPlacement}
+                  lockedAccentHex={p.lockedAccentHex}
+                  sizes={p.sizes}
+                  colors={p.colors}
                   chapter={p.chapter}
                   pet={undefined}
                   rating={p.rating}
@@ -3413,10 +3392,9 @@ export function ProductClient({ product }: Props) {
           {/* 1-Tap CTA */}
           <button
             onClick={handleOrderNow}
-            className="shrink-0 px-5 py-3 rounded-xl bg-gradient-to-r from-[#FF4D24] to-[#E8244B] text-white font-black text-xs uppercase tracking-wider shadow-lg active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer border-none"
+            className="shrink-0 px-5 py-3 rounded-lg bg-[#FF4D24] text-white font-bold text-xs uppercase tracking-wider shadow-md active:scale-95 transition-all flex items-center justify-center cursor-pointer border-none"
           >
             <span>ORDER NOW</span>
-            <span>⚡</span>
           </button>
         </div>
       )}

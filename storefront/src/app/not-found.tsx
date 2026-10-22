@@ -2,49 +2,29 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <main
-      style={{
-        background: '#fffbf5',
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '2rem',
-        textAlign: 'center',
-      }}
-    >
-      <div style={{ maxWidth: '480px' }}>
-        <div style={{ fontSize: '3.5rem' }}>🕵️</div>
-        <h1 style={{ fontWeight: 900, fontSize: '2rem', marginTop: '1rem' }}>Drop Not Found</h1>
-        <p style={{ color: '#52453e', marginTop: '0.75rem', lineHeight: 1.7 }}>
-          This drop or page doesn&apos;t exist or has moved. Explore our active streetwear drops &amp; creator collections.
+    <main className="min-h-screen flex items-center justify-center bg-[#FBF8F3] text-[#12100E] px-6 py-20">
+      <div className="max-w-md w-full text-center">
+        <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#FF4D24] block mb-3">
+          404 — Not Found
+        </span>
+        <h1 className="text-3xl md:text-4xl font-black tracking-tight text-[#12100E]">
+          Drop Not Located
+        </h1>
+        <p className="text-neutral-600 text-sm mt-4 leading-relaxed font-normal">
+          This piece or page does not exist or has been moved from the active collection. Explore our active streetwear drops in the catalog.
         </p>
-        <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', marginTop: '1.5rem', flexWrap: 'wrap' }}>
+        <div className="flex gap-3 justify-center mt-8 flex-wrap">
           <Link
             href="/shop"
-            style={{
-              padding: '0.9rem 1.8rem',
-              borderRadius: '9999px',
-              background: '#FF4D24',
-              color: 'white',
-              fontWeight: 800,
-              textDecoration: 'none',
-            }}
+            className="px-6 py-3 bg-[#FF4D24] hover:bg-[#e03d15] text-white font-bold text-xs uppercase tracking-wider no-underline transition-colors"
           >
             Explore Catalog →
           </Link>
           <Link
             href="/"
-            style={{
-              padding: '0.9rem 1.8rem',
-              borderRadius: '9999px',
-              background: '#1a1412',
-              color: 'white',
-              fontWeight: 800,
-              textDecoration: 'none',
-            }}
+            className="px-6 py-3 bg-[#12100E] hover:bg-black text-white font-bold text-xs uppercase tracking-wider no-underline transition-colors"
           >
-            Home
+            Return Home
           </Link>
         </div>
       </div>

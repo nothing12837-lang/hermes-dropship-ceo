@@ -31,6 +31,7 @@ interface RazorpayEvent {
       entity?: {
         order_id?: string;
         status?: string;
+        amount?: number;
       };
     };
   };
@@ -98,6 +99,14 @@ export async function POST(req: NextRequest) {
       const justPaid = Boolean(order && order.status === 'pending');
 
       if (order && order.status === 'pending') {
+        // Verify payment amount matches order total in paise (prevents gateway underpayment tampering)
+        const paidPaise = Number(event?.payload?.payment?.entity?.amount);
+        const expectedPaise = Math.round(Number(order.total_amount || 0) * 100);
+        if (paidPaise && expectedPaise && paidPaise < expectedPaise) {
+          console.error(`Razorpay webhook: amount mismatch for order ${order.id}. Paid: ${paidPaise}, expected: ${expectedPaise}`);
+          return NextResponse.json({ error: 'Payment amount mismatch' }, { status: 400 });
+        }
+
         const claim = await supabase
           .from('orders')
           .update({ status: 'paid' })

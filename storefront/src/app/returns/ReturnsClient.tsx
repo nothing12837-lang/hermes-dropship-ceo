@@ -135,9 +135,9 @@ export function ReturnsClient() {
 
         {claimResult ? (
           <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-4">
-            <span className="text-4xl block">🎉</span>
+            <span className="font-mono text-xs uppercase tracking-wider text-emerald-800 block">TICKET CONFIRMED</span>
             <h3 className="text-xl font-black text-emerald-900">
-              Claim Registered Successfully!
+              Claim Registered Successfully
             </h3>
             <p className="text-xs text-emerald-800 max-w-md mx-auto leading-relaxed">
               Ticket ID: <strong className="font-mono text-sm px-2 py-1 bg-white rounded-lg border border-emerald-400">{claimResult.claimId}</strong>
@@ -148,14 +148,14 @@ export function ReturnsClient() {
             <div className="pt-2 flex flex-wrap gap-3 justify-center">
               <Link
                 href="/track"
-                className="px-5 py-2.5 rounded-full bg-[#161311] text-white text-xs font-bold no-underline hover:bg-neutral-800 transition-all"
+                className="px-5 py-2.5 rounded-lg bg-[#161311] text-white text-xs font-bold no-underline hover:bg-neutral-800 transition-all"
               >
-                Track Your Orders 📍
+                Track Your Orders →
               </Link>
               <button
                 type="button"
                 onClick={() => setClaimResult(null)}
-                className="px-5 py-2.5 rounded-full bg-white text-neutral-800 text-xs font-bold border border-black/10 cursor-pointer"
+                className="px-5 py-2.5 rounded-lg bg-white text-neutral-800 text-xs font-bold border border-black/10 cursor-pointer"
               >
                 File Another Request
               </button>
@@ -164,8 +164,8 @@ export function ReturnsClient() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
-              <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold flex items-center gap-2">
-                <span>⚠️</span> {error}
+              <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold flex items-center gap-2">
+                <span>Error:</span> {error}
               </div>
             )}
 
@@ -207,12 +207,12 @@ export function ReturnsClient() {
                   onChange={(e) => setReason(e.target.value)}
                   className="w-full px-4 py-3 text-sm rounded-xl border border-black/15 bg-neutral-50/70 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all font-medium cursor-pointer"
                 >
-                  <option value="Size Mismatch (Need Different Size)">📏 Size Mismatch (Need 1 Size Up/Down)</option>
-                  <option value="Print Defect or Misalignment">🎨 Print Defect or Misalignment</option>
-                  <option value="Damaged in Courier Transit">📦 Damaged / Torn in Courier Transit</option>
-                  <option value="Received Wrong Item or Color">🏷️ Received Wrong Item or Color</option>
-                  <option value="Quality Concern or Stitching Issue">✨ Quality Concern or Stitching Issue</option>
-                  <option value="Other Issue">❓ Other Inquiry</option>
+                  <option value="Size Mismatch (Need Different Size)">Size Mismatch (Need 1 Size Up/Down)</option>
+                  <option value="Print Defect or Misalignment">Print Defect or Misalignment</option>
+                  <option value="Damaged in Courier Transit">Damaged / Torn in Courier Transit</option>
+                  <option value="Received Wrong Item or Color">Received Wrong Item or Color</option>
+                  <option value="Quality Concern or Stitching Issue">Quality Concern or Stitching Issue</option>
+                  <option value="Other Issue">Other Inquiry</option>
                 </select>
               </div>
 
@@ -225,9 +225,9 @@ export function ReturnsClient() {
                   onChange={(e) => setPreference(e.target.value)}
                   className="w-full px-4 py-3 text-sm rounded-xl border border-black/15 bg-neutral-50/70 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all font-medium cursor-pointer"
                 >
-                  <option value="Free Doorstep Replacement (Recommended)">⚡ Free Doorstep Replacement / Reprint (Recommended)</option>
-                  <option value="Store Credit + 10% Extra Bonus">🎁 Store Credit + 10% Extra Bonus Coupon</option>
-                  <option value="Full Refund to Bank / UPI">💳 Full 100% Refund (to Bank / UPI)</option>
+                  <option value="Free Doorstep Replacement (Recommended)">Free Doorstep Replacement / Reprint (Recommended)</option>
+                  <option value="Store Credit + 10% Extra Bonus">Store Credit + 10% Extra Bonus Coupon</option>
+                  <option value="Full Refund to Bank / UPI">Full Refund (to Bank / UPI)</option>
                 </select>
               </div>
             </div>
@@ -245,16 +245,16 @@ export function ReturnsClient() {
               />
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-900 leading-relaxed">
-              💡 <b>Fast Verification Tip:</b> You don&apos;t have to pack the product back. Once submitted, our customer care executive will ping you on WhatsApp to request a quick photo of the tag/print, and immediately trigger the free reprint!
+            <div className="p-3.5 rounded-xl bg-neutral-100 border border-black/[0.08] text-xs text-neutral-700 leading-relaxed">
+              <strong className="font-mono text-[11px] uppercase tracking-wider">Fast Verification:</strong> You don&apos;t have to pack the product back. Once submitted, our customer care team will verify via WhatsApp with a photo of the garment/tag, and immediately trigger the free reprint or replacement.
             </div>
 
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-4 rounded-full font-black text-xs uppercase tracking-wider text-white bg-gradient-to-r from-[#FF4D24] to-[#E63900] hover:opacity-95 active:scale-[0.99] transition-all cursor-pointer border-none shadow-[0_8px_20px_rgba(255,77,36,0.3)] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-4 rounded-lg font-bold text-xs uppercase tracking-wider text-white bg-[#FF4D24] hover:bg-[#e03d15] active:scale-[0.99] transition-all cursor-pointer border-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {submitting ? 'Submitting Claim…' : 'Submit 7-Day Replacement Claim ⚡'}
+              {submitting ? 'Submitting Claim…' : 'Submit 7-Day Replacement Claim →'}
             </button>
           </form>
         )}
@@ -300,15 +300,15 @@ export function ReturnsClient() {
           <div className="mt-4 flex flex-wrap gap-3">
             <a
               href="mailto:rareemberagency@gmail.com"
-              className="px-5 py-2.5 rounded-full bg-[#1d1d1f] text-white text-xs font-bold hover:bg-black transition-all no-underline shadow-xs"
+              className="px-5 py-2.5 rounded-lg bg-[#12100E] text-white text-xs font-bold hover:bg-black transition-all no-underline shadow-xs"
             >
               Email Care Desk (rareemberagency@gmail.com) →
             </a>
             <Link
               href="/track"
-              className="px-5 py-2.5 rounded-full bg-neutral-100 text-neutral-800 text-xs font-bold hover:bg-neutral-200 transition-all no-underline"
+              className="px-5 py-2.5 rounded-lg bg-neutral-100 text-neutral-800 text-xs font-bold hover:bg-neutral-200 transition-all no-underline"
             >
-              Track Active Delivery 📍
+              Track Active Delivery →
             </Link>
           </div>
         </div>

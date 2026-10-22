@@ -117,12 +117,12 @@ export function computeDiscount(rawPrice: number, rawCompare?: number, priceInr?
 }
 
 export const SHOP_CATEGORIES = [
-  { id: 'mens-printed', label: "Men's Printed", count: 18, hint: 'Heavyweight DTF & Sublimation Drops', emoji: '🔥' },
-  { id: 'printed', label: 'All Graphic Prints', count: 24, hint: 'Every High-Definition Fade-Proof Print', emoji: '✨' },
-  { id: 'mens', label: "Men's & Unisex", count: 23, hint: 'Oversized Tees, Hoodies & Jerseys', emoji: '👕' },
-  { id: 'womens', label: "Women's Drops", count: 7, hint: 'Baby Tees, Crop Tops & Graphic Dresses', emoji: '👗' },
-  { id: 'kids', label: "Kids Streetwear", count: 2, hint: '100% Super Combed Cotton Graphic Tees', emoji: '🧸' },
-  { id: 'blanks', label: 'Premium Blanks', count: 8, hint: 'Essential Acid Wash, Tie-Dye & Garment Blanks', emoji: '⚡' },
+  { id: 'mens-printed', label: "Men's Graphic Drops", count: 18, hint: '240 GSM Combed Cotton Drops' },
+  { id: 'printed', label: 'All Graphic Prints', count: 24, hint: 'High-Density Direct-to-Film Prints' },
+  { id: 'mens', label: "Men's & Unisex", count: 23, hint: 'Oversized Tees, Hoodies & Fleece' },
+  { id: 'womens', label: "Women's Collection", count: 7, hint: 'Crops, Tees & Typographic Prints' },
+  { id: 'kids', label: "Kids Streetwear", count: 2, hint: '180 GSM Bio-Washed Combed Cotton' },
+  { id: 'blanks', label: 'Essential Blanks', count: 8, hint: 'Solid Silhouettes & Acid Wash' },
 ];
 
 
@@ -133,55 +133,59 @@ export function enforcePriceFloor(p: Product): Product {
   let compare = p.compareAtPrice ?? p.compare_at_price;
 
   // Preserve test drops / gateway verification price without enforcing higher retail floor
-  if (pid.includes('test') || pid.includes('gateway') || p.price === 10 || p.price_inr === 10) {
+  if (pid.includes('verification') || pid.includes('test') || pid.includes('gateway') || p.price === 5 || p.price_inr === 5 || p.price === 10 || p.price_inr === 10) {
+    const fixedPrice = p.price_inr === 5 || p.price === 5 || pid.includes('5rs') || pid.includes('verification') ? 5 : 10;
     return {
       ...p,
-      price: 10,
-      price_inr: 10,
+      price: fixedPrice,
+      price_inr: fixedPrice,
       compareAtPrice: compare || 99,
       compare_at_price: compare || 99,
     };
   }
 
   if (pid.includes('64950694') || pid.includes('32476280') || (title.includes('oversized') && title.includes('jersey'))) {
-    price = 679;
-    compare = 1299;
-  } else if ((title.includes('oversized standard') || title.includes('desk mat') || pid.includes('desk-mat')) && price <= 499) {
-    price = 649;
-    compare = 1199;
-  } else if (pid.includes('64953648') || (title.includes('full sleeve') && title.includes('graphic'))) {
-    price = 899;
-    compare = 1599;
-  } else if (pid.includes('64953512') || pid.includes('t-shirt-dress') || pid.includes('maternity-dress') || title.includes('dress')) {
-    price = 849;
-    compare = 1499;
-  } else if (pid.includes('64953544') || pid.includes('32476772') || title.includes('v neck') || title.includes('v-neck')) {
+    price = 779;
+    compare = 1399;
+  } else if ((title.includes('oversized standard') || title.includes('desk mat') || pid.includes('desk-mat')) && price <= 599) {
     price = 749;
     compare = 1299;
+  } else if (pid.includes('64953648') || (title.includes('full sleeve') && title.includes('graphic'))) {
+    price = 999;
+    compare = 1799;
+  } else if (pid.includes('64953512') || pid.includes('t-shirt-dress') || pid.includes('maternity-dress') || title.includes('dress')) {
+    price = 949;
+    compare = 1699;
+  } else if (pid.includes('64953544') || pid.includes('32476772') || title.includes('v neck') || title.includes('v-neck')) {
+    price = 849;
+    compare = 1499;
   } else if (pid.includes('64953576') || pid.includes('32476788') || title.includes('polo')) {
+    price = 799;
+    compare = 1399;
+  } else if (pid.includes('64953600') || pid.includes('32476800') || title.includes('sleeveless') || title.includes('raglan') || title.includes('ringer')) {
     price = 699;
-    compare = 1249;
-  } else if (pid.includes('64953600') || pid.includes('32476800') || title.includes('sleeveless')) {
-    price = 599;
-    compare = 1099;
+    compare = 1199;
   } else if (
     ['64953748', '64953702', '64953664', '64953528', '64953488', '32476874', '32476851', '32476764', '32476832', '32476744', '32476681', '32476284'].some((k) => pid.includes(k)) ||
     ["women's classic", "crop top", "tank top", "crop tank", "girl's crew", "boy's crew", "basic t-shirt", "dryfit"].some((k) => title.includes(k))
   ) {
-    if (price < 549) price = 549;
-    if (!compare || compare < 999) compare = 999;
-  } else if (pid.includes('streetwear-duo') || pid.includes('pack-of-2')) {
-    price = 1199;
-    compare = 1799;
-  } else if (pid.includes('founding-50')) {
-    price = 1199;
-    compare = 1799;
-  } else if (pid.includes('workstation')) {
+    if (price < 649) price = 649;
+    if (!compare || compare < 1099) compare = 1099;
+  } else if (pid.includes('hoodie')) {
     price = 1399;
+    compare = 2699;
+  } else if (pid.includes('streetwear-duo') || pid.includes('pack-of-2')) {
+    price = 1299;
     compare = 1999;
-  } else if (pid.includes('pack-of-3')) {
+  } else if (pid.includes('founding-50')) {
+    price = 1299;
+    compare = 1999;
+  } else if (pid.includes('workstation')) {
     price = 1499;
-    compare = 2499;
+    compare = 2199;
+  } else if (pid.includes('pack-of-3')) {
+    price = 1599;
+    compare = 2699;
   }
 
   return {
@@ -290,9 +294,8 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
 // Bundles paused until store reaches 10 successful orders (per strategic roadmap)
 export const products: Product[] = (qikinkCatalog as unknown as Product[])
   .filter((p) => !p.id.startsWith('bundle-'))
-  // Gateway/test SKUs are internal fixtures. One of them was a Rs.10
-  // "Gateway Test Pass" item that led the homepage and shipped Product markup.
-  .filter((p) => !/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox)/i.test(`${p.id} ${p.title}`))
+  // Gateway/test SKUs are internal fixtures and excluded from public catalog
+  .filter((p) => !/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification)/i.test(`${p.id} ${p.title}`))
   .map(enforcePriceFloor);
 
 export const PET_META: Record<string, any> = {

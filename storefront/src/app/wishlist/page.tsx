@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import ProductCard from '@/components/ui/ProductCard';
-import { ChapterHeading } from '@/components/ui/Story';
 import { formatPrice, computeDiscount, products, type Product } from '@/lib/data/products';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { useWishlist } from '@/lib/store/wishlist';
@@ -12,7 +11,6 @@ import { supabase, type ProductRow } from '@/lib/supabase';
 function toCard(p: Product) {
   return {
     id: p.id,
-    emoji: p.emoji,
     tag: p.tag,
     tagColor: p.tagColor,
     tagBg: p.tagBg,
@@ -36,7 +34,6 @@ function rowToCard(p: ProductRow) {
   const compare = p.compare_at_price != null ? Number(p.compare_at_price) : undefined;
   return {
     id: p.id,
-    emoji: p.emoji || '🛍️',
     tag: p.tag || 'Saved',
     tagColor: p.tag_color || '#FFFFFF',
     tagBg: p.tag_bg || '#FF4D24',
@@ -87,20 +84,36 @@ export default function WishlistPage() {
   const list = [...localList.map(toCard), ...dbCards];
 
   return (
-    <main className="page-top min-h-screen bg-bg-base">
-      <div style={{ maxWidth: '76rem', margin: '0 auto', padding: '2rem' }}>
-        <ChapterHeading index="♡" label="Wishlist" title="Saved for" accent="later." />
+    <main className="page-top min-h-screen bg-[#FBF8F3] text-[#12100E] py-12 md:py-20">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="mb-10">
+          <span className="font-mono text-xs uppercase tracking-widest text-[#FF4D24] block mb-2">
+            Personal Archive
+          </span>
+          <h1 className="text-3xl md:text-5xl font-black tracking-tight text-[#12100E]">
+            Saved Garments & Drops
+          </h1>
+          <p className="text-sm text-neutral-600 mt-2">
+            Pieces bookmarked for your upcoming orders.
+          </p>
+        </div>
+
         {list.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '3rem', background: 'white', borderRadius: '1.5rem', border: '1px solid #ebebeb' }}>
-            <div style={{ fontSize: '3rem', color: '#FF4D24' }}>♡</div>
-            <p style={{ fontWeight: 800, marginTop: '1rem' }}>Nothing saved yet.</p>
-            <p style={{ color: '#8a7b6b' }}>Tap the ♡ on any product to keep it here.</p>
-            <Link href="/shop" style={{ display: 'inline-block', marginTop: '1.5rem', background: '#FF4D24', color: 'white', padding: '0.9rem 2rem', borderRadius: '9999px', fontWeight: 800, textDecoration: 'none' }}>
-              Explore drops →
+          <div className="bg-white border border-black/[0.08] p-12 text-center max-w-lg mx-auto">
+            <h2 className="font-bold text-lg text-[#12100E] mb-2">Your saved archive is empty</h2>
+            <p className="text-sm text-neutral-500 mb-6">
+              Browse the catalog and tap the bookmark icon on any piece to save it here.
+            </p>
+            <Link
+              href="/shop"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF4D24] hover:bg-[#e03d15] text-white font-bold text-xs uppercase tracking-wider no-underline transition-colors"
+            >
+              <span>Explore Collection</span>
+              <span>→</span>
             </Link>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: '1.5rem' }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {list.map((p) => (
               <ProductCard key={p.id} {...p} />
             ))}

@@ -61,15 +61,15 @@ export async function notifyTelegramOrder(order: {
   let addrStr = 'Customer details provided during checkout';
   if (order.address && typeof order.address === 'object') {
     const a = order.address;
-    const namePart = order.name || a.name || 'Customer';
-    const line1 = a.line1 || a.address || '';
-    const city = a.city || '';
-    const state = a.state || '';
-    const pin = a.pincode || a.postal_code || a.pin || '';
+    const namePart = (order.name || a.name || 'Customer').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const line1 = (a.line1 || a.address || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const city = (a.city || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const state = (a.state || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const pin = (a.zip || a.pincode || a.postal_code || a.pin || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     const phone = a.phone || '';
     addrStr = `<b>${namePart}</b>\n${line1}\n${city}, ${state} - <b>${pin}</b>\n📞 Phone: <b>${phone}</b>`;
   } else if (typeof order.address === 'string' && order.address.trim()) {
-    addrStr = order.address.trim();
+    addrStr = order.address.trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
   // Extract customer phone & create 1-click WhatsApp confirmation link

@@ -23,6 +23,10 @@ jobs:
           cache-dependency-path: storefront/package-lock.json
       - run: npm ci
       - run: npm run typecheck
+      # The lint gate was dead: eslint.config.mjs imported subpaths that do
+      # not exist, so `eslint` crashed with ERR_MODULE_NOT_FOUND and CI never
+      # ran it. Now it runs and blocks on errors.
+      - run: npm run lint -- --max-warnings=9999
       - run: npm run test
       - run: npm run build
 

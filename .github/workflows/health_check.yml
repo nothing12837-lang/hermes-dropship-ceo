@@ -2,6 +2,10 @@ name: RareEmber Cloud Health & Security Sentinel
 
 on:
   workflow_dispatch:
+  schedule:
+    # Nightly at 03:17 UTC. Previously the workflow only had workflow_dispatch,
+    # so the "Nightly Cloud Health Sentinel" never ran on a schedule at all.
+    - cron: '17 3 * * *'
 
 permissions:
   contents: read

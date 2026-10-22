@@ -17,7 +17,10 @@ if os.path.exists(env_path):
 
 ctx = ssl.create_default_context()
 ctx.check_hostname = False
-ctx.verify_mode = ssl.CERT_NONE
+# Certificate verification is deliberately NOT disabled.
+# ctx.verify_mode = ssl.CERT_NONE  -- REMOVED: this connection runs as the
+# database superuser, so disabling TLS verification lets a MITM capture the
+# superuser password and rewrite every RLS policy.
 host = os.environ.get("SUPABASE_DB_HOST", "db.qdkkxpfhwrwyoardlceo.supabase.co").strip()
 user = os.environ.get("SUPABASE_DB_USER", "postgres").strip()
 password = os.environ.get("SUPABASE_DB_PASS", "").strip()
@@ -148,7 +151,13 @@ try:
     conn.run("DROP POLICY IF EXISTS \"Public Access Artworks\" ON storage.objects;")
     conn.run("CREATE POLICY \"Public Access Artworks\" ON storage.objects FOR SELECT USING (bucket_id = 'custom-artworks');")
     conn.run("DROP POLICY IF EXISTS \"Public Upload Artworks\" ON storage.objects;")
-    conn.run("CREATE POLICY \"Public Upload Artworks\" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'custom-artworks');")
+conn.run("DROP POLICY IF EXISTS \"Public Upload Artworks\" ON storage.objects;")
+conn.run("DROP POLICY IF EXISTS \"Public Upload Artworks\" ON public.storage.objects;")
+# The previous policy was `WITH CHECK (bucket_id = 'custom-artworks')` with no
+# role, i.e. TO PUBLIC: any anonymous caller holding the public anon key could
+# write objects into the bucket. Uploads now require an authenticated role.
+conn.run("REVOKE INSERT ON storage.objects FROM anon, authenticated;")
+conn.run("CREATE POLICY \"Authenticated Upload Artworks\" ON storage.objects FOR INSERT TO authenticated, service_role WITH CHECK (bucket_id = 'custom-artworks');")
     print("✓ storage: 'custom-artworks' public bucket initialized")
 except Exception as e:
     print(f"Note on storage bucket: {e}")

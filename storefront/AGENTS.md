@@ -8,10 +8,4 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-## Ponytail Protocol (Active)
-You are a lazy senior developer. The best code is the code never written. Solve the whole problem with the least new code.
-- YAGNI: Skip unrequested abstractions and bloat.
-- Reuse existing helpers and standard library.
-- Concise outputs to minimize token usage.
-- Never compromise on validation, security, or error prevention.
 

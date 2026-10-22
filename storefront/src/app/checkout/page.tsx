@@ -169,6 +169,10 @@ export default function CheckoutPage() {
           pincode: cleanPin,
           city: detectedCity,
           state: detectedState,
+          serviceable: true,
+          codAvailable: true,
+          deliveryDate: '2-4 Days (Express Air)',
+          stockStatus: 'Ready to Dispatch (Tirupur Hub)',
         }));
       } else {
         setPincodeInfo({ city: '', state: '', valid: true });
@@ -228,7 +232,7 @@ export default function CheckoutPage() {
               title: i.title || 'Curated Lifestyle Drop',
               price: Number(i.price ?? inferredInr),
               price_inr: inferredInr,
-              emoji: i.emoji || '🛍️',
+              emoji: i.emoji || '',
               image_url: resolvedColorImage || resolveProductImage(i.id, i.imageUrl),
               gradient: i.gradient || 'linear-gradient(135deg, #f1f5f9, #e2e8f0)',
               short: '',
@@ -716,38 +720,39 @@ export default function CheckoutPage() {
 
         {/* Empty Bag Warning Banner */}
         {detailed.length === 0 && (
-          <div className="mb-8 p-6 rounded-3xl bg-amber-500/10 border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="mb-8 p-6 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="text-3xl">🛍️</span>
+              <div className="w-8 h-8 rounded-full bg-amber-500/20 text-amber-900 flex items-center justify-center font-mono text-xs font-bold">
+                00
+              </div>
               <div>
                 <h2 className="text-sm font-bold text-amber-950">Your shopping bag is currently empty</h2>
-                <p className="text-xs text-amber-800 mt-0.5">Click &ldquo;ORDER NOW ⚡&rdquo; on any product in our shop to checkout immediately.</p>
+                <p className="text-xs text-amber-800 mt-0.5">Click &ldquo;ORDER NOW&rdquo; on any product in our shop to checkout immediately.</p>
               </div>
             </div>
             <Link
               href="/shop"
-              className="px-5 py-2.5 rounded-full bg-[#1d1d1f] hover:bg-black text-white text-xs font-bold transition-all shadow-xs shrink-0 text-center no-underline"
+              className="px-5 py-2.5 rounded-lg bg-[#12100E] hover:bg-black text-white text-xs font-bold transition-all shadow-xs shrink-0 text-center no-underline"
             >
-              Explore Products ⚡ →
+              Explore Collection →
             </Link>
           </div>
         )}
 
         {/* Guest Checkout Active Notice */}
         {!userId && !authChecking && (
-          <div className="mb-8 p-4 md:p-5 rounded-2xl bg-amber-500/[0.07] border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="mb-8 p-4 md:p-5 rounded-xl bg-neutral-100 border border-black/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="text-2xl">⚡</span>
               <div>
-                <h3 className="text-sm font-bold text-neutral-900">1-Click Express Guest Checkout Active</h3>
+                <h3 className="text-sm font-bold text-neutral-900">Direct Express Checkout</h3>
                 <p className="text-xs text-neutral-600 mt-0.5">
-                  No account or password needed! Fill in delivery address below to place your order with Cash on Delivery (COD) or UPI.
+                  No password required. Enter your delivery address below to complete order with Cash on Delivery (COD) or UPI.
                 </p>
               </div>
             </div>
             <Link
               href="/login?redirect=/checkout"
-              className="px-4 py-2 rounded-full bg-white hover:bg-neutral-100 text-[#161311] border border-black/10 text-xs font-bold transition-all shrink-0 text-center no-underline whitespace-nowrap"
+              className="px-4 py-2 rounded-lg bg-white hover:bg-neutral-50 text-[#12100E] border border-black/10 text-xs font-bold transition-all shrink-0 text-center no-underline whitespace-nowrap"
             >
               Sign In (Optional) →
             </Link>
@@ -789,17 +794,16 @@ export default function CheckoutPage() {
                   </h2>
                 </div>
                 {zip.trim().length === 6 && (
-                  <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-1.5">
+                  <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-1.5 font-mono">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    📍 {city ? `${city}${state ? `, ${state}` : ''}` : 'PIN Verified'}
+                    {city ? `${city}${state ? `, ${state}` : ''}` : 'PIN Verified'}
                   </span>
                 )}
               </div>
 
               {hasSavedAddress && (
-                <div className="mb-5 p-3.5 rounded-2xl bg-amber-500/[0.08] border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
+                <div className="mb-5 p-3.5 rounded-xl bg-neutral-50 border border-black/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
                   <div className="flex items-center gap-2.5">
-                    <span className="text-xl">⚡</span>
                     <div>
                       <span className="font-bold text-neutral-900">Saved address auto-filled:</span>{' '}
                       <span className="text-neutral-700">
@@ -864,13 +868,13 @@ export default function CheckoutPage() {
                       <label className="text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
                         Mobile Number (10-Digit) <span className="text-rose-500 font-bold">* (Compulsory)</span>
                       </label>
-                      <span className="text-[10px] text-emerald-700 font-semibold flex items-center gap-1">
-                        <span>💬</span> WhatsApp Tracking
+                      <span className="text-[10px] text-emerald-700 font-semibold flex items-center gap-1 font-mono">
+                        WhatsApp Tracking
                       </span>
                     </div>
                     <div className="flex rounded-xl border border-black/10 bg-neutral-50/50 overflow-hidden focus-within:border-[#FF4D24] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#FF4D24]/10 transition-all">
-                      <span className="inline-flex items-center gap-1.5 px-3 bg-neutral-100 text-neutral-700 text-xs font-bold border-r border-black/10 select-none">
-                        <span>🇮🇳</span> +91
+                      <span className="inline-flex items-center gap-1.5 px-3 bg-neutral-100 text-neutral-700 text-xs font-mono font-bold border-r border-black/10 select-none">
+                        +91
                       </span>
                       <input
                         type="tel"
@@ -940,7 +944,7 @@ export default function CheckoutPage() {
                       </div>
                     ) : (
                       <div className="p-2.5 rounded-xl bg-neutral-100/70 border border-black/5 text-neutral-500 text-[11px]">
-                        <p className="font-semibold text-neutral-700">🚚 Pan-India Delivery Network</p>
+                        <p className="font-semibold text-neutral-700">Pan-India Delivery Network</p>
                         <p className="text-[10px] mt-0.5">Enter 6-digit PIN to auto-detect City & State</p>
                       </div>
                     )}
@@ -1061,9 +1065,9 @@ export default function CheckoutPage() {
                   </label>
                   <div className="grid grid-cols-3 gap-2.5">
                     {[
-                      { id: 'home', label: '🏠 Home', sub: '9 AM - 9 PM, All Days' },
-                      { id: 'office', label: '🏢 Work / Office', sub: '10 AM - 6 PM, Mon-Sat' },
-                      { id: 'other', label: '📍 Other', sub: 'Anytime' },
+                      { id: 'home', label: 'Home', sub: '9 AM - 9 PM, All Days' },
+                      { id: 'office', label: 'Work / Office', sub: '10 AM - 6 PM, Mon-Sat' },
+                      { id: 'other', label: 'Other', sub: 'Anytime' },
                     ].map((t) => (
                       <button
                         key={t.id}
@@ -1123,8 +1127,7 @@ export default function CheckoutPage() {
                   </p>
                 </div>
               </div>
-              <div className="text-[11px] font-bold text-neutral-600 flex items-center gap-1.5 bg-white/80 px-3 py-1.5 rounded-full border border-black/5">
-                <span>📲</span>
+              <div className="text-[10px] font-mono font-bold text-neutral-600 flex items-center gap-1.5 bg-white px-3 py-1.5 rounded border border-black/5">
                 <span>SMS &amp; WhatsApp Tracking Alerts</span>
               </div>
             </div>
@@ -1178,9 +1181,8 @@ export default function CheckoutPage() {
 
                 {/* Option 2: Cash on Delivery */}
                 {isAboveCodThreshold ? (
-                  <div className="p-4 rounded-2xl border border-dashed border-amber-300 bg-amber-500/[0.04] opacity-85">
+                  <div className="p-4 rounded-xl border border-dashed border-amber-300 bg-amber-500/[0.04]">
                     <div className="flex items-start gap-3">
-                      <span className="text-xl">🛡️</span>
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
                           <span className="font-bold text-sm text-neutral-800">
@@ -1297,7 +1299,7 @@ export default function CheckoutPage() {
                           )}
                           {((d as any).customImageName || (d as any).customImage) && (
                             <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold">
-                              🖼️ {(d as any).customImageName || 'Graphic Attached'} {d.customPlacement ? `(${d.customPlacement})` : ''}
+                              Artwork: {(d as any).customImageName || 'Attached'} {d.customPlacement ? `(${d.customPlacement})` : ''}
                             </span>
                           )}
                         </div>
@@ -1441,8 +1443,7 @@ export default function CheckoutPage() {
                         : 'border-white/10 bg-white/5 hover:bg-white/10 text-neutral-300'
                     }`}
                   >
-                    <div className="flex items-center gap-1.5 font-black text-xs">
-                      <span>💵</span>
+                    <div className="flex items-center gap-1.5 font-bold text-xs">
                       <span>Cash on Delivery</span>
                     </div>
                     <span className="text-[10px] text-amber-400 font-bold mt-1">
@@ -1472,17 +1473,15 @@ export default function CheckoutPage() {
                     <span>{paymentMethod === 'cod' ? 'Confirming COD Order…' : 'Processing Order…'}</span>
                   </>
                 ) : detailed.length === 0 ? (
-                  <span>BAG IS EMPTY • ADD ITEMS FIRST 🛍️</span>
+                  <span>Bag is Empty</span>
                 ) : paymentMethod === 'cod' ? (
                   <>
-                    <span>Complete COD Order</span>
-                    <span>⚡</span>
+                    <span>Place COD Order</span>
                     <span>• {formatCheckoutPrice(total)}</span>
                   </>
                 ) : (
                   <>
-                    <span>Pay via UPI / Cards</span>
-                    <span>⚡</span>
+                    <span>Pay with UPI / Cards</span>
                     <span>• {formatCheckoutPrice(total)}</span>
                   </>
                 )}
@@ -1491,11 +1490,11 @@ export default function CheckoutPage() {
               {/* Trust & Guarantee strip */}
               <div className="mt-4 pt-4 border-t border-white/10 flex flex-col gap-2 text-center text-[11px] text-neutral-400">
                 <div className="flex items-center justify-center gap-3 text-neutral-300 font-medium">
-                  <span>🔒 256-Bit SSL</span>
+                  <span>256-Bit SSL Encrypted</span>
                   <span>•</span>
-                  <span>🛡️ 7-Day Replacement</span>
+                  <span>7-Day Replacement</span>
                   <span>•</span>
-                  <span>🚚 Insured Courier</span>
+                  <span>Insured Express Air</span>
                 </div>
                 <p className="text-[10px] text-neutral-500">
                   Instant order confirmation & tracking details sent to your email.
@@ -1518,10 +1517,10 @@ export default function CheckoutPage() {
           <div className="w-full max-w-md rounded-3xl bg-white border border-black/10 p-6 md:p-7 shadow-2xl space-y-4 text-left">
             <div className="flex items-center justify-between pb-3 border-b border-black/5">
               <div className="flex items-center gap-2">
-                <span className="w-8 h-8 rounded-full bg-amber-500/15 text-amber-800 flex items-center justify-center text-base font-bold">
-                  📦
+                <span className="w-8 h-8 rounded-lg bg-neutral-900 text-white flex items-center justify-center text-xs font-mono font-bold">
+                  COD
                 </span>
-                <h3 className="text-base font-black text-neutral-900">
+                <h3 className="text-base font-bold text-neutral-900">
                   Confirm Cash on Delivery?
                 </h3>
               </div>
@@ -1535,9 +1534,9 @@ export default function CheckoutPage() {
             </div>
 
             <div className="space-y-3 text-xs">
-              <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200/60 text-amber-900 leading-relaxed">
-                <p className="font-bold text-amber-950 mb-1">
-                  💵 ₹{Math.max(0, total).toFixed(2)} to be collected at doorstep
+              <div className="p-3.5 rounded-xl bg-neutral-100 border border-black/[0.08] text-neutral-800 leading-relaxed">
+                <p className="font-bold text-neutral-950 mb-1">
+                  ₹{Math.max(0, total).toFixed(2)} to be collected at doorstep
                 </p>
                 <p className="text-[11px] text-amber-800">
                   Please confirm that you or a family member will be available to accept the parcel and pay via Cash or UPI QR upon delivery.
@@ -1577,7 +1576,7 @@ export default function CheckoutPage() {
                 type="button"
                 disabled={loading || processing}
                 onClick={executeCodOrder}
-                className="w-full sm:w-1/2 py-3 rounded-full bg-gradient-to-r from-[#FF4D24] to-[#FF6B35] hover:brightness-105 text-white text-xs font-black uppercase tracking-wider border-none shadow-md shadow-[#FF4D24]/20 cursor-pointer transition-all flex items-center justify-center gap-1.5"
+                className="w-full sm:w-1/2 py-3 rounded-lg btn-ember text-white text-xs font-bold uppercase tracking-wider border-none shadow-md cursor-pointer transition-all flex items-center justify-center gap-1.5"
               >
                 {loading || processing ? (
                   <>
@@ -1586,7 +1585,7 @@ export default function CheckoutPage() {
                   </>
                 ) : (
                   <>
-                    <span>Yes, Confirm Order ⚡</span>
+                    <span>Confirm Order</span>
                   </>
                 )}
               </button>
