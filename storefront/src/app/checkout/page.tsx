@@ -362,15 +362,10 @@ export default function CheckoutPage() {
     }
 
     // COMPULSORY FIELD 2: 10-Digit Mobile Phone (Sanitize +91, spaces, dashes)
-    const rawCleanDigits = phone.replace(/[\s\-\(\)\+]/g, '').replace(/^(\+?91)/, '').replace(/\D/g, '');
-    const normalizedPhone = rawCleanDigits.length === 12 && rawCleanDigits.startsWith('91')
-      ? rawCleanDigits.slice(2)
-      : (rawCleanDigits.length === 11 && rawCleanDigits.startsWith('0') ? rawCleanDigits.slice(1) : rawCleanDigits);
+    const digitsOnly = phone.replace(/\D/g, '');
+    const normalizedPhone = digitsOnly.length >= 10 ? digitsOnly.slice(-10) : digitsOnly;
     if (!normalizedPhone || normalizedPhone.length !== 10) {
-      return setError('Mobile Number is compulsory. Please enter a valid 10-digit Indian mobile number.');
-    }
-    if (!/^[6-9]\d{9}$/.test(normalizedPhone)) {
-      return setError('Invalid Indian Mobile Number. Must be exactly 10 digits starting with 6, 7, 8, or 9.');
+      return setError('Mobile Number is compulsory. Please enter your 10-digit mobile number.');
     }
 
     // COMPULSORY FIELD 3: Email Address
@@ -851,13 +846,11 @@ export default function CheckoutPage() {
                         required
                         value={phone}
                         onChange={(e) => {
-                          let d = e.target.value.replace(/\D/g, '');
-                          if (d.length === 11 && d.startsWith('0')) d = d.slice(1);
-                          if (d.length === 12 && d.startsWith('91')) d = d.slice(2);
-                          setPhone(d.slice(0, 10));
+                          const digits = e.target.value.replace(/\D/g, '');
+                          setPhone(digits.length > 10 ? digits.slice(-10) : digits);
                         }}
                         placeholder="98765 43210"
-                        maxLength={14}
+                        maxLength={16}
                         className="w-full px-3 py-3 text-sm bg-transparent text-neutral-900 outline-none placeholder:text-neutral-400"
                       />
                     </div>
