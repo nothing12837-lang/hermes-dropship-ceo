@@ -21,9 +21,17 @@ export async function GET(req: NextRequest) {
   if (!isAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const days = Math.min(90, Math.max(1, parseInt(new URL(req.url).searchParams.get('days') || '14', 10) || 14));
-  const sb = getServiceSupabase();
+  let sb = getServiceSupabase();
   if (!sb) {
-    return NextResponse.json({ error: 'SUPABASE_SERVICE_ROLE_KEY is not configured — agent cannot read store data.' }, { status: 503 });
+    const u = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const k = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (u && k) {
+      const { createClient } = await import('@supabase/supabase-js');
+      sb = createClient(u, k);
+    }
+  }
+  if (!sb) {
+    return NextResponse.json({ error: 'Database connection is not configured — agent cannot read store data.' }, { status: 503 });
   }
   try {
     const overview = await getOverview(days);

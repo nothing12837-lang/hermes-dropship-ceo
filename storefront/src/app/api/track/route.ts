@@ -15,7 +15,7 @@ export const dynamic = 'force-dynamic';
  * - Always answers 204 so the storefront never feels the agent.
  */
 
-const TYPES = new Set(['pageview', 'view_product', 'add_to_cart', 'session_ping']);
+const TYPES = new Set(['pageview', 'view_product', 'add_to_cart', 'session_ping', 'click', 'initiate_checkout']);
 
 function clean(v: unknown, max: number): string | null {
   if (typeof v !== 'string') return null;
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
             path: clean(body.p, 300),
             referrer: clean(body.r, 700),
             product_id: clean(body.pr, 200),
-            meta: { d: clean(meta.d, 20), q: clean(meta.q, 300) },
+            meta: { d: clean(meta.d, 20), q: clean(meta.q, 300), a: clean(meta.a, 100), label: clean(meta.label, 100) },
           };
           const svc = getServiceSupabase();
           if (svc) {

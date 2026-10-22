@@ -57,26 +57,60 @@ export async function sendDailyReport(): Promise<{ ok: boolean; text: string; er
     fc = forecast(ov.byDay, 7);
   } catch (err) {
     const text =
-      `🤖 <b>Rare Ember AI Agent</b>\n\n` +
-      `⚠️ Cannot build the daily report: <b>${String(err instanceof Error ? err.message : err).slice(0, 200)}</b>\n` +
-      `Set <code>SUPABASE_SERVICE_ROLE_KEY</code> in the Vercel env to enable store reads.`;
+      `🤖 <b>Rare Ember AI Sentinel — Morning Briefing</b>\n\n` +
+      `⚠️ Error compiling daily metrics: <b>${String(err instanceof Error ? err.message : err).slice(0, 200)}</b>\n` +
+      `Verify database connection and credentials.`;
     await sendTelegramText(text);
     return { ok: false, text, error: String(err) };
   }
 
   void pruneOldEvents();
 
+  const stayFormatted =
+    ov.avgSessionSec >= 60
+      ? `${Math.floor(ov.avgSessionSec / 60)}m ${Math.round(ov.avgSessionSec % 60)}s`
+      : `${Math.round(ov.avgSessionSec)}s`;
+
+  const topPagesStr = ov.topPaths.slice(0, 3).map((p) => `${p.name} (×${p.value})`).join(', ') || 'None';
+  const topProdsStr = ov.topProducts.slice(0, 3).map((p) => `${p.name} (×${p.value})`).join(', ') || 'None';
+
+  let dailyFocus = ruleTip(ov);
+  try {
+    const prompt = JSON.stringify({
+      visits: ov.visits,
+      uniqueSessions: ov.uniqueSessions,
+      avgStay: stayFormatted,
+      bounceRate: `${ov.bounceRatePct}%`,
+      topPages: topPagesStr,
+      topProducts: topProdsStr,
+      carts: ov.addToCarts,
+      orders: ov.orders,
+      revenue: ov.revenue,
+      codCashGap: ov.codCashGap,
+    });
+    const aiTip = await askAgent(
+      prompt,
+      'You are the AI Operations Director for Rare Ember streetwear (https://rareember.shop). In 2 concise sentences, provide the single most important tactical fix or action for today to maximize revenue and reduce customer drop-offs based on these morning metrics. Plain text with Telegram <b> tags allowed.',
+      200
+    );
+    if (aiTip) dailyFocus = `💡 <b>AI Daily Action Item:</b> ${aiTip}`;
+  } catch {}
+
   const text =
-    `🌞 <b>RARE EMBER DAILY</b> — ${ov.byDay[0]?.date || ''}\n\n` +
-    `💰 Sales: <b>${inr(ov.revenue)}</b> from <b>${ov.orders}</b> orders (COD ${ov.codOrders} • Prepaid ${ov.prepaidOrders})\n` +
-    `💳 AOV: <b>${inr(ov.aov)}</b> • Conversion: <b>${ov.conversionPct}%</b>\n` +
-    `🚨 COD cash gap: <b>${inr(ov.codCashGap.amount)}</b> (${ov.codCashGap.orders} in pipeline, ${ov.codCashGap.unconfirmed} unconfirmed)\n` +
-    `👁 Reach: <b>${ov.visits}</b> visits • ${ov.uniqueSessions} sessions • avg ${Math.floor(ov.avgSessionSec / 60)}m on-site\n` +
-    `🔥 Top source: <b>${ov.topReferrers[0]?.name || 'direct'}</b> (${ov.topReferrers[0]?.value || 0})\n` +
-    `❌ Returns/cancels: ${ov.returns.cancelled + ov.returns.refunded + ov.returns.returned}\n` +
-    `🔮 Forecast 7d: <b>${inr(fc.points.reduce((s, p) => s + p.revenue, 0))}</b> ${fc.note}\n` +
-    `🛡 Security: ${ov.security.length ? ov.security.map((s) => `${s.name}×${s.value}`).join(', ') : 'all clear'}\n\n` +
-    ruleTip(ov) +
+    `🌞 <b>RARE EMBER MORNING BRIEFING</b> — ${ov.byDay[0]?.date || new Date().toISOString().slice(0, 10)}\n\n` +
+    `👥 <b>Store Traffic & Visitor Engagement:</b>\n` +
+    `• Users Arrived: <b>${ov.visits}</b> pageviews (<b>${ov.uniqueSessions}</b> unique shoppers)\n` +
+    `• Time Stayed: <b>${stayFormatted}</b> avg on-site (${ov.engagedSessions} engaged sessions, ${ov.bounceRatePct}% bounce)\n` +
+    `• What They Saw: ${topPagesStr}\n` +
+    `• Products Viewed: ${topProdsStr}\n` +
+    `• Customer Actions: 🛒 ${ov.addToCarts} Carts • ⚡ ${ov.checkoutsInitiated} Checkouts • 👆 ${ov.clicks} Clicks\n\n` +
+    `💰 <b>Orders & Commercials:</b>\n` +
+    `• Revenue: <b>${inr(ov.revenue)}</b> from <b>${ov.orders}</b> orders (Prepaid: ${ov.prepaidOrders} • COD: ${ov.codOrders})\n` +
+    `• Conversion: <b>${ov.conversionPct}%</b> • AOV: <b>${inr(ov.aov)}</b>\n` +
+    `• COD Cash Pipeline: <b>${inr(ov.codCashGap.amount)}</b> (${ov.codCashGap.unconfirmed} unconfirmed)\n` +
+    `• Returns / Cancelled: ${ov.returns.cancelled + ov.returns.refunded + ov.returns.returned}\n` +
+    `• 7d Projected Trend: <b>${inr(fc.points.reduce((s, p) => s + p.revenue, 0))}</b> (${fc.note})\n\n` +
+    dailyFocus +
     `\n\n${ADMIN_LINK}`;
 
   await sendTelegramText(text);
@@ -113,6 +147,9 @@ export async function sendWeeklyReport(): Promise<{ ok: boolean; text: string; e
       avgSessionSec: ov.avgSessionSec,
       productViews: ov.productViews,
       addToCart: ov.addToCarts,
+      clicks: ov.clicks,
+      checkouts: ov.checkoutsInitiated,
+      funnel: ov.funnel,
       topReferrers: ov.topReferrers,
       topPaths: ov.topPaths,
       deviceSplit: ov.deviceSplit,

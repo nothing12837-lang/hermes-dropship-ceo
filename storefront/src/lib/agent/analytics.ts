@@ -31,6 +31,8 @@ export interface Overview {
   avgSessionSec: number;
   productViews: number;
   addToCarts: number;
+  clicks: number;
+  checkoutsInitiated: number;
   orders: number;
   revenue: number;
   aov: number;
@@ -46,6 +48,23 @@ export interface Overview {
   deviceSplit: NamedCount[];
   security: NamedCount[];
   byDay: DayPoint[];
+  liveEvents: Array<{
+    ts: string;
+    type: string;
+    path: string;
+    session_id: string;
+    product_id?: string;
+    referrer?: string;
+    device?: string;
+    label?: string;
+  }>;
+  funnel: {
+    visits: number;
+    productViews: number;
+    addToCarts: number;
+    checkouts: number;
+    orders: number;
+  };
   dataIssue: string | null;
 }
 
@@ -82,8 +101,16 @@ function refHost(r: string | null): string {
 }
 
 export async function getOverview(days = 14): Promise<Overview> {
-  const sb = getServiceSupabase();
-  if (!sb) throw new Error('SUPABASE_SERVICE_ROLE_KEY is not configured — the AI agent cannot read store data.');
+  let sb = getServiceSupabase();
+  if (!sb) {
+    const u = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const k = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (u && k) {
+      const { createClient } = await import('@supabase/supabase-js');
+      sb = createClient(u, k);
+    }
+  }
+  if (!sb) throw new Error('Supabase client is not configured — the AI agent cannot read store data.');
   const n = Math.min(90, Math.max(1, Math.floor(days)));
   const { fromIso, days: byDay } = PADAYS(n);
 
@@ -120,6 +147,8 @@ export async function getOverview(days = 14): Promise<Overview> {
   let visits = 0;
   let productViews = 0;
   let addToCarts = 0;
+  let clicks = 0;
+  let checkoutsInitiated = 0;
   const sessions = new Map<string, { count: number; first: number; last: number }>();
   const prodCounts = new Map<string, number>();
   const pathCounts = new Map<string, number>();
@@ -156,6 +185,10 @@ export async function getOverview(days = 14): Promise<Overview> {
       if (pid) prodCounts.set(pid, (prodCounts.get(pid) || 0) + 1);
     } else if (type === 'add_to_cart') {
       addToCarts++;
+    } else if (type === 'click') {
+      clicks++;
+    } else if (type === 'initiate_checkout') {
+      checkoutsInitiated++;
     }
   }
 
@@ -207,6 +240,25 @@ export async function getOverview(days = 14): Promise<Overview> {
 
   const uniqueSessions = sessions.size;
   const ordersLive = codOrders + prepaidOrders;
+  const liveEvents = events.slice(0, 40).map((e) => ({
+    ts: String(e.ts || ''),
+    type: String(e.type || 'pageview'),
+    path: String(e.path || '/'),
+    session_id: String(e.session_id || '').slice(0, 16),
+    product_id: e.product_id ? String(e.product_id) : undefined,
+    referrer: e.referrer ? refHost(String(e.referrer)) : undefined,
+    device: String((e.meta as any)?.d || 'desktop'),
+    label: (e.meta as any)?.label ? String((e.meta as any).label) : undefined,
+  }));
+
+  const funnel = {
+    visits,
+    productViews,
+    addToCarts,
+    checkouts: checkoutsInitiated,
+    orders: ordersLive,
+  };
+
   const ov: Overview = {
     from: byDay[0]?.date || '',
     to: byDay[byDay.length - 1]?.date || '',
@@ -218,6 +270,8 @@ export async function getOverview(days = 14): Promise<Overview> {
     avgSessionSec: uniqueSessions ? Math.round(sessionSecTotal / uniqueSessions) : 0,
     productViews,
     addToCarts,
+    clicks,
+    checkoutsInitiated,
     orders: ordersLive,
     revenue,
     aov: ordersLive ? Math.round(revenue / ordersLive) : 0,
@@ -258,6 +312,8 @@ export async function getOverview(days = 14): Promise<Overview> {
         .sort((a, b) => b.value - a.value);
     })(),
     byDay,
+    liveEvents,
+    funnel,
     dataIssue,
   };
   return ov;

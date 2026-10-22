@@ -38,7 +38,12 @@ function deviceKind(): string {
   return /Mobi|Android|iPhone/i.test(ua) ? 'mobile' : 'desktop';
 }
 
-export function track(type: 'pageview' | 'view_product' | 'add_to_cart' | 'session_ping', extra: { productId?: string } = {}): void {
+export type AnalyticsEventType = 'pageview' | 'view_product' | 'add_to_cart' | 'session_ping' | 'click' | 'initiate_checkout';
+
+export function track(
+  type: AnalyticsEventType,
+  extra: { productId?: string; label?: string; action?: string } = {}
+): void {
   if (typeof window === 'undefined') return;
   const p = window.location.pathname + window.location.search;
   const body = JSON.stringify({
@@ -47,7 +52,12 @@ export function track(type: 'pageview' | 'view_product' | 'add_to_cart' | 'sessi
     p: p.slice(0, 300),
     r: document.referrer?.slice(0, 700) || '',
     pr: extra.productId?.slice(0, 200) || undefined,
-    m: { d: deviceKind(), q: window.location.search.slice(0, 300) },
+    m: {
+      d: deviceKind(),
+      q: window.location.search.slice(0, 300),
+      label: extra.label?.slice(0, 100) || undefined,
+      a: extra.action?.slice(0, 100) || undefined,
+    },
   });
   try {
     const blob = new Blob([body], { type: 'application/json' });
@@ -58,7 +68,15 @@ export function track(type: 'pageview' | 'view_product' | 'add_to_cart' | 'sessi
   }
 }
 
-/** Heartbeats long sessions so real on-site time is measurable. Counts nothing until mounted. */
+export function trackClick(label: string, extra: { productId?: string } = {}): void {
+  track('click', { label, action: 'button_click', ...extra });
+}
+
+export function trackCheckout(productId?: string): void {
+  track('initiate_checkout', { productId, label: 'checkout_started' });
+}
+
+/** Heartbeats long sessions so real on-site time is measurable and tracks primary UI engagement. */
 export default function AnalyticsBeacon() {
   const path = usePathname();
   useEffect(() => {
@@ -67,12 +85,26 @@ export default function AnalyticsBeacon() {
     let timer: number | undefined;
     const fire = () => {
       track('pageview', { productId: path.startsWith('/product/') ? path.split('/')[2] : undefined });
-      timer = window.setInterval(() => track('session_ping'), 120_000);
+      timer = window.setInterval(() => track('session_ping'), 60_000);
     };
-    timer = window.setTimeout(fire, 900);
+    timer = window.setTimeout(fire, 800);
+
+    // Passive global listener for high-intent customer actions
+    const handleClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement)?.closest('button, a, [data-track]');
+      if (!target) return;
+      const explicitLabel = target.getAttribute('data-track');
+      const text = explicitLabel || target.textContent?.trim().slice(0, 40) || '';
+      if (/order now|add to bag|buy now|checkout|whatsapp|apply|custom drop|quick view/i.test(text)) {
+        track('click', { label: text, action: 'cta_click' });
+      }
+    };
+    document.addEventListener('click', handleClick, { passive: true });
+
     return () => {
       window.clearTimeout(timer);
       window.clearInterval(timer);
+      document.removeEventListener('click', handleClick);
     };
   }, [path]);
   return null;
