@@ -37,18 +37,15 @@ export function GeoProvider({ children }: { children: React.ReactNode }) {
   const [market, setMarketState] = useState<MarketRegion>('IN');
 
   useEffect(() => {
-    // Only check if user explicitly switched to GLOBAL in localStorage
+    // RareEmber is exclusively an Indian streetwear & creator brand (INR ₹).
+    // Always force 'IN' and purge any stale legacy 'GLOBAL' test keys from client browser.
     try {
-      const saved = localStorage.getItem('rareember_market');
-      if (saved === 'GLOBAL') {
-        setMarketState('GLOBAL');
-      } else {
-        setMarketState('IN');
-        localStorage.setItem('rareember_market', 'IN');
+      localStorage.setItem('rareember_market', 'IN');
+      if (typeof document !== 'undefined') {
+        document.cookie = 'rareember_market=IN; path=/; max-age=31536000; SameSite=Lax';
       }
-    } catch {
-      setMarketState('IN');
-    }
+    } catch {}
+    setMarketState('IN');
   }, []);
 
   const setMarket = (m: MarketRegion) => {

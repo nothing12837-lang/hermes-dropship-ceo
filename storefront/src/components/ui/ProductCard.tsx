@@ -169,6 +169,7 @@ export default function ProductCard({
     if (/sweatshirt|crewneck|jogger|sweatpant/i.test(itemSearch)) return '320 GSM Terry';
     if (/jersey|dryfit|dry fit/i.test(itemSearch)) return '180 GSM Quick-Dry Mesh';
     if (/polo/i.test(itemSearch)) return '220 GSM Pique';
+    if (/cap|hat/i.test(itemSearch)) return '100% Cotton Twill';
     return tag || '240 GSM Combed Cotton';
   })();
 
