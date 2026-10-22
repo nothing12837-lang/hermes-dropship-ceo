@@ -70,6 +70,7 @@ export default function CheckoutPage() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [authChecking, setAuthChecking] = useState(true);
   const [hpCompany, setHpCompany] = useState('');
+  const [showCodConfirmModal, setShowCodConfirmModal] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }: any) => {
@@ -478,64 +479,14 @@ export default function CheckoutPage() {
       }));
     } catch {}
 
+    // If COD selected, require explicit double confirmation modal to prevent accidental orders
+    if (paymentMethod === 'cod') {
+      setShowCodConfirmModal(true);
+      return;
+    }
+
     setLoading(true);
     setProcessing(true);
-
-    // If COD selected, process directly
-    if (paymentMethod === 'cod') {
-      try {
-        const res = await fetch('/api/orders', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email,
-            name,
-            phone: normalizedPhone,
-            address: shippingAddressPayload,
-            items: detailed.map((d) => ({
-              id: d.id,
-              product_id: d.id.split('__')[0],
-              title: cleanBrandTitle(d.product.title),
-              qty: d.qty,
-              imageUrl: d.imageUrl || (d.product as any).image_url,
-              selectedStyle: (d as any).selectedStyle,
-              size: d.size,
-              color: (d as any).color,
-              phoneModel: d.phoneModel,
-              customText: d.customText,
-              customPlacement: d.customPlacement,
-              customPosition: (d as any).customPosition,
-              customScale: (d as any).customScale,
-              customTextColor: (d as any).customTextColor,
-              customFont: (d as any).customFont,
-              customImage: (d as any).customImage,
-              customImageName: (d as any).customImageName,
-            })),
-            payment_method: 'cod',
-            total_amount: total,
-            user_id: userId,
-            coupon_code: appliedCouponCode || undefined,
-            discount: discount || 0,
-            _hp_company: hpCompany,
-          }),
-        });
-        const data = await res.json();
-        if (!res.ok || data.error) {
-          setError(data.error || 'Failed to place COD order.');
-          setLoading(false);
-          setProcessing(false);
-          return;
-        }
-        clear();
-        window.location.href = `/success?cod=1&email=${encodeURIComponent(email)}&total=${total.toFixed(2)}&order_id=${data.order_id || ''}`;
-        return;
-      } catch {
-        setError('Failed to place COD order. Please retry.');
-        setLoading(false);
-        setProcessing(false);
-        return;
-      }
-    }
 
     // Razorpay Online Flow
     const rzWindow = window as unknown as RazorpayWindow;
@@ -653,6 +604,86 @@ export default function CheckoutPage() {
       setError('Connection interrupted. Please check network and retry.');
       setLoading(false);
       setProcessing(false);
+    }
+  };
+
+  const executeCodOrder = async () => {
+    setLoading(true);
+    setProcessing(true);
+    setError('');
+
+    const resolvedZip = zip.trim().replace(/\D/g, '');
+    const cleanDigits = phone.replace(/\D/g, '');
+    const normalizedPhone = cleanDigits.length >= 10 ? cleanDigits.slice(-10) : cleanDigits;
+    const resolvedFlat = flatHouse.trim();
+    const resolvedStreet = areaStreet.trim();
+    const resolvedLandmark = landmark.trim();
+    const fullStreetLine = [resolvedFlat, resolvedStreet].filter(Boolean).join(', ') || address.trim();
+    const finalFullAddress = resolvedLandmark ? `${fullStreetLine} (Landmark: ${resolvedLandmark})` : fullStreetLine;
+
+    try {
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim(),
+          name: name.trim(),
+          phone: normalizedPhone,
+          address: {
+            line1: finalFullAddress,
+            line2: resolvedLandmark ? `Landmark: ${resolvedLandmark}` : (resolvedStreet || ''),
+            flat: resolvedFlat,
+            street: resolvedStreet,
+            landmark: resolvedLandmark,
+            city: city.trim(),
+            state: state.trim(),
+            zip: resolvedZip,
+            phone: normalizedPhone,
+            address_type: addressType,
+          },
+          items: detailed.map((d) => ({
+            id: d.id,
+            product_id: d.id.split('__')[0],
+            title: cleanBrandTitle(d.product.title),
+            qty: d.qty,
+            imageUrl: d.imageUrl || (d.product as any).image_url,
+            selectedStyle: (d as any).selectedStyle,
+            size: d.size,
+            color: (d as any).color,
+            phoneModel: d.phoneModel,
+            customText: d.customText,
+            customPlacement: d.customPlacement,
+            customPosition: (d as any).customPosition,
+            customScale: (d as any).customScale,
+            customTextColor: (d as any).customTextColor,
+            customFont: (d as any).customFont,
+            customImage: (d as any).customImage,
+            customImageName: (d as any).customImageName,
+          })),
+          payment_method: 'cod',
+          total_amount: total,
+          user_id: userId,
+          coupon_code: appliedCouponCode || undefined,
+          discount: discount || 0,
+          _hp_company: hpCompany,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        setError(data.error || 'Failed to place COD order.');
+        setLoading(false);
+        setProcessing(false);
+        setShowCodConfirmModal(false);
+        return;
+      }
+      setShowCodConfirmModal(false);
+      clear();
+      window.location.href = `/success?cod=1&email=${encodeURIComponent(email)}&total=${total.toFixed(2)}&order_id=${data.order_id || ''}`;
+    } catch {
+      setError('Failed to place COD order. Please retry.');
+      setLoading(false);
+      setProcessing(false);
+      setShowCodConfirmModal(false);
     }
   };
 
@@ -1480,6 +1511,89 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
+
+      {/* Explicit COD Order Double Confirmation Modal */}
+      {showCodConfirmModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+          <div className="w-full max-w-md rounded-3xl bg-white border border-black/10 p-6 md:p-7 shadow-2xl space-y-4 text-left">
+            <div className="flex items-center justify-between pb-3 border-b border-black/5">
+              <div className="flex items-center gap-2">
+                <span className="w-8 h-8 rounded-full bg-amber-500/15 text-amber-800 flex items-center justify-center text-base font-bold">
+                  📦
+                </span>
+                <h3 className="text-base font-black text-neutral-900">
+                  Confirm Cash on Delivery?
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowCodConfirmModal(false)}
+                className="w-7 h-7 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-600 border-none flex items-center justify-center cursor-pointer text-sm font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-3 text-xs">
+              <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200/60 text-amber-900 leading-relaxed">
+                <p className="font-bold text-amber-950 mb-1">
+                  💵 ₹{Math.max(0, total).toFixed(2)} to be collected at doorstep
+                </p>
+                <p className="text-[11px] text-amber-800">
+                  Please confirm that you or a family member will be available to accept the parcel and pay via Cash or UPI QR upon delivery.
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-neutral-50 border border-black/5 space-y-1.5">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-neutral-500 font-medium">Customer:</span>
+                  <span className="font-bold text-neutral-900">{name.trim()}</span>
+                </div>
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-neutral-500 font-medium">Phone:</span>
+                  <span className="font-mono font-bold text-neutral-900">+91 {phone.replace(/\D/g, '').slice(-10)}</span>
+                </div>
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-neutral-500 font-medium">Destination:</span>
+                  <span className="font-bold text-neutral-900">{city}, {state} ({zip})</span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] pt-1 border-t border-black/5">
+                  <span className="text-neutral-500 font-medium">Items ({detailed.length}):</span>
+                  <span className="font-extrabold text-[#FF4D24]">₹{Math.max(0, total).toFixed(2)} Total</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-2 flex flex-col sm:flex-row items-center gap-2.5">
+              <button
+                type="button"
+                disabled={loading || processing}
+                onClick={() => setShowCodConfirmModal(false)}
+                className="w-full sm:w-1/2 py-3 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-bold border-none cursor-pointer transition-all text-center"
+              >
+                ← Edit Details
+              </button>
+              <button
+                type="button"
+                disabled={loading || processing}
+                onClick={executeCodOrder}
+                className="w-full sm:w-1/2 py-3 rounded-full bg-gradient-to-r from-[#FF4D24] to-[#FF6B35] hover:brightness-105 text-white text-xs font-black uppercase tracking-wider border-none shadow-md shadow-[#FF4D24]/20 cursor-pointer transition-all flex items-center justify-center gap-1.5"
+              >
+                {loading || processing ? (
+                  <>
+                    <span className="w-3.5 h-3.5 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                    <span>Placing Order…</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Yes, Confirm Order ⚡</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
