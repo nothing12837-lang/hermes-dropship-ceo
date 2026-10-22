@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Truck, ShieldCheck, Banknote, RefreshCw } from 'lucide-react';
 import ProductCard from '@/components/ui/ProductCard';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
@@ -95,9 +94,6 @@ export default async function Home() {
     (p) => (p.is_printed === false || (p as any).isPrinted === false) && !p.id.startsWith('bundle-')
   );
 
-  // Flagship Hero Item for Editorial Visual
-  const heroDrop = mensPrinted[0] || allProducts[0];
-
   return (
     <main className="page-top min-h-screen text-[#12100E] pb-20">
       {/* 1. RESTRAINED ANNOUNCEMENT & CATEGORY STRIP */}
@@ -150,93 +146,16 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-4 sm:pt-6 flex flex-col gap-12 sm:gap-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-6 sm:pt-8 flex flex-col gap-12 sm:gap-16">
 
-        {/* 2. EDITORIAL STREETWEAR HERO SECTION */}
-        <section className="relative overflow-hidden rounded-2xl bg-[#12100E] text-white grain border border-white/10">
-          <div className="relative z-10 p-6 sm:p-10 md:p-12 lg:p-14 flex flex-col lg:flex-row lg:items-center justify-between gap-8 sm:gap-12">
-            <div className="space-y-4 max-w-2xl">
-              <div className="hero-rise hero-rise-1 inline-flex items-center gap-2 px-3 py-1 rounded bg-white/10 text-white/90 text-[11px] font-bold tracking-widest uppercase">
-                <span>The Independent Series</span>
-                <span className="text-neutral-500">•</span>
-                <span>Tirupur Hub</span>
-              </div>
-
-              <h1 className="hero-rise hero-rise-2 text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-[1.08] text-white">
-                Heavyweight Silhouettes &amp; Original Graphic Drops.
-              </h1>
-
-              <p className="hero-rise hero-rise-3 text-sm sm:text-base text-white/70 font-medium leading-relaxed max-w-xl">
-                Crafted from 240 GSM super-combed cotton and 380 GSM French terry. Designed and screenprinted in India, dispatched directly with express air delivery included.
-              </p>
-
-              <div className="hero-rise hero-rise-4 pt-2 flex flex-wrap items-center gap-3">
-                <Link
-                  href="/shop?cat=mens-printed"
-                  className="no-underline inline-flex items-center justify-center px-6 py-3 rounded-lg btn-ember shine-hover font-bold text-sm tracking-wide cursor-pointer transition-transform hover:scale-[1.02] active:scale-95"
-                >
-                  Explore Graphic Drops →
-                </Link>
-                <Link
-                  href="/custom-drops"
-                  className="no-underline inline-flex items-center justify-center px-5 py-3 rounded-lg bg-white/10 hover:bg-white/15 text-white font-bold text-sm border border-white/15 transition-all hover:scale-[1.02] active:scale-95"
-                >
-                  Custom Design Studio
-                </Link>
-              </div>
-            </div>
-
-            {/* Hero Visual Spotlight */}
-            {heroDrop && (
-              <div className="hero-rise hero-rise-5 w-full lg:w-[380px] shrink-0">
-                <Link
-                  href={`/product/${heroDrop.slug || heroDrop.id}`}
-                  className="no-underline block group relative rounded-xl overflow-hidden bg-neutral-900 border border-white/15 shadow-2xl transition-all duration-300 hover:shadow-[0_20px_50px_rgba(255,77,36,0.18)] hover:-translate-y-1"
-                >
-                  <div className="relative aspect-[4/5] overflow-hidden bg-neutral-950">
-                    <Image
-                      src={heroDrop.image_url || (heroDrop.images?.[0] as string)}
-                      alt={heroDrop.title}
-                      fill
-                      priority
-                      sizes="(max-width: 1024px) 100vw, 380px"
-                      className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
-                    />
-                    <span className="absolute top-3 left-3 text-[10px] font-bold px-2 py-0.5 rounded bg-black/80 text-white tracking-wider uppercase backdrop-blur-xs">
-                      Flagship Feature
-                    </span>
-                  </div>
-                  <div className="p-4 bg-[#181513] flex items-center justify-between">
-                    <div>
-                      <div className="text-xs font-bold text-white group-hover:text-[#FF4D24] transition-colors truncate max-w-[200px]">
-                        {heroDrop.title}
-                      </div>
-                      <div className="text-[11px] text-white/50 font-medium mt-0.5">
-                        240 GSM Combed Cotton • Express Air Included
-                      </div>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <div className="text-sm font-black text-white">
-                        {formatPrice(heroDrop.price_inr || heroDrop.price)}
-                      </div>
-                      <div className="text-[10px] text-white/50 line-through">
-                        {heroDrop.compareAtPrice ? formatPrice(heroDrop.compareAtPrice) : ''}
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            )}
-          </div>
-        </section>
-
-        {/* 3. SECTION: MEN'S GRAPHIC STREETWEAR (PRIORITY USER SPOTLIGHT) */}
+        {/* 1. SECTION: MEN'S GRAPHIC STREETWEAR (PRIORITY USER SPOTLIGHT) */}
         {mensPrinted.length > 0 && (
           <section id="mens-printed" className="scroll-mt-24">
             <div className="flex items-end justify-between gap-4 mb-6">
               <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">
-                  Collection 01
+                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#FF4D24]/10 text-[#FF4D24] text-[11px] font-mono uppercase tracking-widest font-bold mb-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D24] pulse-dot" />
+                  Collection 01 • Flagship Drops
                 </div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-[#12100E]">
                   Men&apos;s Graphic Streetwear
@@ -247,7 +166,7 @@ export default async function Home() {
               </div>
               <Link
                 href="/shop?cat=mens-printed"
-                className="text-xs font-bold text-[#12100E] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#FF4D24] transition-colors"
+                className="text-xs font-bold text-[#12100E] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#FF4D24] link-underline transition-colors"
               >
                 <span>View All ({mensPrinted.length})</span>
                 <span>→</span>
@@ -320,13 +239,14 @@ export default async function Home() {
           </section>
         </ScrollReveal>
 
-        {/* 5. SECTION: WOMEN'S & ART EDITIONS */}
+        {/* 3. SECTION: WOMEN'S & ART EDITIONS */}
         {otherPrinted.length > 0 && (
           <section id="other-printed" className="scroll-mt-24">
             <div className="flex items-end justify-between gap-4 mb-6">
               <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">
-                  Collection 02
+                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#FF4D24]/10 text-[#FF4D24] text-[11px] font-mono uppercase tracking-widest font-bold mb-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D24] pulse-dot" />
+                  Collection 02 • Limited Drops
                 </div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-[#12100E]">
                   Women&apos;s &amp; Art Editions
@@ -337,7 +257,7 @@ export default async function Home() {
               </div>
               <Link
                 href="/shop?cat=womens"
-                className="text-xs font-bold text-[#12100E] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#FF4D24] transition-colors"
+                className="text-xs font-bold text-[#12100E] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#FF4D24] link-underline transition-colors"
               >
                 <span>View All ({otherPrinted.length})</span>
                 <span>→</span>
@@ -354,13 +274,14 @@ export default async function Home() {
           </section>
         )}
 
-        {/* 6. SECTION: ESSENTIAL STREETWEAR BLANKS */}
+        {/* 4. SECTION: ESSENTIAL STREETWEAR BLANKS */}
         {blanks.length > 0 && (
           <section id="streetwear-blanks" className="scroll-mt-24">
             <div className="flex items-end justify-between gap-4 mb-6">
               <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">
-                  Collection 03
+                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#12100E]/10 text-[#12100E] text-[11px] font-mono uppercase tracking-widest font-bold mb-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#12100E] pulse-dot" />
+                  Collection 03 • Daily Architecture
                 </div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-[#12100E]">
                   Essential Blanks
@@ -371,7 +292,7 @@ export default async function Home() {
               </div>
               <Link
                 href="/shop?cat=blanks"
-                className="text-xs font-bold text-[#12100E] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#FF4D24] transition-colors"
+                className="text-xs font-bold text-[#12100E] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#FF4D24] link-underline transition-colors"
               >
                 <span>View All ({blanks.length})</span>
                 <span>→</span>
@@ -388,11 +309,11 @@ export default async function Home() {
           </section>
         )}
 
-        {/* 7. CREDIBLE BRAND STORY */}
+        {/* 5. CREDIBLE BRAND STORY */}
         <ScrollReveal>
           <section className="p-8 sm:p-12 rounded-2xl bg-[#12100E] text-white grain border border-white/10 transition-all duration-300 hover:border-white/20">
             <div className="max-w-3xl space-y-4">
-              <span className="text-xs font-mono font-bold text-[#FF4D24] uppercase tracking-wider">
+              <span className="text-xs font-mono font-bold text-gradient-ember-animated uppercase tracking-wider">
                 The Rare Ember Story
               </span>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight">
@@ -407,7 +328,7 @@ export default async function Home() {
               <div className="pt-2">
                 <Link
                   href="/about"
-                  className="text-xs font-bold text-[#FF4D24] hover:underline inline-flex items-center gap-1"
+                  className="text-xs font-bold text-[#FF4D24] hover:text-[#FF7A18] inline-flex items-center gap-1 link-underline transition-colors"
                 >
                   Read more about our sourcing and production →
                 </Link>

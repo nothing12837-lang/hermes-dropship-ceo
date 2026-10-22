@@ -167,13 +167,13 @@ export default function Navbar() {
             {/* Cart Trigger */}
             <button
               onClick={openCart}
-              className={`relative text-xs font-black px-4 py-2 rounded-lg cursor-pointer transition-all flex items-center gap-1.5 ${
-                count > 0 ? 'btn-ember' : 'btn-ink'
+              className={`relative text-xs font-black px-4 py-2 rounded-lg cursor-pointer transition-all shine-hover flex items-center gap-1.5 active:scale-95 ${
+                count > 0 ? 'btn-ember shadow-md' : 'btn-ink'
               }`}
             >
               <span>Bag</span>
               {count > 0 && (
-                <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-white text-[#FF4D24] text-[10px] font-black flex items-center justify-center">
+                <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-white text-[#FF4D24] text-[10px] font-black flex items-center justify-center badge-pop">
                   {count}
                 </span>
               )}

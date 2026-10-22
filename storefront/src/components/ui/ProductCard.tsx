@@ -148,7 +148,7 @@ export default function ProductCard({
   const isLcpCandidate = priority || (typeof rank === 'number' && rank <= 2);
 
   return (
-    <div className="group flex flex-col h-full rounded-xl bg-white border border-black/[0.08] hover:border-black/25 shadow-xs hover:shadow-md transition-all duration-300 overflow-hidden relative">
+    <div className="group flex flex-col h-full rounded-xl bg-white border border-black/[0.08] hover:border-[#FF4D24]/30 shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden relative">
       <Link href={productHref} className="no-underline flex flex-col flex-1">
         {/* Garment Image Container (Consistent 4:5 Aspect Ratio for Streetwear drapes) */}
         <div className="relative aspect-[4/5] bg-[#F7F4EF] overflow-hidden">
@@ -173,7 +173,7 @@ export default function ProductCard({
               loading={isLcpCandidate ? undefined : 'lazy'}
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               quality={80}
-              className="object-cover object-center group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+              className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
               onError={() => setImgFailed(true)}
             />
           ) : (
@@ -237,7 +237,7 @@ export default function ProductCard({
         {isInStock ? (
           <button
             onClick={handleOrderNow}
-            className="w-full py-2 sm:py-2.5 rounded-lg font-bold text-xs tracking-wide cursor-pointer btn-ember active:scale-[0.98]"
+            className="w-full py-2 sm:py-2.5 rounded-lg font-bold text-xs tracking-wide cursor-pointer btn-ember shine-hover active:scale-[0.98]"
           >
             {ctaLabel}
           </button>
