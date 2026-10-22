@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getProductFromDB } from '@/lib/products-server';
+import { getServiceSupabase } from '@/lib/supabase-server';
 import { ProductClient } from './ProductClient';
 
 interface Props {
@@ -74,6 +75,42 @@ export default async function ProductPage({ params }: Props) {
     : isDeskGear
     ? 'Waterproof Micro-Weave Cloth & Non-Slip Rubber Base'
     : '100% Super-Combed Bio-Washed Cotton (240 GSM Heavyweight)';
+
+  // Real review data only.
+  //
+  // The schema previously published `ratingValue: product.rating || 4.8` and
+  // `reviewCount: product.reviews || 128` -- seeded placeholder values that
+  // did not match the on-page average computed from the real `reviews` table.
+  // Publishing invented review markup breaches Google's structured-data
+  // policy and is a manual-action risk. If we cannot prove a rating from the
+  // reviews table, we omit the node entirely.
+  let aggregateRating: Record<string, unknown> | undefined;
+  try {
+    const svc = getServiceSupabase();
+    if (svc) {
+      const { data: reviewRows, error: reviewErr } = await svc
+        .from('reviews')
+        .select('rating')
+        .eq('product_id', product.id);
+      if (!reviewErr && Array.isArray(reviewRows) && reviewRows.length > 0) {
+        const ratings = reviewRows
+          .map((r: any) => Number(r?.rating))
+          .filter((n: number) => Number.isFinite(n) && n > 0 && n <= 5);
+        if (ratings.length > 0) {
+          const avg = ratings.reduce((a: number, b: number) => a + b, 0) / ratings.length;
+          aggregateRating = {
+            '@type': 'AggregateRating',
+            ratingValue: Number(avg.toFixed(2)),
+            reviewCount: ratings.length,
+            bestRating: '5',
+            worstRating: '1',
+          };
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('[PDP] review aggregate unavailable:', e);
+  }
 
   const productSchema = {
     '@context': 'https://schema.org',
@@ -148,13 +185,7 @@ export default async function ProductPage({ params }: Props) {
         },
       },
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: product.rating || 4.8,
-      reviewCount: product.reviews || 128,
-      bestRating: '5',
-      worstRating: '1',
-    },
+    ...(aggregateRating ? { aggregateRating } : {}),
   };
 
   const breadcrumbSchema = {

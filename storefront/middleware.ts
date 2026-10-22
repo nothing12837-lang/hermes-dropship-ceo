@@ -20,9 +20,15 @@ function hit(ip: string): boolean {
 }
 
 export function middleware(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim()
-    || (req as any).ip
-    || 'unknown';
+  // Prefer the edge platform header, then the LAST proxy-appended hop.
+  // The left-most x-forwarded-for entry is supplied by the caller and can be
+  // rotated per request, which made every rate limit bypassable.
+  const ip =
+    req.headers.get('x-vercel-forwarded-for')?.split(',')[0]?.trim() ||
+    req.headers.get('cf-connecting-ip')?.trim() ||
+    req.headers.get('x-forwarded-for')?.split(',').pop()?.trim() ||
+    req.headers.get('x-real-ip')?.trim() ||
+    'unknown';
 
   // Strict edge block: return HTTP 404 immediately for any blacklisted/medicinal/pet URLs
   const pathname = req.nextUrl.pathname.toLowerCase();
@@ -37,8 +43,9 @@ export function middleware(req: NextRequest) {
     });
   }
 
-  // Allow unrestricted access to Hermes Dots cockpit & internal gateway proxy
-  if (pathname.startsWith('/dots') || pathname.startsWith('/api/dots')) {
+  // Razorpay webhooks must never be rate limited: a 429 makes the gateway give
+  // up, the order stays unpaid and never ships.
+  if (req.nextUrl.pathname.startsWith('/api/webhooks/')) {
     const res = NextResponse.next();
     res.headers.set('X-Content-Type-Options', 'nosniff');
     return res;
@@ -52,7 +59,10 @@ export function middleware(req: NextRequest) {
     hits.push(now);
     buckets.set(key, hits);
     if (hits.length > 30) {
-      return NextResponse.json({ ok: false, error: 'Too many requests' }, { status: 429 });
+      return NextResponse.json(
+        { ok: false, error: 'Too many requests' },
+        { status: 429, headers: { 'Retry-After': '60' } }
+      );
     }
   } else if (!hit(ip)) {
     return new NextResponse('Too many requests', { status: 429 });
@@ -64,4 +74,18 @@ export function middleware(req: NextRequest) {
   return res;
 }
 
-export const config = { matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'] };
+// Narrow the matcher. The previous pattern also matched RSC prefetch requests
+// and static assets, so browsing a page consumed the 120/min page budget and
+// the 30/min API budget, and real visitors (and crawlers) got 429'd.
+export const config = {
+  matcher: [
+    {
+      source: '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\.(?:svg|png|jpg|jpeg|webp|gif|ico|webmanifest|txt|xml)$).*)',
+      missing: [
+        { type: 'header', key: 'next-router-prefetch' },
+        { type: 'header', key: 'purpose', value: 'prefetch' },
+        { type: 'header', key: 'rsc', value: 'prefetch' },
+      ],
+    },
+  ],
+};

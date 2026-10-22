@@ -459,18 +459,18 @@ export default function CartDrawer() {
                 </div>
               </div>
 
-              <div className="flex justify-between font-bold text-sm mb-2 text-zinc-900">
-                <span className="text-zinc-900 font-bold">Subtotal</span>
-                <span className="text-zinc-950 font-black">{formatCartPrice(subtotal)}</span>
+              <div className="flex justify-between text-sm mb-2 text-zinc-900 dark:text-white font-semibold">
+                <span className="text-zinc-900 dark:text-white font-semibold">Subtotal</span>
+                <span className="text-zinc-950 dark:text-white font-black">{formatCartPrice(subtotal)}</span>
               </div>
 
-              <div className="flex justify-between text-xs font-bold mb-3 text-zinc-900">
-                <span className="text-zinc-900 font-bold">Standard Air Shipping</span>
-                <span className="text-emerald-700 font-black">FREE ⚡</span>
+              <div className="flex justify-between text-xs mb-3 text-zinc-900 dark:text-white font-semibold">
+                <span className="text-zinc-900 dark:text-white font-semibold">Shipping (Pan-India Air)</span>
+                <span className="text-emerald-700 dark:text-emerald-400 font-black">FREE ⚡</span>
               </div>
 
-              <div className="flex justify-between font-black text-xl text-zinc-950 pt-3 border-t border-neutral-200 mb-3">
-                <span className="text-zinc-900 font-bold">Total</span>
+              <div className="flex justify-between font-black text-xl text-zinc-950 dark:text-white pt-3 border-t border-neutral-200 dark:border-zinc-800 mb-3">
+                <span className="text-zinc-900 dark:text-white font-semibold">Total</span>
                 <span className="text-[#FF4D24] font-black">{formatCartPrice(subtotal)}</span>
               </div>
 

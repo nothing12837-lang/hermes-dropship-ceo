@@ -100,6 +100,10 @@ interface ProductCardProps {
   lockedGraphicTitle?: string;
   lockedGraphicPlacement?: string;
   lockedAccentHex?: string;
+  /** Variant options. When a product has more than one, "ORDER NOW" must send
+   *  the customer to the PDP to choose -- adding blind shipped size L/Black. */
+  sizes?: string[];
+  colors?: string[];
 }
 
 export default function ProductCard({
@@ -128,6 +132,8 @@ export default function ProductCard({
   lockedGraphicTitle,
   lockedGraphicPlacement,
   lockedAccentHex,
+  sizes,
+  colors,
 }: ProductCardProps) {
   const router = useRouter();
   const { add } = useCart();
@@ -188,7 +194,13 @@ export default function ProductCard({
   const handleOrderNow = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (isBundle) {
+    // A blind "ORDER NOW" added the item with NO size and NO colour, so the
+    // factory fell back to its defaults: size L, Black. A customer who wanted
+    // a medium navy tee received a large black one.
+    const needsVariantChoice =
+      (Array.isArray(sizes) && sizes.length > 1) ||
+      (Array.isArray(colors) && colors.length > 1);
+    if (isBundle || needsVariantChoice) {
       router.push(productHref);
       return;
     }

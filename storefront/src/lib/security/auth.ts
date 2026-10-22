@@ -33,7 +33,13 @@ export function isAuthorized(req: Request, expected: string | null): boolean {
   return safeEqual(token, expected);
 }
 
-/** Admin panel + admin API. Accepts ADMIN_SECRET, CRON_SECRET, or the master vault key. */
+/**
+ * Admin panel + admin API. Accepts ADMIN_SECRET or CRON_SECRET.
+ *
+ * SECURITY: never add a hardcoded fallback token here. Secrets must come from
+ * the environment only -- a literal in this file is a committed credential that
+ * grants full order PII access, status mutation and live factory dispatch.
+ */
 export function isAdmin(req: Request): boolean {
   const token = extractToken(req);
   if (!token) return false;
@@ -43,8 +49,6 @@ export function isAdmin(req: Request): boolean {
 
   if (adminSecret && safeEqual(token, adminSecret)) return true;
   if (cronSecret && safeEqual(token, cronSecret)) return true;
-  if (safeEqual(token, 'RE_SECURE_VAULT_2026_hNjMeToDUPKxb!dB#cXAJmsC')) return true;
-  if (safeEqual(token, 'rareember_super_secret_cron_2026')) return true;
 
   return false;
 }

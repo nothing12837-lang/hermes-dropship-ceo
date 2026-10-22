@@ -213,8 +213,13 @@ function cleanShippingAddress(shippingName: string | null, addr: Record<string, 
   const digits = rawPhone.replace(/\D/g, '');
   const cleanPhone = digits.length >= 10 ? digits.slice(-10) : '9876543210';
 
-  const rawZip = String(addr.zip || addr.pincode || addr.postal_code || '560001').replace(/\D/g, '');
-  const cleanZip = rawZip.length === 6 ? rawZip : '560001';
+  const rawZip = String(addr.zip || addr.pincode || addr.postal_code || '').replace(/\D/g, '');
+  // Fail closed. The previous default silently routed a malformed PIN to
+  // 560001 (Bengaluru), so the parcel was delivered to the wrong city.
+  if (!/^[1-9][0-9]{5}$/.test(rawZip)) {
+    throw new Error('Invalid Indian pincode in shipping address: ' + (rawZip || '(missing)'));
+  }
+  const cleanZip = rawZip;
 
   return {
     first_name: firstName.slice(0, 50),
@@ -409,6 +414,22 @@ export function expandBundleItems(items: any[]): any[] {
         qikinkSkuPrefix: 'MPad-900x400',
         qty: it.qty || 1,
       });
+    } else if (id.includes('pack-of-2') || id.includes('pack-of-3')) {
+      // A pack of N must ship N garments. Previously these ids fell through to
+      // the generic `else` branch, so a customer who paid Rs.1499 for a 3-pack
+      // received ONE physical tee from the factory.
+      const count = id.includes('pack-of-3') ? 3 : 2;
+      for (let i = 0; i < count; i++) {
+        expanded.push({
+          ...it,
+          id: 'rare-ember-founding-builder-drop-shoulder-tee',
+          title: 'Rare Ember 240 GSM Founding Builder Drop-Shoulder Tee',
+          qikinkSkuPrefix: 'UOst',
+          color: it.color || 'Black',
+          qty: 1,
+          size,
+        });
+      }
     } else if (id.includes('bundle-streetwear-duo')) {
       expanded.push({
         ...it,
@@ -523,6 +544,18 @@ async function ensurePublicDesignUrl(rawUrl: string, supabase: SupabaseClient): 
 }
 
 /**
+ * Order statuses that must never reach the factory.
+ *
+ * 'pending'     -> prepaid order created, Razorpay has NOT confirmed payment.
+ * 'pending_cod' -> COD order held for customer address confirmation.
+ *
+ * Set COD_CONFIRM_REQUIRED=true once a COD confirmation endpoint exists, to
+ * hold COD parcels as well. Default false keeps COD fulfilment working.
+ */
+const UNPAID_ORDER_STATUSES = new Set(['pending', 'created', 'cancelled', 'failed', 'refunded', 'returned']);
+const COD_CONFIRM_REQUIRED = process.env.COD_CONFIRM_REQUIRED === 'true';
+
+/**
  * Automates order transmission directly to Qikink Dropshipping & Fulfillment API.
  * Uses Direct-to-Garment (DTG) print on demand with customer-selected mockup & design link.
  */
@@ -532,7 +565,10 @@ export async function fulfillQikinkOrder(
   providedOrder?: any,
   options?: { force?: boolean }
 ): Promise<QikinkFulfillmentResult> {
-  const clientId = process.env.QIKINK_CLIENT_ID || '964148691892386';
+  const clientId = process.env.QIKINK_CLIENT_ID;
+  if (!clientId) {
+    return { ok: false, reason: 'QIKINK_CLIENT_ID is not configured' };
+  }
   const clientSecret = process.env.QIKINK_CLIENT_SECRET;
   const apiUrl = process.env.QIKINK_API_URL || 'https://api.qikink.com';
 
@@ -554,6 +590,26 @@ export async function fulfillQikinkOrder(
 
   if (!order) {
     return { ok: false, reason: `Order ${orderId} not found for fulfillment` };
+  }
+
+  // Payment Gate: never transmit an order that has not been paid (prepaid) or
+  // confirmed (COD). Without this, any unpaid 'pending' order that reaches this
+  // function is printed and shipped free. `force` is the admin escape hatch.
+  if (!options?.force) {
+    const orderStatus = String((order as any)?.status || '').toLowerCase();
+    const codHeld = orderStatus === 'pending_cod' && COD_CONFIRM_REQUIRED;
+    if (UNPAID_ORDER_STATUSES.has(orderStatus) || codHeld) {
+      console.warn(
+        '[Qikink] Blocked factory transmission for order %s (status="%s").',
+        orderId,
+        orderStatus
+      );
+      return {
+        ok: false,
+        reason:
+          'Order status "' + orderStatus + '" is not paid/confirmed. Factory transmission blocked.',
+      };
+    }
   }
 
   // Safety Gate: Block test / temp orders from physical printing
@@ -676,12 +732,47 @@ export async function fulfillQikinkOrder(
       }
     }
 
+    // QIKINK DUAL-MODE ORDER PAYLOAD
+    // 1. Check if item is from Qikink "My Products" (pre-configured product in Qikink dashboard)
+    const rawId = String(it.id || it.product_id || '');
+    const clientProductId = rawId.match(/(\d{8})/)?.[1] || (it as any).qikinkClientProductId || (it as any).myProductId;
+    const colorKey = (it.color || 'white').toLowerCase().trim();
+    const sizeKey = (it.size || 'm').toLowerCase().trim();
+    const mapKey = clientProductId ? `${clientProductId}_${colorKey}_${sizeKey}` : '';
+    const mappedVariant = mapKey ? (qikinkVariantsMap as Record<string, any>)[mapKey] : null;
+
+    const isPreConfiguredMyProduct = Boolean(
+      (mappedVariant && (mappedVariant.variant_sku || mappedVariant.product_sku)) ||
+      it.qikinkTemplateSku ||
+      (clientProductId && ['64950694', '64953648', '64953544', '64953512', '64953576', '64953600', '64953748', '64953702', '64953664', '64953528', '64953488', '32477737', '32476431', '32476874', '32476851', '32476772', '32476788', '32476800', '32476764', '32476832', '32476744', '32476681', '32476284', '32476280'].includes(clientProductId))
+    );
+
+    // MODE A: Qikink "My Products" (Pre-configured drops created in dashboard)
+    // Pass the exact mapped SKU directly in line_items without requiring redundant designs array coordinates
+    if (isPreConfiguredMyProduct) {
+      const mappedSku = mappedVariant?.variant_sku || mappedVariant?.product_sku || sku;
+      return {
+        search_from_my_products: 1,
+        sku: mappedSku,
+        quantity: String(it.qty || 1),
+        price: String(Math.round(Number(it.price || order.total_amount / Math.max(1, items.length)))),
+      };
+    }
+
+    // MODE B: On-Demand Custom Silhouette / Blank Garment with Dynamic Designs
+    // Default print_type_id:
+    // 17 (Sublimation) for UJ35 Jerseys and MPad Desk Mats
+    // 1 (DTF Printing) for dark garments, fleece, and base garment prefixes (UHd, UOst, USs, UVJ, ATe)
+    const upperSku = sku.toUpperCase();
+    const isSublimation = upperSku.startsWith('UJ35') || upperSku.startsWith('MPAD') || upperSku.includes('JERSEY') || upperSku.includes('DESK');
+    const printTypeId = isSublimation ? 17 : 1;
+
     return {
-      search_from_my_products: 0, // Dynamic POD injection
+      search_from_my_products: 0,
       sku,
       quantity: String(it.qty || 1),
       price: String(Math.round(Number(it.price || order.total_amount / Math.max(1, items.length)))),
-      print_type_id: 1, // DTG Direct-to-Garment print
+      print_type_id: printTypeId,
       designs,
     };
   }));
@@ -701,11 +792,41 @@ export async function fulfillQikinkOrder(
   let qikinkRef: string | null = null;
   let qikinkError: string | null = null;
 
+  // 3a. CLAIM the order BEFORE the outbound call.
+  //
+  // The two post-transmission writes below used to discard their `error`
+  // while the function still returned ok:true. When the write failed,
+  // `cj_order_id` stayed NULL, the retry worker selected the order again,
+  // and the factory printed a SECOND parcel for the same payment.
+  //
+  // `fulfillment_attempts` is the lease: it is incremented before the call,
+  // and the retry worker stops selecting orders that have exhausted their
+  // attempts, so a failing order can never loop forever.
+  const { data: attemptRow, error: attemptErr } = await supabase
+    .from('orders')
+    .update({
+      fulfillment_attempts: (Number((order as any)?.fulfillment_attempts) || 0) + 1,
+      fulfillment_error: null,
+    })
+    .eq('id', order.id)
+    .select('fulfillment_attempts')
+    .maybeSingle();
+  if (attemptErr) {
+    console.error('[Qikink] Could not claim order %s before dispatch:', order.id, attemptErr.message);
+    return { ok: false, reason: 'Could not claim order for fulfilment: ' + attemptErr.message };
+  }
+  if (!attemptRow) {
+    console.error('[Qikink] Order %s could not be claimed (row missing).', order.id);
+    return { ok: false, reason: 'Order could not be claimed for fulfilment.' };
+  }
+
   if (clientSecret) {
     try {
       const token = await getQikinkToken(clientId, clientSecret, apiUrl);
       const resp = await fetch(`${apiUrl}/api/order/create`, {
         method: 'POST',
+        // A hung factory call used to kill the whole cron batch mid-flight.
+        signal: AbortSignal.timeout(15_000),
         headers: {
           'Content-Type': 'application/json',
           'ClientId': String(clientId),
@@ -736,7 +857,7 @@ export async function fulfillQikinkOrder(
     const trackingNum = `BD-${qikinkRef}`;
     const trackingLink = 'https://courierupdates.com/?awb=';
 
-    await supabase.rpc('update_order_fulfillment', {
+    const { error: rpcErr } = await supabase.rpc('update_order_fulfillment', {
       p_order_id: String(order.id),
       p_qikink_order_id: qikinkRef,
       p_tracking_number: trackingNum,
@@ -744,15 +865,47 @@ export async function fulfillQikinkOrder(
       p_status: newStatus,
     });
 
-    await supabase
+    const { error: updErr } = await supabase
       .from('orders')
       .update({
         cj_order_id: qikinkRef,
         tracking_number: trackingNum,
         tracking_url: trackingLink,
         status: newStatus,
+        fulfilled_at: new Date().toISOString(),
+        fulfillment_error: null,
       })
       .eq('id', order.id);
+
+    if (rpcErr || updErr) {
+      // The FACTORY HAS THE ORDER but we could not record it locally.
+      // Do NOT let the retry worker pick it up again -- that would print a
+      // second parcel. The QUEUE_ prefix is excluded by the retry worker's
+      // `cj_order_id.ilike.QUEUE_%` filter, so the order is parked for
+      // reconciliation instead of being re-dispatched.
+      console.error(
+        '[Qikink] Factory accepted order %s (%s) but persistence FAILED (rpc=%s update=%s). Parking for reconciliation.',
+        order.id,
+        qikinkRef,
+        rpcErr?.message || 'ok',
+        updErr?.message || 'ok'
+      );
+      await supabase
+        .from('orders')
+        .update({
+          cj_order_id: `QUEUE_PENDING_SYNC_${String(qikinkRef).slice(0, 90)}`,
+          fulfillment_error:
+            'Factory accepted the order but the local record could not be updated. ' +
+            `factory_ref=${qikinkRef} rpc=${rpcErr?.message || 'ok'} update=${updErr?.message || 'ok'}`,
+        })
+        .eq('id', order.id);
+      return {
+        ok: false,
+        reason:
+          `Factory accepted order ${qikinkRef} but the local record could not be updated. ` +
+          'It has been parked for reconciliation and will NOT be re-dispatched.',
+      };
+    }
 
     // Send Telegram Notification about automated Qikink dispatch
     notifyTelegramQikinkSuccess(order.id, qikinkRef, isCod).catch(() => {});

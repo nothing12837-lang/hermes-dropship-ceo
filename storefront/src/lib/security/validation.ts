@@ -95,10 +95,25 @@ export function sanitizeMessage(v: unknown, max = 1000): string | null {
   return t;
 }
 
+/**
+ * Resolve the client IP for rate limiting and abuse controls.
+ *
+ * The LEFT-most x-forwarded-for entry is supplied by the caller and can be
+ * rotated at will, which made every rate limit bypassable. Prefer the edge
+ * platform headers, then fall back to the LAST proxy-appended hop.
+ */
 export function clientIp(headers: Headers): string {
-  return (
-    headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    headers.get('x-real-ip')?.trim() ||
-    'unknown'
-  );
+  const platform =
+    headers.get('x-vercel-forwarded-for')?.split(',')[0]?.trim() ||
+    headers.get('cf-connecting-ip')?.trim() ||
+    headers.get('true-client-ip')?.trim();
+  if (platform) return platform;
+
+  const xff = headers.get('x-forwarded-for');
+  if (xff) {
+    const hops = xff.split(',').map((h) => h.trim()).filter(Boolean);
+    if (hops.length) return hops[hops.length - 1];
+  }
+
+  return headers.get('x-real-ip')?.trim() || 'unknown';
 }

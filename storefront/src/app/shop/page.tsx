@@ -267,6 +267,8 @@ function ShopInner() {
                   gradient={p.gradient || 'linear-gradient(135deg, rgba(255,107,53,0.2), rgba(194,65,12,0.1))'}
                   imageUrl={resolveProductImage(p.id, p.image_url)}
                   images={(p as any).images}
+                  sizes={(p as any).sizes}
+                  colors={(p as any).colors}
                   chapter={p.chapter || undefined}
                   pet={undefined}
                   rating={Number(p.rating ?? 4.3)}

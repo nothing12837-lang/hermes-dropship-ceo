@@ -29,8 +29,20 @@ export function checkRateLimit(
   windowMs = 60_000,
   now = Date.now()
 ): RateLimit {
+  // Drop fully-expired buckets so the map does not leak memory for ever.
+  if (buckets.size > 1000) {
+    for (const [k, b] of buckets) {
+      prune(now, windowMs, b);
+      if (b.hits.length === 0) buckets.delete(k);
+    }
+  }
   let bucket = buckets.get(key);
   if (!bucket) {
+    // Cap the map so a spoofed-IP flood cannot grow it without bound.
+    if (buckets.size > 5000) {
+      const oldest = buckets.keys().next().value;
+      if (oldest) buckets.delete(oldest);
+    }
     bucket = { hits: [] };
     buckets.set(key, bucket);
   }

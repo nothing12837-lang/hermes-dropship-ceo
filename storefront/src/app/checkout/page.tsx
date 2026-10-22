@@ -42,10 +42,14 @@ export default function CheckoutPage() {
   const [pincodeLoading, setPincodeLoading] = useState(false);
   const [pincodeInfo, setPincodeInfo] = useState<{ city: string; state: string; valid: boolean } | null>(null);
   const [hasSavedAddress, setHasSavedAddress] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'online' | 'cod'>('online');
+  // COD is the advertised option for an India D2C store and the server
+  // already caps it at Rs.3,000 for RTO protection. Defaulting to 'online'
+  // silently withdrew the advertised COD.
+  const [paymentMethod, setPaymentMethod] = useState<'online' | 'cod'>('cod');
   const [coupon, setCoupon] = useState('');
   const [couponApplied, setCouponApplied] = useState(false);
   const [appliedCouponCode, setAppliedCouponCode] = useState('');
+  const [appliedCouponLabel, setAppliedCouponLabel] = useState('');
   const [discount, setDiscount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [processing, setProcessing] = useState(false);
@@ -61,7 +65,12 @@ export default function CheckoutPage() {
       if (session?.user) {
         setUserId(session.user.id);
         setUserEmail(session.user.email || null);
-        if (session.user.email && !email) setEmail(session.user.email);
+        // Functional update: `email` in this closure was the value from the
+        // FIRST render, so `!email` was always true and the session address
+        // overwrote whatever the customer had typed.
+        if (session.user.email) {
+          setEmail((current) => (current && current.trim() !== '' ? current : session.user!.email!));
+        }
       }
       setAuthChecking(false);
     });
@@ -243,7 +252,11 @@ export default function CheckoutPage() {
     return p.price >= 80 ? p.price / 85 : p.price;
   };
   const subtotal = detailed.reduce((a, b) => a + getProductItemPrice(b.product) * b.qty, 0);
-  const isAboveCodThreshold = isIndia && subtotal >= 3000;
+  // The server caps COD on the POST-DISCOUNT total (`finalTotal`), so the
+  // client must use the same number -- otherwise COD is hidden for orders the
+  // server would happily accept.
+  const postDiscountSubtotal = Math.max(0, subtotal - discount);
+  const isAboveCodThreshold = isIndia && postDiscountSubtotal >= 3000;
 
   // Auto-switch away from COD if cart crosses ₹3,000 threshold
   useEffect(() => {
@@ -292,6 +305,7 @@ export default function CheckoutPage() {
       setCouponApplied(false);
       setDiscount(0);
       setAppliedCouponCode('');
+      setAppliedCouponLabel('');
       return;
     }
 
@@ -301,11 +315,16 @@ export default function CheckoutPage() {
       setCouponApplied(false);
       setDiscount(0);
       setAppliedCouponCode('');
+      setAppliedCouponLabel('');
       return;
     }
 
     setDiscount(res.discountAmount);
-    setAppliedCouponCode(res.label);
+    // The server validates the raw CODE. Sending res.label ("FIRST50 (Rs 50 OFF)")
+    // made every promotion silently fail server-side: the shopper was quoted a
+    // discount and then charged full price.
+    setAppliedCouponCode(coupon.trim().toUpperCase());
+    setAppliedCouponLabel(res.label);
     setCouponApplied(true);
     setError('');
   };
@@ -329,14 +348,16 @@ export default function CheckoutPage() {
       return setError('Full Name is compulsory for courier delivery. Please enter your name.');
     }
 
-    // COMPULSORY FIELD 2: 10-Digit Mobile Phone
-    const digits = phone.replace(/\D/g, '');
-    const normalizedPhone = digits.length === 12 && digits.startsWith('91') ? digits.slice(2) : (digits.length === 11 && digits.startsWith('0') ? digits.slice(1) : digits);
+    // COMPULSORY FIELD 2: 10-Digit Mobile Phone (Sanitize +91, spaces, dashes)
+    const rawCleanDigits = phone.replace(/[\s\-\(\)\+]/g, '').replace(/^(\+?91)/, '').replace(/\D/g, '');
+    const normalizedPhone = rawCleanDigits.length === 12 && rawCleanDigits.startsWith('91')
+      ? rawCleanDigits.slice(2)
+      : (rawCleanDigits.length === 11 && rawCleanDigits.startsWith('0') ? rawCleanDigits.slice(1) : rawCleanDigits);
     if (!normalizedPhone || normalizedPhone.length !== 10) {
-      return setError('Mobile Number is compulsory. Please enter a valid 10-digit number for order & delivery confirmation.');
+      return setError('Mobile Number is compulsory. Please enter a valid 10-digit Indian mobile number.');
     }
     if (!/^[6-9]\d{9}$/.test(normalizedPhone)) {
-      return setError('Invalid Mobile Number. Indian mobile numbers must start with 6, 7, 8, or 9.');
+      return setError('Invalid Indian Mobile Number. Must be exactly 10 digits starting with 6, 7, 8, or 9.');
     }
 
     // COMPULSORY FIELD 3: Email Address
@@ -345,10 +366,10 @@ export default function CheckoutPage() {
       return setError('Email Address is compulsory for order confirmation, tracking updates, and GST invoice.');
     }
 
-    // COMPULSORY FIELD 4: 6-Digit PIN Code
+    // COMPULSORY FIELD 4: 6-Digit Indian Postal PIN Code (Strictly ^[1-9][0-9]{5}$)
     const resolvedZip = zip.trim();
-    if (!resolvedZip || (isIndia && !/^\d{6}$/.test(resolvedZip))) {
-      return setError('6-Digit Indian PIN code is compulsory for courier routing.');
+    if (!resolvedZip || (isIndia && !/^[1-9][0-9]{5}$/.test(resolvedZip))) {
+      return setError('Valid 6-digit Indian PIN code is compulsory for courier routing (must start with 1-9).');
     }
 
     // COMPULSORY FIELD 5: Flat / House No. & Building
@@ -1067,23 +1088,21 @@ export default function CheckoutPage() {
                     className="mt-1 accent-[#FF4D24]"
                   />
                   <div className="flex-1">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
                       <span className="font-bold text-sm text-neutral-900">
                         Online Payment (UPI, Cards, NetBanking)
                       </span>
-                      <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700">
-                        Recommended
+                      <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/20">
+                        Save ₹49 • Recommended
                       </span>
                     </div>
                     <p className="text-xs text-neutral-500 mt-1">
-                      Instant 1-click payment via Google Pay, PhonePe, Paytm, Cards &amp; NetBanking. Fastest dispatch queue.
+                      Instant 1-click payment via Google Pay, PhonePe, Paytm, Cards &amp; NetBanking.
                     </p>
-                    {isAboveCodThreshold && (
-                      <div className="mt-2 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60 inline-flex items-center gap-1.5">
-                        <span>⚡</span>
-                        <span>Zero COD Fee • Free Insured Air Express Dispatch Pan-India</span>
-                      </div>
-                    )}
+                    <div className="mt-2 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60 inline-flex items-center gap-1.5">
+                      <span>⚡</span>
+                      <span>Save ₹49 instantly by paying via UPI (Free Express Air Delivery • ₹0 COD Fee)</span>
+                    </div>
                   </div>
                 </label>
 
@@ -1129,7 +1148,7 @@ export default function CheckoutPage() {
                           Cash on Delivery (COD)
                         </span>
                         {market === 'IN' && (
-                          <span className="text-xs font-bold text-neutral-600">+₹49 fee</span>
+                          <span className="text-xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">+₹49 COD fee</span>
                         )}
                       </div>
                       <p className="text-xs text-neutral-500 mt-1">
@@ -1328,7 +1347,7 @@ export default function CheckoutPage() {
                       <span>Pay via UPI</span>
                     </div>
                     <span className="text-[10px] text-emerald-400 font-bold mt-1">
-                      Extra ₹30 OFF • Express Air
+                      Save ₹49 + Extra ₹30 OFF • Free Air
                     </span>
                   </button>
                   <button

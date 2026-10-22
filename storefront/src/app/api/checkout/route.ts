@@ -15,7 +15,9 @@ function getRazorpay(): Razorpay | null {
 
 function getSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  // Prefer the service role: the checkout route both reads the catalogue and
+  // INSERTS the order row, and the anon key must not be writing orders.
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) return null;
   return createClient(url, key);
 }
@@ -214,6 +216,7 @@ export async function POST(req: NextRequest) {
             stripe_session_id: mockOrderId,
             total_amount: finalTotal,
             status: 'pending',
+            payment_method: 'prepaid',
             items,
             subtotal,
             shipping: 0,
@@ -252,6 +255,7 @@ export async function POST(req: NextRequest) {
       stripe_session_id: rzpOrder.id,
       total_amount: finalTotal,
       status: 'pending',
+      payment_method: 'prepaid',
       items,
       subtotal,
       shipping: 0,

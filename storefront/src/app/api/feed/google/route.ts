@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
-import qikinkCatalog from '@/lib/data/qikink-products.json';
+// Use the curated catalogue, not the raw JSON: the raw feed published the
+// Rs.10 "Gateway Test Pass" test SKU and pre-price-floor prices, so Google
+// Shopping showed prices the storefront never charged.
+import { products as curatedCatalog } from '@/lib/data/products';
 
 export const runtime = 'nodejs';
 export const revalidate = 3600; // Cache feed for 1 hour
@@ -14,7 +17,7 @@ function escapeXml(unsafe: string): string {
 }
 
 export async function GET() {
-  const catalogItems = qikinkCatalog;
+  const catalogItems = curatedCatalog as any[];
   const siteUrl = 'https://www.rareember.shop';
 
   const itemsXml = catalogItems

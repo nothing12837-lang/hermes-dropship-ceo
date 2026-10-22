@@ -34,6 +34,8 @@ function toCard(p: Product, rank?: number) {
     lockedGraphicTitle: (p as any).lockedGraphicTitle,
     lockedGraphicPlacement: (p as any).lockedGraphicPlacement,
     lockedAccentHex: (p as any).lockedAccentHex,
+    sizes: p.sizes,
+    colors: p.colors,
     chapter: undefined,
     pet: undefined,
     rating: p.rating,

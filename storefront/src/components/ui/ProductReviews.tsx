@@ -35,10 +35,6 @@ export default function ProductReviews({ productId, productTitle }: ProductRevie
   const [imageBase64, setImageBase64] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    fetchReviews();
-  }, [productId]);
-
   const fetchReviews = async () => {
     try {
       setLoading(true);
@@ -53,6 +49,13 @@ export default function ProductReviews({ productId, productTitle }: ProductRevie
       setLoading(false);
     }
   };
+
+  // Declared after `fetchReviews` so the function is not referenced before it
+  // is initialised.
+  useEffect(() => {
+    fetchReviews();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productId]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

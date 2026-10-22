@@ -2,11 +2,10 @@
 const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'X-Frame-Options', value: 'DENY' },
-  { key: 'X-XSS-Protection', value: '1; mode=block' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   {
     key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=(), payment=(self "https://api.razorpay.com")',
+    value: 'camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(self "https://api.razorpay.com")',
   },
   {
     key: 'Strict-Transport-Security',
@@ -16,17 +15,18 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.razorpay.com https://checkout.razorpay.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.razorpay.com https://checkout.razorpay.com https://www.googletagmanager.com https://connect.facebook.net https://www.google-analytics.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
-      "img-src 'self' data: blob: https://qikink-stores.s3.ap-south-1.amazonaws.com https://*.amazonaws.com https://*.supabase.co https://images.unsplash.com",
-      "connect-src 'self' https://*.supabase.co https://api.razorpay.com https://lumberjack.razorpay.com https://api.postalpincode.in",
-      "frame-src https://api.razorpay.com https://cdn.razorpay.com https://checkout.razorpay.com",
+      "img-src 'self' data: blob: https://qikink-stores.s3.ap-south-1.amazonaws.com https://*.amazonaws.com https://*.supabase.co https://images.unsplash.com https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net",
+      "connect-src 'self' https://*.supabase.co https://api.razorpay.com https://lumberjack.razorpay.com https://api.postalpincode.in https://www.google-analytics.com https://analytics.google.com https://connect.facebook.net https://graph.facebook.com",
+      "frame-src https://api.razorpay.com https://cdn.razorpay.com https://checkout.razorpay.com https://www.googletagmanager.com https://www.facebook.com",
       "media-src 'self' https://videos.pexels.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
       "frame-ancestors 'none'",
+      "upgrade-insecure-requests",
     ].join('; '),
   },
 ];

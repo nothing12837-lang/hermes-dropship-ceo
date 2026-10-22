@@ -16,7 +16,10 @@ export const runtime = 'nodejs';
 
 function getSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  // Service role ONLY. The anon key cannot read `orders` under RLS, so the
+  // webhook silently found no order, skipped mark-paid and skipped fulfilment,
+  // yet still answered 200 -- paid customers were never shipped.
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return null;
   return createClient(url, key);
 }
@@ -68,7 +71,7 @@ export async function POST(req: NextRequest) {
     if (event.event === 'payment.captured') {
       const lookup = await supabase
         .from('orders')
-        .select('id, status, user_email, total_amount, shipping_name, shipping_address, items')
+        .select('id, status, user_email, total_amount, shipping_name, shipping_address, items, cj_order_id')
         .eq('stripe_session_id', orderId)
         .maybeSingle();
       if (lookup.error && /column .* does not exist/i.test(lookup.error.message)) {
@@ -86,10 +89,30 @@ export async function POST(req: NextRequest) {
         shipping_name?: string;
         shipping_address?: any;
         items?: any[];
+        cj_order_id?: string | null;
       } | null;
 
+      // Only the transition pending -> paid may trigger fulfilment. Razorpay
+      // replays webhooks; without this guard a replay dispatched a SECOND
+      // physical order from the same payment.
+      const justPaid = Boolean(order && order.status === 'pending');
+
       if (order && order.status === 'pending') {
-        await supabase.from('orders').update({ status: 'paid' }).eq('id', order.id);
+        const claim = await supabase
+          .from('orders')
+          .update({ status: 'paid' })
+          .eq('id', order.id)
+          .eq('status', 'pending')
+          .select('id')
+          .maybeSingle();
+        if (claim.error) {
+          console.error('Razorpay webhook: failed to mark order paid:', claim.error.message);
+          return NextResponse.json({ error: 'Failed to mark order paid' }, { status: 500 });
+        }
+        if (!claim.data) {
+          // Another replay won the race.
+          return NextResponse.json({ received: true, orderId, idempotent: true });
+        }
         
         // Notify store owner on Telegram automatically with 1-click WhatsApp link & dispatch status
         notifyTelegramOrder({
@@ -108,7 +131,7 @@ export async function POST(req: NextRequest) {
       // GET /api/fulfillment/retry — always return 200 so Razorpay stops retrying.
       let fulfilled: { ok: boolean; cjOrderId?: string; reason?: string } = { ok: false };
       try {
-        if (order) {
+        if (order && (justPaid || !order.cj_order_id)) {
           if (isTestOrder(order)) {
             console.log(`[Razorpay Webhook] Order ${order.id} is a test/gateway verification drop (${order.user_email}). Skipping Qikink factory dispatch.`);
             await supabase.from('orders').update({ cj_order_id: 'TEST_ORDER_SKIPPED' }).eq('id', order.id);

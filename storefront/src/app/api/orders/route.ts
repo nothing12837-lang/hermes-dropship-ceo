@@ -37,8 +37,15 @@ export async function GET(req: NextRequest) {
   }
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return NextResponse.json({ orders: [], demo: true });
+  // Service role only. The anon key cannot read `orders` under RLS, so the
+  // previous fallback made every customer order lookup silently return empty.
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) {
+    return NextResponse.json(
+      { orders: [], demo: true, error: 'SUPABASE_SERVICE_ROLE_KEY not configured' },
+      { status: 503 }
+    );
+  }
 
   try {
     const sb = createClient(url, key);
@@ -131,6 +138,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Automated submission rejected' }, { status: 400 });
     }
 
+    // Payment method is a CLOSED enum. Any other value previously slipped past
+    // the COD guards and triggered an unpaid dispatch to the print factory.
+    const rawPaymentMethod =
+      typeof body.payment_method === 'string' ? body.payment_method.trim().toLowerCase() : '';
+    if (!['cod', 'prepaid', 'online'].includes(rawPaymentMethod)) {
+      return NextResponse.json(
+        { error: 'Unsupported payment method. Use "cod" or "prepaid".' },
+        { status: 400 }
+      );
+    }
+    const isCod = rawPaymentMethod === 'cod';
+    const paymentMethod = isCod ? 'cod' : 'prepaid';
+
     const email = normalizeEmail(body.email);
     if (!email) {
       return NextResponse.json({ error: 'Valid email required' }, { status: 400 });
@@ -148,11 +168,30 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Complete delivery address (street, city, pincode) is required' }, { status: 400 });
     }
 
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    // Indian PIN codes are exactly 6 digits and never start with 0.
+    // Without this the factory payload silently defaulted a malformed PIN to
+    // 560001 (Bengaluru) and the parcel was routed to the wrong city.
+    const pincode = String(addr.zip).trim();
+    if (!/^[1-9][0-9]{5}$/.test(pincode)) {
+      return NextResponse.json({ error: 'Invalid Indian pincode. Must be 6 digits.' }, { status: 400 });
+    }
 
-    if (!url || !key) {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    // Service role MANDATORY for order writes. No anon fallback: the public
+    // anon key must never be able to write an order row.
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!url) {
       return NextResponse.json({ ok: true, mock: true, order_id: `mock_${Date.now()}` });
+    }
+    if (!key) {
+      console.error(
+        '[Orders API] SUPABASE_SERVICE_ROLE_KEY is not set - order creation is blocked. The anon key cannot read orders under RLS and must not write them.'
+      );
+      return NextResponse.json(
+        { error: 'Order service is not configured. Set SUPABASE_SERVICE_ROLE_KEY.' },
+        { status: 503 }
+      );
     }
 
     const sb = createClient(url, key);
@@ -253,8 +292,17 @@ export async function POST(req: NextRequest) {
 
     const finalTotal = Math.max(0, calculatedSubtotal - discountAmount);
 
+    // Cash-on-Delivery handling fee.
+    //
+    // The checkout UI quotes Rs.49 for COD, but the server used to charge
+    // `finalTotal` without the fee, so the customer was shown one amount and
+    // charged another. The fee is computed server-side so the quote and the
+    // charge can never diverge.
+    const codFee = isCod ? 49 : 0;
+    const chargedTotal = finalTotal + codFee;
+
     // Server-side COD Threshold Protection: COD capped strictly under ₹3,000 to prevent RTO courier fraud
-    if (body.payment_method === 'cod' && finalTotal >= 3000) {
+    if (isCod && finalTotal >= 3000) {
       return NextResponse.json(
         {
           error:
@@ -281,7 +329,7 @@ export async function POST(req: NextRequest) {
         .from('orders')
         .select('id, created_at')
         .eq('user_email', email)
-        .eq('total_amount', finalTotal)
+        .eq('total_amount', chargedTotal)
         .eq('status', 'pending_cod')
         .order('created_at', { ascending: false })
         .limit(1)
@@ -302,8 +350,9 @@ export async function POST(req: NextRequest) {
       user_email: email,
       user_id: body.user_id || null,
       stripe_session_id: orderRef,
-      total_amount: finalTotal,
-      status: body.payment_method === 'cod' ? 'pending_cod' : 'pending',
+      total_amount: chargedTotal,
+      status: isCod ? 'pending_cod' : 'pending',
+      payment_method: paymentMethod,
       items: enrichedItems,
       subtotal: calculatedSubtotal,
       shipping: 0,
@@ -327,8 +376,9 @@ export async function POST(req: NextRequest) {
       const minimal = {
         id: orderId,
         user_email: email,
-        total_amount: finalTotal,
-        status: body.payment_method === 'cod' ? 'pending_cod' : 'pending',
+        total_amount: chargedTotal,
+        status: isCod ? 'pending_cod' : 'pending',
+        payment_method: paymentMethod,
         shipping_address: newOrder.shipping_address,
       };
       const retry = await sb.from('orders').insert([minimal]);
@@ -344,7 +394,7 @@ export async function POST(req: NextRequest) {
     await notifyTelegramOrder({
       id: finalOrderId,
       total: finalTotal,
-      paymentMethod: body.payment_method || 'cod',
+      paymentMethod,
       email,
       name: body.name,
       itemsCount: enrichedItems.length,
@@ -357,25 +407,28 @@ export async function POST(req: NextRequest) {
     // ONLY dispatch genuine customer orders; test/temp orders are strictly blocked.
     // COD orders are safely held in 'pending_cod' awaiting WhatsApp address confirmation,
     // protecting against ₹345 RTO dead-inventory losses. Prepaid orders dispatch immediately!
-    let fulfillment: any = null;
-    const isCod = body.payment_method === 'cod';
-
     if (isTestOrder(newOrder)) {
       console.log(`[Orders API] Order ${finalOrderId} identified as test/temp order. Skipping Qikink factory dispatch.`);
     } else if (isCod) {
       console.log(`[Orders API] COD Order ${finalOrderId} safely held in pending_cod awaiting customer confirmation.`);
     } else {
-      fulfillment = await fulfillQikinkOrder(sb, finalOrderId, newOrder).catch((e) => {
-        console.error('Qikink auto-fulfillment background error:', e);
-        return { ok: false, reason: String(e) };
-      });
+      // Prepaid orders are NOT paid yet at this point (Razorpay has not
+      // captured the payment). Dispatching here printed and shipped free
+      // merchandise. Factory transmission now happens only from the verified
+      // Razorpay webhook, or from the retry worker once status='paid'.
+      console.log(
+        `[Orders API] Prepaid order ${finalOrderId} recorded as pending. Factory dispatch deferred until Razorpay confirms payment.`
+      );
     }
 
     return NextResponse.json({
       ok: true,
       order_id: finalOrderId,
-      qikink_order_id: fulfillment?.qikinkOrderId || null,
-      courier: fulfillment?.courier || null,
+      // Factory dispatch no longer happens here for prepaid orders: the
+      // payment is not confirmed at this point. It happens from the verified
+      // Razorpay webhook, or from the retry worker once status='paid'.
+      qikink_order_id: null,
+      courier: null,
     });
   } catch (err) {
     console.error('POST /api/orders error:', err);

@@ -290,6 +290,9 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
 // Bundles paused until store reaches 10 successful orders (per strategic roadmap)
 export const products: Product[] = (qikinkCatalog as unknown as Product[])
   .filter((p) => !p.id.startsWith('bundle-'))
+  // Gateway/test SKUs are internal fixtures. One of them was a Rs.10
+  // "Gateway Test Pass" item that led the homepage and shipped Product markup.
+  .filter((p) => !/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox)/i.test(`${p.id} ${p.title}`))
   .map(enforcePriceFloor);
 
 export const PET_META: Record<string, any> = {

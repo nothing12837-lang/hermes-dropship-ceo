@@ -88,7 +88,7 @@ export default function FestiveEffects() {
       decay: number;
     }
 
-    let particles: Particle[] = [];
+    const particles: Particle[] = [];
     const colors =
       activeFest.id === 'diwali_navratri'
         ? ['#FFD700', '#FF8C00', '#FF4500', '#FFDF00', '#FFF', '#FF6347']

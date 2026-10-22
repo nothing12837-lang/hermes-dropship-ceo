@@ -106,16 +106,6 @@ export function TrackClient() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  useEffect(() => {
-    const qEmail = searchParams.get('email');
-    const qOrder = searchParams.get('orderId') || searchParams.get('order_id');
-    if (qEmail || qOrder) {
-      if (qEmail) setEmail(qEmail);
-      if (qOrder) setOrderId(qOrder);
-      executeLookup(qEmail || '', qOrder || '');
-    }
-  }, [searchParams]);
-
   const executeLookup = async (targetEmail: string, targetOrderId: string) => {
     setErrorMessage(null);
     const cleanEmail = targetEmail.trim();
@@ -156,6 +146,19 @@ export function TrackClient() {
       setLoading(false);
     }
   };
+
+  // Declared after `executeLookup` so the function is not referenced before
+  // it is initialised.
+  useEffect(() => {
+    const qEmail = searchParams.get('email');
+    const qOrder = searchParams.get('orderId') || searchParams.get('order_id');
+    if (qEmail || qOrder) {
+      if (qEmail) setEmail(qEmail);
+      if (qOrder) setOrderId(qOrder);
+      executeLookup(qEmail || '', qOrder || '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const handleManualLookup = () => {
     executeLookup(email, orderId);
@@ -451,16 +454,60 @@ export function TrackClient() {
           </div>
         )}
 
-        {/* Clean Support Concierge Footer Card */}
-        <div className="mt-8 p-5 rounded-2xl bg-white border border-black/[0.06] shadow-xs text-xs text-neutral-600 flex items-start gap-3.5">
-          <span className="text-2xl shrink-0">🛡️</span>
-          <div>
-            <p className="font-bold text-neutral-900 text-sm">Need immediate assistance with your delivery?</p>
-            <p className="mt-1 text-neutral-500 leading-relaxed">
-              Our executive care desk at <a href="mailto:rareemberagency@gmail.com" className="font-bold text-[#FF4D24] no-underline hover:underline">rareemberagency@gmail.com</a> replies in under 12 hours. Please include your registered email address and Order ID for immediate priority lookup.
-            </p>
-          </div>
-        </div>
+        {/* 1-Tap Atelier Concierge Support Card with Pre-Populated Order ID */}
+        {(() => {
+          const currentOrderId = orderId.trim() || (orders.length > 0 ? orders[0].id : '');
+          const currentEmail = email.trim() || (orders.length > 0 ? orders[0].email : '');
+          const orderMention = currentOrderId ? `Order #${currentOrderId}` : 'my order';
+          
+          const waMessage = currentOrderId
+            ? `Hi Rare Ember Atelier Concierge, I need urgent dispatch help regarding Order ID: ${currentOrderId}${currentEmail ? ` (${currentEmail})` : ''}. Please check my order status.`
+            : 'Hi Rare Ember Atelier Concierge, I need urgent dispatch help regarding my order. Please check my status.';
+            
+          const waUrl = `https://wa.me/919118211860?text=${encodeURIComponent(waMessage)}`;
+          
+          const emailSubject = currentOrderId
+            ? `Urgent Dispatch Help — Order ${currentOrderId}`
+            : 'Urgent Dispatch Help — Rare Ember Order';
+          const emailBody = `Hi Rare Ember Atelier Concierge,\n\nI need urgent dispatch help regarding ${orderMention}.\nOrder ID: ${currentOrderId || 'N/A'}\nEmail: ${currentEmail || 'N/A'}\n\nPlease provide an update on dispatch and courier tracking.\n\nThank you!`;
+          const mailUrl = `mailto:rareemberagency@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+          return (
+            <div className="mt-8 p-6 rounded-3xl bg-gradient-to-br from-[#161311] to-[#26201c] text-white border border-white/10 shadow-xl">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF4D24]/20 border border-[#FF4D24]/40 text-[#FF9A3D] text-[11px] font-black uppercase tracking-wider">
+                    <span>⚡</span> 12-Hour Priority SLA
+                  </div>
+                  <h3 className="text-base sm:text-lg font-black text-white">
+                    Need Urgent Dispatch Help? Chat with Atelier Concierge
+                  </h3>
+                  <p className="text-xs text-neutral-400 max-w-lg leading-relaxed">
+                    Direct access to our domestic Tirupur dispatch hub. Tap below to chat instantly on WhatsApp or send an email with your {currentOrderId ? <strong>Order #{currentOrderId}</strong> : 'Order ID'} pre-filled.
+                  </p>
+                </div>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto shrink-0">
+                  <a
+                    href={waUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#25D366] hover:bg-[#20ba5a] text-black font-black text-xs no-underline shadow-lg shadow-emerald-900/30 active:scale-95 transition-all cursor-pointer whitespace-nowrap"
+                  >
+                    <span>💬</span>
+                    <span>1-Tap WhatsApp Concierge</span>
+                  </a>
+                  <a
+                    href={mailUrl}
+                    className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs no-underline border border-white/15 active:scale-95 transition-all cursor-pointer whitespace-nowrap"
+                  >
+                    <span>✉️</span>
+                    <span>Email Atelier</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
       </div>
     </main>
   );

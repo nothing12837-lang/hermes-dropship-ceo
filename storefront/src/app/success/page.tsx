@@ -14,7 +14,9 @@ function SuccessInner() {
   const total = q.get('total');
   const session = q.get('session_id') || q.get('order_id');
 
-  const orderId = session || `ord_${Date.now()}`;
+  // Deterministic: `Date.now()` during render is an impure call and produced
+  // a server/client hydration mismatch on this page.
+  const orderId = session || 'ord_pending';
   const orderTotal = total ? parseFloat(total) : 899;
 
   // Telemetry: track purchase on success load

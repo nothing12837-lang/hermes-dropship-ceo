@@ -57,7 +57,9 @@ export async function GET(req: NextRequest) {
     .limit(limit);
   if (status) query = query.eq('status', status);
 
-  let { data, error } = await query;
+  const queryResult = await query;
+  let { data } = queryResult;
+  const { error } = queryResult;
   if (error) {
     console.warn('[Admin API] Comprehensive column select warning, falling back to base columns:', error.message);
     // Safe fallback if optional legacy columns are absent
@@ -88,14 +90,65 @@ export async function PATCH(req: NextRequest) {
     const { orderId, status, tracking_number } = body;
     if (!orderId) return NextResponse.json({ error: 'orderId required' }, { status: 400 });
 
-    const ALLOWED_STATUSES = new Set(['pending', 'pending_cod', 'paid', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded']);
+    // NOTE: `cod_confirmed` is a BOOLEAN column on `orders`, not a status
+    // value. It is set separately below.
+    const ALLOWED_STATUSES = new Set([
+      'pending', 'pending_cod', 'paid', 'processing',
+      'shipped', 'delivered', 'cancelled', 'refunded', 'returned',
+    ]);
+
+    // Legal transitions. Previously ANY status could be set on ANY order, so
+    // "Mark Shipped" on an UNPAID order followed by "Dispatch to Qikink"
+    // printed and shipped free merchandise.
+    const ORDER_TRANSITIONS: Record<string, string[]> = {
+      pending: ['paid', 'cancelled'],
+      pending_cod: ['paid', 'cancelled'],
+      paid: ['processing', 'cancelled', 'refunded'],
+      processing: ['shipped', 'cancelled', 'refunded'],
+      shipped: ['delivered', 'refunded'],
+      delivered: ['returned'],
+      returned: [],
+      cancelled: [],
+      refunded: [],
+    };
+
+    // Read the current status so the transition can be validated and the
+    // update can be made conditional (no lost updates).
+    const { data: currentRow, error: currentErr } = await supabase
+      .from('orders')
+      .select('status')
+      .eq('id', orderId)
+      .maybeSingle();
+    if (currentErr) {
+      return NextResponse.json({ error: 'Order lookup failed' }, { status: 500 });
+    }
+    if (!currentRow) {
+      return NextResponse.json({ error: 'Order not found' }, { status: 404 });
+    }
+    const currentStatus = String(currentRow.status || '').trim().toLowerCase();
+
     const updates: Record<string, unknown> = {};
     if (status) {
       const cleanStatus = status.trim().toLowerCase();
       if (!ALLOWED_STATUSES.has(cleanStatus)) {
         return NextResponse.json({ error: `Invalid status. Allowed: ${[...ALLOWED_STATUSES].join(', ')}` }, { status: 400 });
       }
+      const allowedNext = ORDER_TRANSITIONS[currentStatus] || [];
+      if (!allowedNext.includes(cleanStatus)) {
+        return NextResponse.json(
+          {
+            error:
+              `Cannot move an order from "${currentStatus}" to "${cleanStatus}". ` +
+              `Allowed from "${currentStatus}": ${allowedNext.join(', ') || 'none'}.`,
+          },
+          { status: 400 }
+        );
+      }
       updates.status = cleanStatus;
+    }
+
+    if ((body as any).cod_confirmed !== undefined) {
+      updates.cod_confirmed = Boolean((body as any).cod_confirmed);
     }
 
     if (tracking_number !== undefined) {
@@ -127,7 +180,13 @@ export async function PATCH(req: NextRequest) {
       if (u === "" || u.startsWith("https://")) updates.meesho_url = u || null;
     }
 
-    const { error } = await supabase.from('orders').update(updates).eq('id', orderId);
+    // Conditional on the status we validated against, so a concurrent write
+    // cannot be clobbered.
+    const { error } = await supabase
+      .from('orders')
+      .update(updates)
+      .eq('id', orderId)
+      .eq('status', currentStatus);
     if (error) return NextResponse.json({ error: 'Order update failed' }, { status: 500 });
     return NextResponse.json({ ok: true, orderId, updates });
   } catch (err: unknown) {

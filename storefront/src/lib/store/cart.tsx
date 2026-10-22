@@ -86,19 +86,25 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       closeCart: () => setIsOpen(false),
       add: (id, qty = 1, meta?: Partial<CartItem>) => {
         const addQty = Math.max(1, Math.floor(qty));
-        const variantSuffix = [meta?.color, meta?.size, meta?.phoneModel, meta?.customText, meta?.customImageName].filter(Boolean).join('-');
-        const cartItemId = variantSuffix ? `${id}__${variantSuffix}` : id;
+        const cleanBaseId = id.split('__')[0];
+        const sizeSlug = meta?.size ? `size-${meta.size.trim().replace(/\s+/g, '_')}` : '';
+        const colorSlug = meta?.color ? `color-${meta.color.trim().replace(/\s+/g, '_')}` : '';
+        const otherSuffix = [meta?.phoneModel, meta?.customText, meta?.customImageName].filter(Boolean).join('-');
+        
+        // Uniquely key by product.id, size, and color so different sizes/colors create distinct line items
+        const variantSuffix = [sizeSlug, colorSlug, otherSuffix].filter(Boolean).join('__');
+        const cartItemId = variantSuffix ? `${cleanBaseId}__${variantSuffix}` : cleanBaseId;
 
         setItems((prev) => {
           const found = prev.find((i) => i.id === cartItemId);
           if (found) {
             const nextQty = Math.min(99, found.qty + addQty);
             return prev.map((i) =>
-              i.id === cartItemId ? { ...i, ...meta, qty: nextQty } : i
+              i.id === cartItemId ? { ...i, ...meta, qty: nextQty, size: meta?.size ?? i.size, color: meta?.color ?? i.color } : i
             );
           }
           const initialQty = Math.min(99, addQty);
-          return [...prev, { ...meta, id: cartItemId, qty: initialQty }];
+          return [...prev, { ...meta, id: cartItemId, qty: initialQty, size: meta?.size, color: meta?.color }];
         });
         setIsOpen(true);
       },
