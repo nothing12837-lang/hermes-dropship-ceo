@@ -45,6 +45,7 @@ const nextConfig = {
     ],
   },
   experimental: {
+    agentUpgrade: 'security',
     optimizePackageImports: ['framer-motion', 'lucide-react', 'date-fns'],
   },
   async redirects() {
