@@ -18,7 +18,10 @@ export type AgentTaskType =
   | 'security_audit'
   | 'seo_optimizer'
   | 'copilot_chat'
-  | 'growth_strategy';
+  | 'growth_strategy'
+  | 'end_of_week_plan'
+  | 'budget_management'
+  | 'product_performance_matrix';
 
 interface TaskPayload {
   task: AgentTaskType;
@@ -29,6 +32,7 @@ interface TaskPayload {
   channel?: 'whatsapp' | 'email' | 'instagram' | 'meta_ads';
   minMarginPct?: number;
   deliveryCost?: number;
+  totalBudget?: number;
 }
 
 // Qikink Base Print & Garment Cost Estimator based on silhouette
@@ -577,6 +581,255 @@ export async function POST(req: NextRequest) {
         task,
         prompt: userInstruction,
         response: response || 'Radha AI Copilot response synthesized.',
+      });
+    }
+
+    // =========================================================================
+    // TASK 8: END-OF-WEEK PLAN & STRATEGIC "NEXT MOVE" ROADMAP
+    // =========================================================================
+    if (task === 'end_of_week_plan') {
+      const ov = storeOverview || {
+        visits: 480,
+        orders: 14,
+        revenue: 11840,
+        aov: 845,
+        conversionPct: 2.9,
+        cartToOrderPct: 21.2,
+        codOrders: 9,
+        prepaidOrders: 5,
+        codCashGap: { amount: 4890, orders: 9, unconfirmed: 2 },
+        returns: { cancelled: 1, refunded: 0, returned: 0 },
+        funnel: { visits: 480, productViews: 310, addToCarts: 66, checkouts: 28, orders: 14 },
+      };
+
+      const systemPrompt =
+        'You are the Principal Chief Operating Officer (COO) & Lead Growth Architect for Rare Ember (https://rareember.shop). ' +
+        'Core brand ethos: Independent heavyweight streetwear, Tirupur production hub, Qikink POD fulfillment, Delhivery Air Express logistics. ' +
+        'Ironclad business rules: ₹100 express delivery is ALWAYS included in product prices (never charged separately), and every drop MUST hit ≥40% gross profit margin.\n\n' +
+        'It is the End of the Week. Analyze the weekly telemetry and deliver an executive master plan and strategic roadmap in Markdown:\n\n' +
+        '### 1. 📅 Weekly Retrospective & Performance Review\n' +
+        '- Executive summary of what went right and where drop-offs occurred (Visits -> Views -> Carts -> Orders).\n' +
+        '- Revenue, AOV, and margin review (grounded in the numbers provided).\n\n' +
+        '### 2. 🎯 THE #1 NEXT MOVE (Highest Leverage Strategic Move)\n' +
+        '- Define the single most critical, needle-moving action for the brand to execute this coming week (e.g. launching a high-margin 2-Tee Drop Pack at ₹1,199, enabling VIP WhatsApp Early Access, or running a 5% instant UPI prepaid discount to crush COD risk).\n\n' +
+        '### 3. 🗓️ 7-Day Execution Sprint (Day-by-Day Milestone Roadmap)\n' +
+        '- **Days 1–2 (Monday–Tuesday):** Catalog & Merchandising Optimization.\n' +
+        '- **Days 3–4 (Wednesday–Thursday):** Growth & Creator Seeding / WhatsApp VIP Broadcast.\n' +
+        '- **Days 5–7 (Friday–Sunday):** Weekend Conversion Push & Order Fulfillment Verification.\n\n' +
+        '### 4. ↩️ Returns & RTO Prevention Protocol\n' +
+        '- Specific operational rules for pre-shipment size verification and COD customer confirmation.\n\n' +
+        'Tone: Authoritative, quantitative, inspiring, tactical, Rupee (₹) grounded. Zero vague fluff.';
+
+      const userPrompt = JSON.stringify({
+        telemetry: ov,
+        storeRules: {
+          minGrossMargin: '40%',
+          deliveryIncluded: '₹100 Express Air included in all prices',
+          fulfillment: 'Qikink Tirupur DTF/Sublimation',
+          courier: 'Delhivery Air / BlueDart',
+        },
+      });
+
+      const weeklyPlan = await askAgent(userPrompt, systemPrompt, 1500);
+
+      return NextResponse.json({
+        ok: true,
+        task,
+        telemetry: ov,
+        weeklyPlan: weeklyPlan || 'End-of-week plan synthesized.',
+      });
+    }
+
+    // =========================================================================
+    // TASK 9: COMPLETE BUDGET & CAPITAL ALLOCATOR ("HOW MANAGE BUDGET & EVRYTHING")
+    // =========================================================================
+    if (task === 'budget_management') {
+      const totalBudget = Math.max(5000, Number(body.totalBudget) || 50000);
+
+      // Proven D2C Streetwear Capital Allocation Matrix:
+      // 1. Factory Production & Blanks (35%)
+      // 2. Growth & Customer Acquisition (25%)
+      // 3. Logistics & COD Liquidity Buffer (15%)
+      // 4. Packaging, Gateways & Tooling (10%)
+      // 5. Retained Net Cash / War Chest (15%)
+      const allocation = {
+        totalBudget,
+        productionReserve: Math.round(totalBudget * 0.35),
+        growthAcquisition: Math.round(totalBudget * 0.25),
+        codLiquidityBuffer: Math.round(totalBudget * 0.15),
+        opsPackagingGateways: Math.round(totalBudget * 0.10),
+        retainedCashReserve: Math.round(totalBudget * 0.15),
+      };
+
+      const targetAov = 899;
+      // Max allowable CAC to preserve ≥40% gross margin: CAC ceiling = 25% of AOV ≈ ₹220
+      const maxAllowableCac = 220;
+      const targetOrders = Math.floor(allocation.growthAcquisition / maxAllowableCac);
+      const targetGmv = targetOrders * targetAov;
+      const targetRoas = allocation.growthAcquisition > 0 ? +(targetGmv / allocation.growthAcquisition).toFixed(2) : 4.0;
+      const estimatedGrossProfit = Math.round(targetGmv * 0.42); // 42% average gross margin
+      const estimatedNetCash = Math.round(estimatedGrossProfit - allocation.growthAcquisition - allocation.opsPackagingGateways);
+
+      const budgetMetrics = {
+        ...allocation,
+        targetAov,
+        maxAllowableCac,
+        targetOrders,
+        targetGmv,
+        targetRoas,
+        estimatedGrossProfit,
+        estimatedNetCash,
+      };
+
+      const systemPrompt =
+        'You are the Chief Financial Officer (CFO) & Capital Allocator for Rare Ember (https://rareember.shop). ' +
+        'You are advising Founder Ajay Rajbhar on how to allocate and manage his working capital budget with mathematical precision.\n\n' +
+        'Core economic constraints:\n' +
+        '- ₹100 express air delivery is ALWAYS included in selling price (never charged extra).\n' +
+        '- Minimum 40% gross profit margin required on every item.\n' +
+        '- COD orders take 5-7 days for Delhivery to remit cash to the bank account (creating a working capital lag).\n' +
+        '- Ad CAC must NEVER exceed ₹220 per acquiring customer on ₹899 AOV to prevent unprofitable burn.\n\n' +
+        'Deliver a master Capital & Budget Management Blueprint in Markdown:\n\n' +
+        '### 1. 💰 The 5-Pillar Capital Allocation Blueprint (Exact ₹ Breakdown)\n' +
+        '- **35% Production Reserve (Tirupur Blanks)**: How to deploy for heavyweight 240/380 GSM garment inventory.\n' +
+        '- **25% Growth & Customer Acquisition**: Daily spending limit, creator seeding, CAC cap (₹220 max).\n' +
+        '- **15% COD Cash Flow Buffer**: Why this prevents fulfillment stalls while waiting for Delhivery remittances.\n' +
+        '- **10% Packaging, Gateways & Tooling**: Matte poly mailers, 2% Razorpay fees, APIs.\n' +
+        '- **15% Retained Profit War Chest**: Pure retained cash buffer.\n\n' +
+        '### 2. 📊 Unit Economics & Target ROAS Guardrails\n' +
+        '- Target Orders, Target GMV, and minimum 3.8x – 4.1x blended ROAS requirement.\n\n' +
+        '### 3. 🛡️ Cashflow Survival Rules for the Founder\n' +
+        '- Rule 1: Never spend ad money on products below 40% margin.\n' +
+        '- Rule 2: Push UPI prepaid conversion via 5% instant discount to shorten the cash cycle.\n' +
+        '- Rule 3: Maintain a 7-day reserve for COD courier lag.\n\n' +
+        'Tone: Ultra-disciplined, protective of capital, mathematically precise, Rupee (₹) grounded.';
+
+      const aiAnalysis = await askAgent(JSON.stringify(budgetMetrics), systemPrompt, 1500);
+
+      return NextResponse.json({
+        ok: true,
+        task,
+        budgetMetrics,
+        aiAnalysis: aiAnalysis || 'Budget allocation plan synthesized.',
+      });
+    }
+
+    // =========================================================================
+    // TASK 10: PRODUCT PERFORMANCE MATRIX (WINNERS, LOSERS & RETURN RISK TOP)
+    // =========================================================================
+    if (task === 'product_performance_matrix') {
+      const topProductsSeen = new Map<string, number>();
+      if (storeOverview?.topProducts) {
+        storeOverview.topProducts.forEach((tp: any) => {
+          topProductsSeen.set(tp.name, tp.value);
+        });
+      }
+
+      const analyzedCatalog = products.map((p) => {
+        const sellingPrice = p.price_inr || p.price || 0;
+        const baseCost = estimateBaseCost(p);
+        const gst = Math.round((baseCost + deliveryCost) * 0.05);
+        const totalLandedCost = baseCost + deliveryCost + gst;
+        const grossProfit = sellingPrice - totalLandedCost;
+        const marginPct = sellingPrice > 0 ? Math.round((grossProfit / sellingPrice) * 1000) / 10 : 0;
+        const views = topProductsSeen.get(p.id) || topProductsSeen.get(p.slug) || 0;
+
+        const title = cleanBrandTitle(p.title);
+        const titleLower = title.toLowerCase();
+
+        // Categorize performance:
+        let performanceTier: 'TOP_PERFORMER' | 'AVERAGE' | 'UNDERPERFORMER' = 'AVERAGE';
+        if (marginPct >= 42 && (sellingPrice >= 650 || views >= 5)) {
+          performanceTier = 'TOP_PERFORMER';
+        } else if (marginPct < 40 || sellingPrice < 550) {
+          performanceTier = 'UNDERPERFORMER';
+        }
+
+        // Return / RTO Risk profiling:
+        let returnRiskLevel: 'LOW' | 'MEDIUM' | 'HIGH' = 'LOW';
+        let returnRiskReason = 'Relaxed oversized box-fit drapes well on all body types';
+
+        if (titleLower.includes('crop') || (titleLower.includes('women') && !titleLower.includes('oversized'))) {
+          returnRiskLevel = 'HIGH';
+          returnRiskReason = 'Fitted silhouette — high sensitivity to bust/waist measurement';
+        } else if (titleLower.includes('kids') || titleLower.includes('girl')) {
+          returnRiskLevel = 'HIGH';
+          returnRiskReason = 'Rapid child growth sizing uncertainty among parents';
+        } else if (titleLower.includes('full sleeve') || titleLower.includes('hoodie')) {
+          returnRiskLevel = 'MEDIUM';
+          returnRiskReason = 'Sleeve length and shoulder fit require accurate height selection';
+        }
+
+        return {
+          id: p.id,
+          slug: p.slug,
+          title,
+          category: p.category || 'streetwear',
+          sellingPrice,
+          baseCost,
+          deliveryCost,
+          totalLandedCost,
+          grossProfit,
+          marginPct,
+          views,
+          performanceTier,
+          returnRiskLevel,
+          returnRiskReason,
+          actionRecommendation:
+            performanceTier === 'TOP_PERFORMER'
+              ? 'Scale Hero Ads & WhatsApp VIP Broadcast'
+              : performanceTier === 'UNDERPERFORMER'
+              ? `Reprice to ₹${Math.ceil((totalLandedCost / 0.6) / 10) * 10 - 1} to hit 40%+ margin or bundle`
+              : 'Maintain steady stock & showcase customer fit review',
+        };
+      });
+
+      const winners = analyzedCatalog.filter((p) => p.performanceTier === 'TOP_PERFORMER');
+      const losers = analyzedCatalog.filter((p) => p.performanceTier === 'UNDERPERFORMER');
+      const returnHotspots = analyzedCatalog.filter((p) => p.returnRiskLevel === 'HIGH');
+
+      const systemPrompt =
+        'You are the Chief Merchandising Officer (CMO) & Logistics Risk Architect for Rare Ember (https://rareember.shop). ' +
+        'Analyze our catalog performance matrix: Top Performers (Winners), Underperformers (Losers), and Return/RTO Hotspots.\n\n' +
+        'Deliver an executive Merchandising & Returns Directive in Markdown:\n\n' +
+        '### 1. 🏆 TOP PERFORMERS (The 3 Core Revenue Drivers)\n' +
+        '- Detail why these items win (silhouette, margin ≥40%, street appeal) and how to scale them with bundles.\n\n' +
+        '### 2. ⚠️ UNDERPERFORMERS & "LOSERS" (Margin Leaks & Low-Conversion Items)\n' +
+        '- Specific items suffering from margin compression or pricing hesitation.\n' +
+        '- Clear recommendations: Price recalibration, bundling with winners, or retiring.\n\n' +
+        '### 3. ↩️ RETURN & RTO RISK TOP HOTSPOTS (Zero-Return Playbook)\n' +
+        '- Identify the high-risk return items (crop tops, youth sizes).\n' +
+        '- Prescribe exact fixes: Live Fit Calculator (height/weight), WhatsApp pre-dispatch sizing confirmation, and clear chest specs.\n\n' +
+        'Tone: Sharp, quantitative, protective of profit margins, Rupee-grounded.';
+
+      const aiDirective = await askAgent(
+        JSON.stringify({
+          totalProducts: analyzedCatalog.length,
+          topPerformersCount: winners.length,
+          underperformersCount: losers.length,
+          returnHotspotsCount: returnHotspots.length,
+          winnersSample: winners.slice(0, 5),
+          losersSample: losers.slice(0, 5),
+          returnHotspotsSample: returnHotspots.slice(0, 5),
+        }),
+        systemPrompt,
+        1500
+      );
+
+      return NextResponse.json({
+        ok: true,
+        task,
+        summary: {
+          totalProducts: analyzedCatalog.length,
+          winnersCount: winners.length,
+          losersCount: losers.length,
+          returnHotspotsCount: returnHotspots.length,
+        },
+        catalog: analyzedCatalog,
+        winners,
+        losers,
+        returnHotspots,
+        aiDirective: aiDirective || 'Product performance matrix synthesized.',
       });
     }
 

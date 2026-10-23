@@ -145,7 +145,7 @@ export default function AdminAgentPage() {
   const [reports, setReports] = useState<Report[]>([]);
   const [sending, setSending] = useState<'daily' | 'weekly' | null>(null);
   const [sentMsg, setSentMsg] = useState('');
-  const [activeTab, setActiveTab] = useState<'live' | 'funnel' | 'ai' | 'analytics'>('live');
+  const [activeTab, setActiveTab] = useState<'eow' | 'budget' | 'products' | 'live' | 'funnel' | 'ai' | 'analytics'>('eow');
   const [aiGenerating, setAiGenerating] = useState(false);
   const [liveStrategy, setLiveStrategy] = useState<string | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(true);
@@ -438,8 +438,38 @@ export default function AdminAgentPage() {
             {/* Vibrant Tab Pills */}
             <div className="flex border-b border-slate-800 gap-2 overflow-x-auto pb-2">
               <button
+                onClick={() => setActiveTab('eow')}
+                className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+                  activeTab === 'eow'
+                    ? 'bg-gradient-to-r from-purple-500 via-indigo-600 to-blue-600 text-white shadow-[0_4px_16px_rgba(168,85,247,0.35)]'
+                    : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
+                }`}
+              >
+                <span>📅 End of Week &amp; Next Move</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('budget')}
+                className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+                  activeTab === 'budget'
+                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 shadow-[0_4px_16px_rgba(245,158,11,0.35)] font-black'
+                    : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
+                }`}
+              >
+                <span>💰 Budget &amp; Capital Allocator</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('products')}
+                className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+                  activeTab === 'products'
+                    ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-[0_4px_16px_rgba(16,185,129,0.35)]'
+                    : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
+                }`}
+              >
+                <span>🏆 Product Winners &amp; Losers</span>
+              </button>
+              <button
                 onClick={() => setActiveTab('live')}
-                className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer ${
+                className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap ${
                   activeTab === 'live'
                     ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_4px_16px_rgba(6,182,212,0.35)]'
                     : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
@@ -450,9 +480,9 @@ export default function AdminAgentPage() {
               </button>
               <button
                 onClick={() => setActiveTab('funnel')}
-                className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
                   activeTab === 'funnel'
-                    ? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-[0_4px_16px_rgba(168,85,247,0.35)]'
+                    ? 'bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-[0_4px_16px_rgba(99,102,241,0.35)]'
                     : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
                 }`}
               >
@@ -460,25 +490,46 @@ export default function AdminAgentPage() {
               </button>
               <button
                 onClick={() => setActiveTab('ai')}
-                className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
                   activeTab === 'ai'
                     ? 'bg-gradient-to-r from-[#FF4D24] to-[#FF6B35] text-white shadow-[0_4px_16px_rgba(255,77,36,0.35)]'
                     : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
                 }`}
               >
-                <span>🧠 Gemini AI Strategist</span>
+                <span>🧠 Gemini AI Sentinel</span>
               </button>
               <button
                 onClick={() => setActiveTab('analytics')}
-                className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
                   activeTab === 'analytics'
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-[0_4px_16px_rgba(16,185,129,0.35)]'
+                    ? 'bg-gradient-to-r from-teal-500 to-emerald-600 text-white shadow-[0_4px_16px_rgba(20,184,166,0.35)]'
                     : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
                 }`}
               >
-                <span>📈 Trends & Sources</span>
+                <span>📈 Trends &amp; Sources</span>
               </button>
             </div>
+
+            {/* TAB: END OF WEEK MASTER PLAN & NEXT MOVE */}
+            {activeTab === 'eow' && (
+              <div className="space-y-6">
+                <AgentTaskSuite adminKey={key} overview={ov} initialTask="eow_plan" />
+              </div>
+            )}
+
+            {/* TAB: BUDGET & CAPITAL ALLOCATOR */}
+            {activeTab === 'budget' && (
+              <div className="space-y-6">
+                <AgentTaskSuite adminKey={key} overview={ov} initialTask="budget" />
+              </div>
+            )}
+
+            {/* TAB: PRODUCT WINNERS, LOSERS & RETURN RISK */}
+            {activeTab === 'products' && (
+              <div className="space-y-6">
+                <AgentTaskSuite adminKey={key} overview={ov} initialTask="products" />
+              </div>
+            )}
 
             {/* TAB 1: LIVE ACTIVITY STREAM */}
             {activeTab === 'live' && (

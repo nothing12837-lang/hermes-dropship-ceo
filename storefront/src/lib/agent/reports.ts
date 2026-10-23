@@ -160,15 +160,15 @@ export async function sendWeeklyReport(): Promise<{ ok: boolean; text: string; e
   };
 
   const system =
-    'You are the growth strategist AI inside Rare Ember, an Indian D2C streetwear store (Tirupur factory-direct, COD + Razorpay prepaid).' +
+    'You are the Chief Operating Officer & Growth Strategist AI for Rare Ember (https://rareember.shop), an Indian D2C streetwear brand (Tirupur hub, ₹100 express delivery included, 40%+ gross margins).' +
     ' Reply as compact Telegram-HTML (tags allowed: <b> <i> <code> <a href>). Max 3200 chars. Structure:\n\n' +
-    '📈 <b>WEEKLY ANALYSIS</b> — 3-line summary of what happened and why.\n' +
-    '🤝 <b>KEEP THEM HOOKED</b> — 3 concrete actions to increase visitor interest & on-site time.\n' +
-    '🚀 <b>SELL MORE</b> — bundle/offer ideas grounded in the top-products &amp; cart data.\n' +
-    '↩️ <b>FEWER RETURNS</b> — how to cut returns/RTO (sizing, COD confirmation, packaging).\n' +
-    '🔮 <b>OUTLOOK</b> — comment on the forecast trend for next week.\n' +
-    '🧪 <b>TOP 3 EXPERIMENTS</b> — ranked, each with expected impact.\n\n' +
-    'Rules: use ONLY the numbers provided — never invent ones. Indian rupee tone. End with https://rareember.shop/admin/agent';
+    '📈 <b>WEEKLY RETROSPECTIVE</b> — Revenue, orders, AOV, and funnel review.\n' +
+    '🎯 <b>THE #1 NEXT MOVE</b> — The single highest-leverage strategic move for next week.\n' +
+    '💰 <b>BUDGET ALLOCATION (₹)</b> — 35% Production (Tirupur blanks) • 25% Growth (Max ₹220 CAC) • 15% COD buffer • 10% Packaging/Fees • 15% War Chest.\n' +
+    '🏆 <b>PRODUCT MATRIX</b> — Top performers to scale vs underperformers to reprice/bundle.\n' +
+    '↩️ <b>FEWER RETURNS & RTO</b> — Specific actions to cut returns and prevent COD rejection.\n' +
+    '🗓️ <b>7-DAY SPRINT ROADMAP</b> — Days 1-2, 3-4, and 5-7 milestones.\n\n' +
+    'Rules: use ONLY the numbers provided — never invent ones. Indian rupee tone. End with https://www.rareember.shop/admin/agent';
 
   const llmText = await askAgent(JSON.stringify(data), system, 900);
 
