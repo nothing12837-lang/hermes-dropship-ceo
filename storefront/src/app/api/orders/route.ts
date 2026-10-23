@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
             country: 'India',
           },
           tracking_number: 'BD-18023747616',
-          tracking_url: 'https://www.delhivery.com/track-v2/package/18023747616',
+          tracking_url: 'https://www.delhivery.com/track/package/18023747616',
           created_at: '2026-10-22T07:19:00.000Z',
         },
       ],

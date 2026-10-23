@@ -21,16 +21,57 @@ const PERSPECTIVE_LABELS = ['Hero Front', 'Detail Macro', 'In-Room Setup', 'Unbo
 
 const SIZES = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'] as const;
 
-const KIDS_SIZES = ['0-12M', '1-2Y', '2-3Y', '3-4Y', '5-6Y', '7-8Y', '9-10Y', '11-12Y', '13-14Y'] as const;
+const KIDS_SIZES = [
+  '0-12M',
+  '12-23M',
+  '24-35M',
+  '36-47M',
+  '1-2Y',
+  '2-3Y',
+  '3-4Y',
+  '5-6Y',
+  '5Yrs',
+  '7-8Y',
+  '7Yrs',
+  '9-10Y',
+  '9Yrs',
+  '11-12Y',
+  '11Yrs',
+  '13-14Y',
+  '13Yrs',
+] as const;
 
 const KIDS_SIZE_GUIDE_ROWS = [
-  { size: '3-4Y', chestIn: 24, chestCm: 61, lengthIn: 16, lengthCm: 41, shoulderIn: 11, shoulderCm: 28 },
-  { size: '5-6Y', chestIn: 26, chestCm: 66, lengthIn: 18, lengthCm: 46, shoulderIn: 12, shoulderCm: 30 },
-  { size: '7-8Y', chestIn: 28, chestCm: 71, lengthIn: 20, lengthCm: 51, shoulderIn: 13, shoulderCm: 33 },
-  { size: '9-10Y', chestIn: 30, chestCm: 76, lengthIn: 22, lengthCm: 56, shoulderIn: 14, shoulderCm: 36 },
-  { size: '11-12Y', chestIn: 32, chestCm: 81, lengthIn: 24, lengthCm: 61, shoulderIn: 15, shoulderCm: 38 },
-  { size: '13-14Y', chestIn: 34, chestCm: 86, lengthIn: 25, lengthCm: 64, shoulderIn: 16, shoulderCm: 41 },
+  { size: '0-12M', chestIn: 20, chestCm: 51, lengthIn: 13, lengthCm: 33, shoulderIn: 9, shoulderCm: 23 },
+  { size: '12-23M', chestIn: 22, chestCm: 56, lengthIn: 14, lengthCm: 36, shoulderIn: 9.5, shoulderCm: 24 },
+  { size: '24-35M', chestIn: 23, chestCm: 58, lengthIn: 15, lengthCm: 38, shoulderIn: 10, shoulderCm: 25 },
+  { size: '36-47M', chestIn: 24, chestCm: 61, lengthIn: 16, lengthCm: 41, shoulderIn: 10.5, shoulderCm: 27 },
+  { size: '5Yrs', chestIn: 26, chestCm: 66, lengthIn: 18, lengthCm: 46, shoulderIn: 12, shoulderCm: 30 },
+  { size: '7Yrs', chestIn: 28, chestCm: 71, lengthIn: 20, lengthCm: 51, shoulderIn: 13, shoulderCm: 33 },
+  { size: '9Yrs', chestIn: 30, chestCm: 76, lengthIn: 22, lengthCm: 56, shoulderIn: 14, shoulderCm: 36 },
+  { size: '11Yrs', chestIn: 32, chestCm: 81, lengthIn: 24, lengthCm: 61, shoulderIn: 15, shoulderCm: 38 },
+  { size: '13Yrs', chestIn: 34, chestCm: 86, lengthIn: 25, lengthCm: 64, shoulderIn: 16, shoulderCm: 41 },
 ];
+
+const KIDS_GARMENT_EXACT_SPECS: Record<string, { chest: string; length: string; shoulder: string; ageGroup: string }> = {
+  '0-12M': { chest: '20"', length: '13"', shoulder: '9"', ageGroup: '0–12 Months (Infant)' },
+  '12-23M': { chest: '22"', length: '14"', shoulder: '9.5"', ageGroup: '1–2 Years (Toddler)' },
+  '24-35M': { chest: '23"', length: '15"', shoulder: '10"', ageGroup: '2–3 Years (Toddler)' },
+  '36-47M': { chest: '24"', length: '16"', shoulder: '10.5"', ageGroup: '3–4 Years (Early Kid)' },
+  '1-2Y': { chest: '22"', length: '14"', shoulder: '9.5"', ageGroup: '1–2 Years' },
+  '2-3Y': { chest: '23"', length: '15"', shoulder: '10"', ageGroup: '2–3 Years' },
+  '3-4Y': { chest: '24"', length: '16"', shoulder: '11"', ageGroup: '3–4 Years' },
+  '5-6Y': { chest: '26"', length: '18"', shoulder: '12"', ageGroup: '5–6 Years' },
+  '5Yrs': { chest: '26"', length: '18"', shoulder: '12"', ageGroup: '4–5 Years' },
+  '7-8Y': { chest: '28"', length: '20"', shoulder: '13"', ageGroup: '7–8 Years' },
+  '7Yrs': { chest: '28"', length: '20"', shoulder: '13"', ageGroup: '6–7 Years' },
+  '9-10Y': { chest: '30"', length: '22"', shoulder: '14"', ageGroup: '9–10 Years' },
+  '9Yrs': { chest: '30"', length: '22"', shoulder: '14"', ageGroup: '8–9 Years' },
+  '11-12Y': { chest: '32"', length: '24"', shoulder: '15"', ageGroup: '11–12 Years' },
+  '11Yrs': { chest: '32"', length: '24"', shoulder: '15"', ageGroup: '10–11 Years' },
+  '13-14Y': { chest: '34"', length: '25"', shoulder: '16"', ageGroup: '13–14 Years' },
+  '13Yrs': { chest: '34"', length: '25"', shoulder: '16"', ageGroup: '12–13 Years' },
+};
 
 const KIDS_SIZE_SPECS: Record<string, { chest: string; length: string }> = {
   '0-12M': { chest: '20"', length: '13"' },
@@ -527,37 +568,90 @@ interface Props {
 
 const COLOR_HEX_MAP: Record<string, string> = {
   white: '#FFFFFF',
-  pink: '#F472B6',
+  'off white': '#FAF9F6',
   black: '#18181B',
+  'obsidian black': '#18181B',
+  'black melange': '#27272A',
+  'black charcoal melange': '#27272A',
+  'black white': '#2D3748',
+  'white black': '#E2E8F0',
   navy: '#1E293B',
   'navy blue': '#1E293B',
-  red: '#DC2626',
-  grey: '#9CA3AF',
-  'grey melange': '#9CA3AF',
-  gray: '#9CA3AF',
-  'royal blue': '#2563EB',
-  blue: '#3B82F6',
-  green: '#16A34A',
-  yellow: '#EAB308',
-  orange: '#F97316',
-  purple: '#9333EA',
-  lavender: '#C084FC',
-  beige: '#D4C5B9',
-  maroon: '#800000',
-  olive: '#556B2F',
+  'navy melange': '#334155',
+  grey: '#94A3B8',
+  'grey melange': '#94A3B8',
+  gray: '#94A3B8',
+  'charcoal melange': '#4B5563',
   charcoal: '#374151',
+  blue: '#3B82F6',
+  'royal blue': '#1D4ED8',
+  'baby blue': '#BAE6FD',
+  skyblue: '#38BDF8',
+  'petrol blue': '#0E4D64',
+  green: '#16A34A',
+  'bottle green': '#0F432A',
+  'olive green': '#4D5D3A',
+  olive: '#4D5D3A',
+  'olive green off white': '#556B2F',
+  'flag green': '#15803D',
+  'green black': '#14532D',
+  jade: '#059669',
+  mint: '#6EE7B7',
+  red: '#DC2626',
+  'brick red': '#991B1B',
+  maroon: '#7F1D1D',
+  'maroon off white': '#881337',
+  pink: '#F472B6',
+  'light baby pink': '#FBCFE8',
+  flamingo: '#FB7185',
+  coral: '#F87171',
+  peach: '#FDBA74',
+  yellow: '#FACC15',
+  'golden yellow': '#EAB308',
+  'new yellow': '#FDE047',
+  'mustard yellow': '#D97706',
+  'mustard yellow off white': '#CA8A04',
+  orange: '#F97316',
+  copper: '#B45309',
+  purple: '#7E22CE',
+  'purple melange': '#6B21A8',
+  lavender: '#C084FC',
+  'white lavender': '#EDE9FE',
+  beige: '#D4C5B9',
   brown: '#78350F',
+  'coffee brown': '#4A2E1B',
+  'coffee brown off white': '#5C4033',
+  'brown black': '#3E2723',
 };
 
 function getColorHex(colorName?: string): string {
   if (!colorName) return '#18181B';
   const clean = colorName.toLowerCase().trim();
-  return COLOR_HEX_MAP[clean] || '#64748B';
+  if (COLOR_HEX_MAP[clean]) return COLOR_HEX_MAP[clean];
+  for (const [k, v] of Object.entries(COLOR_HEX_MAP)) {
+    if (clean.includes(k) || k.includes(clean)) return v;
+  }
+  return '#64748B';
 }
 
 function isColorLight(hex: string): boolean {
   const clean = hex.toLowerCase().trim();
-  return clean === '#ffffff' || clean === '#fff' || clean === '#d4c5b9' || clean === '#f472b6';
+  return (
+    clean === '#ffffff' ||
+    clean === '#fff' ||
+    clean === '#faf9f6' ||
+    clean === '#e2e8f0' ||
+    clean === '#fde047' ||
+    clean === '#facc15' ||
+    clean === '#fbceb5' ||
+    clean === '#fdba74' ||
+    clean === '#fbcfe8' ||
+    clean === '#bae6fd' ||
+    clean === '#6ee7b7' ||
+    clean === '#ede9fe' ||
+    clean === '#d4c5b9' ||
+    clean === '#f472b6'
+  );
 }
 
 export function ProductClient({ product }: Props) {
@@ -654,9 +748,13 @@ export function ProductClient({ product }: Props) {
 
   useEffect(() => {
     if (recommendedFit?.size) {
-      setSelectedSize(recommendedFit.size);
+      if (product.sizes?.includes('XXL') && !product.sizes?.includes('2XL') && recommendedFit.size === '2XL') {
+        setSelectedSize('XXL');
+      } else {
+        setSelectedSize(recommendedFit.size);
+      }
     }
-  }, [recommendedFit?.size]);
+  }, [recommendedFit?.size, product.sizes]);
   const [selectedPhoneModel, setSelectedPhoneModel] = useState<string>(PHONE_MODELS[0]);
   const isComboProduct = Boolean(BUNDLE_SUB_ITEMS[product.id]);
 
@@ -802,20 +900,62 @@ export function ProductClient({ product }: Props) {
     setCustomImageName('');
   };
   const [addedAlert, setAddedAlert] = useState(false);
-  const galleryImages = resolveProductImages(
+  const baseGalleryImages = resolveProductImages(
     product.id,
     product.image_url,
     product.category,
     product.images
   );
+
+  const galleryImages = useMemo(() => {
+    const list = [...baseGalleryImages];
+    if (product.colorImages) {
+      for (const url of Object.values(product.colorImages)) {
+        if (url && !list.includes(url)) {
+          list.push(url);
+        }
+      }
+    }
+    return list;
+  }, [baseGalleryImages, product.colorImages]);
+
   const [selectedImgIndex, setSelectedImgIndex] = useState(0);
+
   const handleSelectColor = (colorName: string, index?: number) => {
     setSelectedColor(colorName);
+    let targetUrl: string | undefined = undefined;
+    if (product.colorImages) {
+      const match = Object.entries(product.colorImages).find(
+        ([c]) => c.toLowerCase().trim() === colorName.toLowerCase().trim()
+      );
+      if (match) targetUrl = match[1];
+    }
+    if (targetUrl) {
+      const galleryIdx = galleryImages.indexOf(targetUrl);
+      if (galleryIdx >= 0) {
+        setSelectedImgIndex(galleryIdx);
+        return;
+      }
+    }
     const colorIndex = index !== undefined ? index : availableColors.findIndex((c) => c.toLowerCase() === colorName.toLowerCase());
     if (colorIndex >= 0 && galleryImages[colorIndex]) {
       setSelectedImgIndex(colorIndex);
     }
   };
+
+  // Sync selectedImgIndex whenever selectedColor changes on initial mount or update
+  useEffect(() => {
+    if (!selectedColor || !product.colorImages) return;
+    const match = Object.entries(product.colorImages).find(
+      ([c]) => c.toLowerCase().trim() === selectedColor.toLowerCase().trim()
+    );
+    if (match && match[1]) {
+      const idx = galleryImages.indexOf(match[1]);
+      if (idx >= 0 && idx !== selectedImgIndex) {
+        setSelectedImgIndex(idx);
+      }
+    }
+  }, [selectedColor, galleryImages, product.colorImages]);
   const [failedImages, setFailedImages] = useState<Record<number, boolean>>({});
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
@@ -1455,12 +1595,20 @@ export function ProductClient({ product }: Props) {
 
   const colorMockupUrl = useMemo(() => {
     const activeColor = selectedColor || (hasColors ? availableColors[0] : undefined);
-    if (activeColor && availableColors.length > 0) {
-      const idx = availableColors.findIndex((c) => c.toLowerCase() === activeColor.toLowerCase());
-      if (idx >= 0 && galleryImages[idx]) return galleryImages[idx];
+    if (activeColor) {
+      if (product.colorImages) {
+        const match = Object.entries(product.colorImages).find(
+          ([c]) => c.toLowerCase().trim() === activeColor.toLowerCase().trim()
+        );
+        if (match && match[1]) return match[1];
+      }
+      if (availableColors.length > 0) {
+        const idx = availableColors.findIndex((c) => c.toLowerCase() === activeColor.toLowerCase());
+        if (idx >= 0 && galleryImages[idx]) return galleryImages[idx];
+      }
     }
     return currentSrc || product.image_url;
-  }, [selectedColor, hasColors, availableColors, galleryImages, currentSrc, product.image_url]);
+  }, [selectedColor, hasColors, availableColors, product.colorImages, galleryImages, currentSrc, product.image_url]);
 
   const getItemMeta = () => ({
     title: displayTitle,
@@ -1866,8 +2014,17 @@ export function ProductClient({ product }: Props) {
                       <button
                         onClick={() => {
                           setSelectedImgIndex(idx);
-                          if (availableColors[idx]) {
-                            setSelectedColor(availableColors[idx]);
+                          const targetUrl = galleryImages[idx];
+                          let matchedColor: string | undefined = undefined;
+                          if (product.colorImages) {
+                            const entry = Object.entries(product.colorImages).find(([, u]) => u === targetUrl);
+                            if (entry) matchedColor = entry[0];
+                          }
+                          if (!matchedColor && availableColors[idx]) {
+                            matchedColor = availableColors[idx];
+                          }
+                          if (matchedColor) {
+                            setSelectedColor(matchedColor);
                           }
                         }}
                         aria-label={availableColors[idx] ? `View ${availableColors[idx]} color` : `View photo ${idx + 1}`}
@@ -2320,7 +2477,7 @@ export function ProductClient({ product }: Props) {
                           <>
                             <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
                               {currentSizeList.map((s) => {
-                                const isSelected = selectedSize === s;
+                                const isSelected = selectedSize === s || (selectedSize === '2XL' && s === 'XXL') || (selectedSize === 'XXL' && s === '2XL');
                                 return (
                                   <button
                                     key={s}
@@ -2350,16 +2507,8 @@ export function ProductClient({ product }: Props) {
                               <span className="font-black text-[#12100E]">{activeItemIsKids ? 'Kids Regular Fit:' : 'Drop-Shoulder Oversized Fit:'}</span>
                               <span>
                                 {(() => {
-                                  const chestMap: Record<string, string> = {
-                                    'S': '38"',
-                                    'M': '40"',
-                                    'L': '42"',
-                                    'XL': '44"',
-                                    '2XL': '46"',
-                                    '3XL': '48"',
-                                  };
-                                  const displaySize = ((SIZES as readonly string[]).includes(selectedSize) || (KIDS_SIZES as readonly string[]).includes(selectedSize)) ? selectedSize : 'L';
-                                  const activeChest = currentSpecs[displaySize]?.chest || chestMap[displaySize] || '42"';
+                                  const displaySize = selectedSize || 'L';
+                                  const activeChest = currentSpecs[displaySize]?.chest || (selectedSize === 'XXL' ? currentSpecs['2XL']?.chest : null) || (selectedSize === '2XL' ? currentSpecs['XXL']?.chest : null) || '42"';
                                   return <>Size <strong>{displaySize}</strong> ({activeChest} Chest) {selectedColor ? <>• Color: <strong>{selectedColor}</strong> </> : null}• </>;
                                 })()}
                                 {activeItemIsKids
@@ -2376,17 +2525,52 @@ export function ProductClient({ product }: Props) {
                             </p>
 
                             {/* Live Exact Garment Spec Readout Box */}
-                            {!activeItemIsKids && (
+                            {activeItemIsKids ? (
+                              <div className="mt-3 p-3 rounded-xl bg-[#F3F0EA] border border-black/[0.08] text-xs">
+                                <div className="flex items-center justify-between font-bold text-neutral-900 mb-2">
+                                  <span className="flex items-center gap-1.5">
+                                    <span className="w-2 h-2 rounded-full bg-[#059669] pulse-live-dot" />
+                                    <span>Kids Garment Spec (Size {selectedSize}):</span>
+                                  </span>
+                                  <span className="text-[10px] text-neutral-500 font-mono">180 GSM Bio-Washed</span>
+                                </div>
+                                {(() => {
+                                  const kidSpec = KIDS_GARMENT_EXACT_SPECS[selectedSize] || KIDS_GARMENT_EXACT_SPECS['0-12M'] || { chest: '22"', length: '14"', shoulder: '9.5"', ageGroup: '1–2 Years' };
+                                  return (
+                                    <>
+                                      <div className="grid grid-cols-3 gap-2 text-neutral-800 font-medium mb-2">
+                                        <div className="bg-white/90 p-2 rounded-lg border border-black/[0.04] text-center">
+                                          <span className="text-[10px] text-neutral-500 block uppercase font-bold">Chest</span>
+                                          <span className="font-extrabold text-neutral-950 text-sm">{kidSpec.chest}</span>
+                                        </div>
+                                        <div className="bg-white/90 p-2 rounded-lg border border-black/[0.04] text-center">
+                                          <span className="text-[10px] text-neutral-500 block uppercase font-bold">Length</span>
+                                          <span className="font-extrabold text-neutral-950 text-sm">{kidSpec.length}</span>
+                                        </div>
+                                        <div className="bg-white/90 p-2 rounded-lg border border-black/[0.04] text-center">
+                                          <span className="text-[10px] text-neutral-500 block uppercase font-bold">Shoulder</span>
+                                          <span className="font-extrabold text-neutral-950 text-sm">{kidSpec.shoulder}</span>
+                                        </div>
+                                      </div>
+                                      <div className="text-[11px] text-neutral-700 flex items-center gap-1.5 font-medium">
+                                        <span>👶</span>
+                                        <span>Recommended for {kidSpec.ageGroup} • 100% Super-Combed hypoallergenic cotton</span>
+                                      </div>
+                                    </>
+                                  );
+                                })()}
+                              </div>
+                            ) : !activeItemIsKids && (
                               <div className="mt-3 p-3 rounded-xl bg-[#F3F0EA] border border-black/[0.08] text-xs">
                                 <div className="flex items-center justify-between font-bold text-neutral-900 mb-2">
                                   <span className="flex items-center gap-1.5">
                                     <span className="w-2 h-2 rounded-full bg-[#059669] pulse-live-dot" />
                                     <span>Exact Garment Spec (Size {selectedSize}):</span>
                                   </span>
-                                  <span className="text-[10px] text-neutral-500 font-mono">±0.5" Atelier Tolerance</span>
+                                  <span className="text-[10px] text-neutral-500 font-mono">±0.5&quot; Atelier Tolerance</span>
                                 </div>
                                 {(() => {
-                                  const spec = GARMENT_EXACT_SPECS[selectedSize] || GARMENT_EXACT_SPECS['L'];
+                                  const spec = GARMENT_EXACT_SPECS[selectedSize] || (selectedSize === 'XXL' ? GARMENT_EXACT_SPECS['2XL'] : null) || GARMENT_EXACT_SPECS['L'];
                                   return (
                                     <>
                                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-neutral-800 font-medium mb-2">
@@ -3634,7 +3818,7 @@ export function ProductClient({ product }: Props) {
                   </thead>
                   <tbody>
                     {(activeItemIsKids ? KIDS_SIZE_GUIDE_ROWS : SIZE_GUIDE_ROWS).map((row) => {
-                      const isRowSelected = selectedSize === row.size;
+                      const isRowSelected = selectedSize === row.size || (selectedSize === '2XL' && row.size === 'XXL') || (selectedSize === 'XXL' && row.size === '2XL');
                       return (
                         <tr
                           key={row.size}

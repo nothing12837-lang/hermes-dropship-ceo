@@ -45,6 +45,73 @@ interface ProductCardProps {
   colors?: string[];
 }
 
+const CARD_COLOR_MAP: Record<string, string> = {
+  white: '#FFFFFF',
+  'off white': '#FAF9F6',
+  black: '#18181B',
+  'obsidian black': '#18181B',
+  'black melange': '#27272A',
+  'black charcoal melange': '#27272A',
+  'black white': '#2D3748',
+  'white black': '#E2E8F0',
+  navy: '#1E293B',
+  'navy blue': '#1E293B',
+  'navy melange': '#334155',
+  grey: '#94A3B8',
+  'grey melange': '#94A3B8',
+  gray: '#94A3B8',
+  'charcoal melange': '#4B5563',
+  charcoal: '#374151',
+  blue: '#3B82F6',
+  'royal blue': '#1D4ED8',
+  'baby blue': '#BAE6FD',
+  skyblue: '#38BDF8',
+  'petrol blue': '#0E4D64',
+  green: '#16A34A',
+  'bottle green': '#0F432A',
+  'olive green': '#4D5D3A',
+  olive: '#4D5D3A',
+  'olive green off white': '#556B2F',
+  'flag green': '#15803D',
+  'green black': '#14532D',
+  jade: '#059669',
+  mint: '#6EE7B7',
+  red: '#DC2626',
+  'brick red': '#991B1B',
+  maroon: '#7F1D1D',
+  'maroon off white': '#881337',
+  pink: '#F472B6',
+  'light baby pink': '#FBCFE8',
+  flamingo: '#FB7185',
+  coral: '#F87171',
+  peach: '#FDBA74',
+  yellow: '#FACC15',
+  'golden yellow': '#EAB308',
+  'new yellow': '#FDE047',
+  'mustard yellow': '#D97706',
+  'mustard yellow off white': '#CA8A04',
+  orange: '#F97316',
+  copper: '#B45309',
+  purple: '#7E22CE',
+  'purple melange': '#6B21A8',
+  lavender: '#C084FC',
+  'white lavender': '#EDE9FE',
+  beige: '#D4C5B9',
+  brown: '#78350F',
+  'coffee brown': '#4A2E1B',
+  'coffee brown off white': '#5C4033',
+  'brown black': '#3E2723',
+};
+
+function getCardColorHex(name: string): string {
+  const clean = name.toLowerCase().trim();
+  if (CARD_COLOR_MAP[clean]) return CARD_COLOR_MAP[clean];
+  for (const [k, v] of Object.entries(CARD_COLOR_MAP)) {
+    if (clean.includes(k) || k.includes(clean)) return v;
+  }
+  return '#94A3B8';
+}
+
 export default function ProductCard({
   id,
   slug,
@@ -102,6 +169,20 @@ export default function ProductCard({
     if (/crop/i.test(itemSearch)) return '220 GSM Cotton Spandex';
     if (/kid|boy|girl/i.test(itemSearch)) return '180 GSM Combed Cotton';
     return '240 GSM Combed Cotton';
+  })();
+
+  const quickViewText = (() => {
+    if (/mat|pad|desk/i.test(itemSearch)) return 'Quick View • 900×400mm Extended Surface';
+    if (/mug|cup/i.test(itemSearch)) return 'Quick View • 330ml / 11 Oz Ceramic';
+    if (/case|phone/i.test(itemSearch)) return 'Quick View • Precision Drop Protection';
+    if (sizes && sizes.length > 0) {
+      const isKids = /kid|boy|girl|baby/i.test(itemSearch);
+      if (isKids) {
+        return `Quick View • Ages ${sizes[0]} to ${sizes[sizes.length - 1]}`;
+      }
+      return `Quick View • Sizes ${sizes[0]}–${sizes[sizes.length - 1]}`;
+    }
+    return 'Quick View • Sizes S–XXL • Express Air Dispatch';
   })();
 
   // Server-authoritative M.R.P. markup
@@ -190,7 +271,7 @@ export default function ProductCard({
 
           {/* Desktop Slide-Up Quick View Bar */}
           <div className="absolute inset-x-0 bottom-0 z-10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out glass px-3 py-2 flex items-center justify-center text-[10px] font-bold text-neutral-800 tracking-wide pointer-events-none hidden sm:flex">
-            <span>Quick View • Sizes XS–3XL • 40&quot;–48&quot; Chest</span>
+            <span>{quickViewText}</span>
           </div>
 
           {/* Wishlist Button */}
@@ -232,33 +313,26 @@ export default function ProductCard({
               </div>
 
               {/* Color preview dots */}
-              <div className="flex items-center gap-1 shrink-0" title="Available Colors">
-                {(colors && colors.length > 0 ? colors.slice(0, 4) : ['White', 'Obsidian Black', 'Navy', 'Grey Melange']).map((c, idx) => {
-                  const colorMap: Record<string, string> = {
-                    white: '#FFFFFF',
-                    black: '#0D0D0F',
-                    'obsidian black': '#0D0D0F',
-                    navy: '#1E293B',
-                    'navy blue': '#1E293B',
-                    grey: '#9CA3AF',
-                    'grey melange': '#D1D5DB',
-                    melange: '#D1D5DB',
-                    beige: '#E5DFD3',
-                    lavender: '#DDD6FE',
-                    olive: '#3F4A3C',
-                    red: '#DC2626',
-                    ember: '#E04F33',
-                  };
-                  const bg = colorMap[c.toLowerCase()] || '#9CA3AF';
-                  return (
-                    <span
-                      key={idx}
-                      className="w-2 h-2 rounded-full border border-black/20 inline-block shadow-xs"
-                      style={{ backgroundColor: bg }}
-                    />
-                  );
-                })}
-              </div>
+              {colors && colors.length > 0 && (
+                <div className="flex items-center gap-1 shrink-0" title={`Available in: ${colors.join(', ')}`}>
+                  {colors.slice(0, 4).map((c, idx) => {
+                    const bg = getCardColorHex(c);
+                    return (
+                      <span
+                        key={idx}
+                        title={c}
+                        className="w-2.5 h-2.5 rounded-full border border-black/20 inline-block shadow-xs"
+                        style={{ backgroundColor: bg }}
+                      />
+                    );
+                  })}
+                  {colors.length > 4 && (
+                    <span className="text-[9px] font-bold text-neutral-500 font-mono">
+                      +{colors.length - 4}
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="text-[10px] text-neutral-500 font-medium mt-1.5 flex items-center gap-1.5">
