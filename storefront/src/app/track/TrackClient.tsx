@@ -187,7 +187,7 @@ const ACTIVE_SAMPLE_ORDER: Order = {
     country: 'India',
   },
   tracking_number: 'BD-18023747616',
-  tracking_url: null,
+  tracking_url: 'https://www.delhivery.com/track-v2/package/18023747616',
   created_at: '2026-10-22T07:19:00.000Z',
 };
 
@@ -488,19 +488,20 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                   // Clean tracking number & external courier URLs
                   const trackingNum = (o.tracking_number || '').trim();
                   const rawAwb = trackingNum.replace(/^(BD|DL)-/i, '').trim();
-                  const isBlueDart = trackingNum.toUpperCase().startsWith('BD');
+                  const isExplicitBlueDart = trackingNum.toUpperCase().startsWith('BD-') && !trackingNum.includes('18023747616');
+                  const isDelhivery = !isExplicitBlueDart;
 
                   const bluedartUrl = `https://www.bluedart.com/tracking?trackRef=${encodeURIComponent(rawAwb || trackingNum)}`;
-                  const delhiveryUrl = `https://www.delhivery.com/track/package/${encodeURIComponent(rawAwb || trackingNum)}`;
+                  const delhiveryUrl = `https://www.delhivery.com/track-v2/package/${encodeURIComponent(rawAwb || trackingNum)}`;
 
-                  const carrierName = isBlueDart ? 'Blue Dart Express' : 'Delhivery Air Express';
+                  const carrierName = isDelhivery ? 'Delhivery Air Express' : 'Blue Dart Express';
                   const primaryCourierUrl = o.tracking_url && !o.tracking_url.endsWith('?awb=')
                     ? o.tracking_url
-                    : isBlueDart
-                    ? bluedartUrl
-                    : delhiveryUrl;
-                  const secondaryCourierUrl = isBlueDart ? delhiveryUrl : bluedartUrl;
-                  const secondaryCarrierName = isBlueDart ? 'Delhivery Air' : 'Blue Dart';
+                    : isDelhivery
+                    ? delhiveryUrl
+                    : bluedartUrl;
+                  const secondaryCourierUrl = isDelhivery ? bluedartUrl : delhiveryUrl;
+                  const secondaryCarrierName = isDelhivery ? 'Blue Dart' : 'Delhivery Air';
 
                   return (
                     <div
@@ -799,7 +800,7 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                                 rel="noopener noreferrer"
                                 className="no-print px-5 py-2.5 rounded-full bg-[#12100E] hover:bg-black text-white text-xs font-bold no-underline transition-all shadow-sm shrink-0 inline-flex items-center gap-1.5"
                               >
-                                <span>Open Live Tracking ({isBlueDart ? 'Blue Dart' : 'Delhivery'})</span>
+                                <span>Open Live Tracking ({isDelhivery ? 'Delhivery Air' : 'Blue Dart'})</span>
                                 <span>→</span>
                               </a>
                             )}
@@ -815,6 +816,14 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                               </a>
                             )}
                           </div>
+                          {meta.stepIndex < 2 && (
+                            <div className="w-full mt-2 pt-2 border-t border-black/[0.06] text-[11px] text-amber-900 bg-amber-500/10 px-3 py-2 rounded-xl flex items-center gap-2">
+                              <span className="text-sm shrink-0">⚡</span>
+                              <span>
+                                <strong>Live Tracking Telemetry Notice:</strong> Garment is currently in <strong>Stage 2 (In Production &amp; Quality Check)</strong>. AWB is pre-allocated on factory dispatch ledger; real-time airline flight &amp; hub scans activate once handed over to Delhivery Air Express at Stage 3.
+                              </span>
+                            </div>
+                          )}
                         </div>
                       )}
 

@@ -23,22 +23,8 @@ export async function GET(req: NextRequest) {
 
   const adminAuthorized = isAdmin(req);
 
-  // IDOR & PII Protection: Public users MUST provide BOTH orderId AND email.
-  if (!adminAuthorized) {
-    if (!email || !orderId) {
-      return NextResponse.json(
-        { orders: [], error: 'Both valid Order ID and Email are required to track an order.' },
-        { status: 400 }
-      );
-    }
-  } else {
-    if (!email && !orderId) {
-      return NextResponse.json({ orders: [], error: 'Email or Order ID required for admin query' }, { status: 400 });
-    }
-  }
-
   const isSampleOrder =
-    (Boolean(rawOrderId) && (rawOrderId.toLowerCase().startsWith('7792e434') || rawOrderId.includes('18023747616') || rawOrderId === 'RE-2026-DELHIVERY')) ||
+    (Boolean(rawOrderId) && (rawOrderId.toLowerCase().startsWith('7792e434') || rawOrderId.includes('18023747616') || rawOrderId.includes('BD-18023747616') || rawOrderId === 'RE-2026-DELHIVERY')) ||
     (Boolean(email) && (email!.toLowerCase().includes('ajayrajbharrr0') || email!.toLowerCase().includes('vip@rareember.shop')));
 
   if (isSampleOrder) {
@@ -73,11 +59,25 @@ export async function GET(req: NextRequest) {
             country: 'India',
           },
           tracking_number: 'BD-18023747616',
-          tracking_url: null,
+          tracking_url: 'https://www.delhivery.com/track-v2/package/18023747616',
           created_at: '2026-10-22T07:19:00.000Z',
         },
       ],
     });
+  }
+
+  // IDOR & PII Protection: Public users MUST provide BOTH orderId AND email.
+  if (!adminAuthorized) {
+    if (!email || !orderId) {
+      return NextResponse.json(
+        { orders: [], error: 'Both valid Order ID and Email are required to track an order.' },
+        { status: 400 }
+      );
+    }
+  } else {
+    if (!email && !orderId) {
+      return NextResponse.json({ orders: [], error: 'Email or Order ID required for admin query' }, { status: 400 });
+    }
   }
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;

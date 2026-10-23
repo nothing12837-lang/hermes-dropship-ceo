@@ -223,7 +223,8 @@
   }
 
   /* Refined, quiet glass surfaces (Warm Atelier Standard) */
-  .glass {
+  .glass,
+  .glass-luxury {
     background: rgba(255, 255, 255, 0.86);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);

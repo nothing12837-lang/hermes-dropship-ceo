@@ -480,13 +480,41 @@ export default function CartDrawer() {
                 <span className="text-[#FF4D24] font-black">{formatCartPrice(subtotal)}</span>
               </div>
 
-              {/* Zero-Return Fit Reassurance Strip */}
-              <div className="mb-3 p-2.5 rounded-xl bg-[#FAF8F5] border border-black/[0.08] text-[10px] text-neutral-700 flex items-center justify-between gap-1 text-center font-bold">
-                <span>📏 Exact Chest Verified</span>
-                <span className="text-neutral-300">•</span>
-                <span>🧶 Heavyweight Bio-Washed</span>
-                <span className="text-neutral-300">•</span>
-                <span>🔄 Free 7-Day Size Swap</span>
+              {/* Free-Shipping / Instant UPI Savings Bar with smooth 500ms animation */}
+              <div className="mb-4 p-3 rounded-xl bg-[#FAF8F5] border border-black/[0.06]">
+                <div className="flex justify-between items-center text-[11px] font-bold text-neutral-800 mb-1.5">
+                  <span className="flex items-center gap-1.5">
+                    <span>⚡</span>
+                    <span>
+                      {subtotal >= 499
+                        ? 'Unlocked: FREE Pan-India Express Air Shipping & ₹30 UPI Off'
+                        : `Add ${formatCartPrice(Math.max(0, 499 - subtotal))} more for FREE Express Air Shipping`}
+                    </span>
+                  </span>
+                  <span className="text-[10px] font-mono text-emerald-700 font-extrabold">
+                    {Math.min(100, Math.round((subtotal / 499) * 100))}%
+                  </span>
+                </div>
+                <div className="w-full h-1.5 rounded-full bg-neutral-200/80 overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-amber-500 to-emerald-500 rounded-full transition-all duration-500 ease-out"
+                    style={{ width: `${Math.min(100, Math.round((subtotal / 499) * 100))}%` }}
+                  />
+                </div>
+              </div>
+
+              {/* Why Zero Customers Regret Their Fit Reassurance Strip */}
+              <div className="mb-3 p-2.5 rounded-xl bg-[#FAF8F5] border border-black/[0.08] text-center">
+                <p className="text-[9px] font-black uppercase tracking-wider text-neutral-400 mb-1">
+                  Why Zero Customers Regret Their Fit
+                </p>
+                <div className="text-[10px] text-neutral-800 flex items-center justify-between gap-1 font-bold">
+                  <span>📏 Exact Chest Size Verified</span>
+                  <span className="text-neutral-300">•</span>
+                  <span>🧶 Heavyweight Bio-Washed Cotton</span>
+                  <span className="text-neutral-300">•</span>
+                  <span>🔄 Free 7-Day Size Swap</span>
+                </div>
               </div>
 
               <motion.button

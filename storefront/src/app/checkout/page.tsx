@@ -1461,13 +1461,18 @@ export default function CheckoutPage() {
                 </div>
               )}
 
-              {/* Fit Reassurance Strip */}
-              <div className="mb-4 p-3 rounded-2xl bg-white/[0.04] border border-white/10 text-xs text-neutral-300 flex items-center justify-between gap-1 text-center font-medium">
-                <span>📏 Exact Chest Size Verified</span>
-                <span className="text-neutral-600">•</span>
-                <span>🧶 Heavyweight Bio-Washed Cotton</span>
-                <span className="text-neutral-600">•</span>
-                <span>🔄 Free 7-Day Size Swap</span>
+              {/* Why Zero Customers Regret Their Fit Reassurance Strip */}
+              <div className="mb-4 p-3 rounded-2xl bg-white/[0.04] border border-white/10 text-center">
+                <p className="text-[10px] font-black uppercase tracking-wider text-neutral-400 mb-1.5">
+                  Why Zero Customers Regret Their Fit
+                </p>
+                <div className="text-xs text-neutral-200 flex items-center justify-between gap-1 font-medium">
+                  <span>📏 Exact Chest Size Verified</span>
+                  <span className="text-neutral-600">•</span>
+                  <span>🧶 Heavyweight Bio-Washed Cotton</span>
+                  <span className="text-neutral-600">•</span>
+                  <span>🔄 Free 7-Day Size Swap</span>
+                </div>
               </div>
 
               {/* High-Converting Executive Checkout Button */}

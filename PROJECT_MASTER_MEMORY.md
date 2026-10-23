@@ -21,7 +21,7 @@
 | **Production Alias** | [https://frontend-lilac-ten-hpsy3bzdcd.vercel.app](https://frontend-lilac-ten-hpsy3bzdcd.vercel.app) |
 | **Admin Orders Portal** | [https://rareember-store.vercel.app/admin/orders](https://rareember-store.vercel.app/admin/orders) |
 | **Live Order Tracking** | [https://rareember-store.vercel.app/track](https://rareember-store.vercel.app/track) |
-| **Support Email** | `rareemberagency@gmail.com` |
+| **Support Email** | `support@rareember.shop` |
 
 ---
 

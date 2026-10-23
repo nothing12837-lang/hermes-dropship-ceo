@@ -651,6 +651,12 @@ export function ProductClient({ product }: Props) {
       note: `✨ Recommended for You: Size ${rec} (${chest} Chest) — Gives the signature relaxed drop-shoulder streetwear fit without feeling baggy. (Want a tighter classic fit? Pick ${tighter}).`,
     };
   }, [sizeCalcHeight, sizeCalcWeight]);
+
+  useEffect(() => {
+    if (recommendedFit?.size) {
+      setSelectedSize(recommendedFit.size);
+    }
+  }, [recommendedFit?.size]);
   const [selectedPhoneModel, setSelectedPhoneModel] = useState<string>(PHONE_MODELS[0]);
   const isComboProduct = Boolean(BUNDLE_SUB_ITEMS[product.id]);
 
@@ -870,13 +876,13 @@ export function ProductClient({ product }: Props) {
         weight: '380 GSM',
         silhouette: 'Structured Boxy Drop-Shoulder Silhouette',
         weightPct: 96,
-        weightDesc: '380 GSM Heavyweight French Terry — Thick, structured drape',
-        climatePct: 78,
-        climateDesc: 'Ideal for 14°C–24°C, air-conditioned offices & winter evenings',
+        weightDesc: 'Fast-Fashion Mall Hoodie: 220 GSM [Thin/Baggy] vs RareEmber Atelier: 380 GSM [Structured Heavyweight Drape, Zero See-Through]',
+        climatePct: 82,
+        climateDesc: '100% Super-Combed Bio-Washed Tirupur Cotton Fleece — warm structured shell, breathable brushed interior',
         washPct: 99,
-        washDesc: 'Pre-shrunk biowash fleece • Zero pilling or shrinkage guaranteed',
+        washDesc: 'Pre-shrunk compacted yarn (0% shrinkage) + Industrial heat-cured DTF print that stretches without cracking or peeling',
         colorPct: 100,
-        colorDesc: 'Vat-dyed deep tone • Resists fading through 50+ cold wash cycles',
+        colorDesc: 'Studio Color Guarantee: Photographed under 5500K natural daylight. Vat-dyed deep pigment that resists fading after 50+ cold washes.',
       };
     }
     if (isVarsityJacket) {
@@ -885,13 +891,13 @@ export function ProductClient({ product }: Props) {
         weight: '350 GSM',
         silhouette: 'Vintage Boxy Varsity Bomber Silhouette',
         weightPct: 90,
-        weightDesc: '350 GSM Premium Poly-Cotton Fleece — Retains rigid structure',
-        climatePct: 75,
-        climateDesc: 'Optimal for cool weather, travel & air-conditioned lounges',
+        weightDesc: 'Fast-Fashion Mall Jacket: 240 GSM [Unstructured] vs RareEmber Atelier: 350 GSM [Structured Heavyweight Drape, Zero See-Through]',
+        climatePct: 78,
+        climateDesc: '100% Super-Combed Bio-Washed Cotton & Poly-Fleece Blend — insulated yet breathable in Indian evening breezes',
         washPct: 99,
-        washDesc: 'Heavy-duty ribbed cuffs & snap buttons • Zero seam distortion',
+        washDesc: 'Pre-shrunk compacted yarn (0% shrinkage) + Reinforced industrial ribbing and dual-layer embroidery that never shrinks or peels',
         colorPct: 100,
-        colorDesc: 'High-contrast panel dyeing • Zero bleeding or hue shift',
+        colorDesc: 'Studio Color Guarantee: Photographed under 5500K natural daylight. Vat-dyed deep pigment that resists fading after 50+ cold washes.',
       };
     }
     if (isCrewneckSweatshirt) {
@@ -899,14 +905,14 @@ export function ProductClient({ product }: Props) {
         tag: '320 GSM MID-HEAVY FLEECE',
         weight: '320 GSM',
         silhouette: 'Relaxed Streetwear Crewneck Silhouette',
-        weightPct: 82,
-        weightDesc: '320 GSM Combed Cotton Fleece — Warm yet easy to layer',
-        climatePct: 85,
-        climateDesc: 'Perfect for all-year AC workspaces & mild winter climate',
+        weightPct: 84,
+        weightDesc: 'Fast-Fashion Mall Sweatshirt: 200 GSM [Flawed Drape] vs RareEmber Atelier: 320 GSM [Structured Heavyweight Drape, Zero See-Through]',
+        climatePct: 88,
+        climateDesc: '100% Super-Combed Bio-Washed Tirupur Cotton — cool against skin in Indian air-conditioned workspaces, structured on the outside',
         washPct: 99,
-        washDesc: 'Double-needle hem stitching • Anti-shrink thermal wash',
+        washDesc: 'Pre-shrunk compacted yarn (0% shrinkage) + Industrial heat-cured DTF print that stretches with the fabric without cracking or peeling.',
         colorPct: 100,
-        colorDesc: 'Vat-dyed reactive ink • Retains deep pigment over 50+ washes',
+        colorDesc: 'Studio Color Guarantee: Photographed under 5500K natural daylight. Vat-dyed deep pigment that resists fading after 50+ cold washes.',
       };
     }
     if (isJerseyOrDryFit) {
@@ -915,13 +921,13 @@ export function ProductClient({ product }: Props) {
         weight: '180 GSM',
         silhouette: 'Athletic Aerodynamic Cut',
         weightPct: 45,
-        weightDesc: '180 GSM Honeycomb Polyester Mesh — Ultra-light breathability',
+        weightDesc: 'Fast-Fashion Jersey: 120 GSM [Flimsy/Clinging] vs RareEmber Atelier: 180 GSM [Structured Matrix Mesh, Zero See-Through]',
         climatePct: 99,
-        climateDesc: 'Maximum moisture-wicking ventilation for high heat & sports',
+        climateDesc: '180 GSM Honeycomb Hydrophobic Mesh — hyper-breathable airflow matrix cool against skin in high humidity',
         washPct: 99,
-        washDesc: 'Sublimation embedded graphics • Zero crack, peel or shrink',
+        washDesc: 'Thermal dye-sublimation ink infused into fiber matrix — 100% anti-shrink with lifetime graphic vibrancy (zero cracking or peeling)',
         colorPct: 100,
-        colorDesc: 'High-temp thermal dye sublimation • Lifetime vibrancy',
+        colorDesc: 'Studio Color Guarantee: Photographed under 5500K natural daylight. Sublimation molecular pigment that never fades.',
       };
     }
     return {
@@ -929,13 +935,13 @@ export function ProductClient({ product }: Props) {
       weight: '240 GSM',
       silhouette: 'Signature Heavy Drop-Shoulder Oversized Silhouette',
       weightPct: 68,
-      weightDesc: '240 GSM 100% Super-Combed Cotton — Substantial drape without clinging',
+      weightDesc: 'Fast-Fashion Mall Tee: 145 GSM [Thin/See-through] vs RareEmber Atelier: 240–380 GSM [Structured Heavyweight Drape, Zero See-Through]',
       climatePct: 95,
-      climateDesc: 'Engineered for all-season Indian weather (breathable & opaque)',
+      climateDesc: '100% Super-Combed Bio-Washed Tirupur Cotton — cool against skin in Indian humidity, structured on the outside',
       washPct: 99,
-      washDesc: 'Enzyme bio-washed & pre-shrunk • Zero torso twist or shrinkage',
+      washDesc: 'Pre-shrunk compacted yarn (0% shrinkage) + Industrial heat-cured DTF/Sublimation print that stretches with the fabric without cracking or peeling.',
       colorPct: 100,
-      colorDesc: 'Vat-dyed rich pigment • Retains deep hue after 50+ cold washes',
+      colorDesc: 'Studio Color Guarantee: Photographed under 5500K natural daylight. Vat-dyed deep pigment that resists fading after 50+ cold washes.',
     };
   }, [isHoodie, isVarsityJacket, isCrewneckSweatshirt, isJerseyOrDryFit]);
 
@@ -2285,23 +2291,14 @@ export function ProductClient({ product }: Props) {
                               </div>
 
                               {recommendedFit ? (
-                                <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-950 text-xs font-medium flex items-start gap-2">
-                                  <span className="text-emerald-700 font-black text-sm shrink-0">✓</span>
+                                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-950 text-xs font-medium flex items-center justify-between gap-2.5 badge-pop">
                                   <div className="flex-1 text-[11px] leading-relaxed">
                                     {recommendedFit.note}
                                   </div>
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      setSelectedSize(recommendedFit.size);
-                                      if (isComboProduct) {
-                                        setBundleItemSizes((prev) => ({ ...prev, [selectedComboItemIndex]: recommendedFit.size }));
-                                      }
-                                    }}
-                                    className="shrink-0 px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer"
-                                  >
-                                    Apply Size {recommendedFit.size}
-                                  </button>
+                                  <span className="shrink-0 px-2.5 py-1 bg-emerald-600 text-white rounded-lg text-[10px] font-black uppercase tracking-wider shadow-xs flex items-center gap-1">
+                                    <span>✓</span>
+                                    <span>Size {recommendedFit.size} Selected</span>
+                                  </span>
                                 </div>
                               ) : (
                                 <p className="text-[11px] text-neutral-500 italic">

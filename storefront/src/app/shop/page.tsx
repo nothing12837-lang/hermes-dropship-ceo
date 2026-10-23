@@ -148,11 +148,12 @@ function ShopInner() {
               <button
                 type="button"
                 onClick={() => setStockFilter('in_stock')}
-                className={`px-3 py-1.5 rounded-md text-xs font-bold cursor-pointer transition-all ${
+                className={`px-3 py-1.5 rounded-md text-xs font-bold cursor-pointer transition-all flex items-center gap-1.5 ${
                   stockFilter === 'in_stock' ? 'bg-[#12100E] text-white' : 'text-neutral-600'
                 }`}
               >
-                In Stock ({inStockCount})
+                <span className="w-1.5 h-1.5 rounded-full bg-[#059669] pulse-live-dot" />
+                <span>In Stock ({inStockCount})</span>
               </button>
             </div>
           </div>

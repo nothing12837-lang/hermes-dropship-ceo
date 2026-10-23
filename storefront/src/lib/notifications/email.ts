@@ -95,8 +95,8 @@ async function sendEmailWithFallback({
 
     // 2. Resend Sandbox fallback to owner email if domain unverified
     console.warn('[Email Service] Direct recipient dispatch deferred:', data?.message);
-    const ownerEmail = 'rareemberagency@gmail.com';
-    if (toEmail.toLowerCase() !== ownerEmail) {
+    const ownerEmail = process.env.RESEND_OWNER_EMAIL || 'support@rareember.shop';
+    if (toEmail.toLowerCase() !== ownerEmail.toLowerCase()) {
       const fallbackRes = await postReq(
         ownerEmail,
         `[Customer Order] ${subjectLine} (To: ${toEmail})`

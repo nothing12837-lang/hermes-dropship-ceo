@@ -227,7 +227,7 @@ function cleanShippingAddress(shippingName: string | null, addr: Record<string, 
     address1: String(addr.line1 || addr.address || 'Street Address').slice(0, 100),
     address2: String(addr.line2 || '').slice(0, 100),
     phone: cleanPhone,
-    email: userEmail.trim() || 'rareemberagency@gmail.com',
+    email: userEmail.trim() || 'support@rareember.shop',
     city: String(addr.city || 'Bengaluru').slice(0, 50),
     zip: cleanZip,
     province: String(addr.state || 'Karnataka').slice(0, 50),
@@ -282,7 +282,8 @@ export function isTestOrder(order: any): boolean {
     email.includes('test@') ||
     email.includes('example.com') ||
     email.includes('dummy') ||
-    email === 'rareemberagency@gmail.com'
+    email === 'rareemberagency@gmail.com' ||
+    email === 'support@rareember.shop'
   ) {
     return true;
   }
