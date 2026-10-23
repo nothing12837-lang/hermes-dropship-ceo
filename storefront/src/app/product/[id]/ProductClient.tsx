@@ -676,9 +676,9 @@ export function ProductClient({ product }: Props) {
   const firstComboItem = BUNDLE_SUB_ITEMS[product.id]?.[0];
   const firstItemCheckName = (isComboCheck && firstComboItem ? firstComboItem.name : product.title) + ' ' + (isComboCheck && firstComboItem ? firstComboItem.id : product.id);
   const firstItemCheckLower = firstItemCheckName.toLowerCase();
-  const firstIsApparel = /jersey|tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel/i.test(firstItemCheckLower);
-  const firstIsMat = !firstIsApparel && /desk|pad|mat/i.test(firstItemCheckLower);
-  const firstIsMug = !firstIsApparel && /mug|cup|bottle|tumbler/i.test(firstItemCheckLower);
+  const firstIsApparel = /jersey|tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel|dress|skirt/i.test(firstItemCheckLower);
+  const firstIsMat = !firstIsApparel && (/\b(desk|pad|mat|mousepad)\b|desk-mat/i.test(firstItemCheckLower));
+  const firstIsMug = !firstIsApparel && (/\b(mug|cup|bottle|tumbler|drinkware)\b/i.test(firstItemCheckLower));
 
   const availableColors: string[] = useMemo(() => {
     if (product.colors && Array.isArray(product.colors) && product.colors.length > 0) {
@@ -1117,11 +1117,11 @@ export function ProductClient({ product }: Props) {
   const activeItemIsKids = /kid|boy|girl|baby|toddler|infant/i.test(activeItemLower);
 
   const activeItemIsApparel = activeComboItem
-    ? /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|shorts|jacket|vest|polo/i.test(activeItemLower)
+    ? /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|shorts|jacket|vest|polo|dress|skirt/i.test(activeItemLower)
     : isApparel;
   const activeItemIsHoodie = /hoodie|sweatshirt|jacket/i.test(activeItemLower);
-  const activeItemIsDeskMat = /desk|pad|mat/i.test(activeItemLower);
-  const activeItemIsDrinkware = /mug|cup|bottle|tumbler|drinkware/i.test(activeItemLower);
+  const activeItemIsDeskMat = !activeItemIsApparel && (/\b(desk|pad|mat|mousepad)\b|desk-mat/i.test(activeItemLower));
+  const activeItemIsDrinkware = !activeItemIsApparel && (/\b(mug|cup|bottle|tumbler|drinkware)\b/i.test(activeItemLower));
   const activeItemIsPhoneCase = /case|phone|iphone/i.test(activeItemLower);
   const activeItemIsPen = /pen\b|pens\b|ballpoint|stationery/i.test(activeItemLower);
   const activeItemIsNotebook = /notebook|notepad|diary|journal/i.test(activeItemLower);

@@ -172,9 +172,10 @@ export default function ProductCard({
   })();
 
   const quickViewText = (() => {
-    if (/mat|pad|desk/i.test(itemSearch)) return 'Quick View • 900×400mm Extended Surface';
-    if (/mug|cup/i.test(itemSearch)) return 'Quick View • 330ml / 11 Oz Ceramic';
-    if (/case|phone/i.test(itemSearch)) return 'Quick View • Precision Drop Protection';
+    const isApparelCard = /jersey|tee|shirt|hoodie|dress|crop|jogger|polo|sweatshirt|jacket|skirt|vest/i.test(itemSearch);
+    if (!isApparelCard && (/\b(mat|pad|desk\s*mat|mouse\s*pad)\b|desk-mat/i.test(itemSearch))) return 'Quick View • 900×400mm Extended Surface';
+    if (!isApparelCard && (/\b(mug|cup|drinkware)\b/i.test(itemSearch))) return 'Quick View • 330ml / 11 Oz Ceramic';
+    if (!isApparelCard && (/\b(case|phone|iphone|samsung)\b/i.test(itemSearch))) return 'Quick View • Precision Drop Protection';
     if (sizes && sizes.length > 0) {
       const isKids = /kid|boy|girl|baby/i.test(itemSearch);
       if (isKids) {
