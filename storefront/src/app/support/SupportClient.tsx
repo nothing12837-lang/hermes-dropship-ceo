@@ -533,10 +533,10 @@ export default function SupportClient() {
                 <p className="text-xs text-neutral-600 leading-relaxed">
                   Official correspondence, invoice requests, and business inquiries. Monitored with 12h reply commitment.
                 </p>
-                <p className="text-xs font-mono font-bold text-[#FF4D24]">rareemberagency@gmail.com</p>
+                <p className="text-xs font-mono font-bold text-[#FF4D24]">support@rareember.shop</p>
               </div>
               <a
-                href="mailto:rareemberagency@gmail.com?subject=Rare%20Ember%20Priority%20Inquiry"
+                href="mailto:support@rareember.shop?subject=Rare%20Ember%20Priority%20Inquiry"
                 className="inline-flex items-center justify-center gap-1.5 w-full py-2.5 px-4 rounded-lg bg-[#12100E] text-white text-xs font-bold no-underline hover:bg-black transition-all"
               >
                 Send Email →

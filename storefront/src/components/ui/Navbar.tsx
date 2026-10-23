@@ -102,7 +102,7 @@ export default function Navbar() {
               className="object-contain shrink-0 transition-transform duration-300 group-hover:scale-105"
               priority
             />
-            <span className="whitespace-nowrap font-black text-lg md:text-xl text-[#12100E] tracking-tight">
+            <span className="whitespace-nowrap font-black text-lg md:text-xl text-[#0D0D0F] tracking-tight">
               Rare Ember
             </span>
           </Link>
@@ -118,7 +118,7 @@ export default function Navbar() {
               <Link
                 key={l.href + l.label}
                 href={l.href}
-                className="text-[#12100E]/80 no-underline hover:text-[#FF4D24] transition-colors py-1 link-underline"
+                className="text-[#0D0D0F]/80 no-underline hover:text-[#E04F33] transition-colors py-1 link-underline"
               >
                 {l.label}
               </Link>
@@ -130,12 +130,12 @@ export default function Navbar() {
             {/* Wishlist Link */}
             <Link
               href="/wishlist"
-              className="w-9 h-9 rounded-lg border border-black/10 bg-white/90 hidden sm:flex items-center justify-center no-underline text-sm relative hover:border-[#FF4D24] transition-colors"
+              className="w-9 h-9 rounded-lg border border-black/10 bg-white/90 hidden sm:flex items-center justify-center no-underline text-sm relative hover:border-[#E04F33] transition-colors"
               aria-label="Wishlist"
             >
               <span>♡</span>
               {wishCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#FF4D24] text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-[#E04F33] text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">
                   {wishCount}
                 </span>
               )}
@@ -145,7 +145,7 @@ export default function Navbar() {
             <Link
               href={accountLink}
               aria-label={session ? 'Profile' : 'Login'}
-              className="text-xs font-bold no-underline text-[#12100E] hidden sm:block px-3 py-1.5 rounded-lg border border-black/10 bg-white/90 hover:border-black/30 transition-colors"
+              className="text-xs font-bold no-underline text-[#0D0D0F] hidden sm:block px-3 py-1.5 rounded-lg border border-black/10 bg-white/90 hover:border-black/30 transition-colors"
             >
               {session ? 'Account' : 'Sign In'}
             </Link>
@@ -158,22 +158,22 @@ export default function Navbar() {
                 router.refresh();
               }}
               title={`Market: ${market === 'IN' ? 'India (INR)' : 'Global (USD)'}`}
-              className="text-xs font-bold px-2.5 py-1.5 rounded-lg border border-black/10 bg-white/90 text-[#12100E] flex items-center gap-1.5 cursor-pointer hover:border-black/30 transition-colors"
+              className="text-xs font-bold px-2.5 py-1.5 rounded-lg border border-black/10 bg-white/90 text-[#0D0D0F] flex items-center gap-1.5 cursor-pointer hover:border-black/30 transition-colors"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#059669] pulse-live-dot" />
               <span>{market === 'IN' ? 'INR (₹)' : 'USD ($)'}</span>
             </button>
 
             {/* Cart Trigger */}
             <button
               onClick={openCart}
-              className={`relative text-xs font-black px-4 py-2 rounded-lg cursor-pointer transition-all shine-hover flex items-center gap-1.5 active:scale-95 ${
+              className={`relative text-xs font-black px-4 py-2 rounded-lg cursor-pointer transition-all shine-hover animate-shimmer-sweep flex items-center gap-1.5 active:scale-95 ${
                 count > 0 ? 'btn-ember shadow-md' : 'btn-ink'
               }`}
             >
               <span>Bag</span>
               {count > 0 && (
-                <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-white text-[#FF4D24] text-[10px] font-black flex items-center justify-center badge-pop">
+                <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-white text-[#E04F33] text-[10px] font-black flex items-center justify-center badge-pop">
                   {count}
                 </span>
               )}

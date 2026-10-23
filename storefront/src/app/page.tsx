@@ -95,16 +95,16 @@ export default async function Home() {
   );
 
   return (
-    <main className="page-top min-h-screen text-[#12100E] pb-20">
+    <main className="page-top min-h-screen text-[#0D0D0F] pb-20">
       {/* 1. RESTRAINED ANNOUNCEMENT & CATEGORY STRIP */}
-      <section className="bg-[#F4EFEA] border-b border-black/[0.08] relative z-20">
+      <section className="bg-[#F3F0EA] border-b border-black/[0.08] relative z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-2.5 flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
           <div className="flex items-center gap-1.5 shrink-0">
             {CATEGORY_TABS.map((tab) => (
               <Link
                 key={tab.id}
                 href={tab.href}
-                className="no-underline px-3 py-1.5 rounded-md text-xs font-bold text-[#12100E]/80 hover:text-[#12100E] hover:bg-black/[0.06] transition-colors whitespace-nowrap"
+                className="no-underline px-3 py-1.5 rounded-md text-xs font-bold text-[#0D0D0F]/80 hover:text-[#0D0D0F] hover:bg-black/[0.06] transition-colors whitespace-nowrap"
               >
                 {tab.label}
               </Link>
@@ -113,7 +113,7 @@ export default async function Home() {
 
           <div className="hidden lg:flex items-center gap-3 text-xs font-semibold text-neutral-600 shrink-0">
             <span className="flex items-center gap-1.5 text-emerald-800">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#059669] pulse-live-dot" />
               Pan-India 2–4d Express Active
             </span>
             <span className="text-black/15">•</span>
@@ -125,19 +125,19 @@ export default async function Home() {
       </section>
 
       {/* CONTINUOUS EDITORIAL RUNNING TICKER */}
-      <div className="bg-[#12100E] text-white py-2.5 overflow-hidden border-b border-white/10 select-none">
+      <div className="bg-[#0D0D0F] text-white py-2.5 overflow-hidden border-b border-white/10 select-none">
         <div className="animate-marquee flex items-center gap-8 text-[11px] font-mono tracking-widest uppercase">
           {[...Array(4)].map((_, i) => (
             <span key={i} className="flex items-center gap-8 shrink-0">
-              <span className="text-[#FF4D24] font-bold">240 GSM COMBED COTTON</span>
+              <span className="text-[#E04F33] font-bold">240 GSM COMBED COTTON</span>
               <span>•</span>
               <span>380 GSM FRENCH TERRY</span>
               <span>•</span>
-              <span className="text-[#FF4D24] font-bold">TIRUPUR DOMESTIC MILLING</span>
+              <span className="text-[#E04F33] font-bold">TIRUPUR DOMESTIC MILLING</span>
               <span>•</span>
               <span>AIR DISPATCH INCLUDED</span>
               <span>•</span>
-              <span className="text-[#FF4D24] font-bold">7-DAY DOORSTEP REPLACEMENTS</span>
+              <span className="text-[#E04F33] font-bold">7-DAY DOORSTEP REPLACEMENTS</span>
               <span>•</span>
               <span>BOX-FIT ARCHITECTURAL CUTS</span>
               <span>•</span>

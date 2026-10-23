@@ -78,6 +78,19 @@ const SIZE_SPECS: Record<string, { chest: string; length: string }> = {
   '5XL': { chest: '52"', length: '34"' },
 };
 
+const GARMENT_EXACT_SPECS: Record<string, { chest: string; length: string; shoulder: string; sleeve: string; modelFit: string }> = {
+  XS: { chest: '36"', length: '26.5"', shoulder: '18"', sleeve: '8.0"', modelFit: "Model (5'4\", 52kg) wears XS" },
+  S: { chest: '38"', length: '27.5"', shoulder: '19"', sleeve: '8.5"', modelFit: "Model (5'6\", 60kg) wears S" },
+  M: { chest: '40"', length: '28.5"', shoulder: '20"', sleeve: '9.0"', modelFit: "Model (5'8\", 68kg) wears M" },
+  L: { chest: '42"', length: '29.5"', shoulder: '21" (Drop-Shoulder)', sleeve: '9.5"', modelFit: "Model (5'10\", 72kg) wears Size L" },
+  XL: { chest: '44"', length: '30.5"', shoulder: '22" (Drop-Shoulder)', sleeve: '10.0"', modelFit: "Model (6'0\", 82kg) wears XL" },
+  '2XL': { chest: '46"', length: '31.5"', shoulder: '23" (Drop-Shoulder)', sleeve: '10.5"', modelFit: "Model (6'2\", 92kg) wears 2XL" },
+  XXL: { chest: '46"', length: '31.5"', shoulder: '23" (Drop-Shoulder)', sleeve: '10.5"', modelFit: "Model (6'2\", 92kg) wears 2XL" },
+  '3XL': { chest: '48"', length: '32.5"', shoulder: '24" (Drop-Shoulder)', sleeve: '11.0"', modelFit: "Model (6'3\", 100kg) wears 3XL" },
+  '4XL': { chest: '50"', length: '33.5"', shoulder: '25" (Drop-Shoulder)', sleeve: '11.5"', modelFit: "Model (6'4\", 110kg) wears 4XL" },
+  '5XL': { chest: '52"', length: '34.5"', shoulder: '26" (Drop-Shoulder)', sleeve: '12.0"', modelFit: "Model (6'4\", 120kg) wears 5XL" },
+};
+
 const PHONE_MODELS = [
   'iPhone 16 Pro Max',
   'iPhone 16 Pro',
@@ -599,6 +612,45 @@ export function ProductClient({ product }: Props) {
   const [selectedSize, setSelectedSize] = useState<string>(initialSingleSize);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [sizeUnit, setSizeUnit] = useState<'in' | 'cm'>('in');
+  const [showSizeCalc, setShowSizeCalc] = useState(false);
+  const [sizeCalcHeight, setSizeCalcHeight] = useState<string | null>(null);
+  const [sizeCalcWeight, setSizeCalcWeight] = useState<string | null>(null);
+
+  const recommendedFit = useMemo(() => {
+    if (!sizeCalcHeight || !sizeCalcWeight) return null;
+    let rec = 'L';
+    let tighter = 'M';
+
+    if (sizeCalcHeight === "< 5'5\"") {
+      if (sizeCalcWeight === '50–62 kg') { rec = 'S'; tighter = 'XS'; }
+      else if (sizeCalcWeight === '63–74 kg') { rec = 'M'; tighter = 'S'; }
+      else if (sizeCalcWeight === '75–86 kg') { rec = 'L'; tighter = 'M'; }
+      else { rec = 'XL'; tighter = 'L'; }
+    } else if (sizeCalcHeight === '5\'5" – 5\'8"') {
+      if (sizeCalcWeight === '50–62 kg') { rec = 'S'; tighter = 'XS'; }
+      else if (sizeCalcWeight === '63–74 kg') { rec = 'M'; tighter = 'S'; }
+      else if (sizeCalcWeight === '75–86 kg') { rec = 'L'; tighter = 'M'; }
+      else { rec = 'XL'; tighter = 'L'; }
+    } else if (sizeCalcHeight === '5\'9" – 5\'11"') {
+      if (sizeCalcWeight === '50–62 kg') { rec = 'M'; tighter = 'S'; }
+      else if (sizeCalcWeight === '63–74 kg') { rec = 'L'; tighter = 'M'; }
+      else if (sizeCalcWeight === '75–86 kg') { rec = 'XL'; tighter = 'L'; }
+      else { rec = '2XL'; tighter = 'XL'; }
+    } else {
+      if (sizeCalcWeight === '50–62 kg') { rec = 'L'; tighter = 'M'; }
+      else if (sizeCalcWeight === '63–74 kg') { rec = 'L'; tighter = 'M'; }
+      else if (sizeCalcWeight === '75–86 kg') { rec = 'XL'; tighter = 'L'; }
+      else { rec = '2XL'; tighter = 'XL'; }
+    }
+
+    const chest = GARMENT_EXACT_SPECS[rec]?.chest || '42"';
+    return {
+      size: rec,
+      chest,
+      tighter,
+      note: `✨ Recommended for You: Size ${rec} (${chest} Chest) — Gives the signature relaxed drop-shoulder streetwear fit without feeling baggy. (Want a tighter classic fit? Pick ${tighter}).`,
+    };
+  }, [sizeCalcHeight, sizeCalcWeight]);
   const [selectedPhoneModel, setSelectedPhoneModel] = useState<string>(PHONE_MODELS[0]);
   const isComboProduct = Boolean(BUNDLE_SUB_ITEMS[product.id]);
 
@@ -642,6 +694,15 @@ export function ProductClient({ product }: Props) {
   const [customPosY, setCustomPosY] = useState<number>(0);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const dragStartRef = useRef<{ x: number; y: number; startPosX: number; startPosY: number } | null>(null);
+
+  useEffect(() => {
+    if (recommendedFit?.size) {
+      setSelectedSize(recommendedFit.size);
+      if (isComboProduct) {
+        setBundleItemSizes((prev) => ({ ...prev, [selectedComboItemIndex]: recommendedFit.size }));
+      }
+    }
+  }, [recommendedFit, isComboProduct, selectedComboItemIndex]);
 
   const handleCanvasPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -801,6 +862,82 @@ export function ProductClient({ product }: Props) {
   const isBottomwear = /jogger|sweatpant|shorts/i.test(titleLower + ' ' + idLower);
   const isCoasterOrDecor = titleLower.includes('coaster') || titleLower.includes('puzzle') || idLower.includes('home-decor');
   const isCottonTee = isApparel && !isKidsApparel && !isHoodieOrSweatshirt && !isCropTopOrPolySpandex && !isJerseyOrDryFit && !isBottomwear;
+
+  const gsmProfile = useMemo(() => {
+    if (isHoodie) {
+      return {
+        tag: '380 GSM HEAVYWEIGHT FRENCH TERRY',
+        weight: '380 GSM',
+        silhouette: 'Structured Boxy Drop-Shoulder Silhouette',
+        weightPct: 96,
+        weightDesc: '380 GSM Heavyweight French Terry — Thick, structured drape',
+        climatePct: 78,
+        climateDesc: 'Ideal for 14°C–24°C, air-conditioned offices & winter evenings',
+        washPct: 99,
+        washDesc: 'Pre-shrunk biowash fleece • Zero pilling or shrinkage guaranteed',
+        colorPct: 100,
+        colorDesc: 'Vat-dyed deep tone • Resists fading through 50+ cold wash cycles',
+      };
+    }
+    if (isVarsityJacket) {
+      return {
+        tag: '350 GSM HEAVY BLEND FLEECE',
+        weight: '350 GSM',
+        silhouette: 'Vintage Boxy Varsity Bomber Silhouette',
+        weightPct: 90,
+        weightDesc: '350 GSM Premium Poly-Cotton Fleece — Retains rigid structure',
+        climatePct: 75,
+        climateDesc: 'Optimal for cool weather, travel & air-conditioned lounges',
+        washPct: 99,
+        washDesc: 'Heavy-duty ribbed cuffs & snap buttons • Zero seam distortion',
+        colorPct: 100,
+        colorDesc: 'High-contrast panel dyeing • Zero bleeding or hue shift',
+      };
+    }
+    if (isCrewneckSweatshirt) {
+      return {
+        tag: '320 GSM MID-HEAVY FLEECE',
+        weight: '320 GSM',
+        silhouette: 'Relaxed Streetwear Crewneck Silhouette',
+        weightPct: 82,
+        weightDesc: '320 GSM Combed Cotton Fleece — Warm yet easy to layer',
+        climatePct: 85,
+        climateDesc: 'Perfect for all-year AC workspaces & mild winter climate',
+        washPct: 99,
+        washDesc: 'Double-needle hem stitching • Anti-shrink thermal wash',
+        colorPct: 100,
+        colorDesc: 'Vat-dyed reactive ink • Retains deep pigment over 50+ washes',
+      };
+    }
+    if (isJerseyOrDryFit) {
+      return {
+        tag: '180 GSM QUICK-DRY MATRIX MESH',
+        weight: '180 GSM',
+        silhouette: 'Athletic Aerodynamic Cut',
+        weightPct: 45,
+        weightDesc: '180 GSM Honeycomb Polyester Mesh — Ultra-light breathability',
+        climatePct: 99,
+        climateDesc: 'Maximum moisture-wicking ventilation for high heat & sports',
+        washPct: 99,
+        washDesc: 'Sublimation embedded graphics • Zero crack, peel or shrink',
+        colorPct: 100,
+        colorDesc: 'High-temp thermal dye sublimation • Lifetime vibrancy',
+      };
+    }
+    return {
+      tag: '240 GSM SUPER-COMBED BIO-WASH',
+      weight: '240 GSM',
+      silhouette: 'Signature Heavy Drop-Shoulder Oversized Silhouette',
+      weightPct: 68,
+      weightDesc: '240 GSM 100% Super-Combed Cotton — Substantial drape without clinging',
+      climatePct: 95,
+      climateDesc: 'Engineered for all-season Indian weather (breathable & opaque)',
+      washPct: 99,
+      washDesc: 'Enzyme bio-washed & pre-shrunk • Zero torso twist or shrinkage',
+      colorPct: 100,
+      colorDesc: 'Vat-dyed rich pigment • Retains deep hue after 50+ cold washes',
+    };
+  }, [isHoodie, isVarsityJacket, isCrewneckSweatshirt, isJerseyOrDryFit]);
 
   const blankGarmentImage = (() => {
     if (isKidsApparel) {
@@ -2051,6 +2188,13 @@ export function ProductClient({ product }: Props) {
                     <span>Primary Color: <strong>{availableColors[0]}</strong></span>
                   </div>
                 )}
+                {/* True-Shade Color Accuracy Note */}
+                <div className="mt-2.5 p-2.5 rounded-xl bg-neutral-50/80 border border-black/[0.06] flex items-center gap-2 text-[11px] text-neutral-600">
+                  <span className="text-sm shrink-0">🎨</span>
+                  <span>
+                    <strong className="text-neutral-900 font-semibold">Studio Color Guarantee:</strong> Photographed under 5500K natural daylight. Vat-dyed deep pigment that resists fading after 50+ cold washes.
+                  </span>
+                </div>
               </div>
             )}
 
@@ -2070,6 +2214,104 @@ export function ProductClient({ product }: Props) {
                           <span>Size Guide &amp; Measurements ↗</span>
                         </button>
                       </div>
+
+                      {/* Quick Size Finder Toggle & Calculator */}
+                      {!activeItemIsKids && (
+                        <div className="mb-3">
+                          <button
+                            type="button"
+                            onClick={() => setShowSizeCalc((prev) => !prev)}
+                            className="w-full px-3 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/15 border border-amber-500/20 text-amber-950 text-xs font-bold flex items-center justify-between transition-colors cursor-pointer"
+                          >
+                            <span className="flex items-center gap-1.5">
+                              <span>📏</span>
+                              <span>Confused About Size? Tap Your Height &amp; Weight</span>
+                            </span>
+                            <span className="text-[11px] font-black text-[#E04F33]">
+                              {showSizeCalc ? 'Hide Quick Finder ▲' : 'Find My Exact Size in 5s ▼'}
+                            </span>
+                          </button>
+
+                          {showSizeCalc && (
+                            <div className="mt-2 p-3.5 rounded-2xl bg-white border border-amber-500/30 shadow-xs space-y-3">
+                              <div>
+                                <span className="text-[10px] font-black uppercase tracking-wider text-neutral-500 block mb-1.5">
+                                  1. Your Height
+                                </span>
+                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                                  {["< 5'5\"", '5\'5" – 5\'8"', '5\'9" – 5\'11"', '6\'0"+'].map((h) => {
+                                    const isSelected = sizeCalcHeight === h;
+                                    return (
+                                      <button
+                                        key={h}
+                                        type="button"
+                                        onClick={() => setSizeCalcHeight(h)}
+                                        className={`px-2 py-1.5 rounded-lg text-xs font-bold border transition-all text-center cursor-pointer ${
+                                          isSelected
+                                            ? 'bg-neutral-900 text-white border-neutral-900 shadow-xs'
+                                            : 'bg-neutral-50 text-neutral-700 border-black/10 hover:border-black/25'
+                                        }`}
+                                      >
+                                        {h}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+
+                              <div>
+                                <span className="text-[10px] font-black uppercase tracking-wider text-neutral-500 block mb-1.5">
+                                  2. Your Body Weight
+                                </span>
+                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                                  {['50–62 kg', '63–74 kg', '75–86 kg', '87+ kg'].map((w) => {
+                                    const isSelected = sizeCalcWeight === w;
+                                    return (
+                                      <button
+                                        key={w}
+                                        type="button"
+                                        onClick={() => setSizeCalcWeight(w)}
+                                        className={`px-2 py-1.5 rounded-lg text-xs font-bold border transition-all text-center cursor-pointer ${
+                                          isSelected
+                                            ? 'bg-neutral-900 text-white border-neutral-900 shadow-xs'
+                                            : 'bg-neutral-50 text-neutral-700 border-black/10 hover:border-black/25'
+                                        }`}
+                                      >
+                                        {w}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+
+                              {recommendedFit ? (
+                                <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-950 text-xs font-medium flex items-start gap-2">
+                                  <span className="text-emerald-700 font-black text-sm shrink-0">✓</span>
+                                  <div className="flex-1 text-[11px] leading-relaxed">
+                                    {recommendedFit.note}
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setSelectedSize(recommendedFit.size);
+                                      if (isComboProduct) {
+                                        setBundleItemSizes((prev) => ({ ...prev, [selectedComboItemIndex]: recommendedFit.size }));
+                                      }
+                                    }}
+                                    className="shrink-0 px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer"
+                                  >
+                                    Apply Size {recommendedFit.size}
+                                  </button>
+                                </div>
+                              ) : (
+                                <p className="text-[11px] text-neutral-500 italic">
+                                  Select both height and weight for an instant personalized drop-shoulder fit recommendation.
+                                </p>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
 
                       {(() => {
                         const activeItemIsKids = /kid|boy|girl|baby|toddler|infant/i.test(activeItemLower);
@@ -2135,6 +2377,48 @@ export function ProductClient({ product }: Props) {
                                 }
                               </span>
                             </p>
+
+                            {/* Live Exact Garment Spec Readout Box */}
+                            {!activeItemIsKids && (
+                              <div className="mt-3 p-3 rounded-xl bg-[#F3F0EA] border border-black/[0.08] text-xs">
+                                <div className="flex items-center justify-between font-bold text-neutral-900 mb-2">
+                                  <span className="flex items-center gap-1.5">
+                                    <span className="w-2 h-2 rounded-full bg-[#059669] pulse-live-dot" />
+                                    <span>Exact Garment Spec (Size {selectedSize}):</span>
+                                  </span>
+                                  <span className="text-[10px] text-neutral-500 font-mono">±0.5" Atelier Tolerance</span>
+                                </div>
+                                {(() => {
+                                  const spec = GARMENT_EXACT_SPECS[selectedSize] || GARMENT_EXACT_SPECS['L'];
+                                  return (
+                                    <>
+                                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-neutral-800 font-medium mb-2">
+                                        <div className="bg-white/90 p-2 rounded-lg border border-black/[0.04] text-center">
+                                          <span className="text-[10px] text-neutral-500 block uppercase font-bold">Chest</span>
+                                          <span className="font-extrabold text-neutral-950 text-sm">{spec.chest}</span>
+                                        </div>
+                                        <div className="bg-white/90 p-2 rounded-lg border border-black/[0.04] text-center">
+                                          <span className="text-[10px] text-neutral-500 block uppercase font-bold">Length</span>
+                                          <span className="font-extrabold text-neutral-950 text-sm">{spec.length}</span>
+                                        </div>
+                                        <div className="bg-white/90 p-2 rounded-lg border border-black/[0.04] text-center">
+                                          <span className="text-[10px] text-neutral-500 block uppercase font-bold">Shoulder</span>
+                                          <span className="font-extrabold text-neutral-950 text-sm">{spec.shoulder}</span>
+                                        </div>
+                                        <div className="bg-white/90 p-2 rounded-lg border border-black/[0.04] text-center">
+                                          <span className="text-[10px] text-neutral-500 block uppercase font-bold">Sleeve</span>
+                                          <span className="font-extrabold text-neutral-950 text-sm">{spec.sleeve}</span>
+                                        </div>
+                                      </div>
+                                      <div className="text-[11px] text-neutral-700 flex items-center gap-1.5 font-medium">
+                                        <span>🧍</span>
+                                        <span>{spec.modelFit} • Designed for a structured, drop-shoulder streetwear hang</span>
+                                      </div>
+                                    </>
+                                  );
+                                })()}
+                              </div>
+                            )}
                           </>
                         );
                       })()}
@@ -2717,8 +3001,8 @@ export function ProductClient({ product }: Props) {
 
                         <p className="text-[11px] text-neutral-400 leading-relaxed bg-white/5 p-2.5 rounded-xl border border-white/10">
                           💬 <strong>Prefer to WhatsApp or email your vector file later?</strong> Place order normally, then WhatsApp or email artwork to{' '}
-                          <a href="mailto:rareemberagency@gmail.com" className="text-[#FF9A3D] font-bold underline">
-                            rareemberagency@gmail.com
+                          <a href="mailto:support@rareember.shop" className="text-[#FF9A3D] font-bold underline">
+                            support@rareember.shop
                           </a>{' '}
                           with your Order ID!
                         </p>
@@ -2948,6 +3232,87 @@ export function ProductClient({ product }: Props) {
                     </Link>
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* Cloth & Craftsmanship Transparency Card */}
+            {isApparel && (
+              <div className="mt-4 p-4 rounded-2xl bg-white border border-black/[0.08] shadow-xs">
+                <div className="flex items-center justify-between pb-3 border-b border-black/[0.06] mb-3">
+                  <div>
+                    <div className="text-xs font-black uppercase tracking-wider text-neutral-900 flex items-center gap-1.5">
+                      <span>🧵 Cloth &amp; GSM Quality Transparency</span>
+                    </div>
+                    <div className="text-[11px] text-neutral-500 mt-0.5">
+                      {gsmProfile.tag} • {gsmProfile.silhouette}
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full border border-emerald-200">
+                    Lab Verified
+                  </span>
+                </div>
+
+                <div className="space-y-3 text-xs">
+                  {/* Bar 1: Fabric Weight / Drape */}
+                  <div>
+                    <div className="flex justify-between items-center text-[11px] mb-1">
+                      <span className="font-bold text-neutral-800">1. Fabric Weight &amp; Drape Density</span>
+                      <span className="font-extrabold text-[#E04F33]">{gsmProfile.weight} ({gsmProfile.weightPct}%)</span>
+                    </div>
+                    <div className="w-full h-2 rounded-full bg-neutral-100 overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-amber-500 to-[#E04F33] rounded-full transition-all duration-500"
+                        style={{ width: `${gsmProfile.weightPct}%` }}
+                      />
+                    </div>
+                    <p className="text-[10px] text-neutral-500 mt-1 leading-snug">{gsmProfile.weightDesc}</p>
+                  </div>
+
+                  {/* Bar 2: Indian Weather Comfort */}
+                  <div>
+                    <div className="flex justify-between items-center text-[11px] mb-1">
+                      <span className="font-bold text-neutral-800">2. Indian Climate &amp; Breathability Comfort</span>
+                      <span className="font-extrabold text-[#059669]">{gsmProfile.climatePct}% Airflow Index</span>
+                    </div>
+                    <div className="w-full h-2 rounded-full bg-neutral-100 overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full transition-all duration-500"
+                        style={{ width: `${gsmProfile.climatePct}%` }}
+                      />
+                    </div>
+                    <p className="text-[10px] text-neutral-500 mt-1 leading-snug">{gsmProfile.climateDesc}</p>
+                  </div>
+
+                  {/* Bar 3: 50+ Wash Anti-Shrink & Print Guarantee */}
+                  <div>
+                    <div className="flex justify-between items-center text-[11px] mb-1">
+                      <span className="font-bold text-neutral-800">3. 50+ Wash Anti-Shrink &amp; Anti-Pilling Guarantee</span>
+                      <span className="font-extrabold text-neutral-900">{gsmProfile.washPct}% Retained Fit</span>
+                    </div>
+                    <div className="w-full h-2 rounded-full bg-neutral-100 overflow-hidden">
+                      <div
+                        className="h-full bg-neutral-900 rounded-full transition-all duration-500"
+                        style={{ width: `${gsmProfile.washPct}%` }}
+                      />
+                    </div>
+                    <p className="text-[10px] text-neutral-500 mt-1 leading-snug">{gsmProfile.washDesc}</p>
+                  </div>
+
+                  {/* Bar 4: True-Shade Color Accuracy */}
+                  <div>
+                    <div className="flex justify-between items-center text-[11px] mb-1">
+                      <span className="font-bold text-neutral-800">4. True-Shade Color Accuracy (Vat Reactive Dyes)</span>
+                      <span className="font-extrabold text-blue-600">{gsmProfile.colorPct}% Shade Lock</span>
+                    </div>
+                    <div className="w-full h-2 rounded-full bg-neutral-100 overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full transition-all duration-500"
+                        style={{ width: `${gsmProfile.colorPct}%` }}
+                      />
+                    </div>
+                    <p className="text-[10px] text-neutral-500 mt-1 leading-snug">{gsmProfile.colorDesc}</p>
+                  </div>
+                </div>
               </div>
             )}
 

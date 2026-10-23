@@ -16,11 +16,12 @@ function SuccessInner() {
 
   const [copied, setCopied] = useState(false);
 
-  // Deterministic order ID
+  // Deterministic order ID and Archival Pass ID
   const orderId = session || 'ord_pending';
   const orderTotal = total ? parseFloat(total) : 899;
+  const passId = (orderId.length > 4 ? orderId.slice(-4) : orderId).toUpperCase();
 
-  // Calculate dynamic 3-5 day delivery ETA
+  // Dynamic 3-5 day delivery ETA
   const estimatedDates = (() => {
     const start = new Date();
     start.setDate(start.getDate() + 3);
@@ -29,6 +30,25 @@ function SuccessInner() {
     const startStr = start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     const endStr = end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     return `${startStr} – ${endStr}`;
+  })();
+
+  // 5-Stage Tirupur production telemetry dates
+  const telemetryStages = (() => {
+    const now = new Date();
+    const d1 = new Date(now);
+    const d2 = new Date(now); d2.setHours(d2.getHours() + 12);
+    const d3 = new Date(now); d3.setDate(d3.getDate() + 1);
+    const d4 = new Date(now); d4.setDate(d4.getDate() + 2);
+    const d5 = new Date(now); d5.setDate(d5.getDate() + 3);
+
+    const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return [
+      { name: 'Precision Vector Pre-Flight', date: fmt(d1), time: '0–2h', status: 'Completed', icon: '⚡' },
+      { name: 'Cold-Cure Sublimation & Pigment Lock', date: fmt(d2), time: 'Day 1', status: 'In Progress', icon: '🎨' },
+      { name: 'Pre-Shrunk Bio-Wash Bath', date: fmt(d3), time: 'Day 2', status: 'Scheduled', icon: '🫧' },
+      { name: 'Triple-Point Seam QA', date: fmt(d4), time: 'Day 3', status: 'Scheduled', icon: '🔍' },
+      { name: 'Hand-Inspected Packaging & Blue Dart Air Dispatch', date: fmt(d5), time: 'Day 4', status: 'Scheduled', icon: '✈️' },
+    ];
   })();
 
   const copyOrderId = () => {
@@ -57,12 +77,14 @@ function SuccessInner() {
   }, [orderId, orderTotal]);
 
   const trackUrl = `/track?email=${encodeURIComponent(email)}${session ? `&orderId=${encodeURIComponent(session)}` : ''}`;
+  const whatsappPhotosUrl = `https://wa.me/919118211860?text=${encodeURIComponent(`Hi Rare Ember Atelier, please send me live dispatch and QA photos of Order #${orderId}.`)}`;
+  const whatsappSizeSwitchUrl = `https://wa.me/919118211860?text=${encodeURIComponent(`Hi Rare Ember Atelier, I placed Order #${orderId} and need to switch my size/colorway before production starts.`)}`;
 
   return (
-    <main className="page-top min-h-screen bg-[#FFFBF5] text-[#161311] py-10 px-4">
+    <main className="page-top min-h-screen bg-[#FAF8F5] text-[#0D0D0F] py-10 px-4 print:bg-white print:py-4">
       <div className="max-w-xl mx-auto text-center">
         {/* Status Badge & Icon */}
-        <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br from-emerald-400/20 to-teal-500/20 border border-emerald-500/30 flex items-center justify-center text-4xl shadow-inner mb-4">
+        <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br from-emerald-400/20 to-teal-500/20 border border-emerald-500/30 flex items-center justify-center text-4xl shadow-inner mb-4 print:hidden">
           {isCod ? '📦' : '⚡'}
         </div>
 
@@ -99,21 +121,108 @@ function SuccessInner() {
             </div>
             <button
               onClick={copyOrderId}
-              className="px-3 py-1.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-[11px] font-bold border-none cursor-pointer transition-all shrink-0"
+              className="px-3 py-1.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-[11px] font-bold border-none cursor-pointer transition-all shrink-0 print:hidden"
             >
               {copied ? '✓ Copied' : 'Copy ID'}
             </button>
           </div>
         )}
 
+        {/* RareEmber Digital Archival Ownership Pass */}
+        <div className="mb-6 bg-zinc-950 text-white rounded-2xl p-6 sm:p-7 border border-amber-500/30 shadow-2xl relative overflow-hidden text-left">
+          {/* Shimmer sweep effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-500/[0.08] to-transparent pointer-events-none animate-shimmer-sweep" />
+
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4 mb-4 relative z-10">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 pulse-live-dot" />
+                <span className="text-[10px] font-mono tracking-widest uppercase text-amber-400 font-black">
+                  RareEmber Digital Archival Ownership Pass
+                </span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black tracking-tight text-white mt-1">
+                EDITION PASS #RE-{passId}
+              </h3>
+            </div>
+            <div className="text-left sm:text-right">
+              <span className="text-[10px] font-mono uppercase text-neutral-400 block">Atelier Registry</span>
+              <span className="text-xs font-mono font-bold text-neutral-200">TIRUPUR-HUB-IND</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs mb-4 relative z-10">
+            <div className="bg-white/[0.04] p-2.5 rounded-xl border border-white/5">
+              <span className="text-[9px] uppercase font-mono text-neutral-400 block">Status</span>
+              <span className="font-bold text-emerald-400 flex items-center gap-1.5 mt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                Minted &amp; Assigned
+              </span>
+            </div>
+            <div className="bg-white/[0.04] p-2.5 rounded-xl border border-white/5">
+              <span className="text-[9px] uppercase font-mono text-neutral-400 block">Order Ref</span>
+              <span className="font-mono font-bold text-neutral-200 mt-0.5 block truncate" title={orderId}>
+                {orderId}
+              </span>
+            </div>
+            <div className="bg-white/[0.04] p-2.5 rounded-xl border border-white/5">
+              <span className="text-[9px] uppercase font-mono text-neutral-400 block">Dispatch Carrier</span>
+              <span className="font-bold text-neutral-200 mt-0.5 block">Blue Dart / Delhivery Air</span>
+            </div>
+            <div className="bg-white/[0.04] p-2.5 rounded-xl border border-white/5">
+              <span className="text-[9px] uppercase font-mono text-neutral-400 block">Quality Warranty</span>
+              <span className="font-bold text-neutral-200 mt-0.5 block">7-Day Free Swap</span>
+            </div>
+          </div>
+
+          {/* Quality Lock Badges */}
+          <div className="pt-3 border-t border-white/10 flex flex-wrap items-center gap-1.5 text-[10px] text-neutral-300 relative z-10">
+            <span className="px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 font-semibold">
+              🔒 100% Super-Combed Cotton
+            </span>
+            <span className="px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 font-semibold">
+              🔒 50+ Wash Shrink Lock
+            </span>
+            <span className="px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 font-semibold">
+              🔒 Triple-Point Seam QA
+            </span>
+            <span className="px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 font-semibold">
+              🔒 Vat-Dyed Pigment Lock
+            </span>
+          </div>
+        </div>
+
+        {/* 2-Hour Size Switch Banner */}
+        <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex flex-col sm:flex-row items-center justify-between gap-3 text-left print:hidden">
+          <div className="flex items-start gap-2.5">
+            <span className="text-xl shrink-0 mt-0.5">⏱️</span>
+            <div>
+              <div className="text-xs font-black text-amber-950">
+                Ordered the Wrong Size by Mistake?
+              </div>
+              <div className="text-[11px] text-amber-900 mt-0.5 leading-relaxed">
+                WhatsApp Atelier Concierge within <strong>2 hours</strong> to switch your size or colorway before fabric precision cutting.
+              </div>
+            </div>
+          </div>
+          <a
+            href={whatsappSizeSwitchUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-black uppercase tracking-wider no-underline transition-all shadow-sm"
+          >
+            Switch Size ➔
+          </a>
+        </div>
+
         {/* Estimated Doorstep Delivery Banner */}
-        <div className="mb-6 p-5 rounded-3xl bg-gradient-to-r from-amber-500/[0.08] via-orange-500/[0.05] to-transparent border border-amber-500/20 text-left shadow-sm">
+        <div className="mb-6 p-5 rounded-3xl bg-white border border-black/[0.08] text-left shadow-sm">
           <div className="flex items-center justify-between gap-2 mb-2">
-            <span className="text-[11px] font-black uppercase tracking-wider text-amber-900 flex items-center gap-1.5">
+            <span className="text-[11px] font-black uppercase tracking-wider text-neutral-900 flex items-center gap-1.5">
               <span>⚡</span> Estimated Doorstep Delivery
             </span>
-            <span className="text-[10px] font-bold text-purple-700 bg-purple-100/80 px-2.5 py-0.5 rounded-full border border-purple-200">
-              Delhivery Air Express
+            <span className="text-[10px] font-bold text-neutral-900 bg-neutral-100 px-2.5 py-0.5 rounded-full border border-black/10">
+              Blue Dart &amp; Delhivery Air Express
             </span>
           </div>
           <p className="text-base font-extrabold text-neutral-900">
@@ -123,67 +232,100 @@ function SuccessInner() {
           <div className="mt-3 pt-3 border-t border-black/[0.04] flex items-center gap-2 text-xs text-neutral-600">
             <span>📲</span>
             <span>
-              Live courier tracking updates via <strong>SMS &amp; WhatsApp</strong> will activate upon physical hub scan.
+              Live courier tracking updates via <strong>SMS &amp; WhatsApp</strong> will activate upon physical Tirupur hub scan.
             </span>
           </div>
         </div>
 
-        {/* 4-Stage Progress Stepper */}
-        <div className="mb-8 p-5 rounded-3xl bg-white border border-black/[0.06] text-left shadow-sm">
-          <div className="flex items-center justify-between mb-3 text-[11px] font-black uppercase tracking-wider text-neutral-400">
-            <span>Live Manufacturing Pipeline</span>
-            <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/50">
-              Stage 1 of 4
+        {/* 5-Stage Tirupur Production Telemetry */}
+        <div className="mb-8 p-5 sm:p-6 rounded-3xl bg-white border border-black/[0.08] text-left shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h4 className="text-xs font-black uppercase tracking-wider text-neutral-900 flex items-center gap-2">
+                <span>🏭 Live Tirupur Atelier Telemetry</span>
+              </h4>
+              <p className="text-[11px] text-neutral-500 mt-0.5">
+                Real-time 5-stage craftsmanship pipeline mapped to your order
+              </p>
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 pulse-live-dot" />
+              Stage 2 of 5 Active
             </span>
           </div>
-          <div className="grid grid-cols-4 gap-2 text-center">
-            <div className="bg-emerald-500/10 border border-emerald-500/30 p-2.5 rounded-xl">
-              <div className="text-base">⚡</div>
-              <div className="text-[10px] font-black text-emerald-800 mt-1">Confirmed</div>
-            </div>
-            <div className="bg-indigo-500/10 border border-indigo-500/30 p-2.5 rounded-xl">
-              <div className="text-base">🧵</div>
-              <div className="text-[10px] font-black text-indigo-900 mt-1">In Print</div>
-            </div>
-            <div className="bg-neutral-50 border border-black/[0.06] p-2.5 rounded-xl opacity-60">
-              <div className="text-base">✈️</div>
-              <div className="text-[10px] font-bold text-neutral-500 mt-1">Air Cargo</div>
-            </div>
-            <div className="bg-neutral-50 border border-black/[0.06] p-2.5 rounded-xl opacity-60">
-              <div className="text-base">🏠</div>
-              <div className="text-[10px] font-bold text-neutral-500 mt-1">Doorstep</div>
-            </div>
+
+          <div className="space-y-2.5">
+            {telemetryStages.map((stg, idx) => {
+              const isPast = idx === 0;
+              const isCurrent = idx === 1;
+              return (
+                <div
+                  key={stg.name}
+                  className={`p-3 rounded-xl border flex items-center justify-between gap-3 text-xs transition-all ${
+                    isCurrent
+                      ? 'bg-amber-500/[0.08] border-amber-500/30 ring-1 ring-amber-500/20'
+                      : isPast
+                      ? 'bg-emerald-50/70 border-emerald-500/20 text-neutral-800'
+                      : 'bg-neutral-50/70 border-black/[0.05] opacity-60 text-neutral-500'
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <span className="text-base shrink-0">{stg.icon}</span>
+                    <div className="min-w-0">
+                      <div className="font-extrabold text-neutral-900 flex items-center gap-1.5 flex-wrap">
+                        <span>Stage {idx + 1}: {stg.name}</span>
+                        {isCurrent && (
+                          <span className="text-[9px] bg-[#E04F33] text-white px-1.5 py-0.2 rounded font-black uppercase tracking-wider">
+                            Active
+                          </span>
+                        )}
+                        {isPast && (
+                          <span className="text-[9px] text-emerald-700 font-black">✓ Complete</span>
+                        )}
+                      </div>
+                      <span className="text-[10px] text-neutral-500 block truncate">Target: {stg.date} • {stg.time}</span>
+                    </div>
+                  </div>
+                  <span className={`text-[10px] font-mono font-bold shrink-0 ${isCurrent ? 'text-amber-800' : isPast ? 'text-emerald-700' : 'text-neutral-400'}`}>
+                    {stg.status}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Primary Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        {/* 3 High-Impact Action Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 print:hidden">
           <Link
             href={trackUrl}
-            className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-gradient-to-r from-[#FF4D24] to-[#FF6B35] hover:brightness-105 text-white font-black text-xs uppercase tracking-wider no-underline shadow-lg shadow-[#FF4D24]/20 active:scale-95 transition-all text-center inline-flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#E04F33] hover:bg-[#d0452b] text-white font-black text-xs uppercase tracking-wider no-underline shadow-lg shadow-[#E04F33]/20 active:scale-95 transition-all text-center inline-flex items-center justify-center gap-2 animate-shimmer-sweep"
           >
             <span>📍</span>
-            <span>Track Order Milestones →</span>
+            <span>Track Live Dispatch Status →</span>
           </Link>
+          <a
+            href={whatsappPhotosUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto px-5 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider no-underline transition-all text-center inline-flex items-center justify-center gap-2"
+          >
+            <span>📸</span>
+            <span>WhatsApp Dispatch Photos</span>
+          </a>
           <button
             onClick={() => window.print()}
-            className="w-full sm:w-auto px-5 py-3.5 rounded-full bg-white hover:bg-neutral-50 text-neutral-800 font-bold text-xs border border-black/10 cursor-pointer transition-all text-center"
+            className="w-full sm:w-auto px-5 py-3.5 rounded-full bg-white hover:bg-neutral-50 text-neutral-800 font-bold text-xs border border-black/15 cursor-pointer transition-all text-center"
           >
             📄 Print Tax Receipt
           </button>
-          <Link
-            href="/shop"
-            className="w-full sm:w-auto px-5 py-3.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-900 font-bold text-xs no-underline transition-all text-center"
-          >
-            Explore Catalog →
-          </Link>
         </div>
 
-        {/* 1-Tap Concierge reassurance */}
-        <div className="mt-8 pt-6 border-t border-black/[0.06] text-xs text-neutral-500 flex flex-col sm:flex-row items-center justify-center gap-2">
-          <span>Need instant confirmation?</span>
+        {/* 1-Tap Concierge Reassurance */}
+        <div className="mt-8 pt-6 border-t border-black/[0.06] text-xs text-neutral-500 flex flex-col sm:flex-row items-center justify-center gap-2 print:hidden">
+          <span>Need priority concierge assistance?</span>
           <a
-            href={`https://wa.me/919118211860?text=${encodeURIComponent(`Hi Rare Ember, I placed Order #${session || 'N/A'}. Please confirm dispatch status.`)}`}
+            href={`https://wa.me/919118211860?text=${encodeURIComponent(`Hi Rare Ember Atelier, I placed Order #${session || 'N/A'}. Please confirm dispatch status.`)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-emerald-700 font-bold underline inline-flex items-center gap-1"

@@ -253,10 +253,10 @@ export function ChatWidget() {
     setTimeout(() => {
       const lq = q.toLowerCase();
       let a = 'For product specs, check the detailed breakdown on any product page. Free express delivery on all orders.';
-      if (lq.includes('track') || lq.includes('where')) a = 'You can track live at /track with your email. Need instant help? rareemberagency@gmail.com replies within hours.';
+      if (lq.includes('track') || lq.includes('where')) a = 'You can track live at /track with your email. Need instant help? support@rareember.shop replies within hours.';
       else if (lq.includes('ship') || lq.includes('delivery')) a = 'Orders dispatch within 24-48 hours via BlueDart & Delhivery with live SMS & email tracking.';
       else if (lq.includes('cod') || lq.includes('cash')) a = 'Cash on Delivery is available across 19,000+ PIN codes in India. Pay only when package reaches your door.';
-      else if (lq.includes('return') || lq.includes('refund')) a = '7-day easy replacement policy for damaged or defective items — email rareemberagency@gmail.com or WhatsApp us for instant replacement.';
+      else if (lq.includes('return') || lq.includes('refund')) a = '7-day easy replacement policy for damaged or defective items — email support@rareember.shop or WhatsApp us for instant replacement.';
       else if (lq.includes('quiz')) a = 'Take the 60-second style quiz at /quiz to find the ideal match for your space.';
       setMsgs((m) => [...m, { me: false, t: a }]);
     }, 600);

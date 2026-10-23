@@ -358,7 +358,7 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
                   Near Ayappa Swami Temple, Bangalore, Karnataka - 562107
                 </div>
                 <div style="color: #525252; margin-top: 4px;"><strong>Tax Category:</strong> Composition / Micro-Enterprise D2C</div>
-                <div style="color: #525252; margin-top: 2px;"><strong>Support:</strong> rareemberagency@gmail.com</div>
+                <div style="color: #525252; margin-top: 2px;"><strong>Support:</strong> support@rareember.shop</div>
               </td>
             </tr>
           </table>

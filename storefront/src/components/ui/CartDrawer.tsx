@@ -475,9 +475,18 @@ export default function CartDrawer() {
                 <span className="text-emerald-700 font-bold">Included</span>
               </div>
 
-              <div className="flex justify-between font-black text-lg text-[#12100E] pt-3 border-t border-black/10 mb-4">
+              <div className="flex justify-between font-black text-lg text-[#12100E] pt-3 border-t border-black/10 mb-3">
                 <span>Total</span>
                 <span className="text-[#FF4D24] font-black">{formatCartPrice(subtotal)}</span>
+              </div>
+
+              {/* Zero-Return Fit Reassurance Strip */}
+              <div className="mb-3 p-2.5 rounded-xl bg-[#FAF8F5] border border-black/[0.08] text-[10px] text-neutral-700 flex items-center justify-between gap-1 text-center font-bold">
+                <span>📏 Exact Chest Verified</span>
+                <span className="text-neutral-300">•</span>
+                <span>🧶 Heavyweight Bio-Washed</span>
+                <span className="text-neutral-300">•</span>
+                <span>🔄 Free 7-Day Size Swap</span>
               </div>
 
               <motion.button

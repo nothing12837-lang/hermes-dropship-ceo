@@ -148,7 +148,7 @@ export default function ProductCard({
   const isLcpCandidate = priority || (typeof rank === 'number' && rank <= 2);
 
   return (
-    <div className="group flex flex-col h-full rounded-xl bg-white border border-black/[0.08] hover:border-[#FF4D24]/30 shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden relative">
+    <div className="group flex flex-col h-full rounded-2xl bg-white border border-black/[0.08] hover:border-[#E04F33]/40 shadow-xs card-luxury-hover overflow-hidden relative">
       <Link href={productHref} className="no-underline flex flex-col flex-1">
         {/* Garment Image Container (Consistent 4:5 Aspect Ratio for Streetwear drapes) */}
         <div className="relative aspect-[4/5] bg-[#F7F4EF] overflow-hidden">
@@ -173,7 +173,7 @@ export default function ProductCard({
               loading={isLcpCandidate ? undefined : 'lazy'}
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               quality={80}
-              className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+              className="object-cover object-center group-hover:scale-[1.04] transition-transform duration-500 ease-out"
               onError={() => setImgFailed(true)}
             />
           ) : (
@@ -188,12 +188,17 @@ export default function ProductCard({
             {fabricTag}
           </span>
 
+          {/* Desktop Slide-Up Quick View Bar */}
+          <div className="absolute inset-x-0 bottom-0 z-10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out glass px-3 py-2 flex items-center justify-center text-[10px] font-bold text-neutral-800 tracking-wide pointer-events-none hidden sm:flex">
+            <span>Quick View • Sizes XS–3XL • 40&quot;–48&quot; Chest</span>
+          </div>
+
           {/* Wishlist Button */}
           <button
             onClick={handleWishlist}
             aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
-            className="absolute top-2.5 right-2.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-black/10 cursor-pointer flex items-center justify-center bg-white/90 shadow-xs hover:border-[#FF4D24] active:scale-95 transition-all z-10"
-            style={{ color: wished ? '#FF4D24' : '#12100E' }}
+            className="absolute top-2.5 right-2.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-black/10 cursor-pointer flex items-center justify-center bg-white/90 shadow-xs hover:border-[#E04F33] active:scale-95 transition-all z-10"
+            style={{ color: wished ? '#E04F33' : '#0D0D0F' }}
           >
             <span className="text-sm font-bold">{wished ? '♥' : '♡'}</span>
           </button>
@@ -201,7 +206,7 @@ export default function ProductCard({
           {/* Out of stock badge */}
           {!isInStock && (
             <div className="absolute inset-0 bg-white/75 backdrop-blur-xs flex items-center justify-center z-20">
-              <span className="text-[11px] font-black uppercase tracking-wider px-3 py-1 bg-[#12100E] text-white rounded">
+              <span className="text-[11px] font-black uppercase tracking-wider px-3 py-1 bg-[#0D0D0F] text-white rounded">
                 Restocking Soon
               </span>
             </div>
@@ -210,23 +215,55 @@ export default function ProductCard({
 
         {/* Product Details */}
         <div className="p-3 sm:p-4 flex flex-col flex-1">
-          <h3 className="text-xs sm:text-sm font-bold text-[#12100E] line-clamp-2 min-h-[2rem] leading-snug group-hover:text-[#FF4D24] transition-colors">
+          <h3 className="text-xs sm:text-sm font-bold text-[#0D0D0F] line-clamp-2 min-h-[2rem] leading-snug group-hover:text-[#E04F33] transition-colors">
             {cleanTitle}
           </h3>
 
           <div className="flex flex-col mt-auto pt-2">
-            <div className="flex items-baseline gap-2 flex-wrap">
-              <span className="text-sm sm:text-base font-black text-[#12100E] tracking-tight">{displayPrice}</span>
-              {displayOldPrice && (
-                <span className="text-[11px] text-neutral-400 line-through font-medium">{displayOldPrice}</span>
-              )}
-              {calculatedDiscount > 0 && (
-                <span className="text-[11px] font-bold text-[#FF4D24]">-{calculatedDiscount}%</span>
-              )}
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <div className="flex items-baseline gap-1.5 flex-wrap">
+                <span className="text-sm sm:text-base font-black text-[#0D0D0F] tracking-tight">{displayPrice}</span>
+                {displayOldPrice && (
+                  <span className="text-[11px] text-neutral-400 line-through font-medium">{displayOldPrice}</span>
+                )}
+                {calculatedDiscount > 0 && (
+                  <span className="text-[11px] font-bold text-[#E04F33]">-{calculatedDiscount}%</span>
+                )}
+              </div>
+
+              {/* Color preview dots */}
+              <div className="flex items-center gap-1 shrink-0" title="Available Colors">
+                {(colors && colors.length > 0 ? colors.slice(0, 4) : ['White', 'Obsidian Black', 'Navy', 'Grey Melange']).map((c, idx) => {
+                  const colorMap: Record<string, string> = {
+                    white: '#FFFFFF',
+                    black: '#0D0D0F',
+                    'obsidian black': '#0D0D0F',
+                    navy: '#1E293B',
+                    'navy blue': '#1E293B',
+                    grey: '#9CA3AF',
+                    'grey melange': '#D1D5DB',
+                    melange: '#D1D5DB',
+                    beige: '#E5DFD3',
+                    lavender: '#DDD6FE',
+                    olive: '#3F4A3C',
+                    red: '#DC2626',
+                    ember: '#E04F33',
+                  };
+                  const bg = colorMap[c.toLowerCase()] || '#9CA3AF';
+                  return (
+                    <span
+                      key={idx}
+                      className="w-2 h-2 rounded-full border border-black/20 inline-block shadow-xs"
+                      style={{ backgroundColor: bg }}
+                    />
+                  );
+                })}
+              </div>
             </div>
 
-            <div className="text-[10px] text-neutral-500 font-medium mt-1">
-              Delivery Included • 2–4d Dispatch
+            <div className="text-[10px] text-neutral-500 font-medium mt-1.5 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#059669] pulse-live-dot" />
+              <span>Live Tirupur Hub • Delivery Included</span>
             </div>
           </div>
         </div>
@@ -237,7 +274,7 @@ export default function ProductCard({
         {isInStock ? (
           <button
             onClick={handleOrderNow}
-            className="w-full py-2 sm:py-2.5 rounded-lg font-bold text-xs tracking-wide cursor-pointer btn-ember shine-hover active:scale-[0.98]"
+            className="w-full py-2 sm:py-2.5 rounded-lg font-bold text-xs tracking-wide cursor-pointer btn-ember shine-hover animate-shimmer-sweep active:scale-[0.98]"
           >
             {ctaLabel}
           </button>

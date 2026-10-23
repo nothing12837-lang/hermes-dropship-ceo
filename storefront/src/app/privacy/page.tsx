@@ -132,8 +132,8 @@ export default function PrivacyPage() {
                 <p><span className="text-neutral-500">Official Portal:</span> https://www.rareember.shop</p>
                 <p>
                   <span className="text-neutral-500">Grievance Email:</span>{' '}
-                  <a href="mailto:rareemberagency@gmail.com" className="text-[#FF4D24] underline">
-                    rareemberagency@gmail.com
+                  <a href="mailto:support@rareember.shop" className="text-[#FF4D24] underline">
+                    support@rareember.shop
                   </a>
                 </p>
                 <p><span className="text-neutral-500">Acknowledgement Timeline:</span> Within 24–48 Business Hours</p>

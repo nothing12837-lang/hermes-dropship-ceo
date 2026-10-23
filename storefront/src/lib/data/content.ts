@@ -93,7 +93,7 @@ export const faqs = [
   },
   {
     q: 'What is your 7-Day Easy Replacement policy?',
-    a: 'We offer a 7-day hassle-free replacement policy. If an item arrives damaged, defective, or with a sizing mismatch, visit our /returns portal or email rareemberagency@gmail.com with your Order ID for an immediate free doorstep replacement.',
+    a: 'We offer a 7-day hassle-free replacement policy. If an item arrives damaged, defective, or with a sizing mismatch, visit our /returns portal or email support@rareember.shop with your Order ID for an immediate free doorstep replacement.',
   },
   {
     q: 'How are your prices so competitive compared to retail stores?',

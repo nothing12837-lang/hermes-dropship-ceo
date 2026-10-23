@@ -51,7 +51,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-lg font-bold text-neutral-950 mb-2">5. Returns, Replacements & Refunds</h2>
               <p>
-                We offer a <b>7-Day Easy Replacement Policy</b>. If an item arrives damaged, defective, or incorrect, contact rareemberagency@gmail.com within 7 days of delivery with your Order ID for an immediate free replacement or resolution.
+                We offer a <b>7-Day Easy Replacement Policy</b>. If an item arrives damaged, defective, or incorrect, contact support@rareember.shop within 7 days of delivery with your Order ID for an immediate free replacement or resolution.
               </p>
             </section>
 
@@ -60,7 +60,7 @@ export default function TermsPage() {
               <p>
                 For any inquiries regarding these terms, reach our support team at:
                 <br />
-                <b>Email:</b> rareemberagency@gmail.com
+                <b>Email:</b> support@rareember.shop
                 <br />
                 <b>Website:</b> https://www.rareember.shop
               </p>

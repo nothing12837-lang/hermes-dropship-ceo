@@ -86,14 +86,14 @@ function ShopInner() {
   const active = TABS.find((c) => c.id === cat) ?? TABS[0];
 
   return (
-    <main className="page-top min-h-screen text-[#12100E] pb-20">
+    <main className="page-top min-h-screen text-[#0D0D0F] pb-20">
       {/* Editorial Catalog Header */}
-      <section className="bg-[#F4EFEA] border-b border-black/[0.08] py-8 sm:py-12">
+      <section className="bg-[#F3F0EA] border-b border-black/[0.08] py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 text-center">
-          <span className="text-xs font-mono font-bold text-[#FF4D24] uppercase tracking-wider block mb-2">
+          <span className="text-xs font-mono font-bold text-[#E04F33] uppercase tracking-wider block mb-2">
             Catalog &amp; Drops
           </span>
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#12100E] tracking-tight">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#0D0D0F] tracking-tight">
             All Garments &amp; Graphic Drops
           </h1>
           <p className="text-neutral-600 text-xs sm:text-sm md:text-base leading-relaxed max-w-xl mx-auto mt-2 font-medium">
