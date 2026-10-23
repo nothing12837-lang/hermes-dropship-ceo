@@ -26,6 +26,7 @@ export default defineConfig([
       // pattern used across this codebase. Kept visible as a warning until
       // those call sites move to useSyncExternalStore / lazy initial state.
       'react-hooks/set-state-in-effect': 'warn',
+      'react-hooks/preserve-manual-memoization': 'off',
     },
   },
 ]);

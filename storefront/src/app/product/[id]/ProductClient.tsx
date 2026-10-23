@@ -955,7 +955,7 @@ export function ProductClient({ product }: Props) {
         setSelectedImgIndex(idx);
       }
     }
-  }, [selectedColor, galleryImages, product.colorImages]);
+  }, [selectedColor, galleryImages, product.colorImages, selectedImgIndex]);
   const [failedImages, setFailedImages] = useState<Record<number, boolean>>({});
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 

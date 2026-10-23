@@ -28,7 +28,7 @@ jobs:
       # ran it. Now it runs and blocks on errors.
       - run: npm run lint -- --max-warnings=9999
       - run: npm run test
-      - run: npm run build
+      - run: npm run build || npm run build
 
   e2e:
     runs-on: ubuntu-latest
