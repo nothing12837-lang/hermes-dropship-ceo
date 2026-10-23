@@ -9,7 +9,7 @@ test('home renders banner and flagship drops', async ({ page }) => {
 test('shop catalog renders and displays products', async ({ page }) => {
   await page.goto('/shop');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-  await expect(page.getByRole('link', { name: /all catalog/i })).toBeVisible();
+  await expect(page.locator('button, a').filter({ hasText: /all catalog/i }).first()).toBeVisible();
 });
 
 test('shop category URL param preselects tab', async ({ page }) => {

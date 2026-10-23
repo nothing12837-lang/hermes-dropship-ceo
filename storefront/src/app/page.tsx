@@ -157,9 +157,9 @@ export default async function Home() {
                   <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D24] pulse-dot" />
                   Collection 01 • Flagship Drops
                 </div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-[#12100E]">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-[#12100E]">
                   Men&apos;s Graphic Streetwear
-                </h2>
+                </h1>
                 <p className="text-xs sm:text-sm text-neutral-600 mt-1">
                   High-density DTF prints on 240 GSM bio-washed combed cotton. Dispatched in 2–4 business days.
                 </p>
