@@ -8,6 +8,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { LineChart, BarList } from '@/components/admin/AgentCharts';
+import AgentTaskSuite from '@/components/admin/AgentTaskSuite';
 
 const KEY_STORAGE = 'rareember_admin_vault_key';
 
@@ -638,9 +639,11 @@ export default function AdminAgentPage() {
               </div>
             )}
 
-            {/* TAB 3: GEMINI AI STRATEGIST */}
+            {/* TAB 3: GEMINI AI MULTI-TASK SENTINEL */}
             {activeTab === 'ai' && (
               <div className="space-y-6">
+                <AgentTaskSuite adminKey={key} overview={ov} />
+
                 <div className="rounded-3xl border border-orange-500/40 bg-gradient-to-br from-[#1C122C] via-[#131B2E] to-[#1A0C08] p-6 sm:p-8 shadow-2xl relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-orange-500/15 via-purple-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
 

@@ -16,12 +16,20 @@ function providers(): ProviderCfg[] {
   const out: ProviderCfg[] = [];
   const geminiKey = process.env.GEMINI_API_KEY || '';
   if (geminiKey) {
-    out.push({
-      url: `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(process.env.GEMINI_MODEL || 'gemini-3.8-flash')}:generateContent?key=${encodeURIComponent(geminiKey)}`,
-      key: geminiKey,
-      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
-      kind: 'gemini-native',
-    });
+    const candidateModels = [
+      process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+      'gemini-2.5-flash',
+      'gemini-2.0-flash',
+    ];
+    const unique = Array.from(new Set(candidateModels));
+    for (const model of unique) {
+      out.push({
+        url: `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(geminiKey)}`,
+        key: geminiKey,
+        model,
+        kind: 'gemini-native',
+      });
+    }
   }
   return out;
 }
