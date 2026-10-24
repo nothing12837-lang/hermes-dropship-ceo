@@ -1257,9 +1257,23 @@ export default function CheckoutPage() {
 
               {/* Error box */}
               {error && (
-                <div className="mt-4 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
-                  <span>⚠️</span>
-                  <span>{error}</span>
+                <div className="mt-4 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold">
+                  <div className="flex items-center gap-2">
+                    <span>⚠️</span>
+                    <span>{error}</span>
+                  </div>
+                  {paymentMethod === 'online' && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPaymentMethod('cod');
+                        setError('');
+                      }}
+                      className="mt-2.5 w-full py-2 px-3 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-[11px] font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-xs border-none"
+                    >
+                      <span>📦</span> Switch to Cash on Delivery (COD) &amp; Complete Order
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -1479,9 +1493,23 @@ export default function CheckoutPage() {
 
               {/* Error Box above Place Order button */}
               {error && (
-                <div className="mb-4 p-3.5 rounded-2xl bg-rose-500/20 border border-rose-500/40 text-rose-200 text-xs font-bold flex items-center gap-2">
-                  <span>⚠️</span>
-                  <span>{error}</span>
+                <div className="mb-4 p-3.5 rounded-2xl bg-rose-500/20 border border-rose-500/40 text-rose-200 text-xs font-bold">
+                  <div className="flex items-center gap-2">
+                    <span>⚠️</span>
+                    <span>{error}</span>
+                  </div>
+                  {paymentMethod === 'online' && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPaymentMethod('cod');
+                        setError('');
+                      }}
+                      className="mt-2.5 w-full py-2 px-3 rounded-xl bg-white text-rose-950 text-[11px] font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm border-none"
+                    >
+                      <span>📦</span> Switch to Cash on Delivery (COD) &amp; Place Order
+                    </button>
+                  )}
                 </div>
               )}
 
