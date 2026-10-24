@@ -42,5 +42,7 @@ jobs:
           SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER || 'postgres' }}
           SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME || 'postgres' }}
           SUPABASE_DB_PASS: ${{ secrets.SUPABASE_DB_PASS }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://qdkkxpfhwrwyoardlceo.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFka2t4cGZod3J3eW9hcmRsY2VvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4Njc2OTcsImV4cCI6MjEwNjQ0MzY5N30.qFvuYQ1G9NvYGYXWVtR6b9dPScOuUIfeVQ8yX3y1DJo' }}
         run: |
           python tools/nightly_health_check.py
