@@ -5,7 +5,7 @@
 export const COPY = {
   brand: 'Rare Ember',
   slogan: 'Heavyweight streetwear and graphic drops. Crafted in India.',
-  tagline: '240 GSM combed cotton tees, 380 GSM French terry hoodies, and functional lifestyle goods.',
+  tagline: '240 GSM combed cotton tees, heavyweight full sleeve drops, and functional lifestyle goods.',
   promise: '2–4 business days express air dispatch • Standard delivery included • 7-day doorstep replacement',
 
   trustBar: [
@@ -18,7 +18,7 @@ export const COPY = {
   announcement: 'Pan-India 2–4 business days express air delivery • Shipping included in all prices • Cash on Delivery available',
 
   footer: {
-    blurb: 'Independent Indian streetwear. Engineered from heavyweight combed cotton and dense French terry. Dispatched direct from Tirupur with zero middleman markup.',
+    blurb: 'Independent Indian streetwear. Engineered from heavyweight combed cotton and architectural cuts. Dispatched direct from Tirupur with zero middleman markup.',
     cols: [
       {
         title: 'Collection',

@@ -132,10 +132,10 @@ export default function InvoiceClient() {
             total: 548,
             total_amount: 548,
             subtotal: 499,
-            status: 'processing',
+            status: 'shipped',
             payment_method: 'cod',
-            tracking_number: 'BD-18023747616',
-            tracking_url: 'https://www.delhivery.com/track/package/18023747616',
+            tracking_number: '18023747616',
+            tracking_url: 'https://www.delhivery.com/tracking?wbn=18023747616',
             created_at: '2026-10-22T07:19:00.000Z',
             items: [
               {
@@ -422,7 +422,7 @@ export default function InvoiceClient() {
                   <span className="font-black text-xs">Delhivery Air Express</span>
                 </div>
                 <div className="mt-1 font-mono text-[11px] text-emerald-900">
-                  AWB / Ref: <strong>{order?.tracking_number || 'BD-18023747616'}</strong>
+                  AWB / Ref: <strong>{order?.tracking_number || '18023747616'}</strong>
                 </div>
                 <div className="mt-1 text-[11px] text-emerald-800">
                   Service Mode: Domestic Express Air (Insured &amp; Sealed Mailer)

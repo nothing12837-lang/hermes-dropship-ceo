@@ -9,7 +9,7 @@ export const revalidate = 60; // 60s ISR: Edge cached in Mumbai (bom1)
 
 export const metadata = {
   title: 'Rare Ember — Independent Heavyweight Streetwear & Graphic Drops',
-  description: '240 GSM combed cotton streetwear, 380 GSM French terry hoodies & original graphic drops. Tailored in India, dispatched via express air with 7-day doorstep replacements.',
+  description: '240 GSM combed cotton streetwear, full sleeve silhouettes & original graphic drops. Tailored in India, dispatched via express air with 7-day doorstep replacements.',
 };
 
 function toCard(p: Product, rank?: number) {
@@ -131,7 +131,7 @@ export default async function Home() {
             <span key={i} className="flex items-center gap-8 shrink-0">
               <span className="text-[#E04F33] font-bold">240 GSM COMBED COTTON</span>
               <span>•</span>
-              <span>380 GSM FRENCH TERRY</span>
+              <span>240 GSM FULL SLEEVE DROPS</span>
               <span>•</span>
               <span className="text-[#E04F33] font-bold">TIRUPUR DOMESTIC MILLING</span>
               <span>•</span>
@@ -224,15 +224,15 @@ export default async function Home() {
                     Silhouette 02
                   </span>
                   <h3 className="text-lg font-bold text-[#12100E] mt-1 mb-2">
-                    The 380 GSM Heavy French Terry Hoodie
+                    The 240 GSM Full Sleeve Graphic Tee
                   </h3>
                   <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
-                    Brushed loopback fleece exterior with a plush interior. Double-layered crossover hood engineered to stay structured without drawstrings, paired with 2x2 heavy ribbed cuffs.
+                    Super-combed 100% bio-washed cotton engineered with snug 2-inch ribbed wrist cuffs and reinforced double-needle seams. Holds silhouette structure and zero-peel graphic vibrancy wash after wash.
                   </p>
                 </div>
                 <div className="mt-6 pt-4 border-t border-black/[0.06] flex items-center justify-between text-xs font-bold text-neutral-700">
-                  <span>Fit: Structured Oversized</span>
-                  <span>Weight: 380 GSM Terry</span>
+                  <span>Fit: Drop-Shoulder Relaxed</span>
+                  <span>Weight: 240 GSM Combed</span>
                 </div>
               </div>
             </div>
@@ -320,7 +320,7 @@ export default async function Home() {
                 Independent Streetwear. Direct from the Loom.
               </h2>
               <p className="text-sm sm:text-base text-white/70 leading-relaxed">
-                We started Rare Ember because we were tired of generic fast-fashion tees with peel-and-stick prints and paper-thin cotton. Every silhouette in our catalog is engineered in Tirupur, India, from heavyweight combed cotton and dense French terry.
+                We started Rare Ember because we were tired of generic fast-fashion tees with peel-and-stick prints and paper-thin cotton. Every silhouette in our catalog is engineered in Tirupur, India, from heavyweight combed cotton and architectural streetwear cuts.
               </p>
               <p className="text-sm sm:text-base text-white/70 leading-relaxed">
                 By working on demand with direct air fulfillment, we eliminate dead inventory and wasteful markups. Every garment is inspected, packed in premium white-label packaging, and shipped directly to your door with express air delivery.

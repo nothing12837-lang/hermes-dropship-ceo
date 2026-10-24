@@ -5,11 +5,11 @@ const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_
 export const metadata: Metadata = {
   title: 'Shop Curated Streetwear, Drinkware & Creator Essentials — Rare Ember',
   description:
-    'Explore Rare Ember catalog: heavyweight streetwear, 380 GSM fleece hoodies, artisan ceramic mugs, extended desk mats, and creator gear. Pan-India COD & Express Delivery.',
+    'Explore Rare Ember catalog: heavyweight streetwear, 240 GSM full sleeve drops, artisan ceramic mugs, extended desk mats, and creator gear. Pan-India COD & Express Delivery.',
   keywords: [
     'streetwear online india',
     'heavyweight oversized t-shirt',
-    '380 gsm fleece hoodie',
+    '240 gsm full sleeve t-shirt',
     'creator desk accessories',
     'aesthetic coffee mug',
     'cash on delivery streetwear',

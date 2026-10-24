@@ -21,7 +21,7 @@ export default function AboutPage() {
           </h1>
 
           <p className="hero-rise hero-rise-3 text-neutral-600 text-base md:text-lg mt-6 leading-relaxed font-normal max-w-2xl">
-            Rare Ember is an independent Indian streetwear label built as an antidote to disposable fast fashion. We engineer garments from scratch using 240 GSM combed cotton jersey and 380 GSM French terry fleece—proportioned with dropped shoulders, wide sleeves, and dense ribbed collars built to hold shape wash after wash.
+            Rare Ember is an independent Indian streetwear label built as an antidote to disposable fast fashion. We engineer garments from scratch using 240 GSM combed cotton jersey—proportioned with dropped shoulders, wide sleeves, and dense ribbed collars built to hold shape wash after wash.
           </p>
         </section>
 
@@ -31,7 +31,7 @@ export default function AboutPage() {
             {
               num: '01',
               title: 'Heavyweight Fabrication',
-              desc: 'Custom-milled 240 GSM combed cotton and 380 GSM loopback French terry. Pre-shrunk, substantial drape, and structured lines that never cling.',
+              desc: 'Custom-milled 240 GSM super-combed cotton. Pre-shrunk, substantial drape, and structured lines that never cling.',
             },
             {
               num: '02',

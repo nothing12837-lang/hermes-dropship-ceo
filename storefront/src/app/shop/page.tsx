@@ -97,7 +97,7 @@ function ShopInner() {
             All Garments &amp; Graphic Drops
           </h1>
           <p className="text-neutral-600 text-xs sm:text-sm md:text-base leading-relaxed max-w-xl mx-auto mt-2 font-medium">
-            240 GSM combed cotton tees, French terry hoodies &amp; blank silhouettes. Dispatched pan-India from Tirupur Hub.
+            240 GSM combed cotton tees, full sleeve drops &amp; signature silhouettes. Dispatched pan-India from Tirupur Hub.
           </p>
 
           {/* Category Tabs */}
