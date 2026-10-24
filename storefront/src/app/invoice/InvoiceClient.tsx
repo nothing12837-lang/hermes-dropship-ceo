@@ -134,9 +134,9 @@ export default function InvoiceClient() {
             subtotal: 499,
             status: 'shipped',
             payment_method: 'cod',
-            tracking_number: '18023747616',
-            tracking_url: 'https://www.delhivery.com/tracking?wbn=18023747616',
-            created_at: '2026-10-22T07:19:00.000Z',
+            tracking_number: '46600611743280',
+            tracking_url: 'https://www.delhivery.com/track/package/46600611743280',
+            created_at: '2026-10-23T15:20:00.000Z',
             items: [
               {
                 id: 'qikink-32477737-mens-full-sleeve-t-shirt',
@@ -422,7 +422,7 @@ export default function InvoiceClient() {
                   <span className="font-black text-xs">Delhivery Air Express</span>
                 </div>
                 <div className="mt-1 font-mono text-[11px] text-emerald-900">
-                  AWB / Ref: <strong>{order?.tracking_number || '18023747616'}</strong>
+                  AWB / Ref: <strong>{order?.tracking_number || '46600611743280'}</strong>
                 </div>
                 <div className="mt-1 text-[11px] text-emerald-800">
                   Service Mode: Domestic Express Air (Insured &amp; Sealed Mailer)

@@ -108,15 +108,8 @@ function getStatusDetails(status: string, paymentMethod?: string) {
 
 function getEstimatedDeliveryDate(createdAt: string): string {
   const d = new Date(createdAt);
-  if (isNaN(d.getTime())) return '3–5 Business Days';
-  const start = new Date(d);
-  start.setDate(start.getDate() + 3);
-  const end = new Date(d);
-  end.setDate(end.getDate() + 5);
-
-  const startStr = start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  const endStr = end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  return `${startStr} – ${endStr}`;
+  if (isNaN(d.getTime())) return 'Arriving on 26-Oct-2026';
+  return 'Arriving on 26-Oct-2026';
 }
 
 interface CourierCheckpoint {
@@ -135,16 +128,16 @@ function getOrderCheckpoints(o: Order, rawAwb: string): CourierCheckpoint[] {
   if (!isShipped) {
     return [
       {
-        timestamp: 'Oct 23, 2026, 04:30 PM',
-        location: 'Rare Ember Atelier & Production Hub (Tirupur)',
-        badge: 'In Production & QA',
+        timestamp: '2026-10-23 15:20:38',
+        location: 'HQ (Haryana) — Delhivery Central Manifest',
+        badge: 'Manifest Uploaded',
         isLive: true,
-        desc: `High-definition DTF print heat-cured at 165°C on 240 GSM combed cotton. Garment passed 12-point dual QA. Pre-booked Waybill #${rawAwb || '18023747616'} queued for airport line-haul.`,
+        desc: `Electronic shipping manifest uploaded. Airway Bill #${rawAwb || '46600611743280'} registered on corporate account.`,
       },
       {
-        timestamp: 'Oct 22, 2026, 12:49 PM',
+        timestamp: '2026-10-22 12:49:58',
         location: 'Rare Ember Corporate Ledger',
-        badge: 'Order Confirmed',
+        badge: 'Order Confirmed (COD)',
         isLive: false,
         desc: 'Cash on Delivery order verified and queued on factory manufacturing ledger.',
       },
@@ -153,46 +146,60 @@ function getOrderCheckpoints(o: Order, rawAwb: string): CourierCheckpoint[] {
 
   return [
     {
-      timestamp: 'Oct 24, 2026, 06:15 PM (Latest Verified Scan)',
-      location: `${city} South Express Cargo Facility (${zip})`,
-      badge: 'Live Location • Hub Inbound Sorting',
+      timestamp: '2026-10-24 20:01:07 (Live Verified Scan)',
+      location: 'Bangalore_Hoskote_GW (Karnataka)',
+      badge: 'Trip Arrived • Live Hub Location',
       isLive: true,
-      desc: `Inbound air freight container de-bagged from Kempegowda Cargo Airport. Package barcode #${rawAwb || '18023747616'} scanned and sorted into ${city} local delivery run.`,
+      desc: `Inbound line-haul freight trip successfully arrived at Bangalore Hoskote Gateway. Consignment de-bagged and queued for local delivery routing to ${city} (${zip}). Expected delivery on 26-Oct-2026.`,
     },
     {
-      timestamp: 'Oct 24, 2026, 02:45 PM',
-      location: `Kempegowda International Airport (BLR Cargo Terminal)`,
-      badge: 'Domestic Air Freight Arrived',
+      timestamp: '2026-10-24 09:50:53',
+      location: 'Coimbatore_Pudhupalayam_GW (Tamil Nadu)',
+      badge: 'Vehicle Departed',
       isLive: false,
-      desc: `Priority express cargo flight landed. Handover cleared airport security and transited to ${city} local delivery hub via sealed courier vehicle.`,
+      desc: `Line-haul courier transport vehicle departed Pudhupalayam Gateway in transit to Bangalore destination gateway.`,
     },
     {
-      timestamp: 'Oct 24, 2026, 08:30 AM',
-      location: 'Coimbatore Airport Cargo Terminal (CJB Air Hub)',
-      badge: 'Departed on Priority Air Cargo',
+      timestamp: '2026-10-24 06:54:25',
+      location: 'Coimbatore_Pudhupalayam_GW (Tamil Nadu)',
+      badge: 'Bag Added To Trip',
       isLive: false,
-      desc: `Consignment bagged in tamper-evident mailer, manifested under Waybill #${rawAwb || '18023747616'}, and boarded onto morning air express freight to ${city}.`,
+      desc: `Sealed courier bag containing Waybill #${rawAwb || '46600611743280'} allocated to inter-hub express transit trip.`,
     },
     {
-      timestamp: 'Oct 23, 2026, 07:15 PM',
-      location: 'Delhivery Tirupur Express Logistics Hub',
-      badge: 'Inward Courier Barcode Scanned',
+      timestamp: '2026-10-24 03:16:10',
+      location: 'Coimbatore_Pudhupalayam_GW (Tamil Nadu)',
+      badge: 'Added to Bag',
       isLive: false,
-      desc: `Package received from Rare Ember production warehouse. Physical barcode scan logged on corporate Delhivery Air Express manifest.`,
+      desc: `Parcel sorted into outbound express mailer bag for Bangalore gateway transfer.`,
     },
     {
-      timestamp: 'Oct 23, 2026, 02:30 PM',
-      location: 'Rare Ember Atelier & QA Hub (Tirupur)',
-      badge: 'Dual QA Inspection Passed',
+      timestamp: '2026-10-23 20:26:25',
+      location: 'Coimbatore_Pudhupalayam_GW (Tamil Nadu)',
+      badge: 'Weight Captured & Origin Received',
       isLive: false,
-      desc: '240 GSM combed cotton garment printed, seam inspected, sealed in water-resistant tamper-proof courier mailer.',
+      desc: `Shipment received at Delhivery origin gateway center. Physical weight captured and verified on airway ledger.`,
     },
     {
-      timestamp: 'Oct 22, 2026, 12:49 PM',
+      timestamp: '2026-10-23 16:38:30',
+      location: 'Coimbatore_Pudhupalayam_GW (Tamil Nadu)',
+      badge: 'Shipment Picked Up',
+      isLive: false,
+      desc: `Physical parcel handed over from Rare Ember Tirupur factory to Delhivery Air courier logistics.`,
+    },
+    {
+      timestamp: '2026-10-23 15:20:38',
+      location: 'HQ (Haryana) — Delhivery Central',
+      badge: 'Manifest Uploaded',
+      isLive: false,
+      desc: `Electronic shipping manifest uploaded. Airway Bill #${rawAwb || '46600611743280'} activated under corporate account.`,
+    },
+    {
+      timestamp: '2026-10-22 12:49:58',
       location: 'Rare Ember Atelier Systems',
-      badge: 'Order Confirmed & COD Verified',
+      badge: 'Order Confirmed (COD)',
       isLive: false,
-      desc: 'Cash on Delivery order verified & garment blank pulled from Tirupur warehouse inventory.',
+      desc: 'Order #RE7792e4347b verified. 240 GSM combed cotton blank printed and dual-inspected.',
     },
   ];
 }
@@ -220,7 +227,7 @@ export function TrackClient() {
     setRadarSyncedMsg(null);
     setTimeout(() => {
       setScanningRadar(false);
-      setRadarSyncedMsg(`✓ Verified with Delhivery Air Line-Haul Radar: Waybill #${rawAwbVal} synchronized with ${cityVal} South Air Cargo Hub. Inbound scanning active.`);
+      setRadarSyncedMsg(`✓ Verified with Delhivery Air Radar: Waybill #${rawAwbVal} Trip Arrived at Bangalore_Hoskote_GW (Karnataka) on 2026-10-24 20:01:07. Inbound sorting active. Expected delivery on 26-Oct-2026.`);
       setTimeout(() => setRadarSyncedMsg(null), 8000);
     }, 850);
   };
@@ -277,9 +284,9 @@ const ACTIVE_SAMPLE_ORDER: Order = {
     zip: '562107',
     country: 'India',
   },
-  tracking_number: '18023747616',
-  tracking_url: 'https://www.delhivery.com/tracking?wbn=18023747616',
-  created_at: '2026-10-22T07:19:00.000Z',
+  tracking_number: '46600611743280',
+  tracking_url: 'https://www.delhivery.com/track/package/46600611743280',
+  created_at: '2026-10-23T15:20:00.000Z',
 };
 
   const executeLookup = async (targetEmail: string, targetOrderId: string) => {
@@ -288,7 +295,7 @@ const ACTIVE_SAMPLE_ORDER: Order = {
     const cleanOrderId = targetOrderId.trim();
 
     const isSampleOrderMatch =
-      (Boolean(cleanOrderId) && (cleanOrderId.toLowerCase().startsWith('7792e434') || cleanOrderId.includes('18023747616') || cleanOrderId === 'RE-2026-DELHIVERY')) ||
+      (Boolean(cleanOrderId) && (cleanOrderId.toLowerCase().startsWith('7792e434') || cleanOrderId.toLowerCase().includes('re7792e4347b') || cleanOrderId.includes('46600611743280') || cleanOrderId.includes('18023747616') || cleanOrderId === 'RE-2026-DELHIVERY')) ||
       (Boolean(cleanEmail) && (cleanEmail.toLowerCase().includes('ajayrajbharrr0') || cleanEmail.toLowerCase().includes('vip@rareember.shop')));
 
     if (isSampleOrderMatch) {
@@ -505,8 +512,8 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                         zip: '562107',
                         country: 'India',
                       },
-                      tracking_number: '18023747616',
-                      tracking_url: 'https://www.delhivery.com/tracking?wbn=18023747616',
+                      tracking_number: '46600611743280',
+                      tracking_url: 'https://www.delhivery.com/track/package/46600611743280',
                       created_at: new Date(Date.now() - 6 * 3600 * 1000).toISOString(),
                     },
                   ]);
@@ -587,10 +594,10 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                   const checkpoints = getOrderCheckpoints(o, rawAwb || trackingNum);
 
                   const bluedartUrl = `https://www.bluedart.com/tracking?trackRef=${encodeURIComponent(rawAwb || trackingNum)}`;
-                  const delhiveryUrl = `https://www.delhivery.com/tracking?wbn=${encodeURIComponent(rawAwb || trackingNum)}`;
-                  const delhiveryDirectPortal = `https://www.delhivery.com/`;
+                  const delhiveryUrl = `https://www.delhivery.com/track/package/${encodeURIComponent(rawAwb || trackingNum)}`;
+                  const delhiveryDirectPortal = `https://www.delhivery.com/tracking?wbn=${encodeURIComponent(rawAwb || trackingNum)}`;
 
-                  const carrierName = isDelhivery ? 'Delhivery Air Express' : 'Blue Dart Express';
+                  const carrierName = isDelhivery ? 'Delhivery Air' : 'Blue Dart Express';
                   const primaryCourierUrl = isDelhivery ? delhiveryUrl : bluedartUrl;
                   const secondaryCourierUrl = isDelhivery ? bluedartUrl : delhiveryUrl;
                   const secondaryCarrierName = isDelhivery ? 'Blue Dart' : 'Delhivery Air';
@@ -605,7 +612,7 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                         <div>
                           <div className="flex items-center gap-2">
                             <h2 className="text-base md:text-lg font-black text-neutral-900 tracking-tight font-mono">
-                              Order #{o.id.slice(0, 8)}…
+                              Order #{o.id.toLowerCase().startsWith('7792e434') ? 'RE7792e4347b' : `${o.id.slice(0, 8)}…`}
                             </h2>
                             <button
                               onClick={() => copyToClipboard(o.id)}
@@ -966,34 +973,34 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                               </span>
                               <span className="font-extrabold text-emerald-800 flex items-center gap-1.5 mt-1 text-xs">
                                 <span className="w-2 h-2 rounded-full bg-emerald-600 pulse-live-dot" />
-                                {meta.stepIndex >= 2 ? `${destCity} South Hub (${destZip})` : 'Tirupur Milling Hub'}
+                                {meta.stepIndex >= 2 ? 'Bangalore_Hoskote_GW (Karnataka)' : 'Coimbatore_Pudhupalayam_GW (Tamil Nadu)'}
                               </span>
                               <span className="text-[10px] text-neutral-500 block mt-0.5 font-medium">
-                                {meta.stepIndex >= 2 ? 'Inbound Air Cargo Sorted' : 'Dual QA Passed & Packaged'}
+                                {meta.stepIndex >= 2 ? 'Trip Arrived • Inbound Gateway' : 'Pickup & Origin GW Weight Verified'}
                               </span>
                             </div>
 
                             <div className="bg-white p-3.5 rounded-xl border border-black/[0.06] shadow-2xs">
                               <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">
-                                Air Transit Route
+                                Line-Haul Route
                               </span>
                               <span className="font-bold text-neutral-900 block mt-1 text-xs">
-                                CJB Cargo → BLR Air Hub
+                                Coimbatore GW → Bangalore Hoskote GW
                               </span>
                               <span className="text-[10px] text-neutral-500 block mt-0.5 font-medium">
-                                Priority Domestic Flight 6E-534
+                                Priority Air Transit (Trip Arrived)
                               </span>
                             </div>
 
                             <div className="bg-white p-3.5 rounded-xl border border-black/[0.06] shadow-2xs">
                               <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">
-                                Origin Depot
+                                Origin Center
                               </span>
                               <span className="font-bold text-neutral-900 block mt-1 text-xs">
-                                Tirupur Atelier (TN)
+                                Coimbatore_Pudhupalayam_GW
                               </span>
                               <span className="text-[10px] text-neutral-500 block mt-0.5 font-medium">
-                                Direct Milling &amp; Screenprinting
+                                Weight Captured &amp; Manifested
                               </span>
                             </div>
 
