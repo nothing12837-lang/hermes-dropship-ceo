@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -52,7 +52,8 @@ export default function CheckoutPage() {
   const [zip, setZip] = useState('');
   const [addressType, setAddressType] = useState<'home' | 'office' | 'other'>('home');
   const [pincodeLoading, setPincodeLoading] = useState(false);
-  const [pincodeInfo, setPincodeInfo] = useState<{ city: string; state: string; valid: boolean } | null>(null);
+  const [pincodeInfo, setPincodeInfo] = useState<{ city: string; state: string; valid: boolean; error?: string } | null>(null);
+  const pincodeTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [hasSavedAddress, setHasSavedAddress] = useState(false);
   // COD is the advertised option for an India D2C store and the server
   // already caps it at Rs.3,000 for RTO protection. Defaulting to 'online'
@@ -140,8 +141,8 @@ export default function CheckoutPage() {
   }, []);
 
   const lookupPincode = async (cleanPin: string) => {
-    if (cleanPin.length !== 6 || !/^\d{6}$/.test(cleanPin)) {
-      setPincodeInfo(null);
+    if (!/^[1-9][0-9]{5}$/.test(cleanPin)) {
+      setPincodeInfo({ city: '', state: '', valid: false, error: 'Indian PIN codes must start with digits 1-9 and be 6 digits.' });
       return;
     }
     setPincodeLoading(true);
@@ -175,7 +176,12 @@ export default function CheckoutPage() {
           stockStatus: 'Ready to Dispatch (Tirupur Hub)',
         }));
       } else {
-        setPincodeInfo({ city: '', state: '', valid: true });
+        setPincodeInfo({
+          city: '',
+          state: '',
+          valid: false,
+          error: `Postal PIN ${cleanPin} is not recognized. Please check your 6-digit PIN code.`
+        });
       }
     } catch {
       // Offline fallback: don't block shopper
@@ -914,8 +920,15 @@ export default function CheckoutPage() {
                         onChange={(e) => {
                           const val = e.target.value.replace(/\D/g, '').slice(0, 6);
                           setZip(val);
+                          if (pincodeTimerRef.current) clearTimeout(pincodeTimerRef.current);
                           if (val.length === 6) {
-                            lookupPincode(val);
+                            if (!/^[1-9][0-9]{5}$/.test(val)) {
+                              setPincodeInfo({ city: '', state: '', valid: false, error: 'Indian PIN codes must start with digits 1-9' });
+                            } else {
+                              pincodeTimerRef.current = setTimeout(() => {
+                                lookupPincode(val);
+                              }, 300);
+                            }
                           } else {
                             setPincodeInfo(null);
                           }
@@ -933,13 +946,24 @@ export default function CheckoutPage() {
                   </div>
 
                   <div className="flex flex-col justify-end">
-                    {pincodeInfo?.city ? (
-                      <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-500/20 text-emerald-800 text-xs">
+                    {pincodeLoading ? (
+                      <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-900 text-xs flex items-center gap-2">
+                        <span className="w-3.5 h-3.5 border-2 border-amber-600 border-t-transparent rounded-full animate-spin shrink-0" />
+                        <span className="text-[11px] font-semibold">Verifying Postal Hub via Delhivery Network…</span>
+                      </div>
+                    ) : pincodeInfo?.valid && pincodeInfo.city ? (
+                      <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-500/30 text-emerald-900 text-xs shadow-xs">
                         <p className="font-bold flex items-center gap-1.5">
-                          <span>⚡</span> Express Courier Serviceable
+                          <span>🟢</span> Express Air Serviceable to {pincodeInfo.city}, {pincodeInfo.state} (Est. 2–4 Days via Delhivery Air)
                         </p>
                         <p className="text-[11px] text-emerald-700 mt-0.5">
-                          Postal Hub: <strong>{pincodeInfo.city}</strong>, <strong>{pincodeInfo.state}</strong> (Air Priority)
+                          Postal Hub: <strong>{pincodeInfo.city}</strong> • Priority Domestic Flight Manifested
+                        </p>
+                      </div>
+                    ) : pincodeInfo && !pincodeInfo.valid ? (
+                      <div className="p-2.5 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 text-xs shadow-xs">
+                        <p className="font-bold flex items-center gap-1.5">
+                          <span>⚠️</span> {pincodeInfo.error || 'Postal PIN not recognized. Please check your 6-digit PIN code.'}
                         </p>
                       </div>
                     ) : (

@@ -160,8 +160,25 @@ export default function InvoiceClient() {
   };
 
   useEffect(() => {
+    try {
+      const hasParam = searchParams.get('orderId') || searchParams.get('id');
+      if (!hasParam) {
+        const cached = localStorage.getItem('rareember_last_order') || localStorage.getItem('rareember_recent_order');
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed && (parsed.id || parsed.orderId)) {
+            const cachedId = parsed.id || parsed.orderId;
+            const cachedEmail = parsed.email || parsed.user_email || '';
+            setInputOrderId(cachedId);
+            if (cachedEmail) setInputEmail(cachedEmail);
+            void fetchInvoiceOrder(cachedId, cachedEmail);
+            return;
+          }
+        }
+      }
+    } catch {}
     void fetchInvoiceOrder(initialOrderId, initialEmail);
-  }, [initialOrderId, initialEmail]);
+  }, [initialOrderId, initialEmail, searchParams]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();

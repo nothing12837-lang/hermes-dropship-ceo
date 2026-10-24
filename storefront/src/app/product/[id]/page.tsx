@@ -20,36 +20,44 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!product) notFound();
 
   const cleanSlug = product.slug || product.id;
+  const currentPrice = product.price_inr || product.price || 999;
   const description =
-    product.short || `Buy ${product.title} online at Rare Ember. Pan-India Express Delivery with Razorpay & Cash on Delivery.`;
+    product.short ||
+    `Get ${product.title} for ₹${currentPrice} at Rare Ember. 100% Super-Combed Bio-Washed Tirupur Cotton. Fast Pan-India Express Air Shipping via Delhivery Air with COD & Free 7-Day Size Replacement.`;
 
   const canonicalUrl = `${siteUrl}/product/${cleanSlug}`;
+  const rawImage = product.image_url || '/flame-icon.png';
+  const ogImageUrl = rawImage.startsWith('http') ? rawImage : `${siteUrl}${rawImage}`;
 
   return {
-    title: `${product.title} — Buy Online`,
+    title: `${product.title} — ₹${currentPrice} | Rare Ember`,
     description,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: `${product.title} | Rare Ember`,
+      title: `${product.title} — ₹${currentPrice} | Rare Ember`,
       description,
       url: canonicalUrl,
+      siteName: 'Rare Ember Atelier',
       type: 'website',
+      locale: 'en_IN',
       images: [
         {
-          url: product.image_url || '/flame-icon.png',
-          width: 800,
-          height: 800,
-          alt: product.title,
+          url: ogImageUrl,
+          width: 1200,
+          height: 1200,
+          alt: `${product.title} — Rare Ember Atelier Streetwear`,
+          type: 'image/jpeg',
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: product.title,
+      title: `${product.title} — ₹${currentPrice} | Rare Ember`,
       description,
-      images: [product.image_url || '/flame-icon.png'],
+      images: [ogImageUrl],
+      creator: '@rareember',
     },
   };
 }

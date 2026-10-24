@@ -862,6 +862,40 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                                   Pay {geoFormatPrice(o.total)} via Cash or UPI QR to delivery executive
                                 </p>
                               )}
+
+                              {/* Failure Mode E08: COD-to-Prepaid UPI Conversion */}
+                              {isCod && o.status !== 'delivered' && o.status !== 'cancelled' && (
+                                <div className="mt-3 p-3.5 rounded-xl bg-gradient-to-br from-amber-500/[0.12] via-orange-500/[0.08] to-emerald-500/[0.1] border border-orange-500/30 text-left">
+                                  <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-orange-950 mb-1">
+                                    <span>⚡</span> Upgrade to Prepaid UPI &amp; Save ₹49
+                                  </div>
+                                  <p className="text-[11px] text-neutral-700 leading-relaxed mb-2.5">
+                                    Eliminate doorstep cash hassle. Settle online via UPI / QR now to waive the ₹49 COD courier handling fee and get your package prioritized on the earliest Delhivery flight.
+                                  </p>
+                                  <div className="flex flex-wrap items-center gap-2">
+                                    <a
+                                      href={`https://wa.me/919118211860?text=${encodeURIComponent(
+                                        `Namaste Rare Ember Atelier! 🙏\n\nI want to convert my COD Order #${o.id.slice(0, 8)} (Total: ₹${o.total}) to Prepaid UPI to save the ₹49 COD fee and unlock priority air dispatch.\n\nPlease share the official UPI QR / payment link.`
+                                      )}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="px-3 py-1.5 rounded-lg bg-[#0D0D0F] hover:bg-neutral-800 text-white text-[11px] font-black uppercase tracking-wider no-underline shadow-xs flex items-center gap-1.5 transition-all cursor-pointer"
+                                    >
+                                      <span>📲</span> Pay via WhatsApp UPI (Save ₹49)
+                                    </a>
+                                    <a
+                                      href={`https://wa.me/919118211860?text=${encodeURIComponent(
+                                        `Hi Rare Ember Atelier! Please send me the instant UPI QR code to pay ₹${(o.total - 49) > 0 ? o.total - 49 : o.total} for Order #${o.id.slice(0, 8)}.`
+                                      )}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="px-3 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-700 text-white text-[11px] font-black uppercase tracking-wider no-underline shadow-xs flex items-center gap-1 transition-all cursor-pointer"
+                                    >
+                                      <span>⚡</span> Get Instant UPI QR
+                                    </a>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>

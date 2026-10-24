@@ -48,6 +48,8 @@ export default function robots(): MetadataRoute.Robots {
           '/about',
           '/contact',
           '/returns',
+          '/invoice',
+          '/track',
           '/blog',
           '/custom-drops',
         ],
