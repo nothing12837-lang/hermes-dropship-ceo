@@ -3,7 +3,7 @@ import { CustomDropsClient } from './CustomDropsClient';
 
 export const metadata = {
   title: 'Custom Merch for Hackathons, College Fests & Startups | RareEmber™',
-  description: 'Direct Tirupur manufacturing with zero setup fees. 240 GSM tees, 380 GSM hoodies & desk mats with 4-day delivery for college clubs & tech startups.',
+  description: 'Direct Tirupur manufacturing with zero setup fees. 240 GSM tees, full sleeve drops & desk mats with 4-day delivery for college clubs & tech startups.',
 };
 
 export default function CustomDropsPage() {

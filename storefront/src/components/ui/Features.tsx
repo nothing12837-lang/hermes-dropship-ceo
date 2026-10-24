@@ -11,7 +11,7 @@ import { ScrollReveal } from './ScrollReveal';
 // — Shop by Department —
 export function ShopByDepartment({ onPick }: { onPick?: (dept: string) => void }) {
   const cards = [
-    { id: 'fashion', title: 'Heavyweight Streetwear', sub: '240 GSM drop-shoulder tees, 380 GSM fleece', emoji: '👕', color: '#ff4d24', bg: '#fff7ed' },
+    { id: 'fashion', title: 'Heavyweight Streetwear', sub: '240 GSM drop-shoulder tees, bio-washed cotton', emoji: '👕', color: '#ff4d24', bg: '#fff7ed' },
     { id: 'home-garden', title: 'Artisan Drinkware', sub: 'Stoneware mugs, matte tumblers, coasters', emoji: '☕', color: '#16a34a', bg: '#f0fdf4' },
     { id: 'electronics', title: 'Desk & Creator Gear', sub: '900x400 extended mats, mousepads, EDC', emoji: '🖥️', color: '#2563eb', bg: '#eff6ff' },
   ];

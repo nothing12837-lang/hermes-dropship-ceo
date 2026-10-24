@@ -30,7 +30,7 @@ export default function BulkOrdersPage() {
               Custom Merch &amp; <span className="text-gradient-ember">Bulk Orders</span>
             </h1>
             <p className="text-sm sm:text-base text-neutral-300 max-w-2xl leading-relaxed">
-              Equip your hackathon, college club, startup team, or creator brand with studio-grade 240 GSM tees and 380 GSM fleece hoodies. Direct factory pricing, free 3D proofs, and 20% advance booking.
+              Equip your hackathon, college club, startup team, or creator brand with studio-grade 240 GSM tees and full sleeve drops. Direct factory pricing, free 3D proofs, and 20% advance booking.
             </p>
 
             <div className="pt-3 flex flex-wrap items-center gap-3">
@@ -90,7 +90,7 @@ export default function BulkOrdersPage() {
                       <strong className="text-neutral-950 font-mono text-sm">₹{tier.teePrice}</strong>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-neutral-600">380 GSM Hoodie:</span>
+                      <span className="text-neutral-600">Full Sleeve Tee:</span>
                       <strong className="text-neutral-950 font-mono text-sm">₹{tier.hoodiePrice}</strong>
                     </div>
                     <div className="flex items-center justify-between">

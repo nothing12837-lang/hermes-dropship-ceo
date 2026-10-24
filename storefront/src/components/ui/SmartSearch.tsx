@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 const TRENDING_SEARCHES = [
   '240 GSM Oversized Tee',
-  '380 GSM Heavyweight Hoodie',
+  '240 GSM Full Sleeve Drop',
   'Tokyo Cyber Mecha',
   'Vintage Acid Flame',
   '900x400 Desk Mat',

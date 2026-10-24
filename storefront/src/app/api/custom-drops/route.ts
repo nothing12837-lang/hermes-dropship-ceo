@@ -14,13 +14,13 @@ export async function GET() {
     location: 'Tirupur Domestic Manufacturing Hub',
     capabilities: [
       '240 GSM Combed Cotton Heavyweight Tees',
-      '380 GSM Heavyweight Fleece Hoodies',
+      '240 GSM Full Sleeve Signature Graphic Drops',
       'Ultra-HD Fade-Proof DTF Printing',
       '20% Advance Booking & Batch Locking',
       'Door Delivery in 4-6 Days Pan-India'
     ],
     contact: {
-      whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '+919321689264',
+      whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '+919118211860',
       email: 'founder@rareember.shop'
     }
   });

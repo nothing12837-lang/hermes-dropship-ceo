@@ -179,6 +179,9 @@ export const DISALLOWED_KEYWORDS = [
   'cozy-nest',
   'aesthetic-scratch',
   'smart-fetch',
+  '380gsm',
+  '380-gsm',
+  'heavyweight-streetwear-hoodie',
 ];
 
 export function isDisallowedProduct(p: { id?: string; slug?: string }): boolean {

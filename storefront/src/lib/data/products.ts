@@ -119,7 +119,7 @@ export function computeDiscount(rawPrice: number, rawCompare?: number, priceInr?
 export const SHOP_CATEGORIES = [
   { id: 'mens-printed', label: "Men's Graphic Drops", count: 18, hint: '240 GSM Combed Cotton Drops' },
   { id: 'printed', label: 'All Graphic Prints', count: 24, hint: 'High-Density Direct-to-Film Prints' },
-  { id: 'mens', label: "Men's & Unisex", count: 23, hint: 'Oversized Tees, Hoodies & Fleece' },
+  { id: 'mens', label: "Men's & Unisex", count: 23, hint: 'Oversized & Full Sleeve Graphic Tees' },
   { id: 'womens', label: "Women's Collection", count: 7, hint: 'Crops, Tees & Typographic Prints' },
   { id: 'kids', label: "Kids Streetwear", count: 2, hint: '180 GSM Bio-Washed Combed Cotton' },
   { id: 'blanks', label: 'Essential Blanks', count: 8, hint: 'Solid Silhouettes & Acid Wash' },

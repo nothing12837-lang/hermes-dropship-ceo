@@ -64,7 +64,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Products indexed for Google (combines static catalog + any dynamic Supabase products)
   const productMap = new Map<string, { slug: string; updated_at?: string }>();
-  fallbackProducts.forEach((p) => productMap.set(p.slug || p.id, { slug: p.slug || p.id }));
+  fallbackProducts
+    .filter((p) => !isDisallowedProduct(p))
+    .forEach((p) => productMap.set(p.slug || p.id, { slug: p.slug || p.id }));
   liveProducts.forEach((p) => {
     const slug = p.slug || p.id;
     if (slug) productMap.set(slug, { slug, updated_at: p.updated_at });

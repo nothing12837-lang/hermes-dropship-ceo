@@ -67,17 +67,17 @@ export const blogPosts: BlogPost[] = [
     ],
   },
   {
-    slug: 'how-to-style-oversized-boxy-hoodies',
+    slug: 'how-to-style-oversized-full-sleeve-tees',
     emoji: '✨',
     category: 'Style & Fit Guide',
-    title: 'The Definitive Guide to Styling 380 GSM Heavyweight Boxy Hoodies',
-    excerpt: 'From wide-leg cargo pants to layered streetwear aesthetics: how to rock heavyweight fleece in everyday Indian street style.',
+    title: 'The Definitive Guide to Styling 240 GSM Full Sleeve Graphic Tees',
+    excerpt: 'From wide-leg cargo pants to layered streetwear aesthetics: how to rock heavyweight cotton in everyday Indian street style.',
     readTime: '3 min',
     wash: '#ede9fe',
     body: [
-      'An oversized hoodie is the centerpiece of modern minimalist fashion. The secret lies in weight: a 380 GSM brushed fleece hoodie naturally sits structured over the shoulders and chest without sagging.',
+      'A heavyweight full sleeve tee is the centerpiece of modern minimalist fashion. The secret lies in weight: 240 GSM combed cotton naturally sits structured over the shoulders and chest without sagging or clinging.',
       'For the ultimate casual street aesthetic, balance the boxy upper volume with relaxed-fit parachute trousers or raw denim and clean neutral sneakers.',
-      'Always wash cold inside-out and avoid direct hot ironing on DTF chest or back graphics to keep your hoodie looking pristine for years.',
+      'Always wash cold inside-out and avoid direct hot ironing on DTF chest or back graphics to keep your tee looking pristine for years.',
     ],
   },
 ];
@@ -113,7 +113,7 @@ export const lifestyleTips = [
 
 export const reviewsFull = [
   { product: 'rareember-heavyweight-oversized-graphic-tee', name: 'Aarav M., Mumbai', verified: 'Verified Buyer', stars: 5, text: 'The 240 GSM fabric weight is unreal! Thick, structured drop shoulders, and the graphic print is razor sharp. Easily rivals luxury streetwear drops charging ₹3,500.' },
-  { product: 'rareember-heavyweight-streetwear-hoodie', name: 'Vikram S., Bengaluru', verified: 'Verified Buyer', stars: 5, text: '380 GSM fleece is so warm and cozy. Boxy fit is spot on and the kangaroo pocket has reinforced stitching. BlueDart delivered in 3 days.' },
+  { product: 'qikink-32477737-mens-full-sleeve-t-shirt', name: 'Vikram S., Bengaluru', verified: 'Verified Buyer', stars: 5, text: '240 GSM bio-washed cotton drape is unreal. The full sleeve cuffs fit snugly and the graphic looks high-end. Delhivery Air delivered in 2 days.' },
   { product: 'rareember-artisan-matte-ceramic-coffee-mug', name: 'Ananya R., Delhi NCR', verified: 'Verified Buyer', stars: 5, text: 'Matte terracotta finish feels super premium in hand. Safely packed in molded thermocol with zero scratches. My morning coffee go-to!' },
   { product: 'rareember-custom-heavyweight-oversized-tee', name: 'Sneha P., Pune', verified: 'Verified Buyer', stars: 5, text: 'Ordered with my custom initials on the chest. The DTF print quality is crisp and looks factory tailored. Best personalized gift ever.' },
   { product: 'rareember-minimalist-desk-mat', name: 'Rahul D., Hyderabad', verified: 'Verified Buyer', stars: 5, text: 'Massive desk mat with water-resistant surface and anti-fray stitched edges. Upgraded my dual monitor setup instantly.' },
