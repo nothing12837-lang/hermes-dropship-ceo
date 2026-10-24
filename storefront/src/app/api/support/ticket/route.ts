@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { clientIp, normalizeEmail } from '@/lib/security/validation';
 import { notifyTelegramSupportTicket } from '@/lib/notifications/telegram';
+import { sendSupportTicketConfirmationEmail } from '@/lib/notifications/email';
 
 export const runtime = 'nodejs';
 
@@ -60,6 +61,18 @@ export async function POST(req: NextRequest) {
       subject,
       message,
       priority,
+    });
+
+    // 2. Dispatch official confirmation email to customer from support@rareember.shop
+    void sendSupportTicketConfirmationEmail({
+      ticketId,
+      name,
+      email,
+      phone: cleanPhone.slice(-10),
+      subject,
+      category,
+      message,
+      orderId: orderId || undefined,
     });
 
     // 2. Persist to database if table exists

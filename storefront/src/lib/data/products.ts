@@ -291,11 +291,37 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
   }
 ];
 
+export const ADULT_SIZE_ORDER = ['XS', 'S', 'M', 'L', 'XL', '2XL', 'XXL', '3XL', '4XL', '5XL'] as const;
+export const KIDS_SIZE_ORDER = [
+  '0-12M', '12-23M', '24-35M', '36-47M',
+  '1-2Y', '2-3Y', '3-4Y', '4-5Y', '5Yrs', '5-6Y',
+  '6-7Y', '7Yrs', '7-8Y', '8-9Y', '9Yrs', '9-10Y',
+  '10-11Y', '11Yrs', '11-12Y', '12-13Y', '13Yrs', '13-14Y',
+] as const;
+
+export function sortSizes(sizes?: string[]): string[] {
+  if (!Array.isArray(sizes) || sizes.length === 0) return [];
+  const isKids = sizes.some(s => (KIDS_SIZE_ORDER as readonly string[]).includes(s) || /m|yr|kid/i.test(s));
+  const order = (isKids ? KIDS_SIZE_ORDER : ADULT_SIZE_ORDER) as readonly string[];
+  return [...sizes].sort((a, b) => {
+    const idxA = order.indexOf(a);
+    const idxB = order.indexOf(b);
+    if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+    if (idxA !== -1) return -1;
+    if (idxB !== -1) return 1;
+    return a.localeCompare(b);
+  });
+}
+
 // Bundles paused until store reaches 10 successful orders (per strategic roadmap)
 export const products: Product[] = (qikinkCatalog as unknown as Product[])
   .filter((p) => !p.id.startsWith('bundle-'))
   // Gateway/test SKUs are internal fixtures and excluded from public catalog
   .filter((p) => !/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification)/i.test(`${p.id} ${p.title}`))
+  .map((p) => ({
+    ...p,
+    sizes: sortSizes(p.sizes),
+  }))
   .map(enforcePriceFloor);
 
 export const PET_META: Record<string, any> = {

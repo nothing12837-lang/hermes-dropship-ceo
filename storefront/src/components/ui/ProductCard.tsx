@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useCart } from '@/lib/store/cart';
 import { useWishlist } from '@/lib/store/wishlist';
 import { resolveProductImage } from '@/lib/data/fallback-images';
-import { cleanBrandTitle } from '@/lib/data/products';
+import { cleanBrandTitle, sortSizes } from '@/lib/data/products';
 import PrebuiltMockupRenderer from '@/components/PrebuiltMockupRenderer';
 import { useGeo } from '@/context/GeoContext';
 
@@ -177,11 +177,12 @@ export default function ProductCard({
     if (!isApparelCard && (/\b(mug|cup|drinkware)\b/i.test(itemSearch))) return 'Quick View • 330ml / 11 Oz Ceramic';
     if (!isApparelCard && (/\b(case|phone|iphone|samsung)\b/i.test(itemSearch))) return 'Quick View • Precision Drop Protection';
     if (sizes && sizes.length > 0) {
+      const sorted = sortSizes(sizes);
       const isKids = /kid|boy|girl|baby/i.test(itemSearch);
       if (isKids) {
-        return `Quick View • Ages ${sizes[0]} to ${sizes[sizes.length - 1]}`;
+        return `Quick View • Ages ${sorted[0]} to ${sorted[sorted.length - 1]}`;
       }
-      return `Quick View • Sizes ${sizes[0]}–${sizes[sizes.length - 1]}`;
+      return `Quick View • Sizes ${sorted[0]}–${sorted[sorted.length - 1]}`;
     }
     return 'Quick View • Sizes S–XXL • Express Air Dispatch';
   })();

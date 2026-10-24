@@ -448,7 +448,16 @@ function SuccessInner() {
         <div className="tax-invoice-printable-sheet bg-white text-[#161311] rounded-2xl p-6 sm:p-10 shadow-2xl border border-black/10 text-left font-sans max-w-2xl w-full my-8">
           <div className="no-print flex justify-between items-center mb-4 pb-3 border-b border-neutral-200">
             <span className="font-mono text-xs font-bold text-neutral-500">Official GST Invoice Preview</span>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
+              <a
+                href={`/invoice?orderId=${orderId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3.5 py-1.5 rounded-lg bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-bold transition-all inline-flex items-center gap-1"
+                title="Open dedicated official GST tax invoice page in new tab"
+              >
+                <span>Full Page ↗</span>
+              </a>
               <button
                 type="button"
                 onClick={() => window.print()}

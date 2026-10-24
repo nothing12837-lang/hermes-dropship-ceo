@@ -60,14 +60,16 @@ async function sendEmailWithFallback({
   toEmail,
   subjectLine,
   html,
+  replyTo = 'support@rareember.shop',
 }: {
   apiKey: string;
   fromEmail: string;
   toEmail: string;
   subjectLine: string;
   html: string;
+  replyTo?: string;
 }): Promise<{ ok: boolean; error?: string }> {
-  const postReq = async (targetEmail: string, subject: string) => {
+  const postReq = async (sender: string, targetEmail: string, subject: string) => {
     return await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -76,8 +78,9 @@ async function sendEmailWithFallback({
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
       },
       body: JSON.stringify({
-        from: fromEmail,
+        from: sender,
         to: [targetEmail],
+        reply_to: replyTo,
         subject,
         html,
       }),
@@ -85,19 +88,31 @@ async function sendEmailWithFallback({
   };
 
   try {
-    // 1. Direct send to recipient email
-    const res = await postReq(toEmail, subjectLine);
-    const data = await res.json();
+    // 1. Direct send with primary sender
+    let res = await postReq(fromEmail, toEmail, subjectLine);
+    let data = await res.json();
     if (res.ok && data.id) {
-      console.log('[Email Service] Email sent to %s (id: %s)', toEmail, data.id);
+      console.log('[Email Service] Email dispatched to %s via %s (id: %s)', toEmail, fromEmail, data.id);
       return { ok: true };
     }
 
-    // 2. Resend Sandbox fallback to owner email if domain unverified
+    // 2. If domain unverified for support@rareember.shop on Resend, retry with onboarding@resend.dev
+    if (!res.ok && fromEmail.includes('support@rareember.shop')) {
+      console.warn('[Email Service] Primary sender not verified on Resend, retrying via onboarding gateway:', data?.message);
+      res = await postReq('Rare Ember <onboarding@resend.dev>', toEmail, subjectLine);
+      data = await res.json();
+      if (res.ok && data.id) {
+        console.log('[Email Service] Email delivered via onboarding gateway with Reply-To support@rareember.shop (id: %s)', data.id);
+        return { ok: true };
+      }
+    }
+
+    // 3. Fallback to owner email if recipient is external sandbox
     console.warn('[Email Service] Direct recipient dispatch deferred:', data?.message);
     const ownerEmail = process.env.RESEND_OWNER_EMAIL || 'support@rareember.shop';
     if (toEmail.toLowerCase() !== ownerEmail.toLowerCase()) {
       const fallbackRes = await postReq(
+        'Rare Ember <onboarding@resend.dev>',
         ownerEmail,
         `[Customer Order] ${subjectLine} (To: ${toEmail})`
       );
@@ -125,7 +140,7 @@ export async function sendOrderConfirmationEmail(payload: OrderEmailPayload): Pr
   }
 
   const isCod = payload.paymentMethod === 'cod';
-  const fromEmail = process.env.RESEND_FROM_EMAIL || 'Rare Ember <onboarding@resend.dev>';
+  const fromEmail = process.env.RESEND_FROM_EMAIL || 'Rare Ember <support@rareember.shop>';
   const shortOrderId = payload.orderId.slice(0, 8);
 
   const itemsHtml = (payload.items || [])
@@ -232,7 +247,7 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
   }
 
   const isCod = (payload.paymentMethod || '').toLowerCase().includes('cod');
-  const fromEmail = process.env.RESEND_FROM_EMAIL || 'Rare Ember <onboarding@resend.dev>';
+  const fromEmail = process.env.RESEND_FROM_EMAIL || 'Rare Ember <support@rareember.shop>';
   const shortOrderId = payload.orderId.slice(0, 8);
   const invoiceNumber = `INV-RE-${shortOrderId.toUpperCase()}`;
   const deliveryDate = payload.deliveryDate || new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -443,6 +458,81 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
     fromEmail,
     toEmail: payload.email,
     subjectLine: `Tax Invoice & Delivery Receipt: #${shortOrderId} — Rare Ember`,
+    html,
+  });
+}
+
+export interface SupportTicketEmailPayload {
+  ticketId: string;
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  category: string;
+  message: string;
+  orderId?: string;
+}
+
+/**
+ * 3. Support Ticket Confirmation Email (Sent immediately upon ticket submission)
+ */
+export async function sendSupportTicketConfirmationEmail(payload: SupportTicketEmailPayload): Promise<{ ok: boolean; error?: string }> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return { ok: false, error: 'RESEND_API_KEY not configured' };
+
+  const fromEmail = process.env.RESEND_FROM_EMAIL || 'Rare Ember <support@rareember.shop>';
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Support Ticket Registered: ${payload.ticketId} — Rare Ember</title>
+      </head>
+      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #FFFBF5; margin: 0; padding: 32px 16px; color: #161311;">
+        <div style="max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 24px; border: 1px solid rgba(0,0,0,0.06); padding: 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.04);">
+          <div style="text-align: center; padding-bottom: 24px; border-bottom: 1px solid #f0ede8;">
+            <div style="font-size: 26px; font-weight: 900; letter-spacing: -0.5px; color: #161311;">RARE EMBER™</div>
+            <div style="font-size: 11px; font-weight: 800; color: #FF4D24; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px;">Atelier Care Desk • Ticket Registered</div>
+          </div>
+
+          <div style="padding: 24px 0 16px;">
+            <p style="font-size: 16px; font-weight: bold; margin: 0 0 8px; color: #161311;">Hi ${payload.name},</p>
+            <p style="font-size: 13px; color: #525252; line-height: 1.6; margin: 0;">
+              Your priority support request has been logged on our founder desk under Ticket ID <strong>${payload.ticketId}</strong>.
+            </p>
+          </div>
+
+          <div style="background: #FFFBF5; border: 1px solid rgba(255, 77, 36, 0.2); border-radius: 16px; padding: 16px; margin-bottom: 24px;">
+            <div style="font-size: 11px; font-weight: 900; color: #b45309; text-transform: uppercase; letter-spacing: 1px;">
+              ⚡ Guaranteed 12-Hour SLA
+            </div>
+            <div style="font-size: 14px; font-weight: 800; color: #161311; margin-top: 4px;">
+              Subject: ${payload.subject}
+            </div>
+            <div style="font-size: 12px; color: #737373; margin-top: 4px;">
+              Category: <strong>${payload.category}</strong>${payload.orderId ? ` • Order Ref: <strong>#${payload.orderId}</strong>` : ''}
+            </div>
+          </div>
+
+          <div style="background: #F9FAFB; border-radius: 12px; padding: 16px; margin-bottom: 24px; font-size: 12px; color: #525252; line-height: 1.6;">
+            <strong>Your Message:</strong><br/>
+            &ldquo;${payload.message.replace(/</g, '&lt;').replace(/>/g, '&gt;')}&rdquo;
+          </div>
+
+          <div style="border-top: 1px solid #f0ede8; padding-top: 20px; text-align: center; font-size: 11px; color: #a3a3a3; line-height: 1.6;">
+            Need urgent assistance? Reply directly to this email: <strong>support@rareember.shop</strong> or WhatsApp us at <strong>+91 91182 11860</strong>.<br/>
+            Rare Ember Atelier Care Desk • Bangalore, India
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  return await sendEmailWithFallback({
+    apiKey,
+    fromEmail,
+    toEmail: payload.email,
+    subjectLine: `[Ticket ${payload.ticketId}] Support Request Received — Rare Ember`,
     html,
   });
 }

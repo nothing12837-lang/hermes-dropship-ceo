@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import PrebuiltMockupRenderer from '@/components/PrebuiltMockupRenderer';
 import { useCart } from '@/lib/store/cart';
 import { useWishlist } from '@/lib/store/wishlist';
-import { formatPrice, computeDiscount, PET_META, bundles, getProduct, products } from '@/lib/data/products';
+import { formatPrice, computeDiscount, PET_META, bundles, getProduct, products, sortSizes } from '@/lib/data/products';
 import type { Product } from '@/lib/data/products';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { resolveProductImages } from '@/lib/data/product-gallery';
@@ -747,14 +747,15 @@ export function ProductClient({ product }: Props) {
   }, [sizeCalcHeight, sizeCalcWeight]);
 
   useEffect(() => {
-    if (recommendedFit?.size) {
-      if (product.sizes?.includes('XXL') && !product.sizes?.includes('2XL') && recommendedFit.size === '2XL') {
+    if (recommendedFit?.size && !isKidsApparel) {
+      const rec = recommendedFit.size;
+      if (product.sizes?.includes('XXL') && !product.sizes?.includes('2XL') && rec === '2XL') {
         setSelectedSize('XXL');
-      } else {
-        setSelectedSize(recommendedFit.size);
+      } else if (product.sizes?.includes(rec)) {
+        setSelectedSize(rec);
       }
     }
-  }, [recommendedFit?.size, product.sizes]);
+  }, [recommendedFit?.size, product.sizes, isKidsApparel]);
   const [selectedPhoneModel, setSelectedPhoneModel] = useState<string>(PHONE_MODELS[0]);
   const isComboProduct = Boolean(BUNDLE_SUB_ITEMS[product.id]);
 
@@ -2469,9 +2470,11 @@ export function ProductClient({ product }: Props) {
 
                       {(() => {
                         const activeItemIsKids = /kid|boy|girl|baby|toddler|infant/i.test(activeItemLower);
-                        const currentSizeList = (product.sizes && Array.isArray(product.sizes) && product.sizes.length > 0)
-                          ? product.sizes
-                          : (activeItemIsKids ? KIDS_SIZES : SIZES);
+                        const currentSizeList = sortSizes(
+                          (product.sizes && Array.isArray(product.sizes) && product.sizes.length > 0)
+                            ? product.sizes
+                            : (activeItemIsKids ? (KIDS_SIZES as unknown as string[]) : (SIZES as unknown as string[]))
+                        );
                         const currentSpecs = activeItemIsKids ? KIDS_SIZE_SPECS : SIZE_SPECS;
                         return (
                           <>

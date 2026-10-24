@@ -78,24 +78,30 @@ export default function AdminOrdersPage() {
   }, [headers, statusFilter]);
 
   useEffect(() => {
-    const saved = sessionStorage.getItem(KEY_STORAGE);
-    if (saved) {
-      setKey(saved);
-      void (async () => {
-        try {
-          const res = await fetch('/api/admin/orders?limit=100', {
-            headers: { Authorization: `Bearer ${saved}` },
-          });
-          if (res.ok) {
-            const data = await res.json();
-            setOrders(data.orders ?? []);
-            setUnlocked(true);
+    try {
+      const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+      const urlKey = params?.get('key')?.trim();
+      const saved = urlKey || sessionStorage.getItem(KEY_STORAGE) || localStorage.getItem(KEY_STORAGE);
+      if (saved) {
+        setKey(saved);
+        sessionStorage.setItem(KEY_STORAGE, saved);
+        localStorage.setItem(KEY_STORAGE, saved);
+        void (async () => {
+          try {
+            const res = await fetch('/api/admin/orders?limit=100', {
+              headers: { Authorization: `Bearer ${saved}` },
+            });
+            if (res.ok) {
+              const data = await res.json();
+              setOrders(data.orders ?? []);
+              setUnlocked(true);
+            }
+          } catch {
+            // ignore
           }
-        } catch {
-          // ignore
-        }
-      })();
-    }
+        })();
+      }
+    } catch {}
   }, []);
 
   const handleUnlock = () => {
@@ -103,12 +109,18 @@ export default function AdminOrdersPage() {
       setError('Please enter your secret master key.');
       return;
     }
-    sessionStorage.setItem(KEY_STORAGE, key.trim());
+    try {
+      sessionStorage.setItem(KEY_STORAGE, key.trim());
+      localStorage.setItem(KEY_STORAGE, key.trim());
+    } catch {}
     void load();
   };
 
   const handleLock = () => {
-    sessionStorage.removeItem(KEY_STORAGE);
+    try {
+      sessionStorage.removeItem(KEY_STORAGE);
+      localStorage.removeItem(KEY_STORAGE);
+    } catch {}
     setUnlocked(false);
     setKey('');
     setOrders([]);
@@ -856,6 +868,17 @@ export default function AdminOrdersPage() {
                         >
                           <span>📄</span> Email Invoice
                         </button>
+
+                        {/* View / Print Official Tax Invoice */}
+                        <a
+                          href={`/invoice?orderId=${o.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                          title="Open official Section 31 GST Tax Invoice generator in a new tab"
+                        >
+                          <span>🖨️</span> Print Invoice
+                        </a>
 
                         {o.status !== 'shipped' && o.status !== 'delivered' && (
                           <button

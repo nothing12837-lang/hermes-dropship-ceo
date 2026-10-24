@@ -128,7 +128,7 @@ export async function POST(req: NextRequest) {
           id: order.id,
           total: Number(order.total_amount || 0),
           paymentMethod: 'online',
-          email: order.user_email || 'shopper@rareember.com',
+          email: order.user_email || (order as { email?: string }).email || 'customer@rareember.shop',
           name: order.shipping_name,
           itemsCount: Array.isArray(order.items) ? order.items.length : 1,
           items: order.items || [],

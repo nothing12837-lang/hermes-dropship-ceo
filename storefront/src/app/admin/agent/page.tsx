@@ -177,11 +177,17 @@ export default function AdminAgentPage() {
   );
 
   useEffect(() => {
-    const saved = sessionStorage.getItem(KEY_STORAGE);
-    if (saved) {
-      setKey(saved);
-      void load(days, saved);
-    }
+    try {
+      const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+      const urlKey = params?.get('key')?.trim();
+      const saved = urlKey || sessionStorage.getItem(KEY_STORAGE) || localStorage.getItem(KEY_STORAGE);
+      if (saved) {
+        setKey(saved);
+        sessionStorage.setItem(KEY_STORAGE, saved);
+        localStorage.setItem(KEY_STORAGE, saved);
+        void load(days, saved);
+      }
+    } catch {}
   }, [days, load]);
 
   // Optional 20-second telemetry polling
@@ -195,7 +201,10 @@ export default function AdminAgentPage() {
 
   const unlock = () => {
     if (!key.trim()) return setError('Please enter your Master Vault Key.');
-    sessionStorage.setItem(KEY_STORAGE, key.trim());
+    try {
+      sessionStorage.setItem(KEY_STORAGE, key.trim());
+      localStorage.setItem(KEY_STORAGE, key.trim());
+    } catch {}
     void load(days);
   };
 

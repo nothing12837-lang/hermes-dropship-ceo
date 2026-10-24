@@ -17,9 +17,10 @@ function providers(): ProviderCfg[] {
   const geminiKey = process.env.GEMINI_API_KEY || '';
   if (geminiKey) {
     const candidateModels = [
-      process.env.GEMINI_MODEL || 'gemini-3.8-flash',
-      'gemini-2.5-flash',
+      process.env.GEMINI_MODEL || 'gemini-2.5-flash',
       'gemini-2.0-flash',
+      'gemini-2.5-flash-lite',
+      'gemini-1.5-flash',
     ];
     const unique = Array.from(new Set(candidateModels));
     for (const model of unique) {
@@ -31,6 +32,17 @@ function providers(): ProviderCfg[] {
       });
     }
   }
+
+  const openrouterKey = process.env.OPENROUTER_API_KEY || '';
+  if (openrouterKey) {
+    out.push({
+      url: 'https://openrouter.ai/api/v1/chat/completions',
+      key: openrouterKey,
+      model: process.env.OPENROUTER_MODEL || 'google/gemini-2.5-flash',
+      kind: 'openai',
+    });
+  }
+
   return out;
 }
 

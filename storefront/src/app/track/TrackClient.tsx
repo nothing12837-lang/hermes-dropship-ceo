@@ -962,6 +962,15 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                   >
                     <span>{emailingInvoice ? 'Sending...' : 'Email Invoice'}</span>
                   </button>
+                  <a
+                    href={`/invoice?orderId=${selectedInvoiceOrder.id}&email=${encodeURIComponent(selectedInvoiceOrder.email)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-2 rounded bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider border border-white/20 shadow-sm cursor-pointer flex items-center gap-1.5 transition-all text-center"
+                    title="Open dedicated official GST tax invoice page in new tab"
+                  >
+                    <span>Full Page ↗</span>
+                  </a>
                   <button
                     type="button"
                     onClick={() => window.print()}
