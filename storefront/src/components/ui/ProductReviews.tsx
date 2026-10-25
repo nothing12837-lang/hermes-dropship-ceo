@@ -62,7 +62,7 @@ export default function ProductReviews({ productId, productTitle }: ProductRevie
     if (!file) return;
 
     if (file.size > 2 * 1024 * 1024) {
-      alert('Please upload an image smaller than 2MB.');
+      setErrorMessage('Please upload a photo smaller than 2MB.');
       return;
     }
 

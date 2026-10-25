@@ -25,6 +25,51 @@ const INDIAN_STATES = [
   'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry'
 ];
 
+export function normalizeIndianState(raw: string): string {
+  if (!raw) return '';
+  const clean = raw.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+
+  if (/delhi|nct/i.test(clean)) return 'Delhi';
+  if (/jammu|kashmir/i.test(clean)) return 'Jammu and Kashmir';
+  if (/odisha|orissa/i.test(clean)) return 'Odisha';
+  if (/puducherry|pondicherry/i.test(clean)) return 'Puducherry';
+  if (/uttarakhand|uttaranchal/i.test(clean)) return 'Uttarakhand';
+  if (/andaman|nicobar/i.test(clean)) return 'Andaman and Nicobar Islands';
+  if (/dadra|nagar|daman|diu/i.test(clean)) return 'Dadra and Nagar Haveli and Daman and Diu';
+  if (/chattisgarh|chhattisgarh/i.test(clean)) return 'Chhattisgarh';
+  if (/tamilnadu|tamil/i.test(clean)) return 'Tamil Nadu';
+  if (/telangana/i.test(clean)) return 'Telangana';
+  if (/karnataka/i.test(clean)) return 'Karnataka';
+  if (/maharashtra/i.test(clean)) return 'Maharashtra';
+  if (/westbengal|bengal/i.test(clean)) return 'West Bengal';
+  if (/uttarpradesh/i.test(clean)) return 'Uttar Pradesh';
+  if (/madhyapradesh/i.test(clean)) return 'Madhya Pradesh';
+  if (/andhra/i.test(clean)) return 'Andhra Pradesh';
+  if (/arunachal/i.test(clean)) return 'Arunachal Pradesh';
+  if (/himachal/i.test(clean)) return 'Himachal Pradesh';
+  if (/rajasthan/i.test(clean)) return 'Rajasthan';
+  if (/punjab/i.test(clean)) return 'Punjab';
+  if (/haryana/i.test(clean)) return 'Haryana';
+  if (/gujarat/i.test(clean)) return 'Gujarat';
+  if (/bihar/i.test(clean)) return 'Bihar';
+  if (/jharkhand/i.test(clean)) return 'Jharkhand';
+  if (/kerala/i.test(clean)) return 'Kerala';
+  if (/assam/i.test(clean)) return 'Assam';
+  if (/goa/i.test(clean)) return 'Goa';
+  if (/sikkim/i.test(clean)) return 'Sikkim';
+  if (/tripura/i.test(clean)) return 'Tripura';
+  if (/manipur/i.test(clean)) return 'Manipur';
+  if (/meghalaya/i.test(clean)) return 'Meghalaya';
+  if (/mizoram/i.test(clean)) return 'Mizoram';
+  if (/nagaland/i.test(clean)) return 'Nagaland';
+  if (/chandigarh/i.test(clean)) return 'Chandigarh';
+  if (/ladakh/i.test(clean)) return 'Ladakh';
+  if (/lakshadweep/i.test(clean)) return 'Lakshadweep';
+
+  const exact = INDIAN_STATES.find(s => s.toLowerCase().replace(/[^a-z0-9]/g, '') === clean);
+  return exact || raw.trim();
+}
+
 const SIZE_CHEST_MAP: Record<string, string> = {
   XS: '36" Chest',
   S: '38" Chest',
@@ -178,7 +223,7 @@ export default function CheckoutPage() {
       if (data && data[0]?.Status === 'Success' && data[0].PostOffice?.length > 0) {
         const po = data[0].PostOffice[0];
         const detectedCity = po.District || po.Name || '';
-        const detectedState = po.State || '';
+        const detectedState = normalizeIndianState(po.State || '');
         if (detectedCity) setCity(detectedCity);
         if (detectedState) setState(detectedState);
         setPincodeInfo({
@@ -521,12 +566,12 @@ export default function CheckoutPage() {
       return setError('State / Union Territory is compulsory. Please select your state.');
     }
 
-    // STATE & PIN CODE MATCHING
+    // STATE & PIN CODE MATCHING (Resilient alias normalization)
     if (pincodeInfo && pincodeInfo.state) {
-      const pinStateNorm = pincodeInfo.state.trim().toLowerCase();
-      const userStateNorm = resolvedState.toLowerCase();
-      if (pinStateNorm !== userStateNorm) {
-        return setError(`PIN Code & State Mismatch: PIN code ${resolvedZip} is located in ${pincodeInfo.state}, but you selected "${resolvedState}". Please select "${pincodeInfo.state}" to avoid courier delivery failure.`);
+      const pinStateNorm = normalizeIndianState(pincodeInfo.state);
+      const userStateNorm = normalizeIndianState(resolvedState);
+      if (pinStateNorm && userStateNorm && pinStateNorm.toLowerCase() !== userStateNorm.toLowerCase()) {
+        return setError(`PIN Code & State Mismatch: PIN code ${resolvedZip} is located in ${pinStateNorm}, but you selected "${resolvedState}". Please select "${pinStateNorm}" to avoid courier delivery failure.`);
       }
     }
 
@@ -1173,24 +1218,24 @@ export default function CheckoutPage() {
                     </select>
 
                     {/* Live State & PIN Code Match Indicator / Warning */}
-                    {pincodeInfo?.state && state && state.toLowerCase() !== pincodeInfo.state.toLowerCase() && (
+                    {pincodeInfo?.state && state && normalizeIndianState(state).toLowerCase() !== normalizeIndianState(pincodeInfo.state).toLowerCase() && (
                       <div className="mt-2 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs flex items-center justify-between gap-2">
                         <span className="flex items-center gap-1.5">
                           <span>⚠️</span>
-                          <span>PIN <strong>{zip}</strong> is in <strong>{pincodeInfo.state}</strong>.</span>
+                          <span>PIN <strong>{zip}</strong> is in <strong>{normalizeIndianState(pincodeInfo.state)}</strong>.</span>
                         </span>
                         <button
                           type="button"
-                          onClick={() => setState(pincodeInfo.state)}
+                          onClick={() => setState(normalizeIndianState(pincodeInfo.state))}
                           className="px-2.5 py-1 rounded-lg bg-amber-600 text-white font-bold text-[10px] hover:bg-amber-700 shrink-0 cursor-pointer"
                         >
-                          Align to {pincodeInfo.state}
+                          Align to {normalizeIndianState(pincodeInfo.state)}
                         </button>
                       </div>
                     )}
-                    {pincodeInfo?.state && state && state.toLowerCase() === pincodeInfo.state.toLowerCase() && (
+                    {pincodeInfo?.state && state && normalizeIndianState(state).toLowerCase() === normalizeIndianState(pincodeInfo.state).toLowerCase() && (
                       <p className="mt-1 text-[11px] text-emerald-700 font-bold flex items-center gap-1">
-                        <span>✓</span> Matches PIN Postal State ({pincodeInfo.state})
+                        <span>✓</span> Matches PIN Postal State ({normalizeIndianState(pincodeInfo.state)})
                       </p>
                     )}
                   </div>

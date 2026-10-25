@@ -863,11 +863,36 @@ export function ProductClient({ product }: Props) {
 
   const [uploadingArtwork, setUploadingArtwork] = useState(false);
 
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [showNotifyInput, setShowNotifyInput] = useState(false);
+  const [notifyContact, setNotifyContact] = useState('');
+  const [notifyStatus, setNotifyStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+
+  const handleNotifySubmit = async () => {
+    if (!notifyContact.trim()) return;
+    setNotifyStatus('sending');
+    try {
+      await fetch('/api/restock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product_id: product.id, contact: notifyContact.trim() }),
+      });
+      setNotifyStatus('success');
+      setTimeout(() => {
+        setShowNotifyInput(false);
+        setNotifyStatus('idle');
+      }, 4000);
+    } catch {
+      setNotifyStatus('error');
+    }
+  };
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 15 * 1024 * 1024) {
-      alert('Please upload an image smaller than 15MB.');
+      setUploadError('Please upload an image smaller than 15MB.');
+      setTimeout(() => setUploadError(null), 5000);
       return;
     }
     setCustomImageName(file.name);
@@ -946,17 +971,27 @@ export function ProductClient({ product }: Props) {
 
   // Sync selectedImgIndex whenever selectedColor changes on initial mount or update
   useEffect(() => {
-    if (!selectedColor || !product.colorImages) return;
-    const match = Object.entries(product.colorImages).find(
-      ([c]) => c.toLowerCase().trim() === selectedColor.toLowerCase().trim()
-    );
-    if (match && match[1]) {
-      const idx = galleryImages.indexOf(match[1]);
-      if (idx >= 0 && idx !== selectedImgIndex) {
-        setSelectedImgIndex(idx);
+    if (!selectedColor) return;
+    if (product.colorImages) {
+      const match = Object.entries(product.colorImages).find(
+        ([c]) => c.toLowerCase().trim() === selectedColor.toLowerCase().trim()
+      );
+      if (match && match[1]) {
+        const idx = galleryImages.indexOf(match[1]);
+        if (idx >= 0 && idx !== selectedImgIndex) {
+          setSelectedImgIndex(idx);
+          return;
+        }
       }
     }
-  }, [selectedColor, galleryImages, product.colorImages, selectedImgIndex]);
+    // Fallback: check if availableColors aligns by index with galleryImages
+    const colorIndex = availableColors.findIndex(
+      (c) => c.toLowerCase().trim() === selectedColor.toLowerCase().trim()
+    );
+    if (colorIndex >= 0 && galleryImages[colorIndex] && colorIndex !== selectedImgIndex) {
+      setSelectedImgIndex(colorIndex);
+    }
+  }, [selectedColor, galleryImages, product.colorImages, availableColors, selectedImgIndex]);
   const [failedImages, setFailedImages] = useState<Record<number, boolean>>({});
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
@@ -3148,7 +3183,7 @@ export function ProductClient({ product }: Props) {
 
                     {customMode === 'image' && (
                       <div className="space-y-2 mt-2">
-                        {!customImage || customMode !== 'image' ? (
+                        {!customImage ? (
                           <label className="flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-[#FF4D24]/40 bg-white/5 hover:bg-white/10 cursor-pointer text-center transition-all">
                             <span className="text-2xl mb-1">📁</span>
                             <span className="text-xs font-black text-white">
@@ -3180,6 +3215,11 @@ export function ProductClient({ product }: Props) {
                             >
                               Remove ✕
                             </button>
+                          </div>
+                        )}
+                        {uploadError && (
+                          <div className="mt-2 p-2 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs text-center font-bold">
+                            {uploadError}
                           </div>
                         )}
 
@@ -3290,30 +3330,56 @@ export function ProductClient({ product }: Props) {
             )}
 
             {((product as any).active === false || ((product as any).stock != null && Number((product as any).stock) <= 0)) ? (
-              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginTop: '1.75rem', flexWrap: 'wrap' }}>
-                <div style={{ padding: '0.85rem 1.75rem', borderRadius: '9999px', background: '#fef2f2', border: '1.5px solid #fecaca', color: '#dc2626', fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span>⚠️</span> CURRENTLY OUT OF STOCK AT SUPPLIER
+              <div className="mt-6 flex flex-col gap-3">
+                <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <div style={{ padding: '0.85rem 1.75rem', borderRadius: '9999px', background: '#fef2f2', border: '1.5px solid #fecaca', color: '#dc2626', fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <span>⚠️</span> CURRENTLY OUT OF STOCK AT ATELIER
+                  </div>
+                  <button
+                    onClick={() => toggle(product.id)}
+                    aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
+                    style={wishBtn}
+                  >
+                    {wished ? '♥' : '♡'}
+                  </button>
+                  <button
+                    onClick={() => setShowNotifyInput((prev) => !prev)}
+                    style={{ ...wishBtn, width: 'auto', padding: '0 1.25rem', borderRadius: '9999px', border: '1.5px solid #FF4D24', color: '#FF4D24', fontWeight: 800, fontSize: '0.85rem' }}
+                  >
+                    🔔 Notify Me When Back in Stock
+                  </button>
                 </div>
-                <button
-                  onClick={() => toggle(product.id)}
-                  aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
-                  style={wishBtn}
-                >
-                  {wished ? '♥' : '♡'}
-                </button>
-                <button
-                  onClick={async () => {
-                    const contact = prompt('Back in stock alert ke liye email/phone likho:');
-                    if (!contact) return;
-                    try {
-                      await fetch('/api/restock', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product_id: product.id, contact }) });
-                      alert('✅ Notify-Me ON! Stock aate hi message milega.');
-                    } catch { alert('Try again later.'); }
-                  }}
-                  style={{ ...wishBtn, border: '1.5px solid #FF4D24', color: '#FF4D24' }}
-                >
-                  🔔 Notify Me
-                </button>
+
+                {showNotifyInput && (
+                  <div className="p-4 rounded-xl bg-neutral-50 border border-black/10 flex flex-col sm:flex-row items-center gap-2 transition-all">
+                    {notifyStatus === 'success' ? (
+                      <div className="text-emerald-700 font-bold text-xs flex items-center gap-2">
+                        <span>✓</span> Alert set! We will notify you via email or WhatsApp as soon as stock drops.
+                      </div>
+                    ) : (
+                      <>
+                        <input
+                          type="text"
+                          value={notifyContact}
+                          onChange={(e) => setNotifyContact(e.target.value)}
+                          placeholder="Enter your email or WhatsApp number"
+                          className="flex-1 w-full px-3.5 py-2.5 rounded-lg border border-black/15 bg-white text-xs text-neutral-900 outline-none focus:border-[#FF4D24]"
+                        />
+                        <button
+                          type="button"
+                          onClick={handleNotifySubmit}
+                          disabled={notifyStatus === 'sending' || !notifyContact.trim()}
+                          className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-[#FF4D24] text-white text-xs font-bold hover:bg-[#E04F33] cursor-pointer disabled:opacity-50 transition-all shrink-0"
+                        >
+                          {notifyStatus === 'sending' ? 'Saving...' : 'Activate Alert'}
+                        </button>
+                        {notifyStatus === 'error' && (
+                          <span className="text-[11px] text-rose-600 font-semibold">Please enter a valid email or phone.</span>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
             ) : (
               <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>

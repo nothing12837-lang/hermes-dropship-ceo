@@ -228,6 +228,7 @@ export function CustomDropsClient() {
   const [selectedLabSize, setSelectedLabSize] = useState<string>('L');
   const [uploadingLabImage, setUploadingLabImage] = useState<boolean>(false);
   const [orderNotice, setOrderNotice] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   const currentBlank = SEVEN_CORE_BLANKS.find((b) => b.id === selectedBlankId) || SEVEN_CORE_BLANKS[0];
 
@@ -253,7 +254,8 @@ export function CustomDropsClient() {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 15 * 1024 * 1024) {
-      alert('Please upload an image smaller than 15MB.');
+      setUploadError('Please upload an image smaller than 15MB.');
+      setTimeout(() => setUploadError(null), 5000);
       return;
     }
     setCustomImageName(file.name);
@@ -672,6 +674,12 @@ export function CustomDropsClient() {
                         className="hidden"
                       />
                     </label>
+
+                    {uploadError && (
+                      <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs text-center font-bold">
+                        {uploadError}
+                      </div>
+                    )}
 
                     {customImage && (
                       <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between gap-2">

@@ -193,6 +193,21 @@ export default function CartDrawer() {
     }
   }, [pathname, isOpen, closeCart]);
 
+  // Lock body scroll and allow Escape key dismissal when Cart is open
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeCart();
+    };
+    if (isOpen) {
+      document.addEventListener('keydown', onKey);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, closeCart]);
+
   const handleCheckout = () => {
     trackBeginCheckout(
       detailed.map((d) => ({
