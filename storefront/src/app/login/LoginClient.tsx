@@ -3,6 +3,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase-client';
+import { getCanonicalSiteUrl } from '@/lib/canonical';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -72,8 +73,9 @@ export function LoginClient() {
         if (!email) {
           throw new Error('Please enter your email address to receive a password reset link.');
         }
+        const canonicalBase = getCanonicalSiteUrl();
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: `${origin}/login?mode=reset`,
+          redirectTo: `${canonicalBase}/auth/callback?next=/reset-password`,
         });
         if (error) throw error;
         setMsg('✅ Password reset link sent! Please check your email inbox to set a new password.');
@@ -109,15 +111,14 @@ export function LoginClient() {
     setMsg(null);
     setLoading(true);
     try {
-      const origin = typeof window !== 'undefined' && window.location.origin
-        ? window.location.origin
-        : 'https://www.rareember.shop';
+      const canonicalBase = getCanonicalSiteUrl();
+      const target = redirectTarget && redirectTarget.startsWith('/') ? redirectTarget : '/profile';
 
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
           shouldCreateUser: true,
-          emailRedirectTo: `${origin}${redirectTarget}`,
+          emailRedirectTo: `${canonicalBase}/auth/callback?next=${encodeURIComponent(target)}`,
         },
       });
       if (error) throw error;
@@ -131,14 +132,12 @@ export function LoginClient() {
 
   const handleGoogleLogin = async () => {
     try {
-      const origin = typeof window !== 'undefined' && window.location.origin
-        ? window.location.origin
-        : 'https://www.rareember.shop';
+      const canonicalBase = getCanonicalSiteUrl();
       const target = redirectTarget && redirectTarget.startsWith('/') ? redirectTarget : '/profile';
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${origin}${target}`,
+          redirectTo: `${canonicalBase}/auth/callback?next=${encodeURIComponent(target)}`,
         },
       });
       if (error) throw error;

@@ -536,3 +536,82 @@ export async function sendSupportTicketConfirmationEmail(payload: SupportTicketE
     html,
   });
 }
+
+/**
+ * Dispatches an instant 6-digit COD verification security email.
+ */
+export async function sendCodOtpEmail(payload: {
+  email: string;
+  otp: string;
+  name?: string;
+}): Promise<{ ok: boolean; error?: string }> {
+  const apiKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.RESEND_FROM_EMAIL || 'Rare Ember <support@rareember.shop>';
+
+  if (!apiKey) {
+    console.log('[Email Mock] Resend API key missing — COD OTP for %s: %s', payload.email, payload.otp);
+    return { ok: true };
+  }
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>RareEmber Verification Code</title>
+      </head>
+      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #FAF8F5; margin: 0; padding: 32px 16px; color: #0D0D0F;">
+        <div style="max-width: 480px; margin: 0 auto; background: #FFFFFF; border-radius: 20px; border: 1px solid rgba(13, 13, 15, 0.08); padding: 36px 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.04);">
+          <div style="text-align: center; margin-bottom: 24px;">
+            <div style="font-size: 20px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: #0D0D0F;">
+              RARE EMBER<span style="color: #E04F33;">.</span>
+            </div>
+            <div style="font-size: 11px; letter-spacing: 0.1em; color: #71717A; text-transform: uppercase; margin-top: 4px;">
+              Atelier Verification Desk
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-bottom: 24px;">
+            <h1 style="font-size: 22px; font-weight: 800; color: #0D0D0F; margin: 0 0 8px 0; letter-spacing: -0.02em;">
+              Confirm Cash on Delivery Order
+            </h1>
+            <p style="font-size: 13px; color: #52525B; line-height: 1.5; margin: 0;">
+              Hello ${payload.name || 'there'}, please use this one-time security code to verify your delivery address and lock in your order with zero advance payment.
+            </p>
+          </div>
+
+          <div style="background: #0D0D0F; border-radius: 16px; padding: 24px 16px; text-align: center; margin-bottom: 24px;">
+            <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #A1A1AA; margin-bottom: 8px;">
+              Your 6-Digit Verification Code
+            </div>
+            <div style="font-size: 36px; font-weight: 900; letter-spacing: 0.25em; color: #FFFFFF; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;">
+              ${payload.otp}
+            </div>
+            <div style="font-size: 11px; color: #E04F33; font-weight: 600; margin-top: 8px;">
+              ⏱ Valid for 5 minutes only
+            </div>
+          </div>
+
+          <div style="background: #F4F4F5; border-radius: 12px; padding: 14px 16px; margin-bottom: 24px; font-size: 12px; color: #52525B; line-height: 1.5;">
+            🔒 <strong>Security Notice:</strong> Never share this code with anyone. RareEmber will never ask for your code via call or SMS. If you did not request this code, you can safely ignore this email.
+          </div>
+
+          <div style="border-top: 1px solid #E4E4E7; padding-top: 20px; text-align: center; font-size: 11px; color: #A1A1AA; line-height: 1.6;">
+            Need help? Reach out at <strong>support@rareember.shop</strong> or WhatsApp <strong>+91 91182 11860</strong>.<br/>
+            © ${new Date().getFullYear()} Rare Ember Atelier. All rights reserved.
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  return await sendEmailWithFallback({
+    apiKey,
+    fromEmail,
+    toEmail: payload.email,
+    subjectLine: `Your RareEmber COD Verification Code: ${payload.otp}`,
+    html,
+  });
+}
+

@@ -1,6 +1,9 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import qikinkVariantsMap from '@/lib/data/qikink-variants-map.json';
 
+export const ENABLE_CUSTOM_NECK_LABEL = true;
+export const RARE_EMBER_NECK_LABEL_URL = 'https://www.rareember.shop/branding/collar-label-300dpi.png';
+
 export interface QikinkFulfillmentResult {
   ok: boolean;
   qikinkOrderId?: string;
@@ -757,6 +760,7 @@ export async function fulfillQikinkOrder(
         sku: mappedSku,
         quantity: String(it.qty || 1),
         price: String(Math.round(Number(it.price || order.total_amount / Math.max(1, items.length)))),
+        custom_neck_label: true,
       };
     }
 
@@ -768,12 +772,35 @@ export async function fulfillQikinkOrder(
     const isSublimation = upperSku.startsWith('UJ35') || upperSku.startsWith('MPAD') || upperSku.includes('JERSEY') || upperSku.includes('DESK');
     const printTypeId = isSublimation ? 17 : 1;
 
+    const isApparel =
+      upperSku.startsWith('UOST') ||
+      upperSku.startsWith('ATE') ||
+      upperSku.startsWith('UHD') ||
+      upperSku.startsWith('UVJ') ||
+      upperSku.startsWith('USS') ||
+      upperSku.startsWith('UCN') ||
+      upperSku.includes('TEE') ||
+      upperSku.includes('SHIRT') ||
+      upperSku.includes('HOODIE');
+
+    if (ENABLE_CUSTOM_NECK_LABEL && isApparel && process.env.ENABLE_QIKINK_NECK_PRINT === 'true') {
+      designs.push({
+        design_code: `RENL${cleanOrderNum.slice(-5)}`.slice(0, 15),
+        width_inches: '2.5',
+        height_inches: '2.5',
+        placement_sku: 'nl',
+        design_link: RARE_EMBER_NECK_LABEL_URL,
+        mockup_link: RARE_EMBER_NECK_LABEL_URL,
+      });
+    }
+
     return {
       search_from_my_products: 0,
       sku,
       quantity: String(it.qty || 1),
       price: String(Math.round(Number(it.price || order.total_amount / Math.max(1, items.length)))),
       print_type_id: printTypeId,
+      custom_neck_label: isApparel ? true : undefined,
       designs,
     };
   }));

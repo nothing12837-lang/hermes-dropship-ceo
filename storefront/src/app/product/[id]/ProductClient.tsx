@@ -3497,6 +3497,22 @@ export function ProductClient({ product }: Props) {
                     <p className="text-[10px] text-neutral-500 mt-1 leading-snug">{gsmProfile.colorDesc}</p>
                   </div>
                 </div>
+
+                {/* Custom Inside-Collar Cloth Branding Badge */}
+                <div className="mt-3.5 pt-3 border-t border-black/[0.06] flex items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base shrink-0">🏷️</span>
+                    <div>
+                      <p className="font-bold text-neutral-900 text-xs">Custom RareEmber Inside-Collar Branding</p>
+                      <p className="text-[11px] text-neutral-500 leading-snug">
+                        Custom Printed Inside-Collar Size &amp; Care Stamp (Tagless Zero-Itch Neckline • Shipped in Custom Branded RareEmber Packaging)
+                      </p>
+                    </div>
+                  </div>
+                  <span className="shrink-0 text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200/80 px-2 py-0.5 rounded-md">
+                    Tagless Comfort
+                  </span>
+                </div>
               </div>
             )}
 

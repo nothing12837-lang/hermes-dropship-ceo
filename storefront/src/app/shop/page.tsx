@@ -161,9 +161,19 @@ function ShopInner() {
       </section>
 
       {/* Catalog Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-8">
-        <div className="text-xs font-semibold text-neutral-500 mb-4">
-          Showing {list.length} drops in {active.label}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-8 overflow-x-hidden">
+        <div className="flex items-center justify-between pb-3 mb-5 border-b border-zinc-200/80">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-[#E04F33] font-bold mb-0.5">
+              Atelier Catalog
+            </div>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-950 tracking-tight">
+              {active.label}
+            </h2>
+          </div>
+          <span className="text-xs font-semibold text-neutral-500 bg-white px-2.5 py-1 rounded-full border border-black/10">
+            {list.length} {list.length === 1 ? 'drop' : 'drops'}
+          </span>
         </div>
 
         <motion.div layout className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">

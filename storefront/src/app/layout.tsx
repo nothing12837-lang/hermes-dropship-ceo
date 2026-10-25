@@ -27,7 +27,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL('https://www.rareember.shop'),
   title: {
     default: "Rare Ember — Independent Heavyweight Streetwear & Graphic Drops",
     template: "%s | Rare Ember",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   creator: "Rare Ember",
   publisher: "Rare Ember",
   alternates: {
-    canonical: siteUrl,
+    canonical: './',
   },
   verification: {
     google: ['iLDXfXOQJgdWVHjp6RKhahF3-lbLS_frVYkqxeXsA44', 'Iv2WSIz7SyvJ2zs7ZqGrhyQC8-d5CSY8qjTBlgiQTOg'],
@@ -89,11 +89,8 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
-      { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
-      { url: '/favicon-144x144.png', sizes: '144x144', type: 'image/png' },
-      { url: '/icon.png', sizes: '192x192', type: 'image/png' },
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
       { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
     ],
     shortcut: '/favicon.ico',
@@ -152,7 +149,7 @@ export default function RootLayout({
               name: 'Rare Ember',
               alternateName: ['RareEmber', 'Rare Ember Shop'],
               url: siteUrl,
-              logo: `${siteUrl}/rareember-logo.png`,
+              logo: 'https://www.rareember.shop/icon-512.png',
               image: `${siteUrl}/icon-512.png`,
               description:
                 'Rare Ember is an Indian direct-to-consumer streetwear and creator lifestyle brand specializing in 240 GSM bio-washed oversized graphic tees, heavyweight full sleeve drops, custom creator drops, and aesthetic desk gear with express Pan-India delivery and Cash on Delivery.',

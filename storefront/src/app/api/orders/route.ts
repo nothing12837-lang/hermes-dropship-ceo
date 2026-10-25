@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { clientIp, isValidOrderId, normalizeEmail, sanitizeCheckoutItems } from '@/lib/security/validation';
@@ -254,6 +255,47 @@ export async function POST(req: NextRequest) {
     const email = normalizeEmail(body.email);
     if (!email) {
       return NextResponse.json({ error: 'Valid email required' }, { status: 400 });
+    }
+
+    // Enforce 100% Free COD OTP Verification Token
+    if (isCod) {
+      const codToken = typeof body.cod_verified_token === 'string' ? body.cod_verified_token.trim() : '';
+      if (!codToken) {
+        return NextResponse.json(
+          { error: 'Cash on Delivery orders require 6-digit email OTP verification before submission.' },
+          { status: 400 }
+        );
+      }
+
+      const secret = process.env.COD_OTP_SECRET || process.env.ADMIN_SECRET || 'rareember-cod-otp-secret-2026';
+      const parts = codToken.split(':');
+      if (parts.length !== 5 || parts[0] !== 'cod-verified') {
+        return NextResponse.json({ error: 'Invalid COD verification token format' }, { status: 400 });
+      }
+
+      const [, tokenEmail, tokenPhone, tokenTimestampStr, tokenSig] = parts;
+      const tokenTimestamp = Number(tokenTimestampStr);
+
+      // Token valid for 30 minutes
+      if (isNaN(tokenTimestamp) || Date.now() - tokenTimestamp > 30 * 60 * 1000) {
+        return NextResponse.json({ error: 'COD verification code has expired. Please verify again.' }, { status: 400 });
+      }
+
+      if (tokenEmail.toLowerCase() !== email.toLowerCase()) {
+        return NextResponse.json({ error: 'COD verification token email mismatch' }, { status: 400 });
+      }
+
+      const expectedSig = crypto
+        .createHmac('sha256', secret)
+        .update(`cod-verified:${tokenEmail}:${tokenPhone}:${tokenTimestampStr}`)
+        .digest('hex');
+
+      const sigBuf = Buffer.from(tokenSig, 'utf8');
+      const expBuf = Buffer.from(expectedSig, 'utf8');
+
+      if (sigBuf.length !== expBuf.length || !crypto.timingSafeEqual(sigBuf, expBuf)) {
+        return NextResponse.json({ error: 'Invalid or forged COD verification token' }, { status: 400 });
+      }
     }
 
     // Validate checkout items schema and bounded quantities

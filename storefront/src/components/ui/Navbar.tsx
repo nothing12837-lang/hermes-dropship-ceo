@@ -40,8 +40,14 @@ export default function Navbar() {
   const { count, openCart } = useCart();
   const { count: wishCount } = useWishlist();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    setMenuOpen(false);
+    setMobileSearchOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }: any) => {
@@ -82,9 +88,14 @@ export default function Navbar() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-[100]">
-        {/* Main Bar */}
+        {/* Top Announcement Bar */}
+        <div className="bg-zinc-950 text-[#FAF8F5] text-[11px] py-1.5 px-3 text-center tracking-wide font-medium flex items-center justify-center gap-1.5 border-b border-white/5">
+          <span>⚡ ₹30 OFF ON UPI • FREE EXPRESS AIR DELIVERY • 7-DAY EASY SIZE EXCHANGE</span>
+        </div>
+
+        {/* Desktop Navbar (>= lg) */}
         <div
-          className="glass-strong h-16 px-4 md:px-8 flex items-center gap-4 md:gap-8 transition-all duration-300 relative border-b border-black/[0.08]"
+          className="hidden lg:flex glass-strong h-16 px-6 md:px-8 items-center gap-6 transition-all duration-300 relative border-b border-black/[0.08]"
           style={{
             boxShadow: scrolled ? '0 4px 20px rgba(18,16,14,0.06)' : 'none',
           }}
@@ -102,18 +113,23 @@ export default function Navbar() {
               className="object-contain shrink-0 transition-transform duration-300 group-hover:scale-105"
               priority
             />
-            <span className="whitespace-nowrap font-black text-lg md:text-xl text-[#0D0D0F] tracking-tight">
-              Rare Ember
-            </span>
+            <div className="flex flex-col">
+              <span className="whitespace-nowrap font-black text-lg text-[#0D0D0F] tracking-tight leading-tight">
+                Rare Ember
+              </span>
+              <span className="text-[9px] font-bold tracking-[0.2em] text-[#E04F33] uppercase leading-none">
+                Atelier
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Search */}
-          <div className="hidden lg:flex flex-1 max-w-[380px]">
+          <div className="flex flex-1 max-w-[360px]">
             <SmartSearch />
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex gap-6 text-[13px] font-bold ml-auto text-neutral-800">
+          <nav className="flex gap-6 text-[13px] font-bold ml-auto text-neutral-800">
             {links.map((l) => (
               <Link
                 key={l.href + l.label}
@@ -126,11 +142,11 @@ export default function Navbar() {
           </nav>
 
           {/* Right Action Icons */}
-          <div className="flex gap-2 sm:gap-2.5 items-center ml-auto lg:ml-0 shrink-0">
+          <div className="flex gap-2 sm:gap-2.5 items-center shrink-0">
             {/* Wishlist Link */}
             <Link
               href="/wishlist"
-              className="w-9 h-9 rounded-lg border border-black/10 bg-white/90 hidden sm:flex items-center justify-center no-underline text-sm relative hover:border-[#E04F33] transition-colors"
+              className="w-9 h-9 rounded-lg border border-black/10 bg-white/90 flex items-center justify-center no-underline text-sm relative hover:border-[#E04F33] transition-colors"
               aria-label="Wishlist"
             >
               <span>♡</span>
@@ -145,7 +161,7 @@ export default function Navbar() {
             <Link
               href={accountLink}
               aria-label={session ? 'Profile' : 'Login'}
-              className="text-xs font-bold no-underline text-[#0D0D0F] hidden sm:block px-3 py-1.5 rounded-lg border border-black/10 bg-white/90 hover:border-black/30 transition-colors"
+              className="text-xs font-bold no-underline text-[#0D0D0F] px-3 py-1.5 rounded-lg border border-black/10 bg-white/90 hover:border-black/30 transition-colors"
             >
               {session ? 'Account' : 'Sign In'}
             </Link>
@@ -178,22 +194,72 @@ export default function Navbar() {
                 </span>
               )}
             </button>
+          </div>
+        </div>
 
-            {/* Mobile Menu Hamburger */}
+        {/* Sleek 3-Zone Mobile Header (< lg) */}
+        <div className="lg:hidden h-14 px-3 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-zinc-200/80 flex items-center justify-between gap-2">
+          {/* Zone 1 (Left): Hamburger (40x40) + Search Lens */}
+          <div className="flex items-center gap-1.5 shrink-0">
             <button
               onClick={() => setMenuOpen(true)}
-              className="w-9 h-9 rounded-lg border border-black/10 bg-white/90 cursor-pointer text-sm lg:hidden flex items-center justify-center hover:border-black/30 transition-colors"
-              aria-label="Open menu"
+              className="w-10 h-10 rounded-xl bg-white/90 border border-zinc-200/80 flex items-center justify-center text-base text-zinc-900 active:scale-95 transition-all shadow-xs cursor-pointer"
+              aria-label="Open navigation menu"
             >
               ☰
+            </button>
+            <button
+              onClick={() => setMobileSearchOpen((prev) => !prev)}
+              className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm transition-all border shadow-xs cursor-pointer ${
+                mobileSearchOpen
+                  ? 'bg-zinc-900 text-white border-zinc-900'
+                  : 'bg-white/90 text-zinc-800 border-zinc-200/80 active:scale-95'
+              }`}
+              aria-label="Search catalog"
+            >
+              🔍
+            </button>
+          </div>
+
+          {/* Zone 2 (Center): Architectural Wordmark + Sub-label */}
+          <Link href="/" className="no-underline flex flex-col items-center justify-center text-center shrink-0">
+            <span className="font-black text-sm tracking-[0.22em] text-[#0D0D0F] uppercase whitespace-nowrap">
+              RARE EMBER
+            </span>
+            <span className="text-[8px] font-bold tracking-[0.28em] text-[#E04F33] uppercase -mt-0.5">
+              ATELIER
+            </span>
+          </Link>
+
+          {/* Zone 3 (Right): Track Icon + Bag Pill Button */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            <Link
+              href="/track"
+              className="w-9 h-9 rounded-xl bg-white/90 border border-zinc-200/80 flex items-center justify-center text-sm text-zinc-800 no-underline shadow-xs hover:border-black/30 transition-all"
+              aria-label="Track order"
+              title="Track order"
+            >
+              📍
+            </Link>
+            <button
+              onClick={openCart}
+              className="bg-zinc-950 text-white px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 active:scale-95 transition-all shadow-sm cursor-pointer border-none"
+              aria-label="Open shopping bag"
+            >
+              <span>Bag</span>
+              <span className="min-w-[16px] h-[16px] px-1 rounded-full bg-[#E04F33] text-white text-[10px] font-black flex items-center justify-center">
+                {count}
+              </span>
             </button>
           </div>
         </div>
 
-        {/* Mobile Search Input */}
-        <div className="glass-strong px-3 py-2 lg:hidden border-b border-black/[0.08]">
-          <SmartSearch />
-        </div>
+        {/* Expandable Mobile Search Slide-Down Bar */}
+        {mobileSearchOpen && (
+          <div className="lg:hidden bg-[#FAF8F5]/95 backdrop-blur-md px-3 py-2.5 border-b border-zinc-200/80 shadow-md">
+            <SmartSearch />
+          </div>
+        )}
       </header>
 
       {/* Mobile Drawer */}

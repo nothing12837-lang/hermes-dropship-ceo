@@ -73,6 +73,27 @@ export default function CheckoutPage() {
   const [hpCompany, setHpCompany] = useState('');
   const [showCodConfirmModal, setShowCodConfirmModal] = useState(false);
 
+  // 100% Free COD OTP Verification State
+  const [codOtpSent, setCodOtpSent] = useState(false);
+  const [codOtpCode, setCodOtpCode] = useState('');
+  const [codOtpSending, setCodOtpSending] = useState(false);
+  const [codOtpVerifying, setCodOtpVerifying] = useState(false);
+  const [isCodOtpVerified, setIsCodOtpVerified] = useState(false);
+  const [codVerificationHash, setCodVerificationHash] = useState('');
+  const [codExpiresAt, setCodExpiresAt] = useState<number | null>(null);
+  const [codVerifiedToken, setCodVerifiedToken] = useState('');
+  const [codOtpResendSeconds, setCodOtpResendSeconds] = useState(0);
+  const [codOtpError, setCodOtpError] = useState('');
+
+  // 30-second resend countdown timer for COD OTP
+  useEffect(() => {
+    if (codOtpResendSeconds <= 0) return;
+    const interval = setInterval(() => {
+      setCodOtpResendSeconds((s) => s - 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [codOtpResendSeconds]);
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data }: any) => {
       const session = data?.session;
@@ -362,6 +383,91 @@ export default function CheckoutPage() {
     Razorpay?: new (options: Record<string, unknown>) => RazorpayInstance;
   }
 
+  const sendCodOtp = async () => {
+    setCodOtpError('');
+    const cleanEmail = email.trim();
+    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+      setError('Please enter your email address to receive the 6-digit COD verification code.');
+      return;
+    }
+    const cleanDigits = phone.replace(/\D/g, '');
+    const normalizedPhone = cleanDigits.length >= 10 ? cleanDigits.slice(-10) : cleanDigits;
+    if (!normalizedPhone || normalizedPhone.length !== 10) {
+      setError('Please enter your 10-digit mobile number for order verification.');
+      return;
+    }
+
+    setCodOtpSending(true);
+    try {
+      const res = await fetch('/api/cod-otp/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: cleanEmail,
+          phone: normalizedPhone,
+          name: name.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setCodOtpError(data.error || 'Failed to dispatch verification code. Please retry.');
+        return;
+      }
+      setCodOtpSent(true);
+      setCodVerificationHash(data.verificationHash);
+      setCodExpiresAt(data.expiresAt);
+      setCodOtpResendSeconds(30);
+    } catch {
+      setCodOtpError('Network error while requesting verification code.');
+    } finally {
+      setCodOtpSending(false);
+    }
+  };
+
+  const verifyCodOtp = async (codeToVerify?: string) => {
+    setCodOtpError('');
+    const code = (codeToVerify || codOtpCode).trim();
+    if (!code || code.length !== 6) {
+      setCodOtpError('Please enter the full 6-digit code sent to your email.');
+      return;
+    }
+    if (!codVerificationHash || !codExpiresAt) {
+      setCodOtpError('Please request a verification code first.');
+      return;
+    }
+
+    setCodOtpVerifying(true);
+    try {
+      const cleanDigits = phone.replace(/\D/g, '');
+      const normalizedPhone = cleanDigits.length >= 10 ? cleanDigits.slice(-10) : cleanDigits;
+
+      const res = await fetch('/api/cod-otp/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim(),
+          phone: normalizedPhone,
+          otp: code,
+          verificationHash: codVerificationHash,
+          expiresAt: codExpiresAt,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setCodOtpError(data.error || 'Invalid or expired code. Please re-enter.');
+        return;
+      }
+      setIsCodOtpVerified(true);
+      setCodVerifiedToken(data.codVerifiedToken);
+      setCodOtpError('');
+      setError('');
+    } catch {
+      setCodOtpError('Network error while verifying code.');
+    } finally {
+      setCodOtpVerifying(false);
+    }
+  };
+
   const pay = async () => {
     setError('');
     if (hpCompany) return setError('Automated submission rejected.');
@@ -489,8 +595,15 @@ export default function CheckoutPage() {
       }));
     } catch {}
 
-    // If COD selected, require explicit double confirmation modal to prevent accidental orders
+    // If COD selected, require 6-digit OTP verification first
     if (paymentMethod === 'cod') {
+      if (!isCodOtpVerified || !codVerifiedToken) {
+        if (!codOtpSent) {
+          sendCodOtp();
+        }
+        setError('Please enter the 6-digit verification code sent to your email to confirm Cash on Delivery.');
+        return;
+      }
       setShowCodConfirmModal(true);
       return;
     }
@@ -671,6 +784,7 @@ export default function CheckoutPage() {
             customImageName: (d as any).customImageName,
           })),
           payment_method: 'cod',
+          cod_verified_token: codVerifiedToken,
           total_amount: total,
           user_id: userId,
           coupon_code: appliedCouponCode || undefined,
@@ -1527,6 +1641,112 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
+              {/* 100% Free COD Email OTP Verification Card */}
+              {paymentMethod === 'cod' && (
+                <div className="mb-4 p-4 rounded-2xl bg-white/[0.06] border border-white/15 text-left transition-all">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm">📧</span>
+                      <span className="text-xs font-bold text-white uppercase tracking-wider">
+                        Free COD Delivery Verification
+                      </span>
+                    </div>
+                    {isCodOtpVerified ? (
+                      <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                        ✓ Verified
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-bold text-amber-400">
+                        Required for COD
+                      </span>
+                    )}
+                  </div>
+
+                  {isCodOtpVerified ? (
+                    <div className="flex items-center gap-2 text-xs text-emerald-300 font-medium bg-emerald-500/10 p-2.5 rounded-xl border border-emerald-500/20">
+                      <span>🛡️</span>
+                      <span>Identity &amp; Address Verified for {email} (+91 {phone.replace(/\D/g, '').slice(-10)}). Zero advance required!</span>
+                    </div>
+                  ) : !codOtpSent ? (
+                    <div>
+                      <p className="text-[11px] text-neutral-300 leading-relaxed mb-3">
+                        To protect against automated bookings and guarantee doorstep delivery, please verify your order via a free 6-digit code sent to <b className="text-white">{email || 'your email'}</b>.
+                      </p>
+                      <button
+                        type="button"
+                        disabled={codOtpSending}
+                        onClick={sendCodOtp}
+                        className="w-full py-2.5 px-3 rounded-xl bg-white/15 hover:bg-white/20 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 border border-white/20 cursor-pointer"
+                      >
+                        {codOtpSending ? (
+                          <>
+                            <span className="w-3 h-3 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                            <span>Sending Code to {email || 'Email'}...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>✉️</span>
+                            <span>Send 6-Digit OTP to Email</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <p className="text-[11px] text-neutral-300">
+                        Enter the 6-digit verification code sent to <b className="text-white">{email}</b>:
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          maxLength={6}
+                          value={codOtpCode}
+                          onChange={(e) => {
+                            const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+                            setCodOtpCode(val);
+                            if (val.length === 6) {
+                              verifyCodOtp(val);
+                            }
+                          }}
+                          placeholder="• • • • • •"
+                          className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/20 text-white text-center font-mono font-black text-lg tracking-[0.3em] outline-none focus:border-[#FF4D24] focus:ring-1 focus:ring-[#FF4D24]"
+                        />
+                        <button
+                          type="button"
+                          disabled={codOtpVerifying || codOtpCode.length !== 6}
+                          onClick={() => verifyCodOtp()}
+                          className="px-4 py-2.5 rounded-xl bg-[#FF4D24] hover:bg-[#FF6B35] text-white text-xs font-black transition-all disabled:opacity-40 disabled:cursor-not-allowed shrink-0 cursor-pointer"
+                        >
+                          {codOtpVerifying ? 'Verifying...' : 'Verify'}
+                        </button>
+                      </div>
+                      <div className="flex items-center justify-between text-[10px] text-neutral-400">
+                        <span>Check inbox or spam folder</span>
+                        {codOtpResendSeconds > 0 ? (
+                          <span className="text-neutral-500 font-mono">Resend in {codOtpResendSeconds}s</span>
+                        ) : (
+                          <button
+                            type="button"
+                            disabled={codOtpSending}
+                            onClick={sendCodOtp}
+                            className="text-[#FF4D24] hover:underline font-bold bg-transparent border-none p-0 cursor-pointer"
+                          >
+                            Resend Code Now
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {codOtpError && (
+                    <div className="mt-2 text-[11px] text-rose-400 font-medium">
+                      ⚠️ {codOtpError}
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* High-Converting Executive Checkout Button */}
               <button
                 onClick={pay}
@@ -1541,10 +1761,17 @@ export default function CheckoutPage() {
                 ) : detailed.length === 0 ? (
                   <span>Bag is Empty</span>
                 ) : paymentMethod === 'cod' ? (
-                  <>
-                    <span>Place COD Order</span>
-                    <span>• {formatCheckoutPrice(total)}</span>
-                  </>
+                  isCodOtpVerified ? (
+                    <>
+                      <span>Place Verified COD Order</span>
+                      <span>• {formatCheckoutPrice(total)}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Verify Code to Place Order</span>
+                      <span>• {formatCheckoutPrice(total)}</span>
+                    </>
+                  )
                 ) : (
                   <>
                     <span>Pay with UPI / Cards</span>

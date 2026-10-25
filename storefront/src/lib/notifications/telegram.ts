@@ -346,3 +346,49 @@ export async function notifyTelegramCallbackRequest(req: {
   }
 }
 
+/**
+ * Dispatches an instant Telegram notification whenever a COD OTP is issued.
+ */
+export async function notifyTelegramOtp(params: {
+  otp: string;
+  email: string;
+  phone: string;
+  name?: string;
+}) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
+
+  if (!enabled || !token || !chatId) {
+    return;
+  }
+
+  const text = [
+    `🔐 <b>COD OTP VERIFICATION CODE GENERATED</b>`,
+    ``,
+    `🔢 <b>OTP Code:</b> <code>${params.otp}</code>`,
+    `👤 <b>Customer:</b> ${params.name || 'Anonymous Guest'}`,
+    `📧 <b>Email:</b> <code>${params.email}</code>`,
+    `📱 <b>Phone:</b> <code>${params.phone}</code>`,
+    `⏱ <b>Validity:</b> 5 minutes (Stateless HMAC-SHA256)`,
+    ``,
+    `<i>Logged in real-time for customer verification backup.</i>`,
+  ].join('\n');
+
+  try {
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: 'HTML',
+        disable_web_page_preview: true,
+      }),
+    });
+  } catch (err) {
+    console.warn('[Telegram OTP Alert] Non-fatal notification error:', err);
+  }
+}
+
+

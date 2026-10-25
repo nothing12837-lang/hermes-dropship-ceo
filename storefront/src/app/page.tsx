@@ -150,28 +150,29 @@ export default async function Home() {
 
         {/* 1. SECTION: MEN'S GRAPHIC STREETWEAR (PRIORITY USER SPOTLIGHT) */}
         {mensPrinted.length > 0 && (
-          <section id="mens-printed" className="scroll-mt-24">
-            <div className="flex items-end justify-between gap-4 mb-6">
+          <section id="mens-printed" className="scroll-mt-24 overflow-x-hidden">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4 mb-4">
               <div>
-                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#FF4D24]/10 text-[#FF4D24] text-[11px] font-mono uppercase tracking-widest font-bold mb-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D24] pulse-dot" />
+                <div className="text-[10px] uppercase tracking-[0.2em] text-[#E04F33] font-bold mb-1 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E04F33] pulse-live-dot" />
                   Collection 01 • Flagship Drops
                 </div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-[#12100E]">
+                <h2 className="text-xl sm:text-3xl font-extrabold tracking-tight text-zinc-950">
                   Men&apos;s Graphic Streetwear
-                </h1>
-                <p className="text-xs sm:text-sm text-neutral-600 mt-1">
+                </h2>
+                <p className="text-xs sm:text-sm text-neutral-600 mt-1 font-medium">
                   High-density DTF prints on 240 GSM bio-washed combed cotton. Dispatched in 2–4 business days.
                 </p>
               </div>
               <Link
                 href="/shop?cat=mens-printed"
-                className="text-xs font-bold text-[#12100E] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#FF4D24] link-underline transition-colors"
+                className="text-xs font-bold text-zinc-950 hover:text-[#E04F33] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#E04F33] transition-colors self-start sm:self-auto"
               >
                 <span>View All ({mensPrinted.length})</span>
                 <span>→</span>
               </Link>
             </div>
+            <div className="w-full h-px bg-zinc-200/80 mb-5" />
 
             {/* Product Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
@@ -241,28 +242,29 @@ export default async function Home() {
 
         {/* 3. SECTION: WOMEN'S & ART EDITIONS */}
         {otherPrinted.length > 0 && (
-          <section id="other-printed" className="scroll-mt-24">
-            <div className="flex items-end justify-between gap-4 mb-6">
+          <section id="other-printed" className="scroll-mt-24 overflow-x-hidden">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4 mb-4">
               <div>
-                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#FF4D24]/10 text-[#FF4D24] text-[11px] font-mono uppercase tracking-widest font-bold mb-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D24] pulse-dot" />
+                <div className="text-[10px] uppercase tracking-[0.2em] text-[#E04F33] font-bold mb-1 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E04F33] pulse-live-dot" />
                   Collection 02 • Limited Drops
                 </div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-[#12100E]">
+                <h2 className="text-xl sm:text-3xl font-extrabold tracking-tight text-zinc-950">
                   Women&apos;s &amp; Art Editions
                 </h2>
-                <p className="text-xs sm:text-sm text-neutral-600 mt-1">
+                <p className="text-xs sm:text-sm text-neutral-600 mt-1 font-medium">
                   Crop silhouettes, classic crewnecks, and aesthetic typographic graphics.
                 </p>
               </div>
               <Link
                 href="/shop?cat=womens"
-                className="text-xs font-bold text-[#12100E] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#FF4D24] link-underline transition-colors"
+                className="text-xs font-bold text-zinc-950 hover:text-[#E04F33] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#E04F33] transition-colors self-start sm:self-auto"
               >
                 <span>View All ({otherPrinted.length})</span>
                 <span>→</span>
               </Link>
             </div>
+            <div className="w-full h-px bg-zinc-200/80 mb-5" />
 
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
               {otherPrinted.map((p, i) => (
@@ -276,28 +278,29 @@ export default async function Home() {
 
         {/* 4. SECTION: ESSENTIAL STREETWEAR BLANKS */}
         {blanks.length > 0 && (
-          <section id="streetwear-blanks" className="scroll-mt-24">
-            <div className="flex items-end justify-between gap-4 mb-6">
+          <section id="streetwear-blanks" className="scroll-mt-24 overflow-x-hidden">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4 mb-4">
               <div>
-                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#12100E]/10 text-[#12100E] text-[11px] font-mono uppercase tracking-widest font-bold mb-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#12100E] pulse-dot" />
+                <div className="text-[10px] uppercase tracking-[0.2em] text-[#0D0D0F] font-bold mb-1 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#0D0D0F] pulse-live-dot" />
                   Collection 03 • Daily Architecture
                 </div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-[#12100E]">
+                <h2 className="text-xl sm:text-3xl font-extrabold tracking-tight text-zinc-950">
                   Essential Blanks
                 </h2>
-                <p className="text-xs sm:text-sm text-neutral-600 mt-1">
+                <p className="text-xs sm:text-sm text-neutral-600 mt-1 font-medium">
                   Acid-wash textures, heavyweight raglan tees, solid crewnecks, and minimal wardrobe staples.
                 </p>
               </div>
               <Link
                 href="/shop?cat=blanks"
-                className="text-xs font-bold text-[#12100E] hover:text-[#FF4D24] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#FF4D24] link-underline transition-colors"
+                className="text-xs font-bold text-zinc-950 hover:text-[#E04F33] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#E04F33] transition-colors self-start sm:self-auto"
               >
                 <span>View All ({blanks.length})</span>
                 <span>→</span>
               </Link>
             </div>
+            <div className="w-full h-px bg-zinc-200/80 mb-5" />
 
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
               {blanks.map((p, i) => (
