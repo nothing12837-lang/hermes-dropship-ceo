@@ -16,7 +16,7 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
       {
-        userAgent: 'Googlebot',
+        userAgent: ['Googlebot', 'Googlebot-Image', 'Storebot-Google'],
         allow: '/',
         disallow: ['/admin/', '/api/admin/'],
       },

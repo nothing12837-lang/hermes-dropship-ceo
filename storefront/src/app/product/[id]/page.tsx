@@ -120,19 +120,33 @@ export default async function ProductPage({ params }: Props) {
     console.warn('[PDP] review aggregate unavailable:', e);
   }
 
+  const cleanMpn = (product.slug || product.id).replace(/^qikink-?/i, 'RE-').toUpperCase();
+  const primaryColor = product.colors && product.colors.length > 0 ? product.colors[0] : 'Obsidian Black';
+  const availableSizes = product.sizes && product.sizes.length > 0 ? product.sizes.join(', ') : 'Standard';
+  const suggestedGender =
+    product.gender === 'women' || product.title.toLowerCase().includes("women's") || product.title.toLowerCase().includes("girl's")
+      ? 'female'
+      : product.gender === 'men' || product.title.toLowerCase().includes("men's") || product.title.toLowerCase().includes("boy's")
+      ? 'male'
+      : 'unisex';
+
   const productSchema = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.title,
-    image: product.image_url ? [product.image_url] : [`${siteUrl}/flame-icon.png`],
+    image: product.image_url ? [product.image_url, ...(product.images || []).filter((i) => i && i !== product.image_url).slice(0, 3)] : [`${siteUrl}/flame-icon.png`],
     description: product.short || product.title,
     disambiguatingDescription: `Authentic Rare Ember drop. Crafted with ${resolvedMaterial}. Pan-India express air shipping in 2-4 days via BlueDart & Delhivery with Cash on Delivery (COD) and 7-day easy returns.`,
-    sku: (product.slug || product.id).replace(/^qikink-?/i, 'RE-').toUpperCase(),
+    sku: cleanMpn,
+    mpn: cleanMpn,
+    color: primaryColor,
+    size: availableSizes,
+    pattern: product.is_printed ? 'Graphic Print' : 'Solid',
     category: isDrinkware ? 'Artisan Drinkware' : isDeskGear ? 'Desk & Creator Gear' : 'Streetwear Apparel',
     material: resolvedMaterial,
     audience: {
       '@type': 'PeopleAudience',
-      suggestedGender: 'unisex',
+      suggestedGender,
     },
     brand: {
       '@type': 'Brand',
@@ -150,6 +164,7 @@ export default async function ProductPage({ params }: Props) {
       seller: {
         '@type': 'Organization',
         name: 'Rare Ember',
+        url: siteUrl,
       },
       hasMerchantReturnPolicy: {
         '@type': 'MerchantReturnPolicy',
@@ -174,7 +189,7 @@ export default async function ProductPage({ params }: Props) {
         },
         shippingDestination: {
           '@type': 'DefinedRegion',
-          addressCountry: ['IN', 'US'],
+          addressCountry: 'IN',
         },
         deliveryTime: {
           '@type': 'ShippingDeliveryTime',
@@ -187,7 +202,7 @@ export default async function ProductPage({ params }: Props) {
           transitTime: {
             '@type': 'QuantitativeValue',
             minValue: 2,
-            maxValue: 5,
+            maxValue: 4,
             unitCode: 'd',
           },
         },

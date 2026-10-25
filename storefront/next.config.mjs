@@ -48,6 +48,26 @@ const nextConfig = {
     agentUpgrade: 'security',
     optimizePackageImports: ['framer-motion', 'lucide-react', 'date-fns'],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/feed.xml',
+        destination: '/api/feed/google',
+      },
+      {
+        source: '/feeds/google-shopping.xml',
+        destination: '/api/feed/google',
+      },
+      {
+        source: '/feeds/google.xml',
+        destination: '/api/feed/google',
+      },
+      {
+        source: '/google-merchant-feed.xml',
+        destination: '/api/feed/google',
+      },
+    ];
+  },
   async redirects() {
     return [
       {
