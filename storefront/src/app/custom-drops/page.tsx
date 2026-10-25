@@ -2,8 +2,11 @@ import { Suspense } from 'react';
 import { CustomDropsClient } from './CustomDropsClient';
 
 export const metadata = {
-  title: 'Custom Merch for Hackathons, College Fests & Startups | RareEmber™',
+  title: 'Custom Merch for Hackathons, College Fests & Startups',
   description: 'Direct Tirupur manufacturing with zero setup fees. 240 GSM tees, full sleeve drops & desk mats with 4-day delivery for college clubs & tech startups.',
+  alternates: {
+    canonical: 'https://www.rareember.shop/custom-drops',
+  },
 };
 
 export default function CustomDropsPage() {

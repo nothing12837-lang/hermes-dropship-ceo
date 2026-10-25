@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Terms of Service | Rare Ember',
+  title: 'Terms of Service',
   description: 'Terms and conditions for purchasing and browsing on Rare Ember.',
 };
 

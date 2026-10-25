@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useCart } from '@/lib/store/cart';
 import { useWishlist } from '@/lib/store/wishlist';
 import { resolveProductImage } from '@/lib/data/fallback-images';
-import { cleanBrandTitle, sortSizes } from '@/lib/data/products';
+import { cleanBrandTitle, sortSizes, getGarmentSpecBadge } from '@/lib/data/products';
 import PrebuiltMockupRenderer from '@/components/PrebuiltMockupRenderer';
 import { useGeo } from '@/context/GeoContext';
 
@@ -158,18 +158,9 @@ export default function ProductCard({
   const inr = rawPrice ?? (parseFloat(price.replace(/[^0-9.]/g, '')) || 549);
   const displayPrice = rawPrice ? geoFormatPrice(rawPrice) : (price.startsWith('₹') ? price : geoFormatPrice(inr));
 
-  // Technical Streetwear Tag (Clean, concise fabric & cut descriptor)
+  // Technical Streetwear Tag (Clean, concise fabric & cut descriptor bound directly to product)
   const itemSearch = `${cleanTitle} ${id} ${tag || ''}`.toLowerCase();
-  const fabricTag = (() => {
-    if (/varsity|bomber/i.test(itemSearch)) return '350 GSM Varsity';
-    if (/hoodie/i.test(itemSearch)) return '380 GSM Heavy Fleece';
-    if (/sweatshirt|crewneck|jogger|sweatpant/i.test(itemSearch)) return '320 GSM French Terry';
-    if (/jersey|dryfit|dry fit/i.test(itemSearch)) return '180 GSM Quick-Dry Mesh';
-    if (/polo/i.test(itemSearch)) return '220 GSM Pique Cotton';
-    if (/crop/i.test(itemSearch)) return '220 GSM Cotton Spandex';
-    if (/kid|boy|girl/i.test(itemSearch)) return '180 GSM Combed Cotton';
-    return '240 GSM Combed Cotton';
-  })();
+  const fabricTag = getGarmentSpecBadge({ title: cleanTitle, id, tag });
 
   const quickViewText = (() => {
     const isApparelCard = /jersey|tee|shirt|hoodie|dress|crop|jogger|polo|sweatshirt|jacket|skirt|vest/i.test(itemSearch);

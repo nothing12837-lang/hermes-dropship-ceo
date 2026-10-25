@@ -285,7 +285,6 @@ export function isTestOrder(order: any): boolean {
     email.includes('test@') ||
     email.includes('example.com') ||
     email.includes('dummy') ||
-    email === 'rareemberagency@gmail.com' ||
     email === 'support@rareember.shop'
   ) {
     return true;

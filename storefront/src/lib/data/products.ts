@@ -144,13 +144,37 @@ export function enforcePriceFloor(p: Product): Product {
     };
   }
 
+  // 1. Unisex Oversized Jersey — Creator Edition: ₹679 (compare ₹1,299)
   if (pid.includes('64950694') || pid.includes('32476280') || (title.includes('oversized') && title.includes('jersey'))) {
-    price = 779;
-    compare = 1399;
-  } else if ((title.includes('oversized standard') || title.includes('desk mat') || pid.includes('desk-mat')) && price <= 599) {
-    price = 749;
+    price = 679;
     compare = 1299;
-  } else if (pid.includes('64953648') || (title.includes('full sleeve') && title.includes('graphic'))) {
+  }
+  // 2. Rare Ember Unisex Oversized Standard T-Shirt & Gaming Pad: ₹649 (compare ₹1,199)
+  else if (title.includes('oversized standard') || title.includes('gaming pad') || title.includes('desk mat') || pid.includes('desk-mat') || pid.includes('32476431')) {
+    price = 649;
+    compare = 1199;
+  }
+  // 3. Curated Value Combos:
+  // The Streetwear Duo (2x Heavyweight Oversized Tees): ₹1,199
+  else if (pid.includes('streetwear-duo') || pid.includes('pack-of-2')) {
+    price = 1199;
+    compare = 1799;
+  }
+  // The Founding 50 Builder Pack: ₹1,199
+  else if (pid.includes('founding-50')) {
+    price = 1199;
+    compare = 1799;
+  }
+  // The Creator Workstation Pack: ₹1,399
+  else if (pid.includes('workstation')) {
+    price = 1399;
+    compare = 1999;
+  }
+  else if (pid.includes('pack-of-3')) {
+    price = 1599;
+    compare = 2699;
+  }
+  else if (pid.includes('64953648') || (title.includes('full sleeve') && title.includes('graphic'))) {
     price = 999;
     compare = 1799;
   } else if (pid.includes('64953512') || pid.includes('t-shirt-dress') || pid.includes('maternity-dress') || title.includes('dress')) {
@@ -173,18 +197,6 @@ export function enforcePriceFloor(p: Product): Product {
     if (!compare || compare < 1099) compare = 1099;
   } else if (pid.includes('hoodie')) {
     price = 1399;
-    compare = 2699;
-  } else if (pid.includes('streetwear-duo') || pid.includes('pack-of-2')) {
-    price = 1299;
-    compare = 1999;
-  } else if (pid.includes('founding-50')) {
-    price = 1299;
-    compare = 1999;
-  } else if (pid.includes('workstation')) {
-    price = 1499;
-    compare = 2199;
-  } else if (pid.includes('pack-of-3')) {
-    price = 1599;
     compare = 2699;
   }
 
@@ -291,7 +303,7 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
   }
 ];
 
-export const ADULT_SIZE_ORDER = ['XS', 'S', 'M', 'L', 'XL', '2XL', 'XXL', '3XL', '4XL', '5XL'] as const;
+export const ADULT_SIZE_ORDER = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '2XL', '3XL', '4XL', '5XL'] as const;
 export const KIDS_SIZE_ORDER = [
   '0-12M', '12-23M', '24-35M', '36-47M',
   '1-2Y', '2-3Y', '3-4Y', '4-5Y', '5Yrs', '5-6Y',
@@ -301,11 +313,12 @@ export const KIDS_SIZE_ORDER = [
 
 export function sortSizes(sizes?: string[]): string[] {
   if (!Array.isArray(sizes) || sizes.length === 0) return [];
-  const isKids = sizes.some(s => (KIDS_SIZE_ORDER as readonly string[]).includes(s) || /m|yr|kid/i.test(s));
+  // Strict regex for kids sizes: must match month pattern like '0-12M' or year pattern like '5Y' / '5Yrs'
+  const isKids = sizes.some(s => (KIDS_SIZE_ORDER as readonly string[]).includes(s) || /^\d+[-–]\d+M$/i.test(s) || /\b\d+Y(?:rs)?\b/i.test(s));
   const order = (isKids ? KIDS_SIZE_ORDER : ADULT_SIZE_ORDER) as readonly string[];
   return [...sizes].sort((a, b) => {
-    const idxA = order.indexOf(a);
-    const idxB = order.indexOf(b);
+    const idxA = order.indexOf(a as any);
+    const idxB = order.indexOf(b as any);
     if (idxA !== -1 && idxB !== -1) return idxA - idxB;
     if (idxA !== -1) return -1;
     if (idxB !== -1) return 1;
@@ -313,9 +326,55 @@ export function sortSizes(sizes?: string[]): string[] {
   });
 }
 
+/**
+ * Returns the authoritative technical garment specification badge.
+ * Binds directly to the product object attributes, never by array index.
+ */
+export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: string; category?: string; subCategory?: string }): string {
+  if (!p) return '240 GSM Combed Cotton';
+  const str = `${p.title || ''} ${p.id || ''} ${p.subCategory || ''} ${p.tag || ''}`.toLowerCase();
+
+  if (/\b(mat|pad|desk\s*mat|mouse\s*pad|gaming\s*pad)\b|desk-mat/i.test(str)) {
+    return 'Extended 900×400mm';
+  }
+  if (/varsity|bomber/i.test(str)) {
+    return '350 GSM Varsity';
+  }
+  if (/hoodie/i.test(str)) {
+    return '380 GSM Heavy Fleece';
+  }
+  if (/sweatshirt|crewneck|jogger|sweatpant/i.test(str)) {
+    return '320 GSM French Terry';
+  }
+  if (/oversized\s+jersey|jersey/i.test(str)) {
+    return '220 GSM Breathable Mesh';
+  }
+  if (/dryfit|dry fit/i.test(str)) {
+    return '180 GSM Quick-Dry Mesh';
+  }
+  if (/polo/i.test(str)) {
+    return '220 GSM Pique Cotton';
+  }
+  if (/crop/i.test(str)) {
+    return '220 GSM Cotton Spandex';
+  }
+  if (/kid|boy|girl|baby/i.test(str)) {
+    return '180 GSM Combed Cotton';
+  }
+  if (/streetwear-duo|pack-of-2/i.test(str)) {
+    return 'Pack of 2 • 240 GSM';
+  }
+  if (/founding-50|workstation|pack-of-3|bundle/i.test(str)) {
+    return 'Multi-Item Value Pack';
+  }
+  return '240 GSM Combed Cotton';
+}
+
 // Bundles paused until store reaches 10 successful orders (per strategic roadmap)
 export const products: Product[] = (qikinkCatalog as unknown as Product[])
   .filter((p) => !p.id.startsWith('bundle-'))
+  // Filter out squished 1-inch print artifacts (Boy's 64953488 and Girl's 64953664)
+  .filter((p) => !String(p.id).includes('64953488') && !String(p.id).includes('64953664'))
   // Gateway/test SKUs are internal fixtures and excluded from public catalog
   .filter((p) => !/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification)/i.test(`${p.id} ${p.title}`))
   .map((p) => ({

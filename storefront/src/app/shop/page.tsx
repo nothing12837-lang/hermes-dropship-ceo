@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import ProductCard from '@/components/ui/ProductCard';
 import { COPY } from '@/lib/data/copy';
-import { formatPrice, computeDiscount, SHOP_CATEGORIES, products as localProducts } from '@/lib/data/products';
+import { formatPrice, computeDiscount, getGarmentSpecBadge, SHOP_CATEGORIES, products as localProducts } from '@/lib/data/products';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { type ProductRow } from '@/lib/supabase';
 
@@ -190,7 +190,7 @@ function ShopInner() {
                 <ProductCard
                   id={p.id}
                   slug={(p as any).slug || undefined}
-                  tag={(p as any).tag || ((p as any).is_printed ? 'Graphic Print' : 'Essential Blank')}
+                  tag={getGarmentSpecBadge(p)}
                   title={p.title}
                   desc={(p as any).short || p.description || ''}
                   price={formatPrice(Number((p as any).price_inr || p.price))}

@@ -3,7 +3,12 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { blogPosts } from '@/lib/data/content';
 
-const DISALLOWED_BLOG_TERMS = ['mandir', 'diya', 'diyas', 'pooja', 'puja', 'temple', 'festive-lighting', 'pet', 'dog', 'cat'];
+const DISALLOWED_BLOG_TERMS = [
+  'mandir', 'diya', 'diyas', 'pooja', 'puja', 'temple', 'festive-lighting', 'pet', 'dog', 'cat',
+  'kitchen', 'organizer', 'organizers', 'diffuser', 'diffusers', 'sleep-wellness', 'lighting',
+  'dining-decor', 'under-500', '500-rupees', '500 rupees', 'ambient-living', 'home-lighting',
+  'smart-kitchen', 'save-2-hours', 'bedroom-desk', 'cozy-bedroom', 'transform-sleep', 'wabi-sabi',
+];
 
 function isAllowedBlog(p: { slug?: string; title?: string; category?: string; excerpt?: string }) {
   const combined = `${p.slug || ''} ${p.title || ''} ${p.category || ''} ${p.excerpt || ''}`.toLowerCase();
@@ -19,11 +24,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = blogPosts.find((b) => b.slug === slug);
   if (!post) {
     return {
-      title: 'Journal & Stories | Rare Ember',
+      title: 'Journal & Stories',
     };
   }
   return {
-    title: `${post.title} | Rare Ember Journal`,
+    title: post.title,
     description: post.excerpt,
     openGraph: {
       title: post.title,

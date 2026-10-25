@@ -3,15 +3,42 @@ import { blogPosts } from '@/lib/data/content';
 import { ChapterHeading } from '@/components/ui/Story';
 
 export const metadata = {
-  title: 'Lifestyle, Tech & Home Guides',
-  description: 'Curated styling tips, workspace ergonomics, and smart home guides from the RareEmber design studio.',
+  title: 'Atelier Journal • Streetwear & Tech Culture',
+  description: 'Fabric engineering, 240/380 GSM craftsmanship, hackathon custom merch guides, and minimalist creator workstation blueprints.',
 };
 
-const DISALLOWED_BLOG_TERMS = ['mandir', 'diya', 'diyas', 'pooja', 'puja', 'temple', 'festive-lighting', 'pet', 'dog', 'cat'];
+export const DISALLOWED_BLOG_TERMS = [
+  'mandir', 'diya', 'diyas', 'pooja', 'puja', 'temple', 'festive-lighting', 'pet', 'dog', 'cat',
+  'kitchen', 'organizer', 'organizers', 'diffuser', 'diffusers', 'sleep-wellness', 'lighting',
+  'dining-decor', 'under-500', '500-rupees', '500 rupees', 'ambient-living', 'home-lighting',
+  'smart-kitchen', 'save-2-hours', 'bedroom-desk', 'cozy-bedroom', 'transform-sleep', 'wabi-sabi',
+];
 
-function isAllowedBlog(p: { slug?: string; title?: string; category?: string; excerpt?: string }) {
+export function isAllowedBlog(p: { slug?: string; title?: string; category?: string; excerpt?: string }) {
   const combined = `${p.slug || ''} ${p.title || ''} ${p.category || ''} ${p.excerpt || ''}`.toLowerCase();
   return !DISALLOWED_BLOG_TERMS.some((term) => combined.includes(term));
+}
+
+export function deduplicatePosts<T extends { title?: string; slug?: string }>(items: T[]): T[] {
+  const seenTitles = new Set<string>();
+  const seenSlugs = new Set<string>();
+  const result: T[] = [];
+
+  for (const item of items) {
+    // Normalize slug by removing trailing numeric timestamp suffixes (e.g. -202610151640)
+    const baseSlug = (item.slug || '').toLowerCase().replace(/-\d{10,}$/, '');
+    const normTitle = (item.title || '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '');
+
+    if (seenTitles.has(normTitle) || seenSlugs.has(baseSlug)) {
+      continue;
+    }
+    seenTitles.add(normTitle);
+    seenSlugs.add(baseSlug);
+    result.push(item);
+  }
+  return result;
 }
 
 export default async function BlogPage() {
@@ -34,7 +61,7 @@ export default async function BlogPage() {
               title: r.title,
               category: r.category || 'Streetwear & Desk',
               readTime: '4 min',
-              emoji: '✨',
+              emoji: '⚡',
               wash: '#fff3e0',
               excerpt: r.excerpt || (r.content ? r.content.slice(0, 120) + '...' : ''),
               body: []
@@ -50,14 +77,14 @@ export default async function BlogPage() {
     }
   } catch {}
 
-  posts = posts.filter(isAllowedBlog);
+  posts = deduplicatePosts(posts.filter(isAllowedBlog));
 
   return (
     <main className="page-top" style={{ background: '#fffbf5', minHeight: '100vh' }}>
       <div style={{ maxWidth: '76rem', margin: '0 auto', padding: '2rem' }}>
-        <ChapterHeading index="✨" label="Design & Utility Guides" title="Elevate your" accent="everyday living." />
+        <ChapterHeading index="⚡" label="Atelier Journal" title="Streetwear, Craft &" accent="Creator Culture." />
         <p style={{ color: '#52453e', marginTop: '-1.5rem', marginBottom: '2.5rem', maxWidth: '600px' }}>
-          Actionable aesthetic blueprints, workspace setups, and smart home recommendations — curated by our design team.
+          Actionable guides on 240/380 GSM garment engineering, Tirupur craftsmanship, campus merch, and minimalist creator workspaces.
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: '1.4rem' }}>
           {posts.map((b) => (

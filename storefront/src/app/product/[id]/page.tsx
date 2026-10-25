@@ -30,13 +30,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const ogImageUrl = rawImage.startsWith('http') ? rawImage : `${siteUrl}${rawImage}`;
 
   return {
-    title: `${product.title} — ₹${currentPrice} | Rare Ember`,
+    title: `${product.title} — ₹${currentPrice}`,
     description,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: `${product.title} — ₹${currentPrice} | Rare Ember`,
+      title: `${product.title} — ₹${currentPrice}`,
       description,
       url: canonicalUrl,
       siteName: 'Rare Ember Atelier',

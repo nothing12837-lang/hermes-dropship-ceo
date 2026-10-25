@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://www.rareember.shop';
 
 export const metadata: Metadata = {
-  title: 'Shop Curated Streetwear, Drinkware & Creator Essentials — Rare Ember',
+  title: 'All Streetwear & Graphic Drops',
   description:
     'Explore Rare Ember catalog: heavyweight streetwear, 240 GSM full sleeve drops, artisan ceramic mugs, extended desk mats, and creator gear. Pan-India COD & Express Delivery.',
   keywords: [
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     canonical: `${siteUrl}/shop`,
   },
   openGraph: {
-    title: 'Shop All Creator Drops | Rare Ember',
+    title: 'All Streetwear & Graphic Drops',
     description:
       'Curated heavyweight streetwear, artisan drinkware, extended desk gear, and creator lifestyle essentials. Free Pan-India express delivery options.',
     type: 'website',

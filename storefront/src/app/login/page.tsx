@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { LoginClient } from './LoginClient';
 
 export const metadata = {
-  title: 'Sign In | RareEmber',
+  title: 'Sign In to Your Account',
   description: 'Sign in or create an account to view and protect your orders.',
 };
 

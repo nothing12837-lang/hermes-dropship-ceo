@@ -2,13 +2,15 @@ import Link from 'next/link';
 import { Truck, ShieldCheck, Banknote, RefreshCw } from 'lucide-react';
 import ProductCard from '@/components/ui/ProductCard';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { formatPrice, computeDiscount, type Product } from '@/lib/data/products';
+import { formatPrice, computeDiscount, getGarmentSpecBadge, type Product } from '@/lib/data/products';
 import { getProductsFromDB } from '@/lib/products-server';
 
 export const revalidate = 60; // 60s ISR: Edge cached in Mumbai (bom1)
 
 export const metadata = {
-  title: 'Rare Ember — Independent Heavyweight Streetwear & Graphic Drops',
+  title: {
+    absolute: 'Rare Ember — Independent Heavyweight Streetwear & Graphic Drops',
+  },
   description: '240 GSM combed cotton streetwear, full sleeve silhouettes & original graphic drops. Tailored in India, dispatched via express air with 7-day doorstep replacements.',
 };
 
@@ -16,7 +18,7 @@ function toCard(p: Product, rank?: number) {
   return {
     id: p.id,
     slug: p.slug,
-    tag: p.tag || (p.is_printed ? 'Graphic Print' : 'Essential Blank'),
+    tag: getGarmentSpecBadge(p),
     tagColor: p.tagColor,
     tagBg: p.tagBg,
     title: p.title,

@@ -179,6 +179,10 @@ export const DISALLOWED_KEYWORDS = [
   'cozy-nest',
   'aesthetic-scratch',
   'smart-fetch',
+  '64953488',
+  '64953664',
+  'rare-ember-gateway-test-pass',
+  'gateway-test',
 ];
 
 export function isDisallowedProduct(p: { id?: string; slug?: string }): boolean {

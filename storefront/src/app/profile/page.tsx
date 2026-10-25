@@ -1,7 +1,7 @@
 import { ProfileClient } from './ProfileClient';
 
 export const metadata = {
-  title: 'Profile | RareEmber',
+  title: 'Your Account Profile',
   description: 'View your order history.',
 };
 

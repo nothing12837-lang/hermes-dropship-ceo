@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import InvoiceClient from './InvoiceClient';
 
 export const metadata: Metadata = {
-  title: 'Official GST Tax Invoice | Rare Ember Atelier',
+  title: 'Official GST Tax Invoice',
   description: 'Download, print, or email your official Section 31 CGST Act tax invoice and authenticity certificate.',
   robots: {
     index: true,

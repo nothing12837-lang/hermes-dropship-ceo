@@ -1923,8 +1923,7 @@ export function ProductClient({ product }: Props) {
                     zIndex: 2,
                   }}
                 >
-                  <span>📷</span>
-                  <span>{selectedImgIndex + 1} / {galleryImages.length}</span>
+                  <span className="font-mono">{selectedImgIndex + 1} / {galleryImages.length}</span>
                 </div>
               )}
 
