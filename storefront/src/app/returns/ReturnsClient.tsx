@@ -12,7 +12,14 @@ export function ReturnsClient() {
   const [preference, setPreference] = useState('Free Doorstep Replacement (Recommended)');
   const [notes, setNotes] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [claimResult, setClaimResult] = useState<{ claimId: string; message: string } | null>(null);
+  const [claimResult, setClaimResult] = useState<{
+    claimId: string;
+    message: string;
+    isStoreCredit?: boolean;
+    storeCreditCode?: string;
+    storeCreditAmount?: number;
+  } | null>(null);
+  const [copiedCode, setCopiedCode] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -60,6 +67,9 @@ export function ReturnsClient() {
       setClaimResult({
         claimId: data.claimId || 'RE-CLM-7842',
         message: data.message || 'Claim received! We will process your replacement within 24 hours.',
+        isStoreCredit: data.isStoreCredit,
+        storeCreditCode: data.storeCreditCode,
+        storeCreditAmount: data.storeCreditAmount,
       });
     } catch {
       setError('Network error while submitting. Please email support@rareember.shop directly.');
@@ -134,33 +144,87 @@ export function ReturnsClient() {
         </div>
 
         {claimResult ? (
-          <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-4">
-            <span className="font-mono text-xs uppercase tracking-wider text-emerald-800 block">TICKET CONFIRMED</span>
-            <h3 className="text-xl font-black text-emerald-900">
-              Claim Registered Successfully
-            </h3>
-            <p className="text-xs text-emerald-800 max-w-md mx-auto leading-relaxed">
-              Ticket ID: <strong className="font-mono text-sm px-2 py-1 bg-white rounded-lg border border-emerald-400">{claimResult.claimId}</strong>
-            </p>
-            <p className="text-xs text-emerald-700 max-w-md mx-auto leading-relaxed">
-              {claimResult.message} Our support team has received your ticket and will verify via WhatsApp or email to dispatch your replacement.
-            </p>
-            <div className="pt-2 flex flex-wrap gap-3 justify-center">
-              <Link
-                href="/track"
-                className="px-5 py-2.5 rounded-lg bg-[#161311] text-white text-xs font-bold no-underline hover:bg-neutral-800 transition-all"
-              >
-                Track Your Orders →
-              </Link>
-              <button
-                type="button"
-                onClick={() => setClaimResult(null)}
-                className="px-5 py-2.5 rounded-lg bg-white text-neutral-800 text-xs font-bold border border-black/10 cursor-pointer"
-              >
-                File Another Request
-              </button>
+          claimResult.isStoreCredit && claimResult.storeCreditCode ? (
+            <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-amber-500/10 via-emerald-500/10 to-emerald-500/5 border border-emerald-500/30 text-center space-y-4 shadow-xl">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-800 text-[11px] font-black uppercase tracking-wider">
+                <span>🎉</span> Instant Store Credit Active (+10% Bonus)
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-black text-neutral-950">
+                ₹{claimResult.storeCreditAmount} Store Credit Issued!
+              </h3>
+              <p className="text-xs text-neutral-600 max-w-md mx-auto leading-relaxed">
+                Your return request has been automatically resolved. We added an extra 10% bonus credit to your order value. Use your voucher code below at checkout:
+              </p>
+
+              <div className="max-w-xs mx-auto p-4 bg-neutral-950 rounded-2xl border border-amber-500/30 flex items-center justify-between gap-3 shadow-lg">
+                <div className="text-left">
+                  <span className="text-[10px] text-amber-400 font-bold uppercase tracking-wider block">Voucher Code</span>
+                  <span className="font-mono text-base sm:text-lg font-black text-white">{claimResult.storeCreditCode}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (claimResult.storeCreditCode) {
+                      navigator.clipboard.writeText(claimResult.storeCreditCode);
+                      setCopiedCode(true);
+                      setTimeout(() => setCopiedCode(false), 3000);
+                    }
+                  }}
+                  className="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 text-xs font-black transition-all cursor-pointer"
+                >
+                  {copiedCode ? '✓ Copied' : 'Copy'}
+                </button>
+              </div>
+
+              <p className="text-[11px] text-neutral-500">
+                Ticket ID: <strong className="font-mono text-xs">{claimResult.claimId}</strong> • Valid across all current and upcoming drops. No minimum spend.
+              </p>
+
+              <div className="pt-2 flex flex-wrap gap-3 justify-center">
+                <Link
+                  href="/shop"
+                  className="px-6 py-3 rounded-xl bg-[#161311] text-white text-xs font-black no-underline hover:bg-neutral-800 transition-all shadow-md"
+                >
+                  Shop Drops &amp; Apply Credit →
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setClaimResult(null)}
+                  className="px-5 py-3 rounded-xl bg-white text-neutral-800 text-xs font-bold border border-black/10 cursor-pointer"
+                >
+                  File Another Request
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-4">
+              <span className="font-mono text-xs uppercase tracking-wider text-emerald-800 block">TICKET CONFIRMED</span>
+              <h3 className="text-xl font-black text-emerald-900">
+                Claim Registered Successfully
+              </h3>
+              <p className="text-xs text-emerald-800 max-w-md mx-auto leading-relaxed">
+                Ticket ID: <strong className="font-mono text-sm px-2 py-1 bg-white rounded-lg border border-emerald-400">{claimResult.claimId}</strong>
+              </p>
+              <p className="text-xs text-emerald-700 max-w-md mx-auto leading-relaxed">
+                {claimResult.message} Our support team has received your ticket and will verify via WhatsApp or email to dispatch your replacement.
+              </p>
+              <div className="pt-2 flex flex-wrap gap-3 justify-center">
+                <Link
+                  href="/track"
+                  className="px-5 py-2.5 rounded-lg bg-[#161311] text-white text-xs font-bold no-underline hover:bg-neutral-800 transition-all"
+                >
+                  Track Your Orders →
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setClaimResult(null)}
+                  className="px-5 py-2.5 rounded-lg bg-white text-neutral-800 text-xs font-bold border border-black/10 cursor-pointer"
+                >
+                  File Another Request
+                </button>
+              </div>
+            </div>
+          )
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
             {error && (

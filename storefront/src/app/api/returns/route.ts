@@ -162,7 +162,16 @@ export async function POST(req: NextRequest) {
     const orderTotal = Number(order.total_amount || 0);
     const customerName = order.shipping_name || (order.shipping_address as any)?.name || 'Customer';
 
-    // 5. Persist the claim: First attempt return_claims table
+    // 5. Automated Store Credit Engine:
+    // If customer selected Store Credit + 10% Bonus, automatically issue the voucher code instantly!
+    const isStoreCredit = preference.toLowerCase().includes('credit');
+    const storeCreditAmount = isStoreCredit ? Math.round(orderTotal * 1.1) : null;
+    const storeCreditCode = isStoreCredit
+      ? `CREDIT-${storeCreditAmount}-${order.id.slice(0, 4).toUpperCase()}`
+      : null;
+    const claimStatus = isStoreCredit ? 'approved' : 'pending';
+
+    // Persist the claim: First attempt return_claims table
     let savedInTable = false;
     try {
       const claimRow: Record<string, unknown> = {
@@ -171,8 +180,8 @@ export async function POST(req: NextRequest) {
         contact,
         reason,
         preference,
-        notes,
-        status: 'pending',
+        notes: isStoreCredit ? `[AUTO STORE CREDIT: ${storeCreditCode} (₹${storeCreditAmount})] ${notes || ''}`.trim() : notes,
+        status: claimStatus,
         order_total_inr: orderTotal,
         payment_method: String(order.payment_method || 'cod'),
       };
@@ -187,8 +196,8 @@ export async function POST(req: NextRequest) {
           contact,
           reason,
           preference,
-          notes,
-          status: 'pending',
+          notes: isStoreCredit ? `[AUTO STORE CREDIT: ${storeCreditCode} (₹${storeCreditAmount})] ${notes || ''}`.trim() : notes,
+          status: claimStatus,
         };
         const { error: minimalErr } = await sb.from('return_claims').insert(minimal);
         if (!minimalErr) {
@@ -206,8 +215,10 @@ export async function POST(req: NextRequest) {
       await sb
         .from('orders')
         .update({
-          status: 'return_requested',
-          fulfillment_error: `RETURN_CLAIM: [${claimId}] Reason: ${reason} | Pref: ${preference} | Contact: ${contact}${notes ? ` | Notes: ${notes}` : ''}`,
+          status: isStoreCredit ? 'refunded' : 'return_requested',
+          fulfillment_error: isStoreCredit
+            ? `STORE_CREDIT_ISSUED: [${storeCreditCode}] Value: ₹${storeCreditAmount} (+10% Bonus) | Claim: ${claimId} | Reason: ${reason}`
+            : `RETURN_CLAIM: [${claimId}] Reason: ${reason} | Pref: ${preference} | Contact: ${contact}${notes ? ` | Notes: ${notes}` : ''}`,
           updated_at: new Date().toISOString(),
         })
         .eq('id', order.id);
@@ -224,6 +235,8 @@ export async function POST(req: NextRequest) {
       reason,
       preference,
       notes,
+      storeCreditCode,
+      storeCreditAmount,
     }).catch((e) => console.error('[Returns] Telegram alert failed:', e));
 
     // 8. Send confirmation email to customer if email is available
@@ -236,13 +249,21 @@ export async function POST(req: NextRequest) {
         orderId: order.id,
         reason,
         preference,
+        isStoreCredit,
+        storeCreditCode,
+        storeCreditAmount,
       }).catch((e) => console.error('[Returns] Email dispatch failed:', e));
     }
 
     return NextResponse.json({
       ok: true,
       claimId,
-      message: 'Your replacement request has been submitted. Our team will verify and dispatch within 24 hours.',
+      isStoreCredit,
+      storeCreditCode,
+      storeCreditAmount,
+      message: isStoreCredit
+        ? `Your Store Credit Voucher (${storeCreditCode}) worth ₹${storeCreditAmount} (+10% Bonus) has been automatically issued! Use it right now on any drop.`
+        : 'Your replacement request has been submitted. Our team will verify and dispatch within 24 hours.',
     });
   } catch (err: unknown) {
     console.error('Failed to process return claim:', err);

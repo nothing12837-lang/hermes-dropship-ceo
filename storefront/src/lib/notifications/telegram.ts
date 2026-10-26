@@ -135,6 +135,8 @@ export async function notifyTelegramReturnClaim(claim: {
   notes?: string;
   claimId: string;
   customerName?: string;
+  storeCreditCode?: string | null;
+  storeCreditAmount?: number | null;
 }) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
@@ -150,19 +152,29 @@ export async function notifyTelegramReturnClaim(claim: {
   if (digits.length === 10) {
     const intlPhone = `91${digits}`;
     const custName = claim.customerName || 'Customer';
-    const waText = encodeURIComponent(
-      `Namaste ${custName}! 🙏\n\n` +
-      `Team Rare Ember here regarding your Return/Replacement request #${claim.claimId} for Order #${claim.orderId}.\n\n` +
-      `Reason: ${claim.reason}\n` +
-      `Requested: ${claim.preference}\n\n` +
-      `We are reviewing your request to resolve it immediately under our 7-Day Guarantee. Could you please share a quick photo of the garment/issue here? Dhanyawad! ✨ - Rare Ember Founder Desk`
-    );
+    const waText = claim.storeCreditCode
+      ? encodeURIComponent(
+          `Namaste ${custName}! 🙏\n\n` +
+          `Team Rare Ember here! We have automatically approved your Store Credit with an extra 10% bonus!\n\n` +
+          `🎟️ Your Voucher Code: *${claim.storeCreditCode}*\n` +
+          `💰 Value: *₹${claim.storeCreditAmount}* (Valid on any drop, no minimum order)\n\n` +
+          `You can use it right now on https://www.rareember.shop. Thank you for being a part of Rare Ember! ✨`
+        )
+      : encodeURIComponent(
+          `Namaste ${custName}! 🙏\n\n` +
+          `Team Rare Ember here regarding your Return/Replacement request #${claim.claimId} for Order #${claim.orderId}.\n\n` +
+          `Reason: ${claim.reason}\n` +
+          `Requested: ${claim.preference}\n\n` +
+          `We are reviewing your request to resolve it immediately under our 7-Day Guarantee. Could you please share a quick photo of the garment/issue here? Dhanyawad! ✨ - Rare Ember Founder Desk`
+        );
     waSection = `💬 <a href="https://wa.me/${intlPhone}?text=${waText}">Tap to WhatsApp Customer Directly</a>`;
     callSection = `📞 <a href="tel:+${intlPhone}">Tap to Call Customer (+91 ${digits})</a>`;
   }
 
+  const isCredit = Boolean(claim.storeCreditCode);
+
   const text = [
-    `⚠️ <b>NEW REPLACEMENT / RETURN CLAIM!</b> 🔄`,
+    isCredit ? `🎉 <b>AUTOMATIC STORE CREDIT VOUCHER ISSUED!</b> 💳` : `⚠️ <b>NEW REPLACEMENT / RETURN CLAIM!</b> 🔄`,
     ``,
     `🎫 <b>Claim Ticket ID:</b> <code>#${claim.claimId}</code>`,
     `🆔 <b>Order ID:</b> <code>#${claim.orderId}</code>`,
@@ -170,13 +182,12 @@ export async function notifyTelegramReturnClaim(claim: {
     `📞 <b>Customer Contact:</b> <b>${claim.contact}</b>`,
     `📋 <b>Reason:</b> <b>${claim.reason}</b>`,
     `🔄 <b>Requested Resolution:</b> <b>${claim.preference}</b>`,
+    isCredit ? `🎟️ <b>Voucher Code:</b> <code>${claim.storeCreditCode}</code> (<b>₹${claim.storeCreditAmount}</b>)` : '',
+    isCredit ? `✨ <i>Customer received voucher code immediately on-screen and via email. Zero cash refund needed!</i>` : '',
     claim.notes ? `📝 <b>Customer Notes:</b> <i>"${claim.notes}"</i>` : '',
     ``,
     waSection ? `${waSection}\n${callSection}\n` : '',
-    `⚡ <b>ACTION REQUIRED:</b>`,
-    `1. Verify customer order in <a href="https://www.rareember.shop/admin/orders">Admin Orders Portal</a>.`,
-    `2. If size mismatch or misprint, trigger 1-click free replacement order via Qikink.`,
-    `3. Contact customer via WhatsApp / Email to reassure with 7-Day Guarantee.`
+    !isCredit ? `⚡ <b>ACTION REQUIRED:</b>\n1. Verify customer order in <a href="https://www.rareember.shop/admin/orders">Admin Orders Portal</a>.\n2. If size mismatch or misprint, trigger 1-click free replacement order via Qikink.\n3. Contact customer via WhatsApp / Email to reassure with 7-Day Guarantee.` : ''
   ].filter(Boolean).join('\n');
 
   try {

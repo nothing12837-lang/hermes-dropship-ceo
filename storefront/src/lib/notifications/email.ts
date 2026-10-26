@@ -625,6 +625,9 @@ export async function sendReturnClaimConfirmationEmail(payload: {
   orderId: string;
   reason: string;
   preference: string;
+  isStoreCredit?: boolean;
+  storeCreditCode?: string | null;
+  storeCreditAmount?: number | null;
 }): Promise<{ ok: boolean; error?: string }> {
   const apiKey = process.env.RESEND_API_KEY;
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'Rare Ember <support@rareember.shop>';
@@ -634,13 +637,15 @@ export async function sendReturnClaimConfirmationEmail(payload: {
     return { ok: true };
   }
 
+  const isCredit = Boolean(payload.isStoreCredit && payload.storeCreditCode);
+
   const html = `
     <!DOCTYPE html>
     <html>
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Return Request Logged: #${payload.claimId} — Rare Ember</title>
+        <title>${isCredit ? `Store Credit Issued: ${payload.storeCreditCode}` : `Return Request Logged: #${payload.claimId}`} — Rare Ember</title>
       </head>
       <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #FAF8F5; margin: 0; padding: 32px 16px; color: #0D0D0F;">
         <div style="max-width: 540px; margin: 0 auto; background: #FFFFFF; border-radius: 20px; border: 1px solid rgba(13, 13, 15, 0.08); padding: 36px 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.04);">
@@ -655,15 +660,43 @@ export async function sendReturnClaimConfirmationEmail(payload: {
 
           <div style="text-align: center; margin-bottom: 24px;">
             <div style="display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); color: #065F46; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">
-              Claim Received &amp; Logged
+              ${isCredit ? '🎉 Instant Store Credit Active' : 'Claim Received &amp; Logged'}
             </div>
             <h1 style="font-size: 22px; font-weight: 800; color: #0D0D0F; margin: 0 0 8px 0; letter-spacing: -0.02em;">
-              We&#39;ve Got You Covered
+              ${isCredit ? `₹${payload.storeCreditAmount} Store Credit Voucher Issued!` : "We&#39;ve Got You Covered"}
             </h1>
             <p style="font-size: 13px; color: #52525B; line-height: 1.5; margin: 0;">
-              Hello ${payload.name || 'there'}, your request for Order <strong>#${payload.orderId}</strong> has been logged. Our concierge care team will review and contact you on WhatsApp/phone within 24 hours.
+              ${
+                isCredit
+                  ? `Hello ${payload.name || 'there'}, we have automatically resolved your return request with an extra 10% bonus credit! Use your voucher code below on any drop.`
+                  : `Hello ${payload.name || 'there'}, your request for Order <strong>#${payload.orderId}</strong> has been logged. Our concierge care team will review and contact you on WhatsApp/phone within 24 hours.`
+              }
             </p>
           </div>
+
+          ${
+            isCredit
+              ? `
+          <div style="background: #0D0D0F; border-radius: 16px; padding: 24px 16px; text-align: center; margin-bottom: 24px; border: 1px solid rgba(245, 158, 11, 0.3);">
+            <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #F59E0B; margin-bottom: 8px;">
+              Your 10% Bonus Voucher Code
+            </div>
+            <div style="font-size: 26px; font-weight: 900; letter-spacing: 0.15em; color: #FFFFFF; font-family: ui-monospace, SFMono-Regular, monospace;">
+              ${payload.storeCreditCode}
+            </div>
+            <div style="font-size: 12px; color: #10B981; font-weight: 700; margin-top: 8px;">
+              Flat ₹${payload.storeCreditAmount} OFF at checkout (No minimum order)
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-bottom: 24px;">
+            <a href="https://www.rareember.shop/shop" style="display: inline-block; padding: 12px 28px; background: #0D0D0F; color: #FFFFFF; text-decoration: none; font-weight: 800; font-size: 13px; border-radius: 12px;">
+              Shop Drops with Voucher →
+            </a>
+          </div>
+          `
+              : ''
+          }
 
           <div style="background: #F4F4F5; border-radius: 14px; padding: 18px 20px; margin-bottom: 24px; font-size: 13px; line-height: 1.8;">
             <div>
@@ -685,7 +718,7 @@ export async function sendReturnClaimConfirmationEmail(payload: {
           </div>
 
           <div style="background: #FFFBF5; border: 1px solid rgba(255, 77, 36, 0.2); border-radius: 12px; padding: 14px 16px; margin-bottom: 24px; font-size: 12px; color: #78350F; line-height: 1.5;">
-            ⚡ <strong>Zero-Hassle Process:</strong> No tedious couriers or repackaging errands needed. If it&#39;s a size issue or print defect, simply have a quick photo ready on WhatsApp when we reach out.
+            ⚡ <strong>Zero-Hassle Process:</strong> No courier drop-offs or packaging errands required. RareEmber makes every return effortless.
           </div>
 
           <div style="border-top: 1px solid #E4E4E7; padding-top: 20px; text-align: center; font-size: 11px; color: #A1A1AA; line-height: 1.6;">
@@ -701,7 +734,9 @@ export async function sendReturnClaimConfirmationEmail(payload: {
     apiKey,
     fromEmail,
     toEmail: payload.email,
-    subjectLine: `[Ticket ${payload.claimId}] Return/Replacement Request for #${payload.orderId} — Rare Ember`,
+    subjectLine: isCredit
+      ? `[Store Credit ₹${payload.storeCreditAmount}] Voucher ${payload.storeCreditCode} for #${payload.orderId} — Rare Ember`
+      : `[Ticket ${payload.claimId}] Return/Replacement Request for #${payload.orderId} — Rare Ember`,
     html,
   });
 }
