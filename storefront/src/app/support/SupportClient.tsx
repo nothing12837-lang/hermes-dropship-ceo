@@ -8,7 +8,7 @@ const TICKET_CATEGORIES = [
   { id: 'exchange', label: '7-Day Returns & Size Help' },
   { id: 'defect', label: 'Damaged / Defective Garment Received' },
   { id: 'payment', label: 'Payment Debited But Order Status Pending' },
-  { id: 'custom', label: 'Bulk Order & Custom Drops Inquiry' },
+  { id: 'custom', label: 'Custom Studio Drops Inquiry' },
   { id: 'cancellation', label: 'Order Cancellation Request' },
   { id: 'other', label: 'Other Inquiries' },
 ];
@@ -485,7 +485,7 @@ export default function SupportClient() {
                   type="text"
                   value={callReason}
                   onChange={(e) => setCallReason(e.target.value)}
-                  placeholder="e.g. Sizing questions, bulk order discount, order delivery timing"
+                  placeholder="e.g. Sizing questions, custom artwork inquiry, order delivery timing"
                   className="w-full px-4 py-3 text-sm rounded-lg border border-black/10 bg-neutral-50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white"
                 />
               </div>

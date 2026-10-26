@@ -34,7 +34,6 @@ export const COPY = {
         title: 'Studio & Services',
         links: [
           { label: 'Custom Merch Studio', href: '/custom-drops' },
-          { label: 'Bulk & Corporate Orders', href: '/bulk-orders' },
           { label: 'About Rare Ember', href: '/about' },
         ],
       },

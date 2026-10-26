@@ -52,7 +52,6 @@ const CATEGORY_TABS = [
   { id: 'womens', label: "Women's Collection", href: '/shop?cat=womens' },
   { id: 'blanks', label: 'Essential Blanks', href: '/shop?cat=blanks' },
   { id: 'custom-drops', label: 'Custom Merch Studio', href: '/custom-drops' },
-  { id: 'bulk-orders', label: 'Bulk & Corporate', href: '/bulk-orders' },
 ];
 
 const ASSURANCES = [
@@ -259,34 +258,6 @@ export default async function Home() {
             </div>
           </section>
         )}
-
-        {/* 5. CREDIBLE BRAND STORY */}
-        <ScrollReveal>
-          <section className="p-8 sm:p-12 rounded-2xl bg-[#12100E] text-white grain border border-white/10 transition-all duration-300 hover:border-white/20">
-            <div className="max-w-3xl space-y-4">
-              <span className="text-xs font-mono font-bold text-gradient-ember-animated uppercase tracking-wider">
-                The Rare Ember Story
-              </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight">
-                Independent Streetwear. Direct from the Loom.
-              </h2>
-              <p className="text-sm sm:text-base text-white/70 leading-relaxed">
-                We started Rare Ember because we were tired of generic fast-fashion tees with peel-and-stick prints and paper-thin cotton. Every silhouette in our catalog is engineered in Tirupur, India, from heavyweight combed cotton and architectural streetwear cuts.
-              </p>
-              <p className="text-sm sm:text-base text-white/70 leading-relaxed">
-                By working on demand with direct air fulfillment, we eliminate dead inventory and wasteful markups. Every garment is inspected, packed in premium white-label packaging, and shipped directly to your door with express air delivery.
-              </p>
-              <div className="pt-2">
-                <Link
-                  href="/about"
-                  className="text-xs font-bold text-[#FF4D24] hover:text-[#FF7A18] inline-flex items-center gap-1 link-underline transition-colors"
-                >
-                  Read more about our sourcing and production →
-                </Link>
-              </div>
-            </div>
-          </section>
-        </ScrollReveal>
 
         {/* 8. PURCHASE ASSURANCES & TRANSPARENCY */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-black/[0.08]">

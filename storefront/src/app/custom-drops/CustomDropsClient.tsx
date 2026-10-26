@@ -390,7 +390,7 @@ export function CustomDropsClient() {
           </div>
 
           <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-            Custom Merch &amp; Bulk Silhouettes for Startups, Creators &amp; Teams.
+            Custom Streetwear Drops &amp; Silhouettes for Creators &amp; Teams.
           </h1>
 
           <p className="max-w-2xl mx-auto text-sm md:text-base text-white/70 font-medium leading-relaxed">
@@ -823,14 +823,6 @@ export function CustomDropsClient() {
                   <span>ORDER CUSTOM DROP NOW ⚡</span>
                   <span>•</span>
                   <span>₹{currentBlank.price}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleTransferToBulk}
-                  className="w-full py-3 rounded-2xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs uppercase tracking-wider border border-white/10 transition-all cursor-pointer flex items-center justify-center gap-2"
-                >
-                  <span>Transfer Design to Bulk Calculator (25+ Units) ↓</span>
                 </button>
               </div>
 

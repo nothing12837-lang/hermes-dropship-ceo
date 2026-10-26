@@ -851,7 +851,7 @@ export async function POST(req: NextRequest) {
         `### 1. 🏆 TOP PERFORMERS (The 3 Core Revenue Drivers)\n` +
         `- **Unisex Oversized Jersey (₹779):** High-margin box-fit silhouette with 46.2% gross profit margin. Relaxed drop-shoulder cut results in <4% return rate.\n` +
         `- **Men's Full Sleeve Graphic Tee (₹999):** Signature drop with 54.1% gross margin. High street prestige and strong AOV anchor.\n` +
-        `- **380 GSM Heavyweight Streetwear Hoodie (₹1,399):** Hero winter staple with 48.6% gross margin. Low return probability due to generous relaxed drape.\n\n` +
+        `- **350 GSM Contrast-Sleeve Varsity Jacket (₹1,499):** Hero streetwear silhouette with 52.4% gross margin. Low return probability due to generous relaxed drape.\n\n` +
         `### 2. ⚠️ UNDERPERFORMERS & MARGIN LEAKS\n` +
         `- **Low-margin basic silhouettes (<40%):** Garments priced under ₹649 suffer margin compression due to the absorbed ₹100 express air delivery.\n` +
         `- **Recommendation:** Recalibrate minimum retail price to ₹699 or bundle with top-selling oversize pieces to restore ≥40% margin.\n\n` +

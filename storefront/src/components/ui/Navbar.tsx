@@ -15,7 +15,6 @@ const links = [
   { href: '/shop', label: 'Catalog' },
   { href: '/shop?cat=mens-printed', label: 'Graphic Drops' },
   { href: '/custom-drops', label: 'Custom Studio' },
-  { href: '/bulk-orders', label: 'Bulk Orders' },
   { href: '/track', label: 'Tracking' },
 ];
 
@@ -25,7 +24,6 @@ const drawerLinks = [
   { href: '/shop?cat=mens-printed', label: 'Graphic Streetwear' },
   { href: '/shop?cat=blanks', label: 'Essential Blanks' },
   { href: '/custom-drops', label: 'Custom Studio' },
-  { href: '/bulk-orders', label: 'Bulk & Factory Merch' },
   { href: '/track', label: 'Track Order' },
   { href: '/returns', label: '7-Day Easy Returns' },
   { href: '/support', label: 'Customer Support' },

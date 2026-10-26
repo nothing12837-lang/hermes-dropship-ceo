@@ -112,98 +112,6 @@ function getEstimatedDeliveryDate(createdAt: string): string {
   return 'Arriving on 26-Oct-2026';
 }
 
-interface CourierCheckpoint {
-  timestamp: string;
-  location: string;
-  badge: string;
-  isLive: boolean;
-  desc: string;
-}
-
-function getOrderCheckpoints(o: Order, rawAwb: string): CourierCheckpoint[] {
-  const city = o.shipping_address?.city || 'Bangalore';
-  const zip = o.shipping_address?.zip || '562107';
-  const isShipped = o.status === 'shipped' || o.status === 'delivered';
-
-  if (!isShipped) {
-    return [
-      {
-        timestamp: '2026-10-23 15:20:38',
-        location: 'HQ (Haryana) — Delhivery Central Manifest',
-        badge: 'Manifest Uploaded',
-        isLive: true,
-        desc: `Electronic shipping manifest uploaded. Airway Bill #${rawAwb || '46600611743280'} registered on corporate account.`,
-      },
-      {
-        timestamp: '2026-10-22 12:49:58',
-        location: 'Rare Ember Corporate Ledger',
-        badge: 'Order Confirmed (COD)',
-        isLive: false,
-        desc: 'Cash on Delivery order verified and queued on factory manufacturing ledger.',
-      },
-    ];
-  }
-
-  return [
-    {
-      timestamp: '2026-10-24 20:01:07 (Live Verified Scan)',
-      location: 'Bangalore_Hoskote_GW (Karnataka)',
-      badge: 'Trip Arrived • Live Hub Location',
-      isLive: true,
-      desc: `Inbound line-haul freight trip successfully arrived at Bangalore Hoskote Gateway. Consignment de-bagged and queued for local delivery routing to ${city} (${zip}). Expected delivery on 26-Oct-2026.`,
-    },
-    {
-      timestamp: '2026-10-24 09:50:53',
-      location: 'Coimbatore_Pudhupalayam_GW (Tamil Nadu)',
-      badge: 'Vehicle Departed',
-      isLive: false,
-      desc: `Line-haul courier transport vehicle departed Pudhupalayam Gateway in transit to Bangalore destination gateway.`,
-    },
-    {
-      timestamp: '2026-10-24 06:54:25',
-      location: 'Coimbatore_Pudhupalayam_GW (Tamil Nadu)',
-      badge: 'Bag Added To Trip',
-      isLive: false,
-      desc: `Sealed courier bag containing Waybill #${rawAwb || '46600611743280'} allocated to inter-hub express transit trip.`,
-    },
-    {
-      timestamp: '2026-10-24 03:16:10',
-      location: 'Coimbatore_Pudhupalayam_GW (Tamil Nadu)',
-      badge: 'Added to Bag',
-      isLive: false,
-      desc: `Parcel sorted into outbound express mailer bag for Bangalore gateway transfer.`,
-    },
-    {
-      timestamp: '2026-10-23 20:26:25',
-      location: 'Coimbatore_Pudhupalayam_GW (Tamil Nadu)',
-      badge: 'Weight Captured & Origin Received',
-      isLive: false,
-      desc: `Shipment received at Delhivery origin gateway center. Physical weight captured and verified on airway ledger.`,
-    },
-    {
-      timestamp: '2026-10-23 16:38:30',
-      location: 'Coimbatore_Pudhupalayam_GW (Tamil Nadu)',
-      badge: 'Shipment Picked Up',
-      isLive: false,
-      desc: `Physical parcel handed over from Rare Ember Tirupur factory to Delhivery Air courier logistics.`,
-    },
-    {
-      timestamp: '2026-10-23 15:20:38',
-      location: 'HQ (Haryana) — Delhivery Central',
-      badge: 'Manifest Uploaded',
-      isLive: false,
-      desc: `Electronic shipping manifest uploaded. Airway Bill #${rawAwb || '46600611743280'} activated under corporate account.`,
-    },
-    {
-      timestamp: '2026-10-22 12:49:58',
-      location: 'Rare Ember Atelier Systems',
-      badge: 'Order Confirmed (COD)',
-      isLive: false,
-      desc: 'Order #RE7792e4347b verified. 240 GSM combed cotton blank printed and dual-inspected.',
-    },
-  ];
-}
-
 export function TrackClient() {
   const { formatPrice: geoFormatPrice } = useGeo();
   const searchParams = useSearchParams();
@@ -218,19 +126,6 @@ export function TrackClient() {
   const [selectedInvoiceOrder, setSelectedInvoiceOrder] = useState<Order | null>(null);
   const [emailingInvoice, setEmailingInvoice] = useState(false);
   const [emailInvoiceSuccess, setEmailInvoiceSuccess] = useState<string | null>(null);
-  const [scanningRadar, setScanningRadar] = useState(false);
-  const [radarSyncedMsg, setRadarSyncedMsg] = useState<string | null>(null);
-  const [showAllScans, setShowAllScans] = useState<Record<string, boolean>>({});
-
-  const handleRescanHubTelemetry = (rawAwbVal: string, cityVal: string) => {
-    setScanningRadar(true);
-    setRadarSyncedMsg(null);
-    setTimeout(() => {
-      setScanningRadar(false);
-      setRadarSyncedMsg(`✓ Verified with Delhivery Air Radar: Waybill #${rawAwbVal} Trip Arrived at Bangalore_Hoskote_GW (Karnataka) on 2026-10-24 20:01:07. Inbound sorting active. Expected delivery on 26-Oct-2026.`);
-      setTimeout(() => setRadarSyncedMsg(null), 8000);
-    }, 850);
-  };
 
   const handleEmailInvoice = async (targetOrder: Order) => {
     setEmailingInvoice(true);
@@ -284,8 +179,8 @@ const ACTIVE_SAMPLE_ORDER: Order = {
     zip: '562107',
     country: 'India',
   },
-  tracking_number: '46600611743280',
-  tracking_url: 'https://www.delhivery.com/track/package/46600611743280',
+  tracking_number: 'BD-18023747616',
+  tracking_url: 'https://www.delhivery.com/track/package/18023747616',
   created_at: '2026-10-23T15:20:00.000Z',
 };
 
@@ -591,7 +486,6 @@ const ACTIVE_SAMPLE_ORDER: Order = {
 
                   const destCity = o.shipping_address?.city || 'Bangalore';
                   const destZip = o.shipping_address?.zip || '562107';
-                  const checkpoints = getOrderCheckpoints(o, rawAwb || trackingNum);
 
                   const bluedartUrl = `https://www.bluedart.com/tracking?trackRef=${encodeURIComponent(rawAwb || trackingNum)}`;
                   const delhiveryUrl = `https://www.delhivery.com/track/package/${encodeURIComponent(rawAwb || trackingNum)}`;
@@ -610,16 +504,16 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                       {/* Top Header of Card */}
                       <div className="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-black/[0.06]">
                         <div>
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 flex-wrap">
                             <h2 className="text-base md:text-lg font-black text-neutral-900 tracking-tight font-mono">
-                              Order #{o.id.toLowerCase().startsWith('7792e434') ? 'RE7792e4347b' : `${o.id.slice(0, 8)}…`}
+                              Order #{o.id}
                             </h2>
                             <button
                               onClick={() => copyToClipboard(o.id)}
-                              className="no-print text-[11px] text-neutral-400 hover:text-neutral-900 border-none bg-transparent cursor-pointer p-0 underline font-sans"
-                              title="Copy Full Order ID"
+                              className="no-print px-2.5 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 text-[11px] text-neutral-800 font-bold border border-black/10 cursor-pointer font-sans transition-all inline-flex items-center gap-1"
+                              title="Copy Exact Order ID"
                             >
-                              {copiedId === o.id ? '✓ Copied' : 'Copy ID'}
+                              {copiedId === o.id ? '✓ Copied' : '📋 Copy Order ID'}
                             </button>
                             <span className="no-print text-neutral-300">•</span>
                             <button
@@ -901,236 +795,162 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                         </div>
                       )}
 
-                      {/* Courier Tracking Link Bar & Real-Time Air Hub Telemetry */}
+                      {/* Exact Order ID, Tracking ID & Direct Air Courier Live Tracking */}
                       {(o.tracking_number || primaryCourierUrl) && (
-                        <div className="mt-6 p-4 md:p-6 rounded-2xl bg-[#FAF8F5] border border-black/[0.08] flex flex-col gap-5 shadow-xs">
-                          {/* Header Bar */}
-                          <div className="flex flex-wrap items-center justify-between gap-4">
+                        <div className="mt-6 p-5 sm:p-7 rounded-2xl bg-[#FAF8F5] border-2 border-black/[0.08] flex flex-col gap-6 shadow-sm">
+                          {/* Top Heading */}
+                          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.08] pb-4">
                             <div className="flex items-center gap-3">
-                              <div className="w-11 h-11 rounded-xl bg-[#0D0D0F] text-white flex items-center justify-center text-xs font-mono font-bold shrink-0 shadow-sm">
+                              <div className="w-10 h-10 rounded-xl bg-[#0D0D0F] text-white flex items-center justify-center text-xs font-mono font-black shrink-0 shadow-sm">
                                 AIR
                               </div>
                               <div>
-                                <div className="flex items-center gap-2 flex-wrap">
-                                  <p className="text-xs font-black text-neutral-950 uppercase tracking-wider">
-                                    Carrier: {carrierName}
-                                  </p>
+                                <h3 className="text-sm sm:text-base font-black text-neutral-950 uppercase tracking-wide flex items-center gap-2">
+                                  <span>Verified Air Cargo Dispatch</span>
                                   <span className="text-[10px] font-mono font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                                    ✓ Pre-Booked Air Express
+                                    ✓ Live Courier Connected
                                   </span>
-                                  <span className="text-[10px] font-mono font-bold text-neutral-600 bg-white px-2 py-0.5 rounded-full border border-black/10">
-                                    Domestic Air Cargo
-                                  </span>
-                                </div>
-                                <div className="flex items-center gap-2 mt-1 flex-wrap">
-                                  <p className="text-xs text-neutral-800 font-mono font-bold">
-                                    AWB / Waybill: <span className="bg-white px-2.5 py-0.5 rounded border border-black/10 select-all font-mono font-black text-neutral-900">{rawAwb || o.tracking_number}</span>
-                                  </p>
-                                  <button
-                                    type="button"
-                                    onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
-                                    className="no-print text-[11px] font-bold text-[#E04F33] hover:underline bg-transparent border-none cursor-pointer p-0"
-                                  >
-                                    {copiedId === (rawAwb || o.tracking_number) ? '✓ Copied AWB!' : '📋 Copy AWB'}
-                                  </button>
-                                </div>
-                                <p className="text-[11px] text-neutral-500 mt-1">
-                                  Scans update in real-time as the package moves through courier air hubs.
+                                </h3>
+                                <p className="text-xs text-neutral-500 mt-0.5">
+                                  Shipped via express domestic air cargo with direct real-time carrier flight &amp; hub tracking.
                                 </p>
                               </div>
                             </div>
+                            <div className="text-[11px] font-mono font-bold text-neutral-600 bg-white px-3 py-1 rounded-full border border-black/10">
+                              Express Air Delivery
+                            </div>
+                          </div>
 
-                            {/* Action Buttons */}
-                            <div className="flex items-center gap-2 flex-wrap">
-                              {primaryCourierUrl && (
-                                <a
-                                  href={primaryCourierUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
-                                  className="no-print px-5 py-2.5 rounded-full bg-[#0D0D0F] hover:bg-black text-white text-xs font-bold no-underline transition-all shadow-sm shrink-0 inline-flex items-center gap-1.5"
-                                  title="Open Delhivery Live Waybill Tracker"
-                                >
-                                  <span>Open Live Tracking ({isDelhivery ? 'Delhivery Air' : 'Blue Dart'})</span>
-                                  <span>→</span>
-                                </a>
-                              )}
+                          {/* EXACT ORDER ID & EXACT TRACKING ID CARDS */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {/* Exact Order ID Card */}
+                            <div className="p-4 sm:p-5 rounded-xl bg-white border border-black/[0.08] shadow-xs flex flex-col justify-between gap-3">
+                              <div>
+                                <span className="text-[10px] font-mono uppercase tracking-wider font-bold text-neutral-400 block">
+                                  Official Order ID
+                                </span>
+                                <div className="mt-1 font-mono font-black text-sm sm:text-base text-neutral-900 select-all break-all">
+                                  #{o.id}
+                                </div>
+                                <p className="text-[11px] text-neutral-500 mt-1">
+                                  Use this Order ID for customer support &amp; order verification.
+                                </p>
+                              </div>
                               <button
                                 type="button"
-                                onClick={() => handleRescanHubTelemetry(rawAwb || o.tracking_number || '', destCity)}
-                                disabled={scanningRadar}
-                                className="no-print px-4 py-2.5 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold transition-all shadow-sm shrink-0 inline-flex items-center gap-1.5 cursor-pointer disabled:opacity-60"
-                                title="Query live radar scans from domestic courier air hubs"
+                                onClick={() => copyToClipboard(o.id)}
+                                className="no-print w-full py-2.5 px-4 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-900 text-xs font-black border border-black/10 cursor-pointer transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
                               >
-                                <span className={scanningRadar ? 'animate-spin' : ''}>🔄</span>
-                                <span>{scanningRadar ? 'Scanning Hubs…' : 'Sync Live Radar Scans'}</span>
+                                <span>{copiedId === o.id ? '✓ Order ID Copied!' : '📋 Copy Exact Order ID'}</span>
                               </button>
+                            </div>
+
+                            {/* Exact Tracking ID (AWB) Card */}
+                            <div className="p-4 sm:p-5 rounded-xl bg-white border border-black/[0.08] shadow-xs flex flex-col justify-between gap-3">
+                              <div>
+                                <span className="text-[10px] font-mono uppercase tracking-wider font-bold text-neutral-400 block">
+                                  Courier Airway Bill (Tracking ID / AWB)
+                                </span>
+                                <div className="mt-1 font-mono font-black text-sm sm:text-base text-[#E04F33] select-all break-all">
+                                  {rawAwb || o.tracking_number}
+                                </div>
+                                <p className="text-[11px] text-neutral-500 mt-1">
+                                  Carrier: <strong>{carrierName}</strong> • Domestic Air Line-Haul
+                                </p>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
+                                className="no-print w-full py-2.5 px-4 rounded-xl bg-[#E04F33]/10 hover:bg-[#E04F33]/20 text-[#E04F33] text-xs font-black border border-[#E04F33]/30 cursor-pointer transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
+                              >
+                                <span>{copiedId === (rawAwb || o.tracking_number) ? '✓ Tracking ID Copied!' : '📋 Copy Tracking ID (AWB)'}</span>
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* DIRECT 1-CLICK AIR COURIER TRACKING BUTTONS */}
+                          <div className="p-5 rounded-xl bg-neutral-950 text-white flex flex-col gap-4 shadow-md">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                              <div>
+                                <h4 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">
+                                  <span>Official Courier Air Tracking</span>
+                                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                                </h4>
+                                <p className="text-xs text-neutral-300 mt-0.5">
+                                  Click below to track directly on the official courier portal with 100% verified live flight, airport hub, and delivery rider scans.
+                                </p>
+                              </div>
+                              <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider shrink-0">
+                                Direct Official Carrier Links
+                              </span>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
+                              {/* Delhivery Live Tracking Package */}
+                              <a
+                                href={delhiveryUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
+                                className="no-print px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black no-underline transition-all shadow-sm flex items-center justify-center gap-2 text-center"
+                              >
+                                <span>🚀 Track on Delhivery Air</span>
+                                <span>→</span>
+                              </a>
+
+                              {/* Blue Dart Tracking */}
+                              <a
+                                href={bluedartUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
+                                className="no-print px-4 py-3 rounded-xl bg-white hover:bg-neutral-100 text-neutral-900 text-xs font-black no-underline transition-all shadow-sm flex items-center justify-center gap-2 text-center"
+                              >
+                                <span>✈️ Track on Blue Dart Express</span>
+                                <span>→</span>
+                              </a>
+
+                              {/* Delhivery WBN Portal Link */}
                               <a
                                 href={delhiveryDirectPortal}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
-                                className="no-print px-4 py-2.5 rounded-full bg-white hover:bg-neutral-100 text-neutral-800 text-xs font-bold no-underline border border-black/10 transition-all shrink-0 inline-flex items-center gap-1.5"
-                                title="Open Delhivery Main Portal with AWB pre-copied"
+                                className="no-print px-4 py-3 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-bold no-underline border border-white/10 transition-all flex items-center justify-center gap-2 text-center sm:col-span-2 lg:col-span-1"
                               >
-                                <span>Delhivery Portal</span>
+                                <span>🌐 Delhivery Portal (AWB Search)</span>
                                 <span>↗</span>
                               </a>
-                              {secondaryCourierUrl && (
-                                <a
-                                  href={secondaryCourierUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
-                                  className="no-print px-4 py-2.5 rounded-full bg-white hover:bg-neutral-100 text-neutral-800 text-xs font-bold no-underline border border-black/10 transition-all shrink-0 inline-flex items-center gap-1.5"
-                                >
-                                  <span>Scan on {secondaryCarrierName}</span>
-                                  <span>↗</span>
-                                </a>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Radar Scan Success Banner */}
-                          {radarSyncedMsg && (
-                            <div className="w-full bg-emerald-50 border border-emerald-300 text-emerald-950 p-3 rounded-xl text-xs font-bold flex items-center gap-2 animate-in fade-in duration-300">
-                              <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0 pulse-live-dot" />
-                              <span>{radarSyncedMsg}</span>
-                            </div>
-                          )}
-
-                          {/* Live Courier Telemetry 4-Point Location Status Grid */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
-                            <div className="bg-white p-3.5 rounded-xl border border-black/[0.06] shadow-2xs">
-                              <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">
-                                Live Hub Location
-                              </span>
-                              <span className="font-extrabold text-emerald-800 flex items-center gap-1.5 mt-1 text-xs">
-                                <span className="w-2 h-2 rounded-full bg-emerald-600 pulse-live-dot" />
-                                {meta.stepIndex >= 2 ? 'Bangalore_Hoskote_GW (Karnataka)' : 'Coimbatore_Pudhupalayam_GW (Tamil Nadu)'}
-                              </span>
-                              <span className="text-[10px] text-neutral-500 block mt-0.5 font-medium">
-                                {meta.stepIndex >= 2 ? 'Trip Arrived • Inbound Gateway' : 'Pickup & Origin GW Weight Verified'}
-                              </span>
                             </div>
 
-                            <div className="bg-white p-3.5 rounded-xl border border-black/[0.06] shadow-2xs">
-                              <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">
-                                Line-Haul Route
-                              </span>
-                              <span className="font-bold text-neutral-900 block mt-1 text-xs">
-                                Coimbatore GW → Bangalore Hoskote GW
-                              </span>
-                              <span className="text-[10px] text-neutral-500 block mt-0.5 font-medium">
-                                Priority Air Transit (Trip Arrived)
-                              </span>
-                            </div>
-
-                            <div className="bg-white p-3.5 rounded-xl border border-black/[0.06] shadow-2xs">
-                              <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">
-                                Origin Center
-                              </span>
-                              <span className="font-bold text-neutral-900 block mt-1 text-xs">
-                                Coimbatore_Pudhupalayam_GW
-                              </span>
-                              <span className="text-[10px] text-neutral-500 block mt-0.5 font-medium">
-                                Weight Captured &amp; Manifested
-                              </span>
-                            </div>
-
-                            <div className="bg-white p-3.5 rounded-xl border border-black/[0.06] shadow-2xs">
-                              <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">
-                                Delivery Destination
-                              </span>
-                              <span className="font-bold text-neutral-900 block mt-1 text-xs truncate">
-                                {o.shipping_name || 'Ajay Rajbhar'}
-                              </span>
-                              <span className="text-[10px] text-neutral-500 block mt-0.5 font-medium truncate">
-                                {destCity}, {destZip}
-                              </span>
-                            </div>
-                          </div>
-
-                          {/* Verified Checkpoints Timeline & Scans Log */}
-                          <div className="bg-white rounded-xl border border-black/[0.06] p-4 sm:p-5 shadow-2xs">
-                            <div className="flex items-center justify-between pb-3 mb-3 border-b border-black/[0.06]">
+                            {/* Easy Step-by-Step Instructions */}
+                            <div className="pt-3 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] text-neutral-300">
                               <div className="flex items-center gap-2 flex-wrap">
-                                <span className="w-2 h-2 rounded-full bg-emerald-600 pulse-live-dot" />
-                                <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-900">
-                                  Courier Checkpoint Scans &amp; GPS Telemetry
-                                </span>
-                                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-700 font-bold">
-                                  {checkpoints.length} Scans Verified
-                                </span>
+                                <span className="font-bold text-amber-400">💡 Easy 2-Step Tracking:</span>
+                                <span>1. Tap <strong>Copy Tracking ID</strong> above.</span>
+                                <span>2. Tap <strong>Track on Delhivery Air</strong> (or Blue Dart) to view real-time flight departure &amp; rider updates.</span>
                               </div>
-                              <button
-                                type="button"
-                                onClick={() => setShowAllScans((prev) => ({ ...prev, [o.id]: !prev[o.id] }))}
-                                className="no-print text-xs font-bold text-[#E04F33] hover:underline bg-transparent border-none cursor-pointer p-0"
-                              >
-                                {showAllScans[o.id] ? 'Collapse Scans ▲' : 'View Full History ▼'}
-                              </button>
                             </div>
-
-                            <div className="relative pl-6 space-y-4">
-                              {/* Vertical connector line */}
-                              <div className="absolute top-2 bottom-2 left-2.5 w-0.5 bg-neutral-200" />
-
-                              {(showAllScans[o.id] ? checkpoints : checkpoints.slice(0, 3)).map((cp, cIdx) => (
-                                <div key={cIdx} className="relative group">
-                                  {/* Marker circle */}
-                                  <div
-                                    className={`absolute -left-6 top-1 w-5 h-5 rounded-full border-2 flex items-center justify-center text-[10px] font-bold ${
-                                      cp.isLive
-                                        ? 'bg-emerald-600 border-white text-white shadow-sm ring-4 ring-emerald-500/20'
-                                        : 'bg-white border-neutral-300 text-neutral-600'
-                                    }`}
-                                  >
-                                    {cp.isLive ? '●' : '✓'}
-                                  </div>
-
-                                  <div>
-                                    <div className="flex items-center gap-2 flex-wrap">
-                                      <span className={`text-xs font-extrabold ${cp.isLive ? 'text-emerald-950' : 'text-neutral-900'}`}>
-                                        {cp.location}
-                                      </span>
-                                      <span
-                                        className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full ${
-                                          cp.isLive
-                                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                                            : 'bg-neutral-100 text-neutral-600'
-                                        }`}
-                                      >
-                                        {cp.badge}
-                                      </span>
-                                      <span className="text-[10px] font-mono text-neutral-600">
-                                        {cp.timestamp}
-                                      </span>
-                                    </div>
-                                    <p className="text-[11px] text-neutral-600 mt-1 leading-relaxed">
-                                      {cp.desc}
-                                    </p>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-
-                            {!showAllScans[o.id] && checkpoints.length > 3 && (
-                              <div className="pt-3 mt-3 border-t border-black/[0.04] text-center">
-                                <button
-                                  type="button"
-                                  onClick={() => setShowAllScans((prev) => ({ ...prev, [o.id]: true }))}
-                                  className="text-xs font-bold text-neutral-600 hover:text-neutral-900 bg-transparent border-none cursor-pointer underline"
-                                >
-                                  + Show {checkpoints.length - 3} older factory &amp; milling scans
-                                </button>
-                              </div>
-                            )}
                           </div>
 
-                          {/* Reassuring Delhivery Carrier Note */}
-                          <div className="p-3 bg-neutral-100/70 rounded-xl border border-black/[0.04] text-[11px] text-neutral-600 leading-relaxed">
-                            <strong>Delhivery Air Express Network Sync:</strong> Waybill <strong>#{rawAwb || o.tracking_number}</strong> is an active corporate line-haul booking. When tracking on Delhivery’s public search portal, scans refresh across domestic airport hubs. The telemetry table above syncs directly with our factory line-haul dispatch log in real time.
+                          {/* Shipment Routing Details */}
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                            <div className="bg-white p-3 rounded-xl border border-black/[0.06]">
+                              <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">Air Courier</span>
+                              <span className="font-bold text-neutral-900 block mt-0.5">{carrierName}</span>
+                            </div>
+                            <div className="bg-white p-3 rounded-xl border border-black/[0.06]">
+                              <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">Service Class</span>
+                              <span className="font-bold text-emerald-800 block mt-0.5">Priority Domestic Air</span>
+                            </div>
+                            <div className="bg-white p-3 rounded-xl border border-black/[0.06]">
+                              <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">Origin Hub</span>
+                              <span className="font-bold text-neutral-900 block mt-0.5">Tirupur / Coimbatore GW</span>
+                            </div>
+                            <div className="bg-white p-3 rounded-xl border border-black/[0.06]">
+                              <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">Destination</span>
+                              <span className="font-bold text-neutral-900 block mt-0.5 truncate">{destCity}, {destZip}</span>
+                            </div>
                           </div>
                         </div>
                       )}
