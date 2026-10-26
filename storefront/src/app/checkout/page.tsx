@@ -104,6 +104,30 @@ export default function CheckoutPage() {
   // already caps it at Rs.3,000 for RTO protection. Defaulting to 'online'
   // silently withdrew the advertised COD.
   const [paymentMethod, setPaymentMethod] = useState<'online' | 'cod'>('cod');
+
+  const handleSelectPaymentMethod = (method: 'online' | 'cod') => {
+    setPaymentMethod(method);
+    setError('');
+    setCodOtpError('');
+    if (method === 'online') {
+      if (!couponApplied && !appliedCouponCode && subtotal >= 449) {
+        const res = validateCouponCode('PREPAID30', subtotal);
+        if (res.valid) {
+          setCoupon('PREPAID30');
+          setAppliedCouponCode('PREPAID30');
+          setDiscount(res.discountAmount);
+          setCouponApplied(true);
+        }
+      }
+    } else if (method === 'cod') {
+      if (appliedCouponCode === 'PREPAID30') {
+        setCoupon('');
+        setAppliedCouponCode('');
+        setDiscount(0);
+        setCouponApplied(false);
+      }
+    }
+  };
   const [coupon, setCoupon] = useState('');
   const [couponApplied, setCouponApplied] = useState(false);
   const [appliedCouponCode, setAppliedCouponCode] = useState('');
@@ -644,9 +668,13 @@ export default function CheckoutPage() {
     if (paymentMethod === 'cod') {
       if (!isCodOtpVerified || !codVerifiedToken) {
         if (!codOtpSent) {
-          sendCodOtp();
+          await sendCodOtp();
+          setError('We sent a 6-digit verification code to your email. Please enter it below to confirm Cash on Delivery.');
+        } else {
+          setError('Please enter the 6-digit verification code sent to ' + (email || 'your email') + ' to confirm Cash on Delivery.');
         }
-        setError('Please enter the 6-digit verification code sent to your email to confirm Cash on Delivery.');
+        const el = document.getElementById('cod-verification-section');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
       setShowCodConfirmModal(true);
@@ -1329,7 +1357,7 @@ export default function CheckoutPage() {
               <div className="flex flex-col gap-3">
                 {/* Option 1: Instant Online (UPI/Cards) */}
                 <label
-                  onClick={() => setPaymentMethod('online')}
+                  onClick={() => handleSelectPaymentMethod('online')}
                   className={`flex items-start gap-3.5 p-4 rounded-2xl border cursor-pointer transition-all ${
                     paymentMethod === 'online'
                       ? 'border-[#FF4D24] bg-amber-500/[0.04] ring-1 ring-[#FF4D24]/20'
@@ -1340,7 +1368,7 @@ export default function CheckoutPage() {
                     type="radio"
                     name="payment"
                     checked={paymentMethod === 'online'}
-                    onChange={() => setPaymentMethod('online')}
+                    onChange={() => handleSelectPaymentMethod('online')}
                     className="mt-1 accent-[#FF4D24]"
                   />
                   <div className="flex-1">
@@ -1383,7 +1411,7 @@ export default function CheckoutPage() {
                   </div>
                 ) : (
                   <label
-                    onClick={() => setPaymentMethod('cod')}
+                    onClick={() => handleSelectPaymentMethod('cod')}
                     className={`flex items-start gap-3.5 p-4 rounded-2xl border cursor-pointer transition-all ${
                       paymentMethod === 'cod'
                         ? 'border-[#FF4D24] bg-amber-500/[0.04] ring-1 ring-[#FF4D24]/20'
@@ -1394,7 +1422,7 @@ export default function CheckoutPage() {
                       type="radio"
                       name="payment"
                       checked={paymentMethod === 'cod'}
-                      onChange={() => setPaymentMethod('cod')}
+                      onChange={() => handleSelectPaymentMethod('cod')}
                       className="mt-1 accent-[#FF4D24]"
                     />
                     <div className="flex-1">
@@ -1421,13 +1449,10 @@ export default function CheckoutPage() {
                     <span>⚠️</span>
                     <span>{error}</span>
                   </div>
-                  {paymentMethod === 'online' && (
+                  {paymentMethod === 'online' && !isAboveCodThreshold && /payment|gateway|declined|cancelled|failed|unsuccessful/i.test(error) && !/verification code|cod|address|phone|email|pin|name|empty/i.test(error) && (
                     <button
                       type="button"
-                      onClick={() => {
-                        setPaymentMethod('cod');
-                        setError('');
-                      }}
+                      onClick={() => handleSelectPaymentMethod('cod')}
                       className="mt-2.5 w-full py-2 px-3 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-[11px] font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-xs border-none"
                     >
                       <span>📦</span> Switch to Cash on Delivery (COD) &amp; Complete Order
@@ -1594,18 +1619,7 @@ export default function CheckoutPage() {
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
-                    onClick={() => {
-                      setPaymentMethod('online');
-                      if (!couponApplied && !appliedCouponCode && subtotal >= 449) {
-                        const res = validateCouponCode('PREPAID30', subtotal);
-                        if (res.valid) {
-                          setCoupon('PREPAID30');
-                          setAppliedCouponCode('PREPAID30');
-                          setDiscount(res.discountAmount);
-                          setCouponApplied(true);
-                        }
-                      }
-                    }}
+                    onClick={() => handleSelectPaymentMethod('online')}
                     className={`p-3 rounded-2xl text-left border transition-all cursor-pointer flex flex-col justify-between ${
                       paymentMethod === 'online'
                         ? 'border-[#FF4D24] bg-[#FF4D24]/20 ring-1 ring-[#FF4D24] text-white shadow-md'
@@ -1623,15 +1637,7 @@ export default function CheckoutPage() {
                   <button
                     type="button"
                     disabled={isAboveCodThreshold}
-                    onClick={() => {
-                      setPaymentMethod('cod');
-                      if (appliedCouponCode === 'PREPAID30') {
-                        setCoupon('');
-                        setAppliedCouponCode('');
-                        setDiscount(0);
-                        setCouponApplied(false);
-                      }
-                    }}
+                    onClick={() => handleSelectPaymentMethod('cod')}
                     className={`p-3 rounded-2xl text-left border transition-all cursor-pointer flex flex-col justify-between ${
                       paymentMethod === 'cod'
                         ? 'border-[#FF4D24] bg-[#FF4D24]/20 ring-1 ring-[#FF4D24] text-white shadow-md'
@@ -1657,13 +1663,10 @@ export default function CheckoutPage() {
                     <span>⚠️</span>
                     <span>{error}</span>
                   </div>
-                  {paymentMethod === 'online' && (
+                  {paymentMethod === 'online' && !isAboveCodThreshold && /payment|gateway|declined|cancelled|failed|unsuccessful/i.test(error) && !/verification code|cod|address|phone|email|pin|name|empty/i.test(error) && (
                     <button
                       type="button"
-                      onClick={() => {
-                        setPaymentMethod('cod');
-                        setError('');
-                      }}
+                      onClick={() => handleSelectPaymentMethod('cod')}
                       className="mt-2.5 w-full py-2 px-3 rounded-xl bg-white text-rose-950 text-[11px] font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm border-none"
                     >
                       <span>📦</span> Switch to Cash on Delivery (COD) &amp; Place Order
@@ -1688,7 +1691,7 @@ export default function CheckoutPage() {
 
               {/* 100% Free COD Email OTP Verification Card */}
               {paymentMethod === 'cod' && (
-                <div className="mb-4 p-4 rounded-2xl bg-white/[0.06] border border-white/15 text-left transition-all">
+                <div id="cod-verification-section" className="mb-4 p-4 rounded-2xl bg-white/[0.06] border border-white/15 text-left transition-all">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <span className="text-sm">📧</span>
@@ -1811,9 +1814,14 @@ export default function CheckoutPage() {
                       <span>Place Verified COD Order</span>
                       <span>• {formatCheckoutPrice(total)}</span>
                     </>
+                  ) : !codOtpSent ? (
+                    <>
+                      <span>Send Code &amp; Place COD Order</span>
+                      <span>• {formatCheckoutPrice(total)}</span>
+                    </>
                   ) : (
                     <>
-                      <span>Verify Code to Place Order</span>
+                      <span>Enter Code to Complete COD</span>
                       <span>• {formatCheckoutPrice(total)}</span>
                     </>
                   )

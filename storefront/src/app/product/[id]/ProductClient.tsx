@@ -223,6 +223,7 @@ export interface BundleSubItem {
   emoji: string;
   plainImage: string;
   backImage?: string;
+  sizes?: string[];
   printArea: {
     width: string;
     height: string;
@@ -661,11 +662,13 @@ export function ProductClient({ product }: Props) {
   const { formatPrice: geoFormatPrice } = useGeo();
   const [qty, setQty] = useState(1);
 
+  const hasExplicitSizes = Boolean(product.sizes && Array.isArray(product.sizes) && product.sizes.length > 0);
   const isApparel =
-    /jersey|tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|shorts|jacket|vest|polo|dress|skirt|legging|romper/i.test(product.title + ' ' + product.id);
+    hasExplicitSizes ||
+    /jersey|tee|t-shirt|tshirt|shirt|top|tank|hoodie|sweatshirt|crop|jogger|sweatpant|shorts|jacket|vest|polo|dress|skirt|legging|romper|apparel|garment/i.test(product.title + ' ' + product.id);
 
   const supportsPrintPlacement =
-    /tee|t-shirt|hoodie|sweatshirt|jacket|polo|vest/i.test(product.title + ' ' + product.id);
+    /tee|t-shirt|tshirt|shirt|top|tank|hoodie|sweatshirt|jacket|polo|vest/i.test(product.title + ' ' + product.id);
 
   const isPhoneCase =
     /case|phone|iphone|samsung/i.test(product.title) ||
@@ -676,7 +679,10 @@ export function ProductClient({ product }: Props) {
   const firstComboItem = BUNDLE_SUB_ITEMS[product.id]?.[0];
   const firstItemCheckName = (isComboCheck && firstComboItem ? firstComboItem.name : product.title) + ' ' + (isComboCheck && firstComboItem ? firstComboItem.id : product.id);
   const firstItemCheckLower = firstItemCheckName.toLowerCase();
-  const firstIsApparel = /jersey|tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel|dress|skirt/i.test(firstItemCheckLower);
+  const firstIsApparel =
+    Boolean(firstComboItem?.sizes && firstComboItem.sizes.length > 0) ||
+    hasExplicitSizes ||
+    /jersey|tee|t-shirt|tshirt|shirt|top|tank|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel|dress|skirt|garment/i.test(firstItemCheckLower);
   const firstIsMat = !firstIsApparel && (/\b(desk|pad|mat|mousepad)\b|desk-mat/i.test(firstItemCheckLower));
   const firstIsMug = !firstIsApparel && (/\b(mug|cup|bottle|tumbler|drinkware)\b/i.test(firstItemCheckLower));
 
@@ -1152,8 +1158,9 @@ export function ProductClient({ product }: Props) {
   const activeItemLower = (activeItemTitle + ' ' + activeItemId).toLowerCase();
   const activeItemIsKids = /kid|boy|girl|baby|toddler|infant/i.test(activeItemLower);
 
+  const activeComboItemHasSizes = Boolean(activeComboItem?.sizes && Array.isArray(activeComboItem.sizes) && activeComboItem.sizes.length > 0);
   const activeItemIsApparel = activeComboItem
-    ? /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|shorts|jacket|vest|polo|dress|skirt/i.test(activeItemLower)
+    ? (activeComboItemHasSizes || /jersey|tee|t-shirt|tshirt|shirt|top|tank|hoodie|sweatshirt|crop|jogger|sweatpant|shorts|jacket|vest|polo|dress|skirt|apparel|garment/i.test(activeItemLower))
     : isApparel;
   const activeItemIsHoodie = /hoodie|sweatshirt|jacket/i.test(activeItemLower);
   const activeItemIsDeskMat = !activeItemIsApparel && (/\b(desk|pad|mat|mousepad)\b|desk-mat/i.test(activeItemLower));
@@ -1577,7 +1584,7 @@ export function ProductClient({ product }: Props) {
     ? comboItems
         .map((item, idx) => {
           const itemLower = (item.name + ' ' + item.id).toLowerCase();
-          const isApp = /tee|t-shirt|hoodie|sweatshirt|jogger|sweatpant|jacket|varsity|crop|top|crewneck|tracksuit|apparel/i.test(itemLower);
+          const isApp = Boolean(item.sizes && item.sizes.length > 0) || /jersey|tee|t-shirt|tshirt|shirt|top|tank|hoodie|sweatshirt|jogger|sweatpant|jacket|varsity|crop|crewneck|tracksuit|apparel/i.test(itemLower);
           const shortName = itemLower.includes('hoodie')
             ? 'Hoodie'
             : itemLower.includes('jogger') || itemLower.includes('sweatpant')
@@ -2225,7 +2232,7 @@ export function ProductClient({ product }: Props) {
                   {comboItems.map((item, idx) => {
                     const isCurrent = selectedComboItemIndex === idx;
                     const itemLower = (item.name + ' ' + item.id).toLowerCase();
-                    const itemIsApp = /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel/i.test(itemLower);
+                    const itemIsApp = Boolean(item.sizes && item.sizes.length > 0) || /jersey|tee|t-shirt|tshirt|shirt|top|tank|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel/i.test(itemLower);
                     const itemIsMat = /desk|pad|mat/i.test(itemLower);
                     const itemIsMug = /mug|cup|bottle/i.test(itemLower);
 
@@ -2246,7 +2253,7 @@ export function ProductClient({ product }: Props) {
                         onClick={() => {
                           setSelectedComboItemIndex(idx);
                           const itemLower = (item.name + ' ' + item.id).toLowerCase();
-                          const itemIsApp = /tee|t-shirt|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel/i.test(itemLower);
+                          const itemIsApp = Boolean(item.sizes && item.sizes.length > 0) || /jersey|tee|t-shirt|tshirt|shirt|top|tank|hoodie|sweatshirt|crop|jogger|sweatpant|jacket|varsity|crewneck|polo|apparel/i.test(itemLower);
                           const itemIsMat = /desk|pad|mat/i.test(itemLower);
                           const itemIsMug = /mug|cup|bottle/i.test(itemLower);
                           const itemIsKids = /kid|boy|girl|baby|toddler/i.test(itemLower);
@@ -2498,11 +2505,12 @@ export function ProductClient({ product }: Props) {
 
                       {(() => {
                         const activeItemIsKids = /kid|boy|girl|baby|toddler|infant/i.test(activeItemLower);
-                        const currentSizeList = sortSizes(
-                          (product.sizes && Array.isArray(product.sizes) && product.sizes.length > 0)
-                            ? product.sizes
-                            : (activeItemIsKids ? (KIDS_SIZES as unknown as string[]) : (SIZES as unknown as string[]))
-                        );
+                        const rawSizes = (activeComboItem?.sizes && Array.isArray(activeComboItem.sizes) && activeComboItem.sizes.length > 0)
+                          ? activeComboItem.sizes
+                          : (product.sizes && Array.isArray(product.sizes) && product.sizes.length > 0)
+                          ? product.sizes
+                          : (activeItemIsKids ? (KIDS_SIZES as unknown as string[]) : (SIZES as unknown as string[]));
+                        const currentSizeList = sortSizes(rawSizes);
                         const currentSpecs = activeItemIsKids ? KIDS_SIZE_SPECS : SIZE_SPECS;
                         return (
                           <>
