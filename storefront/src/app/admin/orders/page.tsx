@@ -729,12 +729,20 @@ export default function AdminOrdersPage() {
                         </p>
                         <div className="flex items-center gap-2 pt-1 flex-wrap">
                           <button
-                            onClick={() => void updateOrderStatus(o.id, 'processing')}
+                            onClick={() => void handleTriggerQikink(o.id, true)}
                             disabled={updatingId === o.id}
                             className="px-3 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
                           >
                             🚀 Approve &amp; Re-dispatch via Qikink
                           </button>
+                          <a
+                            href="https://dashboard.qikink.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all no-underline inline-flex items-center gap-1"
+                          >
+                            🏭 Claim Free Qikink Defect Reprint ↗
+                          </a>
                           <button
                             onClick={() => {
                               const bonus = Math.round(Number(o.total_amount) * 1.1);
@@ -1251,12 +1259,20 @@ export default function AdminOrdersPage() {
                           </div>
                           <div className="flex items-center gap-2 pt-1 flex-wrap">
                             <button
-                              onClick={() => void updateOrderStatus(claimOrder.id, 'processing')}
+                              onClick={() => void handleTriggerQikink(claimOrder.id, true)}
                               disabled={updatingId === claimOrder.id}
                               className="px-3 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
                             >
                               🚀 Approve &amp; Re-dispatch Replacement via Qikink
                             </button>
+                            <a
+                              href="https://dashboard.qikink.com"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all no-underline inline-flex items-center gap-1"
+                            >
+                              🏭 Claim Free Qikink Defect Reprint ↗
+                            </a>
                             <button
                               onClick={() => {
                                 const bonus = Math.round(Number(claimOrder.total_amount) * 1.1);
