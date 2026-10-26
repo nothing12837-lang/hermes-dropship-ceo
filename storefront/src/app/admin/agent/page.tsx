@@ -327,6 +327,12 @@ export default function AdminAgentPage() {
             {/* Global Actions */}
             <div className="flex flex-wrap items-center gap-2.5 text-xs">
               <Link
+                href="/admin"
+                className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold transition-all no-underline flex items-center gap-1.5"
+              >
+                <span>🔥</span> Products &amp; Drops
+              </Link>
+              <Link
                 href="/admin/orders"
                 className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold transition-all no-underline flex items-center gap-1.5"
               >

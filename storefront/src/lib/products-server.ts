@@ -191,9 +191,35 @@ export function isDisallowedProduct(p: { id?: string; slug?: string }): boolean 
   return DISALLOWED_KEYWORDS.some((kw) => targetId.includes(kw));
 }
 
-// Server-side product fetch: Return all genuine Qikink drops
+// Server-side product fetch: Return all genuine Qikink drops with live DB status overrides
 export async function getProductsFromDB(): Promise<Product[]> {
-  return localProducts.map(sanitizeLocalProduct);
+  const localList = localProducts.map(sanitizeLocalProduct);
+  try {
+    const supabase = await serverClient();
+    if (supabase) {
+      const { data: dbRows, error } = (await supabase
+        .from('products')
+        .select('id, active, price, price_inr, compare_at_price, title')) as any;
+      if (!error && Array.isArray(dbRows) && dbRows.length > 0) {
+        const dbMap = new Map(dbRows.map((r: any) => [r.id, r]));
+        return localList.map((p) => {
+          const dbRow = dbMap.get(p.id);
+          if (!dbRow) return p;
+          return {
+            ...p,
+            active: dbRow.active !== false,
+            ...(dbRow.price != null ? { price: Number(dbRow.price) } : {}),
+            ...(dbRow.price_inr != null ? { price_inr: Number(dbRow.price_inr) } : {}),
+            ...(dbRow.compare_at_price != null ? { compareAtPrice: Number(dbRow.compare_at_price), compare_at_price: Number(dbRow.compare_at_price) } : {}),
+            ...(dbRow.title ? { title: cleanBrandTitle(dbRow.title) } : {}),
+          };
+        });
+      }
+    }
+  } catch (err) {
+    console.warn('[Products Server] Supabase getProducts warning:', err);
+  }
+  return localList;
 }
 
 async function serverClient() {
@@ -206,20 +232,22 @@ async function serverClient() {
 
 /** Homepage: up to `limit` trending products */
 export async function getTrendingProducts(limit = 8): Promise<Product[]> {
-  return localProducts.slice(0, limit).map(sanitizeLocalProduct);
+  const prods = await getProductsFromDB();
+  return prods.filter((p) => p.active !== false).slice(0, limit);
 }
 
 /** Homepage: newest arrivals first */
 export async function getNewProducts(limit = 8): Promise<Product[]> {
-  return localProducts.slice(0, limit).map(sanitizeLocalProduct);
+  const prods = await getProductsFromDB();
+  return prods.filter((p) => p.active !== false).slice(0, limit);
 }
-
 
 function sanitizeLocalProduct(p: Product): Product {
   const resolvedImg = resolveProductImage(p.id, p.image_url);
   const resolvedImgs = resolveProductImages(p.id, resolvedImg, p.category, p.images);
   return {
     ...p,
+    active: p.active !== false,
     slug: cleanBrandSlug(p.slug || p.id),
     title: cleanBrandTitle(p.title),
     short: cleanSentence(cleanWholesaleDescription(p.short)),
@@ -251,5 +279,29 @@ function findLocalProduct(term: string): Product | null {
 }
 
 export async function getProductFromDB(id: string): Promise<Product | null> {
-  return findLocalProduct(id);
+  const local = findLocalProduct(id);
+  if (!local) return null;
+  try {
+    const supabase = await serverClient();
+    if (supabase) {
+      const { data: dbRow } = (await supabase
+        .from('products')
+        .select('active, price, price_inr, compare_at_price, title')
+        .eq('id', local.id)
+        .maybeSingle()) as any;
+      if (dbRow) {
+        return {
+          ...local,
+          active: dbRow.active !== false,
+          ...(dbRow.price != null ? { price: Number(dbRow.price) } : {}),
+          ...(dbRow.price_inr != null ? { price_inr: Number(dbRow.price_inr) } : {}),
+          ...(dbRow.compare_at_price != null ? { compareAtPrice: Number(dbRow.compare_at_price), compare_at_price: Number(dbRow.compare_at_price) } : {}),
+          ...(dbRow.title ? { title: cleanBrandTitle(dbRow.title) } : {}),
+        };
+      }
+    }
+  } catch (err) {
+    console.warn('[Products Server] Supabase getProduct warning:', err);
+  }
+  return local;
 }

@@ -129,7 +129,19 @@ export async function POST(req: NextRequest) {
       if (!rawProd) {
         return NextResponse.json({ error: `Product "${item.id}" is no longer available in catalog` }, { status: 400 });
       }
+      if (rawProd.active === false) {
+        return NextResponse.json(
+          { error: `"${rawProd.title}" is currently out of stock or paused. Order cannot be placed.` },
+          { status: 400 }
+        );
+      }
       const prod = enforcePriceFloor(rawProd);
+      if (prod.active === false) {
+        return NextResponse.json(
+          { error: `"${prod.title}" is currently out of stock or paused. Order cannot be placed.` },
+          { status: 400 }
+        );
+      }
 
       let unitPrice = 0;
       const isUsdFloat = (p: number) => p > 0 && p < 60 && !Number.isInteger(p);

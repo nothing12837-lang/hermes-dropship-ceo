@@ -51,6 +51,18 @@ function ShopInner() {
 
   useEffect(() => {
     setProducts(localProducts as unknown as ProductRow[]);
+    let mounted = true;
+    fetch('/api/products')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (mounted && data?.products && Array.isArray(data.products) && data.products.length > 0) {
+          setProducts(data.products as unknown as ProductRow[]);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      mounted = false;
+    };
   }, [cat]);
 
   const inStockCount = useMemo(() => {
