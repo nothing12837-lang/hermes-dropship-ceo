@@ -12,6 +12,9 @@ export const metadata = {
     absolute: 'Rare Ember — Independent Heavyweight Streetwear & Graphic Drops',
   },
   description: '240 GSM combed cotton streetwear, full sleeve silhouettes & original graphic drops. Tailored in India, dispatched via express air with 7-day returns.',
+  alternates: {
+    canonical: 'https://www.rareember.shop',
+  },
 };
 
 function toCard(p: Product, rank?: number) {

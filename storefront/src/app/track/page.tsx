@@ -1,5 +1,14 @@
 import { Suspense } from 'react';
+import type { Metadata } from 'next';
 import { TrackClient } from './TrackClient';
+
+export const metadata: Metadata = {
+  title: 'Track Your Order | Rare Ember',
+  description: 'Track your live order fulfillment and BlueDart / Delhivery Air shipment in real-time.',
+  alternates: {
+    canonical: 'https://www.rareember.shop/track',
+  },
+};
 
 export default function TrackPage() {
   return (

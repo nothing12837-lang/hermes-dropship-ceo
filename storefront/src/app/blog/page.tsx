@@ -2,9 +2,12 @@ import Link from 'next/link';
 import { blogPosts } from '@/lib/data/content';
 import { ChapterHeading } from '@/components/ui/Story';
 
-export const metadata = {
+export const metadata  = {
   title: 'Atelier Journal • Streetwear & Tech Culture',
   description: 'Fabric engineering, 240/380 GSM craftsmanship, hackathon custom merch guides, and minimalist creator workstation blueprints.',
+  alternates: {
+    canonical: 'https://www.rareember.shop/blog',
+  },
 };
 
 export const DISALLOWED_BLOG_TERMS = [

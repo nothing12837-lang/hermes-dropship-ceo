@@ -2,9 +2,12 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { ReturnsClient } from './ReturnsClient';
 
-export const metadata: Metadata = {
+export const metadata: Metadata  = {
   title: '7-Day Easy Returns Policy',
   description: 'Our 100% 7-day returns guarantee. Hassle-free resolution and returns for any order within 7 days of delivery.',
+  alternates: {
+    canonical: 'https://www.rareember.shop/returns',
+  },
 };
 
 export default function ReturnsPage() {

@@ -2016,14 +2016,7 @@ export function ProductClient({ product }: Props) {
             {/* Clickable Thumbnail Strip */}
             {galleryImages.length > 1 && (
               <div style={{ marginTop: '0.85rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.45rem', padding: '0 0.15rem' }}>
-                  <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#161311' }}>
-                    {hasColors && availableColors.length > 1 ? 'Available Colors & Views' : 'Product Photos & Angles'}
-                  </span>
-                  <span style={{ fontSize: '0.7rem', color: '#78716c', fontWeight: 600 }}>
-                    {hasColors && availableColors.length > 1 ? 'Tap to switch color & view' : 'Tap to preview angle'}
-                  </span>
-                </div>
+                
                 <div
                   style={{
                     display: 'flex',
@@ -2102,16 +2095,7 @@ export function ProductClient({ product }: Props) {
                           />
                         )}
                       </button>
-                      <span
-                        style={{
-                          fontSize: '0.68rem',
-                          fontWeight: isSelected ? 800 : 600,
-                          color: isSelected ? '#ff4d24' : '#64748b',
-                          letterSpacing: '0.01em',
-                        }}
-                      >
-                        {availableColors[idx] ? availableColors[idx] : idx === 0 ? 'Hero View' : `Angle ${idx + 1}`}
-                      </span>
+                      
                     </div>
                   );
                 })}
@@ -2197,20 +2181,7 @@ export function ProductClient({ product }: Props) {
               );
             })()}
 
-            {/* Key Highlights */}
-            <div style={{ marginTop: '1.25rem' }}>
-              <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#73675E', marginBottom: '0.5rem' }}>
-                Garment Specifications &amp; Details
-              </div>
-              <ul style={{ display: 'grid', gap: '0.4rem', color: '#332B25', fontSize: '0.85rem' }}>
-                {featureHighlights.map((d) => (
-                  <li key={d} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-                    <span style={{ color: '#FF4D24', fontWeight: 800, flexShrink: 0 }}>—</span>
-                    <span>{d}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            
 
             {/* ======================================================== */}
             {/* THE NEW "EASY + POWERFUL" 3-STEP CONFIGURATOR            */}
@@ -2387,13 +2358,7 @@ export function ProductClient({ product }: Props) {
                     <span>Primary Color: <strong>{availableColors[0]}</strong></span>
                   </div>
                 )}
-                {/* True-Shade Color Accuracy Note */}
-                <div className="mt-2.5 p-2.5 rounded-xl bg-neutral-50/80 border border-black/[0.06] flex items-center gap-2 text-[11px] text-neutral-600">
-                  <span className="text-sm shrink-0">🎨</span>
-                  <span>
-                    <strong className="text-neutral-900 font-semibold">Studio Color Guarantee:</strong> Photographed under 5500K natural daylight. Vat-dyed deep pigment that resists fading after 50+ cold washes.
-                  </span>
-                </div>
+                
               </div>
             )}
 
@@ -2542,103 +2507,24 @@ export function ProductClient({ product }: Props) {
                               })}
                             </div>
 
-                            <p className="text-xs text-neutral-500 mt-2 flex items-center gap-1.5 flex-wrap">
-                              <span className="font-black text-[#12100E]">{activeItemIsKids ? 'Kids Regular Fit:' : 'Drop-Shoulder Oversized Fit:'}</span>
-                              <span>
-                                {(() => {
-                                  const displaySize = selectedSize || 'L';
-                                  const activeChest = currentSpecs[displaySize]?.chest || (selectedSize === 'XXL' ? currentSpecs['2XL']?.chest : null) || (selectedSize === '2XL' ? currentSpecs['XXL']?.chest : null) || '42"';
-                                  return <>Size <strong>{displaySize}</strong> ({activeChest} Chest) {selectedColor ? <>• Color: <strong>{selectedColor}</strong> </> : null}• </>;
-                                })()}
-                                {activeItemIsKids
-                                    ? '180 GSM 100% Super Combed Bio-Washed Cotton (Gentle on skin, pre-shrunk).'
-                                    : activeItemIsHoodie
-                                    ? '380 GSM Heavyweight French Terry Fleece (Structured Boxy Silhouette).'
-                                    : isCropTopOrPolySpandex
-                                    ? '220 GSM Poly-Spandex 4-Way Stretch (Tailored Athletic Fit).'
-                                    : isJerseyOrDryFit
-                                    ? '180 GSM Honeycomb Quick-Dry Mesh (Breathable Performance Matrix).'
-                                    : '240 GSM Super Combed Bio-Washed Cotton (Pre-Shrunk Streetwear Drop).'
-                                }
-                              </span>
-                            </p>
-
-                            {/* Live Exact Garment Spec Readout Box */}
-                            {activeItemIsKids ? (
-                              <div className="mt-3 p-3 rounded-xl bg-[#F3F0EA] border border-black/[0.08] text-xs">
-                                <div className="flex items-center justify-between font-bold text-neutral-900 mb-2">
-                                  <span className="flex items-center gap-1.5">
-                                    <span className="w-2 h-2 rounded-full bg-[#059669] pulse-live-dot" />
-                                    <span>Kids Garment Spec (Size {selectedSize}):</span>
+                            {(() => {
+                              const spec = GARMENT_EXACT_SPECS[selectedSize] || (selectedSize === 'XXL' ? GARMENT_EXACT_SPECS['2XL'] : null) || GARMENT_EXACT_SPECS['L'];
+                              return (
+                                <div className="mt-2.5 px-3 py-2 rounded-xl bg-[#F3F0EA] border border-black/[0.06] text-xs flex flex-wrap items-center justify-between gap-2 text-neutral-700">
+                                  <div className="flex items-center gap-2 font-bold text-neutral-900">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[#059669]" />
+                                    <span>Chest: <strong>{spec?.chest || '42"'}</strong></span>
+                                    <span>•</span>
+                                    <span>Length: <strong>{spec?.length || '29.5"'}</strong></span>
+                                    <span>•</span>
+                                    <span>Shoulder: <strong>{spec?.shoulder || '21"'}</strong></span>
+                                  </div>
+                                  <span className="text-[11px] text-neutral-500">
+                                    🧍 Model (5'10", 72kg) wears Size L
                                   </span>
-                                  <span className="text-[10px] text-neutral-500 font-mono">180 GSM Bio-Washed</span>
                                 </div>
-                                {(() => {
-                                  const kidSpec = KIDS_GARMENT_EXACT_SPECS[selectedSize] || KIDS_GARMENT_EXACT_SPECS['0-12M'] || { chest: '22"', length: '14"', shoulder: '9.5"', ageGroup: '1–2 Years' };
-                                  return (
-                                    <>
-                                      <div className="grid grid-cols-3 gap-2 text-neutral-800 font-medium mb-2">
-                                        <div className="bg-white/90 p-2 rounded-lg border border-black/[0.04] text-center">
-                                          <span className="text-[10px] text-neutral-500 block uppercase font-bold">Chest</span>
-                                          <span className="font-extrabold text-neutral-950 text-sm">{kidSpec.chest}</span>
-                                        </div>
-                                        <div className="bg-white/90 p-2 rounded-lg border border-black/[0.04] text-center">
-                                          <span className="text-[10px] text-neutral-500 block uppercase font-bold">Length</span>
-                                          <span className="font-extrabold text-neutral-950 text-sm">{kidSpec.length}</span>
-                                        </div>
-                                        <div className="bg-white/90 p-2 rounded-lg border border-black/[0.04] text-center">
-                                          <span className="text-[10px] text-neutral-500 block uppercase font-bold">Shoulder</span>
-                                          <span className="font-extrabold text-neutral-950 text-sm">{kidSpec.shoulder}</span>
-                                        </div>
-                                      </div>
-                                      <div className="text-[11px] text-neutral-700 flex items-center gap-1.5 font-medium">
-                                        <span>👶</span>
-                                        <span>Recommended for {kidSpec.ageGroup} • 100% Super-Combed hypoallergenic cotton</span>
-                                      </div>
-                                    </>
-                                  );
-                                })()}
-                              </div>
-                            ) : !activeItemIsKids && (
-                              <div className="mt-3 p-3 rounded-xl bg-[#F3F0EA] border border-black/[0.08] text-xs">
-                                <div className="flex items-center justify-between font-bold text-neutral-900 mb-2">
-                                  <span className="flex items-center gap-1.5">
-                                    <span className="w-2 h-2 rounded-full bg-[#059669] pulse-live-dot" />
-                                    <span>Exact Garment Spec (Size {selectedSize}):</span>
-                                  </span>
-                                  <span className="text-[10px] text-neutral-500 font-mono">±0.5&quot; Atelier Tolerance</span>
-                                </div>
-                                {(() => {
-                                  const spec = GARMENT_EXACT_SPECS[selectedSize] || (selectedSize === 'XXL' ? GARMENT_EXACT_SPECS['2XL'] : null) || GARMENT_EXACT_SPECS['L'];
-                                  return (
-                                    <>
-                                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-neutral-800 font-medium mb-2">
-                                        <div className="bg-white/90 p-2 rounded-lg border border-black/[0.04] text-center">
-                                          <span className="text-[10px] text-neutral-500 block uppercase font-bold">Chest</span>
-                                          <span className="font-extrabold text-neutral-950 text-sm">{spec.chest}</span>
-                                        </div>
-                                        <div className="bg-white/90 p-2 rounded-lg border border-black/[0.04] text-center">
-                                          <span className="text-[10px] text-neutral-500 block uppercase font-bold">Length</span>
-                                          <span className="font-extrabold text-neutral-950 text-sm">{spec.length}</span>
-                                        </div>
-                                        <div className="bg-white/90 p-2 rounded-lg border border-black/[0.04] text-center">
-                                          <span className="text-[10px] text-neutral-500 block uppercase font-bold">Shoulder</span>
-                                          <span className="font-extrabold text-neutral-950 text-sm">{spec.shoulder}</span>
-                                        </div>
-                                        <div className="bg-white/90 p-2 rounded-lg border border-black/[0.04] text-center">
-                                          <span className="text-[10px] text-neutral-500 block uppercase font-bold">Sleeve</span>
-                                          <span className="font-extrabold text-neutral-950 text-sm">{spec.sleeve}</span>
-                                        </div>
-                                      </div>
-                                      <div className="text-[11px] text-neutral-700 flex items-center gap-1.5 font-medium">
-                                        <span>🧍</span>
-                                        <span>{spec.modelFit} • Designed for a structured, drop-shoulder streetwear hang</span>
-                                      </div>
-                                    </>
-                                  );
-                                })()}
-                              </div>
-                            )}
+                              );
+                            })()}
                           </>
                         );
                       })()}
@@ -3468,99 +3354,17 @@ export function ProductClient({ product }: Props) {
               </div>
             )}
 
-            {/* Cloth & Craftsmanship Transparency Card */}
+            {/* Essential Atelier Fabric & Quality Reassurance */}
             {isApparel && (
-              <div className="mt-4 p-4 rounded-2xl bg-white border border-black/[0.08] shadow-xs">
-                <div className="flex items-center justify-between pb-3 border-b border-black/[0.06] mb-3">
-                  <div>
-                    <div className="text-xs font-black uppercase tracking-wider text-neutral-900 flex items-center gap-1.5">
-                      <span>🧵 Cloth &amp; GSM Quality Transparency</span>
-                    </div>
-                    <div className="text-[11px] text-neutral-500 mt-0.5">
-                      {gsmProfile.tag} • {gsmProfile.silhouette}
-                    </div>
-                  </div>
-                  <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full border border-emerald-200">
-                    Lab Verified
-                  </span>
+              <div className="mt-4 p-3.5 rounded-2xl bg-white border border-black/[0.08] shadow-xs flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-2 font-bold text-neutral-900">
+                  <span className="text-base">🧵</span>
+                  <span>{gsmProfile.weight} 100% Super-Combed Bio-Washed Cotton</span>
                 </div>
-
-                <div className="space-y-3 text-xs">
-                  {/* Bar 1: Fabric Weight / Drape */}
-                  <div>
-                    <div className="flex justify-between items-center text-[11px] mb-1">
-                      <span className="font-bold text-neutral-800">1. Fabric Weight &amp; Drape Density</span>
-                      <span className="font-extrabold text-[#E04F33]">{gsmProfile.weight} ({gsmProfile.weightPct}%)</span>
-                    </div>
-                    <div className="w-full h-2 rounded-full bg-neutral-100 overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-amber-500 to-[#E04F33] rounded-full transition-all duration-500"
-                        style={{ width: `${gsmProfile.weightPct}%` }}
-                      />
-                    </div>
-                    <p className="text-[10px] text-neutral-500 mt-1 leading-snug">{gsmProfile.weightDesc}</p>
-                  </div>
-
-                  {/* Bar 2: Indian Weather Comfort */}
-                  <div>
-                    <div className="flex justify-between items-center text-[11px] mb-1">
-                      <span className="font-bold text-neutral-800">2. Indian Climate &amp; Breathability Comfort</span>
-                      <span className="font-extrabold text-[#059669]">{gsmProfile.climatePct}% Airflow Index</span>
-                    </div>
-                    <div className="w-full h-2 rounded-full bg-neutral-100 overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full transition-all duration-500"
-                        style={{ width: `${gsmProfile.climatePct}%` }}
-                      />
-                    </div>
-                    <p className="text-[10px] text-neutral-500 mt-1 leading-snug">{gsmProfile.climateDesc}</p>
-                  </div>
-
-                  {/* Bar 3: 50+ Wash Anti-Shrink & Print Guarantee */}
-                  <div>
-                    <div className="flex justify-between items-center text-[11px] mb-1">
-                      <span className="font-bold text-neutral-800">3. 50+ Wash Anti-Shrink &amp; Anti-Pilling Guarantee</span>
-                      <span className="font-extrabold text-neutral-900">{gsmProfile.washPct}% Retained Fit</span>
-                    </div>
-                    <div className="w-full h-2 rounded-full bg-neutral-100 overflow-hidden">
-                      <div
-                        className="h-full bg-neutral-900 rounded-full transition-all duration-500"
-                        style={{ width: `${gsmProfile.washPct}%` }}
-                      />
-                    </div>
-                    <p className="text-[10px] text-neutral-500 mt-1 leading-snug">{gsmProfile.washDesc}</p>
-                  </div>
-
-                  {/* Bar 4: True-Shade Color Accuracy */}
-                  <div>
-                    <div className="flex justify-between items-center text-[11px] mb-1">
-                      <span className="font-bold text-neutral-800">4. True-Shade Color Accuracy (Vat Reactive Dyes)</span>
-                      <span className="font-extrabold text-blue-600">{gsmProfile.colorPct}% Shade Lock</span>
-                    </div>
-                    <div className="w-full h-2 rounded-full bg-neutral-100 overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full transition-all duration-500"
-                        style={{ width: `${gsmProfile.colorPct}%` }}
-                      />
-                    </div>
-                    <p className="text-[10px] text-neutral-500 mt-1 leading-snug">{gsmProfile.colorDesc}</p>
-                  </div>
-                </div>
-
-                {/* Custom Inside-Collar Cloth Branding Badge */}
-                <div className="mt-3.5 pt-3 border-t border-black/[0.06] flex items-center justify-between gap-3 text-xs">
-                  <div className="flex items-center gap-2">
-                    <span className="text-base shrink-0">🏷️</span>
-                    <div>
-                      <p className="font-bold text-neutral-900 text-xs">Custom RareEmber Inside-Collar Branding</p>
-                      <p className="text-[11px] text-neutral-500 leading-snug">
-                        Custom Printed Inside-Collar Size &amp; Care Stamp (Tagless Zero-Itch Neckline • Shipped in Custom Branded RareEmber Packaging)
-                      </p>
-                    </div>
-                  </div>
-                  <span className="shrink-0 text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200/80 px-2 py-0.5 rounded-md">
-                    Tagless Comfort
-                  </span>
+                <div className="flex items-center gap-2.5 text-[11px] text-neutral-600 font-semibold flex-wrap">
+                  <span className="bg-neutral-100 px-2 py-0.5 rounded">✓ Pre-Shrunk (0% Shrinkage)</span>
+                  <span className="bg-neutral-100 px-2 py-0.5 rounded">✓ 50+ Wash Colorfast</span>
+                  <span className="bg-emerald-50 text-emerald-800 border border-emerald-200/60 px-2 py-0.5 rounded">✓ Tagless Comfort</span>
                 </div>
               </div>
             )}

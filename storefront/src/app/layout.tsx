@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   creator: "Rare Ember",
   publisher: "Rare Ember",
   alternates: {
-    canonical: './',
+    canonical: 'https://www.rareember.shop',
   },
   verification: {
     google: ['iLDXfXOQJgdWVHjp6RKhahF3-lbLS_frVYkqxeXsA44', 'Iv2WSIz7SyvJ2zs7ZqGrhyQC8-d5CSY8qjTBlgiQTOg'],

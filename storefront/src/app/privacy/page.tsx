@@ -1,8 +1,11 @@
 import Link from 'next/link';
 
-export const metadata = {
+export const metadata  = {
   title: 'Privacy Policy & DPDP Act Compliance',
   description: 'Official Privacy Policy complying with the Digital Personal Data Protection (DPDP) Act 2023 and Information Technology Act 2000.',
+  alternates: {
+    canonical: 'https://www.rareember.shop/privacy',
+  },
 };
 
 export default function PrivacyPage() {

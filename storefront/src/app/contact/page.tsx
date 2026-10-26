@@ -1,9 +1,12 @@
 import { Metadata } from 'next';
 import SupportClient from '../support/SupportClient';
 
-export const metadata: Metadata = {
+export const metadata: Metadata  = {
   title: 'Contact Us & Priority Support Desk',
   description: 'Official customer care desk, 12-hour support tickets, instant phone callbacks, Instagram DM, and direct email contact for Rare Ember.',
+  alternates: {
+    canonical: 'https://www.rareember.shop/contact',
+  },
 };
 
 export default function ContactPage() {

@@ -2,12 +2,15 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 import InvoiceClient from './InvoiceClient';
 
-export const metadata: Metadata = {
+export const metadata: Metadata  = {
   title: 'Official GST Tax Invoice',
   description: 'Download, print, or email your official Section 31 CGST Act tax invoice and authenticity certificate.',
   robots: {
     index: true,
     follow: true,
+  },
+  alternates: {
+    canonical: 'https://www.rareember.shop/invoice',
   },
 };
 

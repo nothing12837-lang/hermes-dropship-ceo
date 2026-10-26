@@ -23,19 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/llms.txt`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
   ];
 
-  // Category Landing Pages (High SEO Value)
-  const categoryRoutes: MetadataRoute.Sitemap = [
-    'electronics',
-    'fashion',
-    'home-living',
-    'home-garden',
-    'general'
-  ].map((cat) => ({
-    url: `${base}/shop?cat=${cat}`,
-    lastModified: now,
-    changeFrequency: 'daily',
-    priority: 0.9,
-  }));
+  
 
   // Dynamic Product Pages fetched from Supabase
   let liveProducts: Array<{ id: string; slug?: string; title?: string; category?: string; updated_at?: string }> = [];
@@ -109,5 +97,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.65,
       }));
 
-  return [...staticRoutes, ...categoryRoutes, ...activeProducts, ...blogRoutes];
+  return [...staticRoutes, ...activeProducts, ...blogRoutes];
 }
