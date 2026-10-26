@@ -106,7 +106,10 @@ export async function POST(req: NextRequest) {
     const contactLower = contact.toLowerCase();
     const contactDigits = contact.replace(/\D/g, '');
     const emailMatches = orderEmail.length > 0 && contactLower.includes(orderEmail);
-    const phoneMatches = orderPhone.length >= 6 && (contactDigits.includes(orderPhone) || orderPhone.includes(contactDigits));
+    const phoneMatches =
+      contactDigits.length >= 6 &&
+      orderPhone.length >= 6 &&
+      (contactDigits.includes(orderPhone) || orderPhone.includes(contactDigits));
     if (!emailMatches && !phoneMatches) {
       return NextResponse.json(
         { error: 'The contact details do not match this order. Please use the email or phone number provided during checkout.' },

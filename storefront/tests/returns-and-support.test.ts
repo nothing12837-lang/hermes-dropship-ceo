@@ -28,16 +28,27 @@ describe('Returns, Replacements & Reverse Logistics System', () => {
     const testPhone1 = '9876543210';
     const testPhoneWithCountry = '+919876543210';
 
-    expect(testEmail1.toLowerCase().includes(orderEmail)).toBe(true);
-    expect(testPhone1.replace(/\D/g, '').includes(orderPhone)).toBe(true);
-    expect(testPhoneWithCountry.replace(/\D/g, '').includes(orderPhone)).toBe(true);
+    const checkMatch = (contact: string) => {
+      const contactLower = contact.toLowerCase();
+      const contactDigits = contact.replace(/\D/g, '');
+      const emailMatches = orderEmail.length > 0 && contactLower.includes(orderEmail);
+      const phoneMatches =
+        contactDigits.length >= 6 &&
+        orderPhone.length >= 6 &&
+        (contactDigits.includes(orderPhone) || orderPhone.includes(contactDigits));
+      return emailMatches || phoneMatches;
+    };
+
+    expect(checkMatch(testEmail1)).toBe(true);
+    expect(checkMatch(testPhone1)).toBe(true);
+    expect(checkMatch(testPhoneWithCountry)).toBe(true);
 
     // Invalid inputs
     const wrongEmail = 'someoneelse@gmail.com';
     const wrongPhone = '9111111111';
 
-    expect(wrongEmail.toLowerCase().includes(orderEmail)).toBe(false);
-    expect(wrongPhone.replace(/\D/g, '').includes(orderPhone)).toBe(false);
+    expect(checkMatch(wrongEmail)).toBe(false);
+    expect(checkMatch(wrongPhone)).toBe(false);
   });
 
   it('normalizes order ID properly removing leading hash symbols and trimming whitespace', () => {
