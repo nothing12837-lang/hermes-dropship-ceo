@@ -2770,7 +2770,7 @@ export function ProductClient({ product }: Props) {
                             Step {sizeStepNum}: Headwear Fit &amp; Closure
                           </span>
                           <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full">
-                            FREE SIZE (ADJUSTABLE)
+                            ONE SIZE (ADJUSTABLE)
                           </span>
                         </div>
                         <p className="text-xs font-black text-neutral-900 mt-0.5">

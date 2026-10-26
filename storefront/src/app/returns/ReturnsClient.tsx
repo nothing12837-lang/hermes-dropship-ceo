@@ -80,7 +80,7 @@ export function ReturnsClient() {
           7-Day Easy Returns Policy
         </h1>
         <p className="text-sm text-neutral-600 mt-3 leading-relaxed">
-          Wrong size? Defective print? Damaged in courier? We make it right immediately with <b>7-Day Easy Returns</b>, replacement, or full refund.
+          Wrong size? Defective print? Damaged in courier? We make it right immediately with <b>7-Day Easy Returns</b> or full refund.
         </p>
       </div>
 
@@ -110,7 +110,7 @@ export function ReturnsClient() {
           <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-900 flex items-center justify-center text-xl font-black mb-4">
             03
           </div>
-          <h3 className="text-base font-bold text-neutral-950 mb-2">7-Day Return / Replacement</h3>
+          <h3 className="text-base font-bold text-neutral-950 mb-2">7-Day Easy Returns</h3>
           <p className="text-xs text-neutral-600 leading-relaxed">
             Our Tamil Nadu factory triggers an instant reprint or return resolution with 0 extra cost.
           </p>
@@ -225,7 +225,7 @@ export function ReturnsClient() {
                   onChange={(e) => setPreference(e.target.value)}
                   className="w-full px-4 py-3 text-sm rounded-xl border border-black/15 bg-neutral-50/70 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all font-medium cursor-pointer"
                 >
-                  <option value="Free Doorstep Replacement (Recommended)">Free Doorstep Replacement / Reprint (Recommended)</option>
+                  <option value="7-Day Easy Return & Pickup (Recommended)">7-Day Easy Return &amp; Pickup (Recommended)</option>
                   <option value="Store Credit + 10% Extra Bonus">Store Credit + 10% Extra Bonus Coupon</option>
                   <option value="Full Refund to Bank / UPI">Full Refund (to Bank / UPI)</option>
                 </select>
@@ -267,7 +267,7 @@ export function ReturnsClient() {
             Why 7-Day Returns Guarantee?
           </h2>
           <p className="text-xs text-neutral-600 leading-relaxed">
-            All Rare Ember garments and creator drops are custom-produced on premium heavyweight blanks at our domestic print factory. Traditional returns take 10–14 days and cost customers reverse courier charges. Instead, our <b>Zero-Friction Replacement Guarantee</b> sends you a brand-new, freshly printed piece directly to your doorstep for free whenever there is a size mismatch, defect, or transit damage.
+            All Rare Ember garments and creator drops are custom-produced on premium heavyweight blanks at our domestic print factory. Traditional returns take 10–14 days and cost customers reverse courier charges. Instead, our <b>7-Day Easy Returns Guarantee</b> provides an instant resolution or full refund directly to your doorstep with zero friction whenever there is an issue.
           </p>
         </div>
 

@@ -350,7 +350,7 @@ export default function SupportClient() {
                   required
                   value={ticketSubject}
                   onChange={(e) => setTicketSubject(e.target.value)}
-                  placeholder="e.g. Size M too snug, request return or replacement to L"
+                  placeholder="e.g. Size M too snug, request return or size assistance"
                   className="w-full px-4 py-3 text-sm rounded-lg border border-black/10 bg-neutral-50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white transition-all"
                 />
               </div>

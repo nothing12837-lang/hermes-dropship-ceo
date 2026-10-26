@@ -51,7 +51,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-lg font-bold text-neutral-950 mb-2">5. Returns & Refunds</h2>
               <p>
-                We offer a <b>7-Day Easy Returns Policy</b>. If an item arrives damaged, defective, or incorrect, contact support@rareember.shop within 7 days of delivery with your Order ID for an immediate return, replacement, or resolution.
+                We offer a <b>7-Day Easy Returns Policy</b>. If an item arrives damaged, defective, or incorrect, contact support@rareember.shop within 7 days of delivery with your Order ID for an immediate return or full refund resolution.
               </p>
             </section>
 

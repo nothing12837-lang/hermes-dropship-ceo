@@ -294,7 +294,7 @@ export async function POST(req: NextRequest) {
       const systemPrompt =
         'You are the Senior Concierge & Customer Care Specialist for Rare Ember (https://rareember.shop). ' +
         'Brand details: Independent Indian heavyweight streetwear, Tirupur production hub, express air courier via Delhivery & BlueDart. ' +
-        'Official support email: support@rareember.shop. Guarantee: 7-Day Free Doorstep Size & Quality Replacement Guarantee.\n\n' +
+        'Official support email: support@rareember.shop. Guarantee: 7-Day Easy Returns Guarantee.\n\n' +
         'IMPORTANT COURIER TELEMETRY CONTEXT:\n' +
         'When an order has just been placed and is in Stage 2 (In Production & Quality Check), an AWB (like BD-18023747616) is pre-allocated on our manifest. ' +
         'Delhivery’s public portal only displays live flight scans once physical barcode handover occurs at the Coimbatore airport hub (Stage 3). ' +

@@ -12,7 +12,7 @@ export const COPY = {
     { title: 'Express Air Dispatch', sub: '2–4 business days via BlueDart & Delhivery' },
     { title: 'Tirupur Hub Production', sub: 'Bio-washed combed cotton & dense fleece' },
     { title: 'Transparent Pricing', sub: 'All taxes & air shipping included in price' },
-    { title: '7-Day Easy Returns', sub: 'Hassle-free doorstep returns and defect replacements' },
+    { title: '7-Day Easy Returns', sub: 'Hassle-free 7-day doorstep returns' },
   ],
 
   announcement: 'Pan-India 2–4 business days express air delivery • Shipping included in all prices • Cash on Delivery available',

@@ -64,7 +64,7 @@ const ASSURANCES = [
   {
     icon: ShieldCheck,
     title: '7-Day Easy Returns',
-    desc: 'Hassle-free 7-day doorstep returns and defect replacements directly at your door.',
+    desc: 'Hassle-free 7-day doorstep returns for defective or unwanted items directly at your door.',
   },
   {
     icon: Banknote,

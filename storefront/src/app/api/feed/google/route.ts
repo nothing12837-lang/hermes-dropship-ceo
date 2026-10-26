@@ -118,7 +118,7 @@ export async function GET() {
       const weight = getShippingWeight(p);
 
       const color = p.colors && p.colors.length > 0 ? escapeXml(p.colors[0]) : 'Obsidian Black';
-      const size = p.sizes && p.sizes.length > 0 ? escapeXml(p.sizes.slice(0, 6).join('/')) : 'Free Size';
+      const size = p.sizes && p.sizes.length > 0 ? escapeXml(p.sizes.slice(0, 6).join('/')) : 'One Size';
 
       // Additional images if available
       const additionalImages = (p.images || [])

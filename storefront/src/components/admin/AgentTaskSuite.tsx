@@ -1043,7 +1043,7 @@ export default function AgentTaskSuite({ adminKey, overview, initialTask }: Agen
               <span>💬</span> AI Customer Care Concierge &amp; Resolution Engine
             </h4>
             <p className="text-xs text-slate-400 mb-6">
-              Synthesizes authentic, reassuring customer replies with Delhivery Air tracking status, Tirupur production lifecycle, and 7-day doorstep size replacement policy.
+              Synthesizes authentic, reassuring customer replies with Delhivery Air tracking status, Tirupur production lifecycle, and 7-day returns policy.
             </p>
 
             <div className="space-y-4 max-w-3xl">
