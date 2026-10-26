@@ -65,27 +65,34 @@ export async function POST(req: NextRequest) {
     }
     const sb = createClient(url, key);
 
-    // 1. The order must exist. Normalize order ID (handle #, uppercase, etc.)
-    const cleanOrderId = rawOrderId.replace(/^#/, '').trim();
-    let { data: order, error: orderErr } = await sb
-      .from('orders')
-      .select('id, user_email, total_amount, status, created_at, shipping_address, shipping_name, payment_method, fulfillment_error')
-      .eq('id', cleanOrderId)
-      .maybeSingle();
+    // 1. The order must exist.
+    // Handles full 36-char UUIDs, 8-char short IDs, and '#'-prefixed IDs seamlessly.
+    const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const cleanOrderId = rawOrderId.replace(/^[#\s]+/, '').trim();
+    let order: any = null;
 
-    if (!order && cleanOrderId !== rawOrderId) {
-      const fallback = await sb
+    if (UUID_REGEX.test(cleanOrderId)) {
+      const { data, error: orderErr } = await sb
         .from('orders')
         .select('id, user_email, total_amount, status, created_at, shipping_address, shipping_name, payment_method, fulfillment_error')
-        .eq('id', rawOrderId)
+        .eq('id', cleanOrderId)
         .maybeSingle();
-      order = fallback.data;
+      if (orderErr && orderErr.code !== '22P02') {
+        console.error('[Returns] order lookup error:', orderErr.message);
+      }
+      order = data;
+    } else if (/^[0-9a-f]{6,36}$/i.test(cleanOrderId)) {
+      // 6 to 32 hex character prefix lookup
+      const { data, error: prefixErr } = await sb
+        .from('orders')
+        .select('id, user_email, total_amount, status, created_at, shipping_address, shipping_name, payment_method, fulfillment_error')
+        .order('created_at', { ascending: false })
+        .limit(200);
+      if (!prefixErr && data) {
+        order = data.find((o: any) => o.id.toLowerCase().startsWith(cleanOrderId.toLowerCase())) || null;
+      }
     }
 
-    if (orderErr) {
-      console.error('[Returns] order lookup failed:', orderErr.message);
-      return NextResponse.json({ error: 'Could not verify the order. Please try again.' }, { status: 500 });
-    }
     if (!order) {
       return NextResponse.json(
         { error: 'No order found for that Order ID. Please check the ID in your confirmation email or SMS.' },

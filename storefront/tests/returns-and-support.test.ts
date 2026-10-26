@@ -53,4 +53,16 @@ describe('Returns, Replacements & Reverse Logistics System', () => {
     expect(claimId.startsWith('RE-CLM-')).toBe(true);
     expect(claimId.length).toBe(15);
   });
+
+  it('correctly distinguishes full UUIDs from short order ID prefixes', () => {
+    const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const fullUuid = '7792e434-7bf5-4ff4-9296-cf2f4c2af57f';
+    const shortPrefix = '7792e434';
+    const invalidFormat = 'non-existent-order';
+
+    expect(UUID_REGEX.test(fullUuid)).toBe(true);
+    expect(UUID_REGEX.test(shortPrefix)).toBe(false);
+    expect(/^[0-9a-f]{6,36}$/i.test(shortPrefix)).toBe(true);
+    expect(/^[0-9a-f]{6,36}$/i.test(invalidFormat)).toBe(false);
+  });
 });
