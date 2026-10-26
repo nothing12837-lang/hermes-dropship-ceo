@@ -318,6 +318,20 @@ export function validateCouponCode(
     };
   }
 
+  // 3. Check Store Credit Vouchers (e.g. CREDIT-770-75DC, RECREDIT-500-XXXX)
+  const creditMatch = code.match(/^(?:RE-?)?CREDIT-(\d{2,5})-([A-Z0-9]{3,10})$/i);
+  if (creditMatch) {
+    const creditAmount = parseInt(creditMatch[1], 10);
+    if (creditAmount > 0) {
+      const discountAmount = Math.min(creditAmount, subtotal);
+      return {
+        valid: true,
+        discountAmount,
+        label: `Store Credit (${code}: ₹${discountAmount} Applied)`,
+      };
+    }
+  }
+
   return {
     valid: false,
     discountAmount: 0,

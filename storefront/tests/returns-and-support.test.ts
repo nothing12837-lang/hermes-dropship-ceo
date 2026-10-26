@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { validateCouponCode } from '@/lib/festivals';
 
 describe('Returns, Replacements & Reverse Logistics System', () => {
   it('validates 7-day return window boundary correctly', () => {
@@ -75,5 +76,19 @@ describe('Returns, Replacements & Reverse Logistics System', () => {
     expect(UUID_REGEX.test(shortPrefix)).toBe(false);
     expect(/^[0-9a-f]{6,36}$/i.test(shortPrefix)).toBe(true);
     expect(/^[0-9a-f]{6,36}$/i.test(invalidFormat)).toBe(false);
+  });
+
+  it('validates store credit vouchers correctly at checkout', () => {
+    const voucher = 'CREDIT-770-75DC';
+    const res = validateCouponCode(voucher, 699);
+    expect(res.valid).toBe(true);
+    // Capped at subtotal 699
+    expect(res.discountAmount).toBe(699);
+    expect(res.label).toContain('Store Credit');
+
+    // Applied to larger cart of 1299
+    const resLarge = validateCouponCode(voucher, 1299);
+    expect(resLarge.valid).toBe(true);
+    expect(resLarge.discountAmount).toBe(770);
   });
 });

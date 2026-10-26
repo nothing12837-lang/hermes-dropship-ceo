@@ -736,6 +736,17 @@ export default function AdminOrdersPage() {
                             🚀 Approve &amp; Re-dispatch via Qikink
                           </button>
                           <button
+                            onClick={() => {
+                              const bonus = Math.round(Number(o.total_amount) * 1.1);
+                              const code = `CREDIT-${bonus}-${o.id.slice(0, 4).toUpperCase()}`;
+                              navigator.clipboard.writeText(code);
+                              setActionSuccess(`Copied Store Credit Voucher: ${code} (₹${bonus} with +10% bonus)`);
+                            }}
+                            className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all cursor-pointer border border-emerald-400/40"
+                          >
+                            💳 Copy Store Credit Voucher (+10% Bonus)
+                          </button>
+                          <button
                             onClick={() => void updateOrderStatus(o.id, 'refunded')}
                             disabled={updatingId === o.id}
                             className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition-all cursor-pointer border border-slate-700 disabled:opacity-50"
@@ -1245,6 +1256,17 @@ export default function AdminOrdersPage() {
                               className="px-3 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
                             >
                               🚀 Approve &amp; Re-dispatch Replacement via Qikink
+                            </button>
+                            <button
+                              onClick={() => {
+                                const bonus = Math.round(Number(claimOrder.total_amount) * 1.1);
+                                const code = `CREDIT-${bonus}-${claimOrder.id.slice(0, 4).toUpperCase()}`;
+                                navigator.clipboard.writeText(code);
+                                setActionSuccess(`Copied Store Credit Voucher: ${code} (₹${bonus} with +10% bonus)`);
+                              }}
+                              className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all cursor-pointer border border-emerald-400/40"
+                            >
+                              💳 Copy Store Credit Voucher (+10% Bonus)
                             </button>
                             <button
                               onClick={() => void updateOrderStatus(claimOrder.id, 'refunded')}
