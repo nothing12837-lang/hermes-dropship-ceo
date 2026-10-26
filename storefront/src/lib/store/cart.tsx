@@ -27,6 +27,12 @@ export interface CartItem {
   phoneModel?: string;
   customTextColor?: string;
   customFont?: string;
+  customScale?: number;
+  customPosition?: { x: number; y: number } | string;
+  customRotation?: number;
+  customBackText?: string;
+  customBackImage?: string;
+  customBackPlacement?: string;
 }
 
 interface CartCtx {

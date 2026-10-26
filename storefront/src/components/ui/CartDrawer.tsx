@@ -363,6 +363,16 @@ export default function CartDrawer() {
                                   Artwork: {(d as any).customImageName || 'Attached'} {d.customPlacement ? `(${d.customPlacement})` : ''}
                                 </span>
                               )}
+                              {(d as any).customBackText && (
+                                <span className="px-1.5 py-0.5 rounded bg-[#ff4d24]/10 text-[#ff4d24] border border-[#ff4d24]/20 font-bold">
+                                  Back Text: &quot;{(d as any).customBackText}&quot; (Oversized Back)
+                                </span>
+                              )}
+                              {(d as any).customBackImage && (
+                                <span className="px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-800 dark:text-purple-300 border border-purple-500/20 font-bold">
+                                  Back Artwork: Attached (Oversized Back)
+                                </span>
+                              )}
                             </div>
                           )}
                           <div className="flex items-center gap-1 text-[10px] text-neutral-600 font-semibold mt-1">
