@@ -1,7 +1,7 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import qikinkVariantsMap from '@/lib/data/qikink-variants-map.json';
 
-export const ENABLE_CUSTOM_NECK_LABEL = true;
+export const ENABLE_CUSTOM_NECK_LABEL = process.env.ENABLE_QIKINK_NECK_PRINT === 'true';
 export const RARE_EMBER_NECK_LABEL_URL = 'https://www.rareember.shop/branding/collar-label-300dpi.png';
 
 export interface QikinkFulfillmentResult {

@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { products as localProducts, cleanBrandTitle, type Product, type ProductCategory, type PetType, type AgeGroup } from '@/lib/data/products';
+import { products as localProducts, cleanBrandTitle, enforcePriceFloor, type Product, type ProductCategory, type PetType, type AgeGroup } from '@/lib/data/products';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { resolveProductImages } from '@/lib/data/product-gallery';
 import type { Database, Json } from '@/lib/database.types';
@@ -204,22 +204,22 @@ export async function getProductsFromDB(): Promise<Product[]> {
         const dbMap = new Map(dbRows.map((r: any) => [r.id, r]));
         return localList.map((p) => {
           const dbRow = dbMap.get(p.id);
-          if (!dbRow) return p;
-          return {
+          if (!dbRow) return enforcePriceFloor(p);
+          return enforcePriceFloor({
             ...p,
             active: dbRow.active !== false,
             ...(dbRow.price != null ? { price: Number(dbRow.price) } : {}),
             ...(dbRow.price_inr != null ? { price_inr: Number(dbRow.price_inr) } : {}),
             ...(dbRow.compare_at_price != null ? { compareAtPrice: Number(dbRow.compare_at_price), compare_at_price: Number(dbRow.compare_at_price) } : {}),
             ...(dbRow.title ? { title: cleanBrandTitle(dbRow.title) } : {}),
-          };
+          });
         });
       }
     }
   } catch (err) {
     console.warn('[Products Server] Supabase getProducts warning:', err);
   }
-  return localList;
+  return localList.map(enforcePriceFloor);
 }
 
 async function serverClient() {
@@ -290,18 +290,18 @@ export async function getProductFromDB(id: string): Promise<Product | null> {
         .eq('id', local.id)
         .maybeSingle()) as any;
       if (dbRow) {
-        return {
+        return enforcePriceFloor({
           ...local,
           active: dbRow.active !== false,
           ...(dbRow.price != null ? { price: Number(dbRow.price) } : {}),
           ...(dbRow.price_inr != null ? { price_inr: Number(dbRow.price_inr) } : {}),
           ...(dbRow.compare_at_price != null ? { compareAtPrice: Number(dbRow.compare_at_price), compare_at_price: Number(dbRow.compare_at_price) } : {}),
           ...(dbRow.title ? { title: cleanBrandTitle(dbRow.title) } : {}),
-        };
+        });
       }
     }
   } catch (err) {
     console.warn('[Products Server] Supabase getProduct warning:', err);
   }
-  return local;
+  return enforcePriceFloor(local);
 }

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Truck, ShieldCheck, Banknote, RefreshCw } from 'lucide-react';
 import ProductCard from '@/components/ui/ProductCard';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { formatPrice, computeDiscount, getGarmentSpecBadge, type Product } from '@/lib/data/products';
+import { formatPrice, computeDiscount, getGarmentSpecBadge, enforcePriceFloor, type Product } from '@/lib/data/products';
 import { getProductsFromDB } from '@/lib/products-server';
 
 export const revalidate = 60; // 60s ISR: Edge cached in Mumbai (bom1)
@@ -17,7 +17,8 @@ export const metadata = {
   },
 };
 
-function toCard(p: Product, rank?: number) {
+function toCard(rawP: Product, rank?: number) {
+  const p = enforcePriceFloor(rawP);
   return {
     id: p.id,
     slug: p.slug,
@@ -69,8 +70,8 @@ const ASSURANCES = [
   },
   {
     icon: Banknote,
-    title: 'Free Cash on Delivery',
-    desc: 'Pay at your doorstep across 19,000+ PIN codes with zero extra fees. 100% Free COD included.',
+    title: 'Cash on Delivery Available',
+    desc: 'Pay at your doorstep across 19,000+ PIN codes. 100% Waived handling fee on Prepaid UPI/Cards.',
   },
   {
     icon: RefreshCw,

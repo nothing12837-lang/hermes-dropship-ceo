@@ -155,8 +155,8 @@ describe('Admin Product Controls & Qikink Verification API', () => {
           action: 'update_details',
           productId: 'qikink-32476280-unisex-oversized-jersey',
           updates: {
-            price: 679,
-            compareAtPrice: 1299,
+            price: 799,
+            compareAtPrice: 1399,
             title: 'Unisex Oversized Jersey — Creator Sublimation Jersey',
           },
         }),
@@ -165,7 +165,7 @@ describe('Admin Product Controls & Qikink Verification API', () => {
       expect(editRes.status).toBe(200);
       const editJson = await editRes.json();
       expect(editJson.ok).toBe(true);
-      expect(editJson.product.price).toBe(679);
+      expect(editJson.product.price).toBe(799);
     });
 
     it('supports resync_qikink to refresh color mockups and variants', async () => {
@@ -198,8 +198,8 @@ describe('Admin Product Controls & Qikink Verification API', () => {
           action: 'import_qikink',
           qikinkProductId: '32476280',
           title: 'Unisex Oversized Jersey — Creator Edition',
-          sellingPrice: 679,
-          compareAtPrice: 1299,
+          sellingPrice: 799,
+          compareAtPrice: 1399,
           category: 'fashion',
         }),
       });
@@ -208,7 +208,7 @@ describe('Admin Product Controls & Qikink Verification API', () => {
       const json = await res.json();
       expect(json.ok).toBe(true);
       expect(json.product).toBeDefined();
-      expect(json.product.price).toBe(679);
+      expect(json.product.price).toBe(799);
       expect(json.product.qikinkClientProductId).toBe('32476280');
     });
 

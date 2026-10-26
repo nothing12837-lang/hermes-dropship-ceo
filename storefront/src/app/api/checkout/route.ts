@@ -194,7 +194,10 @@ export async function POST(req: NextRequest) {
       discountAmount = Math.min(Number(body.discount), maxAllowableAutoDiscount);
     }
 
-    const finalTotal = Math.max(1, subtotal - discountAmount);
+    // COD Handling & Verification Fee: ₹59 (waived 100% on Prepaid UPI/Cards)
+    const isCod = (body as any).payment_method === 'cod';
+    const codFee = isCod ? 59 : 0;
+    const finalTotal = Math.max(1, subtotal - discountAmount + codFee);
 
     // Insert helper: tries the full schema.sql shape first, then falls back
     // to the minimal live-safe columns if migration 0002 hasn't run yet.

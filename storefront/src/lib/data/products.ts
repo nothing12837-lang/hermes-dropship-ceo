@@ -144,60 +144,94 @@ export function enforcePriceFloor(p: Product): Product {
     };
   }
 
-  // 1. Unisex Oversized Jersey — Creator Edition: ₹679 (compare ₹1,299)
-  if (pid.includes('64950694') || pid.includes('32476280') || (title.includes('oversized') && title.includes('jersey'))) {
-    price = 679;
-    compare = 1299;
+  // 1. Curated Value Combos
+  // - bundle-streetwear-duo (2x Heavyweight 240 GSM Tees): min ₹1,499 (M.R.P. ₹2,499)
+  if (pid.includes('bundle-streetwear-duo') || pid.includes('streetwear-duo') || pid.includes('pack-of-2')) {
+    price = 1499;
+    compare = 2499;
   }
-  // 2. Rare Ember Unisex Oversized Standard T-Shirt & Gaming Pad: ₹649 (compare ₹1,199)
-  else if (title.includes('oversized standard') || title.includes('gaming pad') || title.includes('desk mat') || pid.includes('desk-mat') || pid.includes('32476431')) {
-    price = 649;
-    compare = 1199;
+  // - bundle-founding-50 (Oversized Tee + Desk Mat): min ₹1,499 (M.R.P. ₹2,499)
+  else if (pid.includes('bundle-founding-50') || pid.includes('founding-50')) {
+    price = 1499;
+    compare = 2499;
   }
-  // 3. Curated Value Combos:
-  // The Streetwear Duo (2x Heavyweight Oversized Tees): ₹1,199
-  else if (pid.includes('streetwear-duo') || pid.includes('pack-of-2')) {
-    price = 1199;
-    compare = 1799;
-  }
-  // The Founding 50 Builder Pack: ₹1,199
-  else if (pid.includes('founding-50')) {
-    price = 1199;
-    compare = 1799;
-  }
-  // The Creator Workstation Pack: ₹1,399
-  else if (pid.includes('workstation')) {
-    price = 1399;
-    compare = 1999;
+  // - bundle-workstation (Hoodie + Desk Mat): min ₹1,899 (M.R.P. ₹3,199)
+  else if (pid.includes('bundle-workstation') || pid.includes('workstation')) {
+    price = 1899;
+    compare = 3199;
   }
   else if (pid.includes('pack-of-3')) {
-    price = 1599;
-    compare = 2699;
+    price = 1999;
+    compare = 3299;
   }
-  else if (pid.includes('64953648') || (title.includes('full sleeve') && title.includes('graphic'))) {
-    price = 999;
-    compare = 1799;
-  } else if (pid.includes('64953512') || pid.includes('t-shirt-dress') || pid.includes('maternity-dress') || title.includes('dress')) {
-    price = 949;
-    compare = 1699;
-  } else if (pid.includes('64953544') || pid.includes('32476772') || title.includes('v neck') || title.includes('v-neck')) {
-    price = 849;
-    compare = 1499;
-  } else if (pid.includes('64953576') || pid.includes('32476788') || title.includes('polo')) {
-    price = 799;
-    compare = 1399;
-  } else if (pid.includes('64953600') || pid.includes('32476800') || title.includes('sleeveless') || title.includes('raglan') || title.includes('ringer')) {
-    price = 699;
-    compare = 1199;
-  } else if (
-    ['64953748', '64953702', '64953664', '64953528', '64953488', '32476874', '32476851', '32476764', '32476832', '32476744', '32476681', '32476284'].some((k) => pid.includes(k)) ||
-    ["women's classic", "crop top", "tank top", "crop tank", "girl's crew", "boy's crew", "basic t-shirt", "dryfit"].some((k) => title.includes(k))
+  // 2. 350 GSM Contrast-Sleeve Varsity Jacket & Bomber Jacket: min ₹1,499 (M.R.P. ₹2,599)
+  else if (
+    pid.includes('varsity') || pid.includes('bomber') ||
+    title.includes('varsity') || title.includes('bomber')
   ) {
-    if (price < 649) price = 649;
-    if (!compare || compare < 1099) compare = 1099;
-  } else if (pid.includes('hoodie')) {
-    price = 1399;
-    compare = 2699;
+    if (price < 1499) price = 1499;
+    if (!compare || compare < 2599) compare = 2599;
+  }
+  // 3. 380 GSM Heavyweight Winter Hoodie: min ₹1,399 (M.R.P. ₹2,299)
+  else if (pid.includes('hoodie') || title.includes('hoodie')) {
+    if (price < 1399) price = 1399;
+    if (!compare || compare < 2299) compare = 2299;
+  }
+  // 4. 320 GSM Crewneck Sweatshirt & 320 GSM Heavyweight Joggers: min ₹1,099 (M.R.P. ₹1,899)
+  else if (
+    pid.includes('sweatshirt') || pid.includes('crewneck') || pid.includes('jogger') || pid.includes('sweatpant') ||
+    title.includes('sweatshirt') || title.includes('crewneck') || title.includes('jogger') || title.includes('sweatpant')
+  ) {
+    if (price < 1099) price = 1099;
+    if (!compare || compare < 1899) compare = 1899;
+  }
+  // 5. 240 GSM French Terry Oversized Tee, Vintage Acid-Wash Oversized Tee, T-Shirt Dress (64953512) & Men's Full-Sleeve Tee (64953648): min ₹949 (M.R.P. ₹1,699)
+  else if (
+    pid.includes('64953648') || title.includes('full sleeve') || pid.includes('full-sleeve') ||
+    pid.includes('64953512') || pid.includes('t-shirt-dress') || pid.includes('maternity-dress') || title.includes('dress') ||
+    title.includes('french terry') || title.includes('terry') || pid.includes('terry') ||
+    title.includes('acid wash') || title.includes('acid-wash') || pid.includes('acid-wash') || pid.includes('acid_wash')
+  ) {
+    if (price < 949) price = 949;
+    if (!compare || compare < 1699) compare = 1699;
+  }
+  // 6. 900×400mm Extended Gaming Desk Mat / Pad: min ₹799 (M.R.P. ₹1,399)
+  else if (
+    title.includes('gaming pad') || title.includes('desk mat') || title.includes('mouse pad') ||
+    pid.includes('desk-mat') || pid.includes('desk_mat')
+  ) {
+    if (price < 799) price = 799;
+    if (!compare || compare < 1399) compare = 1399;
+  }
+  // 7. Unisex Oversized Mesh Jersey (UJ35 / 64950694) & Men's Polo (220 GSM): min ₹799 (M.R.P. ₹1,399)
+  else if (
+    pid.includes('64950694') || pid.includes('32476280') || pid.includes('uj35') ||
+    (title.includes('oversized') && title.includes('jersey')) || title.includes('mesh jersey') ||
+    pid.includes('64953576') || pid.includes('32476788') || title.includes('polo')
+  ) {
+    if (price < 799) price = 799;
+    if (!compare || compare < 1399) compare = 1399;
+  }
+  // 8. Women's Classic Tee, Crop Top, Tank Top, Men's Sleeveless Tee: min ₹699 (M.R.P. ₹1,199)
+  else if (
+    ['64953748', '64953702', '64953664', '64953528', '64953488', '32476874', '32476851', '32476764', '32476832', '32476744', '32476681', '32476284', '64953600', '32476800'].some((k) => pid.includes(k)) ||
+    ["women's classic", "crop top", "tank top", "crop tank", "girl's crew", "boy's crew", "basic t-shirt", "dryfit", "sleeveless", "raglan", "ringer"].some((k) => title.includes(k))
+  ) {
+    if (price < 699) price = 699;
+    if (!compare || compare < 1199) compare = 1199;
+  }
+  // 9. 240 GSM Unisex Oversized Standard T-Shirt & Unisex V-Neck (64953544): min ₹849 (M.R.P. ₹1,499)
+  else if (
+    pid.includes('64953544') || pid.includes('32476772') || title.includes('v neck') || title.includes('v-neck') ||
+    pid.includes('32476431') || title.includes('oversized standard') || title.includes('standard t-shirt')
+  ) {
+    if (price < 849) price = 849;
+    if (!compare || compare < 1499) compare = 1499;
+  }
+  // 10. Default fallback for standard tees and any other items: min ₹849 (M.R.P. ₹1,499)
+  else {
+    if (price < 849) price = 849;
+    if (!compare || compare < 1499) compare = 1499;
   }
 
   return {
@@ -222,13 +256,13 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
       'High-Density Archival Fade-Proof Prints',
       '7-Day Easy Returns Guarantee'
     ],
-    price: 1199,
-    price_inr: 1199,
-    compareAtPrice: 1799,
-    compare_at_price: 1799,
+    price: 1499,
+    price_inr: 1499,
+    compareAtPrice: 2499,
+    compare_at_price: 2499,
     rating: 4.9,
     reviews: 68,
-    tag: 'PACK OF 2 (SAVE ₹600)',
+    tag: 'PACK OF 2 (SAVE ₹1,000)',
     tagColor: '#FFFFFF',
     tagBg: '#FF4D24',
     gradient: 'linear-gradient(135deg, #18181b, #09090b)',
@@ -252,13 +286,13 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
       'Zero-Fray 360° Reinforced Edge Stitching',
       '7-Day Easy Returns Guarantee'
     ],
-    price: 1199,
-    price_inr: 1199,
-    compareAtPrice: 1799,
-    compare_at_price: 1799,
+    price: 1499,
+    price_inr: 1499,
+    compareAtPrice: 2499,
+    compare_at_price: 2499,
     rating: 5.0,
     reviews: 52,
-    tag: 'BUILDER PACK (SAVE ₹600)',
+    tag: 'BUILDER PACK (SAVE ₹1,000)',
     tagColor: '#FFFFFF',
     tagBg: '#FF4D24',
     gradient: 'linear-gradient(135deg, #18181b, #09090b)',
@@ -273,22 +307,21 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
   {
     id: 'bundle-workstation',
     slug: 'bundle-workstation',
-    title: 'The Creator Workstation Pack — Desk Mat + Tee + Ceramic Mug',
-    short: 'Complete setup upgrade: 900×400mm desk mat, 240 GSM heavyweight tee, and 330ml stoneware ceramic mug.',
+    title: 'The Creator Workstation Pack — Hoodie + Desk Mat',
+    short: 'Complete setup upgrade: 380 GSM heavyweight fleece hoodie paired with 900×400mm precision desk mat.',
     story: 'Your desk daily rotation in one coordinated package. Dispatched directly from verified domestic makers.',
     details: [
+      '1x 380 GSM Heavyweight Winter Fleece Hoodie',
       '1x 900×400mm Extended Precision Desk Mat',
-      '1x 240 GSM Combed Cotton Heavyweight Tee',
-      '1x 330ml Microwave-Safe Stoneware Ceramic Mug',
       '7-Day Easy Returns Guarantee'
     ],
-    price: 1399,
-    price_inr: 1399,
-    compareAtPrice: 1999,
-    compare_at_price: 1999,
+    price: 1899,
+    price_inr: 1899,
+    compareAtPrice: 3199,
+    compare_at_price: 3199,
     rating: 4.9,
     reviews: 44,
-    tag: 'TRIPLE COMBO (SAVE ₹600)',
+    tag: 'WORKSTATION COMBO (SAVE ₹1,300)',
     tagColor: '#FFFFFF',
     tagBg: '#FF4D24',
     gradient: 'linear-gradient(135deg, #18181b, #09090b)',

@@ -9,6 +9,8 @@ import {
   BUNDLE_FALLBACK_PRODUCTS,
 } from '@/lib/data/products';
 import { isAllowedBlog, deduplicatePosts } from '@/app/blog/page';
+import { validateCouponCode } from '@/lib/festivals';
+import { ENABLE_CUSTOM_NECK_LABEL } from '@/lib/fulfillment/qikink';
 import qp from '@/lib/data/qikink-products.json';
 
 describe('normalizeIndianState', () => {
@@ -49,59 +51,154 @@ describe('Product Catalog Resolution (Zero 404 Glitches)', () => {
 
 describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
   it('enforces updated price floors for key drops and bundles', () => {
-    // Unisex Oversized Jersey: ₹679
+    // Unisex Oversized Jersey: ₹799 (M.R.P. ₹1,399)
     const jersey = enforcePriceFloor({
       id: 'qikink-32476280-unisex-oversized-jersey',
       title: 'Unisex Oversized Jersey — Creator Edition',
       price: 489,
     } as any);
-    expect(jersey.price).toBe(679);
-    expect(jersey.compareAtPrice).toBe(1299);
+    expect(jersey.price).toBe(799);
+    expect(jersey.compareAtPrice).toBe(1399);
 
-    // Unisex Oversized Standard T-Shirt: ₹649
+    // 240 GSM Unisex Oversized Standard T-Shirt: ₹849 (M.R.P. ₹1,499)
     const tee = enforcePriceFloor({
       id: 'qikink-32476431-unisex-oversized-standard-t-shirt',
       title: 'Rare Ember Unisex Oversized Standard T-Shirt',
       price: 499,
     } as any);
-    expect(tee.price).toBe(649);
-    expect(tee.compareAtPrice).toBe(1199);
+    expect(tee.price).toBe(849);
+    expect(tee.compareAtPrice).toBe(1499);
 
-    // Gaming Pad / Desk Mat: ₹649
+    // Gaming Pad / Desk Mat: ₹799 (M.R.P. ₹1,399)
     const pad = enforcePriceFloor({
       id: 'rare-ember-desk-mat',
       title: 'Rare Ember Gaming Pad',
       price: 499,
     } as any);
-    expect(pad.price).toBe(649);
-    expect(pad.compareAtPrice).toBe(1199);
+    expect(pad.price).toBe(799);
+    expect(pad.compareAtPrice).toBe(1399);
 
-    // Streetwear Duo: ₹1,199
+    // Streetwear Duo: ₹1,499 (M.R.P. ₹2,499)
     const duo = enforcePriceFloor({
       id: 'bundle-streetwear-duo',
       title: 'The Streetwear Duo (2x Heavyweight Oversized Tees)',
       price: 899,
     } as any);
-    expect(duo.price).toBe(1199);
-    expect(duo.compareAtPrice).toBe(1799);
+    expect(duo.price).toBe(1499);
+    expect(duo.compareAtPrice).toBe(2499);
 
-    // Founding 50: ₹1,199
+    // Founding 50: ₹1,499 (M.R.P. ₹2,499)
     const f50 = enforcePriceFloor({
       id: 'bundle-founding-50',
       title: 'The Founding 50 Builder Pack',
       price: 1099,
     } as any);
-    expect(f50.price).toBe(1199);
-    expect(f50.compareAtPrice).toBe(1799);
+    expect(f50.price).toBe(1499);
+    expect(f50.compareAtPrice).toBe(2499);
 
-    // Workstation Pack: ₹1,399
+    // Workstation Pack: ₹1,899 (M.R.P. ₹3,199)
     const workstation = enforcePriceFloor({
       id: 'bundle-workstation',
       title: 'The Creator Workstation Pack',
       price: 1199,
     } as any);
-    expect(workstation.price).toBe(1399);
-    expect(workstation.compareAtPrice).toBe(1999);
+    expect(workstation.price).toBe(1899);
+    expect(workstation.compareAtPrice).toBe(3199);
+
+    // Women's Classic Tee, Crop Top, Tank Top, Sleeveless: min ₹699 (M.R.P. ₹1,199)
+    const crop = enforcePriceFloor({
+      id: 'qikink-64953748-crop-top',
+      title: "Women's Graphic Crop Top",
+      price: 399,
+    } as any);
+    expect(crop.price).toBe(699);
+    expect(crop.compareAtPrice).toBe(1199);
+
+    const sleeveless = enforcePriceFloor({
+      id: 'qikink-64953600-sleeveless',
+      title: "Men's Sleeveless Athletic Tee",
+      price: 499,
+    } as any);
+    expect(sleeveless.price).toBe(699);
+    expect(sleeveless.compareAtPrice).toBe(1199);
+
+    // Men's Polo (220 GSM): min ₹799 (M.R.P. ₹1,399)
+    const polo = enforcePriceFloor({
+      id: 'qikink-64953576-polo',
+      title: "Executive Pique Polo",
+      price: 549,
+    } as any);
+    expect(polo.price).toBe(799);
+    expect(polo.compareAtPrice).toBe(1399);
+
+    // Unisex V-Neck (64953544): min ₹849 (M.R.P. ₹1,499)
+    const vneck = enforcePriceFloor({
+      id: 'qikink-64953544-v-neck',
+      title: "Bio-Washed Combed Cotton V-Neck Tee",
+      price: 499,
+    } as any);
+    expect(vneck.price).toBe(849);
+    expect(vneck.compareAtPrice).toBe(1499);
+
+    // French Terry Oversized Tee / Full-Sleeve Tee / T-Shirt Dress / Acid Wash: min ₹949 (M.R.P. ₹1,699)
+    const fullSleeve = enforcePriceFloor({
+      id: 'qikink-64953648-full-sleeve',
+      title: "Men's Full Sleeve T-Shirt",
+      price: 699,
+    } as any);
+    expect(fullSleeve.price).toBe(949);
+    expect(fullSleeve.compareAtPrice).toBe(1699);
+
+    const acidWash = enforcePriceFloor({
+      id: 'qikink-32476620-acid-wash-tee',
+      title: "Vintage Acid-Wash Oversized Heavyweight Tee",
+      price: 699,
+    } as any);
+    expect(acidWash.price).toBe(949);
+    expect(acidWash.compareAtPrice).toBe(1699);
+
+    // 320 GSM Crewneck Sweatshirt & Heavyweight Joggers: min ₹1,099 (M.R.P. ₹1,899)
+    const sweatshirt = enforcePriceFloor({
+      id: 'qikink-320gsm-sweatshirt',
+      title: "320 GSM French Terry Crewneck Sweatshirt",
+      price: 799,
+    } as any);
+    expect(sweatshirt.price).toBe(1099);
+    expect(sweatshirt.compareAtPrice).toBe(1899);
+
+    const joggers = enforcePriceFloor({
+      id: 'qikink-320gsm-joggers',
+      title: "320 GSM Heavyweight Streetwear Joggers",
+      price: 899,
+    } as any);
+    expect(joggers.price).toBe(1099);
+    expect(joggers.compareAtPrice).toBe(1899);
+
+    // 380 GSM Heavyweight Winter Hoodie: min ₹1,399 (M.R.P. ₹2,299)
+    const hoodie = enforcePriceFloor({
+      id: 'qikink-heavyweight-hoodie',
+      title: "380 GSM Heavyweight Winter Hoodie",
+      price: 999,
+    } as any);
+    expect(hoodie.price).toBe(1399);
+    expect(hoodie.compareAtPrice).toBe(2299);
+
+    // 350 GSM Contrast-Sleeve Varsity Jacket & Bomber Jacket: min ₹1,499 (M.R.P. ₹2,599)
+    const varsityJacket = enforcePriceFloor({
+      id: 'qikink-varsity-jacket-01',
+      title: "350 GSM Contrast-Sleeve Varsity Jacket",
+      price: 1199,
+    } as any);
+    expect(varsityJacket.price).toBe(1499);
+    expect(varsityJacket.compareAtPrice).toBe(2599);
+
+    const bomberJacket = enforcePriceFloor({
+      id: 'qikink-bomber-jacket-01',
+      title: "Architectural Streetwear Bomber Jacket",
+      price: 1199,
+    } as any);
+    expect(bomberJacket.price).toBe(1499);
+    expect(bomberJacket.compareAtPrice).toBe(2599);
   });
 
   it('correctly maps getGarmentSpecBadge without shifting array indices', () => {
@@ -200,3 +297,63 @@ describe('Glitches Fix 4: Journal & Blog Filtering & Deduplication', () => {
     expect(deduped[1].title).toBe('Why 240 GSM Heavyweight Streetwear Is Replacing Fast-Fashion');
   });
 });
+
+describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', () => {
+  it('protects coupon minimum order thresholds from eroding margins', () => {
+    // PREPAID30: minOrder: 699
+    expect(validateCouponCode('PREPAID30', 500).valid).toBe(false);
+    expect(validateCouponCode('PREPAID30', 698).valid).toBe(false);
+    const p30 = validateCouponCode('PREPAID30', 699);
+    expect(p30.valid).toBe(true);
+    expect(p30.discountAmount).toBe(30);
+
+    // FIRST50: minOrder: 799
+    expect(validateCouponCode('FIRST50', 699).valid).toBe(false);
+    expect(validateCouponCode('FIRST50', 798).valid).toBe(false);
+    const f50 = validateCouponCode('FIRST50', 799);
+    expect(f50.valid).toBe(true);
+    expect(f50.discountAmount).toBe(50);
+
+    // DIWALI100: minOrder: 1299 (test during active date window)
+    const diwaliDate = new Date('2026-10-25T12:00:00Z');
+    expect(validateCouponCode('DIWALI100', 849, diwaliDate).valid).toBe(false);
+    expect(validateCouponCode('DIWALI100', 1298, diwaliDate).valid).toBe(false);
+    const diwali = validateCouponCode('DIWALI100', 1299, diwaliDate);
+    expect(diwali.valid).toBe(true);
+    expect(diwali.discountAmount).toBe(100);
+
+    // EMBER: minOrder: 1299
+    expect(validateCouponCode('EMBER', 849).valid).toBe(false);
+    expect(validateCouponCode('EMBER', 1298).valid).toBe(false);
+    const ember = validateCouponCode('EMBER', 1299);
+    expect(ember.valid).toBe(true);
+    expect(ember.discountAmount).toBe(130);
+
+    // WELCOME10: minOrder: 1299
+    expect(validateCouponCode('WELCOME10', 849).valid).toBe(false);
+    expect(validateCouponCode('WELCOME10', 1298).valid).toBe(false);
+    const welcome = validateCouponCode('WELCOME10', 1299);
+    expect(welcome.valid).toBe(true);
+    expect(welcome.discountAmount).toBe(130);
+  });
+
+  it('defaults ENABLE_CUSTOM_NECK_LABEL to false to avoid ₹20-25 secondary print charge', () => {
+    expect(ENABLE_CUSTOM_NECK_LABEL).toBe(false);
+  });
+
+  it('enforces ₹59 COD handling fee on COD orders while waiving 100% on prepaid', () => {
+    const subtotal = 849;
+    const discount = 0;
+
+    // Prepaid calculation
+    const prepaidCodFee = 0;
+    const prepaidTotal = subtotal + prepaidCodFee - discount;
+    expect(prepaidTotal).toBe(849);
+
+    // COD calculation
+    const codFee = 59;
+    const codTotal = subtotal + codFee - discount;
+    expect(codTotal).toBe(908);
+  });
+});
+

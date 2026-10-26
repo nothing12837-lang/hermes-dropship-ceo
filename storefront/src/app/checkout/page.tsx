@@ -378,7 +378,7 @@ export default function CheckoutPage() {
     }
   }, [isAboveCodThreshold, paymentMethod]);
 
-  const codFee = 0; // 100% Free COD included
+  const codFee = paymentMethod === 'cod' ? 59 : 0; // COD Handling & Verification Fee ₹59 (Waived 100% on Prepaid UPI/Cards)
   const rawTotal = subtotal + codFee - discount;
   const total = Math.max(0, rawTotal);
 
@@ -1439,11 +1439,11 @@ export default function CheckoutPage() {
                           Cash on Delivery (COD)
                         </span>
                         {market === 'IN' && (
-                          <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">100% Free (Included)</span>
+                          <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">+₹59 Verification Fee</span>
                         )}
                       </div>
                       <p className="text-xs text-neutral-500 mt-1">
-                        Pay cash or UPI directly to the courier agent upon doorstep arrival. Zero extra fees.
+                        Pay cash or UPI directly to the courier agent upon doorstep arrival. Waived 100% on Prepaid UPI/Cards.
                       </p>
                     </div>
                   </label>
@@ -1594,7 +1594,7 @@ export default function CheckoutPage() {
                 )}
                 {codFee > 0 && (
                   <div className="flex justify-between">
-                    <span>COD Courier Fee</span>
+                    <span>COD Handling & Verification Fee</span>
                     <span className="font-semibold text-white">{formatCheckoutPrice(codFee)}</span>
                   </div>
                 )}
@@ -1697,14 +1697,14 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* 100% Free COD Email OTP Verification Card */}
+              {/* COD Email OTP Verification Card */}
               {paymentMethod === 'cod' && (
                 <div id="cod-verification-section" className="mb-4 p-4 rounded-2xl bg-white/[0.06] border border-white/15 text-left transition-all">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <span className="text-sm">📧</span>
                       <span className="text-xs font-bold text-white uppercase tracking-wider">
-                        Free COD Delivery Verification
+                        COD Delivery Verification
                       </span>
                     </div>
                     {isCodOtpVerified ? (

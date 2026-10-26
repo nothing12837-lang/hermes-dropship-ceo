@@ -459,9 +459,9 @@ export async function POST(req: NextRequest) {
 
     const finalTotal = Math.max(1, calculatedSubtotal - discountAmount);
 
-    // 100% Free COD: Cash on delivery is completely free / included with zero extra surcharge.
-    const codFee = 0;
-    const chargedTotal = finalTotal;
+    // COD Handling & Verification Fee: ₹59 to cover courier collection costs (waived 100% on Prepaid UPI/Cards)
+    const codFee = isCod ? 59 : 0;
+    const chargedTotal = finalTotal + codFee;
 
     // Server-side COD Threshold Protection: COD capped strictly under ₹3,000 to prevent RTO courier fraud
     if (isCod && finalTotal >= 3000) {

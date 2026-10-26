@@ -27,10 +27,10 @@ export const INDIAN_FESTIVALS: ScheduledFestival[] = [
     greeting: '🪔 Happy Navratri & Happy Diwali Grand Festive Sale! ✨',
     subheading: 'Celebrate the festive season of lights! 2–4 days express delivery across 19,000+ PIN codes with COD.',
     couponCode: 'DIWALI100',
-    discountDescription: 'Flat ₹100 OFF on orders above ₹499',
+    discountDescription: 'Flat ₹100 OFF on orders above ₹1,299',
     discountType: 'flat',
     discountValue: 100,
-    minOrderValue: 499,
+    minOrderValue: 1299,
     badgeEmoji: '🪔',
     effect: 'fireworks',
     startMonth: 10, // Oct 1
@@ -127,14 +127,14 @@ export const EVERGREEN_COUPONS: Record<
   FIRST50: {
     type: 'flat',
     value: 50,
-    minOrder: 499,
-    desc: 'Flat ₹50 OFF on orders above ₹499',
+    minOrder: 799,
+    desc: 'Flat ₹50 OFF on orders above ₹799',
   },
   PREPAID30: {
     type: 'flat',
     value: 30,
-    minOrder: 399,
-    desc: 'Flat ₹30 Instant Savings for 100% Prepaid UPI Checkout',
+    minOrder: 699,
+    desc: 'Flat ₹30 Instant Savings for 100% Prepaid UPI Checkout (₹699+)',
   },
   DUO99: {
     type: 'flat',
@@ -157,20 +157,20 @@ export const EVERGREEN_COUPONS: Record<
   EMBER: {
     type: 'percentage',
     value: 10,
-    minOrder: 499,
-    desc: '10% OFF on cart value above ₹499',
+    minOrder: 1299,
+    desc: '10% OFF on cart value above ₹1,299',
   },
   WELCOME10: {
     type: 'percentage',
     value: 10,
-    minOrder: 499,
-    desc: '10% OFF on cart value above ₹499',
+    minOrder: 1299,
+    desc: '10% OFF on cart value above ₹1,299',
   },
   FIRST10: {
     type: 'percentage',
     value: 10,
-    minOrder: 499,
-    desc: '10% OFF on First Order above ₹499',
+    minOrder: 1299,
+    desc: '10% OFF on First Order above ₹1,299',
   },
 };
 
@@ -336,6 +336,6 @@ export function validateCouponCode(
     valid: false,
     discountAmount: 0,
     label: '',
-    error: 'Invalid coupon code. Try "DIWALI100" (orders above ₹499) or "FIRST50".',
+    error: 'Invalid coupon code. Try "DIWALI100" (orders above ₹1,299) or "FIRST50".',
   };
 }
