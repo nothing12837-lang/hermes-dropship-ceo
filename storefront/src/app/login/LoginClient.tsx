@@ -156,6 +156,12 @@ export function LoginClient() {
     try {
       const canonicalBase = getCanonicalSiteUrl();
       const target = redirectTarget && redirectTarget.startsWith('/') ? redirectTarget : '/profile';
+      try {
+        localStorage.setItem('rareember_login_redirect', target);
+        sessionStorage.setItem('rareember_login_redirect', target);
+      } catch {
+        // ignore storage errors
+      }
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
