@@ -110,9 +110,9 @@ export function ReturnsClient() {
           <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-900 flex items-center justify-center text-xl font-black mb-4">
             02
           </div>
-          <h3 className="text-base font-bold text-neutral-950 mb-2">Zero-Return Hassle</h3>
+          <h3 className="text-base font-bold text-neutral-950 mb-2">Doorstep 1-to-1 Exchange</h3>
           <p className="text-xs text-neutral-600 leading-relaxed">
-            No expensive courier return bookings or packaging errands. A quick photo verification via WhatsApp is all we need.
+            For size exchanges, simply hand over the original unworn piece with tags intact to the courier partner upon delivery.
           </p>
         </div>
 
@@ -120,9 +120,9 @@ export function ReturnsClient() {
           <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-900 flex items-center justify-center text-xl font-black mb-4">
             03
           </div>
-          <h3 className="text-base font-bold text-neutral-950 mb-2">7-Day Easy Returns</h3>
+          <h3 className="text-base font-bold text-neutral-950 mb-2">Defect Guarantee</h3>
           <p className="text-xs text-neutral-600 leading-relaxed">
-            Our Tamil Nadu factory triggers an instant reprint or return resolution with 0 extra cost.
+            Defective print or transit damage? 100% Free reprint covered directly with quick photo verification.
           </p>
         </div>
       </div>
@@ -289,7 +289,8 @@ export function ReturnsClient() {
                   onChange={(e) => setPreference(e.target.value)}
                   className="w-full px-4 py-3 text-sm rounded-xl border border-black/15 bg-neutral-50/70 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all font-medium cursor-pointer"
                 >
-                  <option value="7-Day Easy Return & Pickup (Recommended)">7-Day Easy Return &amp; Pickup (Recommended)</option>
+                  <option value="Doorstep 1-to-1 Exchange (Hand over original piece)">Doorstep 1-to-1 Exchange (Hand over original piece to courier)</option>
+                  <option value="Free Defect Reprint (For Print/Fabric Defects)">Free Defect Reprint (100% Free for Defective Print/Tear)</option>
                   <option value="Store Credit + 10% Extra Bonus">Store Credit + 10% Extra Bonus Coupon</option>
                   <option value="Full Refund to Bank / UPI">Full Refund (to Bank / UPI)</option>
                 </select>
@@ -309,8 +310,13 @@ export function ReturnsClient() {
               />
             </div>
 
-            <div className="p-3.5 rounded-xl bg-neutral-100 border border-black/[0.08] text-xs text-neutral-700 leading-relaxed">
-              <strong className="font-mono text-[11px] uppercase tracking-wider">Fast Verification:</strong> You don&apos;t have to pack the product back. Once submitted, our customer care team will verify via WhatsApp with a photo of the garment/tag, and immediately trigger the free reprint or replacement.
+            <div className="p-3.5 rounded-xl bg-neutral-100 border border-black/[0.08] text-xs text-neutral-700 leading-relaxed space-y-1">
+              <div>
+                <strong className="font-mono text-[11px] uppercase tracking-wider text-neutral-900">Defects &amp; Damage:</strong> Verified via WhatsApp photo — 100% free reprint dispatched immediately at zero cost.
+              </div>
+              <div>
+                <strong className="font-mono text-[11px] uppercase tracking-wider text-neutral-900">Size Exchanges:</strong> 1-to-1 doorstep handover required. Original unworn garment with tags intact must be handed to the courier partner upon delivery.
+              </div>
             </div>
 
             <button
@@ -333,6 +339,16 @@ export function ReturnsClient() {
           <p className="text-xs text-neutral-600 leading-relaxed">
             All Rare Ember garments and creator drops are custom-produced on premium heavyweight blanks at our domestic print factory. Traditional returns take 10–14 days and cost customers reverse courier charges. Instead, our <b>7-Day Easy Returns Guarantee</b> provides an instant resolution or full refund directly to your doorstep with zero friction whenever there is an issue.
           </p>
+        </div>
+
+        <div className="border-t border-black/[0.05] pt-6">
+          <h2 className="text-lg font-black text-neutral-950 mb-2">
+            Size Exchanges vs. Manufacturing Defects
+          </h2>
+          <ul className="text-xs text-neutral-600 space-y-2 list-disc pl-5 leading-relaxed">
+            <li><b>Factory Defects or Damage:</b> 100% Free doorstep replacement with zero cost upon photo verification.</li>
+            <li><b>Size Mismatches:</b> To prevent duplicate inventory waste, size exchanges require a 1-to-1 physical handover of the original unworn garment with tags intact to the courier upon delivery of the new size.</li>
+          </ul>
         </div>
 
         <div className="border-t border-black/[0.05] pt-6">
