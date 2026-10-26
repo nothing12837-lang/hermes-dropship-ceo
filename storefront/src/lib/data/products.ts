@@ -129,8 +129,14 @@ export const SHOP_CATEGORIES = [
 export function enforcePriceFloor(p: Product): Product {
   const pid = (p.id || '').toLowerCase();
   const title = (p.title || '').toLowerCase();
-  let price = p.price_inr ?? p.price;
-  let compare = p.compareAtPrice ?? p.compare_at_price;
+  const rawPrice = p.price_inr ?? p.price;
+  let price = (rawPrice != null && !Number.isNaN(Number(rawPrice)) && Number(rawPrice) > 0)
+    ? Number(rawPrice)
+    : 0;
+  const rawCompare = p.compareAtPrice ?? p.compare_at_price;
+  let compare = (rawCompare != null && !Number.isNaN(Number(rawCompare)) && Number(rawCompare) > 0)
+    ? Number(rawCompare)
+    : 0;
 
   // Preserve test drops / gateway verification price without enforcing higher retail floor
   if (pid.includes('verification') || pid.includes('test') || pid.includes('gateway') || p.price === 5 || p.price_inr === 5 || p.price === 10 || p.price_inr === 10) {
@@ -147,91 +153,105 @@ export function enforcePriceFloor(p: Product): Product {
   // 1. Curated Value Combos
   // - bundle-streetwear-duo (2x Heavyweight 240 GSM Tees): min ₹1,499 (M.R.P. ₹2,499)
   if (pid.includes('bundle-streetwear-duo') || pid.includes('streetwear-duo') || pid.includes('pack-of-2')) {
-    price = 1499;
-    compare = 2499;
+    if (price < 1499) price = 1499;
+    if (compare < 2499) compare = 2499;
   }
   // - bundle-founding-50 (Oversized Tee + Desk Mat): min ₹1,499 (M.R.P. ₹2,499)
   else if (pid.includes('bundle-founding-50') || pid.includes('founding-50')) {
-    price = 1499;
-    compare = 2499;
+    if (price < 1499) price = 1499;
+    if (compare < 2499) compare = 2499;
   }
   // - bundle-workstation (Hoodie + Desk Mat): min ₹1,899 (M.R.P. ₹3,199)
   else if (pid.includes('bundle-workstation') || pid.includes('workstation')) {
-    price = 1899;
-    compare = 3199;
+    if (price < 1899) price = 1899;
+    if (compare < 3199) compare = 3199;
   }
   else if (pid.includes('pack-of-3')) {
-    price = 1999;
-    compare = 3299;
+    if (price < 1999) price = 1999;
+    if (compare < 3299) compare = 3299;
+  }
+  // Any other bundle combos
+  else if (pid.startsWith('bundle-')) {
+    if (price < 1499) price = 1499;
+    if (compare < 2499) compare = 2499;
   }
   // 2. 350 GSM Contrast-Sleeve Varsity Jacket & Bomber Jacket: min ₹1,499 (M.R.P. ₹2,599)
   else if (
-    pid.includes('varsity') || pid.includes('bomber') ||
+    pid.includes('varsity') || pid.includes('bomber') || pid.includes('uvj') ||
     title.includes('varsity') || title.includes('bomber')
   ) {
     if (price < 1499) price = 1499;
-    if (!compare || compare < 2599) compare = 2599;
+    if (compare < 2599) compare = 2599;
   }
   // 3. 380 GSM Heavyweight Winter Hoodie: min ₹1,399 (M.R.P. ₹2,299)
-  else if (pid.includes('hoodie') || title.includes('hoodie')) {
+  else if (pid.includes('hoodie') || title.includes('hoodie') || pid.includes('uhd') || pid.includes('uzhd')) {
     if (price < 1399) price = 1399;
-    if (!compare || compare < 2299) compare = 2299;
+    if (compare < 2299) compare = 2299;
   }
   // 4. 320 GSM Crewneck Sweatshirt & 320 GSM Heavyweight Joggers: min ₹1,099 (M.R.P. ₹1,899)
   else if (
     pid.includes('sweatshirt') || pid.includes('crewneck') || pid.includes('jogger') || pid.includes('sweatpant') ||
-    title.includes('sweatshirt') || title.includes('crewneck') || title.includes('jogger') || title.includes('sweatpant')
+    title.includes('sweatshirt') || title.includes('crewneck') || title.includes('jogger') || title.includes('sweatpant') ||
+    pid.includes('uss') || pid.includes('ujg')
   ) {
     if (price < 1099) price = 1099;
-    if (!compare || compare < 1899) compare = 1899;
+    if (compare < 1899) compare = 1899;
   }
   // 5. 240 GSM French Terry Oversized Tee, Vintage Acid-Wash Oversized Tee, T-Shirt Dress (64953512) & Men's Full-Sleeve Tee (64953648): min ₹949 (M.R.P. ₹1,699)
   else if (
-    pid.includes('64953648') || title.includes('full sleeve') || pid.includes('full-sleeve') ||
-    pid.includes('64953512') || pid.includes('t-shirt-dress') || pid.includes('maternity-dress') || title.includes('dress') ||
-    title.includes('french terry') || title.includes('terry') || pid.includes('terry') ||
-    title.includes('acid wash') || title.includes('acid-wash') || pid.includes('acid-wash') || pid.includes('acid_wash')
+    pid.includes('64953648') || pid.includes('32477737') || pid.includes('32476824') || pid.includes('mrnfs') ||
+    title.includes('full sleeve') || pid.includes('full-sleeve') ||
+    pid.includes('64953512') || pid.includes('32476756') || pid.includes('32476736') || pid.includes('t-shirt-dress') || pid.includes('maternity-dress') || title.includes('dress') ||
+    title.includes('french terry') || title.includes('terry') || pid.includes('terry') || pid.includes('32476620') || pid.includes('ut27') ||
+    title.includes('acid') || pid.includes('acid') || pid.includes('32476438') || pid.includes('uc61') || pid.includes('ate') ||
+    title.includes('tie dye') || title.includes('tie-dye') || pid.includes('32476436') || pid.includes('ut58')
   ) {
     if (price < 949) price = 949;
-    if (!compare || compare < 1699) compare = 1699;
+    if (compare < 1699) compare = 1699;
   }
   // 6. 900×400mm Extended Gaming Desk Mat / Pad: min ₹799 (M.R.P. ₹1,399)
   else if (
     title.includes('gaming pad') || title.includes('desk mat') || title.includes('mouse pad') ||
-    pid.includes('desk-mat') || pid.includes('desk_mat')
+    pid.includes('desk-mat') || pid.includes('desk_mat') || pid.includes('mpad')
   ) {
     if (price < 799) price = 799;
-    if (!compare || compare < 1399) compare = 1399;
+    if (compare < 1399) compare = 1399;
   }
   // 7. Unisex Oversized Mesh Jersey (UJ35 / 64950694) & Men's Polo (220 GSM): min ₹799 (M.R.P. ₹1,399)
   else if (
-    pid.includes('64950694') || pid.includes('32476280') || pid.includes('uj35') ||
-    (title.includes('oversized') && title.includes('jersey')) || title.includes('mesh jersey') ||
-    pid.includes('64953576') || pid.includes('32476788') || title.includes('polo')
+    pid.includes('64950694') || pid.includes('32476280') || pid.includes('32476281') || pid.includes('uj35') || pid.includes('us02') ||
+    (title.includes('oversized') && title.includes('jersey')) || title.includes('mesh jersey') || title.includes('jersey') ||
+    pid.includes('64953576') || pid.includes('32476788') || title.includes('polo') || pid.includes('mp25')
   ) {
     if (price < 799) price = 799;
-    if (!compare || compare < 1399) compare = 1399;
+    if (compare < 1399) compare = 1399;
   }
   // 8. Women's Classic Tee, Crop Top, Tank Top, Men's Sleeveless Tee: min ₹699 (M.R.P. ₹1,199)
   else if (
-    ['64953748', '64953702', '64953664', '64953528', '64953488', '32476874', '32476851', '32476764', '32476832', '32476744', '32476681', '32476284', '64953600', '32476800'].some((k) => pid.includes(k)) ||
-    ["women's classic", "crop top", "tank top", "crop tank", "girl's crew", "boy's crew", "basic t-shirt", "dryfit", "sleeveless", "raglan", "ringer"].some((k) => title.includes(k))
+    ['64953748', '64953702', '64953664', '64953528', '64953488', '32476874', '32476851', '32476764', '32476722', '32476716', '32476832', '32476744', '64953600', '32476800'].some((k) => pid.includes(k)) ||
+    ["women's classic", "womens classic", "crop top", "tank top", "crop tank", "baby tee", "girl's crew", "boy's crew", "sleeveless", "muscle vest"].some((k) => title.includes(k))
   ) {
     if (price < 699) price = 699;
-    if (!compare || compare < 1199) compare = 1199;
+    if (compare < 1199) compare = 1199;
   }
   // 9. 240 GSM Unisex Oversized Standard T-Shirt & Unisex V-Neck (64953544): min ₹849 (M.R.P. ₹1,499)
   else if (
     pid.includes('64953544') || pid.includes('32476772') || title.includes('v neck') || title.includes('v-neck') ||
-    pid.includes('32476431') || title.includes('oversized standard') || title.includes('standard t-shirt')
+    pid.includes('32476431') || title.includes('oversized standard') || title.includes('standard t-shirt') ||
+    title.includes('standard crew') || title.includes('classic crew') || title.includes('raglan') || title.includes('ringer') ||
+    title.includes('basic t-shirt') || title.includes('dryfit') || title.includes('supima')
   ) {
     if (price < 849) price = 849;
-    if (!compare || compare < 1499) compare = 1499;
+    if (compare < 1499) compare = 1499;
   }
   // 10. Default fallback for standard tees and any other items: min ₹849 (M.R.P. ₹1,499)
   else {
     if (price < 849) price = 849;
-    if (!compare || compare < 1499) compare = 1499;
+    if (compare < 1499) compare = 1499;
+  }
+
+  if (compare <= price) {
+    compare = Math.max(compare, price + 500);
   }
 
   return {

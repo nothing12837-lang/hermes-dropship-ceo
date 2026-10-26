@@ -304,10 +304,10 @@ function SuccessInner() {
                   <span>⚡</span> Instant VIP Upgrade
                 </div>
                 <h3 className="text-base sm:text-lg font-black text-neutral-950 tracking-tight">
-                  Upgrade to Prepaid UPI &amp; Save ₹49 COD Fee + Unlock Priority Air Dispatch
+                  Upgrade to Prepaid UPI &amp; Save ₹59 COD Fee + Unlock Priority Air Dispatch
                 </h3>
                 <p className="text-xs text-neutral-600 leading-relaxed max-w-xl">
-                  Skip the doorstep cash or QR scan hassle. Settle payment now via Google Pay, PhonePe, Paytm, or UPI to instantly waive the ₹49 COD courier surcharge and prioritize your parcel for the earliest Delhivery cargo flight.
+                  Skip the doorstep cash or QR scan hassle. Settle payment now via Google Pay, PhonePe, Paytm, or UPI to instantly waive the ₹59 COD courier surcharge and prioritize your parcel for the earliest Delhivery cargo flight.
                 </p>
                 <div className="flex flex-wrap items-center gap-3 pt-1 text-[11px] font-bold text-emerald-800">
                   <span className="flex items-center gap-1">✓ 100% RBI &amp; Razorpay 256-bit SSL Protected</span>
@@ -318,13 +318,13 @@ function SuccessInner() {
               <div className="flex flex-col sm:flex-row md:flex-col gap-2.5 w-full md:w-auto shrink-0">
                 <a
                   href={`https://wa.me/919118211860?text=${encodeURIComponent(
-                    `Namaste Rare Ember Atelier! 🙏\n\nI want to convert my COD Order #${session || orderId} (Total: ₹${total || orderTotal}) to Prepaid UPI to save the ₹49 COD courier fee and unlock priority air dispatch.\n\nPlease share the official UPI QR / payment link.`
+                    `Namaste Rare Ember Atelier! 🙏\n\nI want to convert my COD Order #${session || orderId} (Total: ₹${total || orderTotal}) to Prepaid UPI to save the ₹59 COD courier fee and unlock priority air dispatch.\n\nPlease share the official UPI QR / payment link.`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-5 py-3 rounded-xl bg-[#0D0D0F] hover:bg-neutral-800 text-white text-xs font-black uppercase tracking-wider text-center no-underline shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>📲</span> Pay via WhatsApp UPI (Save ₹49)
+                  <span>📲</span> Pay via WhatsApp UPI (Save ₹59)
                 </a>
                 <Link
                   href={trackUrl}

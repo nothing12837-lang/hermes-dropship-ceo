@@ -469,28 +469,21 @@ export function expandBundleItems(items: any[]): any[] {
         qikinkSkuPrefix: 'MPad-900x400',
         qty: it.qty || 1,
       });
-    } else if (id.includes('bundle-creator-workstation')) {
+    } else if (id.includes('bundle-workstation') || id.includes('bundle-creator-workstation')) {
       expanded.push({
         ...it,
-        id: 'rare-ember-ember-wave-extended-desk-mat',
-        title: 'Rare Ember 900x400mm Extended Gaming Desk Mat',
-        qikinkSkuPrefix: 'MPad-900x400',
-        qty: it.qty || 1,
-      });
-      expanded.push({
-        ...it,
-        id: 'rare-ember-founding-builder-drop-shoulder-tee',
-        title: 'Rare Ember 240 GSM Creator Graphic Tee',
-        qikinkSkuPrefix: 'UOst',
+        id: 'rare-ember-midnight-ronin-380gsm-oversized-hoodie',
+        title: 'Rare Ember Midnight Ronin 380 GSM Oversized Hoodie',
+        qikinkSkuPrefix: 'UHd',
         color: 'Black',
         qty: it.qty || 1,
         size,
       });
       expanded.push({
         ...it,
-        id: 'rare-ember-3am-filter-coffee-matte-ceramic-mug',
-        title: 'Rare Ember Artisan Ceramic Coffee Mug',
-        qikinkSkuPrefix: 'CMg-11Oz-Bk',
+        id: 'rare-ember-ember-wave-extended-desk-mat',
+        title: 'Rare Ember 900x400mm Extended Gaming Desk Mat',
+        qikinkSkuPrefix: 'MPad-900x400',
         qty: it.qty || 1,
       });
     } else if (id.includes('bundle-winter-heavyweight')) {
@@ -759,7 +752,7 @@ export async function fulfillQikinkOrder(
         sku: mappedSku,
         quantity: String(it.qty || 1),
         price: String(Math.round(Number(it.price || order.total_amount / Math.max(1, items.length)))),
-        custom_neck_label: true,
+        custom_neck_label: ENABLE_CUSTOM_NECK_LABEL,
       };
     }
 
@@ -799,7 +792,7 @@ export async function fulfillQikinkOrder(
       quantity: String(it.qty || 1),
       price: String(Math.round(Number(it.price || order.total_amount / Math.max(1, items.length)))),
       print_type_id: printTypeId,
-      custom_neck_label: isApparel ? true : undefined,
+      custom_neck_label: (isApparel && ENABLE_CUSTOM_NECK_LABEL) ? true : undefined,
       designs,
     };
   }));

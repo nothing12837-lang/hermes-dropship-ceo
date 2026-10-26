@@ -75,7 +75,7 @@ const BLANK_DEFAULT_COSTS: Record<string, number> = {
   CMg: 179.0,
 };
 
-function parsePriceNumber(raw: any, fallback = 649): number {
+function parsePriceNumber(raw: any, fallback = 849): number {
   if (typeof raw === 'number' && !Number.isNaN(raw)) return raw;
   if (typeof raw === 'string') {
     const match = raw.match(/\d+(\.\d+)?/);
@@ -134,7 +134,7 @@ export async function GET(req: NextRequest) {
     // Calculate recommended selling price and compare-at MRP
     let sellingPrice = existingProduct?.price || parsePriceNumber(rawMatch.selling_price, 0);
     if (!sellingPrice || sellingPrice <= baseCost) {
-      sellingPrice = Math.max(649, Math.round((baseCost * 1.65) / 10) * 10 - 1);
+      sellingPrice = Math.max(849, Math.round((baseCost * 1.65) / 10) * 10 - 1);
     }
     const compareAtPrice =
       existingProduct?.compareAtPrice ||
@@ -221,8 +221,8 @@ export async function GET(req: NextRequest) {
   // Synthesize a verified blank template preview so founder can import custom drop
   const defaultBlankSku = 'UOst';
   const defaultCost = 414.91;
-  const defaultSelling = 699;
-  const defaultCompare = 1299;
+  const defaultSelling = 849;
+  const defaultCompare = 1499;
   const defaultMargin = Math.round((defaultSelling - defaultCost) * 100) / 100;
   const defaultMarginPct = Math.round((defaultMargin / defaultSelling) * 100);
 

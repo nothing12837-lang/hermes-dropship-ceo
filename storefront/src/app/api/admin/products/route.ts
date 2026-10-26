@@ -471,7 +471,7 @@ export async function POST(req: NextRequest) {
   const blankSku = rawMatch?.blank_sku || body.blankSku || 'UOst';
   const baseCost = Number(rawMatch?.variants?.[0]?.updated_base_price || BLANK_DEFAULT_COSTS[blankSku] || 399);
 
-  const sellingPrice = body.sellingPrice ? Math.round(Number(body.sellingPrice)) : Math.max(649, Math.round((baseCost * 1.65) / 10) * 10 - 1);
+  const sellingPrice = body.sellingPrice ? Math.round(Number(body.sellingPrice)) : Math.max(849, Math.round((baseCost * 1.65) / 10) * 10 - 1);
   const compareAtPrice = body.compareAtPrice ? Math.round(Number(body.compareAtPrice)) : Math.round((sellingPrice * 1.65) / 50) * 50 - 1;
 
   // Build colors and color mockups

@@ -99,8 +99,9 @@ describe('Admin Product Controls & Qikink Verification API', () => {
       expect(json.ok).toBe(true);
       expect(json.verified.blankSku).toBe('UOst');
       expect(json.verified.isCustomSynthesized).toBe(true);
-      expect(json.verified.recommendedSellingPrice).toBe(699);
-      expect(json.verified.margin).toBeGreaterThan(200);
+      expect(json.verified.recommendedSellingPrice).toBe(849);
+      expect(json.verified.compareAtPrice).toBe(1499);
+      expect(json.verified.margin).toBeGreaterThan(400);
     });
   });
 

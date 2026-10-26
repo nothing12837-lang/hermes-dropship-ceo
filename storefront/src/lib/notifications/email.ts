@@ -294,8 +294,8 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
       </td>
       <td style="padding: 10px 8px; text-align: center; font-family: monospace; font-size: 12px; color: #525252;">9968</td>
       <td style="padding: 10px 8px; text-align: center; color: #525252; font-size: 13px;">1</td>
-      <td style="padding: 10px 8px; text-align: right; color: #525252; font-size: 13px;">₹49.00</td>
-      <td style="padding: 10px 8px; text-align: right; font-weight: bold; color: #161311; font-size: 13px;">₹49.00</td>
+      <td style="padding: 10px 8px; text-align: right; color: #525252; font-size: 13px;">₹59.00</td>
+      <td style="padding: 10px 8px; text-align: right; font-weight: bold; color: #161311; font-size: 13px;">₹59.00</td>
     </tr>
   ` : '';
 
@@ -417,7 +417,7 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
                     ${isCod ? `
                       <tr>
                         <td style="color: #737373; padding-bottom: 6px;">COD Doorstep Surcharge:</td>
-                        <td style="text-align: right; font-weight: bold; padding-bottom: 6px;">₹49.00</td>
+                        <td style="text-align: right; font-weight: bold; padding-bottom: 6px;">₹59.00</td>
                       </tr>
                     ` : ''}
                     <tr>

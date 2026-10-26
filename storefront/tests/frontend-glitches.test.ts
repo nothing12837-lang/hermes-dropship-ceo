@@ -10,7 +10,7 @@ import {
 } from '@/lib/data/products';
 import { isAllowedBlog, deduplicatePosts } from '@/app/blog/page';
 import { validateCouponCode } from '@/lib/festivals';
-import { ENABLE_CUSTOM_NECK_LABEL } from '@/lib/fulfillment/qikink';
+import { ENABLE_CUSTOM_NECK_LABEL, expandBundleItems } from '@/lib/fulfillment/qikink';
 import qp from '@/lib/data/qikink-products.json';
 
 describe('normalizeIndianState', () => {
@@ -354,6 +354,73 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
     const codFee = 59;
     const codTotal = subtotal + codFee - discount;
     expect(codTotal).toBe(908);
+  });
+
+  it('safely handles missing, null, undefined, 0, or NaN prices by applying correct floor', () => {
+    const noPrice = enforcePriceFloor({
+      id: 'custom-drop-empty',
+      title: 'Rare Ember Atelier Drop',
+    } as any);
+    expect(noPrice.price).toBe(849);
+    expect(noPrice.price_inr).toBe(849);
+    expect(noPrice.compareAtPrice).toBe(1499);
+
+    const zeroPrice = enforcePriceFloor({
+      id: 'custom-drop-zero',
+      title: 'Rare Ember Atelier Drop',
+      price: 0,
+      price_inr: 0,
+    } as any);
+    expect(zeroPrice.price).toBe(849);
+    expect(zeroPrice.price_inr).toBe(849);
+    expect(zeroPrice.compareAtPrice).toBe(1499);
+  });
+
+  it('preserves 38-45% profit margin on 240 GSM Unisex Raglan & Ringer Tees with ₹849 floor', () => {
+    const raglan = enforcePriceFloor({
+      id: 'qikink-32476636-unisex-raglan-t-shirt',
+      title: 'Unisex Raglan T-Shirt — Namaste Hustle Graphic',
+      price: 699,
+    } as any);
+    expect(raglan.price).toBe(849);
+    expect(raglan.compareAtPrice).toBe(1499);
+
+    const ringer = enforcePriceFloor({
+      id: 'qikink-32476299-unisex-ringer-t-shirt',
+      title: 'Unisex Ringer T-Shirt — Urban Retro Graphic',
+      price: 699,
+    } as any);
+    expect(ringer.price).toBe(849);
+    expect(ringer.compareAtPrice).toBe(1499);
+  });
+
+  it('expands bundle-workstation into 380 GSM Heavyweight Hoodie and 900x400mm Desk Mat', () => {
+    const bundle = [{ id: 'bundle-workstation', qty: 1, size: 'XL' }];
+    const items = expandBundleItems(bundle);
+    expect(items.length).toBe(2);
+
+    const hoodie = items.find((i) => i.qikinkSkuPrefix === 'UHd');
+    expect(hoodie).toBeDefined();
+    expect(hoodie?.size).toBe('XL');
+    expect(hoodie?.title).toContain('380 GSM Oversized Hoodie');
+
+    const mat = items.find((i) => i.qikinkSkuPrefix === 'MPad-900x400');
+    expect(mat).toBeDefined();
+    expect(mat?.title).toContain('Desk Mat');
+  });
+
+  it('enforces updated bundle coupon minimum order requirements', () => {
+    // DUO99 requires 1499
+    expect(validateCouponCode('DUO99', 899).valid).toBe(false);
+    expect(validateCouponCode('DUO99', 1499).valid).toBe(true);
+
+    // BUILDER99 requires 1499
+    expect(validateCouponCode('BUILDER99', 899).valid).toBe(false);
+    expect(validateCouponCode('BUILDER99', 1499).valid).toBe(true);
+
+    // BUNDLE150 requires 1899
+    expect(validateCouponCode('BUNDLE150', 1199).valid).toBe(false);
+    expect(validateCouponCode('BUNDLE150', 1899).valid).toBe(true);
   });
 });
 

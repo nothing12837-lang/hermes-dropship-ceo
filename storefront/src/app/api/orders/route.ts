@@ -567,7 +567,7 @@ export async function POST(req: NextRequest) {
     // Automated Alert to Store Owner on Telegram
     await notifyTelegramOrder({
       id: finalOrderId,
-      total: finalTotal,
+      total: chargedTotal,
       paymentMethod,
       email,
       name: body.name,

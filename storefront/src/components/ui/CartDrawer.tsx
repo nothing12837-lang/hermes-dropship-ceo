@@ -511,19 +511,19 @@ export default function CartDrawer() {
                   <span className="flex items-center gap-1.5">
                     <span>⚡</span>
                     <span>
-                      {subtotal >= 499
+                      {subtotal >= 699
                         ? 'Unlocked: FREE Pan-India Express Air Shipping & ₹30 UPI Off'
-                        : `Add ${formatCartPrice(Math.max(0, 499 - subtotal))} more for FREE Express Air Shipping`}
+                        : `Add ${formatCartPrice(Math.max(0, 699 - subtotal))} more for FREE Express Air Shipping`}
                     </span>
                   </span>
                   <span className="text-[10px] font-mono text-emerald-700 font-extrabold">
-                    {Math.min(100, Math.round((subtotal / 499) * 100))}%
+                    {Math.min(100, Math.round((subtotal / 699) * 100))}%
                   </span>
                 </div>
                 <div className="w-full h-1.5 rounded-full bg-neutral-200/80 overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-amber-500 to-emerald-500 rounded-full transition-all duration-500 ease-out"
-                    style={{ width: `${Math.min(100, Math.round((subtotal / 499) * 100))}%` }}
+                    style={{ width: `${Math.min(100, Math.round((subtotal / 699) * 100))}%` }}
                   />
                 </div>
               </div>

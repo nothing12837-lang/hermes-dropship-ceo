@@ -160,6 +160,10 @@ export async function POST(req: NextRequest) {
       subtotal += unitPrice * item.qty;
     }
 
+    // COD Handling & Verification Fee: ₹59 (waived 100% on Prepaid UPI/Cards)
+    const isCod = (body as any).payment_method === 'cod';
+    const codFee = isCod ? 59 : 0;
+
     // Apply Coupon Code if verified (block stacking on bundles)
     let discountAmount = 0;
     let verifiedCoupon = '';
@@ -170,6 +174,11 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Coupon codes cannot be applied to combo bundles.' }, { status: 400 });
       }
       const rawCode = body.coupon_code.trim().toUpperCase();
+      if (isCod && rawCode === 'PREPAID30') {
+        return NextResponse.json({
+          error: 'The PREPAID30 coupon is exclusively valid for online prepaid orders.'
+        }, { status: 400 });
+      }
       if (rawCode.startsWith('CREDIT-') || rawCode.startsWith('RECREDIT-') || rawCode.startsWith('RE-CREDIT-')) {
         const creditCheck = await verifyStoreCreditCode(rawCode, supabase);
         if (!creditCheck.valid) {
@@ -194,9 +203,6 @@ export async function POST(req: NextRequest) {
       discountAmount = Math.min(Number(body.discount), maxAllowableAutoDiscount);
     }
 
-    // COD Handling & Verification Fee: ₹59 (waived 100% on Prepaid UPI/Cards)
-    const isCod = (body as any).payment_method === 'cod';
-    const codFee = isCod ? 59 : 0;
     const finalTotal = Math.max(1, subtotal - discountAmount + codFee);
 
     // Insert helper: tries the full schema.sql shape first, then falls back
