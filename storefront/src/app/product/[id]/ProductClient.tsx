@@ -1297,7 +1297,7 @@ export function ProductClient({ product }: Props) {
         return 'Crafted in Tirupur with premium 380 GSM combed cotton fleece, double-lined structured hood with matching drawcords, and archival DTF print execution.';
       }
       if (isHoodieOrSweatshirt) {
-        return 'Crafted in Tirupur with premium 380 GSM combed cotton fleece and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
+        return 'Crafted in Tirupur with premium 380 GSM combed cotton fleece and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day returns guarantee.';
       }
       if (isCropTopOrPolySpandex) {
         return 'Crafted in small batches at our Tirupur studio for everyday comfort and durability. Featuring 220 GSM 4-way stretch poly-spandex with vibrant, fade-proof all-over print artwork and tailored athletic stitching.';
@@ -1312,12 +1312,12 @@ export function ProductClient({ product }: Props) {
         return 'Triple-fired 330ml gloss ceramic stoneware with food-grade sublimation glaze. Microwave and dishwasher safe, packaged in shock-resistant protective thermocol casing.';
       }
       if (isKidsApparel) {
-        return 'Crafted in Tirupur with soft 180 GSM bio-washed combed cotton, gentle on young skin with hypoallergenic water-based inks and reinforced double-stitched hems. Dispatched via tier-1 domestic express couriers with 7-day doorstep replacement.';
+        return 'Crafted in Tirupur with soft 180 GSM bio-washed combed cotton, gentle on young skin with hypoallergenic water-based inks and reinforced double-stitched hems. Dispatched via tier-1 domestic express couriers with 7-day returns.';
       }
       if (isCottonTee || isApparel) {
-        return 'Crafted in Tirupur with premium 240 GSM super combed cotton and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
+        return 'Crafted in Tirupur with premium 240 GSM super combed cotton and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day returns guarantee.';
       }
-      return 'Crafted in Tirupur with premium materials and archival finishing. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day replacement guarantee.';
+      return 'Crafted in Tirupur with premium materials and archival finishing. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day returns guarantee.';
     })();
     return sanitizeRetailCopy(product.story || '', fallback);
   })();
@@ -1330,7 +1330,7 @@ export function ProductClient({ product }: Props) {
         'Zero-Irritation Tagless Care Label for All-Day Playground Comfort',
         'OEKO-TEX Certified Non-Toxic Archival Print with Zero Cracking',
         'Pre-Shrunk & Colorfast Treated to Withstand 50+ Rough Machine Washes',
-        'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
+        'Fast 2–4 Day Express Dispatch with 7-Day Returns',
       ];
     }
     if (isPenOrStationery) {
@@ -1350,7 +1350,7 @@ export function ProductClient({ product }: Props) {
         'Available in Ruled (Lined) & Unruled (Artist Plain) 120-Page Formats',
         'Twin-Loop Wire-O Metal Binding for Flat 360° Desktop Lay',
         'Precision Rounded Corner Cutting Prevents Backpack Scuffing',
-        'Pan-India 2–4 Day Express Dispatch with 7-Day Replacement Guarantee',
+        'Pan-India 2–4 Day Express Dispatch with 7-Day Returns Guarantee',
       ];
     }
     if (isJewelryOrTag) {
@@ -1370,7 +1370,7 @@ export function ProductClient({ product }: Props) {
         'Archival High-Density Print (Zero Cracking, Peeling, or Wash Fade)',
         'Dual Deep Interior Organizer Pockets for Phone, Keys & Water Bottle',
         'Machine Washable, High-Capacity Reusable Daily Utility Carry',
-        'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
+        'Fast 2–4 Day Express Dispatch with 7-Day Returns',
       ];
     }
     if (isHeadwear) {
@@ -1400,7 +1400,7 @@ export function ProductClient({ product }: Props) {
         'Archival Edge-to-Edge Dye Sublimation (Wash-Fast & Fade-Resistant)',
         'Stain-Resistant & Machine Washable Fabric',
         'Dispatched in Moisture-Proof Protective Mailer',
-        'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
+        'Fast 2–4 Day Express Dispatch with 7-Day Returns',
       ];
     }
     if (isBottomwear) {
@@ -1410,7 +1410,7 @@ export function ProductClient({ product }: Props) {
         'Heavy-Duty Metal-Tipped Drawcords for Customized Fit',
         'Pre-Shrunk & Silicone Bio-Washed for Zero Post-Wash Distortion',
         'Relaxed Streetwear Taper with Non-Binding Elastic Ankle Cuffs',
-        'Pan-India Express Delivery with 7-Day Doorstep Replacement Guarantee',
+        'Pan-India Express Delivery with 7-Day Returns Guarantee',
       ];
     }
     if (isSteelBottleOrTumbler) {
@@ -1440,7 +1440,7 @@ export function ProductClient({ product }: Props) {
         'Breathable Honeycomb Pique Weave for Daily Smart-Casual Rotation',
         'Pre-Shrunk & Colorfast Treated for 50+ Wash Longevity',
         'Precision Double-Needle Sleeve and Bottom Hemming',
-        'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
+        'Fast 2–4 Day Express Dispatch with 7-Day Returns',
       ];
     }
     if (isCrewneckSweatshirt) {
@@ -1479,7 +1479,7 @@ export function ProductClient({ product }: Props) {
         'Tailored Athletic Fit with Reinforced Anti-Chafe Flatlock Seams',
         'Quick-Drying & Moisture-Wicking Performance Fabric',
         'Non-Pilling & Shape-Retaining Elastic Memory',
-        'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
+        'Fast 2–4 Day Express Dispatch with 7-Day Returns',
       ];
     }
     if (isJerseyOrDryFit) {
@@ -1519,7 +1519,7 @@ export function ProductClient({ product }: Props) {
         'Precision Port Cutouts with Responsive Button Covers',
         'Qi Wireless Charging & MagSafe Compatible',
         'High-Resolution Sublimation Print Wrapping Around Sides',
-        'Scratch-Resistant Matte Finish with 7-Day Doorstep Replacement',
+        'Scratch-Resistant Matte Finish with 7-Day Returns',
       ];
     }
     if (isCoasterOrDecor) {
@@ -1539,7 +1539,7 @@ export function ProductClient({ product }: Props) {
         '1.25-Inch Lycra Ribbed Anti-Sag Neckband with Reinforced Collar',
         '1200 DPI Direct-to-Film (DTF) Archival Print with Zero Cracking',
         'Pre-Shrunk & Colorfast Treated for 50+ Wash Color Longevity',
-        'Fast 2–4 Day Express Dispatch with 100% Doorstep 7-Day Replacement',
+        'Fast 2–4 Day Express Dispatch with 7-Day Returns',
       ];
     }
     return [
@@ -1548,7 +1548,7 @@ export function ProductClient({ product }: Props) {
       'Strict Multi-Point Factory Inspection Before Packaging',
       '100% Genuine Certified Quality Assurance',
       'Dispatched in Protective Damage-Proof Courier Packaging',
-      'Fast 2–4 Day Pan-India Express Delivery with 7-Day Free Replacement',
+      'Fast 2–4 Day Pan-India Express Delivery with 7-Day Returns',
     ];
   })();
 
@@ -3593,10 +3593,10 @@ export function ProductClient({ product }: Props) {
               >
                 <div className="text-base mb-1">🛡️</div>
                 <div className="font-bold text-neutral-950 flex items-center justify-between">
-                  <span>7-Day Replacement</span>
-                  <span className="text-[10px] text-amber-600 font-bold">Claim Portal →</span>
+                  <span>7-Day Returns</span>
+                  <span className="text-[10px] text-amber-600 font-bold">Returns Portal →</span>
                 </div>
-                <div className="text-[11px] text-neutral-500">100% free doorstep reprint for sizing or defects</div>
+                <div className="text-[11px] text-neutral-500">Hassle-free 7-day returns & doorstep pickup</div>
               </Link>
               <div className="p-3 rounded-2xl bg-white border border-black/[0.06] shadow-xs">
                 <div className="text-base mb-1">🔒</div>

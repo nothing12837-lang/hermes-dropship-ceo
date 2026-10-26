@@ -122,8 +122,8 @@ export default function AboutPage() {
           <ScrollReveal delay={60}>
             <div className="p-6 bg-white border border-black/[0.08] h-full transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
               <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-widest block mb-2">Policy</span>
-              <span className="font-bold text-sm text-[#12100E] block mb-1">7-Day Replacements</span>
-              <span className="text-xs text-neutral-500">Hassle-free replacement for any size mismatch or defect.</span>
+              <span className="font-bold text-sm text-[#12100E] block mb-1">7-Day Returns</span>
+              <span className="text-xs text-neutral-500">Hassle-free 7-day returns for any defect or return request.</span>
             </div>
           </ScrollReveal>
           <ScrollReveal delay={120}>

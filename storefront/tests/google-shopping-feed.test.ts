@@ -56,7 +56,7 @@ describe('Google Shopping & Merchant Center Feed Engine', () => {
       expect(item).toContain('<g:service>Delhivery Express Air</g:service>');
       expect(item).toContain('<g:price>0.00 INR</g:price>');
       expect(item).toContain('<g:shipping_weight>');
-      expect(item).toContain('<g:return_policy_label>7_day_free_replacement</g:return_policy_label>');
+      expect(item).toContain('<g:return_policy_label>7_day_returns</g:return_policy_label>');
     }
   });
 

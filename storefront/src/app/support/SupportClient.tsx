@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const TICKET_CATEGORIES = [
   { id: 'tracking', label: 'Order Tracking & Courier Updates' },
-  { id: 'exchange', label: 'Size Exchange & Replacement (7-Day Free Doorstep)' },
+  { id: 'exchange', label: '7-Day Returns & Size Help' },
   { id: 'defect', label: 'Damaged / Defective Garment Received' },
   { id: 'payment', label: 'Payment Debited But Order Status Pending' },
   { id: 'custom', label: 'Bulk Order & Custom Drops Inquiry' },
@@ -123,7 +123,7 @@ export default function SupportClient() {
             Rare Ember Care Desk
           </h1>
           <p className="text-sm sm:text-base text-neutral-400 max-w-2xl leading-relaxed">
-            Direct customer assistance for orders, size exchanges, custom drops, and tracking inquiries. Raise a ticket, request a direct callback, or contact operations directly.
+            Direct customer assistance for orders, 7-day returns, custom drops, and tracking inquiries. Raise a ticket, request a direct callback, or contact operations directly.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-4 text-xs text-neutral-300">
@@ -131,7 +131,7 @@ export default function SupportClient() {
               <span className="text-[#FF4D24] font-bold">SLA:</span> Guaranteed Reply Within 12 Hours
             </span>
             <span className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded border border-white/10 font-mono text-[11px]">
-              <span className="text-[#FF4D24] font-bold">POLICY:</span> 7-Day Free Doorstep Replacement
+              <span className="text-[#FF4D24] font-bold">POLICY:</span> 7-Day Easy Returns
             </span>
             <span className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded border border-white/10 font-mono text-[11px]">
               <span className="text-[#FF4D24] font-bold">SECURE:</span> 256-Bit SSL Encrypted
@@ -350,7 +350,7 @@ export default function SupportClient() {
                   required
                   value={ticketSubject}
                   onChange={(e) => setTicketSubject(e.target.value)}
-                  placeholder="e.g. Size M too snug, request size exchange to L"
+                  placeholder="e.g. Size M too snug, request return or replacement to L"
                   className="w-full px-4 py-3 text-sm rounded-lg border border-black/10 bg-neutral-50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white transition-all"
                 />
               </div>
@@ -576,7 +576,7 @@ export default function SupportClient() {
               <p className="text-neutral-500 mt-0.5">Monday – Saturday: 9:00 AM – 8:00 PM IST (Sunday emergency escalations active)</p>
             </div>
             <div className="flex items-center gap-3">
-              <Link href="/returns" className="text-[#FF4D24] font-bold hover:underline">7-Day Free Replacement Policy →</Link>
+              <Link href="/returns" className="text-[#FF4D24] font-bold hover:underline">7-Day Easy Returns Policy →</Link>
               <span className="text-neutral-300">•</span>
               <Link href="/track" className="text-neutral-900 font-bold hover:underline">Track Courier Live →</Link>
             </div>

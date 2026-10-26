@@ -574,7 +574,7 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                     },
                     {
                       title: 'Delivered to Doorstep',
-                      desc: 'Handed over at doorstep. 7-Day Free Replacement Guarantee active.',
+                      desc: 'Handed over at doorstep. 7-Day Easy Returns Guarantee active.',
                       label: 'Doorstep',
                     },
                   ];
@@ -1135,16 +1135,16 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                         </div>
                       )}
 
-                      {/* 7-Day Free Replacement Guarantee Banner */}
+                      {/* 7-Day Easy Returns Guarantee Banner */}
                       <div className="mt-5 pt-4 border-t border-black/[0.06] flex items-center justify-between flex-wrap gap-3">
                         <div className="text-xs text-neutral-500 flex items-center gap-2">
-                          <span>Protected by Rare Ember 7-Day Free Replacement Guarantee</span>
+                          <span>Protected by Rare Ember 7-Day Easy Returns Guarantee</span>
                         </div>
                         <Link
                           href={`/returns?order_id=${encodeURIComponent(o.id)}&email=${encodeURIComponent(o.email)}`}
                           className="no-print px-4 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-900 text-xs font-bold transition-all no-underline inline-flex items-center gap-1.5"
                         >
-                          <span>Request Size Replacement or Resolution →</span>
+                          <span>Request 7-Day Return or Resolution →</span>
                         </Link>
                       </div>
                     </div>
@@ -1425,7 +1425,7 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                 {/* Legal Footer & Signatory */}
                 <div className="mt-8 pt-5 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-neutral-500">
                   <div>
-                    <p className="font-bold text-neutral-700">Protected by Rare Ember 7-Day Doorstep Replacement Guarantee</p>
+                    <p className="font-bold text-neutral-700">Protected by Rare Ember 7-Day Easy Returns Guarantee</p>
                     <p className="mt-0.5">This is a system-generated official retail bill. Certified for domestic delivery.</p>
                   </div>
                   <div className="text-right flex flex-col items-end">

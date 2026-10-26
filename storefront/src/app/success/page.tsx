@@ -95,7 +95,7 @@ function SuccessInner() {
         stageNum: 5,
         title: 'Doorstep Delivery',
         timing: `Est. Delivery: +3 to 5 Days (${fmt(d5)})`,
-        desc: 'Backed by our 7-Day Zero-Question Size Replacement Guarantee.',
+        desc: 'Backed by our 7-Day Easy Returns Guarantee.',
         isActive: false,
         isDone: false,
         icon: '📦',
@@ -290,7 +290,7 @@ function SuccessInner() {
             </span>
             <span className="px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center gap-1.5">
               <span className="text-emerald-400 font-bold">✓</span>
-              <span>7-Day Free Size Exchange Protected</span>
+              <span>7-Day Easy Returns Protected</span>
             </span>
           </div>
         </div>

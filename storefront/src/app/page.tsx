@@ -11,7 +11,7 @@ export const metadata = {
   title: {
     absolute: 'Rare Ember — Independent Heavyweight Streetwear & Graphic Drops',
   },
-  description: '240 GSM combed cotton streetwear, full sleeve silhouettes & original graphic drops. Tailored in India, dispatched via express air with 7-day doorstep replacements.',
+  description: '240 GSM combed cotton streetwear, full sleeve silhouettes & original graphic drops. Tailored in India, dispatched via express air with 7-day returns.',
 };
 
 function toCard(p: Product, rank?: number) {
@@ -58,13 +58,13 @@ const CATEGORY_TABS = [
 const ASSURANCES = [
   {
     icon: Truck,
-    title: 'Express Air Dispatch',
-    desc: 'Pan-India 2–4 business days via BlueDart & Delhivery Air. Standard delivery included in all prices.',
+    title: 'Express Air Delivery (2–4 Days)',
+    desc: 'Pan-India 2–4 business days via BlueDart & Delhivery Air. Express air dispatch included in all prices.',
   },
   {
     icon: ShieldCheck,
-    title: '7-Day Doorstep Replacement',
-    desc: 'Hassle-free size exchanges and print defect replacements directly at your door.',
+    title: '7-Day Easy Returns',
+    desc: 'Hassle-free 7-day doorstep returns and defect replacements directly at your door.',
   },
   {
     icon: Banknote,
@@ -139,7 +139,7 @@ export default async function Home() {
               <span>•</span>
               <span>AIR DISPATCH INCLUDED</span>
               <span>•</span>
-              <span className="text-[#E04F33] font-bold">7-DAY DOORSTEP REPLACEMENTS</span>
+              <span className="text-[#E04F33] font-bold">7-DAY EASY RETURNS</span>
               <span>•</span>
               <span>BOX-FIT ARCHITECTURAL CUTS</span>
               <span>•</span>
@@ -187,60 +187,6 @@ export default async function Home() {
           </section>
         )}
 
-        {/* 4. EDITORIAL LOOKBOOK: THE CUT & FABRICATION */}
-        <ScrollReveal>
-          <section className="p-6 sm:p-10 rounded-2xl bg-[#F4EFEA] border border-black/[0.08]">
-            <div className="max-w-2xl mb-8">
-              <div className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">
-                Material &amp; Architecture
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-[#12100E]">
-                Streetwear Cuts Engineered to Hold Shape.
-              </h2>
-              <p className="text-xs sm:text-sm text-neutral-600 mt-1 leading-relaxed">
-                We reject thin fast-fashion fabrics that warp after two washes. Every piece is built around heavyweight domestic cotton with reinforced seams and pre-shrunk treatment.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="p-6 rounded-xl bg-white border border-black/[0.06] flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-                <div>
-                  <span className="text-xs font-mono font-bold text-[#FF4D24] uppercase tracking-wider">
-                    Silhouette 01
-                  </span>
-                  <h3 className="text-lg font-bold text-[#12100E] mt-1 mb-2">
-                    The 240 GSM Boxy Drop-Shoulder Tee
-                  </h3>
-                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
-                    Super-combed 100% bio-washed cotton. Features an extended drop-shoulder seam, wider chest proportions, and a dense 1.25-inch ribbed collar that doesn&apos;t bacon or sag.
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-black/[0.06] flex items-center justify-between text-xs font-bold text-neutral-700">
-                  <span>Fit: Relaxed Boxy</span>
-                  <span>Weight: 240 GSM Combed</span>
-                </div>
-              </div>
-
-              <div className="p-6 rounded-xl bg-white border border-black/[0.06] flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-                <div>
-                  <span className="text-xs font-mono font-bold text-[#FF4D24] uppercase tracking-wider">
-                    Silhouette 02
-                  </span>
-                  <h3 className="text-lg font-bold text-[#12100E] mt-1 mb-2">
-                    The 240 GSM Full Sleeve Graphic Tee
-                  </h3>
-                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
-                    Super-combed 100% bio-washed cotton engineered with snug 2-inch ribbed wrist cuffs and reinforced double-needle seams. Holds silhouette structure and zero-peel graphic vibrancy wash after wash.
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-black/[0.06] flex items-center justify-between text-xs font-bold text-neutral-700">
-                  <span>Fit: Drop-Shoulder Relaxed</span>
-                  <span>Weight: 240 GSM Combed</span>
-                </div>
-              </div>
-            </div>
-          </section>
-        </ScrollReveal>
 
         {/* 3. SECTION: WOMEN'S & ART EDITIONS */}
         {otherPrinted.length > 0 && (

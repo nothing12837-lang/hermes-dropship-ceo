@@ -103,7 +103,7 @@ export async function GET() {
         String(
           (p as any).description ||
             p.short ||
-            `${title} — Authentic Rare Ember atelier drop. Crafted with ${getMaterial(p)}. Pan-India express air delivery via Delhivery Air with Cash on Delivery and 7-day free replacement guarantee.`
+            `${title} — Authentic Rare Ember atelier drop. Crafted with ${getMaterial(p)}. Pan-India express air delivery via Delhivery Air with Cash on Delivery and 7-day returns.`
         )
       );
       const link = `${siteUrl}/product/${cleanSlug}`;
@@ -156,7 +156,7 @@ ${additionalImages ? additionalImages + '\n' : ''}      <g:brand>Rare Ember</g:b
         <g:min_transit_time>2</g:min_transit_time>
         <g:max_transit_time>4</g:max_transit_time>
       </g:shipping>
-      <g:return_policy_label>7_day_free_replacement</g:return_policy_label>
+      <g:return_policy_label>7_day_returns</g:return_policy_label>
     </item>`;
     })
     .join('\n');

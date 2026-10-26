@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const currentPrice = product.price_inr || product.price || 999;
   const description =
     product.short ||
-    `Get ${product.title} for ₹${currentPrice} at Rare Ember. 100% Super-Combed Bio-Washed Tirupur Cotton. Fast Pan-India Express Air Shipping via Delhivery Air with COD & Free 7-Day Size Replacement.`;
+    `Get ${product.title} for ₹${currentPrice} at Rare Ember. 100% Super-Combed Bio-Washed Tirupur Cotton. Fast Pan-India Express Air Shipping via Delhivery Air with COD & 7-Day Returns.`;
 
   const canonicalUrl = `${siteUrl}/product/${cleanSlug}`;
   const rawImage = product.image_url || '/flame-icon.png';

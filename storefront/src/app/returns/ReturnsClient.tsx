@@ -77,10 +77,10 @@ export function ReturnsClient() {
           Zero-Hassle 7-Day Guarantee
         </div>
         <h1 className="text-3xl sm:text-5xl font-black text-neutral-950 tracking-tight leading-tight">
-          7-Day Easy Replacement & Return Policy
+          7-Day Easy Returns Policy
         </h1>
         <p className="text-sm text-neutral-600 mt-3 leading-relaxed">
-          Wrong size? Defective print? Damaged in courier? We make it right immediately with <b>100% Free Doorstep Replacement</b> or full refund.
+          Wrong size? Defective print? Damaged in courier? We make it right immediately with <b>7-Day Easy Returns</b>, replacement, or full refund.
         </p>
       </div>
 
@@ -110,9 +110,9 @@ export function ReturnsClient() {
           <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-900 flex items-center justify-center text-xl font-black mb-4">
             03
           </div>
-          <h3 className="text-base font-bold text-neutral-950 mb-2">Free Fast Replacement</h3>
+          <h3 className="text-base font-bold text-neutral-950 mb-2">7-Day Return / Replacement</h3>
           <p className="text-xs text-neutral-600 leading-relaxed">
-            Our Tamil Nadu factory triggers an instant reprint and dispatches via BlueDart Express with 0 extra cost.
+            Our Tamil Nadu factory triggers an instant reprint or return resolution with 0 extra cost.
           </p>
         </div>
       </div>
@@ -125,7 +125,7 @@ export function ReturnsClient() {
           </div>
           <div>
             <h2 className="text-lg font-black text-neutral-950">
-              Submit Replacement / Return Request
+              Submit 7-Day Return Request
             </h2>
             <p className="text-xs text-neutral-500">
               Directly connected to our warehouse dispatch queue for 24-hour turnaround.
@@ -254,7 +254,7 @@ export function ReturnsClient() {
               disabled={submitting}
               className="w-full py-4 rounded-lg font-bold text-xs uppercase tracking-wider text-white bg-[#FF4D24] hover:bg-[#e03d15] active:scale-[0.99] transition-all cursor-pointer border-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {submitting ? 'Submitting Claim…' : 'Submit 7-Day Replacement Claim →'}
+              {submitting ? 'Submitting Request…' : 'Submit 7-Day Return Request →'}
             </button>
           </form>
         )}
@@ -264,7 +264,7 @@ export function ReturnsClient() {
       <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-8 border border-black/[0.06] shadow-xs mb-10 space-y-8">
         <div>
           <h2 className="text-lg font-black text-neutral-950 mb-2">
-            Why 7-Day Replacement instead of Traditional Returns?
+            Why 7-Day Returns Guarantee?
           </h2>
           <p className="text-xs text-neutral-600 leading-relaxed">
             All Rare Ember garments and creator drops are custom-produced on premium heavyweight blanks at our domestic print factory. Traditional returns take 10–14 days and cost customers reverse courier charges. Instead, our <b>Zero-Friction Replacement Guarantee</b> sends you a brand-new, freshly printed piece directly to your doorstep for free whenever there is a size mismatch, defect, or transit damage.

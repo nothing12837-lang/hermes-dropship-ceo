@@ -181,7 +181,7 @@ export default function CartPage() {
                 Proceed to Checkout (COD or UPI) →
               </Link>
               <div style={{ textAlign: 'center', color: '#887d73', fontSize: '0.78rem', fontWeight: 600 }}>
-                🛡️ 7-Day Doorstep Replacement Guarantee • Cash on Delivery Available
+                🛡️ 7-Day Returns Guarantee • Cash on Delivery Available
               </div>
             </div>
           </div>

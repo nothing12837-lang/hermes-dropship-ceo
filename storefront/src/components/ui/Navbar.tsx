@@ -27,7 +27,7 @@ const drawerLinks = [
   { href: '/custom-drops', label: 'Custom Studio' },
   { href: '/bulk-orders', label: 'Bulk & Factory Merch' },
   { href: '/track', label: 'Track Order' },
-  { href: '/returns', label: '7-Day Replacements' },
+  { href: '/returns', label: '7-Day Easy Returns' },
   { href: '/support', label: 'Customer Support' },
   { href: '/wishlist', label: 'Saved Items' },
 ];
@@ -90,110 +90,112 @@ export default function Navbar() {
       <header className="fixed top-0 left-0 right-0 z-[100]">
         {/* Top Announcement Bar */}
         <div className="bg-zinc-950 text-[#FAF8F5] text-[11px] py-1.5 px-3 text-center tracking-wide font-medium flex items-center justify-center gap-1.5 border-b border-white/5">
-          <span>⚡ ₹30 OFF ON UPI • FREE EXPRESS AIR DELIVERY • 7-DAY EASY SIZE EXCHANGE</span>
+          <span>⚡ ₹30 OFF ON UPI • FREE EXPRESS AIR DELIVERY • 7-DAY EASY RETURNS</span>
         </div>
 
         {/* Desktop Navbar (>= lg) */}
         <div
-          className="hidden lg:flex glass-strong h-16 px-6 md:px-8 items-center gap-6 transition-all duration-300 relative border-b border-black/[0.08]"
+          className="hidden lg:flex glass-strong h-16 transition-all duration-300 relative border-b border-black/[0.08]"
           style={{
             boxShadow: scrolled ? '0 4px 20px rgba(18,16,14,0.06)' : 'none',
           }}
         >
-          {/* Brand Logo & Name */}
-          <Link
-            href="/"
-            className="no-underline shrink-0 flex items-center gap-2.5 transition-transform active:scale-95 whitespace-nowrap group"
-          >
-            <Image
-              src="/flame-icon.png"
-              alt="Rare Ember"
-              width={26}
-              height={26}
-              className="object-contain shrink-0 transition-transform duration-300 group-hover:scale-105"
-              priority
-            />
-            <div className="flex flex-col">
-              <span className="whitespace-nowrap font-black text-lg text-[#0D0D0F] tracking-tight leading-tight">
-                Rare Ember
-              </span>
-              <span className="text-[9px] font-bold tracking-[0.2em] text-[#E04F33] uppercase leading-none">
-                Atelier
-              </span>
+          <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 md:px-8 flex items-center justify-between gap-6">
+            {/* Brand Logo & Name */}
+            <Link
+              href="/"
+              className="no-underline shrink-0 flex items-center gap-2.5 transition-transform active:scale-95 whitespace-nowrap group"
+            >
+              <Image
+                src="/flame-icon.png"
+                alt="Rare Ember"
+                width={26}
+                height={26}
+                className="object-contain shrink-0 transition-transform duration-300 group-hover:scale-105"
+                priority
+              />
+              <div className="flex flex-col">
+                <span className="whitespace-nowrap font-black text-lg text-[#0D0D0F] tracking-tight leading-tight">
+                  Rare Ember
+                </span>
+                <span className="text-[9px] font-bold tracking-[0.2em] text-[#E04F33] uppercase leading-none">
+                  Atelier
+                </span>
+              </div>
+            </Link>
+
+            {/* Desktop Search */}
+            <div className="flex flex-1 max-w-[340px]">
+              <SmartSearch />
             </div>
-          </Link>
 
-          {/* Desktop Search */}
-          <div className="flex flex-1 max-w-[360px]">
-            <SmartSearch />
-          </div>
+            {/* Desktop Navigation Links */}
+            <nav className="flex gap-6 text-[13px] font-bold text-neutral-800">
+              {links.map((l) => (
+                <Link
+                  key={l.href + l.label}
+                  href={l.href}
+                  className="text-[#0D0D0F]/80 no-underline hover:text-[#E04F33] transition-colors py-1 link-underline"
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
 
-          {/* Desktop Navigation Links */}
-          <nav className="flex gap-6 text-[13px] font-bold ml-auto text-neutral-800">
-            {links.map((l) => (
+            {/* Right Action Icons */}
+            <div className="flex gap-2 sm:gap-2.5 items-center shrink-0">
+              {/* Wishlist Link */}
               <Link
-                key={l.href + l.label}
-                href={l.href}
-                className="text-[#0D0D0F]/80 no-underline hover:text-[#E04F33] transition-colors py-1 link-underline"
+                href="/wishlist"
+                className="w-9 h-9 rounded-lg border border-black/10 bg-white/90 flex items-center justify-center no-underline text-sm relative hover:border-[#E04F33] transition-colors"
+                aria-label="Wishlist"
               >
-                {l.label}
+                <span>♡</span>
+                {wishCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-[#E04F33] text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">
+                    {wishCount}
+                  </span>
+                )}
               </Link>
-            ))}
-          </nav>
 
-          {/* Right Action Icons */}
-          <div className="flex gap-2 sm:gap-2.5 items-center shrink-0">
-            {/* Wishlist Link */}
-            <Link
-              href="/wishlist"
-              className="w-9 h-9 rounded-lg border border-black/10 bg-white/90 flex items-center justify-center no-underline text-sm relative hover:border-[#E04F33] transition-colors"
-              aria-label="Wishlist"
-            >
-              <span>♡</span>
-              {wishCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#E04F33] text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">
-                  {wishCount}
-                </span>
-              )}
-            </Link>
+              {/* Account / Login */}
+              <Link
+                href={accountLink}
+                aria-label={session ? 'Profile' : 'Login'}
+                className="text-xs font-bold no-underline text-[#0D0D0F] px-3 py-1.5 rounded-lg border border-black/10 bg-white/90 hover:border-black/30 transition-colors"
+              >
+                {session ? 'Account' : 'Sign In'}
+              </Link>
 
-            {/* Account / Login */}
-            <Link
-              href={accountLink}
-              aria-label={session ? 'Profile' : 'Login'}
-              className="text-xs font-bold no-underline text-[#0D0D0F] px-3 py-1.5 rounded-lg border border-black/10 bg-white/90 hover:border-black/30 transition-colors"
-            >
-              {session ? 'Account' : 'Sign In'}
-            </Link>
+              {/* Market Switcher */}
+              <button
+                onClick={() => {
+                  const next = market === 'IN' ? 'GLOBAL' : 'IN';
+                  setMarket(next);
+                  router.refresh();
+                }}
+                title={`Market: ${market === 'IN' ? 'India (INR)' : 'Global (USD)'}`}
+                className="text-xs font-bold px-2.5 py-1.5 rounded-lg border border-black/10 bg-white/90 text-[#0D0D0F] flex items-center gap-1.5 cursor-pointer hover:border-black/30 transition-colors"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[#059669] pulse-live-dot" />
+                <span>{market === 'IN' ? 'INR (₹)' : 'USD ($)'}</span>
+              </button>
 
-            {/* Market Switcher */}
-            <button
-              onClick={() => {
-                const next = market === 'IN' ? 'GLOBAL' : 'IN';
-                setMarket(next);
-                router.refresh();
-              }}
-              title={`Market: ${market === 'IN' ? 'India (INR)' : 'Global (USD)'}`}
-              className="text-xs font-bold px-2.5 py-1.5 rounded-lg border border-black/10 bg-white/90 text-[#0D0D0F] flex items-center gap-1.5 cursor-pointer hover:border-black/30 transition-colors"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#059669] pulse-live-dot" />
-              <span>{market === 'IN' ? 'INR (₹)' : 'USD ($)'}</span>
-            </button>
-
-            {/* Cart Trigger */}
-            <button
-              onClick={openCart}
-              className={`relative text-xs font-black px-4 py-2 rounded-lg cursor-pointer transition-all shine-hover animate-shimmer-sweep flex items-center gap-1.5 active:scale-95 ${
-                count > 0 ? 'btn-ember shadow-md' : 'btn-ink'
-              }`}
-            >
-              <span>Bag</span>
-              {count > 0 && (
-                <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-white text-[#E04F33] text-[10px] font-black flex items-center justify-center badge-pop">
-                  {count}
-                </span>
-              )}
-            </button>
+              {/* Cart Trigger */}
+              <button
+                onClick={openCart}
+                className={`relative text-xs font-black px-4 py-2 rounded-lg cursor-pointer transition-all shine-hover animate-shimmer-sweep flex items-center gap-1.5 active:scale-95 ${
+                  count > 0 ? 'btn-ember shadow-md' : 'btn-ink'
+                }`}
+              >
+                <span>Bag</span>
+                {count > 0 && (
+                  <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-white text-[#E04F33] text-[10px] font-black flex items-center justify-center badge-pop">
+                    {count}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
 

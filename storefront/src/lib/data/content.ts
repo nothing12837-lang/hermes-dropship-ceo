@@ -92,8 +92,8 @@ export const faqs = [
     a: 'Yes! Cash on Delivery is available across 29,000+ PIN codes in India. You only pay when the package arrives safely at your doorstep.',
   },
   {
-    q: 'What is your 7-Day Easy Replacement policy?',
-    a: 'We offer a 7-day hassle-free replacement policy. If an item arrives damaged, defective, or with a sizing mismatch, visit our /returns portal or email support@rareember.shop with your Order ID for an immediate free doorstep replacement.',
+    q: 'What is your 7-Day Easy Returns policy?',
+    a: 'We offer a 7-day hassle-free returns policy. If an item arrives damaged, defective, or with a sizing mismatch, visit our /returns portal or email support@rareember.shop with your Order ID for an immediate return or resolution.',
   },
   {
     q: 'How are your prices so competitive compared to retail stores?',

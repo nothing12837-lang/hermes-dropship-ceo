@@ -599,7 +599,7 @@ export default function InvoiceClient() {
                 We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.
               </p>
               <p>
-                🛡️ <strong>7-Day Free Replacement Guarantee:</strong> Valid for 7 days from delivery date against sizing discrepancies or stitching defects. Reach support@rareember.shop for instant doorstep pickup.
+                🛡️ <strong>7-Day Returns Guarantee:</strong> Valid for 7 days from delivery date against sizing discrepancies or stitching defects. Reach support@rareember.shop for instant doorstep returns.
               </p>
             </div>
 

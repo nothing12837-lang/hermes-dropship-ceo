@@ -366,7 +366,7 @@ export default function CartDrawer() {
                             </div>
                           )}
                           <div className="flex items-center gap-1 text-[10px] text-neutral-600 font-semibold mt-1">
-                            <span>7-Day Doorstep Replacement Guarantee</span>
+                            <span>7-Day Returns Guarantee</span>
                           </div>
                           <p className="text-ember font-extrabold mt-1">
                             {formatCartPrice(getItemPrice((d as any).product))}
@@ -473,10 +473,10 @@ export default function CartDrawer() {
             >
               <div className="bg-[#F4EFEA] rounded-xl p-3 mb-4 border border-black/[0.08]">
                 <p className="text-xs font-bold text-[#12100E]">
-                  7-Day Doorstep Replacement
+                  7-Day Returns
                 </p>
                 <p className="text-[11px] text-neutral-600 font-medium">
-                  Hassle-free size exchanges and insured air delivery.
+                  Hassle-free 7-day returns and express air delivery.
                 </p>
               </div>
 

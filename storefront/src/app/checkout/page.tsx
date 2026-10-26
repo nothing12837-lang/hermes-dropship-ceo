@@ -1682,7 +1682,7 @@ export default function CheckoutPage() {
                   <span className="text-neutral-600">•</span>
                   <span>🧶 Heavyweight Bio-Washed Cotton</span>
                   <span className="text-neutral-600">•</span>
-                  <span>🔄 Free 7-Day Size Swap</span>
+                  <span>🔄 7-Day Returns</span>
                 </div>
               </div>
 
@@ -1830,7 +1830,7 @@ export default function CheckoutPage() {
                 <div className="flex items-center justify-center gap-3 text-neutral-300 font-medium">
                   <span>256-Bit SSL Encrypted</span>
                   <span>•</span>
-                  <span>7-Day Replacement</span>
+                  <span>7-Day Returns</span>
                   <span>•</span>
                   <span>Insured Express Air</span>
                 </div>

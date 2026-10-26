@@ -220,7 +220,7 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
       '2x 240 GSM Heavyweight Oversized Drop-Shoulder Tees',
       '100% Super Combed Bio-Washed Cotton',
       'High-Density Archival Fade-Proof Prints',
-      '7-Day Doorstep Replacement Guarantee'
+      '7-Day Easy Returns Guarantee'
     ],
     price: 1199,
     price_inr: 1199,
@@ -250,7 +250,7 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
       '1x 240 GSM Heavyweight Oversized Drop-Shoulder Tee',
       '1x 900×400mm Extended Precision Micro-Weave Desk Mat',
       'Zero-Fray 360° Reinforced Edge Stitching',
-      '7-Day Doorstep Replacement Guarantee'
+      '7-Day Easy Returns Guarantee'
     ],
     price: 1199,
     price_inr: 1199,
@@ -280,7 +280,7 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
       '1x 900×400mm Extended Precision Desk Mat',
       '1x 240 GSM Combed Cotton Heavyweight Tee',
       '1x 330ml Microwave-Safe Stoneware Ceramic Mug',
-      '7-Day Doorstep Replacement Guarantee'
+      '7-Day Easy Returns Guarantee'
     ],
     price: 1399,
     price_inr: 1399,

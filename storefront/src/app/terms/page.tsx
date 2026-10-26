@@ -21,7 +21,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-lg font-bold text-neutral-950 mb-2">1. Overview & Agreement</h2>
               <p>
-                Welcome to Rare Ember (https://www.rareember.shop). By accessing our website, placing an order, or utilizing our services, you agree to be bound by these Terms of Service, our Privacy Policy, and our 7-Day Easy Replacement Policy.
+                Welcome to Rare Ember (https://www.rareember.shop). By accessing our website, placing an order, or utilizing our services, you agree to be bound by these Terms of Service, our Privacy Policy, and our 7-Day Easy Returns Policy.
               </p>
             </section>
 
@@ -49,9 +49,9 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-lg font-bold text-neutral-950 mb-2">5. Returns, Replacements & Refunds</h2>
+              <h2 className="text-lg font-bold text-neutral-950 mb-2">5. Returns & Refunds</h2>
               <p>
-                We offer a <b>7-Day Easy Replacement Policy</b>. If an item arrives damaged, defective, or incorrect, contact support@rareember.shop within 7 days of delivery with your Order ID for an immediate free replacement or resolution.
+                We offer a <b>7-Day Easy Returns Policy</b>. If an item arrives damaged, defective, or incorrect, contact support@rareember.shop within 7 days of delivery with your Order ID for an immediate return, replacement, or resolution.
               </p>
             </section>
 

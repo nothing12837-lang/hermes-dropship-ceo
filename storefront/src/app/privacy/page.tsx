@@ -57,7 +57,7 @@ export default function PrivacyPage() {
                 <li><b>Fulfillment of Contractual Obligations:</b> Manufacturing, tailoring, quality checking, and dispatching your streetwear orders.</li>
                 <li><b>Doorstep Logistics & Tracking:</b> Sharing delivery coordinates with integrated courier partners (e.g. BlueDart, Delhivery) and generating live AWB tracking updates.</li>
                 <li><b>Transaction Notifications:</b> Sending instant order confirmations, live dispatch updates, and delivery OTP verification via SMS/Email/WhatsApp.</li>
-                <li><b>Statutory & Tax Compliance:</b> Generating GST invoices, handling returns/replacements within our 7-day guarantee window, and maintaining statutory accounting records as per Indian laws.</li>
+                <li><b>Statutory & Tax Compliance:</b> Generating GST invoices, handling returns within our 7-day guarantee window, and maintaining statutory accounting records as per Indian laws.</li>
               </ul>
             </section>
 
@@ -105,7 +105,7 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-base font-bold text-neutral-950 mb-2">5. Data Retention & Secure Erasure</h2>
               <p className="text-xs text-neutral-600 leading-relaxed">
-                We retain personal data only for as long as necessary to fulfill your order, honor our 7-day doorstep replacement guarantee, and satisfy mandatory legal/tax requirements. After the statutory retention period, customer records are securely purged or irreversibly anonymized.
+                We retain personal data only for as long as necessary to fulfill your order, honor our 7-day returns guarantee, and satisfy mandatory legal/tax requirements. After the statutory retention period, customer records are securely purged or irreversibly anonymized.
               </p>
             </section>
 

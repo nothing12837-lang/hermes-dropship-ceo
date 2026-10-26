@@ -219,7 +219,7 @@ export async function sendOrderConfirmationEmail(payload: OrderEmailPayload): Pr
 
           <div style="border-top: 1px solid #f0ede8; padding-top: 20px; text-align: center; font-size: 11px; color: #a3a3a3; line-height: 1.5;">
             Need help? Reply to this email or chat with us on WhatsApp: <strong>+91 91182 11860</strong><br/>
-            Protected by Rare Ember 7-Day Free Replacement Guarantee • Bangalore, India
+            Protected by Rare Ember 7-Day Easy Returns Guarantee • Bangalore, India
           </div>
         </div>
       </body>
@@ -441,11 +441,11 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
             </a>
           </div>
 
-          <!-- Signatory & Replacement Guarantee -->
+          <!-- Signatory & Returns Guarantee -->
           <div style="border-top: 1px solid #f0ede8; padding-top: 20px; text-align: center; font-size: 11px; color: #a3a3a3; line-height: 1.6;">
             <strong>Authorized Signatory — Rare Ember Atelier Desk</strong><br/>
             This is an authentic, computer-generated Tax Invoice issued in compliance with Indian GST laws.<br/>
-            🛡️ <strong>7-Day Free Replacement Guarantee active.</strong> For any sizing or manufacturing assistance, WhatsApp: <strong>+91 91182 11860</strong>
+            🛡️ <strong>7-Day Easy Returns Guarantee active.</strong> For any sizing or manufacturing assistance, WhatsApp: <strong>+91 91182 11860</strong>
           </div>
 
         </div>
