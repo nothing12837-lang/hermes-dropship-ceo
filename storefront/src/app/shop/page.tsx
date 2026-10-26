@@ -11,7 +11,7 @@ import { resolveProductImage } from '@/lib/data/fallback-images';
 import { type ProductRow } from '@/lib/supabase';
 
 const TABS = [
-  { id: 'all', label: 'All Catalog', count: 33, hint: 'Complete Domestic Hub Drops' },
+  { id: 'all', label: 'All Catalog', count: 33, hint: 'Direct Sourced Drops' },
   ...SHOP_CATEGORIES,
 ];
 
@@ -89,15 +89,15 @@ function ShopInner() {
     <main className="page-top min-h-screen text-[#0D0D0F] pb-20">
       {/* Editorial Catalog Header */}
       <section className="bg-[#F3F0EA] border-b border-black/[0.08] py-8 sm:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 text-center">
-          <span className="text-xs font-mono font-bold text-[#E04F33] uppercase tracking-wider block mb-2">
+        <div className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 text-center">
+          <span className="text-xs sm:text-sm font-mono font-bold text-[#E04F33] uppercase tracking-wider block mb-2">
             Catalog &amp; Drops
           </span>
           <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#0D0D0F] tracking-tight">
             All Garments &amp; Graphic Drops
           </h1>
           <p className="text-neutral-600 text-xs sm:text-sm md:text-base leading-relaxed max-w-xl mx-auto mt-2 font-medium">
-            240 GSM combed cotton tees, full sleeve drops &amp; signature silhouettes. Dispatched pan-India from Tirupur Hub.
+            240 GSM combed cotton tees, full sleeve drops &amp; signature silhouettes. Directly sourced from verified makers with express air delivery included.
           </p>
 
           {/* Category Tabs */}
@@ -107,7 +107,7 @@ function ShopInner() {
                 key={c.id}
                 type="button"
                 onClick={() => setCat(c.id)}
-                className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs font-bold whitespace-nowrap cursor-pointer transition-all shrink-0 ${
+                className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-bold whitespace-nowrap cursor-pointer transition-all shrink-0 ${
                   cat === c.id
                     ? 'bg-[#12100E] text-white shadow-xs'
                     : 'bg-white text-neutral-700 border border-black/10 hover:border-black/30'
@@ -139,7 +139,7 @@ function ShopInner() {
               <button
                 type="button"
                 onClick={() => setStockFilter('all')}
-                className={`px-3 py-1.5 rounded-md text-xs font-bold cursor-pointer transition-all ${
+                className={`px-3 py-1.5 rounded-md text-xs sm:text-sm font-bold cursor-pointer transition-all ${
                   stockFilter === 'all' ? 'bg-[#12100E] text-white' : 'text-neutral-600'
                 }`}
               >
@@ -148,7 +148,7 @@ function ShopInner() {
               <button
                 type="button"
                 onClick={() => setStockFilter('in_stock')}
-                className={`px-3 py-1.5 rounded-md text-xs font-bold cursor-pointer transition-all flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 rounded-md text-xs sm:text-sm font-bold cursor-pointer transition-all flex items-center gap-1.5 ${
                   stockFilter === 'in_stock' ? 'bg-[#12100E] text-white' : 'text-neutral-600'
                 }`}
               >
@@ -161,22 +161,22 @@ function ShopInner() {
       </section>
 
       {/* Catalog Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-8 overflow-x-hidden">
+      <div className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 pt-8 overflow-x-hidden">
         <div className="flex items-center justify-between pb-3 mb-5 border-b border-zinc-200/80">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-[#E04F33] font-bold mb-0.5">
+            <div className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#E04F33] font-bold mb-0.5">
               Atelier Catalog
             </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-950 tracking-tight">
+            <h2 className="text-xl sm:text-3xl font-extrabold text-zinc-950 tracking-tight">
               {active.label}
             </h2>
           </div>
-          <span className="text-xs font-semibold text-neutral-500 bg-white px-2.5 py-1 rounded-full border border-black/10">
+          <span className="text-xs sm:text-sm font-semibold text-neutral-500 bg-white px-3 py-1 rounded-full border border-black/10">
             {list.length} {list.length === 1 ? 'drop' : 'drops'}
           </span>
         </div>
 
-        <motion.div layout className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+        <motion.div layout className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
           <AnimatePresence mode="popLayout">
             {list.map((p, i) => (
               <motion.div

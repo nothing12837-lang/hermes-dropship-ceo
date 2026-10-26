@@ -98,7 +98,7 @@ export default function Navbar() {
             boxShadow: scrolled ? '0 4px 20px rgba(18,16,14,0.06)' : 'none',
           }}
         >
-          <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 md:px-8 flex items-center justify-between gap-6">
+          <div className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto w-full px-4 sm:px-6 md:px-8 lg:px-12 flex items-center justify-between gap-6">
             {/* Brand Logo & Name */}
             <Link
               href="/"
@@ -128,7 +128,7 @@ export default function Navbar() {
             </div>
 
             {/* Desktop Navigation Links */}
-            <nav className="flex gap-6 text-[13px] font-bold text-neutral-800">
+            <nav className="flex gap-7 text-sm font-bold text-neutral-800">
               {links.map((l) => (
                 <Link
                   key={l.href + l.label}

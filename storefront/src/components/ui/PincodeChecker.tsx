@@ -67,7 +67,7 @@ export default function PincodeChecker() {
             serviceable: true,
             deliveryDate: calculateDeliveryDate(4),
             codAvailable: true,
-            stockStatus: 'Ready for Tirupur Hub Dispatch',
+            stockStatus: 'Ready for Express Air Dispatch',
           };
           setResult(checkRes);
           localStorage.setItem('rareember_pincode', clean);
@@ -136,7 +136,7 @@ export default function PincodeChecker() {
           </p>
         </div>
         <span className="text-[11px] font-semibold text-neutral-600 bg-neutral-100 px-2 py-0.5 rounded">
-          Tirupur Hub
+          Express Air Hub
         </span>
       </div>
 

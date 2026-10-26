@@ -239,7 +239,7 @@ export default function CheckoutPage() {
           serviceable: true,
           codAvailable: true,
           deliveryDate: '2-4 Days (Express Air)',
-          stockStatus: 'Ready to Dispatch (Tirupur Hub)',
+          stockStatus: 'Ready to Dispatch (Express Air)',
         }));
       } else {
         setPincodeInfo({

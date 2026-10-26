@@ -376,7 +376,7 @@ export default function InvoiceClient() {
               <p className="text-xs text-neutral-600 mt-2 leading-relaxed">
                 <strong>Rare Ember Apparel Atelier</strong> (Rare Ember Private Limited)<br />
                 Headquarters: Near Aerospace Park, Bagalur Main Road, Bangalore, Karnataka — 562107<br />
-                Manufacturing Hub: Tirupur Garment Complex, Tamil Nadu — 641602<br />
+                Sourcing Hub: Verified Domestic Maker Network<br />
                 Contact: <strong className="text-neutral-900">support@rareember.shop</strong> | WhatsApp: <strong>+91 91182 11860</strong><br />
                 Website: <span className="text-[#E04F33]">https://www.rareember.shop</span>
               </p>
@@ -448,7 +448,7 @@ export default function InvoiceClient() {
 
               <div className="mt-3 text-neutral-600 text-[11px] space-y-0.5">
                 <div><strong>State of Origin:</strong> Tamil Nadu (Code: 33)</div>
-                <div><strong>Fulfillment Hub:</strong> Tirupur Apparel DTF Production Plant</div>
+                <div><strong>Fulfillment Hub:</strong> Direct Verified Maker Facility</div>
               </div>
             </div>
           </div>
@@ -543,7 +543,7 @@ export default function InvoiceClient() {
                     </>
                   )}
                   <p className="text-[11px] text-neutral-500 mt-1 italic">
-                    Note: All goods are dispatched from Tirupur Hub. All taxes are inclusive in retail collectible value.
+                    Note: All goods are dispatched via express courier from verified domestic makers. All taxes are inclusive in retail collectible value.
                   </p>
                 </div>
 

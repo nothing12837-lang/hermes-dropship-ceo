@@ -40,7 +40,7 @@ function SuccessInner() {
     return `${startStr} – ${endStr}`;
   })();
 
-  // 5-Stage Tirupur production telemetry dates & exact specs
+  // 5-Stage production telemetry dates & exact specs
   const telemetryStages = (() => {
     const now = new Date();
     const d1 = new Date(now);
@@ -55,7 +55,7 @@ function SuccessInner() {
         stageNum: 1,
         title: 'Order & Size Specs Locked',
         timing: 'Active Now (Just Now)',
-        desc: 'Your exact chest & garment measurements are locked in our Tirupur queue.',
+        desc: 'Your exact chest & garment measurements are locked in our production queue.',
         isActive: true,
         isDone: false,
         icon: '🔒',
@@ -196,7 +196,7 @@ function SuccessInner() {
         <p className="text-neutral-600 text-sm md:text-base -mt-4 mb-6 leading-relaxed max-w-md mx-auto font-medium">
           {isCod ? (
             <>
-              Your Cash on Delivery order has been registered in the Tirupur fulfillment queue. Please keep{' '}
+              Your Cash on Delivery order has been registered in the verified fulfillment queue. Please keep{' '}
               <strong className="text-neutral-900 font-black">₹{total || orderTotal}</strong> ready in Cash or UPI QR scan upon delivery.
             </>
           ) : (
@@ -274,7 +274,7 @@ function SuccessInner() {
             </div>
             <div className="bg-white/[0.04] p-2.5 rounded-xl border border-white/5">
               <span className="text-[9px] uppercase font-mono text-neutral-400 block">Atelier Origin</span>
-              <span className="font-bold text-neutral-200 mt-0.5 block">Tirupur Hub, India</span>
+              <span className="font-bold text-neutral-200 mt-0.5 block">Verified Maker Network, India</span>
             </div>
           </div>
 
@@ -286,7 +286,7 @@ function SuccessInner() {
             </span>
             <span className="px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center gap-1.5">
               <span className="text-emerald-400 font-bold">✓</span>
-              <span>Bio-Washed Tirupur Grade-A Cotton</span>
+              <span>Bio-Washed Grade-A Combed Cotton</span>
             </span>
             <span className="px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center gap-1.5">
               <span className="text-emerald-400 font-bold">✓</span>
@@ -377,17 +377,17 @@ function SuccessInner() {
           <div className="mt-3 pt-3 border-t border-black/[0.04] flex items-center gap-2 text-xs text-neutral-600">
             <span>📲</span>
             <span>
-              Live courier tracking updates via <strong>SMS &amp; WhatsApp</strong> will activate upon physical Tirupur hub scan.
+              Live courier tracking updates via <strong>SMS &amp; WhatsApp</strong> will activate upon physical courier dispatch scan.
             </span>
           </div>
         </div>
 
-        {/* MODULE 3.2: Live 5-Stage Tirupur Atelier Production Telemetry */}
+        {/* MODULE 3.2: Live 5-Stage Atelier Production Telemetry */}
         <div className="mb-8 p-5 sm:p-6 rounded-3xl bg-white border border-black/[0.08] text-left shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h4 className="text-xs font-black uppercase tracking-wider text-neutral-900 flex items-center gap-2">
-                <span>🏭 Live Tirupur Atelier Production Telemetry</span>
+                <span>🏭 Live Atelier Production & Dispatch Telemetry</span>
               </h4>
               <p className="text-[11px] text-neutral-500 mt-0.5 font-medium">
                 Real-time 5-stage craftsmanship pipeline mapped to your order

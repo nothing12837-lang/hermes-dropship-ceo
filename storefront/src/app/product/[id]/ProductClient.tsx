@@ -1054,7 +1054,7 @@ export function ProductClient({ product }: Props) {
         weightPct: 96,
         weightDesc: 'Fast-Fashion Mall Hoodie: 220 GSM [Thin/Baggy] vs RareEmber Atelier: 380 GSM [Structured Heavyweight Drape, Zero See-Through]',
         climatePct: 82,
-        climateDesc: '100% Super-Combed Bio-Washed Tirupur Cotton Fleece — warm structured shell, breathable brushed interior',
+        climateDesc: '100% Super-Combed Bio-Washed Cotton Fleece — warm structured shell, breathable brushed interior',
         washPct: 99,
         washDesc: 'Pre-shrunk compacted yarn (0% shrinkage) + Industrial heat-cured DTF print that stretches without cracking or peeling',
         colorPct: 100,
@@ -1084,7 +1084,7 @@ export function ProductClient({ product }: Props) {
         weightPct: 84,
         weightDesc: 'Fast-Fashion Mall Sweatshirt: 200 GSM [Flawed Drape] vs RareEmber Atelier: 320 GSM [Structured Heavyweight Drape, Zero See-Through]',
         climatePct: 88,
-        climateDesc: '100% Super-Combed Bio-Washed Tirupur Cotton — cool against skin in Indian air-conditioned workspaces, structured on the outside',
+        climateDesc: '100% Super-Combed Bio-Washed Cotton — cool against skin in Indian air-conditioned workspaces, structured on the outside',
         washPct: 99,
         washDesc: 'Pre-shrunk compacted yarn (0% shrinkage) + Industrial heat-cured DTF print that stretches with the fabric without cracking or peeling.',
         colorPct: 100,
@@ -1113,7 +1113,7 @@ export function ProductClient({ product }: Props) {
       weightPct: 68,
       weightDesc: 'Fast-Fashion Mall Tee: 145 GSM [Thin/See-through] vs RareEmber Atelier: 240–380 GSM [Structured Heavyweight Drape, Zero See-Through]',
       climatePct: 95,
-      climateDesc: '100% Super-Combed Bio-Washed Tirupur Cotton — cool against skin in Indian humidity, structured on the outside',
+      climateDesc: '100% Super-Combed Bio-Washed Cotton — cool against skin in Indian humidity, structured on the outside',
       washPct: 99,
       washDesc: 'Pre-shrunk compacted yarn (0% shrinkage) + Industrial heat-cured DTF/Sublimation print that stretches with the fabric without cracking or peeling.',
       colorPct: 100,
@@ -1285,22 +1285,22 @@ export function ProductClient({ product }: Props) {
         return 'Crafted from 304 food-grade stainless steel with double-wall vacuum insulation. Keeps your drinks ice-cold for 24 hours or steaming hot for 12 hours with a 100% leak-proof lid and scratch-resistant laser engraving.';
       }
       if (isVarsityJacket) {
-        return 'Authentic collegiate streetwear silhouette crafted in Tirupur with premium 350 GSM heavyweight fleece, contrasting sleeves, dual welt pockets, and heavy-duty snap buttons.';
+        return 'Authentic collegiate streetwear silhouette crafted with premium 350 GSM heavyweight fleece, contrasting sleeves, dual welt pockets, and heavy-duty snap buttons.';
       }
       if (isPolo) {
         return 'Crafted from 220 GSM super combed cotton pique with a structured ribbed collar, two-button front placket, and clean regular streetwear fit for all-day comfort.';
       }
       if (isCrewneckSweatshirt) {
-        return 'Crafted in Tirupur with 320 GSM super combed cotton French Terry fleece. Zero hood for a clean boxy drape with durable derby ribbed collar, cuffs, and hem.';
+        return 'Crafted with 320 GSM super combed cotton French Terry fleece. Zero hood for a clean boxy drape with durable derby ribbed collar, cuffs, and hem.';
       }
       if (isHoodie) {
-        return 'Crafted in Tirupur with premium 380 GSM combed cotton fleece, double-lined structured hood with matching drawcords, and archival DTF print execution.';
+        return 'Crafted with premium 380 GSM combed cotton fleece, double-lined structured hood with matching drawcords, and archival DTF print execution.';
       }
       if (isHoodieOrSweatshirt) {
-        return 'Crafted in Tirupur with premium 380 GSM combed cotton fleece and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day returns guarantee.';
+        return 'Crafted with premium 380 GSM combed cotton fleece and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day returns guarantee.';
       }
       if (isCropTopOrPolySpandex) {
-        return 'Crafted in small batches at our Tirupur studio for everyday comfort and durability. Featuring 220 GSM 4-way stretch poly-spandex with vibrant, fade-proof all-over print artwork and tailored athletic stitching.';
+        return 'Crafted in small batches for everyday comfort and durability. Featuring 220 GSM 4-way stretch poly-spandex with vibrant, fade-proof all-over print artwork and tailored athletic stitching.';
       }
       if (isJerseyOrDryFit) {
         return 'Authentic breathable mesh athletic jersey engineered for pitch performance and streetwear layering. Features rich sublimation graphics, lightweight ventilation, and durable athletic seams.';
@@ -1312,12 +1312,12 @@ export function ProductClient({ product }: Props) {
         return 'Triple-fired 330ml gloss ceramic stoneware with food-grade sublimation glaze. Microwave and dishwasher safe, packaged in shock-resistant protective thermocol casing.';
       }
       if (isKidsApparel) {
-        return 'Crafted in Tirupur with soft 180 GSM bio-washed combed cotton, gentle on young skin with hypoallergenic water-based inks and reinforced double-stitched hems. Dispatched via tier-1 domestic express couriers with 7-day returns.';
+        return 'Crafted with soft 180 GSM bio-washed combed cotton, gentle on young skin with hypoallergenic water-based inks and reinforced double-stitched hems. Dispatched via tier-1 domestic express couriers with 7-day returns.';
       }
       if (isCottonTee || isApparel) {
-        return 'Crafted in Tirupur with premium 240 GSM super combed cotton and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day returns guarantee.';
+        return 'Crafted with premium 240 GSM super combed cotton and archival DTF print execution. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day returns guarantee.';
       }
-      return 'Crafted in Tirupur with premium materials and archival finishing. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day returns guarantee.';
+      return 'Crafted with premium materials and archival finishing. Dispatched via tier-1 domestic express couriers (BlueDart & Delhivery) with comprehensive 7-day returns guarantee.';
     })();
     return sanitizeRetailCopy(product.story || '', fallback);
   })();
@@ -1715,22 +1715,16 @@ export function ProductClient({ product }: Props) {
 
   return (
     <main className="page-top pb-28 md:pb-12" style={{ background: '#fffbf5', minHeight: '100vh' }}>
-      <div style={{ maxWidth: '72rem', margin: '0 auto', padding: 'clamp(1rem, 3vw, 2rem)' }}>
+      <div className="max-w-[1560px] 2xl:max-w-[1720px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-4">
         <Link href="/shop" style={{ color: '#8a7b6b', fontWeight: 700, textDecoration: 'none' }}>
           ← Explore Catalog
         </Link>
 
         <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%, 320px),1fr))',
-            gap: 'clamp(1.25rem, 3vw, 2.5rem)',
-            marginTop: '1.25rem',
-            alignItems: 'start',
-          }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mt-5 items-start"
         >
           {/* Multi-Image Interactive Gallery (Sticky on Desktop Scroll) */}
-          <div className="lg:sticky lg:top-24 lg:self-start" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div className="lg:sticky lg:top-24 lg:self-start lg:col-span-6 2xl:col-span-7" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div
               style={{
                 aspectRatio: '1',
@@ -2119,7 +2113,7 @@ export function ProductClient({ product }: Props) {
           )}
           </div>
 
-          <div>
+          <div className="lg:col-span-6 2xl:col-span-5">
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
               <span
                 style={{
@@ -2182,7 +2176,7 @@ export function ProductClient({ product }: Props) {
                 <div className="flex flex-wrap items-center gap-2 mt-3 text-xs">
                   {!isOutOfStock ? (
                     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/5 text-neutral-800 font-semibold border border-black/10">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" /> In Stock • Ready for Tirupur Dispatch
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" /> In Stock • Ready for Express Air Dispatch
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-rose-50 text-rose-800 font-bold border border-rose-200">
@@ -3408,7 +3402,7 @@ export function ProductClient({ product }: Props) {
 
                 {/* Dispatch Reassurance */}
                 <div className="flex items-center justify-center gap-1.5 text-xs text-neutral-600 font-medium text-center">
-                  <span>Dispatched direct from Tirupur Hub • 2–4 Business Days (Express Air Included)</span>
+                  <span>Dispatched direct from verified domestic makers • 2–4 Business Days (Express Air Included)</span>
                 </div>
 
                 {/* Secondary Row: Quantity, Add to Bag, Wishlist */}

@@ -10,7 +10,7 @@ export const COPY = {
 
   trustBar: [
     { title: 'Express Air Dispatch', sub: '2–4 business days via BlueDart & Delhivery' },
-    { title: 'Tirupur Hub Production', sub: 'Bio-washed combed cotton & dense fleece' },
+    { title: 'Verified Seller Sourcing', sub: 'Bio-washed combed cotton & dense fleece' },
     { title: 'Transparent Pricing', sub: 'All taxes & air shipping included in price' },
     { title: '7-Day Easy Returns', sub: 'Hassle-free 7-day doorstep returns' },
   ],
@@ -18,7 +18,7 @@ export const COPY = {
   announcement: 'Pan-India 2–4 business days express air delivery • Shipping included in all prices • Cash on Delivery available',
 
   footer: {
-    blurb: 'Independent Indian streetwear. Engineered from heavyweight combed cotton and architectural cuts. Dispatched direct from Tirupur with zero middleman markup.',
+    blurb: 'Independent Indian streetwear. Engineered from heavyweight combed cotton and architectural cuts. Dispatched direct from verified makers with zero middleman markup.',
     cols: [
       {
         title: 'Collection',
@@ -57,7 +57,7 @@ export const COPY = {
       },
     ],
     bottom: '© 2026 Rare Ember. All rights reserved.',
-    signoff: 'Crafted & Dispatched from Tirupur Hub, Tamil Nadu, India.',
+    signoff: 'Crafted & Dispatched from Verified Domestic Makers in India.',
   },
 
   quiz: {

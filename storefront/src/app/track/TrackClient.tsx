@@ -984,7 +984,7 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                             </div>
                             <div className="bg-white p-3 rounded-xl border border-black/[0.06]">
                               <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">Origin Hub</span>
-                              <span className="font-bold text-neutral-900 block mt-0.5">Tirupur / Coimbatore GW</span>
+                              <span className="font-bold text-neutral-900 block mt-0.5">Verified Domestic Maker Hub</span>
                             </div>
                             <div className="bg-white p-3 rounded-xl border border-black/[0.06]">
                               <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">Destination</span>
@@ -1043,7 +1043,7 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                     Need Dispatch Assistance? Contact Atelier Support
                   </h3>
                   <p className="text-xs text-neutral-400 max-w-lg leading-relaxed">
-                    Direct access to our domestic Tirupur dispatch hub. Tap below to chat on WhatsApp or send an email with your {currentOrderId ? <strong>Order #{currentOrderId}</strong> : 'Order ID'} pre-filled.
+                    Direct access to our dedicated atelier dispatch team. Tap below to chat on WhatsApp or send an email with your {currentOrderId ? <strong>Order #{currentOrderId}</strong> : 'Order ID'} pre-filled.
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto shrink-0">
@@ -1129,7 +1129,7 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                     </p>
                     <p className="text-[11px] text-neutral-500 mt-1 leading-relaxed">
                       Rare Ember Apparel Atelier • Bangalore Hub<br />
-                      Tirupur Garment Complex, Tamil Nadu — 641602<br />
+                      Sourcing Hub: Verified Domestic Maker Network<br />
                       Contact: support@rareember.shop | +91 91182 11860
                     </p>
                   </div>

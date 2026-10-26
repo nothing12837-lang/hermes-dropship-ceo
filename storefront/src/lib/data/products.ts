@@ -215,7 +215,7 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
     slug: 'bundle-streetwear-duo',
     title: 'The Streetwear Duo — 2x Heavyweight Oversized Tees',
     short: 'Two signature 240 GSM super combed cotton oversized tees with fade-proof archival screen prints.',
-    story: 'Engineered for high-rotation streetwear. Crafted in Tirupur with premium 240 GSM bio-washed cotton and reinforced Lycra collar.',
+    story: 'Engineered for high-rotation streetwear. Crafted from premium 240 GSM bio-washed cotton and reinforced Lycra collar.',
     details: [
       '2x 240 GSM Heavyweight Oversized Drop-Shoulder Tees',
       '100% Super Combed Bio-Washed Cotton',
@@ -275,7 +275,7 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
     slug: 'bundle-workstation',
     title: 'The Creator Workstation Pack — Desk Mat + Tee + Ceramic Mug',
     short: 'Complete setup upgrade: 900×400mm desk mat, 240 GSM heavyweight tee, and 330ml stoneware ceramic mug.',
-    story: 'Your desk daily rotation in one coordinated package. Dispatched directly from our domestic Tirupur hub.',
+    story: 'Your desk daily rotation in one coordinated package. Dispatched directly from verified domestic makers.',
     details: [
       '1x 900×400mm Extended Precision Desk Mat',
       '1x 240 GSM Combed Cotton Heavyweight Tee',

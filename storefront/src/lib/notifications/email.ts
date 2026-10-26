@@ -175,7 +175,7 @@ export async function sendOrderConfirmationEmail(payload: OrderEmailPayload): Pr
           <div style="padding: 24px 0 16px;">
             <p style="font-size: 16px; font-weight: bold; margin: 0 0 8px; color: #161311;">Hi ${payload.name || 'Valued Customer'},</p>
             <p style="font-size: 13px; color: #525252; line-height: 1.6; margin: 0;">
-              Your order <strong>#${shortOrderId}</strong> has been confirmed and queued for production at our Tirupur manufacturing plant.
+              Your order <strong>#${shortOrderId}</strong> has been confirmed and queued for production with our verified domestic maker.
             </p>
           </div>
 

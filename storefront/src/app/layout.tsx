@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     default: "Rare Ember — Independent Heavyweight Streetwear & Graphic Drops",
     template: "%s | Rare Ember",
   },
-  description: "Independent Indian streetwear engineered from 240 GSM combed cotton and architectural cuts. Dispatched direct from Tirupur Hub with express air delivery included.",
+  description: "Independent Indian streetwear engineered from 240 GSM combed cotton and architectural cuts. Directly sourced from verified makers with express air delivery included.",
   keywords: [
     "Rare Ember",
     "Rare Ember store",

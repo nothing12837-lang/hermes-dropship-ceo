@@ -7,7 +7,7 @@ import { COPY } from '@/lib/data/copy';
 export default function Footer() {
   return (
     <footer className="w-full bg-[#12100E] text-white grain border-t border-white/10">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 relative z-10">
+      <div className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-6 md:px-10 lg:px-12 py-16 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8 md:gap-10">
           {/* Brand Column */}
           <div className="col-span-2 md:col-span-2 flex flex-col gap-4">

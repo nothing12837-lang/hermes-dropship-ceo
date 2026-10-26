@@ -105,7 +105,7 @@ export async function notifyTelegramOrder(order: {
     ``,
     waSection,
     `⚡ <b>QIKINK AUTOMATED FULFILLMENT:</b>`,
-    `• Order routed to Qikink Print-on-Demand Hub (Tirupur/Coimbatore)`,
+    `• Order routed to Qikink Print-on-Demand Hub (Domestic Hub)`,
     `• 100% White-Label Rare Ember packaging with custom packing slip`,
     `• 48-72h production turnaround & BlueDart/Delhivery dispatch tracking`,
     `• Manage in Founder Portal: <a href="https://www.rareember.shop/admin/orders">rareember.shop/admin/orders</a>`
@@ -198,7 +198,7 @@ export async function notifyTelegramCustomLead(lead: {
     `• Quantity: ${lead.quantity} units\n` +
     `• Event Date: ${lead.eventDate || 'Upcoming'}\n` +
     (lead.estimatedBudget ? `• Estimate: ₹${lead.estimatedBudget.toLocaleString('en-IN')}\n\n` : '\n') +
-    `Our Tirupur production desk is ready with fabric batches & DTF print slots. Shall I share the free 3D design proof? ✨`
+    `Our production desk is ready with fabric batches & DTF print slots. Shall I share the free 3D design proof? ✨`
   );
   const waLink = intlPhone ? `https://wa.me/${intlPhone}?text=${waText}` : '';
 
@@ -218,7 +218,7 @@ export async function notifyTelegramCustomLead(lead: {
     `⚡ <b>PRODUCTION DESK ACTION:</b>`,
     `1. Contact organizer within 2 hours.`,
     `2. Prepare 3D digital mockup on RareEmber blank templates.`,
-    `3. Collect 20% advance booking deposit to reserve Tirupur print slot.`
+    `3. Collect 20% advance booking deposit to reserve production slot.`
   ].filter(Boolean).join('\n');
 
   try {

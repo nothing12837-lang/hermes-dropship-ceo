@@ -986,7 +986,7 @@ async function notifyTelegramQikinkSuccess(orderId: string, qikinkOrderId: strin
     ``,
     `🆔 <b>Rare Ember Order:</b> <code>#${orderId}</code>`,
     `🏭 <b>Qikink Order ID:</b> <code>#${qikinkOrderId}</code>`,
-    `🚚 <b>Logistics:</b> BlueDart Air Express via Qikink Tirupur Hub`,
+    `🚚 <b>Logistics:</b> BlueDart Air Express via Domestic Hub`,
     `💳 <b>Payment Gateway:</b> ${isCod ? 'Cash on Delivery (COD)' : 'Prepaid'}`,
     `🔎 <b>Live Qikink Tracking:</b> <a href="https://courierupdates.com/?awb=">courierupdates.com</a>`,
     ``,

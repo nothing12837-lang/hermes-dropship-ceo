@@ -296,7 +296,7 @@ export function CustomDropsClient() {
       customTextColor: customMode === 'text' ? customTextColor : undefined,
       customFont: customMode === 'text' ? customFont : undefined,
       customImage: customMode === 'image' && customImage ? customImage : undefined,
-      customImageName: customImageName || (customText ? `Text: ${customText}` : 'Custom Tirupur Print'),
+      customImageName: customImageName || (customText ? `Text: ${customText}` : 'Custom Studio Print'),
     });
     setOrderNotice(`✓ Added custom ${currentBlank.name} (${selectedPlacement} • ${selectedLabColor}) to cart! Redirecting to checkout...`);
     setTimeout(() => {
@@ -386,7 +386,7 @@ export function CustomDropsClient() {
       <section className="relative overflow-hidden bg-[#12100E] text-white py-14 px-4 md:px-8 border-b border-white/10 grain">
         <div className="max-w-4xl mx-auto relative z-10 text-center space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-white/10 text-white/90 text-[11px] font-bold uppercase tracking-wider">
-            Custom Silhouettes &amp; Studio Printing • Tirupur Hub
+            Custom Silhouettes &amp; Studio Printing • Direct Studio Drops
           </div>
 
           <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
@@ -455,7 +455,7 @@ export function CustomDropsClient() {
             </div>
             <div className="flex items-center gap-2 self-start md:self-auto">
               <span className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono font-bold text-neutral-300">
-                Direct Tirupur Factory Queue
+                Direct Studio Sourcing Queue
               </span>
             </div>
           </div>
@@ -1037,7 +1037,7 @@ export function CustomDropsClient() {
               Lock Your Order / Request Sample Swatches
             </h3>
             <p className="text-xs md:text-sm text-neutral-500 mt-1.5">
-              Fill in your details and our Tirupur production manager will send digital 3D mockups and fabric specs via WhatsApp within 2 hours.
+              Fill in your details and our production team will send digital 3D mockups and fabric specs via WhatsApp within 2 hours.
             </p>
           </div>
 
@@ -1136,9 +1136,9 @@ export function CustomDropsClient() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-6 rounded-xl bg-white border border-black/[0.08] space-y-3">
             <span className="font-mono text-xs font-bold text-[#FF4D24] uppercase tracking-wider block">01 / PRODUCTION</span>
-            <h4 className="font-bold text-sm text-neutral-900">Direct Tirupur Mill Output</h4>
+            <h4 className="font-bold text-sm text-neutral-900">Direct Seller Sourcing</h4>
             <p className="text-xs text-neutral-600 leading-relaxed">
-              No middleman brokers or retail markups. Direct manufacturing with partnered knitting and finishing mills in Tirupur.
+              No middleman brokers or retail markups. Direct manufacturing with partnered knitting and finishing mills with verified domestic makers.
             </p>
           </div>
 

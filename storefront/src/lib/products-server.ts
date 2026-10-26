@@ -67,7 +67,7 @@ export function cleanBrandSlug(rawSlug: string): string {
 export function cleanWholesaleDescription(text: string): string {
   if (!text) return '';
   let s = text
-    .replace(/^Sell full sleeve crop tops \(AOP\) with (?:Qikink|Rare Ember Studio)'s print-on-demand model\..*$/i, 'Crafted in small batches at our Tirupur studio for everyday comfort and durability. 220 GSM 4-way stretch poly-spandex with vibrant, fade-proof all-over print.')
+    .replace(/^Sell full sleeve crop tops \(AOP\) with (?:Qikink|Rare Ember Studio)'s print-on-demand model\..*$/i, 'Crafted in small batches for everyday comfort and durability. 220 GSM 4-way stretch poly-spandex with vibrant, fade-proof all-over print.')
     .replace(/^Design & sell custom dry fit t-shirts with quick-dry fabric.*$/i, 'Engineered for intense workouts and high-heat street sessions. Breathable, moisture-wicking quick-dry fabric with crisp sublimation graphics.')
     .replace(/^Design & sell custom jersey t-shirts in mesh fabric.*$/i, 'Authentic breathable mesh athletic jersey engineered for pitch performance and streetwear layering. Deep sublimation graphics and athletic seams.')
     .replace(/^Design & sell custom oversized jersey T-shirts.*$/i, 'Heavyweight oversized boxy jersey blending 90s basketball aesthetics with modern streetwear drape. Premium breathable mesh with fade-proof graphics.')
@@ -77,7 +77,7 @@ export function cleanWholesaleDescription(text: string): string {
     .replace(/\|\s*[A-Z0-9]{2,6}/gi, '')
     .replace(/(?:with\s+)?custom\s+(?:laser\s+engraving|printing|embroidery|engraving)\s+on\s+Rare\s+Ember\s+Studio,?\s*/gi, '')
     .replace(/on\s+Rare\s+Ember\s+Studio,?\s*/gi, '')
-    .replace(/with (?:Qikink|Rare Ember Studio)'s print-on-demand model\./gi, 'crafted with precision in our Tirupur studio.')
+    .replace(/with (?:Qikink|Rare Ember Studio)'s print-on-demand model\./gi, 'crafted with precision from verified domestic makers.')
     .replace(/,?\s*order\s+as\s+a\s+Rare\s+Ember\s+premium[^\n.]*/gi, '')
     .replace(/\b(?:no minimums|no MOQ|start your brand today|start selling)\b\.?/gi, 'crafted for daily rotation.')
     .replace(/,\s*blue\s*$/i, ', smooth blue ballpoint ink.')
@@ -152,7 +152,7 @@ function mapRowToProduct(r: ProductRow): Product {
     reviews: Number(r.reviews ?? 0),
     category: toCategory(r.category ?? 'general'),
     market: ((r as any).market as 'IN' | 'GLOBAL') || 'GLOBAL',
-    supplier: (r as any).supplier || 'RareEmber™ Tirupur Studio',
+    supplier: (r as any).supplier || 'RareEmber™ Direct Studio',
     is_trending: Boolean(r.is_trending),
     is_new: Boolean(r.is_new),
     image_url: resolveProductImage(r.id, r.image_url),

@@ -61,7 +61,7 @@ export const INDIAN_FESTIVALS: ScheduledFestival[] = [
     id: 'republic_day',
     name: 'Republic Day Freedom Drop',
     greeting: '🇮🇳 Republic Day Grand Freedom Festival!',
-    subheading: 'Special domestic curated deals direct from Tirupur design studio with Pan-India COD.',
+    subheading: 'Special domestic curated deals direct from verified domestic makers with Pan-India COD.',
     couponCode: 'FREEDOM15',
     discountDescription: '15% OFF across entire store',
     discountType: 'percentage',

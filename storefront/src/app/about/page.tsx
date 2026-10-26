@@ -17,7 +17,7 @@ export default function AboutPage() {
           <h1 className="hero-rise hero-rise-2 text-4xl md:text-6xl font-black tracking-tight text-[#12100E] leading-[1.08]">
             Heavyweight Cotton. <br />
             Boxy Silhouettes. <br />
-            Constructed in Tirupur.
+            Sourced Directly from Verified Makers.
           </h1>
 
           <p className="hero-rise hero-rise-3 text-neutral-600 text-base md:text-lg mt-6 leading-relaxed font-normal max-w-2xl">
@@ -35,8 +35,8 @@ export default function AboutPage() {
             },
             {
               num: '02',
-              title: 'Tirupur Craft Production',
-              desc: 'Manufactured directly in India’s textile heartland. Flatlock and twin-needle edge finishing with 1x1 lycra-ribbed neckbands that resist stretching.',
+              title: 'Direct Verified Sourcing',
+              desc: 'Sourced directly from verified domestic makers. Flatlock and twin-needle edge finishing with 1x1 lycra-ribbed neckbands that resist stretching.',
             },
             {
               num: '03',

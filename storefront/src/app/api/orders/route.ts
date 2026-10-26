@@ -581,7 +581,7 @@ export async function POST(req: NextRequest) {
       },
     }).catch((e) => console.error('Customer email confirmation error:', e));
 
-    // Automated Order Dispatch to Qikink (Tirupur hub)
+    // Automated Order Dispatch to Qikink (Domestic hub)
     // ONLY dispatch genuine customer orders; test/temp orders are strictly blocked.
     // COD orders are safely held in 'pending_cod' awaiting WhatsApp address confirmation,
     // protecting against ₹345 RTO dead-inventory losses. Prepaid orders dispatch immediately!

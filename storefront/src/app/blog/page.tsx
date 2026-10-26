@@ -84,7 +84,7 @@ export default async function BlogPage() {
       <div style={{ maxWidth: '76rem', margin: '0 auto', padding: '2rem' }}>
         <ChapterHeading index="⚡" label="Atelier Journal" title="Streetwear, Craft &" accent="Creator Culture." />
         <p style={{ color: '#52453e', marginTop: '-1.5rem', marginBottom: '2.5rem', maxWidth: '600px' }}>
-          Actionable guides on 240/380 GSM garment engineering, Tirupur craftsmanship, campus merch, and minimalist creator workspaces.
+          Actionable guides on 240/380 GSM garment engineering, domestic maker craftsmanship, campus merch, and minimalist creator workspaces.
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: '1.4rem' }}>
           {posts.map((b) => (

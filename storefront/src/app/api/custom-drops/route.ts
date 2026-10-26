@@ -11,7 +11,7 @@ export async function GET() {
   return NextResponse.json({
     service: 'RareEmber B2B Custom Merch Engine',
     status: 'online',
-    location: 'Tirupur Domestic Manufacturing Hub',
+    location: 'Verified Domestic Maker Hub',
     capabilities: [
       '240 GSM Combed Cotton Heavyweight Tees',
       '240 GSM Full Sleeve Signature Graphic Drops',
@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       ok: true,
       leadId,
-      message: 'Custom merch inquiry received! Our Tirupur production desk will contact you via WhatsApp with free 3D design mockups within 2 hours.',
+      message: 'Custom merch inquiry received! Our dedicated production desk will contact you via WhatsApp with free 3D design mockups within 2 hours.',
     });
   } catch (error: any) {
     console.error('Error handling custom drops lead:', error);

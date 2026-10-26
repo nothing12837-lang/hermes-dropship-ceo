@@ -168,14 +168,13 @@ export default function ProductCard({
     if (!isApparelCard && (/\b(mug|cup|drinkware)\b/i.test(itemSearch))) return 'Quick View • 330ml / 11 Oz Ceramic';
     if (!isApparelCard && (/\b(case|phone|iphone|samsung)\b/i.test(itemSearch))) return 'Quick View • Precision Drop Protection';
     if (sizes && sizes.length > 0) {
-      const sorted = sortSizes(sizes);
       const isKids = /kid|boy|girl|baby/i.test(itemSearch);
       if (isKids) {
-        return `Quick View • Ages ${sorted[0]} to ${sorted[sorted.length - 1]}`;
+        return 'Quick View • Kids Sizes Available';
       }
-      return `Quick View • Sizes ${sorted[0]}–${sorted[sorted.length - 1]}`;
+      return 'Quick View • Sizes XS to 3XL';
     }
-    return 'Quick View • Sizes S–XXL • Express Air Dispatch';
+    return 'Quick View • Sizes XS to 3XL • Express Air Dispatch';
   })();
 
   // Server-authoritative M.R.P. markup
@@ -289,19 +288,19 @@ export default function ProductCard({
 
         {/* Product Details */}
         <div className="p-3 sm:p-4 flex flex-col flex-1">
-          <h3 className="text-xs sm:text-sm font-bold text-[#0D0D0F] line-clamp-2 min-h-[2rem] leading-snug group-hover:text-[#E04F33] transition-colors">
+          <h3 className="text-sm sm:text-[15px] font-bold text-[#0D0D0F] line-clamp-2 min-h-[2.5rem] leading-snug group-hover:text-[#E04F33] transition-colors">
             {cleanTitle}
           </h3>
 
           <div className="flex flex-col mt-auto pt-2">
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <div className="flex items-baseline gap-1.5 flex-wrap">
-                <span className="text-sm sm:text-base font-black text-[#0D0D0F] tracking-tight">{displayPrice}</span>
+                <span className="text-base sm:text-lg font-black text-[#0D0D0F] tracking-tight">{displayPrice}</span>
                 {displayOldPrice && (
-                  <span className="text-[11px] text-neutral-400 line-through font-medium">{displayOldPrice}</span>
+                  <span className="text-[11px] sm:text-xs text-neutral-400 line-through font-medium">{displayOldPrice}</span>
                 )}
                 {calculatedDiscount > 0 && (
-                  <span className="text-[11px] font-bold text-[#E04F33]">-{calculatedDiscount}%</span>
+                  <span className="text-[11px] sm:text-xs font-bold text-[#E04F33]">-{calculatedDiscount}%</span>
                 )}
               </div>
 
@@ -328,9 +327,9 @@ export default function ProductCard({
               )}
             </div>
 
-            <div className="text-[10px] text-neutral-500 font-medium mt-1.5 flex items-center gap-1.5">
+            <div className="text-[10px] sm:text-[11px] text-neutral-500 font-medium mt-1.5 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#059669] pulse-live-dot" />
-              <span>Live Tirupur Hub • Delivery Included</span>
+              <span>Verified Seller Sourcing • Delivery Included</span>
             </div>
           </div>
         </div>
@@ -341,7 +340,7 @@ export default function ProductCard({
         {isInStock ? (
           <button
             onClick={handleOrderNow}
-            className="w-full py-2 sm:py-2.5 rounded-lg font-bold text-xs tracking-wide cursor-pointer btn-ember shine-hover animate-shimmer-sweep active:scale-[0.98]"
+            className="w-full py-2.5 sm:py-3 rounded-lg font-bold text-xs sm:text-sm tracking-wide cursor-pointer btn-ember shine-hover animate-shimmer-sweep active:scale-[0.98]"
           >
             {ctaLabel}
           </button>

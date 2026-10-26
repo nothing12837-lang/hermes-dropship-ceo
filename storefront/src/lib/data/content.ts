@@ -85,7 +85,7 @@ export const blogPosts: BlogPost[] = [
 export const faqs = [
   {
     q: 'How fast is express delivery across India? Is shipping really free?',
-    a: 'All orders qualify for 100% Free Express Shipping Pan-India. We dispatch within 24 to 48 hours from our Tirupur manufacturing hub via BlueDart Air, Delhivery, and India Post with live end-to-end tracking (typical delivery 2–4 business days).',
+    a: 'All orders qualify for 100% Free Express Shipping Pan-India. We dispatch within 24 to 48 hours from verified domestic makers via BlueDart Air, Delhivery, and India Post with live end-to-end tracking (typical delivery 2–4 business days).',
   },
   {
     q: 'Can I pay via Cash on Delivery (COD)?',
@@ -97,7 +97,7 @@ export const faqs = [
   },
   {
     q: 'How are your prices so competitive compared to retail stores?',
-    a: 'We operate on a factory-direct D2C model powered by on-demand production in Tirupur, Tamil Nadu. By bypassing traditional middlemen, excessive retail showroom rents, and unsold dead inventory markups, you receive authentic 240 GSM streetwear at factory pricing.',
+    a: 'We operate on a factory-direct D2C model powered by on-demand production with verified domestic makers. By bypassing traditional middlemen, excessive retail showroom rents, and unsold dead inventory markups, you receive authentic 240 GSM streetwear at factory pricing.',
   },
   {
     q: 'How do I track my order status in real time?',

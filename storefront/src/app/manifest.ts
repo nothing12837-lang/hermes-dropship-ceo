@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'RareEmber Atelier',
     short_name: 'RareEmber',
-    description: 'Archival Heavyweight Streetwear & Independent Graphic Drops direct from Tirupur Hub.',
+    description: 'Archival Heavyweight Streetwear & Independent Graphic Drops directly sourced from verified sellers.',
     start_url: '/',
     display: 'standalone',
     background_color: '#FAF8F5',
