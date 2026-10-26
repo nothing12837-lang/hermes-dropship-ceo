@@ -354,7 +354,7 @@ export default function CheckoutPage() {
     }
   }, [isAboveCodThreshold, paymentMethod]);
 
-  const codFee = paymentMethod === 'cod' && !isAboveCodThreshold ? (isIndia ? 49 : 2) : 0;
+  const codFee = 0; // 100% Free COD included
   const rawTotal = subtotal + codFee - discount;
   const total = Math.max(0, rawTotal);
 
@@ -1349,7 +1349,7 @@ export default function CheckoutPage() {
                         Online Payment (UPI, Cards, NetBanking)
                       </span>
                       <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/20">
-                        Save ₹49 • Recommended
+                        Fastest • Priority Dispatch
                       </span>
                     </div>
                     <p className="text-xs text-neutral-500 mt-1">
@@ -1357,7 +1357,7 @@ export default function CheckoutPage() {
                     </p>
                     <div className="mt-2 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60 inline-flex items-center gap-1.5">
                       <span>⚡</span>
-                      <span>Save ₹49 instantly by paying via UPI (Free Express Air Delivery • ₹0 COD Fee)</span>
+                      <span>Extra ₹30 OFF via PREPAID30 • Free Express Air Delivery Included</span>
                     </div>
                   </div>
                 </label>
@@ -1403,11 +1403,11 @@ export default function CheckoutPage() {
                           Cash on Delivery (COD)
                         </span>
                         {market === 'IN' && (
-                          <span className="text-xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">+₹49 COD fee</span>
+                          <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">100% Free (Included)</span>
                         )}
                       </div>
                       <p className="text-xs text-neutral-500 mt-1">
-                        Pay cash or UPI directly to the courier agent upon doorstep arrival.
+                        Pay cash or UPI directly to the courier agent upon doorstep arrival. Zero extra fees.
                       </p>
                     </div>
                   </label>
@@ -1617,7 +1617,7 @@ export default function CheckoutPage() {
                       <span>Pay via UPI</span>
                     </div>
                     <span className="text-[10px] text-emerald-400 font-bold mt-1">
-                      Save ₹49 + Extra ₹30 OFF • Free Air
+                      Extra ₹30 OFF via PREPAID30 • Free Air
                     </span>
                   </button>
                   <button

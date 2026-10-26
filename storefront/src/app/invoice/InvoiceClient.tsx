@@ -508,17 +508,17 @@ export default function InvoiceClient() {
 
                 {isCod && (
                   <tr className="bg-neutral-50/50">
-                    <td className="py-2.5 px-2 font-mono text-neutral-500">2</td>
+                    <td className="py-2.5 px-2 font-mono text-neutral-500">{(order?.items || []).length + 1}</td>
                     <td className="py-2.5 px-2">
-                      <p className="font-bold text-neutral-900">Cash on Delivery (COD) Doorstep Handling Surcharge</p>
-                      <p className="text-[10px] text-neutral-500 font-mono">Courier Cash Collection &amp; Verification Fee</p>
+                      <p className="font-bold text-neutral-900">Cash on Delivery (COD) Doorstep Handling</p>
+                      <p className="text-[10px] text-neutral-500 font-mono">Courier Cash Collection &amp; Verification</p>
                     </td>
                     <td className="py-2.5 px-2 text-center font-mono text-neutral-600">9968</td>
                     <td className="py-2.5 px-2 text-center font-bold text-neutral-900">1</td>
-                    <td className="py-2.5 px-2 text-right font-mono text-neutral-600">₹46.67</td>
-                    <td className="py-2.5 px-2 text-right font-mono text-neutral-600">₹46.67</td>
-                    <td className="py-2.5 px-2 text-right font-mono text-neutral-600">₹2.33</td>
-                    <td className="py-2.5 px-2 text-right font-mono font-bold text-neutral-900">₹49.00</td>
+                    <td className="py-2.5 px-2 text-right font-mono text-emerald-700 font-bold">FREE</td>
+                    <td className="py-2.5 px-2 text-right font-mono text-neutral-600">₹0.00</td>
+                    <td className="py-2.5 px-2 text-right font-mono text-neutral-600">₹0.00</td>
+                    <td className="py-2.5 px-2 text-right font-mono font-bold text-emerald-700">₹0.00</td>
                   </tr>
                 )}
               </tbody>
@@ -559,13 +559,13 @@ export default function InvoiceClient() {
                     <tr>
                       <td className="py-2 text-neutral-500">Total Items Subtotal:</td>
                       <td className="py-2 text-right font-mono font-bold text-neutral-800">
-                        ₹{order?.subtotal || (totalAmount - (isCod ? 49 : 0))}
+                        ₹{order?.subtotal || totalAmount}
                       </td>
                     </tr>
                     {isCod && (
                       <tr>
                         <td className="py-2 text-neutral-500">COD Doorstep Handling:</td>
-                        <td className="py-2 text-right font-mono font-bold text-neutral-800">₹49.00</td>
+                        <td className="py-2 text-right font-bold text-emerald-600">FREE / INCLUDED</td>
                       </tr>
                     )}
                     <tr>

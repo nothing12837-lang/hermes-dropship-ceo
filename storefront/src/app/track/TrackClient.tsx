@@ -167,8 +167,8 @@ const ACTIVE_SAMPLE_ORDER: Order = {
       imageUrl: 'https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_4.jpg',
     },
   ],
-  subtotal: 499,
-  shipping: 49,
+  subtotal: 548,
+  shipping: 0,
   total: 548,
   status: 'shipped',
   payment_method: 'cod',
@@ -1020,13 +1020,13 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                         <tr>
                           <td className="py-3 text-neutral-400 font-bold">{selectedInvoiceOrder.items.length + 1}</td>
                           <td className="py-3 font-bold text-neutral-900">
-                            Cash on Delivery (COD) Express Courier Surcharge
+                            Cash on Delivery (COD) Express Doorstep Handling
                           </td>
                           <td className="py-3 text-center font-mono text-neutral-500">9968</td>
                           <td className="py-3 text-center text-neutral-600">Standard Air</td>
                           <td className="py-3 text-center font-bold text-neutral-900">1</td>
-                          <td className="py-3 text-right text-neutral-600">₹49.00</td>
-                          <td className="py-3 text-right font-extrabold text-neutral-900">₹49.00</td>
+                          <td className="py-3 text-right text-emerald-700 font-bold">FREE</td>
+                          <td className="py-3 text-right font-extrabold text-emerald-700">₹0.00</td>
                         </tr>
                       )}
                     </tbody>
@@ -1053,7 +1053,7 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                     {selectedInvoiceOrder.payment_method?.toLowerCase().includes('cod') && (
                       <div className="flex justify-between text-neutral-600">
                         <span>COD Courier Handling:</span>
-                        <span>₹49.00</span>
+                        <span className="text-emerald-700 font-bold">FREE (₹0.00)</span>
                       </div>
                     )}
                     <div className="flex justify-between text-neutral-600">

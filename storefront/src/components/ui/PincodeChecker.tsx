@@ -196,7 +196,7 @@ export default function PincodeChecker() {
             <div className="p-2.5 rounded-lg bg-neutral-50 border border-black/10">
               <span className="text-neutral-500 block mb-0.5">Payment Support</span>
               <span className="font-bold text-[#12100E]">
-                {result.codAvailable !== false ? 'Prepaid (₹0 fee) & COD (₹49 fee)' : 'Prepaid Only'}
+                {result.codAvailable !== false ? 'Prepaid & Free Cash on Delivery (Included)' : 'Prepaid Only'}
               </span>
             </div>
           </div>

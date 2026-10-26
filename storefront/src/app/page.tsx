@@ -67,8 +67,8 @@ const ASSURANCES = [
   },
   {
     icon: Banknote,
-    title: 'Cash on Delivery Available',
-    desc: 'Pay at your doorstep across 19,000+ PIN codes with a transparent ₹49 courier handling fee.',
+    title: 'Free Cash on Delivery',
+    desc: 'Pay at your doorstep across 19,000+ PIN codes with zero extra fees. 100% Free COD included.',
   },
   {
     icon: RefreshCw,

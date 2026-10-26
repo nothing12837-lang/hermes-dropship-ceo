@@ -449,14 +449,9 @@ export async function POST(req: NextRequest) {
 
     const finalTotal = Math.max(1, calculatedSubtotal - discountAmount);
 
-    // Cash-on-Delivery handling fee.
-    //
-    // The checkout UI quotes Rs.49 for COD, but the server used to charge
-    // `finalTotal` without the fee, so the customer was shown one amount and
-    // charged another. The fee is computed server-side so the quote and the
-    // charge can never diverge.
-    const codFee = isCod ? 49 : 0;
-    const chargedTotal = finalTotal + codFee;
+    // 100% Free COD: Cash on delivery is completely free / included with zero extra surcharge.
+    const codFee = 0;
+    const chargedTotal = finalTotal;
 
     // Server-side COD Threshold Protection: COD capped strictly under ₹3,000 to prevent RTO courier fraud
     if (isCod && finalTotal >= 3000) {
