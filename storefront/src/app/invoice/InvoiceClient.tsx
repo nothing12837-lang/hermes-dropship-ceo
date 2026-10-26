@@ -135,7 +135,7 @@ export default function InvoiceClient() {
             status: 'shipped',
             payment_method: 'cod',
             tracking_number: '46600611743280',
-            tracking_url: 'https://www.delhivery.com/track/package/46600611743280',
+            tracking_url: 'https://courierupdates.com/?awb=46600611743280',
             created_at: '2026-10-23T15:20:00.000Z',
             items: [
               {

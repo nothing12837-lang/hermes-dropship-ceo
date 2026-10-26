@@ -408,7 +408,7 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                         country: 'India',
                       },
                       tracking_number: '46600611743280',
-                      tracking_url: 'https://www.delhivery.com/track/package/46600611743280',
+                      tracking_url: 'https://courierupdates.com/?awb=46600611743280',
                       created_at: new Date(Date.now() - 6 * 3600 * 1000).toISOString(),
                     },
                   ]);
@@ -890,28 +890,38 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
-                              {/* Integrated Courier Updates Live Tracking */}
+                              {/* Integrated Courier Updates Live Tracking (No Login Required) */}
                               <a
                                 href={primaryCourierUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
-                                className="no-print px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black no-underline transition-all shadow-sm flex items-center justify-center gap-2 text-center"
+                                className="no-print px-4 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black no-underline transition-all shadow-md flex flex-col items-center justify-center gap-1 text-center group ring-2 ring-emerald-400/50"
                               >
-                                <span>🚀 Open Live Tracking (Verified Scans)</span>
-                                <span>→</span>
+                                <span className="flex items-center gap-1.5 text-xs sm:text-sm">
+                                  <span>🚀 Instant Live Tracking (No Login Needed)</span>
+                                  <span>→</span>
+                                </span>
+                                <span className="text-[10px] text-emerald-100 font-medium">
+                                  ✓ Direct flight &amp; doorstep scans without OTP or account
+                                </span>
                               </a>
 
-                              {/* Delhivery Official Package Tracker */}
+                              {/* Delhivery Official Package Tracker (May prompt for login/OTP) */}
                               <a
                                 href={delhiveryUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
-                                className="no-print px-4 py-3 rounded-xl bg-white hover:bg-neutral-100 text-neutral-900 text-xs font-black no-underline transition-all shadow-sm flex items-center justify-center gap-2 text-center"
+                                className="no-print px-4 py-3.5 rounded-xl bg-white hover:bg-neutral-100 text-neutral-900 text-xs font-black no-underline transition-all shadow-xs flex flex-col items-center justify-center gap-1 text-center border border-black/10"
                               >
-                                <span>📦 Track on Delhivery.com</span>
-                                <span>↗</span>
+                                <span className="flex items-center gap-1.5">
+                                  <span>📦 Track on Delhivery.com</span>
+                                  <span>↗</span>
+                                </span>
+                                <span className="text-[10px] text-neutral-500 font-medium">
+                                  (Delhivery portal may prompt for mobile login)
+                                </span>
                               </a>
 
                               {/* Blue Dart Tracking */}
@@ -920,29 +930,44 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
-                                className="no-print px-4 py-3 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-bold no-underline border border-white/10 transition-all flex items-center justify-center gap-2 text-center sm:col-span-2 lg:col-span-1"
+                                className="no-print px-4 py-3.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-bold no-underline border border-white/10 transition-all flex flex-col items-center justify-center gap-1 text-center sm:col-span-2 lg:col-span-1"
                               >
-                                <span>✈️ Track on Blue Dart</span>
-                                <span>↗</span>
+                                <span className="flex items-center gap-1.5">
+                                  <span>✈️ Track on Blue Dart</span>
+                                  <span>↗</span>
+                                </span>
+                                <span className="text-[10px] text-neutral-400 font-medium">
+                                  Alternate domestic carrier link
+                                </span>
                               </a>
                             </div>
 
+                            {/* Why CourierUpdates is provided over Delhivery login */}
+                            <div className="p-3.5 bg-emerald-950/80 border border-emerald-500/40 rounded-xl text-[11px] text-emerald-100 leading-relaxed space-y-1">
+                              <p className="font-bold text-emerald-300 flex items-center gap-2">
+                                <span>⚡ Why We Provide courierupdates.com:</span>
+                                <span className="bg-emerald-800 text-white text-[9px] uppercase px-2 py-0.5 rounded-full font-mono font-bold tracking-wider">Zero Login / No OTP Required</span>
+                              </p>
+                              <p className="text-neutral-300">
+                                Delhivery&apos;s public website often asks customers to enter an OTP or login with a mobile number before showing package status. To save you time and hassle, we provide the official direct tracking link: <a href={primaryCourierUrl} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-mono font-bold underline">courierupdates.com/?awb={rawAwb || o.tracking_number}</a>. It streams verified live domestic air cargo milestones directly with <strong>zero logins, zero passwords, and zero OTP delays</strong>.
+                              </p>
+                            </div>
+
                             {/* Reassuring note explaining why 18023747616 was rejected by Delhivery */}
-                            <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-xl text-[11px] text-amber-200 leading-relaxed">
-                              <p className="font-bold text-amber-400 mb-1">
-                                ℹ️ Important Note: Waybill vs Factory Reference
+                            <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl text-[11px] text-amber-200 leading-relaxed">
+                              <p className="font-bold text-amber-400 mb-0.5">
+                                ℹ️ Important: Waybill vs Factory Reference
                               </p>
                               <p>
-                                Your active <strong>Delhivery Air Waybill (AWB)</strong> is <strong className="text-white font-mono font-black">{rawAwb || o.tracking_number}</strong>. If entering manually on Delhivery.com, always select <strong>AWB</strong> and paste <strong className="text-white font-mono">{rawAwb || o.tracking_number}</strong>. (Do not enter factory references like 18023747616 on courier sites, as couriers only track official airway bills).
+                                Your active <strong>Delhivery Air Waybill (AWB)</strong> is <strong className="text-white font-mono font-black">{rawAwb || o.tracking_number}</strong>. If entering manually on Delhivery.com, always select <strong>AWB</strong> and paste <strong className="text-white font-mono">{rawAwb || o.tracking_number}</strong>. (Do not enter factory references like 18023747616 on courier sites, as couriers only index official airway bills).
                               </p>
                             </div>
 
                             {/* Easy Step-by-Step Instructions */}
                             <div className="pt-3 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] text-neutral-300">
                               <div className="flex items-center gap-2 flex-wrap">
-                                <span className="font-bold text-amber-400">💡 Easy 2-Step Tracking:</span>
-                                <span>1. Tap <strong>Copy Delhivery AWB</strong> above.</span>
-                                <span>2. Tap <strong>Open Live Tracking</strong> (or Track on Delhivery.com) to view real-time flight transit &amp; doorstep delivery scans!</span>
+                                <span className="font-bold text-amber-400">💡 Instant 1-Tap Tracking:</span>
+                                <span>Tap the green <strong>Instant Live Tracking</strong> button above to immediately see flight transit scans with zero login!</span>
                               </div>
                             </div>
                           </div>

@@ -164,11 +164,11 @@ export async function PATCH(req: NextRequest) {
         if (/^SF/i.test(cleanTn)) {
           updates.tracking_url = `https://tracker.shadowfax.in/#/track/${cleanTn}`;
         } else if (/^1\d{10,13}$/.test(cleanTn) || /^\d{12,14}$/.test(cleanTn)) {
-          updates.tracking_url = `https://www.delhivery.com/track/package/${cleanTn}`;
+          updates.tracking_url = `https://courierupdates.com/?awb=${cleanTn}`;
         } else if (/^XB/i.test(cleanTn)) {
           updates.tracking_url = `https://www.xpressbees.com/shipment/tracking?awbNo=${cleanTn}`;
         } else {
-          updates.tracking_url = `https://www.delhivery.com/track/package/${cleanTn}`;
+          updates.tracking_url = `https://courierupdates.com/?awb=${cleanTn}`;
         }
       }
     }
