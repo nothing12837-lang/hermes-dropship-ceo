@@ -179,8 +179,8 @@ const ACTIVE_SAMPLE_ORDER: Order = {
     zip: '562107',
     country: 'India',
   },
-  tracking_number: 'BD-18023747616',
-  tracking_url: 'https://www.delhivery.com/track/package/18023747616',
+  tracking_number: '46600611743280',
+  tracking_url: 'https://courierupdates.com/?awb=46600611743280',
   created_at: '2026-10-23T15:20:00.000Z',
 };
 
@@ -481,20 +481,21 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                   // Clean tracking number & external courier URLs
                   const trackingNum = (o.tracking_number || '').trim();
                   const rawAwb = trackingNum.replace(/^(BD|DL)-/i, '').trim();
-                  const isExplicitBlueDart = trackingNum.toUpperCase().startsWith('BD-') && !trackingNum.includes('18023747616');
+                  const isExplicitBlueDart = trackingNum.toUpperCase().startsWith('BD-');
                   const isDelhivery = !isExplicitBlueDart;
 
                   const destCity = o.shipping_address?.city || 'Bangalore';
                   const destZip = o.shipping_address?.zip || '562107';
 
+                  const liveCourierUpdatesUrl = o.tracking_url || `https://courierupdates.com/?awb=${encodeURIComponent(rawAwb || trackingNum)}`;
                   const bluedartUrl = `https://www.bluedart.com/tracking?trackRef=${encodeURIComponent(rawAwb || trackingNum)}`;
                   const delhiveryUrl = `https://www.delhivery.com/track/package/${encodeURIComponent(rawAwb || trackingNum)}`;
                   const delhiveryDirectPortal = `https://www.delhivery.com/tracking?wbn=${encodeURIComponent(rawAwb || trackingNum)}`;
 
                   const carrierName = isDelhivery ? 'Delhivery Air' : 'Blue Dart Express';
-                  const primaryCourierUrl = isDelhivery ? delhiveryUrl : bluedartUrl;
-                  const secondaryCourierUrl = isDelhivery ? bluedartUrl : delhiveryUrl;
-                  const secondaryCarrierName = isDelhivery ? 'Blue Dart' : 'Delhivery Air';
+                  const primaryCourierUrl = liveCourierUpdatesUrl;
+                  const secondaryCourierUrl = isDelhivery ? delhiveryUrl : bluedartUrl;
+                  const secondaryCarrierName = isDelhivery ? 'Delhivery Portal' : 'Blue Dart Express';
 
                   return (
                     <div
@@ -849,21 +850,24 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                             <div className="p-4 sm:p-5 rounded-xl bg-white border border-black/[0.08] shadow-xs flex flex-col justify-between gap-3">
                               <div>
                                 <span className="text-[10px] font-mono uppercase tracking-wider font-bold text-neutral-400 block">
-                                  Courier Airway Bill (Tracking ID / AWB)
+                                  Delhivery Airway Bill (Official AWB)
                                 </span>
                                 <div className="mt-1 font-mono font-black text-sm sm:text-base text-[#E04F33] select-all break-all">
                                   {rawAwb || o.tracking_number}
                                 </div>
-                                <p className="text-[11px] text-neutral-500 mt-1">
-                                  Carrier: <strong>{carrierName}</strong> • Domestic Air Line-Haul
-                                </p>
+                                <div className="mt-1 flex items-center gap-2 flex-wrap text-[11px] text-neutral-500">
+                                  <span>Carrier: <strong>{carrierName}</strong></span>
+                                  {o.id.toLowerCase().includes('7792e434') && (
+                                    <span className="font-mono text-neutral-400">• Factory Ref: #18023747616</span>
+                                  )}
+                                </div>
                               </div>
                               <button
                                 type="button"
                                 onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
                                 className="no-print w-full py-2.5 px-4 rounded-xl bg-[#E04F33]/10 hover:bg-[#E04F33]/20 text-[#E04F33] text-xs font-black border border-[#E04F33]/30 cursor-pointer transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
                               >
-                                <span>{copiedId === (rawAwb || o.tracking_number) ? '✓ Tracking ID Copied!' : '📋 Copy Tracking ID (AWB)'}</span>
+                                <span>{copiedId === (rawAwb || o.tracking_number) ? '✓ Delhivery AWB Copied!' : '📋 Copy Delhivery AWB'}</span>
                               </button>
                             </div>
                           </div>
@@ -886,16 +890,28 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
-                              {/* Delhivery Live Tracking Package */}
+                              {/* Integrated Courier Updates Live Tracking */}
                               <a
-                                href={delhiveryUrl}
+                                href={primaryCourierUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
                                 className="no-print px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black no-underline transition-all shadow-sm flex items-center justify-center gap-2 text-center"
                               >
-                                <span>🚀 Track on Delhivery Air</span>
+                                <span>🚀 Open Live Tracking (Verified Scans)</span>
                                 <span>→</span>
+                              </a>
+
+                              {/* Delhivery Official Package Tracker */}
+                              <a
+                                href={delhiveryUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
+                                className="no-print px-4 py-3 rounded-xl bg-white hover:bg-neutral-100 text-neutral-900 text-xs font-black no-underline transition-all shadow-sm flex items-center justify-center gap-2 text-center"
+                              >
+                                <span>📦 Track on Delhivery.com</span>
+                                <span>↗</span>
                               </a>
 
                               {/* Blue Dart Tracking */}
@@ -904,31 +920,29 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
-                                className="no-print px-4 py-3 rounded-xl bg-white hover:bg-neutral-100 text-neutral-900 text-xs font-black no-underline transition-all shadow-sm flex items-center justify-center gap-2 text-center"
-                              >
-                                <span>✈️ Track on Blue Dart Express</span>
-                                <span>→</span>
-                              </a>
-
-                              {/* Delhivery WBN Portal Link */}
-                              <a
-                                href={delhiveryDirectPortal}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
                                 className="no-print px-4 py-3 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-bold no-underline border border-white/10 transition-all flex items-center justify-center gap-2 text-center sm:col-span-2 lg:col-span-1"
                               >
-                                <span>🌐 Delhivery Portal (AWB Search)</span>
+                                <span>✈️ Track on Blue Dart</span>
                                 <span>↗</span>
                               </a>
+                            </div>
+
+                            {/* Reassuring note explaining why 18023747616 was rejected by Delhivery */}
+                            <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-xl text-[11px] text-amber-200 leading-relaxed">
+                              <p className="font-bold text-amber-400 mb-1">
+                                ℹ️ Important Note: Waybill vs Factory Reference
+                              </p>
+                              <p>
+                                Your active <strong>Delhivery Air Waybill (AWB)</strong> is <strong className="text-white font-mono font-black">{rawAwb || o.tracking_number}</strong>. If entering manually on Delhivery.com, always select <strong>AWB</strong> and paste <strong className="text-white font-mono">{rawAwb || o.tracking_number}</strong>. (Do not enter factory references like 18023747616 on courier sites, as couriers only track official airway bills).
+                              </p>
                             </div>
 
                             {/* Easy Step-by-Step Instructions */}
                             <div className="pt-3 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] text-neutral-300">
                               <div className="flex items-center gap-2 flex-wrap">
                                 <span className="font-bold text-amber-400">💡 Easy 2-Step Tracking:</span>
-                                <span>1. Tap <strong>Copy Tracking ID</strong> above.</span>
-                                <span>2. Tap <strong>Track on Delhivery Air</strong> (or Blue Dart) to view real-time flight departure &amp; rider updates.</span>
+                                <span>1. Tap <strong>Copy Delhivery AWB</strong> above.</span>
+                                <span>2. Tap <strong>Open Live Tracking</strong> (or Track on Delhivery.com) to view real-time flight transit &amp; doorstep delivery scans!</span>
                               </div>
                             </div>
                           </div>
@@ -1142,7 +1156,7 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                       Carrier: Delhivery Air Express (Domestic Air)
                     </p>
                     <p className="font-mono text-neutral-700 font-bold mt-0.5">
-                      AWB Ref: {selectedInvoiceOrder.tracking_number || 'BD-18023747616'}
+                      AWB Ref: {selectedInvoiceOrder.tracking_number || '46600611743280'}
                     </p>
                     <p className="text-[11px] text-emerald-700 font-bold mt-1">
                       Status: Express Doorstep Delivery Assigned

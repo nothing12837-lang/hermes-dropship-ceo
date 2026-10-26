@@ -1082,7 +1082,7 @@ export default function AgentTaskSuite({ adminKey, overview, initialTask }: Agen
                     value={supportOrderId}
                     onChange={(e) => setSupportOrderId(e.target.value)}
                     className="w-full rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 text-xs font-mono text-white"
-                    placeholder="e.g. 7792e434 or BD-18023747616"
+                    placeholder="e.g. 7792e434 or 46600611743280"
                   />
                 </div>
                 <button

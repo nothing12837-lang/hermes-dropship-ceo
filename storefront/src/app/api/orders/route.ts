@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
             country: 'India',
           },
           tracking_number: '46600611743280',
-          tracking_url: 'https://www.delhivery.com/track/package/46600611743280',
+          tracking_url: 'https://courierupdates.com/?awb=46600611743280',
           created_at: '2026-10-22T07:19:00.000Z',
         },
       ],

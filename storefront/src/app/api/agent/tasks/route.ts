@@ -296,7 +296,7 @@ export async function POST(req: NextRequest) {
         'Brand details: Independent Indian heavyweight streetwear, Tirupur production hub, express air courier via Delhivery & BlueDart. ' +
         'Official support email: support@rareember.shop. Guarantee: 7-Day Easy Returns Guarantee.\n\n' +
         'IMPORTANT COURIER TELEMETRY CONTEXT:\n' +
-        'When an order has just been placed and is in Stage 2 (In Production & Quality Check), an AWB (like BD-18023747616) is pre-allocated on our manifest. ' +
+        'When an order is dispatched via Delhivery Air, the active Waybill is 46600611743280 (Factory ref 18023747616). ' +
         'Delhivery’s public portal only displays live flight scans once physical barcode handover occurs at the Coimbatore airport hub (Stage 3). ' +
         'Reassure the customer with warmth, transparency, and streetwear prestige.\n\n' +
         'Format your response in Markdown with TWO CLEAR SECTIONS:\n' +
@@ -304,7 +304,7 @@ export async function POST(req: NextRequest) {
         '### 2. ✉️ Official Email Reply (Professional subject line, structured body, and support signature)\n\n' +
         'Tone: Elegant, warm, reassuring, never robotic.';
 
-      const userPrompt = `Customer Query: "${query}"\nReferenced Order ID: ${orderId}\nCustomer Email: ajayrajbharrr0@gmail.com\nCourier Waybill: BD-18023747616 (Delhivery Air Express)\nStatus: In Production & Quality Check (Tirupur Hub)`;
+      const userPrompt = `Customer Query: "${query}"\nReferenced Order ID: ${orderId}\nCustomer Email: ajayrajbharrr0@gmail.com\nCourier Waybill: 46600611743280 (Delhivery Air Express)\nStatus: In Transit (Arriving on 26-Oct-2026)`;
 
       const aiResponse = await askAgent(userPrompt, systemPrompt, 1200);
 

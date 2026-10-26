@@ -251,7 +251,7 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
   const shortOrderId = payload.orderId.slice(0, 8);
   const invoiceNumber = `INV-RE-${shortOrderId.toUpperCase()}`;
   const deliveryDate = payload.deliveryDate || new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-  const courierAwb = payload.trackingNumber || 'BD-18023747616';
+  const courierAwb = payload.trackingNumber || '46600611743280';
 
   // Address formatting
   const addr = payload.address || {};
