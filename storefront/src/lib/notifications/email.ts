@@ -615,3 +615,95 @@ export async function sendCodOtpEmail(payload: {
   });
 }
 
+/**
+ * 5. Return / Replacement Claim Confirmation Email
+ */
+export async function sendReturnClaimConfirmationEmail(payload: {
+  email: string;
+  name?: string;
+  claimId: string;
+  orderId: string;
+  reason: string;
+  preference: string;
+}): Promise<{ ok: boolean; error?: string }> {
+  const apiKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.RESEND_FROM_EMAIL || 'Rare Ember <support@rareember.shop>';
+
+  if (!apiKey) {
+    console.log('[Email Mock] Resend API key missing — Return Claim for %s (%s)', payload.email, payload.claimId);
+    return { ok: true };
+  }
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Return Request Logged: #${payload.claimId} — Rare Ember</title>
+      </head>
+      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #FAF8F5; margin: 0; padding: 32px 16px; color: #0D0D0F;">
+        <div style="max-width: 540px; margin: 0 auto; background: #FFFFFF; border-radius: 20px; border: 1px solid rgba(13, 13, 15, 0.08); padding: 36px 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.04);">
+          <div style="text-align: center; margin-bottom: 24px;">
+            <div style="font-size: 20px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: #0D0D0F;">
+              RARE EMBER<span style="color: #E04F33;">.</span>
+            </div>
+            <div style="font-size: 11px; letter-spacing: 0.1em; color: #71717A; text-transform: uppercase; margin-top: 4px;">
+              7-Day Guarantee Desk
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-bottom: 24px;">
+            <div style="display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); color: #065F46; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">
+              Claim Received &amp; Logged
+            </div>
+            <h1 style="font-size: 22px; font-weight: 800; color: #0D0D0F; margin: 0 0 8px 0; letter-spacing: -0.02em;">
+              We&#39;ve Got You Covered
+            </h1>
+            <p style="font-size: 13px; color: #52525B; line-height: 1.5; margin: 0;">
+              Hello ${payload.name || 'there'}, your request for Order <strong>#${payload.orderId}</strong> has been logged. Our concierge care team will review and contact you on WhatsApp/phone within 24 hours.
+            </p>
+          </div>
+
+          <div style="background: #F4F4F5; border-radius: 14px; padding: 18px 20px; margin-bottom: 24px; font-size: 13px; line-height: 1.8;">
+            <div>
+              <span style="color: #71717A;">Ticket ID:</span>
+              <strong style="color: #0D0D0F; font-family: ui-monospace, SFMono-Regular, monospace; margin-left: 8px;">${payload.claimId}</strong>
+            </div>
+            <div>
+              <span style="color: #71717A;">Order Ref:</span>
+              <strong style="color: #0D0D0F; margin-left: 8px;">#${payload.orderId}</strong>
+            </div>
+            <div>
+              <span style="color: #71717A;">Reason:</span>
+              <strong style="color: #0D0D0F; margin-left: 8px;">${payload.reason}</strong>
+            </div>
+            <div>
+              <span style="color: #71717A;">Preferred Resolution:</span>
+              <strong style="color: #E04F33; margin-left: 8px;">${payload.preference}</strong>
+            </div>
+          </div>
+
+          <div style="background: #FFFBF5; border: 1px solid rgba(255, 77, 36, 0.2); border-radius: 12px; padding: 14px 16px; margin-bottom: 24px; font-size: 12px; color: #78350F; line-height: 1.5;">
+            ⚡ <strong>Zero-Hassle Process:</strong> No tedious couriers or repackaging errands needed. If it&#39;s a size issue or print defect, simply have a quick photo ready on WhatsApp when we reach out.
+          </div>
+
+          <div style="border-top: 1px solid #E4E4E7; padding-top: 20px; text-align: center; font-size: 11px; color: #A1A1AA; line-height: 1.6;">
+            Urgent queries? WhatsApp our founder desk directly at <strong>+91 91182 11860</strong> or reply to <strong>support@rareember.shop</strong>.<br/>
+            &copy; ${new Date().getFullYear()} Rare Ember Atelier. All rights reserved.
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  return await sendEmailWithFallback({
+    apiKey,
+    fromEmail,
+    toEmail: payload.email,
+    subjectLine: `[Ticket ${payload.claimId}] Return/Replacement Request for #${payload.orderId} — Rare Ember`,
+    html,
+  });
+}
+
+

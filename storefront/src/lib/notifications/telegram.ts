@@ -134,6 +134,7 @@ export async function notifyTelegramReturnClaim(claim: {
   preference: string;
   notes?: string;
   claimId: string;
+  customerName?: string;
 }) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
@@ -141,16 +142,37 @@ export async function notifyTelegramReturnClaim(claim: {
 
   if (!enabled || !token || !chatId) return;
 
+  const cleanPhone = String(claim.contact || '').replace(/\D/g, '');
+  const digits = cleanPhone.slice(-10);
+  let waSection = '';
+  let callSection = '';
+
+  if (digits.length === 10) {
+    const intlPhone = `91${digits}`;
+    const custName = claim.customerName || 'Customer';
+    const waText = encodeURIComponent(
+      `Namaste ${custName}! 🙏\n\n` +
+      `Team Rare Ember here regarding your Return/Replacement request #${claim.claimId} for Order #${claim.orderId}.\n\n` +
+      `Reason: ${claim.reason}\n` +
+      `Requested: ${claim.preference}\n\n` +
+      `We are reviewing your request to resolve it immediately under our 7-Day Guarantee. Could you please share a quick photo of the garment/issue here? Dhanyawad! ✨ - Rare Ember Founder Desk`
+    );
+    waSection = `💬 <a href="https://wa.me/${intlPhone}?text=${waText}">Tap to WhatsApp Customer Directly</a>`;
+    callSection = `📞 <a href="tel:+${intlPhone}">Tap to Call Customer (+91 ${digits})</a>`;
+  }
+
   const text = [
     `⚠️ <b>NEW REPLACEMENT / RETURN CLAIM!</b> 🔄`,
     ``,
     `🎫 <b>Claim Ticket ID:</b> <code>#${claim.claimId}</code>`,
     `🆔 <b>Order ID:</b> <code>#${claim.orderId}</code>`,
-    `👤 <b>Customer Contact:</b> <b>${claim.contact}</b>`,
+    claim.customerName ? `👤 <b>Customer Name:</b> <b>${claim.customerName}</b>` : '',
+    `📞 <b>Customer Contact:</b> <b>${claim.contact}</b>`,
     `📋 <b>Reason:</b> <b>${claim.reason}</b>`,
     `🔄 <b>Requested Resolution:</b> <b>${claim.preference}</b>`,
-    claim.notes ? `📝 <b>Customer Notes:</b> <i>${claim.notes}</i>` : '',
+    claim.notes ? `📝 <b>Customer Notes:</b> <i>"${claim.notes}"</i>` : '',
     ``,
+    waSection ? `${waSection}\n${callSection}\n` : '',
     `⚡ <b>ACTION REQUIRED:</b>`,
     `1. Verify customer order in <a href="https://www.rareember.shop/admin/orders">Admin Orders Portal</a>.`,
     `2. If size mismatch or misprint, trigger 1-click free replacement order via Qikink.`,

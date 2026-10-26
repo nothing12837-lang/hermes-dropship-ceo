@@ -34,6 +34,7 @@ interface AdminOrder {
   shipping_name?: string | null;
   shipping_address?: Record<string, any> | null;
   items?: AdminOrderItem[] | null;
+  fulfillment_error?: string | null;
   created_at: string;
 }
 
@@ -582,6 +583,8 @@ export default function AdminOrdersPage() {
                   { id: 'processing', label: 'Processing' },
                   { id: 'shipped', label: 'Shipped' },
                   { id: 'delivered', label: 'Delivered' },
+                  { id: 'return_requested', label: '🔄 Returns / Claims' },
+                  { id: 'refunded', label: 'Refunded' },
                 ].map((f) => (
                   <button
                     key={f.id}
@@ -677,7 +680,13 @@ export default function AdminOrdersPage() {
                       <div className="flex items-center gap-3">
                         <span
                           className={`px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider ${
-                            o.status === 'delivered'
+                            o.status === 'return_requested'
+                              ? 'bg-rose-500/20 border border-rose-500/50 text-rose-300 animate-pulse'
+                              : o.status === 'refunded'
+                              ? 'bg-neutral-500/20 border border-neutral-500/40 text-neutral-300'
+                              : o.status === 'returned'
+                              ? 'bg-amber-500/20 border border-amber-500/40 text-amber-300'
+                              : o.status === 'delivered'
                               ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-400'
                               : o.status === 'shipped'
                               ? 'bg-cyan-500/10 border border-cyan-500/30 text-cyan-400'
@@ -688,13 +697,61 @@ export default function AdminOrdersPage() {
                               : 'bg-amber-500/10 border border-amber-500/30 text-amber-400'
                           }`}
                         >
-                          {o.status}
+                          {o.status === 'return_requested' ? '🔄 Return Requested' : o.status}
                         </span>
                         <span className="text-lg font-black text-white font-mono">
                           ₹{Number(o.total_amount).toLocaleString('en-IN')}
                         </span>
                       </div>
                     </div>
+
+                    {/* Return / Replacement Claim Callout Box */}
+                    {(o.status === 'return_requested' || (o.fulfillment_error && o.fulfillment_error.includes('RETURN_CLAIM'))) && (
+                      <div className="bg-rose-950/40 border border-rose-500/40 rounded-xl p-4 space-y-2.5">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <div className="flex items-center gap-2 text-rose-300 font-black text-xs uppercase tracking-wider">
+                            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
+                            ⚠️ 7-Day Return / Replacement Claim Active
+                          </div>
+                          {formattedPhone && (
+                            <a
+                              href={`https://wa.me/91${formattedPhone}?text=${encodeURIComponent(`Namaste ${customerName}! Rare Ember team regarding your replacement claim for Order #${o.id}. We are ready to assist you.`)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold no-underline inline-flex items-center gap-1"
+                            >
+                              💬 WhatsApp Customer Directly
+                            </a>
+                          )}
+                        </div>
+                        <p className="text-xs text-rose-200/90 font-mono bg-black/40 p-2.5 rounded-lg border border-rose-500/20 whitespace-pre-wrap">
+                          {o.fulfillment_error || 'Customer filed a 7-day return request via /returns.'}
+                        </p>
+                        <div className="flex items-center gap-2 pt-1 flex-wrap">
+                          <button
+                            onClick={() => void updateOrderStatus(o.id, 'processing')}
+                            disabled={updatingId === o.id}
+                            className="px-3 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
+                          >
+                            🚀 Approve &amp; Re-dispatch via Qikink
+                          </button>
+                          <button
+                            onClick={() => void updateOrderStatus(o.id, 'refunded')}
+                            disabled={updatingId === o.id}
+                            className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition-all cursor-pointer border border-slate-700 disabled:opacity-50"
+                          >
+                            💸 Mark as Refunded
+                          </button>
+                          <button
+                            onClick={() => void updateOrderStatus(o.id, 'returned')}
+                            disabled={updatingId === o.id}
+                            className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-all cursor-pointer border border-slate-700 disabled:opacity-50"
+                          >
+                            ✅ Mark Closed / Returned
+                          </button>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Customer & Address Details Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs">
@@ -1127,6 +1184,88 @@ export default function AdminOrdersPage() {
                   <li>Instant resolution for size exchanges and address corrections</li>
                 </ul>
               </div>
+            </div>
+
+            {/* Active Return / Replacement Claims Section */}
+            <div className="border-t border-slate-800 pt-6 space-y-4">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div>
+                  <h3 className="text-lg font-black text-white flex items-center gap-2">
+                    <span>🔄</span> Active 7-Day Return / Replacement Requests
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Filed by customers on <Link href="/returns" target="_blank" className="text-orange-400 underline font-bold">/returns</Link>.
+                  </p>
+                </div>
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-rose-500/10 border border-rose-500/30 text-rose-400">
+                  {orders.filter((o) => o.status === 'return_requested' || (o.fulfillment_error && o.fulfillment_error.includes('RETURN_CLAIM'))).length} Pending Claims
+                </span>
+              </div>
+
+              {orders.filter((o) => o.status === 'return_requested' || (o.fulfillment_error && o.fulfillment_error.includes('RETURN_CLAIM'))).length === 0 ? (
+                <div className="bg-[#0B0F19] p-8 rounded-2xl border border-slate-800 text-center space-y-2">
+                  <span className="text-3xl block">✨</span>
+                  <p className="text-sm font-bold text-white">Zero Pending Return Claims</p>
+                  <p className="text-xs text-slate-400">All customer orders are in good standing with zero open disputes.</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {orders
+                    .filter((o) => o.status === 'return_requested' || (o.fulfillment_error && o.fulfillment_error.includes('RETURN_CLAIM')))
+                    .map((claimOrder) => {
+                      const addr = claimOrder.shipping_address || {};
+                      const custName = claimOrder.shipping_name || addr.name || 'Customer';
+                      const phone = String(addr.phone || '').replace(/\D/g, '').slice(-10);
+                      return (
+                        <div key={claimOrder.id} className="bg-[#0B0F19] p-4 sm:p-5 rounded-2xl border border-rose-500/30 space-y-3">
+                          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono text-xs font-black text-orange-400">#{claimOrder.id.slice(0, 8)}</span>
+                              <span className="text-xs font-bold text-white">{custName}</span>
+                              <span className="text-[11px] text-slate-400 font-mono">₹{claimOrder.total_amount}</span>
+                            </div>
+                            {phone && (
+                              <a
+                                href={`https://wa.me/91${phone}?text=${encodeURIComponent(`Namaste ${custName}! Rare Ember team regarding your return/replacement claim for Order #${claimOrder.id}. We are ready to assist you.`)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold no-underline inline-flex items-center gap-1"
+                              >
+                                💬 WhatsApp Customer
+                              </a>
+                            )}
+                          </div>
+                          <div className="text-xs text-rose-200 font-mono bg-black/40 p-3 rounded-xl border border-rose-500/20 whitespace-pre-wrap">
+                            {claimOrder.fulfillment_error || 'Return claim filed.'}
+                          </div>
+                          <div className="flex items-center gap-2 pt-1 flex-wrap">
+                            <button
+                              onClick={() => void updateOrderStatus(claimOrder.id, 'processing')}
+                              disabled={updatingId === claimOrder.id}
+                              className="px-3 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
+                            >
+                              🚀 Approve &amp; Re-dispatch Replacement via Qikink
+                            </button>
+                            <button
+                              onClick={() => void updateOrderStatus(claimOrder.id, 'refunded')}
+                              disabled={updatingId === claimOrder.id}
+                              className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition-all cursor-pointer border border-slate-700 disabled:opacity-50"
+                            >
+                              💸 Mark as Refunded
+                            </button>
+                            <button
+                              onClick={() => void updateOrderStatus(claimOrder.id, 'returned')}
+                              disabled={updatingId === claimOrder.id}
+                              className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-all cursor-pointer border border-slate-700 disabled:opacity-50"
+                            >
+                              ✅ Mark Resolved / Closed
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
             </div>
           </div>
         )}

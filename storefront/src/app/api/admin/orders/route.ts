@@ -48,11 +48,11 @@ export async function GET(req: NextRequest) {
   const limit = Math.min(100, Math.max(1, parseInt(params.get('limit') ?? '50', 10) || 50));
   const status = params.get('status')?.trim();
 
-  // Primary: Select every single detail (items, payment_method, shipping_name, address, tracking_url, totals)
+  // Primary: Select every single detail (items, payment_method, shipping_name, address, tracking_url, totals, fulfillment_error)
   let query = supabase
     .from('orders')
     .select(
-      'id,user_email,total_amount,subtotal,shipping,status,cj_order_id,meesho_order_id,meesho_url,tracking_number,tracking_url,items,payment_method,shipping_name,shipping_address,created_at'
+      'id,user_email,total_amount,subtotal,shipping,status,cj_order_id,meesho_order_id,meesho_url,tracking_number,tracking_url,items,payment_method,shipping_name,shipping_address,fulfillment_error,created_at'
     )
     .order('created_at', { ascending: false })
     .limit(limit);
@@ -66,7 +66,7 @@ export async function GET(req: NextRequest) {
     // Safe fallback if optional legacy columns are absent
     let fallbackQuery = supabase
       .from('orders')
-      .select('id,user_email,total_amount,status,cj_order_id,tracking_number,tracking_url,items,payment_method,shipping_name,shipping_address,created_at')
+      .select('id,user_email,total_amount,status,cj_order_id,tracking_number,tracking_url,items,payment_method,shipping_name,shipping_address,fulfillment_error,created_at')
       .order('created_at', { ascending: false })
       .limit(limit);
     if (status) fallbackQuery = fallbackQuery.eq('status', status);
@@ -95,20 +95,19 @@ export async function PATCH(req: NextRequest) {
     // value. It is set separately below.
     const ALLOWED_STATUSES = new Set([
       'pending', 'pending_cod', 'paid', 'processing',
-      'shipped', 'delivered', 'cancelled', 'refunded', 'returned',
+      'shipped', 'delivered', 'cancelled', 'refunded', 'returned', 'return_requested',
     ]);
 
-    // Legal transitions. Previously ANY status could be set on ANY order, so
-    // "Mark Shipped" on an UNPAID order followed by "Dispatch to Qikink"
-    // printed and shipped free merchandise.
+    // Legal transitions.
     const ORDER_TRANSITIONS: Record<string, string[]> = {
       pending: ['paid', 'cancelled'],
       pending_cod: ['paid', 'cancelled'],
-      paid: ['processing', 'cancelled', 'refunded'],
-      processing: ['shipped', 'delivered', 'cancelled', 'refunded'],
-      shipped: ['delivered', 'refunded'],
-      delivered: ['returned'],
-      returned: [],
+      paid: ['processing', 'cancelled', 'refunded', 'return_requested'],
+      processing: ['shipped', 'delivered', 'cancelled', 'refunded', 'return_requested'],
+      shipped: ['delivered', 'refunded', 'return_requested'],
+      delivered: ['returned', 'return_requested', 'refunded'],
+      return_requested: ['processing', 'refunded', 'returned', 'cancelled'],
+      returned: ['refunded'],
       cancelled: [],
       refunded: [],
     };
