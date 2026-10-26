@@ -8,7 +8,7 @@ const TICKET_CATEGORIES = [
   { id: 'exchange', label: '7-Day Returns & Size Help' },
   { id: 'defect', label: 'Damaged / Defective Garment Received' },
   { id: 'payment', label: 'Payment Debited But Order Status Pending' },
-  { id: 'custom', label: 'Custom Studio Drops Inquiry' },
+  { id: 'custom', label: 'Product Sizing & Fit Inquiry' },
   { id: 'cancellation', label: 'Order Cancellation Request' },
   { id: 'other', label: 'Other Inquiries' },
 ];
@@ -123,7 +123,7 @@ export default function SupportClient() {
             Rare Ember Care Desk
           </h1>
           <p className="text-sm sm:text-base text-neutral-400 max-w-2xl leading-relaxed">
-            Direct customer assistance for orders, 7-day returns, custom drops, and tracking inquiries. Raise a ticket, request a direct callback, or contact operations directly.
+            Direct customer assistance for orders, 7-day returns, size assistance, and tracking inquiries. Raise a ticket, request a direct callback, or contact operations directly.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-4 text-xs text-neutral-300">
@@ -485,7 +485,7 @@ export default function SupportClient() {
                   type="text"
                   value={callReason}
                   onChange={(e) => setCallReason(e.target.value)}
-                  placeholder="e.g. Sizing questions, custom artwork inquiry, order delivery timing"
+                  placeholder="e.g. Sizing questions, order delivery timing, fabric details"
                   className="w-full px-4 py-3 text-sm rounded-lg border border-black/10 bg-neutral-50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white"
                 />
               </div>

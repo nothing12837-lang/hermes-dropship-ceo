@@ -31,10 +31,10 @@ export const COPY = {
         ],
       },
       {
-        title: 'Studio & Services',
+        title: 'About Rare Ember',
         links: [
-          { label: 'Custom Merch Studio', href: '/custom-drops' },
-          { label: 'About Rare Ember', href: '/about' },
+          { label: 'Brand Story', href: '/about' },
+          { label: 'All Catalog Drops', href: '/shop' },
         ],
       },
       {

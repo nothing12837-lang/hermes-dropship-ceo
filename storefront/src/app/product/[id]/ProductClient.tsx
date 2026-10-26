@@ -768,10 +768,10 @@ export function ProductClient({ product }: Props) {
   const comboItems: BundleSubItem[] = BUNDLE_SUB_ITEMS[product.id] || [];
 
   const searchParams = useSearchParams();
-  const isCustomizeMode = searchParams ? searchParams.get('customize') === '1' : false;
+  const isCustomizeMode = false;
   const isPrebuilt = Boolean(((product as any).isPrebuilt === true || (product as any).id?.startsWith('re-prebuilt-')) && !isCustomizeMode);
   // Hide Step 2: Artwork & Personalization on all pre-designed drops unless ?customize=1 is present (Directive 4)
-  const shouldShowArtworkStep = isCustomizeMode;
+  const shouldShowArtworkStep = false;
 
   const isMultiBundle = isComboProduct && comboItems.length > 1;
   const colorStepNum = 1;
@@ -3464,25 +3464,7 @@ export function ProductClient({ product }: Props) {
                   </button>
                 </div>
 
-                {/* Clean Callout for Custom Studio */}
-                {!isCustomizeMode && (
-                  <div className="mt-4 p-4 rounded-xl bg-[#12100E] text-white border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <div className="text-left">
-                      <div className="text-xs font-bold text-white">
-                        Looking for custom artwork or blank silhouettes?
-                      </div>
-                      <div className="text-[11px] text-neutral-400 mt-0.5">
-                        Print your own graphic, text, or brand logo on any blank hoodie or oversized tee.
-                      </div>
-                    </div>
-                    <Link
-                      href={`/custom-drops?base=${product.id}`}
-                      className="shrink-0 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold uppercase tracking-wider transition-all text-center no-underline border border-white/15"
-                    >
-                      Open Custom Studio ➔
-                    </Link>
-                  </div>
-                )}
+
               </div>
             )}
 

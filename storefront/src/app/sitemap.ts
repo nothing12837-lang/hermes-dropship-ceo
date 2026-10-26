@@ -11,7 +11,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${base}/`, lastModified: now, changeFrequency: 'daily', priority: 1.0 },
     { url: `${base}/shop`, lastModified: now, changeFrequency: 'daily', priority: 0.95 },
-    { url: `${base}/custom-drops`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
     { url: `${base}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/returns`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },

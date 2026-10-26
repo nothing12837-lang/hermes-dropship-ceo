@@ -51,7 +51,6 @@ const CATEGORY_TABS = [
   { id: 'printed', label: 'All Graphic Prints', href: '/shop?cat=printed' },
   { id: 'womens', label: "Women's Collection", href: '/shop?cat=womens' },
   { id: 'blanks', label: 'Essential Blanks', href: '/shop?cat=blanks' },
-  { id: 'custom-drops', label: 'Custom Merch Studio', href: '/custom-drops' },
 ];
 
 const ASSURANCES = [

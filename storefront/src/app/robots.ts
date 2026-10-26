@@ -51,7 +51,6 @@ export default function robots(): MetadataRoute.Robots {
           '/invoice',
           '/track',
           '/blog',
-          '/custom-drops',
         ],
         disallow: ['/admin/', '/api/', '/checkout', '/login', '/profile'],
       },
