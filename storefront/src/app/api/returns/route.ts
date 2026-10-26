@@ -5,6 +5,7 @@ import { notifyTelegramReturnClaim } from '@/lib/notifications/telegram';
 import { sendReturnClaimConfirmationEmail } from '@/lib/notifications/email';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { clientIp } from '@/lib/security/validation';
+import { generateSignedStoreCredit } from '@/lib/store-credit';
 
 export const runtime = 'nodejs';
 
@@ -162,17 +163,40 @@ export async function POST(req: NextRequest) {
     const orderTotal = Number(order.total_amount || 0);
     const customerName = order.shipping_name || (order.shipping_address as any)?.name || 'Customer';
 
-    // 5. Automated Store Credit Engine:
-    // If customer selected Store Credit + 10% Bonus, automatically issue the voucher code instantly!
+    // 5. Automated Store Credit Engine (Cryptographically Signed & Locked behind Reverse Pickup):
     const isStoreCredit = preference.toLowerCase().includes('credit');
     const storeCreditAmount = isStoreCredit ? Math.round(orderTotal * 1.1) : null;
     const storeCreditCode = isStoreCredit
-      ? `CREDIT-${storeCreditAmount}-${order.id.slice(0, 4).toUpperCase()}`
+      ? generateSignedStoreCredit(order.id, storeCreditAmount!)
       : null;
-    const claimStatus = isStoreCredit ? 'approved' : 'pending';
+    const claimStatus = isStoreCredit ? 'pending_pickup' : 'pending';
 
-    // Persist the claim: First attempt return_claims table
+    // Persist the claim: First attempt returns table, then return_claims table
     let savedInTable = false;
+    try {
+      const returnRow: Record<string, unknown> = {
+        claim_id: claimId,
+        order_id: order.id,
+        contact,
+        reason,
+        preference,
+        notes: isStoreCredit
+          ? `[STORE_CREDIT_RESERVED: ${storeCreditCode} (₹${storeCreditAmount}) (Status: pending_pickup)] ${notes || ''}`.trim()
+          : notes,
+        status: claimStatus,
+        voucher_code: isStoreCredit ? storeCreditCode : null,
+        is_redeemed: false,
+        order_total_inr: orderTotal,
+        payment_method: String(order.payment_method || 'cod'),
+      };
+      const { error: insertErr } = await sb.from('returns').insert(returnRow);
+      if (!insertErr) {
+        savedInTable = true;
+      }
+    } catch {
+      // returns table might not exist
+    }
+
     try {
       const claimRow: Record<string, unknown> = {
         claim_id: claimId,
@@ -180,8 +204,12 @@ export async function POST(req: NextRequest) {
         contact,
         reason,
         preference,
-        notes: isStoreCredit ? `[AUTO STORE CREDIT: ${storeCreditCode} (₹${storeCreditAmount})] ${notes || ''}`.trim() : notes,
+        notes: isStoreCredit
+          ? `[STORE_CREDIT_RESERVED: ${storeCreditCode} (₹${storeCreditAmount}) (Status: pending_pickup)] ${notes || ''}`.trim()
+          : notes,
         status: claimStatus,
+        voucher_code: isStoreCredit ? storeCreditCode : null,
+        is_redeemed: false,
         order_total_inr: orderTotal,
         payment_method: String(order.payment_method || 'cod'),
       };
@@ -196,7 +224,9 @@ export async function POST(req: NextRequest) {
           contact,
           reason,
           preference,
-          notes: isStoreCredit ? `[AUTO STORE CREDIT: ${storeCreditCode} (₹${storeCreditAmount})] ${notes || ''}`.trim() : notes,
+          notes: isStoreCredit
+            ? `[STORE_CREDIT_RESERVED: ${storeCreditCode} (₹${storeCreditAmount}) (Status: pending_pickup)] ${notes || ''}`.trim()
+            : notes,
           status: claimStatus,
         };
         const { error: minimalErr } = await sb.from('return_claims').insert(minimal);
@@ -215,9 +245,9 @@ export async function POST(req: NextRequest) {
       await sb
         .from('orders')
         .update({
-          status: isStoreCredit ? 'refunded' : 'return_requested',
+          status: 'return_requested',
           fulfillment_error: isStoreCredit
-            ? `STORE_CREDIT_ISSUED: [${storeCreditCode}] Value: ₹${storeCreditAmount} (+10% Bonus) | Claim: ${claimId} | Reason: ${reason}`
+            ? `STORE_CREDIT_RESERVED: [${storeCreditCode}] Value: ₹${storeCreditAmount} (+10% Bonus) | Status: pending_pickup | Claim: ${claimId} | Reason: ${reason}`
             : `RETURN_CLAIM: [${claimId}] Reason: ${reason} | Pref: ${preference} | Contact: ${contact}${notes ? ` | Notes: ${notes}` : ''}`,
           updated_at: new Date().toISOString(),
         })
@@ -237,9 +267,10 @@ export async function POST(req: NextRequest) {
       notes,
       storeCreditCode,
       storeCreditAmount,
+      status: claimStatus,
     }).catch((e) => console.error('[Returns] Telegram alert failed:', e));
 
-    // 8. Send confirmation email to customer if email is available
+    // 8. Send confirmation email to customer if email is available (voucher withheld until pickup scan)
     const recipientEmail = orderEmail || (contact.includes('@') ? contact : null);
     if (recipientEmail) {
       sendReturnClaimConfirmationEmail({
@@ -250,19 +281,21 @@ export async function POST(req: NextRequest) {
         reason,
         preference,
         isStoreCredit,
-        storeCreditCode,
+        storeCreditCode: null, // CRITICAL: NEVER send active voucher code before courier pickup scan!
         storeCreditAmount,
+        isPendingPickup: true,
       }).catch((e) => console.error('[Returns] Email dispatch failed:', e));
     }
 
     return NextResponse.json({
+      success: true,
       ok: true,
       claimId,
+      status: claimStatus,
       isStoreCredit,
-      storeCreditCode,
-      storeCreditAmount,
+      reservedCreditAmount: isStoreCredit ? storeCreditAmount : undefined,
       message: isStoreCredit
-        ? `Your Store Credit Voucher (${storeCreditCode}) worth ₹${storeCreditAmount} (+10% Bonus) has been automatically issued! Use it right now on any drop.`
+        ? `Your ₹${storeCreditAmount} Store Credit (110% Value) has been generated and locked to your account! Our courier partner will pick up your unworn original piece (or verify your claim via our Atelier Desk), and your instant voucher code will be activated via Email & WhatsApp immediately upon pickup scan.`
         : 'Your replacement request has been submitted. Our team will verify and dispatch within 24 hours.',
     });
   } catch (err: unknown) {

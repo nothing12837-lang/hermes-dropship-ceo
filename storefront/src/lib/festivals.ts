@@ -318,8 +318,8 @@ export function validateCouponCode(
     };
   }
 
-  // 3. Check Store Credit Vouchers (e.g. CREDIT-770-75DC, RECREDIT-500-XXXX)
-  const creditMatch = code.match(/^(?:RE-?)?CREDIT-(\d{2,5})-([A-Z0-9]{3,10})$/i);
+  // 3. Check Store Credit Vouchers (e.g. CREDIT-770-75DC, CREDIT-769-F57F-A1B2C3, RECREDIT-500-XXXX)
+  const creditMatch = code.match(/^(?:RE-?)?CREDIT-(\d{2,6})-([A-Z0-9]{3,10})(?:-([A-Z0-9]{6}))?$/i);
   if (creditMatch) {
     const creditAmount = parseInt(creditMatch[1], 10);
     if (creditAmount > 0) {

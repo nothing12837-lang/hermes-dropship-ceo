@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { validateCouponCode } from '@/lib/festivals';
+import {
+  generateSignedStoreCredit,
+  verifyStoreCreditCode,
+  redeemStoreCredit,
+  parseStoreCreditCode,
+  computeStoreCreditHmac,
+} from '@/lib/store-credit';
 
 describe('Returns, Replacements & Reverse Logistics System', () => {
   it('validates 7-day return window boundary correctly', () => {
@@ -90,5 +97,208 @@ describe('Returns, Replacements & Reverse Logistics System', () => {
     const resLarge = validateCouponCode(voucher, 1299);
     expect(resLarge.valid).toBe(true);
     expect(resLarge.discountAmount).toBe(770);
+  });
+});
+
+describe('Cryptographic Store Credit & Anti-Fraud Engine (store-credit.ts)', () => {
+  const testOrderId = '7792e434-7bf5-4ff4-9296-cf2f4c2af57f';
+  const testAmount = 769;
+
+  it('generates a valid signed store credit voucher with HMAC-SHA256 signature', () => {
+    const code = generateSignedStoreCredit(testOrderId, testAmount);
+    expect(code.startsWith('CREDIT-769-F57F-')).toBe(true);
+
+    const parsed = parseStoreCreditCode(code);
+    expect(parsed).not.toBeNull();
+    expect(parsed?.amount).toBe(769);
+    expect(parsed?.orderSuffix).toBe('F57F');
+    expect(parsed?.sig.length).toBe(6);
+
+    const expectedHmac = computeStoreCreditHmac(testOrderId, 769);
+    expect(parsed?.sig).toBe(expectedHmac);
+  });
+
+  it('detects and fails verification if a user tampers with the amount (CREDIT-769 -> CREDIT-5000)', async () => {
+    const legitCode = generateSignedStoreCredit(testOrderId, 769);
+    const parsed = parseStoreCreditCode(legitCode)!;
+
+    // Attacker modifies the credit amount from 769 to 5000 keeping the old signature
+    const tamperedCode = `CREDIT-5000-${parsed.orderSuffix}-${parsed.sig}`;
+
+    // Attacker tries to verify against an order in the database
+    const mockDb = {
+      from: () => ({
+        select: () => ({
+          eq: () => ({
+            maybeSingle: async () => ({
+              data: {
+                claim_id: 'RE-CLM-001',
+                order_id: testOrderId,
+                voucher_code: tamperedCode,
+                status: 'credit_released',
+                credit_amount: 5000,
+                is_redeemed: false,
+              },
+              error: null,
+            }),
+          }),
+          ilike: () => ({
+            limit: async () => ({ data: [], error: null }),
+          }),
+        }),
+      }),
+    };
+
+    const res = await verifyStoreCreditCode(tamperedCode, mockDb);
+    expect(res.valid).toBe(false);
+    expect(res.error).toContain('Invalid or tampered store credit voucher signature');
+  });
+
+  it('rejects store credit vouchers that are still in pending_pickup status (Path 1 Loophole Closed)', async () => {
+    const validCode = generateSignedStoreCredit(testOrderId, 769);
+
+    const mockDb = {
+      from: () => ({
+        select: () => ({
+          eq: () => ({
+            maybeSingle: async () => ({
+              data: {
+                claim_id: 'RE-CLM-001',
+                order_id: testOrderId,
+                voucher_code: validCode,
+                status: 'pending_pickup',
+                credit_amount: 769,
+                is_redeemed: false,
+              },
+              error: null,
+            }),
+          }),
+          ilike: () => ({
+            limit: async () => ({ data: [], error: null }),
+          }),
+        }),
+      }),
+    };
+
+    const res = await verifyStoreCreditCode(validCode, mockDb);
+    expect(res.valid).toBe(false);
+    expect(res.status).toBe('pending_pickup');
+    expect(res.error).toBe(
+      'This store credit voucher is reserved and will activate automatically once your return pickup is scanned.'
+    );
+  });
+
+  it('rejects store credit vouchers that have already been redeemed (Single-Use Lock Enforcement)', async () => {
+    const validCode = generateSignedStoreCredit(testOrderId, 769);
+
+    const mockDb = {
+      from: () => ({
+        select: () => ({
+          eq: () => ({
+            maybeSingle: async () => ({
+              data: {
+                claim_id: 'RE-CLM-001',
+                order_id: testOrderId,
+                voucher_code: validCode,
+                status: 'credit_released',
+                credit_amount: 769,
+                is_redeemed: true,
+                redeemed_order_id: 'order_prior_redemption',
+              },
+              error: null,
+            }),
+          }),
+          ilike: () => ({
+            limit: async () => ({ data: [], error: null }),
+          }),
+        }),
+      }),
+    };
+
+    const res = await verifyStoreCreditCode(validCode, mockDb);
+    expect(res.valid).toBe(false);
+    expect(res.isRedeemed).toBe(true);
+    expect(res.error).toBe('This store credit voucher has already been used.');
+  });
+
+  it('successfully verifies a released, unredeemed voucher with matching HMAC', async () => {
+    const validCode = generateSignedStoreCredit(testOrderId, 769);
+
+    const mockDb = {
+      from: () => ({
+        select: () => ({
+          eq: () => ({
+            maybeSingle: async () => ({
+              data: {
+                claim_id: 'RE-CLM-001',
+                order_id: testOrderId,
+                voucher_code: validCode,
+                status: 'credit_released',
+                credit_amount: 769,
+                is_redeemed: false,
+              },
+              error: null,
+            }),
+          }),
+          ilike: () => ({
+            limit: async () => ({ data: [], error: null }),
+          }),
+        }),
+      }),
+    };
+
+    const res = await verifyStoreCreditCode(validCode, mockDb);
+    expect(res.valid).toBe(true);
+    expect(res.creditAmount).toBe(769);
+    expect(res.orderId).toBe(testOrderId);
+  });
+
+  it('redeems a voucher and locks it so it cannot be used again', async () => {
+    const validCode = generateSignedStoreCredit(testOrderId, 769);
+    const dbRecord = {
+      claim_id: 'RE-CLM-001',
+      order_id: testOrderId,
+      voucher_code: validCode,
+      status: 'credit_released',
+      credit_amount: 769,
+      is_redeemed: false,
+      redeemed_order_id: null as string | null,
+    };
+
+    const mockDb = {
+      from: () => ({
+        select: () => ({
+          eq: () => ({
+            maybeSingle: async () => ({ data: dbRecord, error: null }),
+          }),
+          ilike: () => ({
+            limit: async () => ({ data: [], error: null }),
+          }),
+        }),
+        update: (payload: any) => ({
+          eq: (field: string, val: any) => {
+            if (field === 'voucher_code' && val === validCode) {
+              Object.assign(dbRecord, payload);
+            }
+            return Promise.resolve({ error: null });
+          },
+        }),
+      }),
+    };
+
+    // First verification: should succeed
+    const firstCheck = await verifyStoreCreditCode(validCode, mockDb);
+    expect(firstCheck.valid).toBe(true);
+
+    // Redeem voucher for new order
+    const redeemRes = await redeemStoreCredit(validCode, 'new_order_999', mockDb);
+    expect(redeemRes.success).toBe(true);
+    expect(dbRecord.is_redeemed).toBe(true);
+    expect(dbRecord.redeemed_order_id).toBe('new_order_999');
+
+    // Second verification attempt: must fail with "already been used"
+    const secondCheck = await verifyStoreCreditCode(validCode, mockDb);
+    expect(secondCheck.valid).toBe(false);
+    expect(secondCheck.error).toBe('This store credit voucher has already been used.');
   });
 });

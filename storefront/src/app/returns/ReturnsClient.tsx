@@ -15,7 +15,9 @@ export function ReturnsClient() {
   const [claimResult, setClaimResult] = useState<{
     claimId: string;
     message: string;
+    status?: string;
     isStoreCredit?: boolean;
+    reservedCreditAmount?: number;
     storeCreditCode?: string;
     storeCreditAmount?: number;
   } | null>(null);
@@ -67,9 +69,11 @@ export function ReturnsClient() {
       setClaimResult({
         claimId: data.claimId || 'RE-CLM-7842',
         message: data.message || 'Claim received! We will process your replacement within 24 hours.',
+        status: data.status,
         isStoreCredit: data.isStoreCredit,
+        reservedCreditAmount: data.reservedCreditAmount || data.storeCreditAmount,
+        storeCreditAmount: data.storeCreditAmount || data.reservedCreditAmount,
         storeCreditCode: data.storeCreditCode,
-        storeCreditAmount: data.storeCreditAmount,
       });
     } catch {
       setError('Network error while submitting. Please email support@rareember.shop directly.');
@@ -144,53 +148,74 @@ export function ReturnsClient() {
         </div>
 
         {claimResult ? (
-          claimResult.isStoreCredit && claimResult.storeCreditCode ? (
-            <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-amber-500/10 via-emerald-500/10 to-emerald-500/5 border border-emerald-500/30 text-center space-y-4 shadow-xl">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-800 text-[11px] font-black uppercase tracking-wider">
-                <span>🎉</span> Instant Store Credit Active (+10% Bonus)
+          claimResult.isStoreCredit || claimResult.status === 'pending_pickup' ? (
+            <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-amber-500/10 via-amber-500/5 to-transparent border border-amber-500/30 text-center space-y-6 shadow-xl">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/20 text-amber-900 border border-amber-500/30 text-xs font-black uppercase tracking-wider">
+                <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                🔒 110% Store Credit Reserved — Pending Courier Pickup Scan
               </div>
-              <h3 className="text-2xl sm:text-3xl font-black text-neutral-950">
-                ₹{claimResult.storeCreditAmount} Store Credit Issued!
-              </h3>
-              <p className="text-xs text-neutral-600 max-w-md mx-auto leading-relaxed">
-                Your return request has been automatically resolved. We added an extra 10% bonus credit to your order value. Use your voucher code below at checkout:
+
+              <div className="space-y-2">
+                <span className="text-xs font-mono font-bold text-amber-800 uppercase tracking-widest block">
+                  Atelier Return Claim #{claimResult.claimId}
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-black text-neutral-950">
+                  ₹{claimResult.reservedCreditAmount || claimResult.storeCreditAmount} Store Credit Locked to Claim #{claimResult.claimId}
+                </h3>
+              </div>
+
+              <p className="text-sm text-neutral-700 max-w-xl mx-auto leading-relaxed font-medium">
+                Your ₹{claimResult.reservedCreditAmount || claimResult.storeCreditAmount} Store Credit (100% Order Value + 10% Atelier Bonus) is locked to Claim #{claimResult.claimId}. As soon as our courier partner scans your unworn pickup at your doorstep (or our Atelier Desk verifies your claim), your single-use voucher code is automatically activated and dispatched to your Email &amp; WhatsApp.
               </p>
 
-              <div className="max-w-xs mx-auto p-4 bg-neutral-950 rounded-2xl border border-amber-500/30 flex items-center justify-between gap-3 shadow-lg">
-                <div className="text-left">
-                  <span className="text-[10px] text-amber-400 font-bold uppercase tracking-wider block">Voucher Code</span>
-                  <span className="font-mono text-base sm:text-lg font-black text-white">{claimResult.storeCreditCode}</span>
+              {/* Security & Pickup Status Stepper */}
+              <div className="grid sm:grid-cols-3 gap-3 max-w-2xl mx-auto text-left pt-2">
+                <div className="p-4 rounded-2xl bg-white border border-black/[0.08] shadow-xs">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="w-5 h-5 rounded-full bg-emerald-500 text-white text-[10px] font-black flex items-center justify-center">✓</span>
+                    <span className="text-xs font-bold text-neutral-900">1. Claim Reserved</span>
+                  </div>
+                  <p className="text-[11px] text-neutral-500 leading-tight">
+                    110% Store credit amount cryptographically generated &amp; secured.
+                  </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (claimResult.storeCreditCode) {
-                      navigator.clipboard.writeText(claimResult.storeCreditCode);
-                      setCopiedCode(true);
-                      setTimeout(() => setCopiedCode(false), 3000);
-                    }
-                  }}
-                  className="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 text-xs font-black transition-all cursor-pointer"
-                >
-                  {copiedCode ? '✓ Copied' : 'Copy'}
-                </button>
+
+                <div className="p-4 rounded-2xl bg-amber-50 border border-amber-300 shadow-xs">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="w-5 h-5 rounded-full bg-amber-500 text-neutral-950 text-[10px] font-black flex items-center justify-center">⚡</span>
+                    <span className="text-xs font-bold text-amber-950">2. Courier Pickup</span>
+                  </div>
+                  <p className="text-[11px] text-amber-800 leading-tight">
+                    Courier scans unworn original garment at your doorstep.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-neutral-50 border border-black/[0.06] opacity-80">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="w-5 h-5 rounded-full bg-neutral-300 text-neutral-600 text-[10px] font-black flex items-center justify-center">🔒</span>
+                    <span className="text-xs font-bold text-neutral-600">3. Instant Voucher</span>
+                  </div>
+                  <p className="text-[11px] text-neutral-500 leading-tight">
+                    Single-use code unlocked &amp; dispatched via Email &amp; WhatsApp.
+                  </p>
+                </div>
               </div>
 
-              <p className="text-[11px] text-neutral-500">
-                Ticket ID: <strong className="font-mono text-xs">{claimResult.claimId}</strong> • Valid across all current and upcoming drops. No minimum spend.
-              </p>
+              <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 max-w-lg mx-auto text-xs text-amber-900 leading-relaxed">
+                🛡️ <b>Anti-Fraud Guarantee:</b> To prevent duplicate inventory loss, active voucher codes unlock immediately once courier reverse pickup scan is recorded.
+              </div>
 
               <div className="pt-2 flex flex-wrap gap-3 justify-center">
                 <Link
-                  href="/shop"
+                  href="/track"
                   className="px-6 py-3 rounded-xl bg-[#161311] text-white text-xs font-black no-underline hover:bg-neutral-800 transition-all shadow-md"
                 >
-                  Shop Drops &amp; Apply Credit →
+                  Track Claim &amp; Reverse Pickup Status →
                 </Link>
                 <button
                   type="button"
                   onClick={() => setClaimResult(null)}
-                  className="px-5 py-3 rounded-xl bg-white text-neutral-800 text-xs font-bold border border-black/10 cursor-pointer"
+                  className="px-5 py-3 rounded-xl bg-white text-neutral-800 text-xs font-bold border border-black/10 hover:bg-neutral-50 transition-all cursor-pointer"
                 >
                   File Another Request
                 </button>

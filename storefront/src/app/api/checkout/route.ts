@@ -5,6 +5,7 @@ import { checkRateLimit } from '@/lib/security/rate-limit';
 import { clientIp, normalizeEmail, sanitizeCheckoutItems, sanitizeMessage } from '@/lib/security/validation';
 import { products as staticCatalog, getProduct, enforcePriceFloor } from '@/lib/data/products';
 import { validateCouponCode } from '@/lib/festivals';
+import { verifyStoreCreditCode, redeemStoreCredit } from '@/lib/store-credit';
 
 function getRazorpay(): Razorpay | null {
   const key_id = process.env.RAZORPAY_KEY_ID;
@@ -167,11 +168,20 @@ export async function POST(req: NextRequest) {
       if (hasBundle) {
         console.log(`[Checkout API] Coupon ${body.coupon_code} disallowed on bundle cart.`);
         return NextResponse.json({ error: 'Coupon codes cannot be applied to combo bundles.' }, { status: 400 });
+      }
+      const rawCode = body.coupon_code.trim().toUpperCase();
+      if (rawCode.startsWith('CREDIT-') || rawCode.startsWith('RECREDIT-') || rawCode.startsWith('RE-CREDIT-')) {
+        const creditCheck = await verifyStoreCreditCode(rawCode, supabase);
+        if (!creditCheck.valid) {
+          return NextResponse.json({ error: creditCheck.error || 'Invalid store credit voucher.' }, { status: 400 });
+        }
+        discountAmount = Math.min(creditCheck.creditAmount, subtotal);
+        verifiedCoupon = rawCode;
       } else {
         const couponCheck = validateCouponCode(body.coupon_code, subtotal);
         if (couponCheck.valid) {
           discountAmount = couponCheck.discountAmount;
-          verifiedCoupon = body.coupon_code.trim().toUpperCase();
+          verifiedCoupon = rawCode;
         } else {
           return NextResponse.json({
             error: couponCheck.error || `Coupon code "${body.coupon_code}" is invalid or minimum order requirement not met.`
@@ -222,6 +232,7 @@ export async function POST(req: NextRequest) {
         const mockOrderId = `mock_${Date.now()}`;
         if (supabase) {
           await insertOrder({
+            id: mockOrderId,
             user_email: email,
             user_id: body.user_id || null,
             stripe_session_id: mockOrderId,
@@ -232,6 +243,9 @@ export async function POST(req: NextRequest) {
             subtotal,
             shipping: 0,
           });
+          if (verifiedCoupon && (verifiedCoupon.startsWith('CREDIT-') || verifiedCoupon.startsWith('RECREDIT-') || verifiedCoupon.startsWith('RE-CREDIT-'))) {
+            await redeemStoreCredit(verifiedCoupon, mockOrderId, supabase);
+          }
         }
         return NextResponse.json({ mock: true, url: `/success?mock=1&email=${encodeURIComponent(email)}&total=${finalTotal.toFixed(2)}` });
       }
@@ -260,7 +274,9 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    const checkoutOrderId = crypto.randomUUID();
     const saved = await insertOrder({
+      id: checkoutOrderId,
       user_email: email,
       user_id: body.user_id || null,
       stripe_session_id: rzpOrder.id,
@@ -276,6 +292,10 @@ export async function POST(req: NextRequest) {
 
     if (!saved) {
       return NextResponse.json({ error: 'Failed to create order' }, { status: 500 });
+    }
+
+    if (verifiedCoupon && (verifiedCoupon.startsWith('CREDIT-') || verifiedCoupon.startsWith('RECREDIT-') || verifiedCoupon.startsWith('RE-CREDIT-'))) {
+      await redeemStoreCredit(verifiedCoupon, checkoutOrderId, supabase);
     }
 
     return NextResponse.json({

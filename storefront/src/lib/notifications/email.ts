@@ -628,6 +628,7 @@ export async function sendReturnClaimConfirmationEmail(payload: {
   isStoreCredit?: boolean;
   storeCreditCode?: string | null;
   storeCreditAmount?: number | null;
+  isPendingPickup?: boolean;
 }): Promise<{ ok: boolean; error?: string }> {
   const apiKey = process.env.RESEND_API_KEY;
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'Rare Ember <support@rareember.shop>';
@@ -637,7 +638,8 @@ export async function sendReturnClaimConfirmationEmail(payload: {
     return { ok: true };
   }
 
-  const isCredit = Boolean(payload.isStoreCredit && payload.storeCreditCode);
+  const isCreditActive = Boolean(payload.isStoreCredit && payload.storeCreditCode);
+  const isCreditPending = Boolean(payload.isStoreCredit && !payload.storeCreditCode);
 
   const html = `
     <!DOCTYPE html>
@@ -645,7 +647,7 @@ export async function sendReturnClaimConfirmationEmail(payload: {
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${isCredit ? `Store Credit Issued: ${payload.storeCreditCode}` : `Return Request Logged: #${payload.claimId}`} — Rare Ember</title>
+        <title>${isCreditActive ? `Store Credit Issued: ${payload.storeCreditCode}` : isCreditPending ? `110% Store Credit Reserved: #${payload.claimId}` : `Return Request Logged: #${payload.claimId}`} — Rare Ember</title>
       </head>
       <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #FAF8F5; margin: 0; padding: 32px 16px; color: #0D0D0F;">
         <div style="max-width: 540px; margin: 0 auto; background: #FFFFFF; border-radius: 20px; border: 1px solid rgba(13, 13, 15, 0.08); padding: 36px 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.04);">
@@ -660,22 +662,24 @@ export async function sendReturnClaimConfirmationEmail(payload: {
 
           <div style="text-align: center; margin-bottom: 24px;">
             <div style="display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); color: #065F46; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">
-              ${isCredit ? '🎉 Instant Store Credit Active' : 'Claim Received &amp; Logged'}
+              ${isCreditActive ? '🎉 Instant Store Credit Active' : isCreditPending ? '🔒 110% Store Credit Reserved (Pending Pickup)' : 'Claim Received &amp; Logged'}
             </div>
             <h1 style="font-size: 22px; font-weight: 800; color: #0D0D0F; margin: 0 0 8px 0; letter-spacing: -0.02em;">
-              ${isCredit ? `₹${payload.storeCreditAmount} Store Credit Voucher Issued!` : "We&#39;ve Got You Covered"}
+              ${isCreditActive ? `₹${payload.storeCreditAmount} Store Credit Voucher Issued!` : isCreditPending ? `₹${payload.storeCreditAmount} Store Credit Locked to Account` : "We&#39;ve Got You Covered"}
             </h1>
             <p style="font-size: 13px; color: #52525B; line-height: 1.5; margin: 0;">
               ${
-                isCredit
-                  ? `Hello ${payload.name || 'there'}, we have automatically resolved your return request with an extra 10% bonus credit! Use your voucher code below on any drop.`
+                isCreditActive
+                  ? `Hello ${payload.name || 'there'}, your 110% store credit voucher is now active! Use your single-use code below on any drop.`
+                  : isCreditPending
+                  ? `Hello ${payload.name || 'there'}, your ₹${payload.storeCreditAmount} Store Credit (110% Value) has been generated and locked to your account! Our courier partner will pick up your unworn original piece (or verify your claim via our Atelier Desk), and your instant voucher code will be activated via Email & WhatsApp immediately upon pickup scan.`
                   : `Hello ${payload.name || 'there'}, your request for Order <strong>#${payload.orderId}</strong> has been logged. Our concierge care team will review and contact you on WhatsApp/phone within 24 hours.`
               }
             </p>
           </div>
 
           ${
-            isCredit
+            isCreditActive
               ? `
           <div style="background: #0D0D0F; border-radius: 16px; padding: 24px 16px; text-align: center; margin-bottom: 24px; border: 1px solid rgba(245, 158, 11, 0.3);">
             <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #F59E0B; margin-bottom: 8px;">
@@ -734,10 +738,33 @@ export async function sendReturnClaimConfirmationEmail(payload: {
     apiKey,
     fromEmail,
     toEmail: payload.email,
-    subjectLine: isCredit
+    subjectLine: isCreditActive
       ? `[Store Credit ₹${payload.storeCreditAmount}] Voucher ${payload.storeCreditCode} for #${payload.orderId} — Rare Ember`
+      : isCreditPending
+      ? `[Store Credit Reserved ₹${payload.storeCreditAmount}] Claim #${payload.claimId} for Order #${payload.orderId} — Rare Ember`
       : `[Ticket ${payload.claimId}] Return/Replacement Request for #${payload.orderId} — Rare Ember`,
     html,
+  });
+}
+
+export async function sendStoreCreditActivatedEmail(payload: {
+  email: string;
+  name?: string;
+  orderId: string;
+  claimId: string;
+  voucherCode: string;
+  amount: number;
+}): Promise<{ ok: boolean; error?: string }> {
+  return await sendReturnClaimConfirmationEmail({
+    email: payload.email,
+    name: payload.name,
+    claimId: payload.claimId,
+    orderId: payload.orderId,
+    reason: 'Store Credit + 10% Extra Bonus',
+    preference: 'Store Credit + 10% Extra Bonus',
+    isStoreCredit: true,
+    storeCreditCode: payload.voucherCode,
+    storeCreditAmount: payload.amount,
   });
 }
 

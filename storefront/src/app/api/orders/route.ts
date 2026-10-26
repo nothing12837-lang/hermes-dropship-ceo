@@ -7,6 +7,7 @@ import { notifyTelegramOrder } from '@/lib/notifications/telegram';
 import { sendOrderConfirmationEmail, sendOrderDeliveredInvoiceEmail } from '@/lib/notifications/email';
 import { isAdmin } from '@/lib/security/auth';
 import { validateCouponCode } from '@/lib/festivals';
+import { verifyStoreCreditCode, redeemStoreCredit } from '@/lib/store-credit';
 import { products as fallbackCatalog, getProduct, enforcePriceFloor } from '@/lib/data/products';
 import { fulfillQikinkOrder, isTestOrder } from '@/lib/fulfillment/qikink';
 
@@ -432,14 +433,23 @@ export async function POST(req: NextRequest) {
             error: 'The PREPAID30 coupon is exclusively valid for online prepaid orders.'
           }, { status: 400 });
         }
-        const couponCheck = validateCouponCode(body.coupon_code, calculatedSubtotal);
-        if (couponCheck.valid) {
-          discountAmount = couponCheck.discountAmount;
-          verifiedCoupon = String(body.coupon_code).trim().toUpperCase();
+        if (normalizedCode.startsWith('CREDIT-') || normalizedCode.startsWith('RECREDIT-') || normalizedCode.startsWith('RE-CREDIT-')) {
+          const credCheck = await verifyStoreCreditCode(normalizedCode, sb);
+          if (!credCheck.valid) {
+            return NextResponse.json({ error: credCheck.error || 'Invalid store credit voucher.' }, { status: 400 });
+          }
+          discountAmount = Math.min(credCheck.creditAmount, calculatedSubtotal);
+          verifiedCoupon = normalizedCode;
         } else {
-          return NextResponse.json({
-            error: couponCheck.error || `Coupon code "${body.coupon_code}" is invalid or order requirements not met.`
-          }, { status: 400 });
+          const couponCheck = validateCouponCode(body.coupon_code, calculatedSubtotal);
+          if (couponCheck.valid) {
+            discountAmount = couponCheck.discountAmount;
+            verifiedCoupon = normalizedCode;
+          } else {
+            return NextResponse.json({
+              error: couponCheck.error || `Coupon code "${body.coupon_code}" is invalid or order requirements not met.`
+            }, { status: 400 });
+          }
         }
       }
     } else if (body.discount && Number(body.discount) > 0) {
@@ -541,6 +551,10 @@ export async function POST(req: NextRequest) {
     }
 
     const finalOrderId = orderId;
+
+    if (verifiedCoupon && (verifiedCoupon.startsWith('CREDIT-') || verifiedCoupon.startsWith('RECREDIT-') || verifiedCoupon.startsWith('RE-CREDIT-'))) {
+      await redeemStoreCredit(verifiedCoupon, finalOrderId, sb);
+    }
 
     // Automated Alert to Store Owner on Telegram
     await notifyTelegramOrder({

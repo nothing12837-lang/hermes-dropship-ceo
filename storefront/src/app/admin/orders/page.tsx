@@ -185,6 +185,34 @@ export default function AdminOrdersPage() {
     }
   };
 
+  const handleReleaseStoreCredit = async (orderId: string, claimId?: string) => {
+    setUpdatingId(orderId);
+    setError('');
+    setActionSuccess('');
+    try {
+      const res = await fetch('/api/admin/returns/approve', {
+        method: 'POST',
+        headers: { ...headers(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, claimId, action: 'release_credit' }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || 'Failed to release store credit');
+      }
+      if (data.voucherCode && typeof navigator !== 'undefined' && navigator.clipboard) {
+        navigator.clipboard.writeText(data.voucherCode).catch(() => {});
+      }
+      setActionSuccess(
+        `✅ Activated & Emailed 110% Store Credit (${data.voucherCode || 'Code'}) for ₹${data.creditAmount}! (Copied to clipboard)`
+      );
+      await load();
+    } catch (err: any) {
+      setError(err?.message || 'Failed to approve and release store credit');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
   const handleDeleteOrder = async (orderId: string) => {
     if (!window.confirm(`Permanently delete order #${orderId.slice(0, 8)}? This cannot be undone.`)) {
       return;
@@ -744,15 +772,11 @@ export default function AdminOrdersPage() {
                             🏭 Claim Free Qikink Defect Reprint ↗
                           </a>
                           <button
-                            onClick={() => {
-                              const bonus = Math.round(Number(o.total_amount) * 1.1);
-                              const code = `CREDIT-${bonus}-${o.id.slice(0, 4).toUpperCase()}`;
-                              navigator.clipboard.writeText(code);
-                              setActionSuccess(`Copied Store Credit Voucher: ${code} (₹${bonus} with +10% bonus)`);
-                            }}
-                            className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all cursor-pointer border border-emerald-400/40"
+                            onClick={() => void handleReleaseStoreCredit(o.id)}
+                            disabled={updatingId === o.id}
+                            className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all cursor-pointer border border-emerald-400/40 disabled:opacity-50"
                           >
-                            💳 Copy Store Credit Voucher (+10% Bonus)
+                            💳 Approve &amp; Release 110% Store Credit
                           </button>
                           <button
                             onClick={() => void updateOrderStatus(o.id, 'refunded')}
@@ -1274,15 +1298,11 @@ export default function AdminOrdersPage() {
                               🏭 Claim Free Qikink Defect Reprint ↗
                             </a>
                             <button
-                              onClick={() => {
-                                const bonus = Math.round(Number(claimOrder.total_amount) * 1.1);
-                                const code = `CREDIT-${bonus}-${claimOrder.id.slice(0, 4).toUpperCase()}`;
-                                navigator.clipboard.writeText(code);
-                                setActionSuccess(`Copied Store Credit Voucher: ${code} (₹${bonus} with +10% bonus)`);
-                              }}
-                              className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all cursor-pointer border border-emerald-400/40"
+                              onClick={() => void handleReleaseStoreCredit(claimOrder.id)}
+                              disabled={updatingId === claimOrder.id}
+                              className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all cursor-pointer border border-emerald-400/40 disabled:opacity-50"
                             >
-                              💳 Copy Store Credit Voucher (+10% Bonus)
+                              💳 Approve &amp; Release 110% Store Credit
                             </button>
                             <button
                               onClick={() => void updateOrderStatus(claimOrder.id, 'refunded')}

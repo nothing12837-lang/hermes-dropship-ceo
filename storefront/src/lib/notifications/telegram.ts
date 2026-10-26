@@ -137,6 +137,7 @@ export async function notifyTelegramReturnClaim(claim: {
   customerName?: string;
   storeCreditCode?: string | null;
   storeCreditAmount?: number | null;
+  status?: string;
 }) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
@@ -155,10 +156,8 @@ export async function notifyTelegramReturnClaim(claim: {
     const waText = claim.storeCreditCode
       ? encodeURIComponent(
           `Namaste ${custName}! 🙏\n\n` +
-          `Team Rare Ember here! We have automatically approved your Store Credit with an extra 10% bonus!\n\n` +
-          `🎟️ Your Voucher Code: *${claim.storeCreditCode}*\n` +
-          `💰 Value: *₹${claim.storeCreditAmount}* (Valid on any drop, no minimum order)\n\n` +
-          `You can use it right now on https://www.rareember.shop. Thank you for being a part of Rare Ember! ✨`
+          `Team Rare Ember here regarding your Store Credit (+10% Bonus) claim #${claim.claimId} for Order #${claim.orderId}.\n\n` +
+          `Your ₹${claim.storeCreditAmount} Store Credit voucher is reserved! Our courier partner will pick up your unworn original piece, and your instant voucher will be activated immediately upon pickup scan. ✨`
         )
       : encodeURIComponent(
           `Namaste ${custName}! 🙏\n\n` +
@@ -174,7 +173,7 @@ export async function notifyTelegramReturnClaim(claim: {
   const isCredit = Boolean(claim.storeCreditCode);
 
   const text = [
-    isCredit ? `🎉 <b>AUTOMATIC STORE CREDIT VOUCHER ISSUED!</b> 💳` : `⚠️ <b>NEW REPLACEMENT / RETURN CLAIM!</b> 🔄`,
+    isCredit ? `🔒 <b>110% STORE CREDIT CLAIM (PENDING PICKUP SCAN)</b> 💳` : `⚠️ <b>NEW REPLACEMENT / RETURN CLAIM!</b> 🔄`,
     ``,
     `🎫 <b>Claim Ticket ID:</b> <code>#${claim.claimId}</code>`,
     `🆔 <b>Order ID:</b> <code>#${claim.orderId}</code>`,
@@ -182,12 +181,14 @@ export async function notifyTelegramReturnClaim(claim: {
     `📞 <b>Customer Contact:</b> <b>${claim.contact}</b>`,
     `📋 <b>Reason:</b> <b>${claim.reason}</b>`,
     `🔄 <b>Requested Resolution:</b> <b>${claim.preference}</b>`,
-    isCredit ? `🎟️ <b>Voucher Code:</b> <code>${claim.storeCreditCode}</code> (<b>₹${claim.storeCreditAmount}</b>)` : '',
-    isCredit ? `✨ <i>Customer received voucher code immediately on-screen and via email. Zero cash refund needed!</i>` : '',
+    isCredit ? `🎟️ <b>Reserved Voucher Code:</b> <code>${claim.storeCreditCode}</code> (<b>₹${claim.storeCreditAmount}</b>)` : '',
+    isCredit ? `🔒 <i>Status: LOCKED to account. Voucher activates upon pickup scan.</i>` : '',
     claim.notes ? `📝 <b>Customer Notes:</b> <i>"${claim.notes}"</i>` : '',
     ``,
     waSection ? `${waSection}\n${callSection}\n` : '',
-    !isCredit ? `⚡ <b>ACTION REQUIRED:</b>\n1. Verify customer order in <a href="https://www.rareember.shop/admin/orders">Admin Orders Portal</a>.\n2. If size mismatch or misprint, trigger 1-click free replacement order via Qikink.\n3. Contact customer via WhatsApp / Email to reassure with 7-Day Guarantee.` : ''
+    isCredit
+      ? `⚡ <b>ACTION REQUIRED:</b>\n1. Reverse pickup scheduled for original unworn garment.\n2. Once reverse pickup is scanned or verified, click <b>"Approve & Release Store Credit"</b> in <a href="https://www.rareember.shop/admin/orders">Admin Orders Portal</a>.\n3. Voucher code will then be activated and emailed to customer automatically.`
+      : `⚡ <b>ACTION REQUIRED:</b>\n1. Verify customer order in <a href="https://www.rareember.shop/admin/orders">Admin Orders Portal</a>.\n2. If size mismatch or misprint, trigger 1-click free replacement order via Qikink.\n3. Contact customer via WhatsApp / Email to reassure with 7-Day Guarantee.`
   ].filter(Boolean).join('\n');
 
   try {
@@ -203,6 +204,48 @@ export async function notifyTelegramReturnClaim(claim: {
     });
   } catch (err) {
     console.error('Failed to dispatch Telegram return alert:', err);
+  }
+}
+
+export async function notifyTelegramStoreCreditReleased(details: {
+  orderId: string;
+  claimId?: string;
+  customerName?: string;
+  voucherCode: string;
+  amount: number;
+  email?: string;
+}) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
+
+  if (!enabled || !token || !chatId) return;
+
+  const text = [
+    `✅ <b>STORE CREDIT ACTIVATED & EMAILED!</b> 🎉`,
+    ``,
+    `🆔 <b>Order ID:</b> <code>#${details.orderId}</code>`,
+    details.claimId ? `🎫 <b>Claim ID:</b> <code>#${details.claimId}</code>` : '',
+    `👤 <b>Customer:</b> ${details.customerName || 'Customer'} ${details.email ? `(${details.email})` : ''}`,
+    `🎟️ <b>Active Voucher Code:</b> <code>${details.voucherCode}</code>`,
+    `💰 <b>Amount:</b> <b>₹${details.amount}</b> (110% Atelier Value)`,
+    ``,
+    `✨ Single-use voucher is now active and emailed to customer. Double-spend cryptographic protection enforced.`
+  ].filter(Boolean).join('\n');
+
+  try {
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: 'HTML',
+        disable_web_page_preview: true,
+      }),
+    });
+  } catch (err) {
+    console.error('Failed to dispatch Telegram store credit release alert:', err);
   }
 }
 
