@@ -71,6 +71,28 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: '(?<domain>.*\\.vercel\\.app)',
+          },
+        ],
+        destination: 'https://www.rareember.shop/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'rareember.shop',
+          },
+        ],
+        destination: 'https://www.rareember.shop/:path*',
+        permanent: true,
+      },
+      {
         source: '/product/fashion-leather-jacket',
         destination: '/shop',
         permanent: true,

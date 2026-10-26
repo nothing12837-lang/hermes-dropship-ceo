@@ -20,11 +20,28 @@ export function LoginClient() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTarget = searchParams.get('redirect') || searchParams.get('next') || '/profile';
+  const rawTarget = searchParams.get('redirect') || searchParams.get('next') || '/profile';
+  const redirectTarget = (() => {
+    try {
+      if (rawTarget.startsWith('/') && !rawTarget.startsWith('//')) {
+        return rawTarget;
+      }
+      const parsed = new URL(rawTarget);
+      return `${parsed.pathname}${parsed.search}${parsed.hash}` || '/profile';
+    } catch {
+      return '/profile';
+    }
+  })();
 
   useEffect(() => {
+    // If user loaded login page on an old vercel domain, immediately flip to canonical
+    if (typeof window !== 'undefined' && window.location.hostname.endsWith('.vercel.app')) {
+      window.location.replace(`https://www.rareember.shop${window.location.pathname}${window.location.search}`);
+      return;
+    }
+
     // Check if URL indicates password reset mode
-    if (searchParams.get('mode') === 'reset' || typeof window !== 'undefined' && window.location.hash.includes('type=recovery')) {
+    if (searchParams.get('mode') === 'reset' || (typeof window !== 'undefined' && window.location.hash.includes('type=recovery'))) {
       setMode('reset');
     }
 
@@ -59,9 +76,14 @@ export function LoginClient() {
         if (error) throw error;
         router.push(redirectTarget);
       } else if (mode === 'signup') {
+        const canonicalBase = getCanonicalSiteUrl();
+        const target = redirectTarget && redirectTarget.startsWith('/') ? redirectTarget : '/profile';
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            emailRedirectTo: `${canonicalBase}/auth/callback?next=${encodeURIComponent(target)}`,
+          },
         });
         if (error) throw error;
         if (data.session) {

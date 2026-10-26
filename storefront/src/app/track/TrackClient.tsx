@@ -369,55 +369,6 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                 {loading ? 'Searching…' : 'Track Order →'}
               </button>
             </div>
-
-            <div className="mt-3.5 pt-3 border-t border-black/[0.04] flex items-center justify-between flex-wrap gap-2 text-[11px] text-neutral-500">
-              <span>Need to test or preview tracking?</span>
-              <button
-                type="button"
-                onClick={() => {
-                  setOrderId('RE-2026-DELHIVERY');
-                  setEmail('vip@rareember.shop');
-                  setLooked(true);
-                  setErrorMessage(null);
-                  setShowSearchForm(false);
-                  setOrders([
-                    {
-                      id: '7792e434-7bf5-4ff4-9296-cf2f4c2af57f',
-                      email: 'aj************@gmail.com',
-                      items: [
-                        {
-                          id: 'qikink-32477737-mens-full-sleeve-t-shirt__size-M__color-Grey_Melange',
-                          qty: 1,
-                          title: "Men's Full Sleeve T-Shirt — Rare Ember Signature Graphic",
-                          price: 899,
-                          size: 'M',
-                          color: 'Grey Melange',
-                          imageUrl: 'https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_4.jpg',
-                        },
-                      ],
-                      subtotal: 499,
-                      shipping: 49,
-                      total: 548,
-                      status: 'shipped',
-                      payment_method: 'cod',
-                      shipping_name: 'Ajay Rajbhar',
-                      shipping_address: {
-                        city: 'Bangalore',
-                        state: 'Karnataka',
-                        zip: '562107',
-                        country: 'India',
-                      },
-                      tracking_number: '46600611743280',
-                      tracking_url: 'https://courierupdates.com/?awb=46600611743280',
-                      created_at: new Date(Date.now() - 6 * 3600 * 1000).toISOString(),
-                    },
-                  ]);
-                }}
-                className="font-bold text-[#FF4D24] hover:underline cursor-pointer bg-transparent border-none p-0 inline-flex items-center gap-1"
-              >
-                <span>⚡</span> Preview Sample Live Courier Timeline →
-              </button>
-            </div>
           </div>
         )}
 
@@ -758,35 +709,22 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                                 </p>
                               )}
 
-                              {/* Failure Mode E08: COD-to-Prepaid UPI Conversion */}
+                              {/* COD-to-Prepaid UPI Option */}
                               {isCod && o.status !== 'delivered' && o.status !== 'cancelled' && (
-                                <div className="mt-3 p-3.5 rounded-xl bg-gradient-to-br from-amber-500/[0.12] via-orange-500/[0.08] to-emerald-500/[0.1] border border-orange-500/30 text-left">
-                                  <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-orange-950 mb-1">
-                                    <span>⚡</span> Upgrade to Prepaid UPI &amp; Save ₹49
-                                  </div>
-                                  <p className="text-[11px] text-neutral-700 leading-relaxed mb-2.5">
-                                    Eliminate doorstep cash hassle. Settle online via UPI / QR now to waive the ₹49 COD courier handling fee and get your package prioritized on the earliest Delhivery flight.
-                                  </p>
-                                  <div className="flex flex-wrap items-center gap-2">
+                                <div className="mt-3 p-3 rounded-xl bg-neutral-100/70 border border-black/[0.06] text-left">
+                                  <div className="flex items-center justify-between gap-2 flex-wrap">
+                                    <div className="text-[11px] text-neutral-700">
+                                      <span className="font-bold text-neutral-900">Prefer digital payment?</span> Pay via UPI on delivery or contact concierge.
+                                    </div>
                                     <a
                                       href={`https://wa.me/919118211860?text=${encodeURIComponent(
-                                        `Namaste Rare Ember Atelier! 🙏\n\nI want to convert my COD Order #${o.id.slice(0, 8)} (Total: ₹${o.total}) to Prepaid UPI to save the ₹49 COD fee and unlock priority air dispatch.\n\nPlease share the official UPI QR / payment link.`
+                                        `Hi Rare Ember Atelier! I would like to pay via UPI for my COD Order #${o.id.slice(0, 8)} (Total: ₹${o.total}). Please share the instant UPI QR code.`
                                       )}`}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="px-3 py-1.5 rounded-lg bg-[#0D0D0F] hover:bg-neutral-800 text-white text-[11px] font-black uppercase tracking-wider no-underline shadow-xs flex items-center gap-1.5 transition-all cursor-pointer"
+                                      className="px-3 py-1.5 rounded-lg bg-[#0D0D0F] hover:bg-neutral-800 text-white text-[11px] font-bold no-underline inline-flex items-center gap-1 transition-all"
                                     >
-                                      <span>📲</span> Pay via WhatsApp UPI (Save ₹49)
-                                    </a>
-                                    <a
-                                      href={`https://wa.me/919118211860?text=${encodeURIComponent(
-                                        `Hi Rare Ember Atelier! Please send me the instant UPI QR code to pay ₹${(o.total - 49) > 0 ? o.total - 49 : o.total} for Order #${o.id.slice(0, 8)}.`
-                                      )}`}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="px-3 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-700 text-white text-[11px] font-black uppercase tracking-wider no-underline shadow-xs flex items-center gap-1 transition-all cursor-pointer"
-                                    >
-                                      <span>⚡</span> Get Instant UPI QR
+                                      <span>📲</span> UPI QR via WhatsApp
                                     </a>
                                   </div>
                                 </div>
@@ -796,200 +734,83 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                         </div>
                       )}
 
-                      {/* Exact Order ID, Tracking ID & Direct Air Courier Live Tracking */}
+                      {/* Live Carrier Air Tracking Card */}
                       {(o.tracking_number || primaryCourierUrl) && (
-                        <div className="mt-6 p-5 sm:p-7 rounded-2xl bg-[#FAF8F5] border-2 border-black/[0.08] flex flex-col gap-6 shadow-sm">
-                          {/* Top Heading */}
-                          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.08] pb-4">
+                        <div className="mt-6 p-6 rounded-2xl bg-neutral-900 text-white border border-neutral-800 shadow-lg flex flex-col gap-5">
+                          {/* Top Header */}
+                          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 pb-4">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-xl bg-[#0D0D0F] text-white flex items-center justify-center text-xs font-mono font-black shrink-0 shadow-sm">
+                              <div className="w-9 h-9 rounded-xl bg-white/10 text-emerald-400 flex items-center justify-center text-xs font-mono font-black shrink-0">
                                 AIR
                               </div>
                               <div>
-                                <h3 className="text-sm sm:text-base font-black text-neutral-950 uppercase tracking-wide flex items-center gap-2">
-                                  <span>Verified Air Cargo Dispatch</span>
-                                  <span className="text-[10px] font-mono font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                                    ✓ Live Courier Connected
+                                <h3 className="text-sm font-bold text-white tracking-wide flex items-center gap-2">
+                                  <span>Live Air Courier Tracking</span>
+                                  <span className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/30">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                                    Active Airway Bill
                                   </span>
                                 </h3>
-                                <p className="text-xs text-neutral-500 mt-0.5">
-                                  Shipped via express domestic air cargo with direct real-time carrier flight &amp; hub tracking.
+                                <p className="text-xs text-neutral-400 mt-0.5">
+                                  Track real-time flight, airport transit, and delivery rider milestones.
                                 </p>
                               </div>
                             </div>
-                            <div className="text-[11px] font-mono font-bold text-neutral-600 bg-white px-3 py-1 rounded-full border border-black/10">
-                              Express Air Delivery
+                            <div className="text-[11px] font-mono font-bold text-neutral-300 bg-white/5 px-3 py-1 rounded-full border border-white/10">
+                              {carrierName} • Priority Air
                             </div>
                           </div>
 
-                          {/* EXACT ORDER ID & EXACT TRACKING ID CARDS */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {/* Exact Order ID Card */}
-                            <div className="p-4 sm:p-5 rounded-xl bg-white border border-black/[0.08] shadow-xs flex flex-col justify-between gap-3">
-                              <div>
-                                <span className="text-[10px] font-mono uppercase tracking-wider font-bold text-neutral-400 block">
-                                  Official Order ID
-                                </span>
-                                <div className="mt-1 font-mono font-black text-sm sm:text-base text-neutral-900 select-all break-all">
-                                  #{o.id}
-                                </div>
-                                <p className="text-[11px] text-neutral-500 mt-1">
-                                  Use this Order ID for customer support &amp; order verification.
-                                </p>
+                          {/* Waybill / AWB & 1-Click Track Action */}
+                          <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div>
+                              <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block">
+                                Official Air Waybill (AWB)
+                              </span>
+                              <div className="mt-1 font-mono font-black text-lg text-emerald-400 tracking-wider select-all">
+                                {rawAwb || o.tracking_number}
                               </div>
-                              <button
-                                type="button"
-                                onClick={() => copyToClipboard(o.id)}
-                                className="no-print w-full py-2.5 px-4 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-900 text-xs font-black border border-black/10 cursor-pointer transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
-                              >
-                                <span>{copiedId === o.id ? '✓ Order ID Copied!' : '📋 Copy Exact Order ID'}</span>
-                              </button>
+                              <p className="text-[11px] text-neutral-400 mt-0.5">
+                                Destination: {destCity}, {destZip}
+                              </p>
                             </div>
 
-                            {/* Exact Tracking ID (AWB) Card */}
-                            <div className="p-4 sm:p-5 rounded-xl bg-white border border-black/[0.08] shadow-xs flex flex-col justify-between gap-3">
-                              <div>
-                                <span className="text-[10px] font-mono uppercase tracking-wider font-bold text-neutral-400 block">
-                                  Delhivery Airway Bill (Official AWB)
-                                </span>
-                                <div className="mt-1 font-mono font-black text-sm sm:text-base text-[#E04F33] select-all break-all">
-                                  {rawAwb || o.tracking_number}
-                                </div>
-                                <div className="mt-1 flex items-center gap-2 flex-wrap text-[11px] text-neutral-500">
-                                  <span>Carrier: <strong>{carrierName}</strong></span>
-                                  {o.id.toLowerCase().includes('7792e434') && (
-                                    <span className="font-mono text-neutral-400">• Factory Ref: #18023747616</span>
-                                  )}
-                                </div>
-                              </div>
+                            <div className="flex items-center gap-2 flex-wrap">
                               <button
                                 type="button"
                                 onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
-                                className="no-print w-full py-2.5 px-4 rounded-xl bg-[#E04F33]/10 hover:bg-[#E04F33]/20 text-[#E04F33] text-xs font-black border border-[#E04F33]/30 cursor-pointer transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
+                                className="no-print px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-bold border border-white/15 cursor-pointer transition-all flex items-center gap-1.5"
+                                title="Copy AWB Number"
                               >
-                                <span>{copiedId === (rawAwb || o.tracking_number) ? '✓ Delhivery AWB Copied!' : '📋 Copy Delhivery AWB'}</span>
+                                <span>{copiedId === (rawAwb || o.tracking_number) ? '✓ Copied' : '📋 Copy AWB'}</span>
                               </button>
-                            </div>
-                          </div>
 
-                          {/* DIRECT 1-CLICK AIR COURIER TRACKING BUTTONS */}
-                          <div className="p-5 rounded-xl bg-neutral-950 text-white flex flex-col gap-4 shadow-md">
-                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                              <div>
-                                <h4 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">
-                                  <span>Official Courier Air Tracking</span>
-                                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                                </h4>
-                                <p className="text-xs text-neutral-300 mt-0.5">
-                                  Click below to track directly on the official courier portal with 100% verified live flight, airport hub, and delivery rider scans.
-                                </p>
-                              </div>
-                              <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider shrink-0">
-                                Direct Official Carrier Links
-                              </span>
-                            </div>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
-                              {/* Integrated Courier Updates Live Tracking (No Login Required) */}
                               <a
                                 href={primaryCourierUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
-                                className="no-print px-4 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black no-underline transition-all shadow-md flex flex-col items-center justify-center gap-1 text-center group ring-2 ring-emerald-400/50"
+                                className="no-print px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-black no-underline transition-all shadow-md flex items-center gap-1.5 active:scale-95 cursor-pointer"
                               >
-                                <span className="flex items-center gap-1.5 text-xs sm:text-sm">
-                                  <span>🚀 Instant Live Tracking (No Login Needed)</span>
-                                  <span>→</span>
-                                </span>
-                                <span className="text-[10px] text-emerald-100 font-medium">
-                                  ✓ Direct flight &amp; doorstep scans without OTP or account
-                                </span>
+                                <span>🚀 Live Courier Tracker ↗</span>
                               </a>
+                            </div>
+                          </div>
 
-                              {/* Delhivery Official Package Tracker (May prompt for login/OTP) */}
+                          {/* Clean Helper Note & Delhivery Direct Link */}
+                          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] text-neutral-400 pt-1">
+                            <span>
+                              ⚡ Live tracking streams scans directly without requiring an OTP or portal login.
+                            </span>
+                            {isDelhivery && (
                               <a
                                 href={delhiveryUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
-                                className="no-print px-4 py-3.5 rounded-xl bg-white hover:bg-neutral-100 text-neutral-900 text-xs font-black no-underline transition-all shadow-xs flex flex-col items-center justify-center gap-1 text-center border border-black/10"
+                                className="text-neutral-400 hover:text-white underline font-mono text-[10px] whitespace-nowrap"
                               >
-                                <span className="flex items-center gap-1.5">
-                                  <span>📦 Track on Delhivery.com</span>
-                                  <span>↗</span>
-                                </span>
-                                <span className="text-[10px] text-neutral-500 font-medium">
-                                  (Delhivery portal may prompt for mobile login)
-                                </span>
+                                Open on Delhivery.com ↗
                               </a>
-
-                              {/* Blue Dart Tracking */}
-                              <a
-                                href={bluedartUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={() => copyToClipboard(rawAwb || o.tracking_number || '')}
-                                className="no-print px-4 py-3.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-bold no-underline border border-white/10 transition-all flex flex-col items-center justify-center gap-1 text-center sm:col-span-2 lg:col-span-1"
-                              >
-                                <span className="flex items-center gap-1.5">
-                                  <span>✈️ Track on Blue Dart</span>
-                                  <span>↗</span>
-                                </span>
-                                <span className="text-[10px] text-neutral-400 font-medium">
-                                  Alternate domestic carrier link
-                                </span>
-                              </a>
-                            </div>
-
-                            {/* Why CourierUpdates is provided over Delhivery login */}
-                            <div className="p-3.5 bg-emerald-950/80 border border-emerald-500/40 rounded-xl text-[11px] text-emerald-100 leading-relaxed space-y-1">
-                              <p className="font-bold text-emerald-300 flex items-center gap-2">
-                                <span>⚡ Why We Provide courierupdates.com:</span>
-                                <span className="bg-emerald-800 text-white text-[9px] uppercase px-2 py-0.5 rounded-full font-mono font-bold tracking-wider">Zero Login / No OTP Required</span>
-                              </p>
-                              <p className="text-neutral-300">
-                                Delhivery&apos;s public website often asks customers to enter an OTP or login with a mobile number before showing package status. To save you time and hassle, we provide the official direct tracking link: <a href={primaryCourierUrl} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-mono font-bold underline">courierupdates.com/?awb={rawAwb || o.tracking_number}</a>. It streams verified live domestic air cargo milestones directly with <strong>zero logins, zero passwords, and zero OTP delays</strong>.
-                              </p>
-                            </div>
-
-                            {/* Reassuring note explaining why 18023747616 was rejected by Delhivery */}
-                            <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl text-[11px] text-amber-200 leading-relaxed">
-                              <p className="font-bold text-amber-400 mb-0.5">
-                                ℹ️ Important: Waybill vs Factory Reference
-                              </p>
-                              <p>
-                                Your active <strong>Delhivery Air Waybill (AWB)</strong> is <strong className="text-white font-mono font-black">{rawAwb || o.tracking_number}</strong>. If entering manually on Delhivery.com, always select <strong>AWB</strong> and paste <strong className="text-white font-mono">{rawAwb || o.tracking_number}</strong>. (Do not enter factory references like 18023747616 on courier sites, as couriers only index official airway bills).
-                              </p>
-                            </div>
-
-                            {/* Easy Step-by-Step Instructions */}
-                            <div className="pt-3 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] text-neutral-300">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <span className="font-bold text-amber-400">💡 Instant 1-Tap Tracking:</span>
-                                <span>Tap the green <strong>Instant Live Tracking</strong> button above to immediately see flight transit scans with zero login!</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Shipment Routing Details */}
-                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                            <div className="bg-white p-3 rounded-xl border border-black/[0.06]">
-                              <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">Air Courier</span>
-                              <span className="font-bold text-neutral-900 block mt-0.5">{carrierName}</span>
-                            </div>
-                            <div className="bg-white p-3 rounded-xl border border-black/[0.06]">
-                              <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">Service Class</span>
-                              <span className="font-bold text-emerald-800 block mt-0.5">Priority Domestic Air</span>
-                            </div>
-                            <div className="bg-white p-3 rounded-xl border border-black/[0.06]">
-                              <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">Origin Hub</span>
-                              <span className="font-bold text-neutral-900 block mt-0.5">Verified Domestic Maker Hub</span>
-                            </div>
-                            <div className="bg-white p-3 rounded-xl border border-black/[0.06]">
-                              <span className="text-[10px] text-neutral-400 uppercase font-mono font-bold block">Destination</span>
-                              <span className="font-bold text-neutral-900 block mt-0.5 truncate">{destCity}, {destZip}</span>
-                            </div>
+                            )}
                           </div>
                         </div>
                       )}
