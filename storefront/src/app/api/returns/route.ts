@@ -135,28 +135,65 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 4. One open claim per order check (check both return_claims table and orders status)
+    // 4. One open claim per order check (check returns table, return_claims table, and orders status)
     try {
-      const { data: existing } = await sb
-        .from('return_claims')
+      const activeStatuses = ['pending', 'pending_pickup', 'approved', 'in_progress', 'credit_released'];
+
+      // Check returns table
+      const { data: existingReturn } = await sb
+        .from('returns')
         .select('claim_id, status')
         .eq('order_id', order.id)
-        .in('status', ['pending', 'approved', 'in_progress'])
-        .limit(1)
-        .maybeSingle();
+        .in('status', activeStatuses)
+        .limit(1);
 
-      if (existing?.claim_id) {
+      if (existingReturn && existingReturn.length > 0 && existingReturn[0]?.claim_id) {
         return NextResponse.json(
           {
             error:
-              `A replacement request (${existing.claim_id}) is already open for this order. ` +
+              `A replacement request (${existingReturn[0].claim_id}) is already open for this order. ` +
               'Our team will contact you shortly.',
           },
           { status: 409 }
         );
       }
+
+      // Check return_claims table
+      const { data: existingClaim } = await sb
+        .from('return_claims')
+        .select('claim_id, status')
+        .eq('order_id', order.id)
+        .in('status', activeStatuses)
+        .limit(1);
+
+      if (existingClaim && existingClaim.length > 0 && existingClaim[0]?.claim_id) {
+        return NextResponse.json(
+          {
+            error:
+              `A replacement request (${existingClaim[0].claim_id}) is already open for this order. ` +
+              'Our team will contact you shortly.',
+          },
+          { status: 409 }
+        );
+      }
+
+      // Check order status on the order itself
+      if (
+        order.status === 'return_requested' ||
+        order.status === 'returned' ||
+        order.status === 'refunded'
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              'A replacement or return claim has already been registered for this order. ' +
+              'Our Atelier Concierge team will contact you directly via WhatsApp or email.',
+          },
+          { status: 409 }
+        );
+      }
     } catch {
-      // return_claims table might not exist yet; safe to proceed
+      // safe fallback if tables are not yet migrated
     }
 
     const claimId = `RE-CLM-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;

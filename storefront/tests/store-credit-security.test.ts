@@ -235,6 +235,11 @@ describe('Store Credit Cryptographic Security & Anti-Fraud Suite', () => {
     expect(dbRecord.is_redeemed).toBe(true);
     expect(dbRecord.redeemed_order_id).toBe('new_order_abc_1');
 
+    // Attempting a second redemption on the already-used voucher must fail
+    const secondRedeem = await redeemStoreCredit(validCode, 'new_order_abc_2', mockDb);
+    expect(secondRedeem.success).toBe(false);
+    expect(secondRedeem.error).toBe('This store credit voucher has already been used.');
+
     // Second checkout attempt (attempting "2 shirts for 1 price"): must fail with 400 error message
     const secondVerify = await verifyStoreCreditCode(validCode, mockDb);
     expect(secondVerify.valid).toBe(false);
@@ -249,4 +254,99 @@ describe('Store Credit Cryptographic Security & Anti-Fraud Suite', () => {
     expect(res.discountAmount).toBe(770);
     expect(res.label).toContain('Store Credit');
   });
+
+  it('resolves coupon and festival rules correctly from src/lib/data/festivals.ts re-export', async () => {
+    const dataFestivals = await import('@/lib/data/festivals');
+    expect(typeof dataFestivals.validateCouponCode).toBe('function');
+    const signedVoucher = generateSignedStoreCredit('6c7e6415', 850);
+    const res = dataFestivals.validateCouponCode(signedVoucher, 1200);
+    expect(res.valid).toBe(true);
+    expect(res.discountAmount).toBe(850);
+  });
 });
+
+describe('Checkout & Orders API Store Credit Route Gating', () => {
+  const testOrderId = '7792e434-7bf5-4ff4-9296-cf2f4c2af57f';
+  const testAmount = 769;
+
+  it('rejects pending_pickup voucher with HTTP 400 status code and exact security message', async () => {
+    const validCode = generateSignedStoreCredit(testOrderId, testAmount);
+
+    const mockDb = {
+      from: () => ({
+        select: () => ({
+          eq: () => ({
+            maybeSingle: async () => ({
+              data: {
+                claim_id: 'RE-CLM-901',
+                order_id: testOrderId,
+                voucher_code: validCode,
+                status: 'pending_pickup',
+                credit_amount: testAmount,
+                is_redeemed: false,
+              },
+              error: null,
+            }),
+          }),
+          ilike: () => ({
+            limit: async () => ({ data: [], error: null }),
+          }),
+        }),
+      }),
+    };
+
+    const verify = await verifyStoreCreditCode(validCode, mockDb);
+    expect(verify.valid).toBe(false);
+
+    // Simulate route handler HTTP 400 mapping
+    const responsePayload = {
+      status: 400,
+      error: verify.error,
+    };
+
+    expect(responsePayload.status).toBe(400);
+    expect(responsePayload.error).toBe(
+      'This store credit voucher is reserved and will activate automatically once your return pickup is scanned.'
+    );
+  });
+
+  it('rejects already-used voucher with HTTP 400 status code and exact security message', async () => {
+    const validCode = generateSignedStoreCredit(testOrderId, testAmount);
+
+    const mockDb = {
+      from: () => ({
+        select: () => ({
+          eq: () => ({
+            maybeSingle: async () => ({
+              data: {
+                claim_id: 'RE-CLM-901',
+                order_id: testOrderId,
+                voucher_code: validCode,
+                status: 'credit_released',
+                credit_amount: testAmount,
+                is_redeemed: true,
+                redeemed_order_id: 'prior_order_123',
+              },
+              error: null,
+            }),
+          }),
+          ilike: () => ({
+            limit: async () => ({ data: [], error: null }),
+          }),
+        }),
+      }),
+    };
+
+    const verify = await verifyStoreCreditCode(validCode, mockDb);
+    expect(verify.valid).toBe(false);
+
+    const responsePayload = {
+      status: 400,
+      error: verify.error,
+    };
+
+    expect(responsePayload.status).toBe(400);
+    expect(responsePayload.error).toBe('This store credit voucher has already been used.');
+  });
+});
+

@@ -59,8 +59,8 @@ export async function POST(req: NextRequest) {
       let q = supabase.from('returns').select('*');
       if (rawClaimId) q = q.eq('claim_id', rawClaimId);
       else if (rawOrderId) q = q.eq('order_id', rawOrderId);
-      const { data, error } = await q.maybeSingle();
-      if (!error && data) returnRecord = data;
+      const { data, error } = await q.order('created_at', { ascending: false }).limit(1);
+      if (!error && data && data.length > 0) returnRecord = data[0];
     } catch {
       // returns table might not exist
     }
@@ -71,8 +71,8 @@ export async function POST(req: NextRequest) {
         let q = supabase.from('return_claims').select('*');
         if (rawClaimId) q = q.eq('claim_id', rawClaimId);
         else if (rawOrderId) q = q.eq('order_id', rawOrderId);
-        const { data, error } = await q.maybeSingle();
-        if (!error && data) returnRecord = data;
+        const { data, error } = await q.order('created_at', { ascending: false }).limit(1);
+        if (!error && data && data.length > 0) returnRecord = data[0];
       } catch {
         // return_claims table fallback
       }
@@ -82,14 +82,27 @@ export async function POST(req: NextRequest) {
     const targetOrderId = returnRecord?.order_id || rawOrderId || rawClaimId;
 
     // Fetch order details for customer info, total, and status updates
+    const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     if (targetOrderId) {
-      const { data: orderData } = await supabase
-        .from('orders')
-        .select('*')
-        .ilike('id', `${targetOrderId.slice(0, 8)}%`)
-        .limit(1)
-        .maybeSingle();
-      orderRecord = orderData;
+      if (UUID_REGEX.test(targetOrderId)) {
+        const { data: orderData } = await supabase
+          .from('orders')
+          .select('*')
+          .eq('id', targetOrderId)
+          .maybeSingle();
+        orderRecord = orderData;
+      } else {
+        const { data: recentOrders } = await supabase
+          .from('orders')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(200);
+        if (recentOrders) {
+          orderRecord = recentOrders.find((o: any) =>
+            o.id.toLowerCase().startsWith(targetOrderId.toLowerCase())
+          ) || null;
+        }
+      }
     }
 
     if (!returnRecord && !orderRecord) {
@@ -98,6 +111,10 @@ export async function POST(req: NextRequest) {
 
     const effectiveOrderId = orderRecord?.id || returnRecord?.order_id || targetOrderId;
     const effectiveClaimId = returnRecord?.claim_id || rawClaimId || `RE-CLM-${effectiveOrderId.slice(0, 8).toUpperCase()}`;
+
+    // Target the specific claim if claim_id is known, otherwise order_id
+    const targetCol = returnRecord?.claim_id || rawClaimId ? 'claim_id' : 'order_id';
+    const targetVal = targetCol === 'claim_id' ? effectiveClaimId : effectiveOrderId;
 
     // Handle Actions
     if (action === 'release_credit') {
@@ -123,7 +140,7 @@ export async function POST(req: NextRequest) {
             credit_amount: creditAmount,
             updated_at: new Date().toISOString(),
           })
-          .or(`claim_id.eq.${effectiveClaimId},order_id.eq.${effectiveOrderId}`);
+          .eq(targetCol, targetVal);
       } catch {
         // table update fallback
       }
@@ -139,7 +156,7 @@ export async function POST(req: NextRequest) {
             notes: `[STORE_CREDIT_RELEASED: ${voucherCode} (₹${creditAmount})] ${returnRecord?.notes || ''}`.trim(),
             updated_at: new Date().toISOString(),
           })
-          .or(`claim_id.eq.${effectiveClaimId},order_id.eq.${effectiveOrderId}`);
+          .eq(targetCol, targetVal);
       } catch {
         // table update fallback
       }
@@ -209,11 +226,11 @@ export async function POST(req: NextRequest) {
         await supabase
           .from('returns')
           .update({ status: 'approved', updated_at: new Date().toISOString() })
-          .or(`claim_id.eq.${effectiveClaimId},order_id.eq.${effectiveOrderId}`);
+          .eq(targetCol, targetVal);
         await supabase
           .from('return_claims')
           .update({ status: 'approved', updated_at: new Date().toISOString() })
-          .or(`claim_id.eq.${effectiveClaimId},order_id.eq.${effectiveOrderId}`);
+          .eq(targetCol, targetVal);
       } catch {
         // ignore
       }
@@ -225,11 +242,11 @@ export async function POST(req: NextRequest) {
         await supabase
           .from('returns')
           .update({ status: 'rejected', updated_at: new Date().toISOString() })
-          .or(`claim_id.eq.${effectiveClaimId},order_id.eq.${effectiveOrderId}`);
+          .eq(targetCol, targetVal);
         await supabase
           .from('return_claims')
           .update({ status: 'rejected', updated_at: new Date().toISOString() })
-          .or(`claim_id.eq.${effectiveClaimId},order_id.eq.${effectiveOrderId}`);
+          .eq(targetCol, targetVal);
       } catch {
         // ignore
       }

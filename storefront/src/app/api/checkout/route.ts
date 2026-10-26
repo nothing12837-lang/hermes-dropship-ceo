@@ -288,6 +288,7 @@ export async function POST(req: NextRequest) {
       shipping: 0,
       shipping_name: name || null,
       shipping_address: address || null,
+      fulfillment_error: verifiedCoupon ? `STORE_CREDIT_APPLIED: [${verifiedCoupon}] Discount: ₹${discountAmount}` : null,
     });
 
     if (!saved) {
@@ -295,7 +296,16 @@ export async function POST(req: NextRequest) {
     }
 
     if (verifiedCoupon && (verifiedCoupon.startsWith('CREDIT-') || verifiedCoupon.startsWith('RECREDIT-') || verifiedCoupon.startsWith('RE-CREDIT-'))) {
-      await redeemStoreCredit(verifiedCoupon, checkoutOrderId, supabase);
+      const redemption = await redeemStoreCredit(verifiedCoupon, checkoutOrderId, supabase);
+      if (!redemption.success) {
+        if (supabase) {
+          await supabase.from('orders').delete().eq('id', checkoutOrderId);
+        }
+        return NextResponse.json(
+          { error: redemption.error || 'This store credit voucher has already been used.' },
+          { status: 400 }
+        );
+      }
     }
 
     return NextResponse.json({

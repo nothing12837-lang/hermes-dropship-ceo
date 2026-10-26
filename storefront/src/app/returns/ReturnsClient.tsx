@@ -165,7 +165,7 @@ export function ReturnsClient() {
               </div>
 
               <p className="text-sm text-neutral-700 max-w-xl mx-auto leading-relaxed font-medium">
-                Your ₹{claimResult.reservedCreditAmount || claimResult.storeCreditAmount} Store Credit (100% Order Value + 10% Atelier Bonus) is locked to Claim #{claimResult.claimId}. As soon as our courier partner scans your unworn pickup at your doorstep (or our Atelier Desk verifies your claim), your single-use voucher code is automatically activated and dispatched to your Email &amp; WhatsApp.
+                Your ₹{claimResult.reservedCreditAmount || claimResult.storeCreditAmount} Store Credit (110% Value — 100% Order Value + 10% Atelier Bonus) has been generated and locked to Claim #{claimResult.claimId}! Our courier partner will pick up your unworn original piece (or verify your claim via our Atelier Desk), and your instant single-use voucher code will be activated and dispatched via Email &amp; WhatsApp immediately upon pickup scan.
               </p>
 
               {/* Security & Pickup Status Stepper */}

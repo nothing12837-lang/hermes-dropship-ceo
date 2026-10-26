@@ -527,6 +527,7 @@ export async function POST(req: NextRequest) {
         country: 'India',
         phone: String(addr.phone || body.phone || '').slice(0, 20),
       },
+      fulfillment_error: verifiedCoupon ? `STORE_CREDIT_APPLIED: [${verifiedCoupon}] Discount: ₹${discountAmount}` : null,
     };
 
     // Explicit UUID supplied: We omit .select('id') so Supabase executes return=minimal,
@@ -553,7 +554,14 @@ export async function POST(req: NextRequest) {
     const finalOrderId = orderId;
 
     if (verifiedCoupon && (verifiedCoupon.startsWith('CREDIT-') || verifiedCoupon.startsWith('RECREDIT-') || verifiedCoupon.startsWith('RE-CREDIT-'))) {
-      await redeemStoreCredit(verifiedCoupon, finalOrderId, sb);
+      const redemption = await redeemStoreCredit(verifiedCoupon, finalOrderId, sb);
+      if (!redemption.success) {
+        await sb.from('orders').delete().eq('id', finalOrderId);
+        return NextResponse.json(
+          { error: redemption.error || 'This store credit voucher has already been used.' },
+          { status: 400 }
+        );
+      }
     }
 
     // Automated Alert to Store Owner on Telegram

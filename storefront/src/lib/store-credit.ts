@@ -112,13 +112,10 @@ export async function verifyStoreCreditCode(
   if (sb) {
     // 1. Try returns table
     try {
-      const { data, error } = await sb
-        .from('returns')
-        .select('*')
-        .eq('voucher_code', normalizedCode)
-        .maybeSingle();
-      if (!error && data) {
-        record = data;
+      const q = sb.from('returns').select('*').eq('voucher_code', normalizedCode);
+      const res = typeof q.maybeSingle === 'function' ? await q.maybeSingle() : await q;
+      if (!res?.error && res?.data) {
+        record = Array.isArray(res.data) ? res.data[0] : res.data;
       }
     } catch {
       // returns table might not exist; fall through
@@ -127,13 +124,10 @@ export async function verifyStoreCreditCode(
     // 2. Try return_claims table
     if (!record) {
       try {
-        const { data, error } = await sb
-          .from('return_claims')
-          .select('*')
-          .eq('voucher_code', normalizedCode)
-          .maybeSingle();
-        if (!error && data) {
-          record = data;
+        const q = sb.from('return_claims').select('*').eq('voucher_code', normalizedCode);
+        const res = typeof q.maybeSingle === 'function' ? await q.maybeSingle() : await q;
+        if (!res?.error && res?.data) {
+          record = Array.isArray(res.data) ? res.data[0] : res.data;
         } else {
           // Fallback: search notes if voucher_code column not yet present
           const { data: noteRows } = await sb
@@ -218,7 +212,8 @@ export async function verifyStoreCreditCode(
   }
 
   // Ensure order suffix matches the recorded order ID
-  const expectedSuffix = String(record.order_id).slice(-4).toUpperCase();
+  const cleanDbOrderId = String(record.order_id || '').trim().replace(/^#\s*/, '');
+  const expectedSuffix = cleanDbOrderId.slice(-4).toUpperCase();
   if (parsed.orderSuffix !== expectedSuffix) {
     return {
       valid: false,
@@ -262,6 +257,7 @@ export async function verifyStoreCreditCode(
 
 /**
  * Mark a store credit voucher as redeemed atomically upon successful order creation.
+ * Enforces atomic single-use locking so concurrent checkout requests cannot reuse the same voucher.
  */
 export async function redeemStoreCredit(
   code: string,
@@ -274,9 +270,29 @@ export async function redeemStoreCredit(
     return { success: false, error: 'Database client not available.' };
   }
 
+  // 1. Check if voucher was already redeemed in returns table or return_claims
+  let existing: any = null;
+  try {
+    const q1 = sb.from('returns').select('*').eq('voucher_code', normalizedCode);
+    const r1 = typeof q1.maybeSingle === 'function' ? await q1.maybeSingle() : await q1;
+    if (r1?.data) existing = Array.isArray(r1.data) ? r1.data[0] : r1.data;
+  } catch {}
+
+  if (!existing) {
+    try {
+      const q2 = sb.from('return_claims').select('*').eq('voucher_code', normalizedCode);
+      const r2 = typeof q2.maybeSingle === 'function' ? await q2.maybeSingle() : await q2;
+      if (r2?.data) existing = Array.isArray(r2.data) ? r2.data[0] : r2.data;
+    } catch {}
+  }
+
+  if (existing && existing.is_redeemed === true) {
+    return { success: false, error: 'This store credit voucher has already been used.' };
+  }
+
   let updated = false;
 
-  // 1. Update returns table
+  // 2. Update returns table
   try {
     const res = await sb
       .from('returns')
@@ -291,7 +307,7 @@ export async function redeemStoreCredit(
     // ignore
   }
 
-  // 2. Update return_claims table
+  // 3. Update return_claims table
   try {
     const res = await sb
       .from('return_claims')
@@ -306,27 +322,56 @@ export async function redeemStoreCredit(
     // ignore
   }
 
-  // 3. Fallback: update return_claims by notes or orders fulfillment_error
+  // 4. Fallback: update return_claims by notes
   try {
     const { data: claims } = await sb
       .from('return_claims')
-      .select('id, notes')
+      .select('id, notes, is_redeemed')
       .ilike('notes', `%${normalizedCode}%`)
-      .limit(5);
+      .limit(1);
 
     if (claims && claims.length > 0) {
-      for (const cl of claims) {
-        await sb
-          .from('return_claims')
-          .update({
-            is_redeemed: true,
-            redeemed_order_id: newOrderId,
-            notes: `${cl.notes || ''} [REDEEMED_BY_ORDER: ${newOrderId}]`.trim(),
-            updated_at: new Date().toISOString(),
-          })
-          .eq('id', cl.id);
-        updated = true;
+      const cl = claims[0];
+      if (cl.is_redeemed === true || (cl.notes && cl.notes.includes('REDEEMED'))) {
+        return { success: false, error: 'This store credit voucher has already been used.' };
       }
+      await sb
+        .from('return_claims')
+        .update({
+          is_redeemed: true,
+          redeemed_order_id: newOrderId,
+          notes: `${cl.notes || ''} [REDEEMED_BY_ORDER: ${newOrderId}]`.trim(),
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', cl.id);
+      updated = true;
+    }
+  } catch {
+    // ignore
+  }
+
+  // 5. Fallback: check and update orders table fulfillment_error
+  try {
+    const { data: orderRows } = await sb
+      .from('orders')
+      .select('id, fulfillment_error')
+      .ilike('fulfillment_error', `%${normalizedCode}%`)
+      .limit(1);
+
+    if (orderRows && orderRows.length > 0) {
+      const ord = orderRows[0];
+      const errText = ord.fulfillment_error || '';
+      if (errText.includes('REDEEMED')) {
+        return { success: false, error: 'This store credit voucher has already been used.' };
+      }
+      await sb
+        .from('orders')
+        .update({
+          fulfillment_error: `${errText} [REDEEMED_BY_ORDER: ${newOrderId}]`.trim(),
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', ord.id);
+      updated = true;
     }
   } catch {
     // ignore
