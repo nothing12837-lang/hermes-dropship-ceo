@@ -913,7 +913,7 @@ export function TrackClient() {
                       Carrier: Delhivery Air Express (Domestic Air)
                     </p>
                     <p className="font-mono text-neutral-700 font-bold mt-0.5">
-                      AWB Ref: {selectedInvoiceOrder.tracking_number || '46600611743280'}
+                      AWB Ref: {selectedInvoiceOrder.tracking_number || 'Awaiting Courier Assignment'}
                     </p>
                     <p className="text-[11px] text-emerald-700 font-bold mt-1">
                       Status: Express Doorstep Delivery Assigned

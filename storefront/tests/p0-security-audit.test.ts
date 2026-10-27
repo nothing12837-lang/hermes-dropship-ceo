@@ -87,7 +87,7 @@ describe('P0 Security & Architecture Audit Verification', () => {
   describe('P0 #2: Complete Elimination of Owner PII and Demo Bypasses', () => {
     it('never leaks owner PII or sample order on /api/orders without strict credentials', async () => {
       // Querying with former sample order ID '7792e434' without email MUST fail with HTTP 400
-      const req1 = new NextRequest('http://localhost:3000/api/orders?orderId=7792e434');
+      const req1 = new NextRequest('http://localhost:3000/api/orders?orderId=sample_123');
       const res1 = await ordersGet(req1);
       expect(res1.status).toBe(400);
 
@@ -95,8 +95,8 @@ describe('P0 Security & Architecture Audit Verification', () => {
       expect(json1.error).toContain('Both valid Order ID and Email are required');
       expect(json1.orders).toEqual([]);
 
-      // Querying with owner email without order ID MUST fail with HTTP 400
-      const req2 = new NextRequest('http://localhost:3000/api/orders?email=ajayrajbharrr0@gmail.com');
+      // Querying with email without order ID MUST fail with HTTP 400
+      const req2 = new NextRequest('http://localhost:3000/api/orders?email=customer@example.com');
       const res2 = await ordersGet(req2);
       expect(res2.status).toBe(400);
 

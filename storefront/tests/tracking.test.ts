@@ -11,7 +11,7 @@ describe('Tracking & Order Carrier Resolution', () => {
 
   it('validates support and customer email formats', () => {
     expect(isValidEmail('support@rareember.shop')).toBe(true);
-    expect(isValidEmail('ajayrajbharrr0@gmail.com')).toBe(true);
+    expect(isValidEmail('customer@example.com')).toBe(true);
   });
 
   it('correctly strips carrier prefixes and constructs Delhivery & Blue Dart URLs', () => {
