@@ -20,8 +20,15 @@ CREATE TABLE IF NOT EXISTS public.return_claims (
 CREATE INDEX IF NOT EXISTS idx_return_claims_order_id ON public.return_claims(order_id);
 CREATE INDEX IF NOT EXISTS idx_return_claims_status ON public.return_claims(status);
 
--- Enable RLS
+-- Enable RLS and force RLS
 ALTER TABLE public.return_claims ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.return_claims FORCE ROW LEVEL SECURITY;
 
--- Allow service role full access
-CREATE POLICY "Allow service role full access to return_claims" ON public.return_claims FOR ALL USING (true);
+-- Revoke all permissions from public/anon/authenticated
+REVOKE ALL ON public.return_claims FROM anon, authenticated, PUBLIC;
+GRANT ALL ON public.return_claims TO service_role;
+
+-- Allow service role full access only
+DROP POLICY IF EXISTS "Allow service role full access to return_claims" ON public.return_claims;
+DROP POLICY IF EXISTS "service_role_return_claims_all" ON public.return_claims;
+CREATE POLICY "service_role_return_claims_all" ON public.return_claims FOR ALL TO service_role USING (true) WITH CHECK (true);

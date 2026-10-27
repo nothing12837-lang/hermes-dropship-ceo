@@ -6,8 +6,8 @@ export const metadata: Metadata  = {
   title: 'Official GST Tax Invoice',
   description: 'Download, print, or email your official Section 31 CGST Act tax invoice and authenticity certificate.',
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
   },
   alternates: {
     canonical: 'https://www.rareember.shop/invoice',

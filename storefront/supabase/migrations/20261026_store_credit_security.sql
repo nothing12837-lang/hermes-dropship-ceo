@@ -35,9 +35,15 @@ CREATE INDEX IF NOT EXISTS idx_returns_is_redeemed ON public.returns(is_redeemed
 CREATE INDEX IF NOT EXISTS idx_return_claims_voucher_code ON public.return_claims(voucher_code);
 CREATE INDEX IF NOT EXISTS idx_return_claims_is_redeemed ON public.return_claims(is_redeemed);
 
--- 4. Enable RLS
+-- 4. Enable and force RLS
 ALTER TABLE public.returns ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.returns FORCE ROW LEVEL SECURITY;
 
--- 5. Policies: Allow service role full access
+-- Revoke all permissions from public/anon/authenticated
+REVOKE ALL ON public.returns FROM anon, authenticated, PUBLIC;
+GRANT ALL ON public.returns TO service_role;
+
+-- 5. Policies: Allow service role full access only
 DROP POLICY IF EXISTS "Allow service role full access to returns" ON public.returns;
-CREATE POLICY "Allow service role full access to returns" ON public.returns FOR ALL USING (true);
+DROP POLICY IF EXISTS "service_role_returns_all" ON public.returns;
+CREATE POLICY "service_role_returns_all" ON public.returns FOR ALL TO service_role USING (true) WITH CHECK (true);

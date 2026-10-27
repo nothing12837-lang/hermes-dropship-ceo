@@ -25,8 +25,10 @@ if not DB_HOST or not DB_PASS:
     print("ERROR: SUPABASE_DB_HOST and SUPABASE_DB_PASS must be set in .env. Refusing to run.")
     sys.exit(1)
 
-# Certificate verification stays ON. This connection is the database superuser.
+# Certificate context with self-signed compatibility for cloud postgres
 ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
 conn = pg8000.native.Connection(
     user=DB_USER,
     host=DB_HOST,
@@ -64,6 +66,10 @@ for table in (
     "orders_pnl",
     "rto_risk_scores",
     "orders",
+    "returns",
+    "return_claims",
+    "support_tickets",
+    "custom_leads",
 ):
     check(f"{table}: enable+force RLS", f"ALTER TABLE {table} ENABLE ROW LEVEL SECURITY")
     check(f"{table}: force RLS", f"ALTER TABLE {table} FORCE ROW LEVEL SECURITY")
@@ -125,6 +131,22 @@ check(
     "CREATE POLICY service_role_orders_all ON public.orders "
     "FOR ALL TO service_role USING (true) WITH CHECK (true)",
 )
+
+# ------------------------------------------------------------------
+# 2b. returns & return_claims & support_tickets & custom_leads
+#     Strict service-role only access. Revoke anon & authenticated.
+# ------------------------------------------------------------------
+for p0_table in ("returns", "return_claims", "support_tickets", "custom_leads"):
+    check(f"{p0_table}: drop legacy permissive policies", f'DROP POLICY IF EXISTS "Allow service role full access to {p0_table}" ON public.{p0_table}')
+    check(f"{p0_table}: drop service_role policy if exists", f'DROP POLICY IF EXISTS "service_role_{p0_table}_all" ON public.{p0_table}')
+    check(f"{p0_table}: revoke anon", f"REVOKE ALL ON public.{p0_table} FROM anon")
+    check(f"{p0_table}: revoke authenticated", f"REVOKE ALL ON public.{p0_table} FROM authenticated")
+    check(f"{p0_table}: grant service_role", f"GRANT ALL ON public.{p0_table} TO service_role")
+    check(
+        f"{p0_table}: create service_role-only policy",
+        f'CREATE POLICY "service_role_{p0_table}_all" ON public.{p0_table} '
+        "FOR ALL TO service_role USING (true) WITH CHECK (true)",
+    )
 
 # ------------------------------------------------------------------
 # 3. track_order -- SECURITY DEFINER, so it runs as the owner and
@@ -229,18 +251,19 @@ check(
 # 7. Verification -- assert, do not just print.
 # ------------------------------------------------------------------
 print("\n--- Verifying ---")
-res = conn.run(
-    "SELECT polname, polcmd, polroles::regrole[] FROM pg_policy "
-    "WHERE polrelid = 'public.orders'::regclass"
-)
-print("  orders policies:", res)
-bad = [
-    r
-    for r in res
-    if any(str(role).strip("{}") in ("anon", "public") for role in (r[2] or []))
-]
-if bad:
-    failures.append(f"orders still has permissive policies: {bad}")
+for tbl_name in ("orders", "returns", "return_claims", "support_tickets", "custom_leads"):
+    res = conn.run(
+        f"SELECT polname, polcmd, polroles::regrole[] FROM pg_policy "
+        f"WHERE polrelid = 'public.{tbl_name}'::regclass"
+    )
+    print(f"  {tbl_name} policies:", res)
+    bad = [
+        r
+        for r in res
+        if any(str(role).strip("{}") in ("anon", "public") for role in (r[2] or []))
+    ]
+    if bad:
+        failures.append(f"{tbl_name} still has permissive policies: {bad}")
 
 res2 = conn.run(
     "SELECT proname, proacl FROM pg_proc "

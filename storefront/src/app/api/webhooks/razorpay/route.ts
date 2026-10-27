@@ -38,11 +38,11 @@ interface RazorpayEvent {
 }
 
 export async function POST(req: NextRequest) {
-  const secret = process.env.RAZORPAY_WEBHOOK_SECRET || process.env.RAZORPAY_KEY_SECRET;
+  const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
   const supabase = getSupabase();
   if (!secret || !supabase) {
     return NextResponse.json(
-      { error: 'Webhooks not configured (RAZORPAY_WEBHOOK_SECRET / Supabase)' },
+      { error: 'Webhooks not configured (RAZORPAY_WEBHOOK_SECRET / SUPABASE_SERVICE_ROLE_KEY required)' },
       { status: 503 }
     );
   }

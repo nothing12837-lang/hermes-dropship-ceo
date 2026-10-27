@@ -152,56 +152,10 @@ export function TrackClient() {
     }
   };
 
-const ACTIVE_SAMPLE_ORDER: Order = {
-  id: '7792e434-7bf5-4ff4-9296-cf2f4c2af57f',
-  email: 'aj************@gmail.com',
-  user_email: 'ajayrajbharrr0@gmail.com',
-  items: [
-    {
-      id: 'qikink-32477737-mens-full-sleeve-t-shirt__size-M__color-Grey_Melange',
-      qty: 1,
-      title: "Men's Full Sleeve T-Shirt — Rare Ember Signature Graphic",
-      price: 899,
-      size: 'M',
-      color: 'Grey Melange',
-      imageUrl: 'https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_4.jpg',
-    },
-  ],
-  subtotal: 548,
-  shipping: 0,
-  total: 548,
-  status: 'shipped',
-  payment_method: 'cod',
-  shipping_name: 'Ajay Rajbhar',
-  shipping_address: {
-    city: 'Bangalore',
-    state: 'Karnataka',
-    zip: '562107',
-    country: 'India',
-  },
-  tracking_number: '46600611743280',
-  tracking_url: 'https://courierupdates.com/?awb=46600611743280',
-  created_at: '2026-10-23T15:20:00.000Z',
-};
-
   const executeLookup = async (targetEmail: string, targetOrderId: string) => {
     setErrorMessage(null);
     const cleanEmail = targetEmail.trim();
     const cleanOrderId = targetOrderId.trim();
-
-    const isSampleOrderMatch =
-      (Boolean(cleanOrderId) && (cleanOrderId.toLowerCase().startsWith('7792e434') || cleanOrderId.toLowerCase().includes('re7792e4347b') || cleanOrderId.includes('46600611743280') || cleanOrderId.includes('18023747616') || cleanOrderId === 'RE-2026-DELHIVERY')) ||
-      (Boolean(cleanEmail) && (cleanEmail.toLowerCase().includes('ajayrajbharrr0') || cleanEmail.toLowerCase().includes('vip@rareember.shop')));
-
-    if (isSampleOrderMatch) {
-      setLooked(true);
-      setLoading(false);
-      setOrders([ACTIVE_SAMPLE_ORDER]);
-      setShowSearchForm(false);
-      if (!cleanEmail) setEmail('ajayrajbharrr0@gmail.com');
-      if (!cleanOrderId) setOrderId('7792e434');
-      return;
-    }
 
     if (!cleanEmail && !cleanOrderId) {
       setLooked(true);
@@ -226,33 +180,20 @@ const ACTIVE_SAMPLE_ORDER: Order = {
       const res = await fetch(`/api/orders?${params.toString()}`);
       const data = await res.json();
       if (!res.ok) {
-        if (isSampleOrderMatch) {
-          setOrders([ACTIVE_SAMPLE_ORDER]);
-          setShowSearchForm(false);
-        } else {
-          setOrders([]);
-          setErrorMessage(data.error || 'Unable to locate order tracking details.');
-        }
+        setOrders([]);
+        setErrorMessage(data.error || 'Unable to locate order tracking details.');
       } else {
         const found = data.orders ?? [];
-        if (found.length === 0 && isSampleOrderMatch) {
-          setOrders([ACTIVE_SAMPLE_ORDER]);
+        setOrders(found);
+        if (found.length > 0) {
           setShowSearchForm(false);
         } else {
-          setOrders(found);
-          if (found.length > 0) {
-            setShowSearchForm(false);
-          }
+          setErrorMessage('No matching order found for this Order ID and Email.');
         }
       }
     } catch {
-      if (isSampleOrderMatch) {
-        setOrders([ACTIVE_SAMPLE_ORDER]);
-        setShowSearchForm(false);
-      } else {
-        setOrders([]);
-        setErrorMessage('Network error while looking up order. Please try again.');
-      }
+      setOrders([]);
+      setErrorMessage('Network error while looking up order. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -351,7 +292,7 @@ const ACTIVE_SAMPLE_ORDER: Order = {
                 value={orderId}
                 onChange={(e) => setOrderId(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleManualLookup()}
-                placeholder="Order ID (e.g. 7792e434…)"
+                placeholder="Order ID (e.g. ord_abc123…)"
                 className="flex-1 px-4 py-3.5 text-sm rounded-full border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all font-mono"
               />
               <input

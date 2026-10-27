@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const contact = String(body.contact || "").trim().slice(0, 80);
     if (!product_id || !contact) return NextResponse.json({ error: "product_id + contact required" }, { status: 400 });
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (url && key) {
       try {
         const sb = createClient(url, key);

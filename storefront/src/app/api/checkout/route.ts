@@ -16,11 +16,23 @@ function getRazorpay(): Razorpay | null {
 
 function getSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  // Prefer the service role: the checkout route both reads the catalogue and
-  // INSERTS the order row, and the anon key must not be writing orders.
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  // Require service role: orders table has RLS enabled with service_role ONLY access.
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return null;
   return createClient(url, key);
+}
+
+async function getVerifiedUserId(req: NextRequest, supabase: any): Promise<string | null> {
+  const authHeader = req.headers.get('authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ') || !supabase) return null;
+  const token = authHeader.slice(7).trim();
+  if (!token) return null;
+  try {
+    const { data: { user } } = await supabase.auth.getUser(token);
+    return user ? user.id : null;
+  } catch {
+    return null;
+  }
 }
 
 interface DbProduct {
@@ -101,7 +113,17 @@ export async function POST(req: NextRequest) {
     const supabase = getSupabase();
     const razorpay = getRazorpay();
 
-    const isIndia = body.market !== 'GLOBAL';
+    // PRICING CONTEXT MUST BE DERIVED FROM THE SHIPPING PIN.
+    //
+    // This used to be `body.market !== 'GLOBAL'` -- a CLIENT-SUPPLIED string.
+    // Sending market:"GLOBAL" turned every price into a USD float (~1/85 of
+    // the INR price), and combined with the client-trusted `discount` field
+    // it let any cart be bought for ~Rs.85. India-ness is now derived from
+    // the delivery pincode, which the orders route validates anyway.
+    const addrZip = String(
+      (body as any)?.address?.zip || (body as any)?.address?.pincode || ''
+    ).replace(/\D/g, '');
+    const isIndia = /^[1-9][0-9]{5}$/.test(addrZip);
     let subtotal = 0;
     let byId = new Map<string, DbProduct>();
 
@@ -197,10 +219,12 @@ export async function POST(req: NextRequest) {
           }, { status: 400 });
         }
       }
-    } else if (body.discount && Number(body.discount) > 0) {
-      // Auto prepaid UPI discount (capped at ₹50 for margin protection)
-      const maxAllowableAutoDiscount = 50;
-      discountAmount = Math.min(Number(body.discount), maxAllowableAutoDiscount);
+    } else if (!isCod && isIndia) {
+      // Auto prepaid incentive: Rs.50 off prepaid orders, computed
+      // SERVER-SIDE. The client used to send `discount` and the server
+      // trusted it; combined with a client-controlled `market` this let any
+      // cart be bought for ~Rs.85. A client-sent discount is never trusted.
+      discountAmount = Math.min(50, subtotal);
     }
 
     const finalTotal = Math.max(1, subtotal - discountAmount + codFee);
@@ -236,6 +260,8 @@ export async function POST(req: NextRequest) {
       return false;
     }
 
+    const verifiedUserId = await getVerifiedUserId(req, supabase);
+
     if (!razorpay || !supabase) {
       if (process.env.NODE_ENV !== 'production' && process.env.ALLOW_MOCK_CHECKOUT === 'true') {
         const mockOrderId = `mock_${Date.now()}`;
@@ -243,7 +269,7 @@ export async function POST(req: NextRequest) {
           await insertOrder({
             id: mockOrderId,
             user_email: email,
-            user_id: body.user_id || null,
+            user_id: verifiedUserId,
             stripe_session_id: mockOrderId,
             total_amount: finalTotal,
             status: 'pending',
@@ -287,7 +313,7 @@ export async function POST(req: NextRequest) {
     const saved = await insertOrder({
       id: checkoutOrderId,
       user_email: email,
-      user_id: body.user_id || null,
+      user_id: verifiedUserId,
       stripe_session_id: rzpOrder.id,
       total_amount: finalTotal,
       status: 'pending',

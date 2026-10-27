@@ -9,7 +9,7 @@ export const runtime = 'nodejs';
 
 function getSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return null;
   return createClient(url, key);
 }
@@ -50,36 +50,12 @@ export async function POST(req: NextRequest) {
 
     const ticketId = `RE-TKT-${Math.floor(100000 + Math.random() * 900000)}`;
 
-    // 1. Dispatch high-priority Telegram alert to Ajay (12h SLA)
-    void notifyTelegramSupportTicket({
-      ticketId,
-      name,
-      phone: cleanPhone.slice(-10),
-      email,
-      orderId: orderId || undefined,
-      category,
-      subject,
-      message,
-      priority,
-    });
-
-    // 2. Dispatch official confirmation email to customer from support@rareember.shop
-    void sendSupportTicketConfirmationEmail({
-      ticketId,
-      name,
-      email,
-      phone: cleanPhone.slice(-10),
-      subject,
-      category,
-      message,
-      orderId: orderId || undefined,
-    });
-
-    // 2. Persist to database if table exists
+    // 1. Persist to database via service-role
+    let dbSaved = false;
     const sb = getSupabase();
     if (sb) {
       try {
-        await sb.from('support_tickets').insert({
+        const { error: insertErr } = await sb.from('support_tickets').insert({
           id: ticketId,
           name,
           phone: cleanPhone.slice(-10),
@@ -92,10 +68,56 @@ export async function POST(req: NextRequest) {
           status: 'open',
           created_at: new Date().toISOString(),
         });
+        if (insertErr) {
+          console.error('[Support Ticket] DB insert failed:', insertErr.message);
+        } else {
+          dbSaved = true;
+        }
       } catch (dbErr) {
-        // Graceful non-blocking fallback if custom table is pending migration
-        console.warn('DB ticket logging notice:', dbErr);
+        console.error('[Support Ticket] DB exception:', dbErr);
       }
+    }
+
+    // 2. Dispatch high-priority Telegram alert
+    let alertSent = false;
+    try {
+      await notifyTelegramSupportTicket({
+        ticketId,
+        name,
+        phone: cleanPhone.slice(-10),
+        email,
+        orderId: orderId || undefined,
+        category,
+        subject,
+        message,
+        priority,
+      });
+      alertSent = true;
+    } catch (telegramErr) {
+      console.error('[Support Ticket] Telegram alert error:', telegramErr);
+    }
+
+    // 3. Dispatch official confirmation email to customer
+    try {
+      await sendSupportTicketConfirmationEmail({
+        ticketId,
+        name,
+        email,
+        phone: cleanPhone.slice(-10),
+        subject,
+        category,
+        message,
+        orderId: orderId || undefined,
+      });
+    } catch (emailErr) {
+      console.warn('[Support Ticket] Confirmation email warning:', emailErr);
+    }
+
+    if (!dbSaved && !alertSent) {
+      return NextResponse.json(
+        { error: 'Unable to register support ticket at this time. Please WhatsApp us directly.' },
+        { status: 503 }
+      );
     }
 
     return NextResponse.json({

@@ -43,15 +43,23 @@ export function ProfileClient() {
 
       if (mounted) setUser(session.user);
 
-      const { data } = await supabase
-        .from('orders')
-        .select('*')
-        .eq('user_id', session.user.id)
-        .order('created_at', { ascending: false });
-
-      if (mounted) {
-        setOrders(data || []);
-        setLoading(false);
+      try {
+        const res = await fetch('/api/account/orders', {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+          },
+        });
+        const json = await res.json();
+        if (mounted) {
+          setOrders(json.orders || []);
+          setLoading(false);
+        }
+      } catch (err) {
+        console.error('Failed to load profile orders:', err);
+        if (mounted) {
+          setOrders([]);
+          setLoading(false);
+        }
       }
     }
     fetchProfile();

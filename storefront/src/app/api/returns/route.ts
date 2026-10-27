@@ -56,9 +56,9 @@ export async function POST(req: NextRequest) {
     }
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (!url || !key) {
-      console.error('[Returns] Supabase database credentials are not configured.');
+      console.error('[Returns] SUPABASE_SERVICE_ROLE_KEY is required for returns service under RLS.');
       return NextResponse.json(
         { error: 'Returns service is temporarily unavailable. Please contact support@rareember.shop directly.' },
         { status: 503 }

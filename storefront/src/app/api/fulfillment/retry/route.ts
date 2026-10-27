@@ -11,7 +11,9 @@ export const runtime = 'nodejs';
  * GET|POST /api/fulfillment/retry
  * Cron worker: picks up paid orders missing a CJ order and fulfills them.
  * Auth: Authorization: Bearer <CRON_SECRET> (or ADMIN_SECRET).
- * Vercel Cron is configured in vercel.json (every 10 minutes).
+ * Vercel Cron is configured in vercel.json. On the Hobby plan only a DAILY
+ * schedule is allowed, so recovery runs once a day; on Pro, change the
+ * schedule to every-10-minutes cron schedule so paid orders dispatch within minutes.
  */
 
 const BATCH = Number(process.env.FULFILLMENT_BATCH_SIZE || 10);
@@ -40,7 +42,14 @@ async function runBatch() {
     .from('orders')
     .select('id')
     .in('status', ['paid', 'pending_cod', 'processing'])
-    .or('cj_order_id.is.null,cj_order_id.eq.,cj_order_id.ilike.QUEUE_%')
+    // IMPORTANT: this .or() is an INCLUSION list (rows matching it are
+    // picked up), so a bare `ilike.QUEUE_%` also re-selected the
+    // QUEUE_PENDING_SYNC_<ref> rows parked after a factory ACCEPTED an order
+    // but the local write failed -- re-dispatching those prints a second
+    // parcel. The nested and() excludes exactly those rows.
+    .or(
+      'cj_order_id.is.null,cj_order_id.eq.,and(cj_order_id.ilike.QUEUE_%,cj_order_id.not.ilike.QUEUE_PENDING_SYNC_%)'
+    )
     // Dead-letter: a permanently failing order must not occupy a batch slot
     // forever and starve every new order behind it.
     .lt('fulfillment_attempts', MAX_ATTEMPTS)

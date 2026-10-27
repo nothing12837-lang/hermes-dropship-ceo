@@ -319,7 +319,10 @@ export function validateCouponCode(
   }
 
   // 3. Check Store Credit Vouchers (e.g. CREDIT-770-75DC, CREDIT-769-F57F-A1B2C3, RECREDIT-500-XXXX)
-  const creditMatch = code.match(/^(?:RE-?)?CREDIT-(\d{2,6})-([A-Z0-9]{3,10})(?:-([A-Z0-9]{6}))?$/i);
+  // The 6-character HMAC signature is MANDATORY. The previous regex made it
+  // optional, so an unsigned "CREDIT-9999-XX" string was accepted as a valid
+  // discount with no database check at all.
+  const creditMatch = code.match(/^(?:RE-?)?CREDIT-(\d{2,6})-([A-Z0-9]{3,10})-([A-Z0-9]{6})$/i);
   if (creditMatch) {
     const creditAmount = parseInt(creditMatch[1], 10);
     if (creditAmount > 0) {

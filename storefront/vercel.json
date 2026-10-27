@@ -9,10 +9,6 @@
     {
       "path": "/api/agent/daily",
       "schedule": "30 2 * * *"
-    },
-    {
-      "path": "/api/agent/weekly",
-      "schedule": "30 2 * * 1"
     }
   ]
 }

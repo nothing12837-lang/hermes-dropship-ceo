@@ -11,6 +11,19 @@ import { verifyStoreCreditCode, redeemStoreCredit } from '@/lib/store-credit';
 import { products as fallbackCatalog, getProduct, enforcePriceFloor } from '@/lib/data/products';
 import { fulfillQikinkOrder, isTestOrder } from '@/lib/fulfillment/qikink';
 
+async function getVerifiedUserId(req: NextRequest, supabase: any): Promise<string | null> {
+  const authHeader = req.headers.get('authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ') || !supabase) return null;
+  const token = authHeader.slice(7).trim();
+  if (!token) return null;
+  try {
+    const { data: { user } } = await supabase.auth.getUser(token);
+    return user ? user.id : null;
+  } catch {
+    return null;
+  }
+}
+
 // GET /api/orders?email=x&orderId=y — Public /track read path & Admin lookup
 export async function GET(req: NextRequest) {
   const rl = checkRateLimit(`orders:${clientIp(req.headers)}`, 30, 60_000);
@@ -24,49 +37,6 @@ export async function GET(req: NextRequest) {
   const orderId = isValidOrderId(rawOrderId) ? rawOrderId : null;
 
   const adminAuthorized = isAdmin(req);
-
-  const isSampleOrder =
-    (Boolean(rawOrderId) && (rawOrderId.toLowerCase().startsWith('7792e434') || rawOrderId.toLowerCase().includes('re7792e4347b') || rawOrderId.includes('46600611743280') || rawOrderId.includes('18023747616') || rawOrderId.includes('BD-18023747616') || rawOrderId === 'RE-2026-DELHIVERY')) ||
-    (Boolean(email) && (email!.toLowerCase().includes('ajayrajbharrr0') || email!.toLowerCase().includes('vip@rareember.shop')));
-
-  if (isSampleOrder) {
-    const isPublic = !adminAuthorized;
-    return NextResponse.json({
-      orders: [
-        {
-          id: '7792e434-7bf5-4ff4-9296-cf2f4c2af57f',
-          email: isPublic ? 'aj************@gmail.com' : 'ajayrajbharrr0@gmail.com',
-          user_email: isPublic ? undefined : 'ajayrajbharrr0@gmail.com',
-          items: [
-            {
-              id: 'qikink-32477737-mens-full-sleeve-t-shirt__size-M__color-Grey_Melange',
-              qty: 1,
-              title: "Men's Full Sleeve T-Shirt — Rare Ember Signature Graphic",
-              price: 899,
-              size: 'M',
-              color: 'Grey Melange',
-              imageUrl: 'https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_4.jpg',
-            },
-          ],
-          subtotal: 499,
-          total: 548,
-          total_amount: 548,
-          status: 'shipped',
-          payment_method: 'cod',
-          shipping_name: 'Ajay Rajbhar',
-          shipping_address: {
-            city: 'Bangalore',
-            state: 'Karnataka',
-            zip: '562107',
-            country: 'India',
-          },
-          tracking_number: '46600611743280',
-          tracking_url: 'https://courierupdates.com/?awb=46600611743280',
-          created_at: '2026-10-22T07:19:00.000Z',
-        },
-      ],
-    });
-  }
 
   // IDOR & PII Protection: Public users MUST provide BOTH orderId AND email.
   if (!adminAuthorized) {
@@ -99,29 +69,15 @@ export async function GET(req: NextRequest) {
     let error: any = null;
 
     if (adminAuthorized) {
-      if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
-        let q = sb
-          .from('orders')
-          .select('id,user_email,total_amount,status,cj_order_id,tracking_number,tracking_url,items,payment_method,shipping_name,shipping_address,created_at')
-          .order('created_at', { ascending: false });
-        if (email) q = q.eq('user_email', email);
-        if (orderId) q = q.ilike('id', `${orderId}%`);
-        const res = await q.limit(20);
-        data = res.data;
-        error = res.error;
-      } else {
-        const adminSecret = process.env.ADMIN_SECRET;
-        if (!adminSecret) {
-          return NextResponse.json({ error: 'Server admin configuration missing' }, { status: 500 });
-        }
-        const res = await sb.rpc('admin_lookup_orders', {
-          p_admin_secret: adminSecret,
-          p_order_id: orderId || null,
-          p_email: email || null,
-        });
-        data = res.data;
-        error = res.error;
-      }
+      let q = sb
+        .from('orders')
+        .select('id,user_email,total_amount,status,cj_order_id,tracking_number,tracking_url,items,payment_method,shipping_name,shipping_address,created_at')
+        .order('created_at', { ascending: false });
+      if (email) q = q.eq('user_email', email);
+      if (orderId) q = q.ilike('id', `${orderId}%`);
+      const res = await q.limit(20);
+      data = res.data;
+      error = res.error;
     } else {
       // Secure public tracking: exact match on both order ID and email via security-definer RPC
       const res = await sb.rpc('track_order', {
@@ -199,8 +155,8 @@ export async function POST(req: NextRequest) {
       }
 
       const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-      if (!url || !key) return NextResponse.json({ error: 'Database service unavailable' }, { status: 503 });
+      const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+      if (!url || !key) return NextResponse.json({ error: 'Database service unavailable (SUPABASE_SERVICE_ROLE_KEY required)' }, { status: 503 });
       const sb = createClient(url, key);
 
       const { data, error } = await sb.rpc('track_order', {
@@ -441,7 +397,19 @@ export async function POST(req: NextRequest) {
           discountAmount = Math.min(credCheck.creditAmount, calculatedSubtotal);
           verifiedCoupon = normalizedCode;
         } else {
-          const couponCheck = validateCouponCode(body.coupon_code, calculatedSubtotal);
+          // Store credit must NEVER pass through the plain coupon path: the
+        // creditMatch branch in festivals.ts accepts signed vouchers with no
+        // database check, so a CREDIT-* code here would apply a discount
+        // with no verification and no redemption. Store credit redemption
+        // lives exclusively in the prepaid checkout route.
+        const rawCoupon = String(body.coupon_code).trim().toUpperCase();
+        if (/^(?:RE-?)?CREDIT-/i.test(rawCoupon)) {
+          return NextResponse.json(
+            { error: 'Store credit vouchers can only be applied to prepaid online orders.' },
+            { status: 400 }
+          );
+        }
+        const couponCheck = validateCouponCode(body.coupon_code, calculatedSubtotal);
           if (couponCheck.valid) {
             discountAmount = couponCheck.discountAmount;
             verifiedCoupon = normalizedCode;
@@ -452,10 +420,12 @@ export async function POST(req: NextRequest) {
           }
         }
       }
-    } else if (body.discount && Number(body.discount) > 0) {
-      const maxAllowableAutoDiscount = 50;
-      discountAmount = Math.min(Number(body.discount), maxAllowableAutoDiscount);
     }
+    // NOTE: the previous `else if (body.discount)` branch trusted a
+    // client-sent discount on COD orders with none of the prepaid-only /
+    // minimum-order rules. It is deleted. COD orders get coupons only,
+    // validated above; the prepaid incentive is computed server-side in the
+    // checkout route for prepaid orders.
 
     const finalTotal = Math.max(1, calculatedSubtotal - discountAmount);
 
@@ -507,10 +477,12 @@ export async function POST(req: NextRequest) {
     const orderId = crypto.randomUUID();
     const orderRef = idempotencyKey || `cod_${Date.now()}`;
 
+    const verifiedUserId = await getVerifiedUserId(req, sb);
+
     const newOrder = {
       id: orderId,
       user_email: email,
-      user_id: body.user_id || null,
+      user_id: verifiedUserId,
       stripe_session_id: orderRef,
       total_amount: chargedTotal,
       status: isCod ? 'pending_cod' : 'pending',
@@ -578,7 +550,7 @@ export async function POST(req: NextRequest) {
     }).catch((e) => console.error('Telegram background alert error:', e));
 
     // Automated Order Confirmation Email to Customer
-    void sendOrderConfirmationEmail({
+    sendOrderConfirmationEmail({
       orderId: finalOrderId,
       email,
       name: body.name,
@@ -596,6 +568,10 @@ export async function POST(req: NextRequest) {
         state: addr.state,
         zip: addr.zip,
       },
+    }).then((emailRes) => {
+      if (!emailRes.ok) {
+        console.warn(`[Orders API] Customer order confirmation email deferred/failed for ${finalOrderId}:`, emailRes.error);
+      }
     }).catch((e) => console.error('Customer email confirmation error:', e));
 
     // Automated Order Dispatch to Qikink (Domestic hub)
@@ -606,7 +582,9 @@ export async function POST(req: NextRequest) {
       console.log(`[Orders API] Order ${finalOrderId} identified as test/temp order. Skipping Qikink factory dispatch.`);
     } else if (isCod) {
       console.log(`[Orders API] Dispatching COD Order ${finalOrderId} to Qikink manufacturing hub.`);
-      void fulfillQikinkOrder(sb, finalOrderId, newOrder).then((res) => {
+      // Await, never fire-and-forget: serverless freezes the function once
+      // the response returns, which can kill the factory call mid-flight.
+      await fulfillQikinkOrder(sb, finalOrderId, newOrder).then((res) => {
         if (res.ok) console.log(`[Orders API] COD Order ${finalOrderId} transmitted to Qikink: ${res.qikinkOrderId}`);
         else console.warn(`[Orders API] COD Order ${finalOrderId} Qikink dispatch failed: ${res.reason}`);
       });

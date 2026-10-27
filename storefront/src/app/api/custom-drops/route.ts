@@ -65,24 +65,31 @@ export async function POST(req: NextRequest) {
     const leadId = `RE-B2B-${randomSuffix}`;
 
     // 1. Dispatch real-time Telegram alert to Founder & Production Team
-    await notifyTelegramCustomLead({
-      leadId,
-      orgName,
-      contactName,
-      phone,
-      quantity,
-      productType,
-      eventDate,
-      estimatedBudget,
-    });
+    let alertSent = false;
+    try {
+      await notifyTelegramCustomLead({
+        leadId,
+        orgName,
+        contactName,
+        phone,
+        quantity,
+        productType,
+        eventDate,
+        estimatedBudget,
+      });
+      alertSent = true;
+    } catch (telegramErr) {
+      console.error('[Custom Drops] Telegram alert failed:', telegramErr);
+    }
 
-    // 2. Best-effort Supabase persistence
+    // 2. Database persistence via service_role client
+    let dbSaved = false;
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (url && key) {
       try {
         const sb = createClient(url, key);
-        await sb.from('custom_leads').insert({
+        const { error: insertErr } = await sb.from('custom_leads').insert({
           lead_id: leadId,
           org_name: orgName,
           contact_name: contactName,
@@ -93,10 +100,21 @@ export async function POST(req: NextRequest) {
           estimated_budget: estimatedBudget,
           status: 'new',
         });
+        if (insertErr) {
+          console.error('[Custom Drops] DB insert error:', insertErr.message);
+        } else {
+          dbSaved = true;
+        }
       } catch (dbErr) {
-        // Non-blocking: table might not exist yet; Telegram dispatch already alerted team
-        console.warn('Could not record custom_lead in DB:', dbErr);
+        console.error('[Custom Drops] DB exception:', dbErr);
       }
+    }
+
+    if (!alertSent && !dbSaved) {
+      return NextResponse.json(
+        { error: 'Service temporarily unavailable. Please contact our team on WhatsApp directly.' },
+        { status: 503 }
+      );
     }
 
     return NextResponse.json({

@@ -77,7 +77,7 @@ function numberToWordsINR(amount: number): string {
 
 export default function InvoiceClient() {
   const searchParams = useSearchParams();
-  const initialOrderId = searchParams.get('orderId') || searchParams.get('id') || '7792e434';
+  const initialOrderId = searchParams.get('orderId') || searchParams.get('id') || '';
   const initialEmail = searchParams.get('email') || '';
 
   const [inputOrderId, setInputOrderId] = useState(initialOrderId);
@@ -115,42 +115,7 @@ export default function InvoiceClient() {
       if (res.ok && data.orders && data.orders.length > 0) {
         setOrder(data.orders[0]);
       } else {
-        // Sample order fallback for 7792e434
-        if (orderIdToFetch.toLowerCase().includes('7792e434') || !orderIdToFetch) {
-          setOrder({
-            id: '7792e434-7bf5-4ff4-9296-cf2f4c2af57f',
-            email: 'ajayrajbharrr0@gmail.com',
-            shipping_name: 'Ajay Rajbhar',
-            phone: '9118211860',
-            shipping_address: {
-              line1: 'Near Aerospace Park, Bagalur Main Rd',
-              city: 'Bangalore',
-              state: 'Karnataka',
-              zip: '562107',
-              country: 'India',
-            },
-            total: 548,
-            total_amount: 548,
-            subtotal: 499,
-            status: 'shipped',
-            payment_method: 'cod',
-            tracking_number: '46600611743280',
-            tracking_url: 'https://courierupdates.com/?awb=46600611743280',
-            created_at: '2026-10-23T15:20:00.000Z',
-            items: [
-              {
-                id: 'qikink-32477737-mens-full-sleeve-t-shirt',
-                title: "Men's Full Sleeve T-Shirt — Rare Ember Signature Graphic",
-                price: 899,
-                qty: 1,
-                size: 'M',
-                color: 'Grey Melange',
-              },
-            ],
-          });
-        } else {
-          setError(data.error || 'Order not found. Please verify Order ID and Email.');
-        }
+        setError(data.error || 'Order not found. Please verify Order ID and Email.');
       }
     } catch (err: any) {
       setError(err?.message || 'Failed to retrieve invoice details.');
@@ -422,7 +387,7 @@ export default function InvoiceClient() {
                 </p>
               )}
               <p className="text-neutral-700 mt-0.5 font-mono">
-                <strong>Email:</strong> {order?.user_email || order?.email || 'ajayrajbharrr0@gmail.com'}
+                <strong>Email:</strong> {order?.user_email || order?.email || 'customer@rareember.shop'}
               </p>
               <p className="text-neutral-700 mt-0.5 font-mono">
                 <strong>Place of Supply:</strong> {order?.shipping_address?.state || 'Karnataka'} (State Code: {stateCode})

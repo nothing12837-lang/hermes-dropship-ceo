@@ -26,13 +26,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Please enter a valid 10-digit mobile number.' }, { status: 400 });
     }
 
-    // Dispatch immediate callback alert to Ajay
-    void notifyTelegramCallbackRequest({
-      name,
-      phone: cleanPhone.slice(-10),
-      slot,
-      reason: reason || undefined,
-    });
+    // Dispatch immediate callback alert to founder / ops
+    try {
+      await notifyTelegramCallbackRequest({
+        name,
+        phone: cleanPhone.slice(-10),
+        slot,
+        reason: reason || undefined,
+      });
+    } catch (telegramErr) {
+      console.error('[Callback] Telegram alert error:', telegramErr);
+    }
 
     return NextResponse.json({
       success: true,

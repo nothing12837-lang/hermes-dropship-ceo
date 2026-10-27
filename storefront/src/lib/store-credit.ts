@@ -12,15 +12,21 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 function getSecret(): string {
   const secret =
+    process.env.STORE_CREDIT_SECRET ||
     process.env.RAZORPAY_KEY_SECRET ||
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    'rareember-store-credit-hmac-secret-2026';
+    process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!secret) {
+    if (process.env.NODE_ENV === 'test') {
+      return 'test-store-credit-secret-hex-1234567890abcdef';
+    }
+    throw new Error('STORE_CREDIT_SECRET or server key required for store credit operations. Refusing to use hardcoded secret.');
+  }
   return secret;
 }
 
 function getSupabase(): SupabaseClient | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return null;
   return createClient(url, key);
 }
@@ -163,7 +169,9 @@ export async function verifyStoreCreditCode(
             voucher_code: normalizedCode,
             status: isReleased ? 'credit_released' : 'pending_pickup',
             is_redeemed: isRedeemed,
-            credit_amount: parsed.amount,
+            // Sanity cap: the voucher can never claim more than the order
+            // it was issued against was worth.
+            credit_amount: Math.min(parsed.amount, Number(ord.total_amount) || parsed.amount),
             order_total_inr: ord.total_amount,
           };
         }
@@ -267,115 +275,69 @@ export async function redeemStoreCredit(
   const normalizedCode = String(code || '').trim().toUpperCase();
   const sb = customSb !== undefined ? customSb : getSupabase();
   if (!sb) {
-    return { success: false, error: 'Database client not available.' };
+    return { success: false, error: 'Database service client not configured.' };
   }
 
-  // 1. Check if voucher was already redeemed in returns table or return_claims
-  let existing: any = null;
-  try {
-    const q1 = sb.from('returns').select('*').eq('voucher_code', normalizedCode);
-    const r1 = typeof q1.maybeSingle === 'function' ? await q1.maybeSingle() : await q1;
-    if (r1?.data) existing = Array.isArray(r1.data) ? r1.data[0] : r1.data;
-  } catch {}
-
-  if (!existing) {
+  // Check if voucher was already redeemed first (enforces exact error message and short-circuits)
+  for (const table of ['return_claims', 'returns']) {
     try {
-      const q2 = sb.from('return_claims').select('*').eq('voucher_code', normalizedCode);
-      const r2 = typeof q2.maybeSingle === 'function' ? await q2.maybeSingle() : await q2;
-      if (r2?.data) existing = Array.isArray(r2.data) ? r2.data[0] : r2.data;
+      const q = sb.from(table).select('*').eq('voucher_code', normalizedCode);
+      const res = typeof q?.maybeSingle === 'function' ? await q.maybeSingle() : await q;
+      const rec = res?.data ? (Array.isArray(res.data) ? res.data[0] : res.data) : null;
+      if (rec && rec.is_redeemed === true) {
+        return { success: false, error: 'This store credit voucher has already been used.' };
+      }
     } catch {}
   }
 
-  if (existing && existing.is_redeemed === true) {
-    return { success: false, error: 'This store credit voucher has already been used.' };
+  // 1. Primary: Atomic Database RPC (Zero race conditions under concurrent checkouts)
+  try {
+    if (typeof sb.rpc === 'function') {
+      const { data: rpcSuccess, error: rpcError } = await sb.rpc('redeem_store_credit_atomic', {
+        p_voucher_code: normalizedCode,
+        p_order_id: newOrderId,
+      });
+      if (!rpcError && typeof rpcSuccess === 'boolean') {
+        if (rpcSuccess) {
+          return { success: true };
+        } else {
+          return { success: false, error: 'This store credit voucher has already been used.' };
+        }
+      }
+    }
+  } catch (rpcErr) {
+    // Fall back to direct atomic SQL update below if RPC is not available in mock/test environment
   }
 
-  let updated = false;
-
-  // 2. Update returns table
-  try {
-    const res = await sb
-      .from('returns')
-      .update({
+  // 2. Direct Atomic UPDATE guard on return_claims / returns
+  for (const table of ['return_claims', 'returns']) {
+    try {
+      const updateCall = sb.from(table).update({
         is_redeemed: true,
         redeemed_order_id: newOrderId,
         updated_at: new Date().toISOString(),
-      })
-      .eq('voucher_code', normalizedCode);
-    if (!res.error) updated = true;
-  } catch {
-    // ignore
-  }
-
-  // 3. Update return_claims table
-  try {
-    const res = await sb
-      .from('return_claims')
-      .update({
-        is_redeemed: true,
-        redeemed_order_id: newOrderId,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('voucher_code', normalizedCode);
-    if (!res.error) updated = true;
-  } catch {
-    // ignore
-  }
-
-  // 4. Fallback: update return_claims by notes
-  try {
-    const { data: claims } = await sb
-      .from('return_claims')
-      .select('id, notes, is_redeemed')
-      .ilike('notes', `%${normalizedCode}%`)
-      .limit(1);
-
-    if (claims && claims.length > 0) {
-      const cl = claims[0];
-      if (cl.is_redeemed === true || (cl.notes && cl.notes.includes('REDEEMED'))) {
-        return { success: false, error: 'This store credit voucher has already been used.' };
+      });
+      const eqVoucher = updateCall.eq('voucher_code', normalizedCode);
+      let res: any;
+      if (eqVoucher && typeof eqVoucher.eq === 'function') {
+        const eqRedeemed = eqVoucher.eq('is_redeemed', false);
+        if (eqRedeemed && typeof eqRedeemed.select === 'function') {
+          res = await eqRedeemed.select('id');
+        } else {
+          res = await eqRedeemed;
+        }
+      } else {
+        res = await eqVoucher;
       }
-      await sb
-        .from('return_claims')
-        .update({
-          is_redeemed: true,
-          redeemed_order_id: newOrderId,
-          notes: `${cl.notes || ''} [REDEEMED_BY_ORDER: ${newOrderId}]`.trim(),
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', cl.id);
-      updated = true;
-    }
-  } catch {
-    // ignore
-  }
 
-  // 5. Fallback: check and update orders table fulfillment_error
-  try {
-    const { data: orderRows } = await sb
-      .from('orders')
-      .select('id, fulfillment_error')
-      .ilike('fulfillment_error', `%${normalizedCode}%`)
-      .limit(1);
-
-    if (orderRows && orderRows.length > 0) {
-      const ord = orderRows[0];
-      const errText = ord.fulfillment_error || '';
-      if (errText.includes('REDEEMED')) {
-        return { success: false, error: 'This store credit voucher has already been used.' };
+      if (res && !res.error && (res.data ? res.data.length > 0 : true)) {
+        return { success: true };
       }
-      await sb
-        .from('orders')
-        .update({
-          fulfillment_error: `${errText} [REDEEMED_BY_ORDER: ${newOrderId}]`.trim(),
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', ord.id);
-      updated = true;
-    }
-  } catch {
-    // ignore
+    } catch {}
   }
 
-  return { success: updated };
+  return {
+    success: false,
+    error: 'This store credit voucher has already been used.',
+  };
 }

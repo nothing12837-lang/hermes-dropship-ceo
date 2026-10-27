@@ -107,22 +107,19 @@ async function sendEmailWithFallback({
       }
     }
 
-    // 3. Fallback to owner email if recipient is external sandbox
-    console.warn('[Email Service] Direct recipient dispatch deferred:', data?.message);
+    // 3. If recipient dispatch failed, notify owner but do NOT report ok: true for the customer dispatch
+    console.warn('[Email Service] Direct recipient dispatch deferred/rejected:', data?.message);
     const ownerEmail = process.env.RESEND_OWNER_EMAIL || 'support@rareember.shop';
     if (toEmail.toLowerCase() !== ownerEmail.toLowerCase()) {
-      const fallbackRes = await postReq(
-        'Rare Ember <onboarding@resend.dev>',
-        ownerEmail,
-        `[Customer Order] ${subjectLine} (To: ${toEmail})`
-      );
-      const fallbackData = await fallbackRes.json();
-      if (fallbackRes.ok && fallbackData.id) {
-        console.log('[Email Service] Fallback copy delivered to owner %s (id: %s)', ownerEmail, fallbackData.id);
-        return { ok: true };
-      }
+      try {
+        await postReq(
+          'Rare Ember <onboarding@resend.dev>',
+          ownerEmail,
+          `[Undelivered Customer Notification] ${subjectLine} (Target: ${toEmail} - Reason: ${data?.message || 'Domain unverified'})`
+        );
+      } catch {}
     }
-    return { ok: false, error: data?.message || 'Resend error' };
+    return { ok: false, error: `Customer delivery failed: ${data?.message || 'Domain unverified or mailbox rejected'}` };
   } catch (err: any) {
     console.error('[Email Service] Dispatch error:', err.message);
     return { ok: false, error: err.message };

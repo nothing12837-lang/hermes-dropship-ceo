@@ -13,7 +13,7 @@ export const runtime = 'nodejs';
 
 function getAdminSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return null;
   return createClient(url, key);
 }
@@ -250,19 +250,19 @@ export async function PATCH(req: NextRequest) {
     }
 
     if (supabase) {
-      try {
-        await supabase
-          .from('products')
-          .upsert(
-            {
-              id: productId,
-              active: newActiveState,
-              updated_at: new Date().toISOString(),
-            },
-            { onConflict: 'id' }
-          );
-      } catch (err) {
-        console.warn('[Admin Products API] Supabase update warning:', err);
+      const { error: upsertErr } = await supabase
+        .from('products')
+        .upsert(
+          {
+            id: productId,
+            active: newActiveState,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: 'id' }
+        );
+      if (upsertErr) {
+        console.error('[Admin Products API] Supabase toggle_active error:', upsertErr.message);
+        return NextResponse.json({ ok: false, error: `Database update failed: ${upsertErr.message}` }, { status: 500 });
       }
     }
 
@@ -306,25 +306,25 @@ export async function PATCH(req: NextRequest) {
     }
 
     if (supabase) {
-      try {
-        const dbPayload: Record<string, any> = {
-          id: productId,
-          updated_at: new Date().toISOString(),
-        };
-        if (updates.title) dbPayload.title = updates.title.trim();
-        if (updates.price != null) {
-          dbPayload.price = Math.round(Number(updates.price));
-          dbPayload.price_inr = Math.round(Number(updates.price));
-        }
-        if (updates.compareAtPrice != null) {
-          dbPayload.compare_at_price = Math.round(Number(updates.compareAtPrice));
-        }
-        if (updates.category) dbPayload.category = updates.category.trim();
-        if (updates.active != null) dbPayload.active = Boolean(updates.active);
+      const dbPayload: Record<string, any> = {
+        id: productId,
+        updated_at: new Date().toISOString(),
+      };
+      if (updates.title) dbPayload.title = updates.title.trim();
+      if (updates.price != null) {
+        dbPayload.price = Math.round(Number(updates.price));
+        dbPayload.price_inr = Math.round(Number(updates.price));
+      }
+      if (updates.compareAtPrice != null) {
+        dbPayload.compare_at_price = Math.round(Number(updates.compareAtPrice));
+      }
+      if (updates.category) dbPayload.category = updates.category.trim();
+      if (updates.active != null) dbPayload.active = Boolean(updates.active);
 
-        await supabase.from('products').upsert(dbPayload, { onConflict: 'id' });
-      } catch (err) {
-        console.warn('[Admin Products API] Supabase update details warning:', err);
+      const { error: upsertErr } = await supabase.from('products').upsert(dbPayload, { onConflict: 'id' });
+      if (upsertErr) {
+        console.error('[Admin Products API] Supabase update details error:', upsertErr.message);
+        return NextResponse.json({ ok: false, error: `Database update failed: ${upsertErr.message}` }, { status: 500 });
       }
     }
 
@@ -596,39 +596,39 @@ export async function POST(req: NextRequest) {
   // Insert/Upsert to Supabase
   const supabase = getAdminSupabase();
   if (supabase) {
-    try {
-      await supabase.from('products').upsert(
-        {
-          id: newProduct.id,
-          slug: newProduct.slug,
-          title: newProduct.title,
-          description: newProduct.story,
-          short: newProduct.short,
-          story: newProduct.story,
-          price: newProduct.price,
-          price_inr: newProduct.price_inr,
-          compare_at_price: newProduct.compare_at_price,
-          category: newProduct.category,
-          emoji: '🔥',
-          tag: newProduct.tag,
-          tag_color: newProduct.tagColor,
-          tag_bg: newProduct.tagBg,
-          rating: newProduct.rating,
-          reviews: newProduct.reviews,
-          image_url: newProduct.image_url,
-          details: newProduct.details,
-          supplier: 'qikink',
-          is_trending: true,
-          is_new: true,
-          active: true,
-          chapter: 'Drop Exclusive',
-          gradient: newProduct.gradient,
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: 'id' }
-      );
-    } catch (err) {
-      console.warn('[Admin Products API] Supabase insert warning:', err);
+    const { error: insertErr } = await supabase.from('products').upsert(
+      {
+        id: newProduct.id,
+        slug: newProduct.slug,
+        title: newProduct.title,
+        description: newProduct.story,
+        short: newProduct.short,
+        story: newProduct.story,
+        price: newProduct.price,
+        price_inr: newProduct.price_inr,
+        compare_at_price: newProduct.compare_at_price,
+        category: newProduct.category,
+        emoji: '🔥',
+        tag: newProduct.tag,
+        tag_color: newProduct.tagColor,
+        tag_bg: newProduct.tagBg,
+        rating: newProduct.rating,
+        reviews: newProduct.reviews,
+        image_url: newProduct.image_url,
+        details: newProduct.details,
+        supplier: 'qikink',
+        is_trending: true,
+        is_new: true,
+        active: true,
+        chapter: 'Drop Exclusive',
+        gradient: newProduct.gradient,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: 'id' }
+    );
+    if (insertErr) {
+      console.error('[Admin Products API] Supabase insert error:', insertErr.message);
+      return NextResponse.json({ ok: false, error: `Database insert failed: ${insertErr.message}` }, { status: 500 });
     }
   }
 

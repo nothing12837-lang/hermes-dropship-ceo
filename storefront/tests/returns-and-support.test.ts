@@ -86,7 +86,7 @@ describe('Returns, Replacements & Reverse Logistics System', () => {
   });
 
   it('validates store credit vouchers correctly at checkout', () => {
-    const voucher = 'CREDIT-770-75DC';
+    const voucher = 'CREDIT-770-75DC-B2C3D4';
     const res = validateCouponCode(voucher, 699);
     expect(res.valid).toBe(true);
     // Capped at subtotal 699

@@ -41,6 +41,8 @@ create table if not exists products (
   wash text not null default '#fff3e0',
   badges text[] not null default '{}',
   active boolean not null default true,
+  price_inr numeric,
+  supplier text not null default 'qikink',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
