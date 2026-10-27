@@ -3,7 +3,7 @@ import { blogPosts } from '@/lib/data/content';
 import { ChapterHeading } from '@/components/ui/Story';
 
 export const metadata  = {
-  title: 'Atelier Journal • Streetwear & Tech Culture',
+  title: 'Rare Ember Journal • Streetwear & Tech Culture',
   description: 'Fabric engineering, 240/380 GSM craftsmanship, hackathon custom merch guides, and minimalist creator workstation blueprints.',
   alternates: {
     canonical: 'https://www.rareember.shop/blog',
@@ -85,7 +85,7 @@ export default async function BlogPage() {
   return (
     <main className="page-top" style={{ background: '#fffbf5', minHeight: '100vh' }}>
       <div style={{ maxWidth: '76rem', margin: '0 auto', padding: '2rem' }}>
-        <ChapterHeading index="⚡" label="Atelier Journal" title="Streetwear, Craft &" accent="Creator Culture." />
+        <ChapterHeading index="⚡" label="Rare Ember Journal" title="Streetwear, Craft &" accent="Creator Culture." />
         <p style={{ color: '#52453e', marginTop: '-1.5rem', marginBottom: '2.5rem', maxWidth: '600px' }}>
           Actionable guides on 240/380 GSM garment engineering, domestic maker craftsmanship, campus merch, and minimalist creator workspaces.
         </p>

@@ -454,7 +454,7 @@ export default function AdminProductsDashboard() {
             <div className="w-16 h-16 rounded-2xl bg-orange-500/10 border border-orange-500/30 mx-auto flex items-center justify-center text-3xl shadow-inner">
               👑
             </div>
-            <h1 className="text-2xl font-black tracking-tight text-white">RareEmber Atelier</h1>
+            <h1 className="text-2xl font-black tracking-tight text-white">Rare Ember Admin</h1>
             <p className="text-xs text-slate-400">
               Founder &amp; Executive Product Command Vault
             </p>

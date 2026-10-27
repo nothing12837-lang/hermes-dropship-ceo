@@ -31,9 +31,6 @@ export default function Footer() {
               <span className="inline-flex items-center px-3 py-1 rounded bg-white/5 border border-white/10 text-white/70 text-[11px] font-medium">
                 Pan-India Express Air Dispatch
               </span>
-              <span className="inline-flex items-center px-3 py-1 rounded bg-white/5 border border-white/10 text-white/70 text-[11px] font-medium">
-                256-Bit SSL Encrypted
-              </span>
               <GoogleCustomerReviewsBadge variant="inline" />
             </div>
           </div>

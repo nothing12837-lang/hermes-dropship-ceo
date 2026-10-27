@@ -109,7 +109,7 @@ function ShopInner() {
             All Garments &amp; Graphic Drops
           </h1>
           <p className="text-neutral-600 text-xs sm:text-sm md:text-base leading-relaxed max-w-xl mx-auto mt-2 font-medium">
-            240 GSM combed cotton tees, full sleeve drops &amp; signature silhouettes. Directly sourced from verified makers with express air delivery included.
+            240 GSM combed cotton tees, full sleeve drops &amp; signature silhouettes. Directly sourced from verified makers with free express air delivery.
           </p>
 
           {/* Category Tabs */}
@@ -177,7 +177,7 @@ function ShopInner() {
         <div className="flex items-center justify-between pb-3 mb-5 border-b border-zinc-200/80">
           <div>
             <div className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#E04F33] font-bold mb-0.5">
-              Atelier Catalog
+              Store Catalog
             </div>
             <h2 className="text-xl sm:text-3xl font-extrabold text-zinc-950 tracking-tight">
               {active.label}

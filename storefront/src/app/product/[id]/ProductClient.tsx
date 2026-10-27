@@ -1058,7 +1058,7 @@ export function ProductClient({ product }: Props) {
         weight: '380 GSM',
         silhouette: 'Structured Boxy Drop-Shoulder Silhouette',
         weightPct: 96,
-        weightDesc: 'Fast-Fashion Mall Hoodie: 220 GSM [Thin/Baggy] vs RareEmber Atelier: 380 GSM [Structured Heavyweight Drape, Zero See-Through]',
+        weightDesc: 'Fast-Fashion Mall Hoodie: 220 GSM [Thin/Baggy] vs Rare Ember: 380 GSM [Structured Heavyweight Drape, Zero See-Through]',
         climatePct: 82,
         climateDesc: '100% Super-Combed Bio-Washed Cotton Fleece — warm structured shell, breathable brushed interior',
         washPct: 99,
@@ -1073,7 +1073,7 @@ export function ProductClient({ product }: Props) {
         weight: '350 GSM',
         silhouette: 'Vintage Boxy Varsity Bomber Silhouette',
         weightPct: 90,
-        weightDesc: 'Fast-Fashion Mall Jacket: 240 GSM [Unstructured] vs RareEmber Atelier: 350 GSM [Structured Heavyweight Drape, Zero See-Through]',
+        weightDesc: 'Fast-Fashion Mall Jacket: 240 GSM [Unstructured] vs Rare Ember: 350 GSM [Structured Heavyweight Drape, Zero See-Through]',
         climatePct: 78,
         climateDesc: '100% Super-Combed Bio-Washed Cotton & Poly-Fleece Blend — insulated yet breathable in Indian evening breezes',
         washPct: 99,
@@ -1088,7 +1088,7 @@ export function ProductClient({ product }: Props) {
         weight: '320 GSM',
         silhouette: 'Relaxed Streetwear Crewneck Silhouette',
         weightPct: 84,
-        weightDesc: 'Fast-Fashion Mall Sweatshirt: 200 GSM [Flawed Drape] vs RareEmber Atelier: 320 GSM [Structured Heavyweight Drape, Zero See-Through]',
+        weightDesc: 'Fast-Fashion Mall Sweatshirt: 200 GSM [Flawed Drape] vs Rare Ember: 320 GSM [Structured Heavyweight Drape, Zero See-Through]',
         climatePct: 88,
         climateDesc: '100% Super-Combed Bio-Washed Cotton — cool against skin in Indian air-conditioned workspaces, structured on the outside',
         washPct: 99,
@@ -1103,7 +1103,7 @@ export function ProductClient({ product }: Props) {
         weight: '180 GSM',
         silhouette: 'Athletic Aerodynamic Cut',
         weightPct: 45,
-        weightDesc: 'Fast-Fashion Jersey: 120 GSM [Flimsy/Clinging] vs RareEmber Atelier: 180 GSM [Structured Matrix Mesh, Zero See-Through]',
+        weightDesc: 'Fast-Fashion Jersey: 120 GSM [Flimsy/Clinging] vs Rare Ember: 180 GSM [Structured Matrix Mesh, Zero See-Through]',
         climatePct: 99,
         climateDesc: '180 GSM Honeycomb Hydrophobic Mesh — hyper-breathable airflow matrix cool against skin in high humidity',
         washPct: 99,
@@ -1117,7 +1117,7 @@ export function ProductClient({ product }: Props) {
       weight: '240 GSM',
       silhouette: 'Signature Heavy Drop-Shoulder Oversized Silhouette',
       weightPct: 68,
-      weightDesc: 'Fast-Fashion Mall Tee: 145 GSM [Thin/See-through] vs RareEmber Atelier: 240–380 GSM [Structured Heavyweight Drape, Zero See-Through]',
+      weightDesc: 'Fast-Fashion Mall Tee: 145 GSM [Thin/See-through] vs Rare Ember: 240–380 GSM [Structured Heavyweight Drape, Zero See-Through]',
       climatePct: 95,
       climateDesc: '100% Super-Combed Bio-Washed Cotton — cool against skin in Indian humidity, structured on the outside',
       washPct: 99,
@@ -2156,7 +2156,7 @@ export function ProductClient({ product }: Props) {
                 {discountPercent}% OFF
               </span>
               <span className="text-[10px] sm:text-xs font-semibold text-neutral-700 bg-neutral-100 px-2.5 py-0.5 rounded border border-neutral-200">
-                Free Express Delivery Included
+                Free Express Delivery
               </span>
             </div>
 
@@ -3220,7 +3220,7 @@ export function ProductClient({ product }: Props) {
               <div className="mt-6 flex flex-col gap-3">
                 <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
                   <div style={{ padding: '0.85rem 1.75rem', borderRadius: '9999px', background: '#fef2f2', border: '1.5px solid #fecaca', color: '#dc2626', fontWeight: 800, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <span>⚠️</span> CURRENTLY OUT OF STOCK AT ATELIER
+                    <span>⚠️</span> CURRENTLY OUT OF STOCK
                   </div>
                   <button
                     onClick={() => toggle(product.id)}
@@ -3354,7 +3354,7 @@ export function ProductClient({ product }: Props) {
               </div>
             )}
 
-            {/* Essential Atelier Fabric & Quality Reassurance */}
+            {/* Essential Fabric & Quality Reassurance */}
             {isApparel && (
               <div className="mt-4 p-3.5 rounded-2xl bg-white border border-black/[0.08] shadow-xs flex flex-wrap items-center justify-between gap-3 text-xs">
                 <div className="flex items-center gap-2 font-bold text-neutral-900">
@@ -3388,7 +3388,7 @@ export function ProductClient({ product }: Props) {
               </Link>
               <div className="p-3 rounded-2xl bg-white border border-black/[0.06] shadow-xs">
                 <div className="text-base mb-1">🔒</div>
-                <div className="font-bold text-neutral-950">256-Bit SSL Checkout</div>
+                <div className="font-bold text-neutral-950">Secure Checkout</div>
                 <div className="text-[11px] text-neutral-500">Bank-grade encrypted gateway</div>
               </div>
               <div className="p-3 rounded-2xl bg-white border border-black/[0.06] shadow-xs">

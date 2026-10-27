@@ -62,7 +62,7 @@ function getStatusDetails(status: string, paymentMethod?: string) {
       badgeBg: 'bg-emerald-500/10 text-emerald-800 border-emerald-500/20',
       stepIndex: 0,
       stageOneTitle: 'Payment Confirmed',
-      stageOneDesc: 'Payment secured via 256-bit SSL gateway. Warehouse notified.',
+      stageOneDesc: 'Payment secured and verified. Warehouse notified.',
       icon: '•',
     };
   }
@@ -650,27 +650,6 @@ export function TrackClient() {
                                   Pay {geoFormatPrice(o.total)} via Cash or UPI QR to delivery executive
                                 </p>
                               )}
-
-                              {/* COD-to-Prepaid UPI Option */}
-                              {isCod && o.status !== 'delivered' && o.status !== 'cancelled' && (
-                                <div className="mt-3 p-3 rounded-xl bg-neutral-100/70 border border-black/[0.06] text-left">
-                                  <div className="flex items-center justify-between gap-2 flex-wrap">
-                                    <div className="text-[11px] text-neutral-700">
-                                      <span className="font-bold text-neutral-900">Prefer digital payment?</span> Pay via UPI on delivery or contact support.
-                                    </div>
-                                    <a
-                                      href={`https://wa.me/919118211860?text=${encodeURIComponent(
-                                        `Hi Rare Ember! I would like to pay via UPI for my COD Order #${o.id.slice(0, 8)} (Total: ₹${o.total}). Please share the instant UPI QR code.`
-                                      )}`}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="px-3 py-1.5 rounded-lg bg-[#0D0D0F] hover:bg-neutral-800 text-white text-[11px] font-bold no-underline inline-flex items-center gap-1 transition-all"
-                                    >
-                                      <span>📲</span> UPI QR via WhatsApp
-                                    </a>
-                                  </div>
-                                </div>
-                              )}
                             </div>
                           </div>
                         </div>
@@ -773,10 +752,10 @@ export function TrackClient() {
                     <span>12-Hour Priority SLA</span>
                   </div>
                   <h3 className="text-base sm:text-lg font-bold text-white">
-                    Need Dispatch Assistance? Contact Atelier Support
+                    Need Dispatch Assistance? Contact Support
                   </h3>
                   <p className="text-xs text-neutral-400 max-w-lg leading-relaxed">
-                    Direct access to our dedicated atelier dispatch team. Tap below to chat on WhatsApp or send an email with your {currentOrderId ? <strong>Order #{currentOrderId}</strong> : 'Order ID'} pre-filled.
+                    Direct access to our dedicated dispatch team. Tap below to chat on WhatsApp or send an email with your {currentOrderId ? <strong>Order #{currentOrderId}</strong> : 'Order ID'} pre-filled.
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto shrink-0">
@@ -786,13 +765,13 @@ export function TrackClient() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#25D366] hover:bg-[#20ba5a] text-black font-bold text-xs no-underline active:scale-95 transition-all cursor-pointer whitespace-nowrap"
                   >
-                    <span>WhatsApp Concierge</span>
+                    <span>WhatsApp Support</span>
                   </a>
                   <a
                     href={mailUrl}
                     className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs no-underline border border-white/15 active:scale-95 transition-all cursor-pointer whitespace-nowrap"
                   >
-                    <span>Email Atelier</span>
+                    <span>Email Support</span>
                   </a>
                 </div>
               </div>
@@ -861,7 +840,7 @@ export function TrackClient() {
                       Official Tax Invoice / Retail Bill
                     </p>
                     <p className="text-[11px] text-neutral-500 mt-1 leading-relaxed">
-                      Rare Ember Apparel Atelier • Bangalore Hub<br />
+                      Rare Ember • Bangalore Hub<br />
                       Sourcing Hub: Verified Domestic Maker Network<br />
                       Contact: support@rareember.shop | +91 91182 11860
                     </p>

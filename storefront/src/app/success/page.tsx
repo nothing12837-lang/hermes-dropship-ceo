@@ -157,8 +157,8 @@ function SuccessInner() {
   }, [orderId, orderTotal]);
 
   const trackUrl = `/track?email=${encodeURIComponent(email)}${session ? `&orderId=${encodeURIComponent(session)}` : ''}`;
-  const whatsappVipUrl = `https://wa.me/919118211860?text=${encodeURIComponent(`Hi RareEmber Atelier! Please lock in VIP dispatch updates for my Order #${orderId}`)}`;
-  const whatsappSizeSwitchUrl = `https://wa.me/919118211860?text=${encodeURIComponent(`Hi RareEmber Atelier! I need to switch my size/colorway for Order #${orderId} within the 2-hour grace window.`)}`;
+  const whatsappVipUrl = `https://wa.me/919118211860?text=${encodeURIComponent(`Hi Rare Ember Support! Please lock in VIP dispatch updates for my Order #${orderId}`)}`;
+  const whatsappSizeSwitchUrl = `https://wa.me/919118211860?text=${encodeURIComponent(`Hi Rare Ember Support! I need to switch my size/colorway for Order #${orderId} within the 2-hour grace window.`)}`;
 
   // GST Breakdown calculations
   const cgst = (orderTotal * 0.0238).toFixed(2);
@@ -221,7 +221,7 @@ function SuccessInner() {
             </>
           ) : (
             <>
-              Your payment has been secured via 256-bit SSL encryption. Factory dispatch queue has been assigned to your items.
+              Your payment has been securely verified. Factory dispatch queue has been assigned to your items.
             </>
           )}
         </p>
@@ -293,7 +293,7 @@ function SuccessInner() {
               <span className="font-bold text-neutral-200 mt-0.5 block">Delhivery / Blue Dart Air</span>
             </div>
             <div className="bg-white/[0.04] p-2.5 rounded-xl border border-white/5">
-              <span className="text-[9px] uppercase font-mono text-neutral-400 block">Atelier Origin</span>
+              <span className="text-[9px] uppercase font-mono text-neutral-400 block">Direct Origin</span>
               <span className="font-bold text-neutral-200 mt-0.5 block">Verified Maker Network, India</span>
             </div>
           </div>
@@ -330,7 +330,7 @@ function SuccessInner() {
                   Skip the doorstep cash or QR scan hassle. Settle payment now via Google Pay, PhonePe, Paytm, or UPI to instantly waive the ₹59 COD courier surcharge and prioritize your parcel for the earliest Delhivery cargo flight.
                 </p>
                 <div className="flex flex-wrap items-center gap-3 pt-1 text-[11px] font-bold text-emerald-800">
-                  <span className="flex items-center gap-1">✓ 100% RBI &amp; Razorpay 256-bit SSL Protected</span>
+                  <span className="flex items-center gap-1">✓ 100% RBI &amp; Razorpay Protected</span>
                   <span className="flex items-center gap-1">✓ Instant Digital Receipt Dispatched</span>
                 </div>
               </div>
@@ -407,7 +407,7 @@ function SuccessInner() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h4 className="text-xs font-black uppercase tracking-wider text-neutral-900 flex items-center gap-2">
-                <span>🏭 Live Atelier Production & Dispatch Telemetry</span>
+                <span>🏭 Live Production & Dispatch Telemetry</span>
               </h4>
               <p className="text-[11px] text-neutral-500 mt-0.5 font-medium">
                 Real-time 5-stage craftsmanship pipeline mapped to your order
@@ -500,7 +500,7 @@ function SuccessInner() {
             rel="noopener noreferrer"
             className="text-emerald-700 font-bold underline inline-flex items-center gap-1"
           >
-            <span>💬</span> Chat with Atelier Concierge on WhatsApp
+            <span>💬</span> Chat with Support on WhatsApp
           </a>
         </div>
       </div>
@@ -545,7 +545,7 @@ function SuccessInner() {
                 Original Tax Invoice / Bill of Supply
               </p>
               <p className="text-[11px] text-neutral-500 mt-1 leading-relaxed">
-                Rare Ember Private Limited • Atelier Streetwear Division<br />
+                Rare Ember Private Limited • Streetwear Division<br />
                 Bangalore Hub, Karnataka — 562107<br />
                 Support: support@rareember.shop | +91 91182 11860
               </p>
@@ -618,7 +618,7 @@ function SuccessInner() {
                 <tr>
                   <td className="py-3 text-neutral-400 font-bold">1</td>
                   <td className="py-3 font-bold text-neutral-900">
-                    Rare Ember Curated Garment Drop (Atelier Limited Edition)
+                    Rare Ember Curated Garment Drop (Limited Edition Drop)
                   </td>
                   <td className="py-3 text-center font-mono text-neutral-500">6109</td>
                   <td className="py-3 text-center font-bold text-neutral-900">1</td>

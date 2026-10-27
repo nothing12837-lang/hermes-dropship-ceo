@@ -1181,7 +1181,7 @@ export function CustomDropsClient() {
                         if (isFront) setFrontText(val);
                         else setBackText(val);
                       }}
-                      placeholder="Enter Custom Text (e.g. EMBER ATELIER)"
+                      placeholder="Enter Custom Text (e.g. RARE EMBER)"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-white/15 bg-white/5 text-white font-bold text-sm focus:outline-none focus:border-[#FF4D24]"
                     />
 

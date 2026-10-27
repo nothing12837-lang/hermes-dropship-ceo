@@ -366,7 +366,7 @@ export default function InvoiceClient() {
                 Tax Invoice / Retail Bill of Supply
               </p>
               <p className="text-xs text-neutral-600 mt-2 leading-relaxed">
-                <strong>Rare Ember Apparel Atelier</strong> (Rare Ember Private Limited)<br />
+                <strong>Rare Ember Apparel</strong> (Rare Ember Private Limited)<br />
                 Headquarters: Near Aerospace Park, Bagalur Main Road, Bangalore, Karnataka — 562107<br />
                 Sourcing Hub: Verified Domestic Maker Network<br />
                 Contact: <strong className="text-neutral-900">support@rareember.shop</strong> | WhatsApp: <strong>+91 91182 11860</strong><br />

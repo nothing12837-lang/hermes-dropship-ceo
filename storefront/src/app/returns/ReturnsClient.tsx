@@ -157,7 +157,7 @@ export function ReturnsClient() {
 
               <div className="space-y-2">
                 <span className="text-xs font-mono font-bold text-amber-800 uppercase tracking-widest block">
-                  Atelier Return Claim #{claimResult.claimId}
+                  Return Claim #{claimResult.claimId}
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-black text-neutral-950">
                   ₹{claimResult.reservedCreditAmount || claimResult.storeCreditAmount} Store Credit Locked to Claim #{claimResult.claimId}
@@ -165,7 +165,7 @@ export function ReturnsClient() {
               </div>
 
               <p className="text-sm text-neutral-700 max-w-xl mx-auto leading-relaxed font-medium">
-                Your ₹{claimResult.reservedCreditAmount || claimResult.storeCreditAmount} Store Credit (110% Value — 100% Order Value + 10% Atelier Bonus) has been generated and locked to Claim #{claimResult.claimId}! Our courier partner will pick up your unworn original piece (or verify your claim via our Atelier Desk), and your instant single-use voucher code will be activated and dispatched via Email &amp; WhatsApp immediately upon pickup scan.
+                Your ₹{claimResult.reservedCreditAmount || claimResult.storeCreditAmount} Store Credit (110% Value — 100% Order Value + 10% Bonus) has been generated and locked to Claim #{claimResult.claimId}! Our courier partner will pick up your unworn original piece (or verify your claim via our Support Desk), and your instant single-use voucher code will be activated and dispatched via Email &amp; WhatsApp immediately upon pickup scan.
               </p>
 
               {/* Security & Pickup Status Stepper */}

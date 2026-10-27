@@ -110,14 +110,9 @@ export default function Navbar() {
                 className="object-contain shrink-0 transition-transform duration-300 group-hover:scale-105"
                 priority
               />
-              <div className="flex flex-col">
-                <span className="whitespace-nowrap font-black text-lg text-[#0D0D0F] tracking-tight leading-tight">
-                  Rare Ember
-                </span>
-                <span className="text-[9px] font-bold tracking-[0.2em] text-[#E04F33] uppercase leading-none">
-                  Atelier
-                </span>
-              </div>
+              <span className="whitespace-nowrap font-black text-lg text-[#0D0D0F] tracking-tight leading-tight">
+                Rare Ember
+              </span>
             </Link>
 
             {/* Desktop Search */}
@@ -219,13 +214,10 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Zone 2 (Center): Architectural Wordmark + Sub-label */}
-          <Link href="/" className="no-underline flex flex-col items-center justify-center text-center shrink-0">
+          {/* Zone 2 (Center): Wordmark */}
+          <Link href="/" className="no-underline flex items-center justify-center text-center shrink-0">
             <span className="font-black text-sm tracking-[0.22em] text-[#0D0D0F] uppercase whitespace-nowrap">
               RARE EMBER
-            </span>
-            <span className="text-[8px] font-bold tracking-[0.28em] text-[#E04F33] uppercase -mt-0.5">
-              ATELIER
             </span>
           </Link>
 
@@ -316,7 +308,7 @@ export default function Navbar() {
 
               <div className="mt-auto p-4 border-t border-white/10 bg-black/40">
                 <p className="text-xs text-white/60 font-medium leading-relaxed">
-                  Pan-India 2–4d express air dispatch. Standard delivery included in all prices.
+                  Pan-India express air dispatch. Free delivery on all orders.
                 </p>
               </div>
             </motion.aside>

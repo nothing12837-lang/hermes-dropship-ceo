@@ -60,8 +60,8 @@ const CATEGORY_TABS = [
 const ASSURANCES = [
   {
     icon: Truck,
-    title: 'Express Air Delivery (2–4 Days)',
-    desc: 'Pan-India 2–4 business days via BlueDart & Delhivery Air. Express air dispatch included in all prices.',
+    title: 'Free Express Air Delivery',
+    desc: 'Pan-India air dispatch via BlueDart & Delhivery Air. Free delivery on all orders.',
   },
   {
     icon: ShieldCheck,
@@ -118,10 +118,10 @@ export default async function Home() {
           <div className="hidden lg:flex items-center gap-3 text-xs sm:text-sm font-semibold text-neutral-600 shrink-0">
             <span className="flex items-center gap-1.5 text-emerald-800">
               <span className="w-1.5 h-1.5 rounded-full bg-[#059669] pulse-live-dot" />
-              Pan-India 2–4d Express Active
+              Pan-India Express Active
             </span>
             <span className="text-black/15">•</span>
-            <span>Delivery Included</span>
+            <span>Free Delivery</span>
             <span className="text-black/15">•</span>
             <span>COD Available</span>
           </div>
@@ -165,7 +165,7 @@ export default async function Home() {
                   Men&apos;s Graphic Streetwear
                 </h2>
                 <p className="text-sm sm:text-base text-neutral-600 mt-1.5 font-medium max-w-2xl">
-                  High-density DTF prints on 240 GSM bio-washed combed cotton. Dispatched in 2–4 business days.
+                  High-density DTF prints on 240 GSM bio-washed combed cotton.
                 </p>
               </div>
               <Link

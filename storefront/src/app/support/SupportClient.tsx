@@ -134,7 +134,7 @@ export default function SupportClient() {
               <span className="text-[#FF4D24] font-bold">POLICY:</span> 7-Day Easy Returns
             </span>
             <span className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded border border-white/10 font-mono text-[11px]">
-              <span className="text-[#FF4D24] font-bold">SECURE:</span> 256-Bit SSL Encrypted
+              <span className="text-[#FF4D24] font-bold">SECURE:</span> 100% Encrypted Checkout
             </span>
           </div>
         </div>
@@ -529,7 +529,7 @@ export default function SupportClient() {
             <div className="bg-white border border-black/[0.08] rounded-2xl p-6 flex flex-col justify-between space-y-4 shadow-xs">
               <div className="space-y-2">
                 <span className="font-mono text-xs uppercase tracking-wider text-neutral-400 block">DIRECT EMAIL</span>
-                <h3 className="text-base font-bold text-neutral-950">Atelier Email</h3>
+                <h3 className="text-base font-bold text-neutral-950">Support Email</h3>
                 <p className="text-xs text-neutral-600 leading-relaxed">
                   Official correspondence, invoice requests, and business inquiries. Monitored with 12h reply commitment.
                 </p>

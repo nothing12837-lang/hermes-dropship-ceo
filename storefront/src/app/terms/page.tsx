@@ -38,7 +38,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-lg font-bold text-neutral-950 mb-2">3. Payment & Security</h2>
               <p>
-                Prepaid payments are securely handled via Razorpay (supporting UPI, Credit/Debit Cards, NetBanking, and Wallets) with 256-bit SSL encryption. We also offer Cash on Delivery (COD) across eligible PIN codes in India.
+                Prepaid payments are securely handled via Razorpay (supporting UPI, Credit/Debit Cards, NetBanking, and Wallets) with bank-grade encryption. We also offer Cash on Delivery (COD) across eligible PIN codes in India.
               </p>
             </section>
 
