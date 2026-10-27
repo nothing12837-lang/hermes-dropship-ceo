@@ -5,20 +5,40 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { ChapterHeading } from '@/components/ui/Story';
 import { trackPurchase } from '@/lib/telemetry/dataLayer';
+import { GoogleCustomerReviewsOptIn, calculateEstimatedDeliveryDate } from '@/components/google/GoogleCustomerReviewsOptIn';
 
 function SuccessInner() {
   const q = useSearchParams();
   const mock = q.get('mock');
   const isCod = q.get('cod') === '1';
-  const email = q.get('email') || 'your inbox';
+  const emailParam = q.get('email') || '';
+  const initialEmail = emailParam && emailParam.includes('@') ? emailParam.trim() : '';
+  const email = initialEmail || emailParam || 'your inbox';
   const total = q.get('total');
   const session = q.get('session_id') || q.get('order_id');
 
+  const [customerEmail, setCustomerEmail] = useState(initialEmail);
   const [copied, setCopied] = useState(false);
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
 
   // Deterministic order ID and Archival Pass ID
   const orderId = session || 'ord_pending';
+
+  useEffect(() => {
+    if (initialEmail) {
+      setCustomerEmail(initialEmail);
+    } else if (orderId && orderId !== 'ord_pending') {
+      fetch(`/api/orders?orderId=${encodeURIComponent(orderId)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const ord = data?.orders?.[0] || data?.order;
+          if (ord?.user_email) {
+            setCustomerEmail(ord.user_email);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [initialEmail, orderId]);
   const orderTotal = total ? parseFloat(total) : 548;
   const passId = (orderId.length > 4 ? orderId.slice(-4) : orderId).toUpperCase();
 
@@ -638,6 +658,13 @@ function SuccessInner() {
           </div>
         </div>
       </div>
+
+      {/* Google Customer Reviews Survey Opt-in (Google Merchant Center ID: 5885607413) */}
+      <GoogleCustomerReviewsOptIn
+        orderId={orderId}
+        email={customerEmail}
+        estimatedDeliveryDate={calculateEstimatedDeliveryDate(4)}
+      />
     </main>
   );
 }

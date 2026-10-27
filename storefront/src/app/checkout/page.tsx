@@ -772,7 +772,7 @@ export default function CheckoutPage() {
         order_id: data.order_id,
         handler: function () {
           clear();
-          window.location.href = `/success?session_id=${data.order_id}`;
+          window.location.href = `/success?session_id=${data.order_id}&email=${encodeURIComponent(email.trim())}&total=${total.toFixed(2)}`;
         },
         modal: {
           ondismiss: function () {

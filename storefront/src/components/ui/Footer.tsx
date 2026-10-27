@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { COPY } from '@/lib/data/copy';
+import { GoogleCustomerReviewsBadge } from '@/components/google/GoogleCustomerReviewsBadge';
 
 export default function Footer() {
   return (
@@ -33,6 +34,7 @@ export default function Footer() {
               <span className="inline-flex items-center px-3 py-1 rounded bg-white/5 border border-white/10 text-white/70 text-[11px] font-medium">
                 256-Bit SSL Encrypted
               </span>
+              <GoogleCustomerReviewsBadge variant="inline" />
             </div>
           </div>
 
