@@ -79,11 +79,13 @@ export async function GET(req: NextRequest) {
       data = res.data;
       error = res.error;
     } else {
-      // Secure public tracking: exact match on both order ID and email via security-definer RPC
-      const res = await sb.rpc('track_order', {
-        p_order_id: orderId,
-        p_email: email,
-      });
+      // Secure public tracking: exact match on both order ID and email via service-role query
+      const res = await sb
+        .from('orders')
+        .select('id,user_email,total_amount,subtotal,status,items,payment_method,shipping_name,shipping_address,tracking_number,tracking_url,created_at')
+        .eq('id', orderId!)
+        .ilike('user_email', email!)
+        .limit(1);
       data = res.data;
       error = res.error;
     }
@@ -159,10 +161,12 @@ export async function POST(req: NextRequest) {
       if (!url || !key) return NextResponse.json({ error: 'Database service unavailable (SUPABASE_SERVICE_ROLE_KEY required)' }, { status: 503 });
       const sb = createClient(url, key);
 
-      const { data, error } = await sb.rpc('track_order', {
-        p_order_id: targetOrderId,
-        p_email: targetEmail,
-      });
+      const { data, error } = await sb
+        .from('orders')
+        .select('id,user_email,total_amount,subtotal,status,items,payment_method,shipping_name,shipping_address,tracking_number,tracking_url,created_at')
+        .eq('id', targetOrderId)
+        .ilike('user_email', targetEmail)
+        .limit(1);
 
       if (error || !data || data.length === 0) {
         return NextResponse.json({ error: 'Order not found or email does not match' }, { status: 404 });
@@ -193,7 +197,11 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      return NextResponse.json({ ok: sendRes.ok, error: sendRes.error });
+      if (!sendRes.ok) {
+        return NextResponse.json({ ok: false, error: sendRes.error || 'Failed to dispatch tax invoice email' }, { status: 502 });
+      }
+
+      return NextResponse.json({ ok: true, message: 'Tax invoice dispatched successfully' });
     }
 
     // Payment method is a CLOSED enum. Any other value previously slipped past
@@ -224,7 +232,13 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      const secret = process.env.COD_OTP_SECRET || process.env.ADMIN_SECRET || 'rareember-cod-otp-secret-2026';
+      const secret = process.env.COD_OTP_SECRET || process.env.ADMIN_SECRET;
+      if (!secret) {
+        return NextResponse.json(
+          { error: 'COD verification service unavailable (COD_OTP_SECRET required)' },
+          { status: 503 }
+        );
+      }
       const parts = codToken.split(':');
       if (parts.length !== 5 || parts[0] !== 'cod-verified') {
         return NextResponse.json({ error: 'Invalid COD verification token format' }, { status: 400 });

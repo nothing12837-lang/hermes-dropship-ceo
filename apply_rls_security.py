@@ -186,12 +186,40 @@ $$;
 )
 print("OK   track_order: recreated with an explicit column list")
 check(
-    "track_order: revoke anon",
-    "REVOKE ALL ON FUNCTION public.track_order(text, text) FROM anon, PUBLIC",
+    "track_order: revoke anon and authenticated",
+    "REVOKE ALL ON FUNCTION public.track_order(text, text) FROM anon, authenticated, PUBLIC",
 )
 check(
-    "track_order: grant authenticated",
-    "GRANT EXECUTE ON FUNCTION public.track_order(text, text) TO authenticated, service_role",
+    "track_order: grant service_role",
+    "GRANT EXECUTE ON FUNCTION public.track_order(text, text) TO service_role",
+)
+
+# ------------------------------------------------------------------
+# 3b. redeem_store_credit_atomic -- SECURITY DEFINER, service_role only
+# ------------------------------------------------------------------
+check(
+    "redeem_store_credit_atomic: set search_path",
+    "ALTER FUNCTION public.redeem_store_credit_atomic(text, text) SET search_path = public, pg_temp",
+)
+check(
+    "redeem_store_credit_atomic: revoke public",
+    "REVOKE ALL ON FUNCTION public.redeem_store_credit_atomic(text, text) FROM PUBLIC, anon, authenticated",
+)
+check(
+    "redeem_store_credit_atomic: grant service_role",
+    "GRANT EXECUTE ON FUNCTION public.redeem_store_credit_atomic(text, text) TO service_role",
+)
+
+# ------------------------------------------------------------------
+# 3c. orders_status_check -- include return_requested and returned
+# ------------------------------------------------------------------
+check(
+    "orders: drop old status constraint",
+    "ALTER TABLE public.orders DROP CONSTRAINT IF EXISTS orders_status_check",
+)
+check(
+    "orders: add status constraint with return states",
+    "ALTER TABLE public.orders ADD CONSTRAINT orders_status_check CHECK (status IN ('pending', 'pending_cod', 'paid', 'processing', 'fulfilled', 'shipped', 'delivered', 'cancelled', 'refunded', 'return_requested', 'returned'))",
 )
 
 # ------------------------------------------------------------------

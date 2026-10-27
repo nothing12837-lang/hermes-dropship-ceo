@@ -27,7 +27,13 @@ export async function POST(req: NextRequest) {
     }
 
     const cleanPhone = String(rawPhone).replace(/\D/g, '').slice(-10);
-    const secret = process.env.COD_OTP_SECRET || process.env.ADMIN_SECRET || 'rareember-cod-otp-secret-2026';
+    const secret = process.env.COD_OTP_SECRET || process.env.ADMIN_SECRET;
+    if (!secret) {
+      return NextResponse.json(
+        { error: 'COD verification service temporarily unavailable.' },
+        { status: 503 }
+      );
+    }
 
     const expectedHash = crypto
       .createHmac('sha256', secret)

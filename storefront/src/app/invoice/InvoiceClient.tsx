@@ -63,16 +63,43 @@ const STATE_CODES: Record<string, string> = {
 
 function numberToWordsINR(amount: number): string {
   const rounded = Math.round(amount);
-  if (rounded === 548) return 'INR Five Hundred Forty-Eight Only';
-  if (rounded === 659) return 'INR Six Hundred Fifty-Nine Only';
-  if (rounded === 679) return 'INR Six Hundred Seventy-Nine Only';
-  if (rounded === 779) return 'INR Seven Hundred Seventy-Nine Only';
-  if (rounded === 899) return 'INR Eight Hundred Ninety-Nine Only';
-  if (rounded === 999) return 'INR Nine Hundred Ninety-Nine Only';
-  if (rounded === 1199) return 'INR One Thousand One Hundred Ninety-Nine Only';
-  if (rounded === 1399) return 'INR One Thousand Three Hundred Ninety-Nine Only';
-  if (rounded === 1499) return 'INR One Thousand Four Hundred Ninety-Nine Only';
-  return `INR ${rounded.toLocaleString('en-IN')} Only`;
+  if (rounded <= 0) return 'INR Zero Only';
+
+  const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+  const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+  function convertTwoDigits(num: number): string {
+    if (num < 20) return units[num];
+    const t = Math.floor(num / 10);
+    const u = num % 10;
+    return tens[t] + (u ? `-${units[u]}` : '');
+  }
+
+  function convertThreeDigits(num: number): string {
+    const h = Math.floor(num / 100);
+    const rem = num % 100;
+    if (h && rem) return `${units[h]} Hundred ${convertTwoDigits(rem)}`;
+    if (h) return `${units[h]} Hundred`;
+    return convertTwoDigits(rem);
+  }
+
+  let words = '';
+  let n = rounded;
+
+  const crore = Math.floor(n / 10000000);
+  n %= 10000000;
+  const lakh = Math.floor(n / 100000);
+  n %= 100000;
+  const thousand = Math.floor(n / 1000);
+  n %= 1000;
+  const remainder = n;
+
+  if (crore) words += `${convertThreeDigits(crore)} Crore `;
+  if (lakh) words += `${convertThreeDigits(lakh)} Lakh `;
+  if (thousand) words += `${convertThreeDigits(thousand)} Thousand `;
+  if (remainder) words += `${convertThreeDigits(remainder)} `;
+
+  return `INR ${words.trim()} Only`;
 }
 
 export default function InvoiceClient() {
@@ -183,9 +210,9 @@ export default function InvoiceClient() {
     }
   };
 
-  const shortId = order?.id ? order.id.slice(0, 8).toUpperCase() : '7792E434';
+  const shortId = order?.id ? order.id.slice(0, 8).toUpperCase() : 'PREVIEW';
   const invoiceNo = `INV-RE-${shortId}`;
-  const totalAmount = Number(order?.total_amount || order?.total || 548);
+  const totalAmount = Number(order?.total_amount || order?.total || 0);
   const isCod = (order?.payment_method || '').toLowerCase().includes('cod');
 
   // 5% Inclusive Apparel GST breakdown
@@ -288,7 +315,7 @@ export default function InvoiceClient() {
                 type="text"
                 value={inputOrderId}
                 onChange={(e) => setInputOrderId(e.target.value)}
-                placeholder="Enter Order ID (e.g. 7792e434)..."
+                placeholder="Enter Order ID (e.g. ord_...)..."
                 className="w-full px-3.5 py-2 rounded-xl bg-neutral-50 border border-black/10 text-xs text-neutral-900 font-mono font-bold focus:border-[#E04F33] focus:outline-none"
               />
             </div>
@@ -404,7 +431,7 @@ export default function InvoiceClient() {
                   <span className="font-black text-xs">Delhivery Air Express</span>
                 </div>
                 <div className="mt-1 font-mono text-[11px] text-emerald-900">
-                  AWB / Ref: <strong>{order?.tracking_number || '46600611743280'}</strong>
+                  AWB / Ref: <strong>{order?.tracking_number || 'Pending Courier Assignment'}</strong>
                 </div>
                 <div className="mt-1 text-[11px] text-emerald-800">
                   Service Mode: Domestic Express Air (Insured &amp; Sealed Mailer)

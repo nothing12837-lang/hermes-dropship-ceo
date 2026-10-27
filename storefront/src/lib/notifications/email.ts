@@ -546,8 +546,8 @@ export async function sendCodOtpEmail(payload: {
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'Rare Ember <support@rareember.shop>';
 
   if (!apiKey) {
-    console.log('[Email Mock] Resend API key missing — COD OTP for %s: %s', payload.email, payload.otp);
-    return { ok: true };
+    console.error('[Email] Resend API key missing — cannot send COD OTP to %s', payload.email);
+    return { ok: false, error: 'RESEND_API_KEY is not configured' };
   }
 
   const html = `

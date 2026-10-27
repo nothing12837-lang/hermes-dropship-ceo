@@ -51,7 +51,14 @@ export async function POST(req: NextRequest) {
     const otp = crypto.randomInt(100000, 1000000).toString();
     const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes validity
 
-    const secret = process.env.COD_OTP_SECRET || process.env.ADMIN_SECRET || 'rareember-cod-otp-secret-2026';
+    const secret = process.env.COD_OTP_SECRET || process.env.ADMIN_SECRET;
+    if (!secret) {
+      console.error('[COD OTP Send API] Missing COD_OTP_SECRET in server environment');
+      return NextResponse.json(
+        { error: 'COD verification service temporarily unavailable.' },
+        { status: 503 }
+      );
+    }
 
     const verificationHash = crypto
       .createHmac('sha256', secret)
@@ -59,19 +66,27 @@ export async function POST(req: NextRequest) {
       .digest('hex');
 
     // 1. Dispatch OTP to customer's email via Resend
-    await sendCodOtpEmail({
+    const emailResult = await sendCodOtpEmail({
       email,
       otp,
       name,
     });
 
     // 2. Dispatch real-time Telegram backup alert
-    await notifyTelegramOtp({
+    const telegramResult = await notifyTelegramOtp({
       otp,
       email,
       phone: cleanPhone,
       name,
     });
+
+    if (!emailResult.ok && !telegramResult) {
+      console.error('[COD OTP Send API] Both email and Telegram dispatches failed:', emailResult.error);
+      return NextResponse.json(
+        { error: 'Failed to deliver verification code. Please check your contact details or try again.' },
+        { status: 503 }
+      );
+    }
 
     return NextResponse.json({
       success: true,

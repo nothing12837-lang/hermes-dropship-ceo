@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
     // 2. Dispatch high-priority Telegram alert
     let alertSent = false;
     try {
-      await notifyTelegramSupportTicket({
+      alertSent = await notifyTelegramSupportTicket({
         ticketId,
         name,
         phone: cleanPhone.slice(-10),
@@ -92,7 +92,6 @@ export async function POST(req: NextRequest) {
         message,
         priority,
       });
-      alertSent = true;
     } catch (telegramErr) {
       console.error('[Support Ticket] Telegram alert error:', telegramErr);
     }

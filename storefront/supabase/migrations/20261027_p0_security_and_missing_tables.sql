@@ -167,3 +167,16 @@ CREATE POLICY "service_role_support_tickets_all" ON public.support_tickets FOR A
 
 DROP POLICY IF EXISTS "service_role_custom_leads_all" ON public.custom_leads;
 CREATE POLICY "service_role_custom_leads_all" ON public.custom_leads FOR ALL TO service_role USING (true) WITH CHECK (true);
+
+-- 8. Update orders status check constraint to include return states
+ALTER TABLE public.orders DROP CONSTRAINT IF EXISTS orders_status_check;
+ALTER TABLE public.orders ADD CONSTRAINT orders_status_check
+  CHECK (status IN ('pending','pending_cod','paid','processing','fulfilled','shipped','delivered','cancelled','refunded','return_requested','returned'));
+
+-- 9. Secure redeem_store_credit_atomic and track_order
+ALTER FUNCTION public.redeem_store_credit_atomic(text, text) SET search_path = public, pg_temp;
+REVOKE ALL ON FUNCTION public.redeem_store_credit_atomic(text, text) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.redeem_store_credit_atomic(text, text) TO service_role;
+
+REVOKE ALL ON FUNCTION public.track_order(text, text) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.track_order(text, text) TO service_role;

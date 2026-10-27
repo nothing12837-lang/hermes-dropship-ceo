@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
     // 1. Dispatch real-time Telegram alert to Founder & Production Team
     let alertSent = false;
     try {
-      await notifyTelegramCustomLead({
+      alertSent = await notifyTelegramCustomLead({
         leadId,
         orgName,
         contactName,
@@ -77,7 +77,6 @@ export async function POST(req: NextRequest) {
         eventDate,
         estimatedBudget,
       });
-      alertSent = true;
     } catch (telegramErr) {
       console.error('[Custom Drops] Telegram alert failed:', telegramErr);
     }

@@ -42,7 +42,7 @@ export default function AgentTaskSuite({ adminKey, overview, initialTask }: Agen
   const [deliveryCost, setDeliveryCost] = useState(100);
   const [selectedProductId, setSelectedProductId] = useState<string>(products[0]?.id || '');
   const [supportQuery, setSupportQuery] = useState('Where is my order? Delhivery tracking link says no scans found.');
-  const [supportOrderId, setSupportOrderId] = useState('7792e434');
+  const [supportOrderId, setSupportOrderId] = useState('');
   const [copilotPrompt, setCopilotPrompt] = useState('');
 
   const copyToClipboard = (text: string, label: string) => {
@@ -1082,7 +1082,7 @@ export default function AgentTaskSuite({ adminKey, overview, initialTask }: Agen
                     value={supportOrderId}
                     onChange={(e) => setSupportOrderId(e.target.value)}
                     className="w-full rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 text-xs font-mono text-white"
-                    placeholder="e.g. 7792e434 or 46600611743280"
+                    placeholder="e.g. ord_... or Waybill AWB"
                   />
                 </div>
                 <button

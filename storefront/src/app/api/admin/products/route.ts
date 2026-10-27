@@ -228,6 +228,13 @@ export async function PATCH(req: NextRequest) {
   if (denied) return denied;
 
   const supabase = getAdminSupabase();
+  if (!supabase) {
+    return NextResponse.json(
+      { ok: false, error: 'Database service unavailable (SUPABASE_SERVICE_ROLE_KEY required for admin product writes)' },
+      { status: 503 }
+    );
+  }
+
   const body = await req.json();
   const { action, productId } = body;
 
@@ -411,28 +418,36 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: 'productId is required' }, { status: 400 });
   }
 
-  // Soft-delete: mark active = false and flag archived
-  const catalogCopy: any[] = JSON.parse(JSON.stringify(localCatalog));
-  const productIdx = catalogCopy.findIndex(
-    (p) => p.id === productId || p.slug === productId || p.qikinkClientProductId === productId
-  );
-
-  if (productIdx >= 0) {
-    catalogCopy[productIdx].active = false;
-    catalogCopy[productIdx].archived = true;
-    persistLocalCatalog(catalogCopy);
+  const supabase = getAdminSupabase();
+  if (!supabase) {
+    return NextResponse.json(
+      { ok: false, error: 'Database service unavailable (SUPABASE_SERVICE_ROLE_KEY required for admin product writes)' },
+      { status: 503 }
+    );
   }
 
-  const supabase = getAdminSupabase();
-  if (supabase) {
-    try {
-      await supabase
-        .from('products')
-        .update({ active: false, updated_at: new Date().toISOString() })
-        .eq('id', productId);
-    } catch (err) {
-      console.warn('[Admin Products API] Supabase delete warning:', err);
+  const { error: delErr } = await supabase
+    .from('products')
+    .update({ active: false, updated_at: new Date().toISOString() })
+    .eq('id', productId);
+
+  if (delErr) {
+    return NextResponse.json({ ok: false, error: `Database update failed: ${delErr.message}` }, { status: 500 });
+  }
+
+  // Soft-delete in local catalog cache if possible
+  try {
+    const catalogCopy: any[] = JSON.parse(JSON.stringify(localCatalog));
+    const productIdx = catalogCopy.findIndex(
+      (p) => p.id === productId || p.slug === productId || p.qikinkClientProductId === productId
+    );
+    if (productIdx >= 0) {
+      catalogCopy[productIdx].active = false;
+      catalogCopy[productIdx].archived = true;
+      persistLocalCatalog(catalogCopy);
     }
+  } catch (localErr) {
+    console.warn('[Admin Products API] Local catalog write skipped:', localErr);
   }
 
   return NextResponse.json({
@@ -445,6 +460,14 @@ export async function DELETE(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const denied = guard(req);
   if (denied) return denied;
+
+  const supabase = getAdminSupabase();
+  if (!supabase) {
+    return NextResponse.json(
+      { ok: false, error: 'Database service unavailable (SUPABASE_SERVICE_ROLE_KEY required for admin product writes)' },
+      { status: 503 }
+    );
+  }
 
   const body = await req.json();
   const { action } = body;
@@ -594,9 +617,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Insert/Upsert to Supabase
-  const supabase = getAdminSupabase();
-  if (supabase) {
-    const { error: insertErr } = await supabase.from('products').upsert(
+  const { error: insertErr } = await supabase.from('products').upsert(
       {
         id: newProduct.id,
         slug: newProduct.slug,
@@ -630,9 +651,8 @@ export async function POST(req: NextRequest) {
       console.error('[Admin Products API] Supabase insert error:', insertErr.message);
       return NextResponse.json({ ok: false, error: `Database insert failed: ${insertErr.message}` }, { status: 500 });
     }
-  }
 
-  return NextResponse.json({
+    return NextResponse.json({
     ok: true,
     message: `Drop "${cleanTitle}" successfully imported from Qikink!`,
     product: newProduct,

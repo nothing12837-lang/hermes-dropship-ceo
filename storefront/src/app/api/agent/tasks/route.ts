@@ -189,19 +189,19 @@ export async function POST(req: NextRequest) {
       if (liveOrders.length === 0) {
         liveOrders = [
           {
-            id: '7792e434-7bf5-4ff4-9296-cf2f4c2af57f',
-            email: 'ajayrajbharrr0@gmail.com',
-            shipping_name: 'Ajay Rajbhar',
+            id: 'ord_sample_preview_01',
+            email: 'customer@example.com',
+            shipping_name: 'Rare Ember Customer',
             shipping_address: {
-              city: 'Bangalore',
-              state: 'Karnataka',
-              zip: '562107',
-              line1: 'Near Aerospace Park, Bagalur Main Rd',
+              city: 'Mumbai',
+              state: 'Maharashtra',
+              zip: '400001',
+              line1: 'Nariman Point',
             },
-            total: 548,
-            payment_method: 'cod',
+            total: 899,
+            payment_method: 'prepaid',
             status: 'processing',
-            created_at: '2026-10-22T07:19:00.000Z',
+            created_at: new Date().toISOString(),
           },
         ];
       }
@@ -289,14 +289,14 @@ export async function POST(req: NextRequest) {
     // =========================================================================
     if (task === 'support_solver') {
       const query = body.customerQuery || 'Where is my order? Delhivery tracking link says no scans found.';
-      const orderId = body.orderId || '7792e434';
+      const orderId = body.orderId || 'ord_sample_101';
 
       const systemPrompt =
         'You are the Senior Concierge & Customer Care Specialist for Rare Ember (https://rareember.shop). ' +
         'Brand details: Independent Indian heavyweight streetwear, domestic production hub, express air courier via Delhivery & BlueDart. ' +
         'Official support email: support@rareember.shop. Guarantee: 7-Day Easy Returns Guarantee.\n\n' +
         'IMPORTANT COURIER TELEMETRY CONTEXT:\n' +
-        'When an order is dispatched via Delhivery Air, the active Waybill is 46600611743280 (Factory ref 18023747616). ' +
+        'When an order is dispatched via Delhivery Air, an active Waybill (AWB) is assigned by the factory POD system. ' +
         'Delhivery’s public portal only displays live flight scans once physical barcode handover occurs at the Coimbatore airport hub (Stage 3). ' +
         'Reassure the customer with warmth, transparency, and streetwear prestige.\n\n' +
         'Format your response in Markdown with TWO CLEAR SECTIONS:\n' +
@@ -304,7 +304,7 @@ export async function POST(req: NextRequest) {
         '### 2. ✉️ Official Email Reply (Professional subject line, structured body, and support signature)\n\n' +
         'Tone: Elegant, warm, reassuring, never robotic.';
 
-      const userPrompt = `Customer Query: "${query}"\nReferenced Order ID: ${orderId}\nCustomer Email: ajayrajbharrr0@gmail.com\nCourier Waybill: 46600611743280 (Delhivery Air Express)\nStatus: In Transit (Arriving on 26-Oct-2026)`;
+      const userPrompt = `Customer Query: "${query}"\nReferenced Order ID: ${orderId}\nCustomer Email: customer@example.com\nCourier: Delhivery Air Express\nStatus: In Transit`;
 
       const aiResponse = await askAgent(userPrompt, systemPrompt, 1200);
 

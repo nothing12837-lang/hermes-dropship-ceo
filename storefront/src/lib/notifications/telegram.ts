@@ -145,7 +145,7 @@ export async function notifyTelegramOrder(order: {
     `• Manage in Founder Portal: <a href="https://www.rareember.shop/admin/orders">rareember.shop/admin/orders</a>`
   ].filter(Boolean).join('\n');
 
-  await sendTelegramMessage(token, chatId, text, false);
+  return await sendTelegramMessage(token, chatId, text, false);
 }
 
 export async function notifyTelegramReturnClaim(claim: {
@@ -164,7 +164,7 @@ export async function notifyTelegramReturnClaim(claim: {
   const chatId = process.env.TELEGRAM_CHAT_ID;
   const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
 
-  if (!enabled || !token || !chatId) return;
+  if (!enabled || !token || !chatId) return false;
 
   const cleanPhone = String(claim.contact || '').replace(/\D/g, '');
   const digits = cleanPhone.slice(-10);
@@ -227,7 +227,7 @@ export async function notifyTelegramStoreCreditReleased(details: {
   const chatId = process.env.TELEGRAM_CHAT_ID;
   const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
 
-  if (!enabled || !token || !chatId) return;
+  if (!enabled || !token || !chatId) return false;
 
   const text = [
     `✅ <b>STORE CREDIT ACTIVATED & EMAILED!</b> 🎉`,
@@ -258,7 +258,7 @@ export async function notifyTelegramCustomLead(lead: {
   const chatId = process.env.TELEGRAM_CHAT_ID;
   const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
 
-  if (!enabled || !token || !chatId) return;
+  if (!enabled || !token || !chatId) return false;
 
   const cleanPhone = String(lead.phone || '').replace(/\D/g, '');
   const intlPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
@@ -292,7 +292,7 @@ export async function notifyTelegramCustomLead(lead: {
     `3. Collect 20% advance booking deposit to reserve production slot.`
   ].filter(Boolean).join('\n');
 
-  await sendTelegramMessage(token, chatId, text, false);
+  return await sendTelegramMessage(token, chatId, text, false);
 }
 
 export async function notifyTelegramSupportTicket(ticket: {
@@ -310,7 +310,7 @@ export async function notifyTelegramSupportTicket(ticket: {
   const chatId = process.env.TELEGRAM_CHAT_ID;
   const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
 
-  if (!enabled || !token || !chatId) return;
+  if (!enabled || !token || !chatId) return false;
 
   const cleanPhone = String(ticket.phone || '').replace(/\D/g, '');
   const intlPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
@@ -343,7 +343,7 @@ export async function notifyTelegramSupportTicket(ticket: {
     `🔗 <a href="${getFulfillmentHubLink()}">Open Founder Command Center</a>`,
   ].filter(Boolean).join('\n');
 
-  await sendTelegramMessage(token, chatId, text, true);
+  return await sendTelegramMessage(token, chatId, text, true);
 }
 
 export async function notifyTelegramCallbackRequest(req: {
@@ -351,12 +351,12 @@ export async function notifyTelegramCallbackRequest(req: {
   phone: string;
   slot: string;
   reason?: string;
-}) {
+}): Promise<boolean> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
   const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
 
-  if (!enabled || !token || !chatId) return;
+  if (!enabled || !token || !chatId) return false;
 
   const cleanPhone = String(req.phone || '').replace(/\D/g, '');
   const intlPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
@@ -375,7 +375,7 @@ export async function notifyTelegramCallbackRequest(req: {
     waLink ? `💬 <a href="${waLink}">Chat on WhatsApp</a>` : '',
   ].filter(Boolean).join('\n');
 
-  await sendTelegramMessage(token, chatId, text, true);
+  return await sendTelegramMessage(token, chatId, text, true);
 }
 
 /**
@@ -386,13 +386,13 @@ export async function notifyTelegramOtp(params: {
   email: string;
   phone: string;
   name?: string;
-}) {
+}): Promise<boolean> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
   const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
 
   if (!enabled || !token || !chatId) {
-    return;
+    return false;
   }
 
   const text = [
@@ -407,5 +407,5 @@ export async function notifyTelegramOtp(params: {
     `<i>Logged in real-time for customer verification backup.</i>`,
   ].join('\n');
 
-  await sendTelegramMessage(token, chatId, text, true);
+  return await sendTelegramMessage(token, chatId, text, true);
 }

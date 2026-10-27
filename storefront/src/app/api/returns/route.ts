@@ -279,7 +279,7 @@ export async function POST(req: NextRequest) {
 
     // 6. Fail-Safe: Always record on the order itself so it is visible in Admin Orders
     try {
-      await sb
+      const { error: orderUpdateErr } = await sb
         .from('orders')
         .update({
           status: 'return_requested',
@@ -289,8 +289,12 @@ export async function POST(req: NextRequest) {
           updated_at: new Date().toISOString(),
         })
         .eq('id', order.id);
+
+      if (orderUpdateErr) {
+        console.error('[Returns] Failed to update orders metadata for claim:', orderUpdateErr.message);
+      }
     } catch (orderUpdateErr) {
-      console.error('[Returns] Failed to update orders metadata for claim:', orderUpdateErr);
+      console.error('[Returns] Exception while updating orders metadata for claim:', orderUpdateErr);
     }
 
     // 7. Alert the store founder & ops team via Telegram

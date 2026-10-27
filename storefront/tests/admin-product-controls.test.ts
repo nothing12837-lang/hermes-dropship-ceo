@@ -1,17 +1,41 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { NextRequest } from 'next/server';
+
+vi.mock('@supabase/supabase-js', () => ({
+  createClient: vi.fn(() => ({
+    from: vi.fn(() => ({
+      upsert: vi.fn().mockResolvedValue({ error: null }),
+      update: vi.fn().mockReturnValue({
+        eq: vi.fn().mockResolvedValue({ error: null }),
+      }),
+      insert: vi.fn().mockResolvedValue({ error: null }),
+      select: vi.fn().mockReturnValue({
+        order: vi.fn().mockReturnValue({
+          limit: vi.fn().mockResolvedValue({ data: [], error: null }),
+        }),
+      }),
+    })),
+  })),
+}));
+
 import { GET as getAdminProducts, PATCH as patchAdminProducts, POST as postAdminProducts, DELETE as deleteAdminProducts } from '@/app/api/admin/products/route';
 import { GET as verifyQikink } from '@/app/api/admin/products/verify-qikink/route';
 
 describe('Admin Product Controls & Qikink Verification API', () => {
   const originalAdminSecret = process.env.ADMIN_SECRET;
+  const origSbUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const origSbKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   beforeEach(() => {
     process.env.ADMIN_SECRET = 'test_secret_vault_123';
+    process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://mock.supabase.co';
+    process.env.SUPABASE_SERVICE_ROLE_KEY = 'mock_service_role_key_for_tests';
   });
 
   afterEach(() => {
     process.env.ADMIN_SECRET = originalAdminSecret;
+    process.env.NEXT_PUBLIC_SUPABASE_URL = origSbUrl;
+    process.env.SUPABASE_SERVICE_ROLE_KEY = origSbKey;
     vi.restoreAllMocks();
   });
 

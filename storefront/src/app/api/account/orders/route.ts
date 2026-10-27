@@ -48,6 +48,7 @@ export async function GET(req: NextRequest) {
   try {
     const userEmail = (user.email || '').toLowerCase().trim();
     const userId = user.id;
+    const cleanEmail = userEmail ? userEmail.toLowerCase().trim() : '';
 
     // Fetch user orders matching either verified user_id or verified email
     let q = serviceSb
@@ -56,12 +57,12 @@ export async function GET(req: NextRequest) {
       .order('created_at', { ascending: false })
       .limit(50);
 
-    if (userId && userEmail) {
-      q = q.or(`user_id.eq.${userId},user_email.ilike.${userEmail}`);
+    if (userId && cleanEmail) {
+      q = q.or(`user_id.eq.${userId},user_email.eq.${cleanEmail}`);
     } else if (userId) {
       q = q.eq('user_id', userId);
     } else {
-      q = q.ilike('user_email', userEmail);
+      q = q.eq('user_email', cleanEmail);
     }
 
     const { data: orders, error: dbError } = await q;

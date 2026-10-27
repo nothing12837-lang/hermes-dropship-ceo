@@ -240,18 +240,24 @@ export async function POST(req: NextRequest) {
       const { error } = await supabase.from('orders').insert([orderPayload]);
       if (!error) return true;
       if (/column .* does not exist/i.test(error.message)) {
-        console.warn('Orders table missing extension columns — retrying minimal insert (run migration 0002).');
+        console.warn('Orders table missing extension columns — retrying with standard fulfillment columns.');
         const minimal = {
           id: orderPayload.id,
           user_email: row.user_email,
           user_id: row.user_id,
+          stripe_session_id: row.stripe_session_id,
           total_amount: row.total_amount,
           status: row.status,
+          payment_method: row.payment_method,
+          items: row.items,
+          subtotal: row.subtotal,
+          shipping: row.shipping ?? 0,
+          shipping_name: row.shipping_name,
           shipping_address: row.shipping_address,
         };
         const retry = await supabase.from('orders').insert([minimal]);
         if (retry.error) {
-          console.error('Minimal order insert failed:', retry.error.message);
+          console.error('Standard order insert failed:', retry.error.message);
           return false;
         }
         return true;

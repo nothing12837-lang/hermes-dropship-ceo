@@ -141,7 +141,7 @@ export function TrackClient() {
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to email invoice');
+      if (!res.ok || data.ok === false) throw new Error(data.error || 'Failed to email invoice');
       setEmailInvoiceSuccess('✅ Official Tax Invoice dispatched to your email!');
       setTimeout(() => setEmailInvoiceSuccess(null), 6000);
     } catch (err: any) {
