@@ -257,7 +257,7 @@ function SuccessInner() {
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-amber-400 pulse-live-dot" />
                 <span className="text-[11px] font-mono tracking-widest uppercase text-amber-300 font-black">
-                  RARE EMBER ATELIER • VERIFIED ARCHIVAL PASS
+                  RARE EMBER • VERIFIED ARCHIVAL PASS
                 </span>
                 <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] font-bold">
                   ✓
@@ -338,7 +338,7 @@ function SuccessInner() {
               <div className="flex flex-col sm:flex-row md:flex-col gap-2.5 w-full md:w-auto shrink-0">
                 <a
                   href={`https://wa.me/919118211860?text=${encodeURIComponent(
-                    `Namaste Rare Ember Atelier! 🙏\n\nI want to convert my COD Order #${session || orderId} (Total: ₹${total || orderTotal}) to Prepaid UPI to save the ₹59 COD courier fee and unlock priority air dispatch.\n\nPlease share the official UPI QR / payment link.`
+                    `Namaste Rare Ember! 🙏\n\nI want to convert my COD Order #${session || orderId} (Total: ₹${total || orderTotal}) to Prepaid UPI to save the ₹59 COD courier fee and unlock priority air dispatch.\n\nPlease share the official UPI QR / payment link.`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

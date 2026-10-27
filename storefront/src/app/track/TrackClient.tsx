@@ -656,11 +656,11 @@ export function TrackClient() {
                                 <div className="mt-3 p-3 rounded-xl bg-neutral-100/70 border border-black/[0.06] text-left">
                                   <div className="flex items-center justify-between gap-2 flex-wrap">
                                     <div className="text-[11px] text-neutral-700">
-                                      <span className="font-bold text-neutral-900">Prefer digital payment?</span> Pay via UPI on delivery or contact concierge.
+                                      <span className="font-bold text-neutral-900">Prefer digital payment?</span> Pay via UPI on delivery or contact support.
                                     </div>
                                     <a
                                       href={`https://wa.me/919118211860?text=${encodeURIComponent(
-                                        `Hi Rare Ember Atelier! I would like to pay via UPI for my COD Order #${o.id.slice(0, 8)} (Total: ₹${o.total}). Please share the instant UPI QR code.`
+                                        `Hi Rare Ember! I would like to pay via UPI for my COD Order #${o.id.slice(0, 8)} (Total: ₹${o.total}). Please share the instant UPI QR code.`
                                       )}`}
                                       target="_blank"
                                       rel="noopener noreferrer"
@@ -747,22 +747,22 @@ export function TrackClient() {
           </div>
         )}
 
-        {/* 1-Tap Atelier Concierge Support Card with Pre-Populated Order ID */}
+        {/* 1-Tap Support Card with Pre-Populated Order ID */}
         {(() => {
           const currentOrderId = orderId.trim() || (orders.length > 0 ? orders[0].id : '');
           const currentEmail = email.trim() || (orders.length > 0 ? orders[0].email : '');
           const orderMention = currentOrderId ? `Order #${currentOrderId}` : 'my order';
 
           const waMessage = currentOrderId
-            ? `Hi Rare Ember Atelier Concierge, I need urgent dispatch help regarding Order ID: ${currentOrderId}${currentEmail ? ` (${currentEmail})` : ''}. Please check my order status.`
-            : 'Hi Rare Ember Atelier Concierge, I need urgent dispatch help regarding my order. Please check my status.';
+            ? `Hi Rare Ember Support, I need urgent dispatch help regarding Order ID: ${currentOrderId}${currentEmail ? ` (${currentEmail})` : ''}. Please check my order status.`
+            : 'Hi Rare Ember Support, I need urgent dispatch help regarding my order. Please check my status.';
 
           const waUrl = `https://wa.me/919118211860?text=${encodeURIComponent(waMessage)}`;
 
           const emailSubject = currentOrderId
             ? `Urgent Dispatch Help — Order ${currentOrderId}`
             : 'Urgent Dispatch Help — Rare Ember Order';
-          const emailBody = `Hi Rare Ember Atelier Concierge,\n\nI need urgent dispatch help regarding ${orderMention}.\nOrder ID: ${currentOrderId || 'N/A'}\nEmail: ${currentEmail || 'N/A'}\n\nPlease provide an update on dispatch and courier tracking.\n\nThank you!`;
+          const emailBody = `Hi Rare Ember Support,\n\nI need urgent dispatch help regarding ${orderMention}.\nOrder ID: ${currentOrderId || 'N/A'}\nEmail: ${currentEmail || 'N/A'}\n\nPlease provide an update on dispatch and courier tracking.\n\nThank you!`;
           const mailUrl = `mailto:support@rareember.shop?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
           return (

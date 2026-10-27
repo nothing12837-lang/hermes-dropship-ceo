@@ -600,7 +600,7 @@ export default function InvoiceClient() {
                 [Digitally Signed via Rare Ember Ledger]
               </div>
               <div className="font-black text-neutral-900 text-sm">
-                Rare Ember Atelier Pvt. Ltd.
+                Rare Ember Pvt. Ltd.
               </div>
               <div className="text-[10px] font-bold text-neutral-500">
                 Authorised Signatory

@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${product.title} — ₹${currentPrice}`,
       description,
       url: canonicalUrl,
-      siteName: 'Rare Ember Atelier',
+      siteName: 'Rare Ember',
       type: 'website',
       locale: 'en_IN',
       images: [
@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: ogImageUrl,
           width: 1200,
           height: 1200,
-          alt: `${product.title} — Rare Ember Atelier Streetwear`,
+          alt: `${product.title} — Rare Ember Streetwear`,
           type: 'image/jpeg',
         },
       ],
