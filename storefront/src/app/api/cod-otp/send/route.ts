@@ -88,11 +88,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const whatsappUrl = `https://wa.me/919118211860?text=${encodeURIComponent(
+      `Hi Rare Ember, I am placing a COD order for ${email} (+91 ${cleanPhone}). Please share my OTP verification code.`
+    )}`;
+
     return NextResponse.json({
       success: true,
+      emailDelivered: emailResult.ok,
+      whatsappFallback: !emailResult.ok,
+      whatsappUrl,
+      whatsappNumber: '+91 91182 11860',
       expiresAt,
       verificationHash,
-      message: `Verification code dispatched to ${email}`,
+      message: emailResult.ok
+        ? `Verification code dispatched to ${email}`
+        : 'Email delivery delayed while DNS records propagate. Tap below for instant WhatsApp verification.',
     });
   } catch (err: any) {
     console.error('[COD OTP Send API] Error:', err);

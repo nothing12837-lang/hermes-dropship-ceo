@@ -632,7 +632,7 @@ export async function sendReturnClaimConfirmationEmail(payload: {
 
   if (!apiKey) {
     console.log('[Email Mock] Resend API key missing — Return Claim for %s (%s)', payload.email, payload.claimId);
-    return { ok: true };
+    return { ok: false, error: 'RESEND_API_KEY is missing' };
   }
 
   const isCreditActive = Boolean(payload.isStoreCredit && payload.storeCreditCode);

@@ -12,6 +12,7 @@ export default function robots(): MetadataRoute.Robots {
           '/api/',
           '/checkout',
           '/login',
+          '/reset-password',
           '/profile',
           '/invoice',
           '/track',
@@ -21,12 +22,12 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: ['Googlebot', 'Googlebot-Image', 'Storebot-Google'],
         allow: '/',
-        disallow: ['/admin/', '/api/', '/checkout', '/login', '/profile', '/invoice', '/track', '/success'],
+        disallow: ['/admin/', '/api/', '/checkout', '/login', '/reset-password', '/profile', '/invoice', '/track', '/success'],
       },
       {
         userAgent: 'Bingbot',
         allow: '/',
-        disallow: ['/admin/', '/api/', '/checkout', '/login', '/profile', '/invoice', '/track', '/success'],
+        disallow: ['/admin/', '/api/', '/checkout', '/login', '/reset-password', '/profile', '/invoice', '/track', '/success'],
       },
       // AI Crawlers & LLM Search Agents (ChatGPT, Perplexity, Claude, Gemini, Apple Intelligence)
       {
@@ -53,7 +54,7 @@ export default function robots(): MetadataRoute.Robots {
           '/returns',
           '/blog',
         ],
-        disallow: ['/admin/', '/api/', '/checkout', '/login', '/profile', '/invoice', '/track', '/success'],
+        disallow: ['/admin/', '/api/', '/checkout', '/login', '/reset-password', '/profile', '/invoice', '/track', '/success'],
       },
     ],
     sitemap: `${base}/sitemap.xml`,

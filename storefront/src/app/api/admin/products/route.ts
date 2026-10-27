@@ -1,3 +1,4 @@
+import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
@@ -19,7 +20,7 @@ function getAdminSupabase() {
 }
 
 function guard(req: NextRequest): NextResponse | null {
-  if (!process.env.ADMIN_SECRET && !process.env.CRON_SECRET) {
+  if (!process.env.ADMIN_SECRET) {
     return NextResponse.json(
       { error: 'Admin not configured. Set ADMIN_SECRET in environment.' },
       { status: 503 }
@@ -335,6 +336,12 @@ export async function PATCH(req: NextRequest) {
       }
     }
 
+    try {
+      revalidatePath('/', 'layout');
+      revalidatePath('/shop');
+      revalidatePath('/');
+    } catch {}
+
     return NextResponse.json({
       ok: true,
       productId,
@@ -387,7 +394,21 @@ export async function PATCH(req: NextRequest) {
       if (colorImages['White']) catalogCopy[productIdx].image_url = colorImages['White'];
       catalogCopy[productIdx].images = Object.values(colorImages);
       persistLocalCatalog(catalogCopy);
+
+      if (supabase) {
+        await supabase.from('products').upsert({
+          id: productId,
+          image_url: catalogCopy[productIdx].image_url,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: 'id' });
+      }
     }
+
+    try {
+      revalidatePath('/', 'layout');
+      revalidatePath('/shop');
+      revalidatePath('/');
+    } catch {}
 
     return NextResponse.json({
       ok: true,
@@ -449,6 +470,12 @@ export async function DELETE(req: NextRequest) {
   } catch (localErr) {
     console.warn('[Admin Products API] Local catalog write skipped:', localErr);
   }
+
+  try {
+    revalidatePath('/', 'layout');
+    revalidatePath('/shop');
+    revalidatePath('/');
+  } catch {}
 
   return NextResponse.json({
     ok: true,
@@ -651,6 +678,12 @@ export async function POST(req: NextRequest) {
       console.error('[Admin Products API] Supabase insert error:', insertErr.message);
       return NextResponse.json({ ok: false, error: `Database insert failed: ${insertErr.message}` }, { status: 500 });
     }
+
+    try {
+      revalidatePath('/', 'layout');
+      revalidatePath('/shop');
+      revalidatePath('/');
+    } catch {}
 
     return NextResponse.json({
     ok: true,

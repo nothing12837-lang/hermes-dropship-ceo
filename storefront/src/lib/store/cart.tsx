@@ -1,6 +1,7 @@
 'use client';
 
 import { track } from '@/lib/telemetry/beacon';
+import { enforcePriceFloor, getProduct } from '@/lib/data/products';
 import React, {
   createContext,
   useContext,
@@ -64,11 +65,30 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         if (Array.isArray(parsed)) {
           const validated = parsed
             .filter((i): i is CartItem => Boolean(i && typeof i.id === 'string' && i.id.trim()))
-            .map((i) => ({
-              ...i,
-              id: i.id.trim(),
-              qty: Math.min(99, Math.max(1, Math.floor(Number(i.qty) || 1))),
-            }));
+            .filter((i) => {
+              const baseId = i.id.split('__')[0];
+              const p = getProduct(baseId) || getProduct(i.id);
+              // Cleanly drop permanently inactive or discontinued items from stale localStorage
+              return !(p && p.active === false);
+            })
+            .map((i) => {
+              const baseId = i.id.split('__')[0];
+              const catalogProd = getProduct(baseId) || getProduct(i.id);
+              const floored = enforcePriceFloor({
+                id: baseId,
+                title: i.title || catalogProd?.title || '',
+                price: catalogProd?.price_inr ?? catalogProd?.price ?? i.price_inr ?? i.price ?? 849,
+                price_inr: catalogProd?.price_inr ?? i.price_inr ?? catalogProd?.price ?? i.price ?? 849,
+              } as any);
+              const canonicalPrice = floored.price_inr || floored.price;
+              return {
+                ...i,
+                id: i.id.trim(),
+                price: canonicalPrice,
+                price_inr: canonicalPrice,
+                qty: Math.min(99, Math.max(1, Math.floor(Number(i.qty) || 1))),
+              };
+            });
           setItems(validated);
         }
       }
@@ -103,16 +123,31 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         const variantSuffix = [sizeSlug, colorSlug, otherSuffix].filter(Boolean).join('__');
         const cartItemId = variantSuffix ? `${cleanBaseId}__${variantSuffix}` : cleanBaseId;
 
+        // Ensure newly added items strictly respect true-profit pricing floors
+        const catalogProd = getProduct(cleanBaseId) || getProduct(id);
+        const floored = enforcePriceFloor({
+          id: cleanBaseId,
+          title: meta?.title || catalogProd?.title || '',
+          price: catalogProd?.price_inr ?? catalogProd?.price ?? meta?.price_inr ?? meta?.price ?? 849,
+          price_inr: catalogProd?.price_inr ?? meta?.price_inr ?? catalogProd?.price ?? meta?.price ?? 849,
+        } as any);
+        const canonicalPrice = floored.price_inr || floored.price;
+        const normalizedMeta = {
+          ...meta,
+          price: canonicalPrice,
+          price_inr: canonicalPrice,
+        };
+
         setItems((prev) => {
           const found = prev.find((i) => i.id === cartItemId);
           if (found) {
             const nextQty = Math.min(99, found.qty + addQty);
             return prev.map((i) =>
-              i.id === cartItemId ? { ...i, ...meta, qty: nextQty, size: meta?.size ?? i.size, color: meta?.color ?? i.color } : i
+              i.id === cartItemId ? { ...i, ...normalizedMeta, qty: nextQty, size: normalizedMeta?.size ?? i.size, color: normalizedMeta?.color ?? i.color } : i
             );
           }
           const initialQty = Math.min(99, addQty);
-          return [...prev, { ...meta, id: cartItemId, qty: initialQty, size: meta?.size, color: meta?.color }];
+          return [...prev, { ...normalizedMeta, id: cartItemId, qty: initialQty, size: normalizedMeta?.size, color: normalizedMeta?.color }];
         });
         setIsOpen(true);
       },

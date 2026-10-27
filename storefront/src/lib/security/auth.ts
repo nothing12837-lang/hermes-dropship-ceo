@@ -45,10 +45,7 @@ export function isAdmin(req: Request): boolean {
   if (!token) return false;
 
   const adminSecret = process.env.ADMIN_SECRET?.trim();
-  const cronSecret = process.env.CRON_SECRET?.trim();
-
   if (adminSecret && safeEqual(token, adminSecret)) return true;
-  if (cronSecret && safeEqual(token, cronSecret)) return true;
 
   return false;
 }

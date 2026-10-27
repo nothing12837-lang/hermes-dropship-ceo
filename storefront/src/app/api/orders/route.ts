@@ -17,8 +17,9 @@ async function getVerifiedUserId(req: NextRequest, supabase: any): Promise<strin
   const token = authHeader.slice(7).trim();
   if (!token) return null;
   try {
-    const { data: { user } } = await supabase.auth.getUser(token);
-    return user ? user.id : null;
+    const res = await supabase.auth.getUser(token);
+    if (!res || res.error || !res.data?.user) return null;
+    return res.data.user.id || null;
   } catch {
     return null;
   }
@@ -84,7 +85,7 @@ export async function GET(req: NextRequest) {
         .from('orders')
         .select('id,user_email,total_amount,subtotal,status,items,payment_method,shipping_name,shipping_address,tracking_number,tracking_url,created_at')
         .eq('id', orderId!)
-        .ilike('user_email', email!)
+        .eq('user_email', email!.toLowerCase().trim())
         .limit(1);
       data = res.data;
       error = res.error;
@@ -165,7 +166,7 @@ export async function POST(req: NextRequest) {
         .from('orders')
         .select('id,user_email,total_amount,subtotal,status,items,payment_method,shipping_name,shipping_address,tracking_number,tracking_url,created_at')
         .eq('id', targetOrderId)
-        .ilike('user_email', targetEmail)
+        .eq('user_email', targetEmail.toLowerCase().trim())
         .limit(1);
 
       if (error || !data || data.length === 0) {

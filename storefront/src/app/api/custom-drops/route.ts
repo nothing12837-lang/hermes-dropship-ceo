@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
           quantity,
           product_type: productType,
           event_date: eventDate,
-          estimated_budget: estimatedBudget,
+          estimated_budget: estimatedBudget != null ? String(estimatedBudget) : null,
           status: 'new',
         });
         if (insertErr) {

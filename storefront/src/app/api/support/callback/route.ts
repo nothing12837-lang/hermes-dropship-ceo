@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
         const sb = createClient(url, key);
         const ticketId = `CALL-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
         const { error: insertErr } = await sb.from('support_tickets').insert({
-          ticket_id: ticketId,
+          id: ticketId,
           name,
           phone: cleanPhone.slice(-10),
           email: 'callback@rareember.shop',

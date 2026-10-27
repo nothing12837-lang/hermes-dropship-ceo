@@ -131,13 +131,14 @@ export function TrackClient() {
     setEmailingInvoice(true);
     setEmailInvoiceSuccess(null);
     try {
+      const recipientEmail = email.trim().toLowerCase() || targetOrder.email;
       const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'email_invoice',
           orderId: targetOrder.id,
-          email: targetOrder.email,
+          email: recipientEmail,
         }),
       });
       const data = await res.json();
@@ -819,7 +820,7 @@ export function TrackClient() {
                     <span>{emailingInvoice ? 'Sending...' : 'Email Invoice'}</span>
                   </button>
                   <a
-                    href={`/invoice?orderId=${selectedInvoiceOrder.id}&email=${encodeURIComponent(selectedInvoiceOrder.email)}`}
+                    href={`/invoice?orderId=${selectedInvoiceOrder.id}&email=${encodeURIComponent(email.trim().toLowerCase() || selectedInvoiceOrder.email)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-3.5 py-2 rounded bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider border border-white/20 shadow-sm cursor-pointer flex items-center gap-1.5 transition-all text-center"

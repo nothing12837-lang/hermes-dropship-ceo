@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
         // Verify payment amount matches order total in paise (prevents gateway underpayment tampering)
         const paidPaise = Number(event?.payload?.payment?.entity?.amount);
         const expectedPaise = Math.round(Number(order.total_amount || 0) * 100);
-        if (paidPaise && expectedPaise && paidPaise < expectedPaise) {
+        if (!Number.isFinite(paidPaise) || !Number.isFinite(expectedPaise) || paidPaise !== expectedPaise) {
           console.error(`Razorpay webhook: amount mismatch for order ${order.id}. Paid: ${paidPaise}, expected: ${expectedPaise}`);
           return NextResponse.json({ error: 'Payment amount mismatch' }, { status: 400 });
         }

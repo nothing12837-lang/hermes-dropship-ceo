@@ -48,6 +48,7 @@ unsplash_products_list.json
 storefront/.next/
 storefront/node_modules/
 storefront/.vercel/
+.cortexkit/
 storefront/*.tsbuildinfo
 storefront/test-results/
 storefront/coverage/

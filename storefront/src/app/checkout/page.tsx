@@ -153,6 +153,8 @@ export default function CheckoutPage() {
   const [codVerifiedToken, setCodVerifiedToken] = useState('');
   const [codOtpResendSeconds, setCodOtpResendSeconds] = useState(0);
   const [codOtpError, setCodOtpError] = useState('');
+  const [codEmailDelivered, setCodEmailDelivered] = useState(true);
+  const [codWhatsappUrl, setCodWhatsappUrl] = useState('');
 
   // 30-second resend countdown timer for COD OTP
   useEffect(() => {
@@ -486,6 +488,10 @@ export default function CheckoutPage() {
       setCodVerificationHash(data.verificationHash);
       setCodExpiresAt(data.expiresAt);
       setCodOtpResendSeconds(30);
+      setCodEmailDelivered(data.emailDelivered !== false);
+      if (data.whatsappUrl) {
+        setCodWhatsappUrl(data.whatsappUrl);
+      }
     } catch {
       setCodOtpError('Network error while requesting verification code.');
     } finally {
@@ -1777,6 +1783,11 @@ export default function CheckoutPage() {
                           {codOtpVerifying ? 'Verifying...' : 'Verify'}
                         </button>
                       </div>
+                      {!codEmailDelivered && (
+                        <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-200 leading-relaxed">
+                          ⚠️ Email delivery delayed while DNS updates. Tap below to get your instant OTP on WhatsApp.
+                        </div>
+                      )}
                       <div className="flex items-center justify-between text-[10px] text-neutral-400">
                         <span>Check inbox or spam folder</span>
                         {codOtpResendSeconds > 0 ? (
@@ -1791,6 +1802,22 @@ export default function CheckoutPage() {
                             Resend Code Now
                           </button>
                         )}
+                      </div>
+                      <div className="pt-2 border-t border-white/10 text-center">
+                        <a
+                          href={
+                            codWhatsappUrl ||
+                            `https://wa.me/919118211860?text=${encodeURIComponent(
+                              `Hi Rare Ember, I'm placing a COD order for ${email.trim()} (+91 ${phone.replace(/\D/g, '').slice(-10)}). Please share my OTP verification code.`
+                            )}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-center gap-1.5 text-[11px] text-emerald-400 hover:text-emerald-300 font-semibold transition-colors"
+                        >
+                          <span>💬</span>
+                          <span>Didn't receive email? Tap here for instant WhatsApp OTP (+91 91182 11860)</span>
+                        </a>
                       </div>
                     </div>
                   )}

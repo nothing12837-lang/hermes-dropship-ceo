@@ -28,8 +28,9 @@ async function getVerifiedUserId(req: NextRequest, supabase: any): Promise<strin
   const token = authHeader.slice(7).trim();
   if (!token) return null;
   try {
-    const { data: { user } } = await supabase.auth.getUser(token);
-    return user ? user.id : null;
+    const res = await supabase.auth.getUser(token);
+    if (!res || res.error || !res.data?.user) return null;
+    return res.data.user.id || null;
   } catch {
     return null;
   }
