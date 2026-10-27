@@ -293,7 +293,7 @@ export function TrackClient() {
                 value={orderId}
                 onChange={(e) => setOrderId(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleManualLookup()}
-                placeholder="Order ID (e.g. ord_abc123…)"
+                placeholder="Order ID (e.g. #7792e434 or INV-RE-…)"
                 className="flex-1 px-4 py-3.5 text-sm rounded-full border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all font-mono"
               />
               <input
@@ -728,20 +728,22 @@ export function TrackClient() {
 
         {/* 1-Tap Support Card with Pre-Populated Order ID */}
         {(() => {
-          const currentOrderId = orderId.trim() || (orders.length > 0 ? orders[0].id : '');
-          const currentEmail = email.trim() || (orders.length > 0 ? orders[0].email : '');
-          const orderMention = currentOrderId ? `Order #${currentOrderId}` : 'my order';
+          const hasFoundOrder = orders.length > 0;
+          const verifiedOrderId = hasFoundOrder ? (orders[0].id.length > 8 ? orders[0].id.slice(0, 8) : orders[0].id) : '';
+          const currentEmail = email.trim() || (hasFoundOrder ? orders[0].email : '');
 
-          const waMessage = currentOrderId
-            ? `Hi Rare Ember Support, I need urgent dispatch help regarding Order ID: ${currentOrderId}${currentEmail ? ` (${currentEmail})` : ''}. Please check my order status.`
-            : 'Hi Rare Ember Support, I need urgent dispatch help regarding my order. Please check my status.';
+          const waMessage = verifiedOrderId
+            ? `Hi Rare Ember Support, I need dispatch assistance regarding Order #${verifiedOrderId}${currentEmail ? ` (${currentEmail})` : ''}. Please check my order status.`
+            : `Hi Rare Ember Support, I need help locating my order${currentEmail ? ` (${currentEmail})` : ''}. Could you please check my status?`;
 
           const waUrl = `https://wa.me/919118211860?text=${encodeURIComponent(waMessage)}`;
 
-          const emailSubject = currentOrderId
-            ? `Urgent Dispatch Help — Order ${currentOrderId}`
-            : 'Urgent Dispatch Help — Rare Ember Order';
-          const emailBody = `Hi Rare Ember Support,\n\nI need urgent dispatch help regarding ${orderMention}.\nOrder ID: ${currentOrderId || 'N/A'}\nEmail: ${currentEmail || 'N/A'}\n\nPlease provide an update on dispatch and courier tracking.\n\nThank you!`;
+          const emailSubject = verifiedOrderId
+            ? `Dispatch Assistance — Order #${verifiedOrderId}`
+            : 'Order Dispatch Assistance — Rare Ember';
+          const emailBody = verifiedOrderId
+            ? `Hi Rare Ember Support,\n\nI need dispatch assistance regarding Order #${verifiedOrderId}.\nEmail: ${currentEmail || 'N/A'}\n\nPlease provide an update on dispatch and courier tracking.\n\nThank you!`
+            : `Hi Rare Ember Support,\n\nI need help locating my order.\nEmail: ${currentEmail || 'N/A'}\n\nPlease check my account status and let me know if an order was placed under this email.\n\nThank you!`;
           const mailUrl = `mailto:support@rareember.shop?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
           return (
@@ -755,7 +757,7 @@ export function TrackClient() {
                     Need Dispatch Assistance? Contact Support
                   </h3>
                   <p className="text-xs text-neutral-400 max-w-lg leading-relaxed">
-                    Direct access to our dedicated dispatch team. Tap below to chat on WhatsApp or send an email with your {currentOrderId ? <strong>Order #{currentOrderId}</strong> : 'Order ID'} pre-filled.
+                    Direct access to our dedicated dispatch team. Tap below to chat on WhatsApp or send an email with {verifiedOrderId ? <strong>Order #{verifiedOrderId}</strong> : 'your details'} pre-filled.
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto shrink-0">

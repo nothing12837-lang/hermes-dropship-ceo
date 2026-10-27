@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
 import { checkRateLimit } from '@/lib/security/rate-limit';
-import { clientIp, isValidOrderId, normalizeEmail, sanitizeCheckoutItems } from '@/lib/security/validation';
+import { clientIp, isValidOrderId, normalizeEmail, sanitizeCheckoutItems, cleanOrderId, isUuid, isHexPrefix } from '@/lib/security/validation';
 import { notifyTelegramOrder } from '@/lib/notifications/telegram';
 import { sendOrderConfirmationEmail, sendOrderDeliveredInvoiceEmail } from '@/lib/notifications/email';
 import { isAdmin } from '@/lib/security/auth';
@@ -35,7 +35,8 @@ export async function GET(req: NextRequest) {
   const params = new URL(req.url).searchParams;
   const email = normalizeEmail(params.get('email'));
   const rawOrderId = params.get('orderId')?.trim() ?? '';
-  const orderId = isValidOrderId(rawOrderId) ? rawOrderId : null;
+  const cleanedId = cleanOrderId(rawOrderId);
+  const orderId = isValidOrderId(rawOrderId) ? cleanedId : null;
 
   const adminAuthorized = isAdmin(req);
 
@@ -75,24 +76,50 @@ export async function GET(req: NextRequest) {
         .select('id,user_email,total_amount,status,cj_order_id,tracking_number,tracking_url,items,payment_method,shipping_name,shipping_address,created_at')
         .order('created_at', { ascending: false });
       if (email) q = q.eq('user_email', email);
-      if (orderId) q = q.ilike('id', `${orderId}%`);
+      if (orderId) {
+        if (isUuid(orderId)) {
+          q = q.eq('id', orderId);
+        } else if (isHexPrefix(orderId)) {
+          const p = orderId.toLowerCase();
+          q = q.gte('id', `${p}-0000-0000-0000-000000000000`).lte('id', `${p}-ffff-ffff-ffff-ffffffffffff`);
+        }
+      }
       const res = await q.limit(20);
       data = res.data;
       error = res.error;
     } else {
       // Secure public tracking: exact match on both order ID and email via service-role query
-      const res = await sb
-        .from('orders')
-        .select('id,user_email,total_amount,subtotal,status,items,payment_method,shipping_name,shipping_address,tracking_number,tracking_url,created_at')
-        .eq('id', orderId!)
-        .eq('user_email', email!.toLowerCase().trim())
-        .limit(1);
-      data = res.data;
-      error = res.error;
+      if (isUuid(orderId!)) {
+        const res = await sb
+          .from('orders')
+          .select('id,user_email,total_amount,subtotal,status,items,payment_method,shipping_name,shipping_address,tracking_number,tracking_url,created_at')
+          .eq('id', orderId!)
+          .eq('user_email', email!.toLowerCase().trim())
+          .limit(1);
+        data = res.data;
+        error = res.error;
+      } else if (isHexPrefix(orderId!)) {
+        const p = orderId!.toLowerCase();
+        const res = await sb
+          .from('orders')
+          .select('id,user_email,total_amount,subtotal,status,items,payment_method,shipping_name,shipping_address,tracking_number,tracking_url,created_at')
+          .gte('id', `${p}-0000-0000-0000-000000000000`)
+          .lte('id', `${p}-ffff-ffff-ffff-ffffffffffff`)
+          .eq('user_email', email!.toLowerCase().trim())
+          .limit(1);
+        data = res.data;
+        error = res.error;
+      } else {
+        // Safe exit for non-UUID / non-prefix formats — guarantees zero Postgres 22P02 syntax crashes
+        return NextResponse.json({ orders: [] });
+      }
     }
 
     if (error) {
       console.error('Orders lookup failed:', error.message);
+      if (error.code === '22P02') {
+        return NextResponse.json({ orders: [] });
+      }
       return NextResponse.json({ orders: [], error: 'Lookup failed' }, { status: 500 });
     }
 
@@ -151,7 +178,8 @@ export async function POST(req: NextRequest) {
 
     // Public / Buyer Tax Invoice email request (verified via track_order security-definer RPC)
     if (body.action === 'email_invoice') {
-      const targetOrderId = String(body.orderId || '').trim();
+      const rawTarget = String(body.orderId || '').trim();
+      const targetOrderId = cleanOrderId(rawTarget);
       const targetEmail = normalizeEmail(body.email);
       if (!targetOrderId || !targetEmail) {
         return NextResponse.json({ error: 'orderId and email required' }, { status: 400 });
@@ -162,12 +190,21 @@ export async function POST(req: NextRequest) {
       if (!url || !key) return NextResponse.json({ error: 'Database service unavailable (SUPABASE_SERVICE_ROLE_KEY required)' }, { status: 503 });
       const sb = createClient(url, key);
 
-      const { data, error } = await sb
+      let q = sb
         .from('orders')
         .select('id,user_email,total_amount,subtotal,status,items,payment_method,shipping_name,shipping_address,tracking_number,tracking_url,created_at')
-        .eq('id', targetOrderId)
-        .eq('user_email', targetEmail.toLowerCase().trim())
-        .limit(1);
+        .eq('user_email', targetEmail.toLowerCase().trim());
+
+      if (isUuid(targetOrderId)) {
+        q = q.eq('id', targetOrderId);
+      } else if (isHexPrefix(targetOrderId)) {
+        const p = targetOrderId.toLowerCase();
+        q = q.gte('id', `${p}-0000-0000-0000-000000000000`).lte('id', `${p}-ffff-ffff-ffff-ffffffffffff`);
+      } else {
+        return NextResponse.json({ error: 'Order not found or email does not match' }, { status: 404 });
+      }
+
+      const { data, error } = await q.limit(1);
 
       if (error || !data || data.length === 0) {
         return NextResponse.json({ error: 'Order not found or email does not match' }, { status: 404 });

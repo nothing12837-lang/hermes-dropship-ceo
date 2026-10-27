@@ -6,6 +6,8 @@
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const ORDER_ID_RE = /^[a-zA-Z0-9_-]{4,64}$/;
 const SKU_RE = /^[a-zA-Z0-9_:-]{2,64}$/;
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const HEX_8_RE = /^[0-9a-f]{8}$/i;
 
 export function isValidEmail(v: unknown): v is string {
   return typeof v === 'string' && v.length <= 254 && EMAIL_RE.test(v.trim());
@@ -16,8 +18,27 @@ export function normalizeEmail(v: unknown): string | null {
   return (v as string).toLowerCase().trim();
 }
 
+export function cleanOrderId(raw: unknown): string {
+  if (typeof raw !== 'string') return '';
+  return raw
+    .trim()
+    .replace(/^[#\s]+/, '')
+    .replace(/^(?:INV-RE-|ORD-|RE-)/i, '')
+    .trim();
+}
+
+export function isUuid(id: string): boolean {
+  return UUID_RE.test(id.trim());
+}
+
+export function isHexPrefix(id: string): boolean {
+  return HEX_8_RE.test(id.trim());
+}
+
 export function isValidOrderId(v: unknown): v is string {
-  return typeof v === 'string' && ORDER_ID_RE.test(v.trim());
+  if (typeof v !== 'string') return false;
+  const cleaned = cleanOrderId(v);
+  return ORDER_ID_RE.test(cleaned);
 }
 
 export function isValidSku(v: unknown): v is string {
