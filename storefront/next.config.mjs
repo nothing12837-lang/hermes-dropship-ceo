@@ -109,6 +109,21 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/product/rare-ember-gateway-test-pass',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
+        source: '/product/64953488',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
+        source: '/product/64953664',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
         source: '/product/fashion-leather-jacket',
         destination: '/shop',
         permanent: true,
