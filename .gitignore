@@ -45,6 +45,7 @@ all_103_products.json
 unsplash_products_list.json
 
 # Next.js & Frontend runtime
+node_modules/
 storefront/.next/
 storefront/node_modules/
 storefront/.vercel/
