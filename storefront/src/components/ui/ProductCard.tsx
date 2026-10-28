@@ -189,7 +189,7 @@ export default function ProductCard({
     (Array.isArray(sizes) && sizes.length > 1) ||
     (Array.isArray(colors) && colors.length > 1);
 
-  const ctaLabel = needsVariantChoice ? 'Select Size' : 'Order Now';
+  const ctaLabel = 'Order Now';
 
   const handleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
