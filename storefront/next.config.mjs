@@ -114,6 +114,46 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/product/rare-ember-custom-oversized-jersey',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
+        source: '/product/rare-ember-custom-heavyweight-winter-hoodie',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
+        source: '/product/rare-ember-custom-winter-crewneck-sweatshirt',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
+        source: '/product/rare-ember-custom-varsity-jacket',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
+        source: '/product/rare-ember-custom-oversized-tee',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
+        source: '/product/rare-ember-custom-acid-wash-tee',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
+        source: '/product/rare-ember-custom-desk-mat',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
+        source: '/product/rare-ember-custom-coffee-mug',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
         source: '/product/rare-ember-gateway-test-pass',
         destination: '/shop',
         permanent: true,

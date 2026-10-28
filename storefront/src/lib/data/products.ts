@@ -440,6 +440,9 @@ export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: str
   if (/\b(mat|pad|desk\s*mat|mouse\s*pad|gaming\s*pad)\b|desk-mat/i.test(str)) {
     return 'Extended 900×400mm';
   }
+  if (/mug|ceramic|drinkware|cup|sipper|bottle/i.test(str)) {
+    return /bottle|sipper/i.test(str) ? 'Insulated Steel 750ml' : 'Gloss Ceramic 330ml';
+  }
   if (/varsity|bomber/i.test(str)) {
     return '350 GSM Varsity';
   }
@@ -473,168 +476,7 @@ export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: str
   return '240 GSM Combed Cotton';
 }
 
-export const CUSTOM_BLANK_PRODUCTS: Product[] = [
-  {
-    id: 'blank-jersey',
-    slug: 'rare-ember-custom-oversized-jersey',
-    title: 'Unisex Oversized Jersey | UJ35',
-    short: '180 GSM Quick-Dry Mesh Aeroknit athletic jersey for creator custom drops.',
-    story: '180 GSM Quick-Dry Mesh Aeroknit athletic jersey for creator custom drops.',
-    details: ['180 GSM Quick-Dry Mesh Aeroknit', 'Sublimation / DTF Print Ready', 'Pan-India Express Delivery'],
-    tag: '220 GSM Breathable Mesh',
-    tagColor: '#FF4D24',
-    tagBg: 'rgba(255, 77, 36, 0.1)',
-    price: 799,
-    price_inr: 799,
-    rating: 4.9,
-    reviews: 18,
-    isCustomBlank: true,
-    active: true,
-    stock: 50,
-    gradient: 'linear-gradient(135deg, #111 0%, #222 100%)',
-    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'],
-  },
-  {
-    id: 'blank-hoodie',
-    slug: 'rare-ember-custom-heavyweight-winter-hoodie',
-    title: '380 GSM Heavyweight Winter Hoodie',
-    short: '380 GSM Combed French Terry Cotton Fleece with double-lined hood.',
-    story: '380 GSM Combed French Terry Cotton Fleece with double-lined hood.',
-    details: ['380 GSM Combed French Terry', 'Double-Lined Hood', 'Pan-India Express Delivery'],
-    tag: '380 GSM Heavy Fleece',
-    tagColor: '#FF4D24',
-    tagBg: 'rgba(255, 77, 36, 0.1)',
-    price: 1399,
-    price_inr: 1399,
-    rating: 5.0,
-    reviews: 24,
-    isCustomBlank: true,
-    active: true,
-    stock: 50,
-    gradient: 'linear-gradient(135deg, #111 0%, #222 100%)',
-    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
-  },
-  {
-    id: 'blank-crewneck',
-    slug: 'rare-ember-custom-winter-crewneck-sweatshirt',
-    title: '320 GSM Winter Crewneck Sweatshirt',
-    short: '320 GSM Super Combed Terry Fleece with derby ribbed collar.',
-    story: '320 GSM Super Combed Terry Fleece with derby ribbed collar.',
-    details: ['320 GSM Super Combed Terry Fleece', 'Derby Ribbed Collar', 'Pan-India Express Delivery'],
-    tag: '320 GSM French Terry',
-    tagColor: '#FF4D24',
-    tagBg: 'rgba(255, 77, 36, 0.1)',
-    price: 1099,
-    price_inr: 1099,
-    rating: 4.8,
-    reviews: 16,
-    isCustomBlank: true,
-    active: true,
-    stock: 50,
-    gradient: 'linear-gradient(135deg, #111 0%, #222 100%)',
-    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
-  },
-  {
-    id: 'blank-varsity',
-    slug: 'rare-ember-custom-varsity-jacket',
-    title: '350 GSM Contrast Varsity Jacket',
-    short: '350 GSM Heavyweight Fleece Varsity with metal snap buttons.',
-    story: '350 GSM Heavyweight Fleece Varsity with metal snap buttons.',
-    details: ['350 GSM Heavyweight Fleece', 'Metal Snap Buttons', 'Pan-India Express Delivery'],
-    tag: '350 GSM Varsity',
-    tagColor: '#FF4D24',
-    tagBg: 'rgba(255, 77, 36, 0.1)',
-    price: 1499,
-    price_inr: 1499,
-    rating: 4.9,
-    reviews: 12,
-    isCustomBlank: true,
-    active: true,
-    stock: 50,
-    gradient: 'linear-gradient(135deg, #111 0%, #222 100%)',
-    sizes: ['S', 'M', 'L', 'XL', '2XL'],
-  },
-  {
-    id: 'blank-oversized-tee',
-    slug: 'rare-ember-custom-oversized-tee',
-    title: '240 GSM Drop-Shoulder Oversized Tee',
-    short: '240 GSM Bio-Washed Combed Cotton with drop-shoulder streetwear fit.',
-    story: '240 GSM Bio-Washed Combed Cotton with drop-shoulder streetwear fit.',
-    details: ['240 GSM Bio-Washed Combed Cotton', 'Drop-Shoulder Streetwear Fit', 'Pan-India Express Delivery'],
-    tag: '240 GSM Combed Cotton',
-    tagColor: '#FF4D24',
-    tagBg: 'rgba(255, 77, 36, 0.1)',
-    price: 849,
-    price_inr: 849,
-    rating: 5.0,
-    reviews: 31,
-    isCustomBlank: true,
-    active: true,
-    stock: 100,
-    gradient: 'linear-gradient(135deg, #111 0%, #222 100%)',
-    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
-  },
-  {
-    id: 'blank-acid-tee',
-    slug: 'rare-ember-custom-acid-wash-tee',
-    title: '240 GSM Vintage Acid-Wash Heavy Tee',
-    short: '240 GSM Custom Enzyme Acid-Wash Cotton with vintage fade.',
-    story: '240 GSM Custom Enzyme Acid-Wash Cotton with vintage fade.',
-    details: ['240 GSM Enzyme Acid-Wash Cotton', 'Vintage Streetwear Fade', 'Pan-India Express Delivery'],
-    tag: '240 GSM French Terry',
-    tagColor: '#FF4D24',
-    tagBg: 'rgba(255, 77, 36, 0.1)',
-    price: 949,
-    price_inr: 949,
-    rating: 4.9,
-    reviews: 19,
-    isCustomBlank: true,
-    active: true,
-    stock: 50,
-    gradient: 'linear-gradient(135deg, #111 0%, #222 100%)',
-    sizes: ['S', 'M', 'L', 'XL', '2XL'],
-  },
-  {
-    id: 'blank-deskmat',
-    slug: 'rare-ember-custom-desk-mat',
-    title: '900×400mm Extended Creator Desk Mat',
-    short: '3mm Micro-Weave Cloth with stitched anti-fray edges and natural rubber base.',
-    story: '3mm Micro-Weave Cloth with stitched anti-fray edges and natural rubber base.',
-    details: ['900×400mm Extended Surface', 'Anti-Fray Double Stitched Edges', 'Pan-India Express Delivery'],
-    tag: 'Extended 900×400mm',
-    tagColor: '#FF4D24',
-    tagBg: 'rgba(255, 77, 36, 0.1)',
-    price: 799,
-    price_inr: 799,
-    rating: 5.0,
-    reviews: 27,
-    isCustomBlank: true,
-    active: true,
-    stock: 100,
-    gradient: 'linear-gradient(135deg, #111 0%, #222 100%)',
-    sizes: ['900×400mm'],
-  },
-  {
-    id: 'blank-mug',
-    slug: 'rare-ember-custom-coffee-mug',
-    title: '11 Oz High-Fired Ceramic Coffee Mug',
-    short: '330ml Gloss Ceramic Stoneware with high-gloss sublimation glaze.',
-    story: '330ml Gloss Ceramic Stoneware with high-gloss sublimation glaze.',
-    details: ['330ml Gloss Ceramic Stoneware', 'Microwave & Dishwasher Safe', 'Pan-India Express Delivery'],
-    tag: 'Ceramic Stoneware',
-    tagColor: '#FF4D24',
-    tagBg: 'rgba(255, 77, 36, 0.1)',
-    price: 499,
-    price_inr: 499,
-    rating: 4.8,
-    reviews: 14,
-    isCustomBlank: true,
-    active: true,
-    stock: 100,
-    gradient: 'linear-gradient(135deg, #111 0%, #222 100%)',
-    sizes: ['11 Oz (330ml)'],
-  },
-];
+export const CUSTOM_BLANK_PRODUCTS: Product[] = [];
 
 // Bundles paused until store reaches 10 successful orders (per strategic roadmap)
 export const products: Product[] = [
@@ -642,14 +484,13 @@ export const products: Product[] = [
     .filter((p) => !p.id.startsWith('bundle-'))
     // Filter out kids/baby clothes completely from catalog
     .filter((p) => !isKidsProduct(p))
-    // Gateway/test SKUs are internal fixtures and excluded from public catalog
-    .filter((p) => !/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification)/i.test(`${p.id} ${p.title} ${p.slug || ''}`))
+    // Gateway/test SKUs and custom mockups are excluded from public catalog
+    .filter((p) => !/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|rare-ember-custom|blank-)/i.test(`${p.id} ${p.title} ${p.slug || ''}`))
     .map((p) => ({
       ...p,
       sizes: sortSizes(p.sizes),
     }))
     .map(enforcePriceFloor)),
-  ...CUSTOM_BLANK_PRODUCTS.map(enforcePriceFloor),
 ];
 
 export const PET_META: Record<string, any> = {
@@ -663,11 +504,8 @@ export const bundles: Record<string, string[]> = {};
 export function getProduct(id: string): Product | undefined {
   if (!id) return undefined;
   const cleanId = id.trim().toLowerCase();
+  if (/(gateway|test[-_ ]?pass|rare-ember-custom|blank-)/i.test(cleanId)) return undefined;
   const baseId = cleanId.split('__')[0];
-  const blankMatch = CUSTOM_BLANK_PRODUCTS.find(
-    (b) => b.id.toLowerCase() === baseId || b.id.toLowerCase() === cleanId
-  );
-  if (blankMatch) return blankMatch;
   return products.find((p) => 
     p.id.toLowerCase() === baseId || 
     p.slug.toLowerCase() === baseId ||

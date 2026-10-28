@@ -188,13 +188,16 @@ export const DISALLOWED_KEYWORDS = [
   'baby-romper',
   'rare-ember-gateway-test-pass',
   'gateway-test',
+  'rare-ember-custom',
+  'blank-',
 ];
 
-export function isDisallowedProduct(p: { id?: string; slug?: string; title?: string; category?: string; gender?: string; sizes?: string[] }): boolean {
+export function isDisallowedProduct(p: { id?: string; slug?: string; title?: string; category?: string; gender?: string; sizes?: string[]; isCustomBlank?: boolean }): boolean {
   if (!p) return true;
+  if (p.isCustomBlank) return true;
   if (isKidsProduct(p)) return true;
   const targetId = `${p.id || ''} ${p.slug || ''} ${p.title || ''}`.toLowerCase();
-  if (/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs)/i.test(targetId)) return true;
+  if (/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs|rare-ember-custom|blank-)/i.test(targetId)) return true;
   return DISALLOWED_KEYWORDS.some((kw) => targetId.includes(kw));
 }
 

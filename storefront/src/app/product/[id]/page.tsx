@@ -16,7 +16,7 @@ const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  if (/gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs/i.test(id)) {
+  if (/gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs|rare-ember-custom|blank-/i.test(id)) {
     notFound();
   }
   const product = await getProductFromDB(id);
@@ -68,8 +68,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductPage({ params }: Props) {
   const { id } = await params;
-  if (/gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs/i.test(id)) {
-    notFound();
+  if (/gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs|rare-ember-custom|blank-/i.test(id)) {
+    redirect('/shop');
   }
   const product = await getProductFromDB(id);
 
