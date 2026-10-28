@@ -236,7 +236,7 @@ export async function notifyTelegramStoreCreditReleased(details: {
     details.claimId ? `🎫 <b>Claim ID:</b> <code>#${escapeHtml(details.claimId)}</code>` : '',
     `👤 <b>Customer:</b> ${escapeHtml(details.customerName || 'Customer')} ${details.email ? `(${escapeHtml(details.email)})` : ''}`,
     `🎟️ <b>Active Voucher Code:</b> <code>${escapeHtml(details.voucherCode)}</code>`,
-    `💰 <b>Amount:</b> <b>₹${details.amount}</b> (110% Atelier Value)`,
+    `💰 <b>Amount:</b> <b>₹${details.amount}</b> (110% Store Credit Value)`,
     ``,
     `✨ Single-use voucher is now active and emailed to customer. Double-spend cryptographic protection enforced.`
   ].filter(Boolean).join('\n');

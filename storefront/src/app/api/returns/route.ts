@@ -187,7 +187,7 @@ export async function POST(req: NextRequest) {
           {
             error:
               'A replacement or return claim has already been registered for this order. ' +
-              'Our Atelier Concierge team will contact you directly via WhatsApp or email.',
+              'Our Rare Ember support team will contact you directly via WhatsApp or email.',
           },
           { status: 409 }
         );
@@ -336,7 +336,7 @@ export async function POST(req: NextRequest) {
       isStoreCredit,
       reservedCreditAmount: isStoreCredit ? storeCreditAmount : undefined,
       message: isStoreCredit
-        ? `Your ₹${storeCreditAmount} Store Credit (110% Value) has been generated and locked to your account! Our courier partner will pick up your unworn original piece (or verify your claim via our Atelier Desk), and your instant voucher code will be activated via Email & WhatsApp immediately upon pickup scan.`
+        ? `Your ₹${storeCreditAmount} Store Credit (110% Value) has been generated and locked to your account! Our courier partner will pick up your unworn original piece (or verify your claim via our Support Desk), and your instant voucher code will be activated via Email & WhatsApp immediately upon pickup scan.`
         : 'Your replacement request has been submitted. Our team will verify and dispatch within 24 hours.',
     });
   } catch (err: unknown) {

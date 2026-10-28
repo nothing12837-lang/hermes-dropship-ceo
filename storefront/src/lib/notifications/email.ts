@@ -166,7 +166,7 @@ export async function sendOrderConfirmationEmail(payload: OrderEmailPayload): Pr
         <div style="max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 24px; border: 1px solid rgba(0,0,0,0.06); padding: 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.04);">
           <div style="text-align: center; padding-bottom: 24px; border-bottom: 1px solid #f0ede8;">
             <div style="font-size: 28px; font-weight: 900; letter-spacing: -0.5px; color: #161311;">RARE EMBER™</div>
-            <div style="font-size: 11px; font-weight: 800; color: #FF4D24; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px;">Atelier Streetwear Order Confirmation</div>
+            <div style="font-size: 11px; font-weight: 800; color: #FF4D24; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px;">Streetwear Order Confirmation</div>
           </div>
 
           <div style="padding: 24px 0 16px;">
@@ -366,7 +366,7 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
                 </div>
                 <div style="font-weight: 800; font-size: 13px; color: #161311;">Rare Ember Private Limited</div>
                 <div style="color: #525252; margin-top: 4px; line-height: 1.5;">
-                  Atelier Streetwear Division<br/>
+                  Streetwear Division<br/>
                   Near Ayappa Swami Temple, Bangalore, Karnataka - 562107
                 </div>
                 <div style="color: #525252; margin-top: 4px;"><strong>Tax Category:</strong> Composition / Micro-Enterprise D2C</div>
@@ -440,7 +440,7 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
 
           <!-- Signatory & Returns Guarantee -->
           <div style="border-top: 1px solid #f0ede8; padding-top: 20px; text-align: center; font-size: 11px; color: #a3a3a3; line-height: 1.6;">
-            <strong>Authorized Signatory — Rare Ember Atelier Desk</strong><br/>
+            <strong>Authorized Signatory — Rare Ember Support Desk</strong><br/>
             This is an authentic, computer-generated Tax Invoice issued in compliance with Indian GST laws.<br/>
             🛡️ <strong>7-Day Easy Returns Guarantee active.</strong> For any sizing or manufacturing assistance, WhatsApp: <strong>+91 91182 11860</strong>
           </div>
@@ -489,7 +489,7 @@ export async function sendSupportTicketConfirmationEmail(payload: SupportTicketE
         <div style="max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 24px; border: 1px solid rgba(0,0,0,0.06); padding: 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.04);">
           <div style="text-align: center; padding-bottom: 24px; border-bottom: 1px solid #f0ede8;">
             <div style="font-size: 26px; font-weight: 900; letter-spacing: -0.5px; color: #161311;">RARE EMBER™</div>
-            <div style="font-size: 11px; font-weight: 800; color: #FF4D24; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px;">Atelier Care Desk • Ticket Registered</div>
+            <div style="font-size: 11px; font-weight: 800; color: #FF4D24; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px;">Care Desk • Ticket Registered</div>
           </div>
 
           <div style="padding: 24px 0 16px;">
@@ -518,7 +518,7 @@ export async function sendSupportTicketConfirmationEmail(payload: SupportTicketE
 
           <div style="border-top: 1px solid #f0ede8; padding-top: 20px; text-align: center; font-size: 11px; color: #a3a3a3; line-height: 1.6;">
             Need urgent assistance? Reply directly to this email: <strong>support@rareember.shop</strong> or WhatsApp us at <strong>+91 91182 11860</strong>.<br/>
-            Rare Ember Atelier Care Desk • Bangalore, India
+            Rare Ember Care Desk • Bangalore, India
           </div>
         </div>
       </body>
@@ -565,7 +565,7 @@ export async function sendCodOtpEmail(payload: {
               RARE EMBER<span style="color: #E04F33;">.</span>
             </div>
             <div style="font-size: 11px; letter-spacing: 0.1em; color: #71717A; text-transform: uppercase; margin-top: 4px;">
-              Atelier Verification Desk
+              Verification Desk
             </div>
           </div>
 
@@ -596,7 +596,7 @@ export async function sendCodOtpEmail(payload: {
 
           <div style="border-top: 1px solid #E4E4E7; padding-top: 20px; text-align: center; font-size: 11px; color: #A1A1AA; line-height: 1.6;">
             Need help? Reach out at <strong>support@rareember.shop</strong> or WhatsApp <strong>+91 91182 11860</strong>.<br/>
-            © ${new Date().getFullYear()} Rare Ember Atelier. All rights reserved.
+            © ${new Date().getFullYear()} Rare Ember. All rights reserved.
           </div>
         </div>
       </body>
@@ -669,8 +669,8 @@ export async function sendReturnClaimConfirmationEmail(payload: {
                 isCreditActive
                   ? `Hello ${payload.name || 'there'}, your 110% store credit voucher is now active! Use your single-use code below on any drop.`
                   : isCreditPending
-                  ? `Hello ${payload.name || 'there'}, your ₹${payload.storeCreditAmount} Store Credit (110% Value) has been generated and locked to your account! Our courier partner will pick up your unworn original piece (or verify your claim via our Atelier Desk), and your instant voucher code will be activated via Email & WhatsApp immediately upon pickup scan.`
-                  : `Hello ${payload.name || 'there'}, your request for Order <strong>#${payload.orderId}</strong> has been logged. Our concierge care team will review and contact you on WhatsApp/phone within 24 hours.`
+                  ? `Hello ${payload.name || 'there'}, your ₹${payload.storeCreditAmount} Store Credit (110% Value) has been generated and locked to your account! Our courier partner will pick up your unworn original piece (or verify your claim via our Support Desk), and your instant voucher code will be activated via Email & WhatsApp immediately upon pickup scan.`
+                  : `Hello ${payload.name || 'there'}, your request for Order <strong>#${payload.orderId}</strong> has been logged. Our customer support team will review and contact you on WhatsApp/phone within 24 hours.`
               }
             </p>
           </div>
@@ -724,7 +724,7 @@ export async function sendReturnClaimConfirmationEmail(payload: {
 
           <div style="border-top: 1px solid #E4E4E7; padding-top: 20px; text-align: center; font-size: 11px; color: #A1A1AA; line-height: 1.6;">
             Urgent queries? WhatsApp our founder desk directly at <strong>+91 91182 11860</strong> or reply to <strong>support@rareember.shop</strong>.<br/>
-            &copy; ${new Date().getFullYear()} Rare Ember Atelier. All rights reserved.
+            &copy; ${new Date().getFullYear()} Rare Ember. All rights reserved.
           </div>
         </div>
       </body>

@@ -402,7 +402,7 @@ function SuccessInner() {
           </div>
         </div>
 
-        {/* MODULE 3.2: Live 5-Stage Atelier Production Telemetry */}
+        {/* MODULE 3.2: Live 5-Stage Production Telemetry */}
         <div className="mb-8 p-5 sm:p-6 rounded-3xl bg-white border border-black/[0.08] text-left shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div>

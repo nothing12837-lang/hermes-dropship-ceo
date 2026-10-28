@@ -497,7 +497,7 @@ export default function CartDrawer() {
 
               <div className="flex justify-between text-xs mb-3 text-neutral-600 font-medium">
                 <span>Shipping (Express Air)</span>
-                <span className="text-emerald-700 font-bold">Included</span>
+                <span className="text-emerald-700 font-bold">FREE</span>
               </div>
 
               <div className="flex justify-between font-black text-lg text-[#12100E] pt-3 border-t border-black/10 mb-3">
@@ -505,26 +505,20 @@ export default function CartDrawer() {
                 <span className="text-[#FF4D24] font-black">{formatCartPrice(subtotal)}</span>
               </div>
 
-              {/* Free-Shipping / Instant UPI Savings Bar with smooth 500ms animation */}
+              {/* Free-Shipping & Instant UPI Savings Bar with smooth 500ms animation */}
               <div className="mb-4 p-3 rounded-xl bg-[#FAF8F5] border border-black/[0.06]">
-                <div className="flex justify-between items-center text-[11px] font-bold text-neutral-800 mb-1.5">
+                <div className="flex justify-between items-center text-[11px] font-bold text-neutral-800">
                   <span className="flex items-center gap-1.5">
                     <span>⚡</span>
                     <span>
-                      {subtotal >= 699
-                        ? 'Unlocked: FREE Pan-India Express Air Shipping & ₹30 UPI Off'
-                        : `Add ${formatCartPrice(Math.max(0, 699 - subtotal))} more for FREE Express Air Shipping`}
+                      {subtotal >= 449
+                        ? 'FREE Pan-India Express Air Shipping & ₹30 UPI Off'
+                        : 'FREE Pan-India Express Air Shipping Active'}
                     </span>
                   </span>
                   <span className="text-[10px] font-mono text-emerald-700 font-extrabold">
-                    {Math.min(100, Math.round((subtotal / 699) * 100))}%
+                    100% FREE
                   </span>
-                </div>
-                <div className="w-full h-1.5 rounded-full bg-neutral-200/80 overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-amber-500 to-emerald-500 rounded-full transition-all duration-500 ease-out"
-                    style={{ width: `${Math.min(100, Math.round((subtotal / 699) * 100))}%` }}
-                  />
                 </div>
               </div>
 

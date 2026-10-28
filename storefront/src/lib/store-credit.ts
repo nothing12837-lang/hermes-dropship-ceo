@@ -341,3 +341,34 @@ export async function redeemStoreCredit(
     error: 'This store credit voucher has already been used.',
   };
 }
+
+/**
+ * Release a previously locked store credit voucher if payment failed or was cancelled.
+ */
+export async function releaseStoreCredit(
+  code: string,
+  customSb?: SupabaseClient | any
+): Promise<{ success: boolean; error?: string }> {
+  const normalizedCode = String(code || '').trim().toUpperCase();
+  const sb = customSb !== undefined ? customSb : getSupabase();
+  if (!sb) {
+    return { success: false, error: 'Database service client not configured.' };
+  }
+
+  for (const table of ['return_claims', 'returns']) {
+    try {
+      const { error } = await sb
+        .from(table)
+        .update({
+          is_redeemed: false,
+          redeemed_order_id: null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('voucher_code', normalizedCode);
+
+      if (!error) return { success: true };
+    } catch {}
+  }
+
+  return { success: false, error: 'Failed to release store credit voucher.' };
+}

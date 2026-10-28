@@ -49,7 +49,7 @@ export const STREETWEAR_GRAPHIC_PRESETS: GraphicPreset[] = [
   },
   {
     id: 'archival-cross',
-    name: 'Atelier Heraldic Cross',
+    name: 'Heraldic Cross',
     category: 'Archival Luxury',
     defaultScale: 1.0,
     dataUrl: 'data:image/svg+xml;utf8,' + encodeURIComponent(`
@@ -135,7 +135,7 @@ export const STREETWEAR_GRAPHIC_PRESETS: GraphicPreset[] = [
   },
   {
     id: 'box-logo',
-    name: 'Atelier Box Bar',
+    name: 'Box Bar',
     category: 'Minimalist Stamp',
     defaultScale: 1.25,
     dataUrl: 'data:image/svg+xml;utf8,' + encodeURIComponent(`

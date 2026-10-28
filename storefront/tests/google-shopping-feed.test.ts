@@ -11,7 +11,7 @@ describe('Google Shopping & Merchant Center Feed Engine', () => {
     expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>');
     expect(xml).toContain('<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">');
     expect(xml).toContain('<channel>');
-    expect(xml).toContain('<title>Rare Ember Atelier');
+    expect(xml).toContain('<title>Rare Ember');
   });
 
   it('should include all active products with required Google Shopping attributes', async () => {

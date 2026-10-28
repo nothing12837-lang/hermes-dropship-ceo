@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import crypto from 'crypto';
 import { fulfillQikinkOrder, isTestOrder } from '@/lib/fulfillment/qikink';
 import { notifyTelegramOrder } from '@/lib/notifications/telegram';
+import { releaseStoreCredit } from '@/lib/store-credit';
 
 export const runtime = 'nodejs';
 
@@ -160,6 +161,27 @@ export async function POST(req: NextRequest) {
     }
 
     if (event.event === 'payment.failed') {
+      // Release any locked store credit voucher back to the customer
+      try {
+        const orderLookup = await supabase
+          .from('orders')
+          .select('id, fulfillment_error')
+          .eq('stripe_session_id', orderId)
+          .eq('status', 'pending')
+          .maybeSingle();
+
+        if (orderLookup.data) {
+          const errText = orderLookup.data.fulfillment_error || '';
+          const match = errText.match(/STORE_CREDIT_APPLIED:\s*\[([^\]]+)\]/);
+          if (match && match[1]) {
+            await releaseStoreCredit(match[1], supabase);
+            console.log(`[Razorpay Webhook] Auto-released store credit ${match[1]} for failed order ${orderLookup.data.id}`);
+          }
+        }
+      } catch (releaseErr) {
+        console.error('[Razorpay Webhook] Error releasing store credit:', releaseErr);
+      }
+
       // Only cancel still-pending orders — never clobber an order that has
       // since been paid/fulfilled (late failure callbacks happen).
       const cancelled = await supabase

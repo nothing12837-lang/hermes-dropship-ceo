@@ -13,6 +13,7 @@ export async function GET(
   try {
     const res = await fetch(`https://api.postalpincode.in/pincode/${clean}`, {
       next: { revalidate: 86400 * 7 },
+      signal: AbortSignal.timeout(3500),
     });
     if (!res.ok) {
       return NextResponse.json({ error: 'Hub lookup failed' }, { status: 502 });

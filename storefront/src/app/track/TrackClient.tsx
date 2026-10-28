@@ -108,8 +108,12 @@ function getStatusDetails(status: string, paymentMethod?: string) {
 
 function getEstimatedDeliveryDate(createdAt: string): string {
   const d = new Date(createdAt);
-  if (isNaN(d.getTime())) return 'Arriving on 26-Oct-2026';
-  return 'Arriving on 26-Oct-2026';
+  const baseTime = isNaN(d.getTime()) ? Date.now() : d.getTime();
+  const deliveryDate = new Date(baseTime + 4 * 86400000);
+  const day = deliveryDate.getDate();
+  const month = deliveryDate.toLocaleString('en-IN', { month: 'short' });
+  const year = deliveryDate.getFullYear();
+  return `Arriving by ${day}-${month}-${year}`;
 }
 
 export function TrackClient() {
@@ -347,7 +351,7 @@ export function TrackClient() {
                       title: meta.stageOneTitle,
                       desc: isCod
                         ? 'Cash on Delivery verified & queued on factory ledger.'
-                        : 'Prepaid transaction verified via SSL gateway.',
+                        : 'Prepaid transaction verified & confirmed.',
                       label: 'Verified',
                     },
                     {
@@ -638,7 +642,7 @@ export function TrackClient() {
                               <div className="flex items-center justify-between text-xs pt-0.5">
                                 <span className="text-neutral-600">Payment Mode:</span>
                                 <span className="font-bold text-neutral-900">
-                                  {isCod ? 'Cash on Delivery (COD)' : 'Prepaid (SSL Secured)'}
+                                  {isCod ? 'Cash on Delivery (COD)' : 'Prepaid Online'}
                                 </span>
                               </div>
                               <div className="flex items-center justify-between text-xs">

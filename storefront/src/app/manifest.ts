@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'RareEmber Atelier',
+    name: 'RareEmber',
     short_name: 'RareEmber',
     description: 'Archival Heavyweight Streetwear & Independent Graphic Drops directly sourced from verified sellers.',
     start_url: '/',

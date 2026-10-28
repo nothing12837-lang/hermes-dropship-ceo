@@ -427,7 +427,7 @@ export default function AdminOrdersPage() {
 
             <div className="pt-4 border-t border-slate-800 text-center">
               <p className="text-[11px] text-slate-400 flex items-center justify-center gap-1.5 font-medium">
-                <span>🔒</span> 256-Bit Cryptographic Timing-Safe Comparison Active
+                <span>🔒</span> Timing-Safe Cryptographic Protection Active
               </p>
             </div>
           </div>

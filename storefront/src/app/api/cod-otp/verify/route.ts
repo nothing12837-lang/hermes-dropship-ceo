@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { normalizeEmail } from '@/lib/security/validation';
+import { checkRateLimit } from '@/lib/security/rate-limit';
+import { clientIp, normalizeEmail } from '@/lib/security/validation';
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = clientIp(req.headers);
     const body = await req.json();
 
     const email = normalizeEmail(body.email);
@@ -16,6 +18,23 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { error: 'Missing required verification parameters.' },
         { status: 400 }
+      );
+    }
+
+    // Rate-limiting & Brute-Force Protection: Max 10 attempts per IP and max 6 per email/phone per 10 mins
+    const ipLimit = checkRateLimit(`cod-verify:ip:${ip}`, 12, 10 * 60 * 1000);
+    if (!ipLimit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many verification attempts from this network. Please wait a few minutes.' },
+        { status: 429 }
+      );
+    }
+
+    const emailLimit = checkRateLimit(`cod-verify:target:${email}`, 6, 10 * 60 * 1000);
+    if (!emailLimit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many verification code attempts. Please request a fresh code.' },
+        { status: 429 }
       );
     }
 

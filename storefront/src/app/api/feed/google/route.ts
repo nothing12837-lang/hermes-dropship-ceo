@@ -103,7 +103,7 @@ export async function GET() {
         String(
           (p as any).description ||
             p.short ||
-            `${title} — Authentic Rare Ember atelier drop. Crafted with ${getMaterial(p)}. Pan-India express air delivery via Delhivery Air with Cash on Delivery and 7-day returns.`
+            `${title} — Authentic Rare Ember drop. Crafted with ${getMaterial(p)}. Pan-India express air delivery via Delhivery Air with Cash on Delivery and 7-day returns.`
         )
       );
       const link = `${siteUrl}/product/${cleanSlug}`;
@@ -164,7 +164,7 @@ ${additionalImages ? additionalImages + '\n' : ''}      <g:brand>Rare Ember</g:b
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
   <channel>
-    <title>Rare Ember Atelier — Curated Streetwear, Artisan Living &amp; Workstation Tech</title>
+    <title>Rare Ember — Curated Streetwear, Living &amp; Workstation Tech</title>
     <link>${siteUrl}</link>
     <description>Rare Ember Official Product Catalog for Google Shopping Tab Free Listings</description>
 ${itemsXml}

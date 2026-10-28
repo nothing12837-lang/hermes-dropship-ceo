@@ -246,7 +246,7 @@ export async function POST(req: NextRequest) {
         const cleanPhone = (o.phone || '9118211860').replace(/\D/g, '');
         const targetPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
         const confirmMsg = encodeURIComponent(
-          `Hi ${name || 'there'}! This is RareEmber Atelier (rareember.shop). Your COD Order #${o.id.slice(0, 8)} for ₹${o.total} is ready for dispatch to ${o.shipping_address?.city || 'your address'}, PIN ${zip}. Please reply YES to confirm physical doorstep delivery via Delhivery Air.`
+          `Hi ${name || 'there'}! This is RareEmber (rareember.shop). Your COD Order #${o.id.slice(0, 8)} for ₹${o.total} is ready for dispatch to ${o.shipping_address?.city || 'your address'}, PIN ${zip}. Please reply YES to confirm physical doorstep delivery via Delhivery Air.`
         );
         const waLink = `https://wa.me/${targetPhone}?text=${confirmMsg}`;
 

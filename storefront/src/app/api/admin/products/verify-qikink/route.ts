@@ -195,7 +195,7 @@ export async function GET(req: NextRequest) {
       verified: {
         qikinkProductId: String(rawMatch.client_product_id || qikinkId),
         title: rawMatch.title || existingProduct?.title || "Rare Ember Signature Drop",
-        cleanTitle: existingProduct?.title || `${rawMatch.title} — Rare Ember Atelier Drop`,
+        cleanTitle: existingProduct?.title || `${rawMatch.title} — Rare Ember Drop`,
         blankSku,
         blankName,
         baseCost,

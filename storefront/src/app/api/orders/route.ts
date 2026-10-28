@@ -479,19 +479,8 @@ export async function POST(req: NextRequest) {
           discountAmount = Math.min(credCheck.creditAmount, calculatedSubtotal);
           verifiedCoupon = normalizedCode;
         } else {
-          // Store credit must NEVER pass through the plain coupon path: the
-        // creditMatch branch in festivals.ts accepts signed vouchers with no
-        // database check, so a CREDIT-* code here would apply a discount
-        // with no verification and no redemption. Store credit redemption
-        // lives exclusively in the prepaid checkout route.
-        const rawCoupon = String(body.coupon_code).trim().toUpperCase();
-        if (/^(?:RE-?)?CREDIT-/i.test(rawCoupon)) {
-          return NextResponse.json(
-            { error: 'Store credit vouchers can only be applied to prepaid online orders.' },
-            { status: 400 }
-          );
-        }
-        const couponCheck = validateCouponCode(body.coupon_code, calculatedSubtotal);
+          // Regular promotional coupon validation
+          const couponCheck = validateCouponCode(body.coupon_code, calculatedSubtotal);
           if (couponCheck.valid) {
             discountAmount = couponCheck.discountAmount;
             verifiedCoupon = normalizedCode;

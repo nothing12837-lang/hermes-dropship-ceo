@@ -139,7 +139,7 @@ export default async function Home() {
               <span>•</span>
               <span className="text-[#E04F33] font-bold">DIRECT VERIFIED SELLER SOURCING</span>
               <span>•</span>
-              <span>AIR DISPATCH INCLUDED</span>
+              <span>FREE PAN-INDIA DELIVERY</span>
               <span>•</span>
               <span className="text-[#E04F33] font-bold">7-DAY EASY RETURNS</span>
               <span>•</span>

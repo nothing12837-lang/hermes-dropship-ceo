@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Rare Ember Warm Atelier Lite Palette ── */
+  /* ── Rare Ember Warm Minimal Palette ── */
   --color-bg-base: #FAF8F5;
   --color-bg-surface: #FFFFFF;
   --color-bg-elevated: #F3F0EA;
@@ -222,7 +222,7 @@
     animation: badgePop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
 
-  /* Refined, quiet glass surfaces (Warm Atelier Standard) */
+  /* Refined, quiet glass surfaces (Warm Studio Standard) */
   .glass,
   .glass-luxury {
     background: rgba(255, 255, 255, 0.86);
