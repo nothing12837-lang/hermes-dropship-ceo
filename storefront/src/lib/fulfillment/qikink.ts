@@ -740,7 +740,7 @@ export async function fulfillQikinkOrder(
     const isPreConfiguredMyProduct = Boolean(
       (mappedVariant && (mappedVariant.variant_sku || mappedVariant.product_sku)) ||
       it.qikinkTemplateSku ||
-      (clientProductId && ['64950694', '64953648', '64953544', '64953512', '64953576', '64953600', '64953748', '64953702', '64953664', '64953528', '64953488', '32477737', '32476431', '32476874', '32476851', '32476772', '32476788', '32476800', '32476764', '32476832', '32476744', '32476681', '32476284', '32476280'].includes(clientProductId))
+      (clientProductId && ['64950694', '64953648', '64953544', '64953512', '64953576', '64953600', '64953748', '64953702', '64953664', '64953528', '64953488', '32493953', '32493938', '32493470', '32477737', '32476431', '32476874', '32476851', '32476772', '32476788', '32476800', '32476764', '32476832', '32476744', '32476681', '32476284', '32476280'].includes(clientProductId))
     );
 
     // MODE A: Qikink "My Products" (Pre-configured drops created in dashboard)

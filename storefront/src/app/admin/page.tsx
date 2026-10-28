@@ -83,6 +83,9 @@ const CATEGORY_TABS = [
 ];
 
 const SUGGESTED_QIKINK_DROPS = [
+  { id: '32493953', label: 'Acid Washed Hoodie (UH62)', blank: 'UH62' },
+  { id: '32493938', label: 'Unstoppable Tiger Hoodie (UHd)', blank: 'UHd' },
+  { id: '32493470', label: 'Pullover Hoodie (UH83)', blank: 'UPuHd' },
   { id: '32476280', label: 'Oversized Jersey (UJ35)', blank: 'UJ35' },
   { id: '32477737', label: 'Full Sleeve Tee (MRnFs)', blank: 'MRnFs' },
   { id: '32476824', label: 'Red Mecha Full Sleeve', blank: 'MRnFs' },

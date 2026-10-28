@@ -4,6 +4,9 @@
  */
 
 export const FALLBACK_IMAGES: Record<string, string> = {
+  "qikink-32493953-unisex-acid-wash-hoodie": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_2.jpg",
+  "qikink-32493938-unisex-heavyweight-hoodie": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_2.jpg",
+  "qikink-32493470-unisex-pullover-hoodie": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_2.jpg",
   "qikink-64951032-girls-crew-tshirt": "/products/user-girl-tee-64951032.jpg",
   "rare-ember-girls-crew-neck-tshirt-64951032": "/products/user-girl-tee-64951032.jpg",
   "qikink-64950694-oversized-jersey": "/products/user-oversized-jersey-64950694.jpg",

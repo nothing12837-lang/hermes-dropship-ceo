@@ -446,6 +446,12 @@ export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: str
   if (/varsity|bomber/i.test(str)) {
     return '350 GSM Varsity';
   }
+  if (/acid\s*wash.*hoodie|hoodie.*acid\s*wash/i.test(str)) {
+    return '380 GSM Acid Wash';
+  }
+  if (/pullover\s*hoodie/i.test(str)) {
+    return '320 GSM French Terry';
+  }
   if (/hoodie/i.test(str)) {
     return '380 GSM Heavy Fleece';
   }

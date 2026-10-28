@@ -14228,5 +14228,1465 @@
     "color": "Maroon",
     "size": "XXL",
     "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32477737/images/Front_1_c_25.jpg"
+  },
+  "32493953_black_s": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HCd",
+    "product_sku": "UAHD-Bk-S",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Black",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_2.jpg"
+  },
+  "32493953_black_m": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HCe",
+    "product_sku": "UAHD-Bk-M",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Black",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_2.jpg"
+  },
+  "32493953_black_l": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HCf",
+    "product_sku": "UAHD-Bk-L",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Black",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_2.jpg"
+  },
+  "32493953_black_xl": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HCY",
+    "product_sku": "UAHD-Bk-XL",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Black",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_2.jpg"
+  },
+  "32493953_black_xxl": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HCZ",
+    "product_sku": "UAHD-Bk-XXL",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Black",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_2.jpg"
+  },
+  "32493953_black_3xl": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HCa",
+    "product_sku": "UAHD-Bk-3XL",
+    "cost_price": 1136.84,
+    "selling_price": 1789,
+    "color": "Black",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_2.jpg"
+  },
+  "32493953_black_xs": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HCb",
+    "product_sku": "UAHD-Bk-XS",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Black",
+    "size": "XS",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_2.jpg"
+  },
+  "32493953_navy blue_s": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HCU",
+    "product_sku": "UAHD-Nb-S",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Navy Blue",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_3.jpg"
+  },
+  "32493953_navy blue_m": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HCV",
+    "product_sku": "UAHD-Nb-M",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Navy Blue",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_3.jpg"
+  },
+  "32493953_navy blue_l": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HGc",
+    "product_sku": "UAHD-Nb-L",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Navy Blue",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_3.jpg"
+  },
+  "32493953_navy blue_xl": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HGd",
+    "product_sku": "UAHD-Nb-XL",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Navy Blue",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_3.jpg"
+  },
+  "32493953_navy blue_xxl": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HGe",
+    "product_sku": "UAHD-Nb-XXL",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Navy Blue",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_3.jpg"
+  },
+  "32493953_navy blue_3xl": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HGf",
+    "product_sku": "UAHD-Nb-3XL",
+    "cost_price": 1136.84,
+    "selling_price": 1789,
+    "color": "Navy Blue",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_3.jpg"
+  },
+  "32493953_navy blue_xs": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HGY",
+    "product_sku": "UAHD-Nb-XS",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Navy Blue",
+    "size": "XS",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_3.jpg"
+  },
+  "32493953_bottle green_s": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HGZ",
+    "product_sku": "UAHD-Gn-S",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Bottle Green",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_8.jpg"
+  },
+  "32493953_bottle green_m": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HGa",
+    "product_sku": "UAHD-Gn-M",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Bottle Green",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_8.jpg"
+  },
+  "32493953_bottle green_l": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HGb",
+    "product_sku": "UAHD-Gn-L",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Bottle Green",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_8.jpg"
+  },
+  "32493953_bottle green_xl": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HGU",
+    "product_sku": "UAHD-Gn-XL",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Bottle Green",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_8.jpg"
+  },
+  "32493953_bottle green_xxl": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HGV",
+    "product_sku": "UAHD-Gn-XXL",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Bottle Green",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_8.jpg"
+  },
+  "32493953_bottle green_3xl": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9Hac",
+    "product_sku": "UAHD-Gn-3XL",
+    "cost_price": 1136.84,
+    "selling_price": 1789,
+    "color": "Bottle Green",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_8.jpg"
+  },
+  "32493953_bottle green_xs": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9Had",
+    "product_sku": "UAHD-Gn-XS",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Bottle Green",
+    "size": "XS",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_8.jpg"
+  },
+  "32493953_maroon_s": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9Hae",
+    "product_sku": "UAHD-Mn-S",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Maroon",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_25.jpg"
+  },
+  "32493953_maroon_m": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9Haf",
+    "product_sku": "UAHD-Mn-M",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Maroon",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_25.jpg"
+  },
+  "32493953_maroon_l": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HaY",
+    "product_sku": "UAHD-Mn-L",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Maroon",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_25.jpg"
+  },
+  "32493953_maroon_xl": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HaZ",
+    "product_sku": "UAHD-Mn-XL",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Maroon",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_25.jpg"
+  },
+  "32493953_maroon_xxl": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9Haa",
+    "product_sku": "UAHD-Mn-XXL",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Maroon",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_25.jpg"
+  },
+  "32493953_maroon_3xl": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9Hab",
+    "product_sku": "UAHD-Mn-3XL",
+    "cost_price": 1136.84,
+    "selling_price": 1789,
+    "color": "Maroon",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_25.jpg"
+  },
+  "32493953_maroon_xs": {
+    "product_id": "32493953",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRIqubfWrQze9HaU",
+    "product_sku": "UAHD-Mn-XS",
+    "cost_price": 1094.84,
+    "selling_price": 1789,
+    "color": "Maroon",
+    "size": "XS",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493953/images/Front_1_c_25.jpg"
+  },
+  "32493938_white_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83aY",
+    "product_sku": "UHd-Wh-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "White",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_1.jpg"
+  },
+  "32493938_white_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83aZ",
+    "product_sku": "UHd-Wh-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "White",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_1.jpg"
+  },
+  "32493938_white_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83aa",
+    "product_sku": "UHd-Wh-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "White",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_1.jpg"
+  },
+  "32493938_white_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83ab",
+    "product_sku": "UHd-Wh-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "White",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_1.jpg"
+  },
+  "32493938_white_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83aU",
+    "product_sku": "UHd-Wh-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "White",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_1.jpg"
+  },
+  "32493938_white_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83aV",
+    "product_sku": "UHd-Wh-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "White",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_1.jpg"
+  },
+  "32493938_black_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83ec",
+    "product_sku": "UHd-Bk-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Black",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_2.jpg"
+  },
+  "32493938_black_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83ed",
+    "product_sku": "UHd-Bk-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Black",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_2.jpg"
+  },
+  "32493938_black_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83ee",
+    "product_sku": "UHd-Bk-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Black",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_2.jpg"
+  },
+  "32493938_black_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83ef",
+    "product_sku": "UHd-Bk-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Black",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_2.jpg"
+  },
+  "32493938_black_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83eY",
+    "product_sku": "UHd-Bk-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Black",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_2.jpg"
+  },
+  "32493938_black_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83eZ",
+    "product_sku": "UHd-Bk-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "Black",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_2.jpg"
+  },
+  "32493938_navy blue_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83ea",
+    "product_sku": "UHd-Nb-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Navy Blue",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_3.jpg"
+  },
+  "32493938_navy blue_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83eb",
+    "product_sku": "UHd-Nb-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Navy Blue",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_3.jpg"
+  },
+  "32493938_navy blue_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83eU",
+    "product_sku": "UHd-Nb-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Navy Blue",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_3.jpg"
+  },
+  "32493938_navy blue_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83eV",
+    "product_sku": "UHd-Nb-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Navy Blue",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_3.jpg"
+  },
+  "32493938_navy blue_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83Sc",
+    "product_sku": "UHd-Nb-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Navy Blue",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_3.jpg"
+  },
+  "32493938_navy blue_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83Sd",
+    "product_sku": "UHd-Nb-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "Navy Blue",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_3.jpg"
+  },
+  "32493938_grey melange_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83Se",
+    "product_sku": "UHd-Gm-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Grey Melange",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_4.jpg"
+  },
+  "32493938_grey melange_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83Sf",
+    "product_sku": "UHd-Gm-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Grey Melange",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_4.jpg"
+  },
+  "32493938_grey melange_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83SY",
+    "product_sku": "UHd-Gm-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Grey Melange",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_4.jpg"
+  },
+  "32493938_grey melange_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83SZ",
+    "product_sku": "UHd-Gm-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Grey Melange",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_4.jpg"
+  },
+  "32493938_grey melange_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83Sa",
+    "product_sku": "UHd-Gm-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Grey Melange",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_4.jpg"
+  },
+  "32493938_grey melange_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83Sb",
+    "product_sku": "UHd-Gm-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "Grey Melange",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_4.jpg"
+  },
+  "32493938_bottle green_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83SU",
+    "product_sku": "UHd-Gn-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Bottle Green",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_8.jpg"
+  },
+  "32493938_bottle green_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83SV",
+    "product_sku": "UHd-Gn-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Bottle Green",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_8.jpg"
+  },
+  "32493938_bottle green_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83Wc",
+    "product_sku": "UHd-Gn-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Bottle Green",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_8.jpg"
+  },
+  "32493938_bottle green_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83Wd",
+    "product_sku": "UHd-Gn-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Bottle Green",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_8.jpg"
+  },
+  "32493938_bottle green_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83We",
+    "product_sku": "UHd-Gn-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Bottle Green",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_8.jpg"
+  },
+  "32493938_bottle green_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83Wf",
+    "product_sku": "UHd-Gn-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "Bottle Green",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_8.jpg"
+  },
+  "32493938_royal blue_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83WY",
+    "product_sku": "UHd-Rb-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Royal Blue",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_9.jpg"
+  },
+  "32493938_royal blue_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83WZ",
+    "product_sku": "UHd-Rb-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Royal Blue",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_9.jpg"
+  },
+  "32493938_royal blue_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83Wa",
+    "product_sku": "UHd-Rb-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Royal Blue",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_9.jpg"
+  },
+  "32493938_royal blue_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83Wb",
+    "product_sku": "UHd-Rb-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Royal Blue",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_9.jpg"
+  },
+  "32493938_royal blue_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83WU",
+    "product_sku": "UHd-Rb-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Royal Blue",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_9.jpg"
+  },
+  "32493938_royal blue_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83WV",
+    "product_sku": "UHd-Rb-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "Royal Blue",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_9.jpg"
+  },
+  "32493938_red_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83qc",
+    "product_sku": "UHd-Rd-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Red",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_10.jpg"
+  },
+  "32493938_red_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83qd",
+    "product_sku": "UHd-Rd-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Red",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_10.jpg"
+  },
+  "32493938_red_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83qe",
+    "product_sku": "UHd-Rd-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Red",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_10.jpg"
+  },
+  "32493938_red_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83qf",
+    "product_sku": "UHd-Rd-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Red",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_10.jpg"
+  },
+  "32493938_red_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83qY",
+    "product_sku": "UHd-Rd-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Red",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_10.jpg"
+  },
+  "32493938_red_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83qZ",
+    "product_sku": "UHd-Rd-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "Red",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_10.jpg"
+  },
+  "32493938_maroon_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83qa",
+    "product_sku": "UHd-Mn-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Maroon",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_25.jpg"
+  },
+  "32493938_maroon_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83qb",
+    "product_sku": "UHd-Mn-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Maroon",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_25.jpg"
+  },
+  "32493938_maroon_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83qU",
+    "product_sku": "UHd-Mn-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Maroon",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_25.jpg"
+  },
+  "32493938_maroon_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83qV",
+    "product_sku": "UHd-Mn-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Maroon",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_25.jpg"
+  },
+  "32493938_maroon_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83uc",
+    "product_sku": "UHd-Mn-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Maroon",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_25.jpg"
+  },
+  "32493938_maroon_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83ud",
+    "product_sku": "UHd-Mn-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "Maroon",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_25.jpg"
+  },
+  "32493938_olive green_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83ue",
+    "product_sku": "UHd-OG-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Olive Green",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_41.jpg"
+  },
+  "32493938_olive green_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83uf",
+    "product_sku": "UHd-OG-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Olive Green",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_41.jpg"
+  },
+  "32493938_olive green_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83uY",
+    "product_sku": "UHd-OG-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Olive Green",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_41.jpg"
+  },
+  "32493938_olive green_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83uZ",
+    "product_sku": "UHd-OG-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Olive Green",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_41.jpg"
+  },
+  "32493938_olive green_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83ua",
+    "product_sku": "UHd-OG-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Olive Green",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_41.jpg"
+  },
+  "32493938_olive green_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83ub",
+    "product_sku": "UHd-OG-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "Olive Green",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_41.jpg"
+  },
+  "32493938_mustard yellow_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83uU",
+    "product_sku": "UHd-MYl-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Mustard Yellow",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_43.jpg"
+  },
+  "32493938_mustard yellow_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze83uV",
+    "product_sku": "UHd-MYl-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Mustard Yellow",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_43.jpg"
+  },
+  "32493938_mustard yellow_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nKc",
+    "product_sku": "UHd-MYl-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Mustard Yellow",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_43.jpg"
+  },
+  "32493938_mustard yellow_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nKd",
+    "product_sku": "UHd-MYl-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Mustard Yellow",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_43.jpg"
+  },
+  "32493938_mustard yellow_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nKe",
+    "product_sku": "UHd-MYl-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Mustard Yellow",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_43.jpg"
+  },
+  "32493938_mustard yellow_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nKf",
+    "product_sku": "UHd-MYl-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "Mustard Yellow",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_43.jpg"
+  },
+  "32493938_light baby pink_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nKY",
+    "product_sku": "UHd-LBp-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Light Baby Pink",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_45.jpg"
+  },
+  "32493938_light baby pink_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nKZ",
+    "product_sku": "UHd-LBp-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Light Baby Pink",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_45.jpg"
+  },
+  "32493938_light baby pink_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nKa",
+    "product_sku": "UHd-LBp-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Light Baby Pink",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_45.jpg"
+  },
+  "32493938_light baby pink_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nKb",
+    "product_sku": "UHd-LBp-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Light Baby Pink",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_45.jpg"
+  },
+  "32493938_light baby pink_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nKU",
+    "product_sku": "UHd-LBp-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Light Baby Pink",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_45.jpg"
+  },
+  "32493938_light baby pink_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nKV",
+    "product_sku": "UHd-LBp-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "Light Baby Pink",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_45.jpg"
+  },
+  "32493938_lavender_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nOc",
+    "product_sku": "UHd-Lv-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Lavender",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_49.jpg"
+  },
+  "32493938_lavender_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nOd",
+    "product_sku": "UHd-Lv-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Lavender",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_49.jpg"
+  },
+  "32493938_lavender_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nOe",
+    "product_sku": "UHd-Lv-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Lavender",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_49.jpg"
+  },
+  "32493938_lavender_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nOf",
+    "product_sku": "UHd-Lv-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Lavender",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_49.jpg"
+  },
+  "32493938_lavender_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nOY",
+    "product_sku": "UHd-Lv-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Lavender",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_49.jpg"
+  },
+  "32493938_lavender_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nOZ",
+    "product_sku": "UHd-Lv-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "Lavender",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_49.jpg"
+  },
+  "32493938_coral_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nOa",
+    "product_sku": "UHd-Cor-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Coral",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_52.jpg"
+  },
+  "32493938_coral_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nOb",
+    "product_sku": "UHd-Cor-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Coral",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_52.jpg"
+  },
+  "32493938_coral_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nOU",
+    "product_sku": "UHd-Cor-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Coral",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_52.jpg"
+  },
+  "32493938_coral_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nOV",
+    "product_sku": "UHd-Cor-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Coral",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_52.jpg"
+  },
+  "32493938_coral_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nCc",
+    "product_sku": "UHd-Cor-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Coral",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_52.jpg"
+  },
+  "32493938_coral_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nCd",
+    "product_sku": "UHd-Cor-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "Coral",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_52.jpg"
+  },
+  "32493938_mint_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nCe",
+    "product_sku": "UHd-Mnt-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Mint",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_53.jpg"
+  },
+  "32493938_mint_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nCf",
+    "product_sku": "UHd-Mnt-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Mint",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_53.jpg"
+  },
+  "32493938_mint_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nCY",
+    "product_sku": "UHd-Mnt-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Mint",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_53.jpg"
+  },
+  "32493938_mint_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nCZ",
+    "product_sku": "UHd-Mnt-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Mint",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_53.jpg"
+  },
+  "32493938_mint_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nCa",
+    "product_sku": "UHd-Mnt-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Mint",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_53.jpg"
+  },
+  "32493938_mint_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nCb",
+    "product_sku": "UHd-Mnt-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "Mint",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_53.jpg"
+  },
+  "32493938_baby blue_s": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nCU",
+    "product_sku": "UHd-BB-S",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Baby Blue",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_54.jpg"
+  },
+  "32493938_baby blue_m": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nCV",
+    "product_sku": "UHd-BB-M",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Baby Blue",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_54.jpg"
+  },
+  "32493938_baby blue_l": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nGc",
+    "product_sku": "UHd-BB-L",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Baby Blue",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_54.jpg"
+  },
+  "32493938_baby blue_xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nGd",
+    "product_sku": "UHd-BB-XL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Baby Blue",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_54.jpg"
+  },
+  "32493938_baby blue_xxl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nGe",
+    "product_sku": "UHd-BB-XXL",
+    "cost_price": 614.43,
+    "selling_price": 1399,
+    "color": "Baby Blue",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_54.jpg"
+  },
+  "32493938_baby blue_3xl": {
+    "product_id": "32493938",
+    "variant_sku": "v-9R2o0i6GaVZW184MPRQhubfWrQze8nGf",
+    "product_sku": "UHd-BB-3XL",
+    "cost_price": 656.43,
+    "selling_price": 1399,
+    "color": "Baby Blue",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493938/images/Front_1_c_54.jpg"
+  },
+  "32493470_white_s": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9Hed",
+    "product_sku": "UPuHd-Wh-S",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "White",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_1.jpg"
+  },
+  "32493470_white_m": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9Hee",
+    "product_sku": "UPuHd-Wh-M",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "White",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_1.jpg"
+  },
+  "32493470_white_l": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9Hef",
+    "product_sku": "UPuHd-Wh-L",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "White",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_1.jpg"
+  },
+  "32493470_white_xl": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HeY",
+    "product_sku": "UPuHd-Wh-XL",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "White",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_1.jpg"
+  },
+  "32493470_white_xxl": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HeZ",
+    "product_sku": "UPuHd-Wh-XXL",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "White",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_1.jpg"
+  },
+  "32493470_white_3xl": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9Hea",
+    "product_sku": "UPuHd-Wh-3XL",
+    "cost_price": 660.78,
+    "selling_price": 1399,
+    "color": "White",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_1.jpg"
+  },
+  "32493470_white_xs": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9Heb",
+    "product_sku": "UPuHd-Wh-XS",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "White",
+    "size": "XS",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_1.jpg"
+  },
+  "32493470_black_s": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HeU",
+    "product_sku": "UPuHd-Bk-S",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Black",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_2.jpg"
+  },
+  "32493470_black_m": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HeV",
+    "product_sku": "UPuHd-Bk-M",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Black",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_2.jpg"
+  },
+  "32493470_black_l": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HSc",
+    "product_sku": "UPuHd-Bk-L",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Black",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_2.jpg"
+  },
+  "32493470_black_xl": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HSd",
+    "product_sku": "UPuHd-Bk-XL",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Black",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_2.jpg"
+  },
+  "32493470_black_xxl": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HSe",
+    "product_sku": "UPuHd-Bk-XXL",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Black",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_2.jpg"
+  },
+  "32493470_black_3xl": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HSf",
+    "product_sku": "UPuHd-Bk-3XL",
+    "cost_price": 660.78,
+    "selling_price": 1399,
+    "color": "Black",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_2.jpg"
+  },
+  "32493470_black_xs": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HSY",
+    "product_sku": "UPuHd-Bk-XS",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Black",
+    "size": "XS",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_2.jpg"
+  },
+  "32493470_navy blue_s": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HSZ",
+    "product_sku": "UPuHd-Nb-S",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Navy Blue",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_3.jpg"
+  },
+  "32493470_navy blue_m": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HSa",
+    "product_sku": "UPuHd-Nb-M",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Navy Blue",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_3.jpg"
+  },
+  "32493470_navy blue_l": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HSb",
+    "product_sku": "UPuHd-Nb-L",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Navy Blue",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_3.jpg"
+  },
+  "32493470_navy blue_xl": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HSU",
+    "product_sku": "UPuHd-Nb-XL",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Navy Blue",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_3.jpg"
+  },
+  "32493470_navy blue_xxl": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HSV",
+    "product_sku": "UPuHd-Nb-XXL",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Navy Blue",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_3.jpg"
+  },
+  "32493470_navy blue_3xl": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HWc",
+    "product_sku": "UPuHd-Nb-3XL",
+    "cost_price": 660.78,
+    "selling_price": 1399,
+    "color": "Navy Blue",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_3.jpg"
+  },
+  "32493470_navy blue_xs": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HWd",
+    "product_sku": "UPuHd-Nb-XS",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Navy Blue",
+    "size": "XS",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_3.jpg"
+  },
+  "32493470_off white_s": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HWe",
+    "product_sku": "UPuHd-OFw-S",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Off White",
+    "size": "S",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_61.jpg"
+  },
+  "32493470_off white_m": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HWf",
+    "product_sku": "UPuHd-OFw-M",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Off White",
+    "size": "M",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_61.jpg"
+  },
+  "32493470_off white_l": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HWY",
+    "product_sku": "UPuHd-OFw-L",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Off White",
+    "size": "L",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_61.jpg"
+  },
+  "32493470_off white_xl": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HWZ",
+    "product_sku": "UPuHd-OFw-XL",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Off White",
+    "size": "XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_61.jpg"
+  },
+  "32493470_off white_xxl": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HWa",
+    "product_sku": "UPuHd-OFw-XXL",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Off White",
+    "size": "XXL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_61.jpg"
+  },
+  "32493470_off white_3xl": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HWb",
+    "product_sku": "UPuHd-OFw-3XL",
+    "cost_price": 660.78,
+    "selling_price": 1399,
+    "color": "Off White",
+    "size": "3XL",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_61.jpg"
+  },
+  "32493470_off white_xs": {
+    "product_id": "32493470",
+    "variant_sku": "v-9R2o0i6GaVZW184MMBApubfWrQ3f9HWU",
+    "product_sku": "UPuHd-OFw-XS",
+    "cost_price": 629.28,
+    "selling_price": 1399,
+    "color": "Off White",
+    "size": "XS",
+    "variant_image": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32493470/images/Front_1_c_61.jpg"
   }
 }

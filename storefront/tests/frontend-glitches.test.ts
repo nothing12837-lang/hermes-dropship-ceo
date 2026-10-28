@@ -440,5 +440,22 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
     expect(getProduct('rare-ember-custom-oversized-tee')).toBeUndefined();
     expect(getProduct('rare-ember-gateway-test-pass')).toBeUndefined();
   });
+
+  it('correctly resolves the 3 new Qikink hoodies created on 2026-10-28', () => {
+    const acidHoodie = getProduct('32493953');
+    expect(acidHoodie).toBeDefined();
+    expect(acidHoodie?.title).toContain('Acid Washed Hoodie');
+    expect(acidHoodie?.price_inr).toBe(1789);
+
+    const tigerHoodie = getProduct('32493938');
+    expect(tigerHoodie).toBeDefined();
+    expect(tigerHoodie?.title).toContain('Tiger');
+    expect(tigerHoodie?.price_inr).toBe(1399);
+
+    const pulloverHoodie = getProduct('32493470');
+    expect(pulloverHoodie).toBeDefined();
+    expect(pulloverHoodie?.title).toContain('Pullover Hoodie');
+    expect(pulloverHoodie?.price_inr).toBe(1399);
+  });
 });
 
