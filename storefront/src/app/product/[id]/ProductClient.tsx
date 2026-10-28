@@ -2183,41 +2183,29 @@ export function ProductClient({ product }: Props) {
               {cleanSubtitle}
             </p>
 
-            <div className="flex items-baseline gap-2 sm:gap-3 mt-3 sm:mt-4 flex-wrap">
+            <div className="flex items-baseline gap-2.5 sm:gap-3 mt-3 flex-wrap">
               <span className="text-2xl sm:text-3xl md:text-4xl font-black text-neutral-900 tracking-tight">
                 {geoFormatPrice(effectivePriceUsd, effectiveInr)}
               </span>
-              <span className="text-xs sm:text-sm md:text-base text-neutral-400 line-through font-medium">
+              <span className="text-xs sm:text-sm text-neutral-400 line-through font-medium">
                 M.R.P.: {geoFormatPrice(mrpUsd, mrpInr)}
               </span>
-              <span className="text-[10px] sm:text-xs font-bold text-[#FF4D24] bg-[#FF4D24]/10 px-2.5 py-0.5 rounded border border-[#FF4D24]/20">
+              <span className="text-[11px] font-bold text-[#FF4D24] bg-[#FF4D24]/10 px-2 py-0.5 rounded border border-[#FF4D24]/20">
                 {discountPercent}% OFF
               </span>
-              <span className="text-[10px] sm:text-xs font-semibold text-neutral-700 bg-neutral-100 px-2.5 py-0.5 rounded border border-neutral-200">
-                Free Express Delivery
-              </span>
-            </div>
-
-            {/* Honest Inventory & Logistics Status */}
-            {(() => {
-              const isOutOfStock = (product as any).active === false || ((product as any).stock != null && Number((product as any).stock) <= 0);
-              return (
-                <div className="flex flex-wrap items-center gap-2 mt-3 text-xs">
-                  {!isOutOfStock ? (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/5 text-neutral-800 font-semibold border border-black/10">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" /> In Stock • Ready for Express Air Dispatch
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-rose-50 text-rose-800 font-bold border border-rose-200">
-                      <span className="w-1.5 h-1.5 rounded-full bg-rose-500" /> Restocking Soon
-                    </span>
-                  )}
-                  <span className="inline-flex items-center px-2.5 py-1 rounded bg-black/5 text-neutral-700 font-semibold border border-black/10">
-                    Free Prepaid Air Delivery • 2–4 Business Days
+              {(() => {
+                const isOutOfStock = (product as any).active === false || ((product as any).stock != null && Number((product as any).stock) <= 0);
+                return !isOutOfStock ? (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-bold border border-emerald-200">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" /> In Stock
                   </span>
-                </div>
-              );
-            })()}
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-800 text-[11px] font-bold border border-rose-200">
+                    Restocking Soon
+                  </span>
+                );
+              })()}
+            </div>
 
             
 
@@ -3332,11 +3320,6 @@ export function ProductClient({ product }: Props) {
                   <span>{geoFormatPrice(effectivePriceUsd * qty, effectiveInr * qty)}</span>
                 </button>
 
-                {/* Dispatch Reassurance */}
-                <div className="flex items-center justify-center gap-1.5 text-xs text-neutral-600 font-medium text-center">
-                  <span>Dispatched direct from verified domestic makers • Free Prepaid Air Delivery</span>
-                </div>
-
                 {/* Secondary Row: Quantity, Add to Bag, Wishlist */}
                 <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'center' }}>
                   <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', background: '#f5f5f4', padding: '0.35rem 0.55rem', borderRadius: '0.85rem', border: '1px solid rgba(0,0,0,0.06)' }}>
@@ -3394,50 +3377,44 @@ export function ProductClient({ product }: Props) {
 
             {/* Essential Fabric & Quality Reassurance */}
             {isApparel && (
-              <div className="mt-4 p-3.5 rounded-2xl bg-white border border-black/[0.08] shadow-xs flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div className="mt-3.5 p-3 rounded-2xl bg-white border border-black/[0.08] shadow-xs flex flex-wrap items-center justify-between gap-2 text-xs">
                 <div className="flex items-center gap-2 font-bold text-neutral-900">
-                  <span className="text-base">🧵</span>
-                  <span>{gsmProfile.weight} 100% Super-Combed Bio-Washed Cotton</span>
+                  <span className="text-sm">🧵</span>
+                  <span>{gsmProfile.weight} 100% Super-Combed Cotton</span>
                 </div>
-                <div className="flex items-center gap-2.5 text-[11px] text-neutral-600 font-semibold flex-wrap">
-                  <span className="bg-neutral-100 px-2 py-0.5 rounded">✓ Pre-Shrunk (0% Shrinkage)</span>
-                  <span className="bg-neutral-100 px-2 py-0.5 rounded">✓ 50+ Wash Colorfast</span>
-                  <span className="bg-emerald-50 text-emerald-800 border border-emerald-200/60 px-2 py-0.5 rounded">✓ Tagless Comfort</span>
+                <div className="flex items-center gap-1.5 text-[10px] text-neutral-600 font-bold flex-wrap">
+                  <span className="bg-neutral-100 px-2 py-0.5 rounded">Pre-Shrunk</span>
+                  <span className="bg-neutral-100 px-2 py-0.5 rounded">Fade-Proof</span>
+                  <span className="bg-emerald-50 text-emerald-800 border border-emerald-200/60 px-2 py-0.5 rounded">Tagless</span>
                 </div>
               </div>
             )}
 
-            <div style={{ marginTop: '1.5rem' }}>
+            <div className="mt-3.5">
               <PincodeChecker />
             </div>
 
-            {/* Apple-styled Trust & Security Guarantee Grid */}
-            <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
-              <Link
-                href="/returns"
-                className="p-3 rounded-2xl bg-white border border-black/[0.06] shadow-xs no-underline hover:border-black/20 transition-all text-inherit"
-              >
-                <div className="text-base mb-1">🛡️</div>
-                <div className="font-bold text-neutral-950 flex items-center justify-between">
-                  <span>7-Day Returns</span>
-                  <span className="text-[10px] text-amber-600 font-bold">Returns Portal →</span>
-                </div>
-                <div className="text-[11px] text-neutral-500">Hassle-free 7-day returns & doorstep pickup</div>
+            {/* Sleek Compact Trust & Guarantee Strip */}
+            <div className="mt-4 p-3 rounded-2xl bg-white border border-black/[0.08] shadow-xs grid grid-cols-4 gap-2 text-center">
+              <Link href="/returns" className="flex flex-col items-center justify-center p-1 no-underline text-inherit group">
+                <span className="text-base sm:text-lg">🔄</span>
+                <span className="text-[11px] font-bold text-neutral-900 mt-1 leading-tight group-hover:text-[#FF4D24]">7-Day Return</span>
+                <span className="text-[9px] text-neutral-500 hidden sm:block">Doorstep pickup</span>
               </Link>
-              <div className="p-3 rounded-2xl bg-white border border-black/[0.06] shadow-xs">
-                <div className="text-base mb-1">🔒</div>
-                <div className="font-bold text-neutral-950">Secure Checkout</div>
-                <div className="text-[11px] text-neutral-500">Bank-grade encrypted gateway</div>
+              <div className="flex flex-col items-center justify-center p-1">
+                <span className="text-base sm:text-lg">⚡</span>
+                <span className="text-[11px] font-bold text-neutral-900 mt-1 leading-tight">Air Express</span>
+                <span className="text-[9px] text-neutral-500 hidden sm:block">2–4 days delivery</span>
               </div>
-              <div className="p-3 rounded-2xl bg-white border border-black/[0.06] shadow-xs">
-                <div className="text-base mb-1">⚡</div>
-                <div className="font-bold text-neutral-950">Express Insured</div>
-                <div className="text-[11px] text-neutral-500">Tracked door-to-door courier</div>
+              <div className="flex flex-col items-center justify-center p-1">
+                <span className="text-base sm:text-lg">💵</span>
+                <span className="text-[11px] font-bold text-neutral-900 mt-1 leading-tight">COD Available</span>
+                <span className="text-[9px] text-neutral-500 hidden sm:block">Pay at doorstep</span>
               </div>
-              <div className="p-3 rounded-2xl bg-white border border-black/[0.06] shadow-xs">
-                <div className="text-base mb-1">✨</div>
-                <div className="font-bold text-neutral-950">100% Genuine Quality</div>
-                <div className="text-[11px] text-neutral-500">Verified factory inspection</div>
+              <div className="flex flex-col items-center justify-center p-1">
+                <span className="text-base sm:text-lg">🔒</span>
+                <span className="text-[11px] font-bold text-neutral-900 mt-1 leading-tight">100% Secure</span>
+                <span className="text-[9px] text-neutral-500 hidden sm:block">Bank encrypted</span>
               </div>
             </div>
 

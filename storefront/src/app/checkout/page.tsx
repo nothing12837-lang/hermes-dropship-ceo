@@ -104,6 +104,7 @@ export default function CheckoutPage() {
   // already caps it at Rs.3,000 for RTO protection. Defaulting to 'online'
   // silently withdrew the advertised COD.
   const [paymentMethod, setPaymentMethod] = useState<'online' | 'cod'>('cod');
+  const [showMobileSummary, setShowMobileSummary] = useState(false);
 
   const handleSelectPaymentMethod = (method: 'online' | 'cod') => {
     setPaymentMethod(method);
@@ -899,30 +900,78 @@ export default function CheckoutPage() {
   };
 
   return (
-    <main className="page-top min-h-screen bg-[#FFFBF5] text-[#161311] pt-28 md:pt-32 pb-16">
+    <main className="page-top min-h-screen bg-[#FFFBF5] text-[#161311] pt-20 sm:pt-24 md:pt-28 pb-20">
       <div className="max-w-6xl mx-auto px-4 md:px-8">
-        {/* Top bar breadcrumb & guarantee */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-          <Link
-            href="/shop"
-            className="inline-flex items-center gap-2 text-xs font-bold text-neutral-600 hover:text-black no-underline transition-colors"
-          >
-            <span>←</span> Return to catalog
-          </Link>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-800 text-xs font-bold border border-emerald-500/20">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+        {/* Mobile Sticky Order Summary Accordion */}
+        {detailed.length > 0 && (
+          <div className="lg:hidden mb-4 rounded-2xl bg-[#161311] text-white border border-white/10 overflow-hidden shadow-md">
+            <button
+              type="button"
+              onClick={() => setShowMobileSummary((prev) => !prev)}
+              className="w-full p-3.5 flex items-center justify-between text-left cursor-pointer border-none bg-transparent text-white"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-base">🛍️</span>
+                <span className="text-xs font-bold">
+                  Order Summary ({detailed.length} {detailed.length === 1 ? 'item' : 'items'})
+                </span>
+                <span className="text-[10px] text-neutral-400 font-mono">
+                  {showMobileSummary ? '▲ Hide' : '▼ View'}
+                </span>
+              </div>
+              <span className="text-sm font-black text-white">{formatCheckoutPrice(total)}</span>
+            </button>
+            {showMobileSummary && (
+              <div className="p-3.5 pt-0 border-t border-white/10 space-y-3">
+                <div className="flex flex-col gap-2.5 max-h-56 overflow-y-auto no-scrollbar pt-2">
+                  {detailed.map((d) => (
+                    <div key={d.id} className="flex items-center gap-2.5">
+                      <div className="w-10 h-10 rounded-lg bg-white/10 relative overflow-hidden shrink-0">
+                        {(d.imageUrl || d.product.image_url) ? (
+                          <Image src={(d.imageUrl || d.product.image_url)!} alt={d.product.title} fill className="object-cover" />
+                        ) : (
+                          <span className="text-base flex items-center justify-center h-full">{d.product.emoji}</span>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0 text-xs">
+                        <p className="font-bold text-white truncate">{cleanBrandTitle(d.product.title)}</p>
+                        <p className="text-[10px] text-neutral-400">
+                          {d.size ? `Size: ${d.size}` : ''} {(d as any).color ? ` • ${(d as any).color}` : ''} • Qty: {d.qty}
+                        </p>
+                      </div>
+                      <span className="text-xs font-bold text-white shrink-0">
+                        {formatCheckoutPrice(getProductItemPrice(d.product) * d.qty)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="pt-2 border-t border-white/10 flex justify-between text-xs text-neutral-300">
+                  <span>Prepaid Express Delivery:</span>
+                  <span className="text-emerald-400 font-bold">FREE ⚡</span>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Top Header bar */}
+        <div className="flex items-center justify-between gap-3 mb-5">
+          <div className="flex items-center gap-2.5">
+            <Link
+              href="/shop"
+              className="text-xs font-bold text-neutral-500 hover:text-black no-underline"
+            >
+              ← Shop
+            </Link>
+            <span className="text-neutral-300">•</span>
+            <h1 className="text-xl sm:text-2xl font-black text-neutral-900 tracking-tight">
+              Express Checkout
+            </h1>
+          </div>
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-800 text-[11px] font-bold border border-emerald-500/20">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>100% Secure Checkout</span>
           </div>
-        </div>
-
-        {/* Header Title */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-black tracking-tight text-neutral-900">
-            Express Checkout<span className="text-[#FF4D24]">.</span>
-          </h1>
-          <p className="text-neutral-500 text-sm mt-1">
-            Complete your order in under 60 seconds with verified door-to-door tracking.
-          </p>
         </div>
 
         {/* Empty Bag Warning Banner */}
@@ -946,41 +995,18 @@ export default function CheckoutPage() {
           </div>
         )}
 
-        {/* Guest Checkout Active Notice */}
-        {!userId && !authChecking && (
-          <div className="mb-8 p-4 md:p-5 rounded-xl bg-neutral-100 border border-black/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div>
-                <h3 className="text-sm font-bold text-neutral-900">Direct Express Checkout</h3>
-                <p className="text-xs text-neutral-600 mt-0.5">
-                  No password required. Enter your delivery address below to complete order with Cash on Delivery (COD) or UPI.
-                </p>
-              </div>
-            </div>
-            <Link
-              href="/login?redirect=/checkout"
-              className="px-4 py-2 rounded-lg bg-white hover:bg-neutral-50 text-[#12100E] border border-black/10 text-xs font-bold transition-all shrink-0 text-center no-underline whitespace-nowrap"
-            >
-              Sign In (Optional) →
-            </Link>
-          </div>
-        )}
-
         {userId && (
-          <div className="mb-8 p-4 rounded-2xl bg-emerald-500/[0.08] border border-emerald-500/20 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-2.5">
-              <span className="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shrink-0">
+          <div className="mb-4 p-2.5 px-3.5 rounded-xl bg-emerald-500/[0.08] border border-emerald-500/20 flex items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2">
+              <span className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] font-bold shrink-0">
                 ✓
               </span>
-              <div>
-                <p className="text-xs font-bold text-emerald-950">Verified Shopper Account</p>
-                <p className="text-[11px] text-emerald-800">
-                  Signed in as <span className="font-semibold">{userEmail || email}</span>
-                </p>
-              </div>
+              <p className="text-emerald-950 font-semibold truncate">
+                Signed in as <span className="font-bold">{userEmail || email}</span>
+              </p>
             </div>
-            <Link href="/profile" className="text-xs font-bold text-emerald-900 hover:underline no-underline">
-              My Orders & Profile →
+            <Link href="/profile" className="text-xs font-bold text-emerald-900 hover:underline no-underline whitespace-nowrap">
+              My Orders →
             </Link>
           </div>
         )}
@@ -1038,11 +1064,11 @@ export default function CheckoutPage() {
                 </div>
               )}
 
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3.5">
                 {/* Email */}
                 <div>
-                  <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
-                    Email Address (For Courier Tracking Updates & GST Invoice) <span className="text-rose-500 font-bold">* (Compulsory)</span>
+                  <label className="block text-xs font-bold text-neutral-800 mb-1">
+                    Email Address <span className="text-neutral-400 font-normal text-[11px]">(for tracking updates &amp; invoice)</span>
                   </label>
                   <input
                     type="email"
@@ -1050,37 +1076,37 @@ export default function CheckoutPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@example.com"
-                    className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
+                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
                   />
                 </div>
 
                 {/* Contact Row: Full Name & Mobile */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
-                      Full Name <span className="text-rose-500 font-bold">* (Compulsory)</span>
+                    <label className="block text-xs font-bold text-neutral-800 mb-1">
+                      Full Name
                     </label>
                     <input
                       type="text"
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="First & Last name (for courier delivery)"
-                      className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
+                      placeholder="Your full name"
+                      className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
                     />
                   </div>
 
                   <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
-                        Mobile Number (10-Digit) <span className="text-rose-500 font-bold">* (Compulsory)</span>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-xs font-bold text-neutral-800">
+                        Mobile Number
                       </label>
-                      <span className="text-[10px] text-emerald-700 font-semibold flex items-center gap-1 font-mono">
-                        WhatsApp Tracking
+                      <span className="text-[10px] text-emerald-700 font-semibold font-mono">
+                        WhatsApp Alerts
                       </span>
                     </div>
                     <div className="flex rounded-xl border border-black/10 bg-neutral-50/50 overflow-hidden focus-within:border-[#FF4D24] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#FF4D24]/10 transition-all">
-                      <span className="inline-flex items-center gap-1.5 px-3 bg-neutral-100 text-neutral-700 text-xs font-mono font-bold border-r border-black/10 select-none">
+                      <span className="inline-flex items-center px-2.5 bg-neutral-100 text-neutral-700 text-xs font-mono font-bold border-r border-black/10 select-none">
                         +91
                       </span>
                       <input
@@ -1093,23 +1119,22 @@ export default function CheckoutPage() {
                         }}
                         placeholder="98765 43210"
                         maxLength={16}
-                        className="w-full px-3 py-3 text-sm bg-transparent text-neutral-900 outline-none placeholder:text-neutral-400"
+                        className="w-full px-3 py-2.5 text-sm bg-transparent text-neutral-900 outline-none placeholder:text-neutral-400"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* PIN Code Lookup Row (Positioned early so city & state auto-fill!) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-start">
                   <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
-                        {market === 'IN' ? '6-Digit PIN Code' : 'Postal / ZIP Code'} <span className="text-rose-500 font-bold">* (Compulsory)</span>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-xs font-bold text-neutral-800">
+                        {market === 'IN' ? '6-Digit PIN Code' : 'Postal / ZIP Code'}
                       </label>
                       {pincodeLoading && (
                         <span className="text-[10px] text-[#FF4D24] font-medium animate-pulse flex items-center gap-1">
-                          <span className="w-2 h-2 rounded-full bg-[#FF4D24] animate-ping" />
-                          Checking Postal Hub...
+                          Checking...
                         </span>
                       )}
                     </div>
@@ -1124,7 +1149,7 @@ export default function CheckoutPage() {
                           if (pincodeTimerRef.current) clearTimeout(pincodeTimerRef.current);
                           if (val.length === 6) {
                             if (!/^[1-9][0-9]{5}$/.test(val)) {
-                              setPincodeInfo({ city: '', state: '', valid: false, error: 'Indian PIN codes must start with digits 1-9' });
+                              setPincodeInfo({ city: '', state: '', valid: false, error: 'PIN must start with 1-9' });
                             } else {
                               pincodeTimerRef.current = setTimeout(() => {
                                 lookupPincode(val);
@@ -1134,52 +1159,41 @@ export default function CheckoutPage() {
                             setPincodeInfo(null);
                           }
                         }}
-                        placeholder={market === 'IN' ? 'e.g. 560001, 110001' : 'e.g. 10001'}
+                        placeholder={market === 'IN' ? 'e.g. 560001' : 'e.g. 10001'}
                         maxLength={6}
-                        className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 font-mono tracking-wider outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
+                        className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 font-mono tracking-wider outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
                       />
                       {zip.length === 6 && !pincodeLoading && (
-                        <span className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold">
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-bold">
                           ✓
                         </span>
                       )}
                     </div>
                   </div>
 
-                  <div className="flex flex-col justify-end">
+                  <div className="flex flex-col justify-end pt-0 sm:pt-6">
                     {pincodeLoading ? (
-                      <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-900 text-xs flex items-center gap-2">
-                        <span className="w-3.5 h-3.5 border-2 border-amber-600 border-t-transparent rounded-full animate-spin shrink-0" />
-                        <span className="text-[11px] font-semibold">Verifying Postal Hub via Delhivery Network…</span>
+                      <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-900 text-xs flex items-center gap-2">
+                        <span className="w-3 h-3 border-2 border-amber-600 border-t-transparent rounded-full animate-spin shrink-0" />
+                        <span className="text-[11px] font-semibold">Verifying Postal Hub…</span>
                       </div>
                     ) : pincodeInfo?.valid && pincodeInfo.city ? (
-                      <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-500/30 text-emerald-900 text-xs shadow-xs">
-                        <p className="font-bold flex items-center gap-1.5">
-                          <span>🟢</span> Express Air Serviceable to {pincodeInfo.city}, {pincodeInfo.state} (Est. 2–4 Days via Delhivery Air)
-                        </p>
-                        <p className="text-[11px] text-emerald-700 mt-0.5">
-                          Postal Hub: <strong>{pincodeInfo.city}</strong> • Priority Domestic Flight Manifested
-                        </p>
+                      <div className="p-2 rounded-xl bg-emerald-50 border border-emerald-500/30 text-emerald-900 text-xs flex items-center gap-1.5 font-bold">
+                        <span>🟢</span>
+                        <span className="text-[11px]">Express Air to {pincodeInfo.city}, {pincodeInfo.state}</span>
                       </div>
                     ) : pincodeInfo && !pincodeInfo.valid ? (
-                      <div className="p-2.5 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 text-xs shadow-xs">
-                        <p className="font-bold flex items-center gap-1.5">
-                          <span>⚠️</span> {pincodeInfo.error || 'Postal PIN not recognized. Please check your 6-digit PIN code.'}
-                        </p>
+                      <div className="p-2 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 text-xs">
+                        <span className="text-[11px] font-bold">⚠️ {pincodeInfo.error || 'PIN code not recognized'}</span>
                       </div>
-                    ) : (
-                      <div className="p-2.5 rounded-xl bg-neutral-100/70 border border-black/5 text-neutral-500 text-[11px]">
-                        <p className="font-semibold text-neutral-700">Pan-India Delivery Network</p>
-                        <p className="text-[10px] mt-0.5">Enter 6-digit PIN to auto-detect City & State</p>
-                      </div>
-                    )}
+                    ) : null}
                   </div>
                 </div>
 
                 {/* Structured Address: Flat / House No. & Building */}
                 <div>
-                  <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
-                    Flat / House No., Floor, Building / Society Name <span className="text-rose-500 font-bold">* (Compulsory)</span>
+                  <label className="block text-xs font-bold text-neutral-800 mb-1">
+                    House / Flat No., Floor &amp; Building
                   </label>
                   <input
                     type="text"
@@ -1187,69 +1201,64 @@ export default function CheckoutPage() {
                     value={flatHouse}
                     onChange={(e) => setFlatHouse(e.target.value)}
                     placeholder="e.g. Flat 402, Sunshine Heights, 4th Floor"
-                    className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
+                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
                   />
                 </div>
 
                 {/* Structured Address: Street / Area / Sector */}
                 <div>
-                  <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
-                    Street, Colony, Sector, Locality / Area <span className="text-rose-500 font-bold">* (Compulsory)</span>
+                  <label className="block text-xs font-bold text-neutral-800 mb-1">
+                    Street, Area &amp; Locality
                   </label>
                   <input
                     type="text"
                     required
                     value={areaStreet}
                     onChange={(e) => setAreaStreet(e.target.value)}
-                    placeholder="e.g. 12th Main Road, HAL 2nd Stage, Indiranagar"
-                    className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
+                    placeholder="e.g. 12th Main Road, Indiranagar"
+                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
                   />
                 </div>
 
-                {/* Landmark (Indian Delivery Courier Essential!) */}
+                {/* Landmark */}
                 <div>
-                  <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
-                    Famous Landmark <span className="text-neutral-400 font-normal">(Optional — Helps Delivery Rider Find Your Door)</span>
+                  <label className="block text-xs font-bold text-neutral-800 mb-1">
+                    Landmark <span className="text-neutral-400 font-normal text-[11px]">(Optional)</span>
                   </label>
                   <input
                     type="text"
                     value={landmark}
                     onChange={(e) => setLandmark(e.target.value)}
-                    placeholder="e.g. Near Metro Station / Opp. SBI Bank / Behind Community Park"
-                    className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
+                    placeholder="e.g. Near Metro Station / Opp. SBI Bank"
+                    className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
                   />
                 </div>
 
                 {/* City & State (Auto-filled from PIN with matching validation) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
-                      City / District <span className="text-rose-500 font-bold">* (Compulsory)</span>
+                    <label className="block text-xs font-bold text-neutral-800 mb-1">
+                      City
                     </label>
                     <input
                       type="text"
                       required
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
-                      placeholder="e.g. Bengaluru, Varanasi, Delhi"
-                      className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
+                      placeholder="e.g. Bengaluru"
+                      className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all placeholder:text-neutral-400"
                     />
-                    {pincodeInfo?.city && city && (
-                      <p className="mt-1 text-[11px] text-emerald-700 font-bold flex items-center gap-1">
-                        <span>✓</span> Verified Postal District: {pincodeInfo.city}
-                      </p>
-                    )}
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold text-neutral-700 uppercase tracking-wider mb-1.5">
-                      State / Union Territory <span className="text-rose-500 font-bold">* (Compulsory)</span>
+                    <label className="block text-xs font-bold text-neutral-800 mb-1">
+                      State
                     </label>
                     <select
                       required
                       value={state}
                       onChange={(e) => setState(e.target.value)}
-                      className="w-full px-4 py-3 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all cursor-pointer"
+                      className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-black/10 bg-neutral-50/50 text-neutral-900 outline-none focus:border-[#FF4D24] focus:bg-white focus:ring-2 focus:ring-[#FF4D24]/10 transition-all cursor-pointer"
                     >
                       <option value="">Select State</option>
                       {INDIAN_STATES.map((s) => (
@@ -1258,54 +1267,29 @@ export default function CheckoutPage() {
                         </option>
                       ))}
                     </select>
-
-                    {/* Live State & PIN Code Match Indicator / Warning */}
-                    {pincodeInfo?.state && state && normalizeIndianState(state).toLowerCase() !== normalizeIndianState(pincodeInfo.state).toLowerCase() && (
-                      <div className="mt-2 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs flex items-center justify-between gap-2">
-                        <span className="flex items-center gap-1.5">
-                          <span>⚠️</span>
-                          <span>PIN <strong>{zip}</strong> is in <strong>{normalizeIndianState(pincodeInfo.state)}</strong>.</span>
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => setState(normalizeIndianState(pincodeInfo.state))}
-                          className="px-2.5 py-1 rounded-lg bg-amber-600 text-white font-bold text-[10px] hover:bg-amber-700 shrink-0 cursor-pointer"
-                        >
-                          Align to {normalizeIndianState(pincodeInfo.state)}
-                        </button>
-                      </div>
-                    )}
-                    {pincodeInfo?.state && state && normalizeIndianState(state).toLowerCase() === normalizeIndianState(pincodeInfo.state).toLowerCase() && (
-                      <p className="mt-1 text-[11px] text-emerald-700 font-bold flex items-center gap-1">
-                        <span>✓</span> Matches PIN Postal State ({normalizeIndianState(pincodeInfo.state)})
-                      </p>
-                    )}
                   </div>
                 </div>
 
                 {/* Address Type Tagging */}
-                <div>
-                  <label className="block text-[11px] font-bold text-neutral-600 uppercase tracking-wider mb-2">
-                    Address Type (Delivery Instructions)
-                  </label>
-                  <div className="grid grid-cols-3 gap-2.5">
+                <div className="flex items-center gap-2.5 pt-1">
+                  <span className="text-xs font-bold text-neutral-700">Type:</span>
+                  <div className="inline-flex gap-1 bg-neutral-100 p-1 rounded-xl">
                     {[
-                      { id: 'home', label: 'Home', sub: '9 AM - 9 PM, All Days' },
-                      { id: 'office', label: 'Work / Office', sub: '10 AM - 6 PM, Mon-Sat' },
-                      { id: 'other', label: 'Other', sub: 'Anytime' },
+                      { id: 'home', label: '🏠 Home' },
+                      { id: 'office', label: '🏢 Work' },
+                      { id: 'other', label: '📍 Other' },
                     ].map((t) => (
                       <button
                         key={t.id}
                         type="button"
                         onClick={() => setAddressType(t.id as any)}
-                        className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border-none ${
                           addressType === t.id
-                            ? 'border-[#FF4D24] bg-[#FF4D24]/[0.06] text-neutral-950 font-bold shadow-xs'
-                            : 'border-black/10 bg-neutral-50/40 text-neutral-700 hover:border-black/20'
+                            ? 'bg-white text-neutral-950 shadow-xs'
+                            : 'bg-transparent text-neutral-600 hover:text-black'
                         }`}
                       >
-                        <div className="text-xs font-bold leading-tight">{t.label}</div>
-                        <div className="text-[10px] text-neutral-500 mt-0.5 leading-tight">{t.sub}</div>
+                        {t.label}
                       </button>
                     ))}
                   </div>
@@ -1322,38 +1306,6 @@ export default function CheckoutPage() {
                   autoComplete="off"
                   aria-hidden="true"
                 />
-              </div>
-            </div>
-
-            {/* Express Doorstep Delivery & Tracking Guarantee */}
-            <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-500/[0.08] via-emerald-500/[0.04] to-transparent border border-emerald-500/25 flex flex-wrap items-center justify-between gap-3 shadow-sm">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-800 flex items-center justify-center text-xl shrink-0">
-                  ⚡
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <p className="text-xs font-black text-emerald-950 uppercase tracking-wider">
-                      Doorstep Delivery ETA
-                    </p>
-                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
-                      Delhivery Air Express
-                    </span>
-                  </div>
-                  <p className="text-sm font-extrabold text-neutral-900 mt-0.5">
-                    {(() => {
-                      const start = new Date();
-                      start.setDate(start.getDate() + 3);
-                      const end = new Date();
-                      end.setDate(end.getDate() + 5);
-                      return `${start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
-                    })()}{' '}
-                    <span className="text-xs font-medium text-neutral-500">(3–5 Business Days)</span>
-                  </p>
-                </div>
-              </div>
-              <div className="text-[10px] font-mono font-bold text-neutral-600 flex items-center gap-1.5 bg-white px-3 py-1.5 rounded border border-black/5">
-                <span>SMS &amp; WhatsApp Tracking Alerts</span>
               </div>
             </div>
 
@@ -1625,51 +1577,6 @@ export default function CheckoutPage() {
                 </span>
               </div>
 
-              {/* Quick Payment Preference Cards */}
-              <div className="mb-4">
-                <label className="block text-[11px] font-bold text-neutral-300 uppercase tracking-wider mb-2">
-                  Payment Preference
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => handleSelectPaymentMethod('online')}
-                    className={`p-3 rounded-2xl text-left border transition-all cursor-pointer flex flex-col justify-between ${
-                      paymentMethod === 'online'
-                        ? 'border-[#FF4D24] bg-[#FF4D24]/20 ring-1 ring-[#FF4D24] text-white shadow-md'
-                        : 'border-white/10 bg-white/5 hover:bg-white/10 text-neutral-300'
-                    }`}
-                  >
-                    <div className="flex items-center gap-1.5 font-black text-xs">
-                      <span>⚡</span>
-                      <span>Pay via UPI</span>
-                    </div>
-                    <span className="text-[10px] text-emerald-400 font-bold mt-1">
-                      Extra ₹30 OFF via PREPAID30 • Free Air
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    disabled={isAboveCodThreshold}
-                    onClick={() => handleSelectPaymentMethod('cod')}
-                    className={`p-3 rounded-2xl text-left border transition-all cursor-pointer flex flex-col justify-between ${
-                      paymentMethod === 'cod'
-                        ? 'border-[#FF4D24] bg-[#FF4D24]/20 ring-1 ring-[#FF4D24] text-white shadow-md'
-                        : isAboveCodThreshold
-                        ? 'border-white/5 bg-white/[0.02] text-neutral-500 opacity-60 cursor-not-allowed'
-                        : 'border-white/10 bg-white/5 hover:bg-white/10 text-neutral-300'
-                    }`}
-                  >
-                    <div className="flex items-center gap-1.5 font-bold text-xs">
-                      <span>Cash on Delivery</span>
-                    </div>
-                    <span className="text-[10px] text-amber-400 font-bold mt-1">
-                      {isAboveCodThreshold ? 'Cap: <₹3,000' : 'Pay at Doorstep'}
-                    </span>
-                  </button>
-                </div>
-              </div>
-
               {/* Error Box above Place Order button */}
               {error && (
                 <div className="mb-4 p-3.5 rounded-2xl bg-rose-500/20 border border-rose-500/40 text-rose-200 text-xs font-bold">
@@ -1688,20 +1595,6 @@ export default function CheckoutPage() {
                   )}
                 </div>
               )}
-
-              {/* Why Zero Customers Regret Their Fit Reassurance Strip */}
-              <div className="mb-4 p-3 rounded-2xl bg-white/[0.04] border border-white/10 text-center">
-                <p className="text-[10px] font-black uppercase tracking-wider text-neutral-400 mb-1.5">
-                  Why Zero Customers Regret Their Fit
-                </p>
-                <div className="text-xs text-neutral-200 flex items-center justify-between gap-1 font-medium">
-                  <span>📏 Exact Chest Size Verified</span>
-                  <span className="text-neutral-600">•</span>
-                  <span>🧶 Heavyweight Bio-Washed Cotton</span>
-                  <span className="text-neutral-600">•</span>
-                  <span>🔄 7-Day Returns</span>
-                </div>
-              </div>
 
               {/* COD Email OTP Verification Card */}
               {paymentMethod === 'cod' && (
@@ -1972,6 +1865,31 @@ export default function CheckoutPage() {
               </button>
             </div>
           </div>
+        </div>
+      )}
+      {/* Mobile Sticky Floating Checkout Bar */}
+      {detailed.length > 0 && (
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-black/10 px-4 py-2.5 flex items-center justify-between gap-3 shadow-[0_-6px_25px_rgba(0,0,0,0.12)]">
+          <div className="min-w-0">
+            <span className="block text-[10px] text-neutral-500 font-bold uppercase tracking-wider">Total</span>
+            <span className="text-base font-black text-neutral-900 leading-tight">
+              {formatCheckoutPrice(total)}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={pay}
+            disabled={loading || processing}
+            className="px-6 py-2.5 rounded-full font-black text-xs uppercase tracking-wider text-white bg-gradient-to-r from-[#FF4D24] to-[#FF6B35] shadow-md active:scale-95 transition-all border-none cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+          >
+            {loading || processing ? (
+              <span>Processing…</span>
+            ) : paymentMethod === 'cod' ? (
+              <span>{isCodOtpVerified ? 'Place COD Order' : 'Complete COD'}</span>
+            ) : (
+              <span>Pay via UPI →</span>
+            )}
+          </button>
         </div>
       )}
     </main>
