@@ -60,8 +60,8 @@ const CATEGORY_TABS = [
 const ASSURANCES = [
   {
     icon: Truck,
-    title: 'Free Express Air Delivery',
-    desc: 'Pan-India air dispatch via BlueDart & Delhivery Air. Free delivery on all orders.',
+    title: 'Free Prepaid Delivery',
+    desc: 'Pan-India air dispatch via BlueDart & Delhivery Air. 100% free delivery on all prepaid orders.',
   },
   {
     icon: ShieldCheck,

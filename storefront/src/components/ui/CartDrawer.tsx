@@ -496,7 +496,7 @@ export default function CartDrawer() {
               </div>
 
               <div className="flex justify-between text-xs mb-3 text-neutral-600 font-medium">
-                <span>Shipping (Express Air)</span>
+                <span>Prepaid Delivery (Express Air)</span>
                 <span className="text-emerald-700 font-bold">FREE</span>
               </div>
 
@@ -512,8 +512,8 @@ export default function CartDrawer() {
                     <span>⚡</span>
                     <span>
                       {subtotal >= 449
-                        ? 'FREE Pan-India Express Air Shipping & ₹30 UPI Off'
-                        : 'FREE Pan-India Express Air Shipping Active'}
+                        ? 'FREE Prepaid Express Air Delivery & ₹30 UPI Off'
+                        : 'FREE Prepaid Express Air Delivery Active'}
                     </span>
                   </span>
                   <span className="text-[10px] font-mono text-emerald-700 font-extrabold">

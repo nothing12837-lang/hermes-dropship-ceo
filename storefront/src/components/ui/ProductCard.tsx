@@ -325,7 +325,7 @@ export default function ProductCard({
 
             <div className="text-[10px] sm:text-[11px] text-neutral-500 font-medium mt-1.5 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#059669] pulse-live-dot" />
-              <span>Verified Seller Sourcing • Free Delivery</span>
+              <span>Verified Seller Sourcing • Free Prepaid Delivery</span>
             </div>
           </div>
         </div>

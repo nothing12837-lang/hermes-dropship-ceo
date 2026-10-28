@@ -2175,7 +2175,7 @@ export function ProductClient({ product }: Props) {
                     </span>
                   )}
                   <span className="inline-flex items-center px-2.5 py-1 rounded bg-black/5 text-neutral-700 font-semibold border border-black/10">
-                    2–4 Business Days (BlueDart &amp; Delhivery Air)
+                    Free Prepaid Air Delivery • 2–4 Business Days
                   </span>
                 </div>
               );
@@ -3296,7 +3296,7 @@ export function ProductClient({ product }: Props) {
 
                 {/* Dispatch Reassurance */}
                 <div className="flex items-center justify-center gap-1.5 text-xs text-neutral-600 font-medium text-center">
-                  <span>Dispatched direct from verified domestic makers • 2–4 Business Days (Express Air Included)</span>
+                  <span>Dispatched direct from verified domestic makers • Free Prepaid Air Delivery</span>
                 </div>
 
                 {/* Secondary Row: Quantity, Add to Bag, Wishlist */}

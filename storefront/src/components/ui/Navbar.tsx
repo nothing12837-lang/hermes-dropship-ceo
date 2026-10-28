@@ -86,7 +86,7 @@ export default function Navbar() {
       <header className="fixed top-0 left-0 right-0 z-[100]">
         {/* Top Announcement Bar */}
         <div className="bg-zinc-950 text-[#FAF8F5] text-[11px] py-1.5 px-3 text-center tracking-wide font-medium flex items-center justify-center gap-1.5 border-b border-white/5">
-          <span>⚡ ₹30 OFF ON UPI • FREE EXPRESS AIR DELIVERY • 7-DAY EASY RETURNS</span>
+          <span>⚡ FREE PREPAID DELIVERY • EXTRA ₹30 OFF ON UPI • 7-DAY EASY RETURNS</span>
         </div>
 
         {/* Desktop Navbar (>= lg) */}
@@ -303,7 +303,7 @@ export default function Navbar() {
 
               <div className="mt-auto p-4 border-t border-white/10 bg-black/40">
                 <p className="text-xs text-white/60 font-medium leading-relaxed">
-                  Pan-India express air dispatch. Free delivery on all orders.
+                  Pan-India express air dispatch. Free prepaid delivery on all orders.
                 </p>
               </div>
             </motion.aside>

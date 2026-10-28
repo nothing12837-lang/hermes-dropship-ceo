@@ -29,7 +29,7 @@ export default function Footer() {
             </p>
             <div className="flex flex-wrap items-center gap-2 pt-2">
               <span className="inline-flex items-center px-3 py-1 rounded bg-white/5 border border-white/10 text-white/70 text-[11px] font-medium">
-                Pan-India Express Air Dispatch
+                Pan-India Express Air Dispatch • Free Prepaid Delivery
               </span>
               <GoogleCustomerReviewsBadge variant="inline" />
             </div>

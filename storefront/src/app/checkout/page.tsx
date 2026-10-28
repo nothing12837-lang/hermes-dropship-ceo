@@ -1399,7 +1399,7 @@ export default function CheckoutPage() {
                     </p>
                     <div className="mt-2 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60 inline-flex items-center gap-1.5">
                       <span>⚡</span>
-                      <span>Extra ₹30 OFF via PREPAID30 • Free Express Air Delivery</span>
+                      <span>Extra ₹30 OFF via PREPAID30 • Free Prepaid Delivery</span>
                     </div>
                   </div>
                 </label>
@@ -1605,7 +1605,7 @@ export default function CheckoutPage() {
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span>Standard Shipping</span>
+                  <span>Prepaid Express Delivery</span>
                   <span className="font-bold text-emerald-400 flex items-center gap-1">
                     FREE ⚡
                   </span>

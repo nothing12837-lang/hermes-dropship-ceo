@@ -6,16 +6,16 @@ export const COPY = {
   brand: 'Rare Ember',
   slogan: 'Heavyweight streetwear and graphic drops. Crafted in India.',
   tagline: '240 GSM combed cotton tees, heavyweight full sleeve drops, and functional lifestyle goods.',
-  promise: 'Pan-India express air dispatch • Free delivery • 7-day easy returns',
+  promise: 'Pan-India express air dispatch • Free prepaid delivery • 7-day easy returns',
 
   trustBar: [
     { title: 'Express Air Dispatch', sub: 'Fast air shipping via BlueDart & Delhivery' },
     { title: 'Verified Seller Sourcing', sub: 'Bio-washed combed cotton & dense fleece' },
-    { title: 'Transparent Pricing', sub: 'All taxes included • 100% Free delivery' },
+    { title: 'Transparent Pricing', sub: 'All taxes included • 100% Free prepaid delivery' },
     { title: '7-Day Easy Returns', sub: 'Hassle-free 7-day doorstep returns' },
   ],
 
-  announcement: 'Pan-India express air delivery • Free delivery on all orders • Cash on Delivery available',
+  announcement: 'Pan-India express air delivery • Free prepaid delivery on all orders • Cash on Delivery available',
 
   footer: {
     blurb: 'Independent Indian streetwear. Engineered from heavyweight combed cotton and architectural cuts. Dispatched direct from verified makers with zero middleman markup.',
