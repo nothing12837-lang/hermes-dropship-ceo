@@ -32,7 +32,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const { market, setMarket } = useGeo();
+  const { market } = useGeo();
   const { count, openCart } = useCart();
   const { count: wishCount } = useWishlist();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -158,19 +158,14 @@ export default function Navbar() {
                 {session ? 'Account' : 'Sign In'}
               </Link>
 
-              {/* Market Switcher */}
-              <button
-                onClick={() => {
-                  const next = market === 'IN' ? 'GLOBAL' : 'IN';
-                  setMarket(next);
-                  router.refresh();
-                }}
-                title={`Market: ${market === 'IN' ? 'India (INR)' : 'Global (USD)'}`}
-                className="text-xs font-bold px-2.5 py-1.5 rounded-lg border border-black/10 bg-white/90 text-[#0D0D0F] flex items-center gap-1.5 cursor-pointer hover:border-black/30 transition-colors"
+              {/* Currency Badge */}
+              <div
+                title="Pan-India Air Dispatch"
+                className="text-xs font-bold px-2.5 py-1.5 rounded-lg border border-black/10 bg-white/90 text-[#0D0D0F] flex items-center gap-1.5 select-none"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-[#059669] pulse-live-dot" />
-                <span>{market === 'IN' ? 'INR (₹)' : 'USD ($)'}</span>
-              </button>
+                <span>INR (₹)</span>
+              </div>
 
               {/* Cart Trigger */}
               <button

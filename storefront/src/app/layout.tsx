@@ -66,11 +66,11 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    locale: 'en_US',
+    locale: 'en_IN',
     url: siteUrl,
-    siteName: 'RareEmber',
-    title: 'RareEmber™ — Curated Tech, Fashion & Modern Home Living',
-    description: 'Trending electronics, curated fashion, and lifestyle essentials delivered fast. 100% Secure Checkout with Razorpay & Cash on Delivery.',
+    siteName: 'Rare Ember',
+    title: 'Rare Ember — Independent Heavyweight Streetwear & Graphic Drops',
+    description: '240 GSM combed cotton oversized streetwear, creator desk gear, and original graphic drops with free Pan-India delivery.',
     images: [
       {
         url: '/rareember-logo.png',
@@ -82,8 +82,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'RareEmber™ — Curated Living & Express Delivery',
-    description: 'Trending electronics, curated fashion, and lifestyle essentials delivered fast.',
+    title: 'Rare Ember — Heavyweight Streetwear & Graphic Drops',
+    description: '240 GSM combed cotton oversized streetwear, creator desk gear, and original graphic drops with free Pan-India delivery.',
     images: ['/rareember-logo.png'],
     creator: '@rareember',
   },
@@ -153,8 +153,8 @@ export default function RootLayout({
               image: `${siteUrl}/icon-512.png`,
               description:
                 'Rare Ember is an Indian direct-to-consumer streetwear and creator lifestyle brand specializing in 240 GSM bio-washed oversized graphic tees, heavyweight full sleeve drops, custom creator drops, and aesthetic desk gear with express Pan-India delivery and Cash on Delivery.',
-              priceRange: '₹299 - ₹1,499',
-              currenciesAccepted: 'INR, USD',
+              priceRange: '₹699 - ₹1,899',
+              currenciesAccepted: 'INR',
               paymentAccepted: 'Cash on Delivery, UPI, Credit Card, Debit Card, NetBanking',
               founder: {
                 '@type': 'Person',
@@ -177,7 +177,7 @@ export default function RootLayout({
                 email: 'support@rareember.shop',
                 contactType: 'customer service',
                 availableLanguage: ['English', 'Hindi'],
-                areaServed: ['IN', 'US', 'GB', 'CA', 'AU', 'AE'],
+                areaServed: ['IN'],
               },
               hasMerchantReturnPolicy: {
                 '@type': 'MerchantReturnPolicy',
