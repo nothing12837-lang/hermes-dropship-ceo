@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getProductFromDB } from '@/lib/products-server';
+import { isKidsProduct } from '@/lib/data/products';
 import { getServiceSupabase } from '@/lib/supabase-server';
 import { ProductClient } from './ProductClient';
 
@@ -15,9 +16,12 @@ const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
+  if (/gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs/i.test(id)) {
+    notFound();
+  }
   const product = await getProductFromDB(id);
 
-  if (!product) notFound();
+  if (!product || isKidsProduct(product)) notFound();
 
   const cleanSlug = product.slug || product.id;
   const currentPrice = product.price_inr || product.price || 999;
@@ -64,9 +68,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductPage({ params }: Props) {
   const { id } = await params;
+  if (/gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs/i.test(id)) {
+    notFound();
+  }
   const product = await getProductFromDB(id);
 
-  if (!product) notFound();
+  if (!product || isKidsProduct(product)) notFound();
 
   const cleanSlug = (product.slug || product.id).replace(/^meesho-/, '');
   // Automatically redirect legacy, raw supplier, or old qikink- SKU links to clean brand URL

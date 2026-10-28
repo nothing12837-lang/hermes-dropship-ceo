@@ -3,6 +3,7 @@ import { normalizeIndianState } from '@/app/checkout/page';
 import { getProductFromDB } from '@/lib/products-server';
 import {
   sortSizes,
+  formatSizeRange,
   getGarmentSpecBadge,
   enforcePriceFloor,
   products,
@@ -52,14 +53,14 @@ describe('Product Catalog Resolution (Zero 404 Glitches)', () => {
 
 describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
   it('enforces updated price floors for key drops and bundles', () => {
-    // Unisex Oversized Jersey: ₹799 (M.R.P. ₹1,399)
+    // Unisex Oversized Jersey: ₹849 (M.R.P. ₹1,499)
     const jersey = enforcePriceFloor({
       id: 'qikink-32476280-unisex-oversized-jersey',
       title: 'Unisex Oversized Jersey — Creator Edition',
       price: 489,
     } as any);
-    expect(jersey.price).toBe(799);
-    expect(jersey.compareAtPrice).toBe(1399);
+    expect(jersey.price).toBe(849);
+    expect(jersey.compareAtPrice).toBe(1499);
 
     // 240 GSM Unisex Oversized Standard T-Shirt: ₹849 (M.R.P. ₹1,499)
     const tee = enforcePriceFloor({
@@ -106,22 +107,22 @@ describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
     expect(workstation.price).toBe(1899);
     expect(workstation.compareAtPrice).toBe(3199);
 
-    // Women's Classic Tee, Crop Top, Tank Top, Sleeveless: min ₹699 (M.R.P. ₹1,199)
+    // Women's Classic Tee, Crop Top, Tank Top, Sleeveless: min ₹749 (M.R.P. ₹1,299)
     const crop = enforcePriceFloor({
       id: 'qikink-64953748-crop-top',
       title: "Women's Graphic Crop Top",
       price: 399,
     } as any);
-    expect(crop.price).toBe(699);
-    expect(crop.compareAtPrice).toBe(1199);
+    expect(crop.price).toBe(749);
+    expect(crop.compareAtPrice).toBe(1299);
 
     const sleeveless = enforcePriceFloor({
       id: 'qikink-64953600-sleeveless',
       title: "Men's Sleeveless Athletic Tee",
       price: 499,
     } as any);
-    expect(sleeveless.price).toBe(699);
-    expect(sleeveless.compareAtPrice).toBe(1199);
+    expect(sleeveless.price).toBe(749);
+    expect(sleeveless.compareAtPrice).toBe(1299);
 
     // Men's Polo (220 GSM): min ₹799 (M.R.P. ₹1,399)
     const polo = enforcePriceFloor({
@@ -141,22 +142,23 @@ describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
     expect(vneck.price).toBe(849);
     expect(vneck.compareAtPrice).toBe(1499);
 
-    // French Terry Oversized Tee / Full-Sleeve Tee / T-Shirt Dress / Acid Wash: min ₹949 (M.R.P. ₹1,699)
+    // Full-Sleeve Tee / T-Shirt Dress: min ₹999 (M.R.P. ₹1,799)
     const fullSleeve = enforcePriceFloor({
       id: 'qikink-64953648-full-sleeve',
       title: "Men's Full Sleeve T-Shirt",
       price: 699,
     } as any);
-    expect(fullSleeve.price).toBe(949);
-    expect(fullSleeve.compareAtPrice).toBe(1699);
+    expect(fullSleeve.price).toBe(999);
+    expect(fullSleeve.compareAtPrice).toBe(1799);
 
+    // 240 GSM Oversized Acid Wash: min ₹849 (M.R.P. ₹1,499)
     const acidWash = enforcePriceFloor({
       id: 'qikink-32476620-acid-wash-tee',
       title: "Vintage Acid-Wash Oversized Heavyweight Tee",
       price: 699,
     } as any);
-    expect(acidWash.price).toBe(949);
-    expect(acidWash.compareAtPrice).toBe(1699);
+    expect(acidWash.price).toBe(849);
+    expect(acidWash.compareAtPrice).toBe(1499);
 
     // 320 GSM Crewneck Sweatshirt & Heavyweight Joggers: min ₹1,099 (M.R.P. ₹1,899)
     const sweatshirt = enforcePriceFloor({
@@ -175,14 +177,14 @@ describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
     expect(joggers.price).toBe(1099);
     expect(joggers.compareAtPrice).toBe(1899);
 
-    // 380 GSM Heavyweight Winter Hoodie: min ₹1,399 (M.R.P. ₹2,299)
+    // 380 GSM Heavyweight Winter Hoodie: min ₹1,399 (M.R.P. ₹2,699)
     const hoodie = enforcePriceFloor({
       id: 'qikink-heavyweight-hoodie',
       title: "380 GSM Heavyweight Winter Hoodie",
       price: 999,
     } as any);
     expect(hoodie.price).toBe(1399);
-    expect(hoodie.compareAtPrice).toBe(2299);
+    expect(hoodie.compareAtPrice).toBe(2699);
 
     // 350 GSM Contrast-Sleeve Varsity Jacket & Bomber Jacket: min ₹1,499 (M.R.P. ₹2,599)
     const varsityJacket = enforcePriceFloor({
@@ -250,6 +252,15 @@ describe('Glitches Fix 2: Canonical Size Ordering (Eliminating Sizes S–XS)', (
     const sorted = sortSizes(unsorted);
     expect(sorted).toEqual(['S', 'M', 'L', 'XL', '2XL', '3XL']);
     expect(`Sizes ${sorted[0]}–${sorted[sorted.length - 1]}`).toBe('Sizes S–3XL');
+  });
+
+  it('formats size ranges correctly without ever outputting S–XS or XS–5XL', () => {
+    expect(formatSizeRange(['S', 'M', 'L', 'XL', 'XXL', 'XS'])).toBe('Sizes XS–XXL');
+    expect(formatSizeRange(['S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL', 'XS', '5XL'])).toBe('Sizes XS–3XL');
+    expect(formatSizeRange(['S', 'M', 'L', 'XL'])).toBe('Sizes S–XL');
+    expect(formatSizeRange(['S', 'M', 'L', 'XL', '2XL', '3XL'])).toBe('Sizes S–3XL');
+    expect(formatSizeRange(['900x400mm'])).toBe('900x400mm');
+    expect(formatSizeRange(['11 Oz (330ml)'])).toBe('11 Oz (330ml)');
   });
 
   it('correctly sorts kids sizes without confusing letter M with adult Medium', () => {
@@ -377,22 +388,22 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
     expect(zeroPrice.compareAtPrice).toBe(1499);
   });
 
-  it('preserves 38-45% profit margin on 240 GSM Unisex Raglan & Ringer Tees with ₹849 floor', () => {
+  it('preserves profit margin on Standard Crew, Raglan & Ringer Tees with ₹749 floor', () => {
     const raglan = enforcePriceFloor({
       id: 'qikink-32476636-unisex-raglan-t-shirt',
       title: 'Unisex Raglan T-Shirt — Namaste Hustle Graphic',
       price: 699,
     } as any);
-    expect(raglan.price).toBe(849);
-    expect(raglan.compareAtPrice).toBe(1499);
+    expect(raglan.price).toBe(749);
+    expect(raglan.compareAtPrice).toBe(1299);
 
     const ringer = enforcePriceFloor({
       id: 'qikink-32476299-unisex-ringer-t-shirt',
       title: 'Unisex Ringer T-Shirt — Urban Retro Graphic',
       price: 699,
     } as any);
-    expect(ringer.price).toBe(849);
-    expect(ringer.compareAtPrice).toBe(1499);
+    expect(ringer.price).toBe(749);
+    expect(ringer.compareAtPrice).toBe(1299);
   });
 
   it('expands bundle-workstation into 380 GSM Heavyweight Hoodie and 900x400mm Desk Mat', () => {

@@ -17,7 +17,7 @@
     "price": 999,
     "price_inr": 999,
     "compareAtPrice": 1749,
-    "compare_at_price": 1749,
+    "compare_at_price": 1799,
     "old_price": 1199,
     "rating": 4.9,
     "reviews": 68,
@@ -92,10 +92,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 649,
-    "price_inr": 649,
+    "price": 849,
+    "price_inr": 849,
     "compareAtPrice": 1199,
-    "compare_at_price": 1199,
+    "compare_at_price": 1499,
     "rating": 4.8,
     "reviews": 200,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476431/images/Front_1_c_1.jpg",
@@ -122,12 +122,12 @@
       "Beige"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
-      "XXL",
-      "XS"
+      "XXL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476431/images/Front_1_c_1.jpg",
@@ -170,7 +170,7 @@
     "price": 999,
     "price_inr": 999,
     "compareAtPrice": 1749,
-    "compare_at_price": 1749,
+    "compare_at_price": 1799,
     "rating": 4.8,
     "reviews": 110,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476824/images/Front_1_c_1.jpg",
@@ -242,10 +242,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 799,
-    "price_inr": 799,
+    "price": 849,
+    "price_inr": 849,
     "compareAtPrice": 1449,
-    "compare_at_price": 1449,
+    "compare_at_price": 1499,
     "rating": 4.8,
     "reviews": 185,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476620/images/Front_1_c_1.jpg",
@@ -277,13 +277,13 @@
       "Off White"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
       "XXL",
-      "3XL",
-      "XS"
+      "3XL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476620/images/Front_1_c_1.jpg",
@@ -328,10 +328,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 679,
-    "price_inr": 679,
+    "price": 849,
+    "price_inr": 849,
     "compareAtPrice": 1299,
-    "compare_at_price": 1299,
+    "compare_at_price": 1499,
     "rating": 4.8,
     "reviews": 245,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476280/images/Front_1_c_1.jpg",
@@ -348,12 +348,12 @@
       "White"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
-      "XXL",
-      "XS"
+      "XXL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476280/images/Front_1_c_1.jpg"
@@ -387,10 +387,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 749,
-    "price_inr": 749,
+    "price": 849,
+    "price_inr": 849,
     "compareAtPrice": 1349,
-    "compare_at_price": 1349,
+    "compare_at_price": 1499,
     "rating": 4.8,
     "reviews": 205,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476332/images/Front_1_c_1.jpg",
@@ -426,12 +426,12 @@
       "Mint"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
-      "XXL",
-      "XS"
+      "XXL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476332/images/Front_1_c_1.jpg",
@@ -480,10 +480,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 749,
-    "price_inr": 749,
+    "price": 849,
+    "price_inr": 849,
     "compareAtPrice": 1349,
-    "compare_at_price": 1349,
+    "compare_at_price": 1499,
     "rating": 4.8,
     "reviews": 170,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476663/images/Front_1_c_1.jpg",
@@ -509,14 +509,13 @@
       "Beige"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
       "XXL",
-      "3XL",
-      "4XL",
-      "XS"
+      "3XL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476663/images/Front_1_c_1.jpg",
@@ -555,10 +554,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 699,
-    "price_inr": 699,
+    "price": 749,
+    "price_inr": 749,
     "compareAtPrice": 1199,
-    "compare_at_price": 1199,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 175,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476636/images/Front_1_c_11.jpg",
@@ -620,10 +619,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 749,
-    "price_inr": 749,
+    "price": 849,
+    "price_inr": 849,
     "compareAtPrice": 1349,
-    "compare_at_price": 1349,
+    "compare_at_price": 1499,
     "rating": 4.8,
     "reviews": 230,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476295/images/Front_1_c_11.jpg",
@@ -647,12 +646,12 @@
       "Coffee Brown off white"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
-      "XXL",
-      "XS"
+      "XXL"
     ],
     "colorImages": {
       "Black Charcoal Melange": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476295/images/Front_1_c_11.jpg",
@@ -689,10 +688,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 699,
-    "price_inr": 699,
+    "price": 749,
+    "price_inr": 749,
     "compareAtPrice": 1199,
-    "compare_at_price": 1199,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 220,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476313/images/Front_1_c_2.jpg",
@@ -725,14 +724,13 @@
       "New Yellow"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
       "XXL",
-      "3XL",
-      "4XL",
-      "XS"
+      "3XL"
     ],
     "colorImages": {
       "Black": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476313/images/Front_1_c_2.jpg",
@@ -778,10 +776,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 699,
-    "price_inr": 699,
+    "price": 749,
+    "price_inr": 749,
     "compareAtPrice": 1199,
-    "compare_at_price": 1199,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 225,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476299/images/Front_1_c_16.jpg",
@@ -805,12 +803,12 @@
       "Maroon off white"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
-      "XXL",
-      "XS"
+      "XXL"
     ],
     "colorImages": {
       "Black White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476299/images/Front_1_c_16.jpg",
@@ -850,7 +848,7 @@
     "price": 849,
     "price_inr": 849,
     "compareAtPrice": 1449,
-    "compare_at_price": 1449,
+    "compare_at_price": 1499,
     "rating": 4.8,
     "reviews": 125,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476772/images/Front_1_c_1.jpg",
@@ -914,10 +912,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 699,
-    "price_inr": 699,
+    "price": 749,
+    "price_inr": 749,
     "compareAtPrice": 1199,
-    "compare_at_price": 1199,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 160,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476699/images/Front_1_c_1.jpg",
@@ -945,13 +943,13 @@
       "Baby Blue"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
       "XXL",
-      "3XL",
-      "XS"
+      "3XL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476699/images/Front_1_c_1.jpg",
@@ -992,10 +990,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 649,
-    "price_inr": 649,
+    "price": 749,
+    "price_inr": 749,
     "compareAtPrice": 1149,
-    "compare_at_price": 1149,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 165,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476681/images/Front_1_c_1.jpg",
@@ -1024,12 +1022,12 @@
       "Purple melange"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
-      "XXL",
-      "XS"
+      "XXL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476681/images/Front_1_c_1.jpg",
@@ -1071,10 +1069,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 799,
-    "price_inr": 799,
+    "price": 849,
+    "price_inr": 849,
     "compareAtPrice": 1449,
-    "compare_at_price": 1449,
+    "compare_at_price": 1499,
     "rating": 4.8,
     "reviews": 180,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476629/images/Left_Pocket_1_c_1.jpg",
@@ -1146,10 +1144,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 699,
-    "price_inr": 699,
+    "price": 749,
+    "price_inr": 749,
     "compareAtPrice": 1199,
-    "compare_at_price": 1199,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 215,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476319/images/Front_1_c_1.jpg",
@@ -1208,10 +1206,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 649,
-    "price_inr": 649,
+    "price": 749,
+    "price_inr": 749,
     "compareAtPrice": 1149,
-    "compare_at_price": 1149,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 235,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476284/images/Front_1_c_1.jpg",
@@ -1228,13 +1226,13 @@
       "White"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
       "XXL",
-      "3XL",
-      "XS"
+      "3XL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476284/images/Front_1_c_1.jpg"
@@ -1268,10 +1266,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 749,
-    "price_inr": 749,
+    "price": 849,
+    "price_inr": 849,
     "compareAtPrice": 1349,
-    "compare_at_price": 1349,
+    "compare_at_price": 1499,
     "rating": 4.8,
     "reviews": 240,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476281/images/Front_1_c_1.jpg",
@@ -1288,13 +1286,13 @@
       "White"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
       "XXL",
-      "3XL",
-      "XS"
+      "3XL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476281/images/Front_1_c_1.jpg"
@@ -1328,10 +1326,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 949,
-    "price_inr": 949,
+    "price": 999,
+    "price_inr": 999,
     "compareAtPrice": 1649,
-    "compare_at_price": 1649,
+    "compare_at_price": 1799,
     "rating": 4.8,
     "reviews": 135,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476756/images/Front_1_c_1.jpg",
@@ -1399,10 +1397,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 949,
-    "price_inr": 949,
+    "price": 999,
+    "price_inr": 999,
     "compareAtPrice": 1649,
-    "compare_at_price": 1649,
+    "compare_at_price": 1799,
     "rating": 4.8,
     "reviews": 145,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476736/images/Front_1_c_1.jpg",
@@ -1458,10 +1456,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 649,
-    "price_inr": 649,
+    "price": 749,
+    "price_inr": 749,
     "compareAtPrice": 1099,
-    "compare_at_price": 1099,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 150,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476722/images/Front_1_c_1.jpg",
@@ -1485,12 +1483,12 @@
       "Olive Green"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
-      "XXL",
-      "XS"
+      "XXL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476722/images/Front_1_c_1.jpg",
@@ -1528,10 +1526,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 699,
-    "price_inr": 699,
+    "price": 749,
+    "price_inr": 749,
     "compareAtPrice": 1199,
-    "compare_at_price": 1199,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 155,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476716/images/Front_1_c_1.jpg",
@@ -1556,12 +1554,12 @@
       "Lavender"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
-      "XXL",
-      "XS"
+      "XXL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476716/images/Front_1_c_1.jpg",
@@ -1585,172 +1583,6 @@
     "old_price": 999
   },
   {
-    "id": "qikink-32476832-girls-crew-neck-t-shirt",
-    "slug": "girls-crew-neck-t-shirt-32476832",
-    "title": "Girl's Crew Neck T-Shirt — Good Energy Graphic",
-    "baseTitle": "Girl's Crew Neck T-Shirt",
-    "short": "Premium Girl's Crew Neck T-Shirt featuring our Good Energy Graphic fade-proof artwork. Directly sourced from verified makers from 100% bio-washed combed yarns with Pan-India express delivery.",
-    "story": "Designed for everyday streetwear rotation, the Girl's Crew Neck T-Shirt — Good Energy Graphic blends verified seller textile craftsmanship with vibrant, fade-proof graphic detailing. Engineered for breathability, softness, and durability wash after wash.",
-    "details": [
-      "180 GSM 100% Super Combed Bio-Washed Cotton",
-      "Gentle on sensitive skin with anti-chafe stitching",
-      "High-Definition Fade-Proof DTF Graphics",
-      "Dispatched direct from verified domestic makers",
-      "7-Day Easy Returns Guarantee",
-      "Cash on Delivery & 1-Click Instant UPI Pan-India"
-    ],
-    "price": 649,
-    "price_inr": 649,
-    "compareAtPrice": 1149,
-    "compare_at_price": 1149,
-    "rating": 4.8,
-    "reviews": 105,
-    "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_1.jpg",
-    "images": [
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_1.jpg",
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_2.jpg",
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_3.jpg",
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_4.jpg",
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_9.jpg",
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_10.jpg"
-    ],
-    "category": "kids",
-    "gender": "kids",
-    "is_printed": true,
-    "design_code": "bright_happy_place_cutout",
-    "print_design_name": "Good Energy Graphic",
-    "colors": [
-      "White",
-      "Black",
-      "Navy Blue",
-      "Grey Melange",
-      "Royal Blue",
-      "Red",
-      "Pink"
-    ],
-    "sizes": [
-      "0-12M",
-      "12-23M",
-      "24-35M",
-      "36-47M",
-      "5Yrs",
-      "7Yrs",
-      "9Yrs",
-      "13Yrs",
-      "11Yrs"
-    ],
-    "colorImages": {
-      "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_1.jpg",
-      "Black": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_2.jpg",
-      "Navy Blue": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_3.jpg",
-      "Grey Melange": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_4.jpg",
-      "Royal Blue": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_9.jpg",
-      "Red": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_10.jpg",
-      "Pink": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476832/images/Front_1_c_28.jpg"
-    },
-    "tag": "KIDS GRAPHIC",
-    "tagBg": "bg-cyan-500/10 text-cyan-600",
-    "tagColor": "#0891B2",
-    "badge": "180 GSM COMBED",
-    "qikinkSkuPrefix": "GRnHs",
-    "qikinkClientProductId": "32476832",
-    "qikinkPrintType": "DTF",
-    "sizeChartLink": "https://products.qikink.com/assets/admin/uploads/mockup-59/1745057708sizechart.png",
-    "active": true,
-    "is_new": true,
-    "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
-    "old_price": 899
-  },
-  {
-    "id": "qikink-32476744-boys-crew-neck-t-shirt",
-    "slug": "boys-crew-neck-t-shirt-32476744",
-    "title": "Boy's Crew Neck T-Shirt — Smile More Graphic",
-    "baseTitle": "Boy's Crew Neck T-Shirt",
-    "short": "Premium Boy's Crew Neck T-Shirt featuring our Smile More Graphic fade-proof artwork. Directly sourced from verified makers from 100% bio-washed combed yarns with Pan-India express delivery.",
-    "story": "Designed for everyday streetwear rotation, the Boy's Crew Neck T-Shirt — Smile More Graphic blends verified seller textile craftsmanship with vibrant, fade-proof graphic detailing. Engineered for breathability, softness, and durability wash after wash.",
-    "details": [
-      "180 GSM 100% Super Combed Bio-Washed Cotton",
-      "Gentle on sensitive skin with anti-chafe stitching",
-      "High-Definition Fade-Proof DTF Graphics",
-      "Dispatched direct from verified domestic makers",
-      "7-Day Easy Returns Guarantee",
-      "Cash on Delivery & 1-Click Instant UPI Pan-India"
-    ],
-    "price": 649,
-    "price_inr": 649,
-    "compareAtPrice": 1149,
-    "compare_at_price": 1149,
-    "rating": 4.8,
-    "reviews": 140,
-    "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_1.jpg",
-    "images": [
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_1.jpg",
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_2.jpg",
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_3.jpg",
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_4.jpg",
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_5.jpg",
-      "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_6.jpg"
-    ],
-    "category": "kids",
-    "gender": "kids",
-    "is_printed": true,
-    "design_code": "bright_smile_more_cutout",
-    "print_design_name": "Smile More Graphic",
-    "colors": [
-      "White",
-      "Black",
-      "Navy Blue",
-      "Grey Melange",
-      "Charcoal Melange",
-      "SkyBlue",
-      "Royal Blue",
-      "Red",
-      "Maroon",
-      "Purple",
-      "Light Baby Pink",
-      "Lavender"
-    ],
-    "sizes": [
-      "0-12M",
-      "12-23M",
-      "24-35M",
-      "36-47M",
-      "5Yrs",
-      "7Yrs",
-      "9Yrs",
-      "13Yrs",
-      "11Yrs"
-    ],
-    "colorImages": {
-      "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_1.jpg",
-      "Black": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_2.jpg",
-      "Navy Blue": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_3.jpg",
-      "Grey Melange": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_4.jpg",
-      "Charcoal Melange": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_5.jpg",
-      "SkyBlue": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_6.jpg",
-      "Royal Blue": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_9.jpg",
-      "Red": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_10.jpg",
-      "Maroon": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_25.jpg",
-      "Purple": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_26.jpg",
-      "Light Baby Pink": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_45.jpg",
-      "Lavender": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476744/images/Front_1_c_49.jpg"
-    },
-    "tag": "KIDS GRAPHIC",
-    "tagBg": "bg-cyan-500/10 text-cyan-600",
-    "tagColor": "#0891B2",
-    "badge": "180 GSM COMBED",
-    "qikinkSkuPrefix": "BRnHs",
-    "qikinkClientProductId": "32476744",
-    "qikinkPrintType": "Cotton Apparels",
-    "sizeChartLink": "https://products.qikink.com/assets/admin/uploads/mockup-50/1745057297sizechart.png",
-    "active": true,
-    "is_new": true,
-    "is_trending": false,
-    "gradient": "linear-gradient(135deg, rgba(255,77,36,0.12), rgba(232,36,75,0.08))",
-    "old_price": 899
-  },
-  {
     "id": "qikink-32476800-mens-sleeveless-t-shirt",
     "slug": "mens-sleeveless-t-shirt-32476800",
     "title": "Men's Sleeveless T-Shirt — Essential Blank",
@@ -1765,10 +1597,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 699,
-    "price_inr": 699,
+    "price": 749,
+    "price_inr": 749,
     "compareAtPrice": 1249,
-    "compare_at_price": 1249,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 115,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476800/images/Front_1_c_1.jpg",
@@ -1801,8 +1633,7 @@
       "L",
       "XL",
       "XXL",
-      "3XL",
-      "4XL"
+      "3XL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476800/images/Front_1_c_1.jpg",
@@ -1925,10 +1756,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 779,
-    "price_inr": 779,
+    "price": 849,
+    "price_inr": 849,
     "compareAtPrice": 1449,
-    "compare_at_price": 1449,
+    "compare_at_price": 1499,
     "rating": 4.8,
     "reviews": 190,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476438/images/Front_1_c_2.jpg",
@@ -1953,12 +1784,12 @@
       "Olive Green"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
-      "XXL",
-      "XS"
+      "XXL"
     ],
     "colorImages": {
       "Black": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476438/images/Front_1_c_2.jpg",
@@ -1996,10 +1827,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 799,
-    "price_inr": 799,
+    "price": 849,
+    "price_inr": 849,
     "compareAtPrice": 1449,
-    "compare_at_price": 1449,
+    "compare_at_price": 1499,
     "rating": 4.8,
     "reviews": 195,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476436/images/Front_1_c_7.jpg",
@@ -2024,13 +1855,13 @@
       "White Lavender"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
       "XXL",
-      "3XL",
-      "XS"
+      "3XL"
     ],
     "colorImages": {
       "Yellow": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476436/images/Front_1_c_7.jpg",
@@ -2068,10 +1899,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 649,
-    "price_inr": 649,
+    "price": 749,
+    "price_inr": 749,
     "compareAtPrice": 1099,
-    "compare_at_price": 1099,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 210,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476326/images/Front_1_c_1.jpg",
@@ -2102,15 +1933,13 @@
       "Copper"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
       "XXL",
-      "3XL",
-      "4XL",
-      "XS",
-      "5XL"
+      "3XL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476326/images/Front_1_c_1.jpg",
@@ -2154,10 +1983,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 649,
-    "price_inr": 649,
+    "price": 749,
+    "price_inr": 749,
     "compareAtPrice": 1149,
-    "compare_at_price": 1149,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 95,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476874/images/Front_1_c_1.jpg",
@@ -2196,11 +2025,11 @@
       "Lavender"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
-      "XL",
-      "XS"
+      "XL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476874/images/Front_1_c_1.jpg",
@@ -2252,10 +2081,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 649,
-    "price_inr": 649,
+    "price": 749,
+    "price_inr": 749,
     "compareAtPrice": 1149,
-    "compare_at_price": 1149,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 100,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476851/images/Front_1_c_1.jpg",
@@ -2285,12 +2114,12 @@
       "Beige"
     ],
     "sizes": [
+      "XS",
       "S",
       "M",
       "L",
       "XL",
-      "XXL",
-      "XS"
+      "XXL"
     ],
     "colorImages": {
       "White": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476851/images/Front_1_c_1.jpg",
@@ -2333,10 +2162,10 @@
       "7-Day Easy Returns Guarantee",
       "Cash on Delivery & 1-Click Instant UPI Pan-India"
     ],
-    "price": 699,
-    "price_inr": 699,
+    "price": 749,
+    "price_inr": 749,
     "compareAtPrice": 1199,
-    "compare_at_price": 1199,
+    "compare_at_price": 1299,
     "rating": 4.8,
     "reviews": 130,
     "image_url": "https://qikink-assets.s3.ap-south-1.amazonaws.com/clients/658581/clientProducts/32476764/images/Front_1_c_1.jpg",

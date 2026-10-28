@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import ProductCard from '@/components/ui/ProductCard';
 import { COPY } from '@/lib/data/copy';
-import { formatPrice, computeDiscount, getGarmentSpecBadge, SHOP_CATEGORIES, products as localProducts } from '@/lib/data/products';
+import { formatPrice, computeDiscount, getGarmentSpecBadge, enforcePriceFloor, isKidsProduct, SHOP_CATEGORIES, products as localProducts } from '@/lib/data/products';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { type ProductRow } from '@/lib/supabase';
 
@@ -16,8 +16,9 @@ const TABS = [
 ];
 
 function isDisallowedRow(p: ProductRow): boolean {
+  if (isKidsProduct(p as any)) return true;
   const targetId = `${p.id || ''} ${p.slug || ''} ${p.title || ''}`.toLowerCase();
-  return /calmcloud|ember-glow|warm-paw|lickmat|pawtrack|cozy-nest|aesthetic-scratch|smart-fetch|button-badge|button_badge|button badge|temporary-tattoo|temporary tattoo|tattoo|scrunchies|bow scrunchie|bookmark|balaclava|arm sleeves|arm sleeve|basic t-shirt pc|^bundle-|bundle/i.test(targetId);
+  return /calmcloud|ember-glow|warm-paw|lickmat|pawtrack|cozy-nest|aesthetic-scratch|smart-fetch|button-badge|button_badge|button badge|temporary-tattoo|temporary tattoo|tattoo|scrunchies|bow scrunchie|bookmark|balaclava|arm sleeves|arm sleeve|basic t-shirt pc|^bundle-|bundle|gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|64953488|64953664|32476832|32476744/i.test(targetId);
 }
 
 export function matchesCategory(cat: string, p: any): boolean {
@@ -28,7 +29,6 @@ export function matchesCategory(cat: string, p: any): boolean {
   if (cat === 'printed') return Boolean(p.is_printed === true || p.isPrinted === true);
   if (cat === 'mens') return Boolean(p.gender === 'men' || p.category === 'mens');
   if (cat === 'womens') return Boolean(p.gender === 'women' || p.category === 'womens' || p.category === 'women');
-  if (cat === 'kids') return Boolean(p.gender === 'kids' || p.category === 'kids');
   if (cat === 'blanks') return Boolean(p.is_printed === false || p.isPrinted === false);
   return (p.category ?? 'mens') === cat;
 }
@@ -190,7 +190,9 @@ function ShopInner() {
 
         <motion.div layout className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
           <AnimatePresence mode="popLayout">
-            {list.map((p, i) => (
+            {list.map((rawP, i) => {
+              const p = enforcePriceFloor(rawP as any);
+              return (
               <motion.div
                 key={p.id}
                 layout
@@ -204,11 +206,11 @@ function ShopInner() {
                   slug={(p as any).slug || undefined}
                   tag={getGarmentSpecBadge(p)}
                   title={p.title}
-                  desc={(p as any).short || p.description || ''}
-                  price={formatPrice(Number((p as any).price_inr || p.price))}
-                  oldPrice={p.compare_at_price ? formatPrice(Number(p.compare_at_price)) : undefined}
-                  rawPrice={Number((p as any).price_inr || p.price)}
-                  rawComparePrice={p.compare_at_price ? Number(p.compare_at_price) : undefined}
+                  desc={(p as any).short || (p as any).description || ''}
+                  price={formatPrice(Number(p.price_inr || p.price))}
+                  oldPrice={p.compareAtPrice ? formatPrice(Number(p.compareAtPrice)) : undefined}
+                  rawPrice={Number(p.price_inr || p.price)}
+                  rawComparePrice={p.compareAtPrice ? Number(p.compareAtPrice) : undefined}
                   imageUrl={resolveProductImage(p.id, p.image_url)}
                   images={(p as any).images}
                   sizes={(p as any).sizes}
@@ -229,7 +231,8 @@ function ShopInner() {
                   lockedAccentHex={(p as any).lockedAccentHex}
                 />
               </motion.div>
-            ))}
+            );
+            })}
           </AnimatePresence>
         </motion.div>
 

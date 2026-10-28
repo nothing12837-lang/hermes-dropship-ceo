@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useCart } from '@/lib/store/cart';
 import { useWishlist } from '@/lib/store/wishlist';
 import { resolveProductImage } from '@/lib/data/fallback-images';
-import { cleanBrandTitle, sortSizes, getGarmentSpecBadge } from '@/lib/data/products';
+import { cleanBrandTitle, sortSizes, formatSizeRange, getGarmentSpecBadge } from '@/lib/data/products';
 import PrebuiltMockupRenderer from '@/components/PrebuiltMockupRenderer';
 import { useGeo } from '@/context/GeoContext';
 
@@ -168,13 +168,9 @@ export default function ProductCard({
     if (!isApparelCard && (/\b(mug|cup|drinkware)\b/i.test(itemSearch))) return 'Quick View • 330ml / 11 Oz Ceramic';
     if (!isApparelCard && (/\b(case|phone|iphone|samsung)\b/i.test(itemSearch))) return 'Quick View • Precision Drop Protection';
     if (sizes && sizes.length > 0) {
-      const isKids = /kid|boy|girl|baby/i.test(itemSearch);
-      if (isKids) {
-        return 'Quick View • Kids Sizes Available';
-      }
-      return 'Quick View • Sizes XS to 3XL';
+      return `Quick View • ${formatSizeRange(sizes)}`;
     }
-    return 'Quick View • Sizes XS to 3XL • Express Air Dispatch';
+    return 'Quick View • Sizes XS–3XL • Express Air Dispatch';
   })();
 
   // Server-authoritative M.R.P. markup

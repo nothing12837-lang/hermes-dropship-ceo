@@ -121,10 +121,21 @@ export const SHOP_CATEGORIES = [
   { id: 'printed', label: 'All Graphic Prints', count: 24, hint: 'High-Density Direct-to-Film Prints' },
   { id: 'mens', label: "Men's & Unisex", count: 23, hint: 'Oversized & Full Sleeve Graphic Tees' },
   { id: 'womens', label: "Women's Collection", count: 7, hint: 'Crops, Tees & Typographic Prints' },
-  { id: 'kids', label: "Kids Streetwear", count: 2, hint: '180 GSM Bio-Washed Combed Cotton' },
   { id: 'blanks', label: 'Essential Blanks', count: 8, hint: 'Solid Silhouettes & Acid Wash' },
 ];
 
+export function isKidsProduct(p: { id?: string; title?: string; category?: string; gender?: string; sizes?: string[] } | null | undefined): boolean {
+  if (!p) return false;
+  const id = (p.id || '').toLowerCase();
+  const title = (p.title || '').toLowerCase();
+  const category = (p.category || '').toLowerCase();
+  const gender = (p.gender || '').toLowerCase();
+  if (category === 'kids' || gender === 'kids') return true;
+  if (/64953488|64953664|32476832|32476744|girls-crew-neck|boys-crew-neck|baby-romper|romper/i.test(id)) return true;
+  if (/girl's crew|boy's crew|baby romper|kids bomber|kids aop|kids hoodie|kids sweatshirt|kids t-shirt|kids clothes/i.test(title)) return true;
+  if (Array.isArray(p.sizes) && p.sizes.some(s => /^\d+[-–]\d+M$/i.test(s) || /\b\d+Y(?:rs)?\b/i.test(s) || /0-12M|12-23M|24-35M|36-47M/i.test(s))) return true;
+  return false;
+}
 
 export function enforcePriceFloor(p: Product): Product {
   const pid = (p.id || '').toLowerCase();
@@ -137,18 +148,6 @@ export function enforcePriceFloor(p: Product): Product {
   let compare = (rawCompare != null && !Number.isNaN(Number(rawCompare)) && Number(rawCompare) > 0)
     ? Number(rawCompare)
     : 0;
-
-  // Preserve test drops / gateway verification price without enforcing higher retail floor
-  if (pid.includes('verification') || pid.includes('test') || pid.includes('gateway') || p.price === 5 || p.price_inr === 5 || p.price === 10 || p.price_inr === 10) {
-    const fixedPrice = p.price_inr === 5 || p.price === 5 || pid.includes('5rs') || pid.includes('verification') ? 5 : 10;
-    return {
-      ...p,
-      price: fixedPrice,
-      price_inr: fixedPrice,
-      compareAtPrice: compare || 99,
-      compare_at_price: compare || 99,
-    };
-  }
 
   // 1. Curated Value Combos
   // - bundle-streetwear-duo (2x Heavyweight 240 GSM Tees): min ₹1,499 (M.R.P. ₹2,499)
@@ -183,68 +182,72 @@ export function enforcePriceFloor(p: Product): Product {
     if (price < 1499) price = 1499;
     if (compare < 2599) compare = 2599;
   }
-  // 3. 380 GSM Heavyweight Winter Hoodie: min ₹1,399 (M.R.P. ₹2,299)
-  else if (pid.includes('hoodie') || title.includes('hoodie') || pid.includes('uhd') || pid.includes('uzhd')) {
+  // 3. 380 GSM Heavyweight Winter Hoodie: min ₹1,399 (M.R.P. ₹2,699)
+  else if (pid.includes('hoodie') || title.includes('hoodie') || pid.includes('uhd') || pid.includes('uzhd') || pid.includes('blank-hoodie')) {
     if (price < 1399) price = 1399;
-    if (compare < 2299) compare = 2299;
+    if (compare < 2699) compare = 2699;
   }
   // 4. 320 GSM Crewneck Sweatshirt & 320 GSM Heavyweight Joggers: min ₹1,099 (M.R.P. ₹1,899)
   else if (
     pid.includes('sweatshirt') || pid.includes('crewneck') || pid.includes('jogger') || pid.includes('sweatpant') ||
     title.includes('sweatshirt') || title.includes('crewneck') || title.includes('jogger') || title.includes('sweatpant') ||
-    pid.includes('uss') || pid.includes('ujg')
+    pid.includes('uss') || pid.includes('ujg') || pid.includes('blank-crewneck')
   ) {
     if (price < 1099) price = 1099;
     if (compare < 1899) compare = 1899;
   }
-  // 5. 240 GSM French Terry Oversized Tee, Vintage Acid-Wash Oversized Tee, T-Shirt Dress (64953512) & Men's Full-Sleeve Tee (64953648): min ₹949 (M.R.P. ₹1,699)
+  // 5. Full-Sleeve Tees & T-Shirt Dresses: min ₹999 (M.R.P. ₹1,799)
   else if (
     pid.includes('64953648') || pid.includes('32477737') || pid.includes('32476824') || pid.includes('mrnfs') ||
     title.includes('full sleeve') || pid.includes('full-sleeve') ||
-    pid.includes('64953512') || pid.includes('32476756') || pid.includes('32476736') || pid.includes('t-shirt-dress') || pid.includes('maternity-dress') || title.includes('dress') ||
-    title.includes('french terry') || title.includes('terry') || pid.includes('terry') || pid.includes('32476620') || pid.includes('ut27') ||
-    title.includes('acid') || pid.includes('acid') || pid.includes('32476438') || pid.includes('uc61') || pid.includes('ate') ||
-    title.includes('tie dye') || title.includes('tie-dye') || pid.includes('32476436') || pid.includes('ut58')
+    pid.includes('64953512') || pid.includes('32476756') || pid.includes('32476736') || pid.includes('t-shirt-dress') || pid.includes('maternity-dress') || title.includes('dress')
   ) {
-    if (price < 949) price = 949;
-    if (compare < 1699) compare = 1699;
+    if (price < 999) price = 999;
+    if (compare < 1799) compare = 1799;
   }
-  // 6. 900×400mm Extended Gaming Desk Mat / Pad: min ₹799 (M.R.P. ₹1,399)
+  // 6. 240 GSM Oversized Tees, Oversized Jerseys (Cyber Sublimation, Matrix), Supima, V-Neck, Acid Wash, Tie Dye, French Terry: min ₹849 (M.R.P. ₹1,499)
+  else if (
+    pid.includes('64950694') || pid.includes('32476280') || pid.includes('32476281') ||
+    title.includes('cyber sublimation') || title.includes('matrix') ||
+    (title.includes('oversized') && title.includes('jersey')) || title.includes('mesh jersey') ||
+    pid.includes('32476431') || title.includes('chrome bengaluru') ||
+    pid.includes('32476332') || title.includes('tokyo street') ||
+    pid.includes('32476663') || title.includes('supima') ||
+    pid.includes('32476772') || pid.includes('64953544') || title.includes('v neck') || title.includes('v-neck') ||
+    pid.includes('32476620') || pid.includes('ut27') || title.includes('french terry') || title.includes('terry') ||
+    pid.includes('32476438') || pid.includes('blank-acid-tee') || pid.includes('uc61') || pid.includes('ate') || title.includes('acid') ||
+    pid.includes('32476436') || pid.includes('ut58') || title.includes('tie dye') || title.includes('tie-dye') ||
+    pid.includes('blank-oversized-tee') || title.includes('oversized')
+  ) {
+    if (price < 849) price = 849;
+    if (compare < 1499) compare = 1499;
+  }
+  // 7. 900×400mm Extended Gaming Desk Mat / Pad & Custom Blank Jersey: min ₹799 (M.R.P. ₹1,399)
   else if (
     title.includes('gaming pad') || title.includes('desk mat') || title.includes('mouse pad') ||
-    pid.includes('desk-mat') || pid.includes('desk_mat') || pid.includes('mpad')
-  ) {
-    if (price < 799) price = 799;
-    if (compare < 1399) compare = 1399;
-  }
-  // 7. Unisex Oversized Mesh Jersey (UJ35 / 64950694) & Men's Polo (220 GSM): min ₹799 (M.R.P. ₹1,399)
-  else if (
-    pid.includes('64950694') || pid.includes('32476280') || pid.includes('32476281') || pid.includes('uj35') || pid.includes('us02') ||
-    (title.includes('oversized') && title.includes('jersey')) || title.includes('mesh jersey') || title.includes('jersey') ||
+    pid.includes('desk-mat') || pid.includes('desk_mat') || pid.includes('mpad') || pid.includes('blank-deskmat') ||
+    pid.includes('blank-jersey') || pid.includes('uj35') || pid.includes('us02') ||
     pid.includes('64953576') || pid.includes('32476788') || title.includes('polo') || pid.includes('mp25')
   ) {
     if (price < 799) price = 799;
     if (compare < 1399) compare = 1399;
   }
-  // 8. Women's Classic Tee, Crop Top, Tank Top, Men's Sleeveless Tee: min ₹699 (M.R.P. ₹1,199)
-  else if (
-    ['64953748', '64953702', '64953664', '64953528', '64953488', '32476874', '32476851', '32476764', '32476722', '32476716', '32476832', '32476744', '64953600', '32476800'].some((k) => pid.includes(k)) ||
-    ["women's classic", "womens classic", "crop top", "tank top", "crop tank", "baby tee", "girl's crew", "boy's crew", "sleeveless", "muscle vest"].some((k) => title.includes(k))
-  ) {
-    if (price < 699) price = 699;
-    if (compare < 1199) compare = 1199;
+  // 8. Ceramic Mug: min ₹499 (M.R.P. ₹999)
+  else if (title.includes('mug') || pid.includes('mug') || pid.includes('blank-mug')) {
+    if (price < 499) price = 499;
+    if (compare < 999) compare = 999;
   }
-  // 9. 240 GSM Unisex Oversized Standard T-Shirt & Unisex V-Neck (64953544): min ₹849 (M.R.P. ₹1,499)
+  // 9. Standard Crew, Raglan, Ringer, Stretch, DryFit, Women's Tee, Crop Top, Essential Blank: min ₹749 (M.R.P. ₹1,299)
   else if (
-    pid.includes('64953544') || pid.includes('32476772') || title.includes('v neck') || title.includes('v-neck') ||
-    pid.includes('32476431') || title.includes('oversized standard') || title.includes('standard t-shirt') ||
     title.includes('standard crew') || title.includes('classic crew') || title.includes('raglan') || title.includes('ringer') ||
-    title.includes('basic t-shirt') || title.includes('dryfit') || title.includes('supima')
+    title.includes('stretch') || title.includes('dryfit') || title.includes('dry fit') ||
+    title.includes('crop') || title.includes('tank') || title.includes('baby tee') || title.includes('sleeveless') || title.includes('basic') ||
+    ['32476313', '32476636', '32476299', '32476699', '32476681', '32476319', '32476284', '32476722', '32476716', '32476800', '32476326', '32476874', '32476851', '32476764', '64953748', '64953600'].some(k => pid.includes(k))
   ) {
-    if (price < 849) price = 849;
-    if (compare < 1499) compare = 1499;
+    if (price < 749) price = 749;
+    if (compare < 1299) compare = 1299;
   }
-  // 10. Default fallback for standard tees and any other items: min ₹849 (M.R.P. ₹1,499)
+  // 10. Default fallback: min ₹849 (M.R.P. ₹1,499)
   else {
     if (price < 849) price = 849;
     if (compare < 1499) compare = 1499;
@@ -356,7 +359,8 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
   }
 ];
 
-export const ADULT_SIZE_ORDER = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '2XL', '3XL', '4XL', '5XL'] as const;
+export const CANONICAL_ADULT_SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '2XL', '3XL'] as const;
+export const ADULT_SIZE_ORDER = CANONICAL_ADULT_SIZES;
 export const KIDS_SIZE_ORDER = [
   '0-12M', '12-23M', '24-35M', '36-47M',
   '1-2Y', '2-3Y', '3-4Y', '4-5Y', '5Yrs', '5-6Y',
@@ -364,14 +368,60 @@ export const KIDS_SIZE_ORDER = [
   '10-11Y', '11Yrs', '11-12Y', '12-13Y', '13Yrs', '13-14Y',
 ] as const;
 
+export function formatSizeRange(sizes?: string[]): string {
+  if (!Array.isArray(sizes) || sizes.length === 0) {
+    return 'Sizes XS–3XL';
+  }
+  const first = (sizes[0] || '').trim();
+  if (/^\d+x\d+mm$/i.test(first) || /^\d+\s*oz/i.test(first) || /330ml/i.test(first)) {
+    return first;
+  }
+
+  const sizeMap: Record<string, number> = {
+    'XS': 0,
+    'S': 1,
+    'M': 2,
+    'L': 3,
+    'XL': 4,
+    'XXL': 5,
+    '2XL': 5,
+    '3XL': 6,
+  };
+
+  const valid = sizes
+    .map(s => s.trim())
+    .filter(s => sizeMap[s.toUpperCase()] !== undefined)
+    .sort((a, b) => sizeMap[a.toUpperCase()] - sizeMap[b.toUpperCase()]);
+
+  if (valid.length === 0) {
+    return 'Sizes XS–3XL';
+  }
+  if (valid.length === 1) {
+    return `Size ${valid[0]}`;
+  }
+  return `Sizes ${valid[0]}–${valid[valid.length - 1]}`;
+}
+
 export function sortSizes(sizes?: string[]): string[] {
   if (!Array.isArray(sizes) || sizes.length === 0) return [];
-  // Strict regex for kids sizes: must match month pattern like '0-12M' or year pattern like '5Y' / '5Yrs'
+  // Strict regex for kids sizes if any remain
   const isKids = sizes.some(s => (KIDS_SIZE_ORDER as readonly string[]).includes(s) || /^\d+[-–]\d+M$/i.test(s) || /\b\d+Y(?:rs)?\b/i.test(s));
-  const order = (isKids ? KIDS_SIZE_ORDER : ADULT_SIZE_ORDER) as readonly string[];
-  return [...sizes].sort((a, b) => {
-    const idxA = order.indexOf(a as any);
-    const idxB = order.indexOf(b as any);
+  if (isKids) {
+    return [...sizes].sort((a, b) => {
+      const idxA = (KIDS_SIZE_ORDER as readonly string[]).indexOf(a);
+      const idxB = (KIDS_SIZE_ORDER as readonly string[]).indexOf(b);
+      if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+      if (idxA !== -1) return -1;
+      if (idxB !== -1) return 1;
+      return a.localeCompare(b);
+    });
+  }
+  // Adult sizes: cap at 3XL and filter out 4XL/5XL
+  const adultOrder = CANONICAL_ADULT_SIZES as readonly string[];
+  const filtered = sizes.filter(s => !/^[45]XL$/i.test(s));
+  return [...filtered].sort((a, b) => {
+    const idxA = adultOrder.indexOf(a.toUpperCase());
+    const idxB = adultOrder.indexOf(b.toUpperCase());
     if (idxA !== -1 && idxB !== -1) return idxA - idxB;
     if (idxA !== -1) return -1;
     if (idxB !== -1) return 1;
@@ -590,16 +640,16 @@ export const CUSTOM_BLANK_PRODUCTS: Product[] = [
 export const products: Product[] = [
   ...((qikinkCatalog as unknown as Product[])
     .filter((p) => !p.id.startsWith('bundle-'))
-    // Filter out squished 1-inch print artifacts (Boy's 64953488 and Girl's 64953664)
-    .filter((p) => !String(p.id).includes('64953488') && !String(p.id).includes('64953664'))
+    // Filter out kids/baby clothes completely from catalog
+    .filter((p) => !isKidsProduct(p))
     // Gateway/test SKUs are internal fixtures and excluded from public catalog
-    .filter((p) => !/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification)/i.test(`${p.id} ${p.title}`))
+    .filter((p) => !/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification)/i.test(`${p.id} ${p.title} ${p.slug || ''}`))
     .map((p) => ({
       ...p,
       sizes: sortSizes(p.sizes),
     }))
     .map(enforcePriceFloor)),
-  ...CUSTOM_BLANK_PRODUCTS,
+  ...CUSTOM_BLANK_PRODUCTS.map(enforcePriceFloor),
 ];
 
 export const PET_META: Record<string, any> = {

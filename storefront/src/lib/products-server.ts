@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { products as localProducts, cleanBrandTitle, enforcePriceFloor, type Product, type ProductCategory, type PetType, type AgeGroup } from '@/lib/data/products';
+import { products as localProducts, cleanBrandTitle, enforcePriceFloor, isKidsProduct, type Product, type ProductCategory, type PetType, type AgeGroup } from '@/lib/data/products';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { resolveProductImages } from '@/lib/data/product-gallery';
 import type { Database, Json } from '@/lib/database.types';
@@ -181,19 +181,26 @@ export const DISALLOWED_KEYWORDS = [
   'smart-fetch',
   '64953488',
   '64953664',
+  '32476832',
+  '32476744',
+  'girls-crew-neck',
+  'boys-crew-neck',
+  'baby-romper',
   'rare-ember-gateway-test-pass',
   'gateway-test',
 ];
 
-export function isDisallowedProduct(p: { id?: string; slug?: string }): boolean {
+export function isDisallowedProduct(p: { id?: string; slug?: string; title?: string; category?: string; gender?: string; sizes?: string[] }): boolean {
   if (!p) return true;
-  const targetId = `${p.id || ''} ${p.slug || ''}`.toLowerCase();
+  if (isKidsProduct(p)) return true;
+  const targetId = `${p.id || ''} ${p.slug || ''} ${p.title || ''}`.toLowerCase();
+  if (/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs)/i.test(targetId)) return true;
   return DISALLOWED_KEYWORDS.some((kw) => targetId.includes(kw));
 }
 
 // Server-side product fetch: Return all genuine Qikink drops with live DB status overrides
 export async function getProductsFromDB(): Promise<Product[]> {
-  const localList = localProducts.map(sanitizeLocalProduct);
+  const localList = localProducts.filter((p) => !isDisallowedProduct(p) && !isKidsProduct(p)).map(sanitizeLocalProduct);
   try {
     const supabase = await serverClient();
     if (supabase) {
@@ -261,6 +268,7 @@ function sanitizeLocalProduct(p: Product): Product {
 function findLocalProduct(term: string): Product | null {
   if (!term) return null;
   const cleanTerm = term.trim().toLowerCase();
+  if (/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs)/i.test(cleanTerm)) return null;
   const cleanedSlug = cleanBrandSlug(cleanTerm);
   const match = localProducts.find((p) => {
     if (p.id.toLowerCase() === cleanTerm || p.slug.toLowerCase() === cleanTerm) return true;

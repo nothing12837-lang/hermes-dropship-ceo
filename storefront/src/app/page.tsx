@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Truck, ShieldCheck, Banknote, RefreshCw } from 'lucide-react';
 import ProductCard from '@/components/ui/ProductCard';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { formatPrice, computeDiscount, getGarmentSpecBadge, enforcePriceFloor, type Product } from '@/lib/data/products';
+import { formatPrice, computeDiscount, getGarmentSpecBadge, enforcePriceFloor, isKidsProduct, type Product } from '@/lib/data/products';
 import { getProductsFromDB } from '@/lib/products-server';
 
 export const revalidate = 60; // 60s ISR: Edge cached in Mumbai (bom1)
@@ -85,17 +85,17 @@ export default async function Home() {
 
   // 1. Men's Graphic Printed Streetwear (Priority showcase)
   const mensPrinted = allProducts.filter(
-    (p) => (p.gender === 'men' || p.category === 'mens') && (p.is_printed === true || (p as any).isPrinted === true) && !p.id.startsWith('bundle-')
+    (p) => (p.gender === 'men' || p.category === 'mens') && (p.is_printed === true || (p as any).isPrinted === true) && !p.id.startsWith('bundle-') && !isKidsProduct(p)
   );
 
-  // 2. Women's & Kids' Printed Graphic Drops
+  // 2. Women's & Art Editions Printed Graphic Drops (Strictly adult drops only)
   const otherPrinted = allProducts.filter(
-    (p) => (p.gender === 'women' || p.gender === 'kids' || p.category === 'womens' || p.category === 'kids') && (p.is_printed === true || (p as any).isPrinted === true) && !p.id.startsWith('bundle-')
+    (p) => (p.gender === 'women' || p.category === 'womens') && (p.is_printed === true || (p as any).isPrinted === true) && !p.id.startsWith('bundle-') && !isKidsProduct(p)
   );
 
   // 3. Essential Streetwear Blanks (Acid Wash, Solid Oversized Tees, Polos, Minimal Silhouettes)
   const blanks = allProducts.filter(
-    (p) => (p.is_printed === false || (p as any).isPrinted === false) && !p.id.startsWith('bundle-')
+    (p) => (p.is_printed === false || (p as any).isPrinted === false) && !p.id.startsWith('bundle-') && !isKidsProduct(p)
   );
 
   return (
