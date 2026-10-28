@@ -96,9 +96,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Failed to record review' }, { status: 500 });
     }
 
-    // Optional Telegram Alert to Store Owner (env only)
+    // Optional Telegram Alert to Store Owner (env only - never fallback to hardcoded IDs)
     const token = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = (process.env.TELEGRAM_ALLOWED_USERS || '5238068527').split(',')[0].trim();
+    const allowedUsers = process.env.TELEGRAM_ALLOWED_USERS || process.env.TELEGRAM_CHAT_ID;
+    const chatId = allowedUsers ? allowedUsers.split(',')[0].trim() : null;
     if (token && chatId && data) {
       const stars = '★'.repeat(data.rating) + '☆'.repeat(5 - data.rating);
       const text = `⭐ *NEW CUSTOMER REVIEW ON RAREEMBER!*\n\n` +
