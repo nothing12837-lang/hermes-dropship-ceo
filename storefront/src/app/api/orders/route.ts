@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
 import { checkRateLimit } from '@/lib/security/rate-limit';
-import { clientIp, isValidOrderId, normalizeEmail, sanitizeCheckoutItems, cleanOrderId, isUuid, isHexPrefix } from '@/lib/security/validation';
+import { clientIp, isValidOrderId, normalizeEmail, sanitizeCheckoutItems, cleanOrderId, isUuid, isHexPrefix, isNumericTracking } from '@/lib/security/validation';
 import { notifyTelegramOrder } from '@/lib/notifications/telegram';
 import { sendOrderConfirmationEmail, sendOrderDeliveredInvoiceEmail } from '@/lib/notifications/email';
 import { isAdmin } from '@/lib/security/auth';
@@ -79,8 +79,11 @@ export async function GET(req: NextRequest) {
       if (orderId) {
         if (isUuid(orderId)) {
           q = q.eq('id', orderId);
+        } else if (isNumericTracking(rawOrderId) || isNumericTracking(orderId)) {
+          const num = isNumericTracking(rawOrderId) ? rawOrderId : orderId;
+          q = q.or(`tracking_number.eq.${num},cj_order_id.eq.${num}`);
         } else if (isHexPrefix(orderId)) {
-          const p = orderId.toLowerCase();
+          const p = orderId.slice(0, 8).toLowerCase();
           q = q.gte('id', `${p}-0000-0000-0000-000000000000`).lte('id', `${p}-ffff-ffff-ffff-ffffffffffff`);
         }
       }
@@ -88,24 +91,48 @@ export async function GET(req: NextRequest) {
       data = res.data;
       error = res.error;
     } else {
+      const normalizedEmail = email!.toLowerCase().trim();
       // Secure public tracking: exact match on both order ID and email via service-role query
       if (isUuid(orderId!)) {
         const res = await sb
           .from('orders')
           .select('id,user_email,total_amount,subtotal,status,items,payment_method,shipping_name,shipping_address,tracking_number,tracking_url,created_at')
           .eq('id', orderId!)
-          .eq('user_email', email!.toLowerCase().trim())
+          .eq('user_email', normalizedEmail)
           .limit(1);
         data = res.data;
         error = res.error;
+      } else if (isNumericTracking(rawOrderId) || isNumericTracking(orderId!)) {
+        const num = isNumericTracking(rawOrderId) ? rawOrderId : orderId!;
+        const res = await sb
+          .from('orders')
+          .select('id,user_email,total_amount,subtotal,status,items,payment_method,shipping_name,shipping_address,tracking_number,tracking_url,created_at')
+          .eq('user_email', normalizedEmail)
+          .or(`tracking_number.eq.${num},cj_order_id.eq.${num}`)
+          .limit(1);
+        if (res.data && res.data.length > 0) {
+          data = res.data;
+          error = res.error;
+        } else if (isHexPrefix(orderId!)) {
+          const p = orderId!.slice(0, 8).toLowerCase();
+          const pRes = await sb
+            .from('orders')
+            .select('id,user_email,total_amount,subtotal,status,items,payment_method,shipping_name,shipping_address,tracking_number,tracking_url,created_at')
+            .gte('id', `${p}-0000-0000-0000-000000000000`)
+            .lte('id', `${p}-ffff-ffff-ffff-ffffffffffff`)
+            .eq('user_email', normalizedEmail)
+            .limit(1);
+          data = pRes.data;
+          error = pRes.error;
+        }
       } else if (isHexPrefix(orderId!)) {
-        const p = orderId!.toLowerCase();
+        const p = orderId!.slice(0, 8).toLowerCase();
         const res = await sb
           .from('orders')
           .select('id,user_email,total_amount,subtotal,status,items,payment_method,shipping_name,shipping_address,tracking_number,tracking_url,created_at')
           .gte('id', `${p}-0000-0000-0000-000000000000`)
           .lte('id', `${p}-ffff-ffff-ffff-ffffffffffff`)
-          .eq('user_email', email!.toLowerCase().trim())
+          .eq('user_email', normalizedEmail)
           .limit(1);
         data = res.data;
         error = res.error;
@@ -197,8 +224,11 @@ export async function POST(req: NextRequest) {
 
       if (isUuid(targetOrderId)) {
         q = q.eq('id', targetOrderId);
+      } else if (isNumericTracking(rawTarget) || isNumericTracking(targetOrderId)) {
+        const num = isNumericTracking(rawTarget) ? rawTarget : targetOrderId;
+        q = q.or(`tracking_number.eq.${num},cj_order_id.eq.${num}`);
       } else if (isHexPrefix(targetOrderId)) {
-        const p = targetOrderId.toLowerCase();
+        const p = targetOrderId.slice(0, 8).toLowerCase();
         q = q.gte('id', `${p}-0000-0000-0000-000000000000`).lte('id', `${p}-ffff-ffff-ffff-ffffffffffff`);
       } else {
         return NextResponse.json({ error: 'Order not found or email does not match' }, { status: 404 });

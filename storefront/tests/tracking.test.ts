@@ -5,6 +5,8 @@ describe('Tracking & Order Carrier Resolution', () => {
   it('validates order ID format for sample and standard order formats', () => {
     expect(isValidOrderId('7792e434')).toBe(true);
     expect(isValidOrderId('7792e434-7bf5-4ff4-9296-cf2f4c2af57f')).toBe(true);
+    expect(isValidOrderId('658581_RE7792e4347b')).toBe(true);
+    expect(isValidOrderId('RE7792e4347b')).toBe(true);
     expect(isValidOrderId('BD-18023747616')).toBe(true);
     expect(isValidOrderId('18023747616')).toBe(true);
   });

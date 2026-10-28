@@ -7,7 +7,8 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const ORDER_ID_RE = /^[a-zA-Z0-9_-]{4,64}$/;
 const SKU_RE = /^[a-zA-Z0-9_:-]{2,64}$/;
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const HEX_8_RE = /^[0-9a-f]{8}$/i;
+const HEX_PREFIX_RE = /^[0-9a-f]{8,35}$/i;
+const NUMERIC_TRACKING_RE = /^\d{8,25}$/;
 
 export function isValidEmail(v: unknown): v is string {
   return typeof v === 'string' && v.length <= 254 && EMAIL_RE.test(v.trim());
@@ -20,11 +21,14 @@ export function normalizeEmail(v: unknown): string | null {
 
 export function cleanOrderId(raw: unknown): string {
   if (typeof raw !== 'string') return '';
-  return raw
-    .trim()
-    .replace(/^[#\s]+/, '')
-    .replace(/^(?:INV-RE-|ORD-|RE-)/i, '')
-    .trim();
+  let cleaned = raw.trim();
+  // Strip leading hash symbols or spaces
+  cleaned = cleaned.replace(/^[#\s]+/, '');
+  // Strip partner/carrier ID prefixes like 658581_ or BD- or DL-
+  cleaned = cleaned.replace(/^(?:\d+_(?:RE-?)?|(?:BD|DL)-)/i, '');
+  // Strip invoice / order / brand prefixes: INV-RE-, ORD-, RE-, RE
+  cleaned = cleaned.replace(/^(?:INV-RE-|ORD-|RE-?|RE)/i, '');
+  return cleaned.trim();
 }
 
 export function isUuid(id: string): boolean {
@@ -32,13 +36,18 @@ export function isUuid(id: string): boolean {
 }
 
 export function isHexPrefix(id: string): boolean {
-  return HEX_8_RE.test(id.trim());
+  return HEX_PREFIX_RE.test(id.trim());
+}
+
+export function isNumericTracking(id: string): boolean {
+  return NUMERIC_TRACKING_RE.test(id.trim());
 }
 
 export function isValidOrderId(v: unknown): v is string {
   if (typeof v !== 'string') return false;
+  const raw = v.trim();
   const cleaned = cleanOrderId(v);
-  return ORDER_ID_RE.test(cleaned);
+  return ORDER_ID_RE.test(cleaned) || ORDER_ID_RE.test(raw);
 }
 
 export function isValidSku(v: unknown): v is string {
