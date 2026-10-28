@@ -52,6 +52,8 @@ export default function AdminOrdersPage() {
   const [error, setError] = useState('');
   const [actionSuccess, setActionSuccess] = useState('');
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [autoRefresh, setAutoRefresh] = useState(true);
+  const [lastRefreshedAt, setLastRefreshedAt] = useState<Date | null>(new Date());
 
   const headers = useCallback(
     (): HeadersInit => ({ Authorization: `Bearer ${key}` }),
@@ -70,6 +72,7 @@ export default function AdminOrdersPage() {
       if (!res.ok) throw new Error(data.error || 'Failed to authenticate admin key');
       setOrders(data.orders ?? []);
       setUnlocked(true);
+      setLastRefreshedAt(new Date());
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Load failed');
       if (String(err).includes('Unauthorized')) setUnlocked(false);
@@ -77,6 +80,15 @@ export default function AdminOrdersPage() {
       setLoading(false);
     }
   }, [headers, statusFilter]);
+
+  // Live auto-refresh polling every 15 seconds
+  useEffect(() => {
+    if (!unlocked || !autoRefresh) return;
+    const interval = setInterval(() => {
+      void load();
+    }, 15000);
+    return () => clearInterval(interval);
+  }, [unlocked, autoRefresh, load]);
 
   useEffect(() => {
     try {
@@ -460,17 +472,35 @@ export default function AdminOrdersPage() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+            {/* Live Auto-Refresh Toggle */}
+            <button
+              onClick={() => setAutoRefresh(!autoRefresh)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer border ${
+                autoRefresh
+                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 shadow-md shadow-emerald-500/10'
+                  : 'bg-slate-800 border-slate-700 text-slate-400'
+              }`}
+              title="Automatically pulls live orders every 15s"
+            >
+              <span className={`w-2 h-2 rounded-full ${autoRefresh ? 'bg-emerald-400 animate-ping' : 'bg-slate-500'}`} />
+              <span>{autoRefresh ? 'Live Sync: 15s' : 'Sync: Paused'}</span>
+            </button>
+
+            {/* Instant Manual Refresh */}
+            <button
+              onClick={() => void load()}
+              disabled={loading}
+              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-slate-200 transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+            >
+              <span className={loading ? 'animate-spin' : ''}>⚡</span>
+              <span>{loading ? 'Syncing…' : 'Sync Now'}</span>
+            </button>
+
             <Link
               href="/admin"
               className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 transition-all no-underline flex items-center gap-1"
             >
-              <span>📦</span> Products &amp; Drops
-            </Link>
-            <Link
-              href="/admin/agent"
-              className="px-3 py-1.5 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 border border-orange-500/40 text-xs font-bold text-orange-300 transition-all no-underline flex items-center gap-1"
-            >
-              <span>🤖</span> AI Agent Desk ↗
+              <span>🏷️</span> Catalog &amp; Drops
             </Link>
             <Link
               href="/"
@@ -490,7 +520,7 @@ export default function AdminOrdersPage() {
               onClick={handleLock}
               className="px-3 py-1.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-xs font-bold text-red-400 transition-all flex items-center gap-1.5 cursor-pointer"
             >
-              <span>🔒</span> Lock Vault
+              <span>🔒</span> Lock
             </button>
           </div>
         </div>

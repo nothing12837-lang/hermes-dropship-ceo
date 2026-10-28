@@ -1,6 +1,5 @@
 'use client';
 
-import { track } from '@/lib/telemetry/beacon';
 import { enforcePriceFloor, getProduct } from '@/lib/data/products';
 import React, {
   createContext,
@@ -114,7 +113,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       add: (id, qty = 1, meta?: Partial<CartItem>) => {
         const addQty = Math.max(1, Math.floor(qty));
         const cleanBaseId = id.split('__')[0];
-        void track('add_to_cart', { productId: cleanBaseId });
         const sizeSlug = meta?.size ? `size-${meta.size.trim().replace(/\s+/g, '_')}` : '';
         const colorSlug = meta?.color ? `color-${meta.color.trim().replace(/\s+/g, '_')}` : '';
         const otherSuffix = [meta?.phoneModel, meta?.customText, meta?.customImageName].filter(Boolean).join('-');

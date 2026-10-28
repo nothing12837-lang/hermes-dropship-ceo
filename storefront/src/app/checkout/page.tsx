@@ -13,7 +13,6 @@ import { useGeo } from '@/context/GeoContext';
 import { validateCouponCode } from '@/lib/festivals';
 import { scoreRtoRisk } from '@/lib/rto';
 import { trackBeginCheckout, trackAddShippingInfo } from '@/lib/telemetry/dataLayer';
-import { trackCheckout } from '@/lib/telemetry/beacon';
 
 const INDIAN_STATES = [
   'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
@@ -388,7 +387,6 @@ export default function CheckoutPage() {
   // Telemetry: track begin_checkout on checkout load
   useEffect(() => {
     if (detailed.length > 0) {
-      trackCheckout(detailed[0]?.product.id);
       trackBeginCheckout(
         detailed.map((d) => ({
           id: d.id,

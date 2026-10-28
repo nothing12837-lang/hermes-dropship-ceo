@@ -545,15 +545,10 @@ export default function AdminProductsDashboard() {
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
             <Link
               href="/admin/orders"
-              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 transition-all no-underline flex items-center gap-1"
+              className="px-3 py-1.5 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 border border-orange-500/40 text-xs font-bold text-orange-300 transition-all no-underline flex items-center gap-1.5 shadow-sm shadow-orange-500/10"
             >
-              <span>🚚</span> Orders &amp; Fulfillment ↗
-            </Link>
-            <Link
-              href="/admin/agent"
-              className="px-3 py-1.5 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 border border-orange-500/40 text-xs font-bold text-orange-300 transition-all no-underline flex items-center gap-1"
-            >
-              <span>🤖</span> AI Agent Desk ↗
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>🚚 Live Orders &amp; Fulfillment ↗</span>
             </Link>
             <Link
               href="/"

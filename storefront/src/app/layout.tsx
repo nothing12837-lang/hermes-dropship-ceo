@@ -9,7 +9,6 @@ import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { GeoProvider } from "@/context/GeoContext";
 import ClientOverlays from "@/components/ui/ClientOverlays";
 import { TelemetryProvider } from "@/components/telemetry/TelemetryProvider";
-import AnalyticsBeacon from "@/lib/telemetry/beacon";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -125,7 +124,6 @@ export default function RootLayout({
       <body className="font-sans antialiased bg-[#FFF9F1] text-neutral-900">
         <TelemetryProvider />
 
-        <AnalyticsBeacon />
         <ErrorBoundary>
           <GeoProvider>
             <CartProvider>
