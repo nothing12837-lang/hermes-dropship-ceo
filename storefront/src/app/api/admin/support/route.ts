@@ -84,3 +84,40 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: err.message || 'Update failed' }, { status: 500 });
   }
 }
+
+/**
+ * DELETE /api/admin/support?id=...&type=ticket|lead
+ * Delete ticket or lead (admin only).
+ */
+export async function DELETE(req: NextRequest) {
+  if (!isAdmin(req)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const supabase = getServiceSupabase();
+  if (!supabase) {
+    return NextResponse.json({ error: 'Database service unavailable' }, { status: 503 });
+  }
+
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get('id');
+    const type = searchParams.get('type') || 'ticket';
+
+    if (!id) {
+      return NextResponse.json({ error: 'id parameter is required' }, { status: 400 });
+    }
+
+    const table = type === 'lead' ? 'custom_leads' : 'support_tickets';
+    const idColumn = type === 'lead' ? 'lead_id' : 'id';
+
+    const { error } = await supabase.from(table).delete().eq(idColumn, id);
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ ok: true, id, deleted: true });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message || 'Delete failed' }, { status: 500 });
+  }
+}
