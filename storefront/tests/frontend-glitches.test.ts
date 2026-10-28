@@ -6,6 +6,7 @@ import {
   getGarmentSpecBadge,
   enforcePriceFloor,
   products,
+  getProduct,
   BUNDLE_FALLBACK_PRODUCTS,
 } from '@/lib/data/products';
 import { isAllowedBlog, deduplicatePosts } from '@/app/blog/page';
@@ -421,6 +422,25 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
     // BUNDLE150 requires 1899
     expect(validateCouponCode('BUNDLE150', 1199).valid).toBe(false);
     expect(validateCouponCode('BUNDLE150', 1899).valid).toBe(true);
+  });
+
+  it('resolves Custom Drops blanks with true-profit floor prices for checkout', () => {
+    const tee = getProduct('blank-oversized-tee');
+    expect(tee).toBeDefined();
+    expect(tee?.price_inr).toBe(849);
+    expect(tee?.title).toContain('Oversized Tee');
+
+    const jersey = getProduct('blank-jersey');
+    expect(jersey).toBeDefined();
+    expect(jersey?.price_inr).toBe(799);
+
+    const hoodie = getProduct('blank-hoodie');
+    expect(hoodie).toBeDefined();
+    expect(hoodie?.price_inr).toBe(1399);
+
+    const mat = getProduct('blank-deskmat');
+    expect(mat).toBeDefined();
+    expect(mat?.price_inr).toBe(799);
   });
 });
 
