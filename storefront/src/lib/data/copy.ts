@@ -25,8 +25,8 @@ export const COPY = {
         links: [
           { label: 'All Catalog', href: '/shop' },
           { label: "Men's Graphic Drops", href: '/shop?cat=mens-printed' },
+          { label: 'All Graphic Prints', href: '/shop?cat=printed' },
           { label: "Women's Collection", href: '/shop?cat=womens' },
-          { label: 'Kids Streetwear', href: '/shop?cat=kids' },
           { label: 'Essential Blanks', href: '/shop?cat=blanks' },
         ],
       },

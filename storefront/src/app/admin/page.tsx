@@ -1121,7 +1121,6 @@ export default function AdminProductsDashboard() {
                     >
                       <option value="mens">Men's &amp; Unisex</option>
                       <option value="womens">Women's Collection</option>
-                      <option value="kids">Kids Streetwear</option>
                       <option value="fashion">Fashion &amp; Tops</option>
                       <option value="blanks">Essential Blanks</option>
                     </select>
@@ -1229,7 +1228,6 @@ export default function AdminProductsDashboard() {
                   >
                     <option value="mens">Men's &amp; Unisex</option>
                     <option value="womens">Women's Collection</option>
-                    <option value="kids">Kids Streetwear</option>
                     <option value="fashion">Fashion &amp; Tops</option>
                     <option value="blanks">Essential Blanks</option>
                   </select>
