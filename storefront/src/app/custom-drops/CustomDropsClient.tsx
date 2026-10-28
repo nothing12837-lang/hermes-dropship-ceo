@@ -25,10 +25,10 @@ interface PricingTier {
 }
 
 const PRICING_TIERS: PricingTier[] = [
-  { min: 25, max: 50, teePrice: 399, hoodiePrice: 699, matPrice: 449 },
-  { min: 51, max: 100, teePrice: 349, hoodiePrice: 649, matPrice: 399 },
-  { min: 101, max: 250, teePrice: 299, hoodiePrice: 599, matPrice: 349 },
-  { min: 251, max: 1000, teePrice: 269, hoodiePrice: 549, matPrice: 299 },
+  { min: 25, max: 49, teePrice: 649, hoodiePrice: 1099, matPrice: 649 },
+  { min: 50, max: 99, teePrice: 599, hoodiePrice: 1049, matPrice: 599 },
+  { min: 100, max: 249, teePrice: 569, hoodiePrice: 999, matPrice: 549 },
+  { min: 250, max: 10000, teePrice: 549, hoodiePrice: 949, matPrice: 549 },
 ];
 
 export interface BlankGarment {
@@ -90,7 +90,7 @@ export const SEVEN_CORE_BLANKS: BlankGarment[] = [
     isDeskMat: false,
     isMug: false,
     skuPrefix: 'UJ35',
-    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'],
+    sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'],
     colors: ['White', 'Black', 'Navy Blue', 'Grey Melange', 'Red', 'Royal Blue'],
   },
   {
@@ -105,7 +105,7 @@ export const SEVEN_CORE_BLANKS: BlankGarment[] = [
     isDeskMat: false,
     isMug: false,
     skuPrefix: 'UHd',
-    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+    sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'],
   },
   {
     id: 'blank-crewneck',
@@ -119,7 +119,7 @@ export const SEVEN_CORE_BLANKS: BlankGarment[] = [
     isDeskMat: false,
     isMug: false,
     skuPrefix: 'USs',
-    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+    sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'],
   },
   {
     id: 'blank-varsity',
@@ -133,7 +133,7 @@ export const SEVEN_CORE_BLANKS: BlankGarment[] = [
     isDeskMat: false,
     isMug: false,
     skuPrefix: 'UVJ',
-    sizes: ['S', 'M', 'L', 'XL', '2XL'],
+    sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'],
   },
   {
     id: 'blank-oversized-tee',
@@ -147,7 +147,7 @@ export const SEVEN_CORE_BLANKS: BlankGarment[] = [
     isDeskMat: false,
     isMug: false,
     skuPrefix: 'UOst',
-    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+    sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'],
   },
   {
     id: 'blank-acid-tee',
@@ -161,7 +161,7 @@ export const SEVEN_CORE_BLANKS: BlankGarment[] = [
     isDeskMat: false,
     isMug: false,
     skuPrefix: 'ATe',
-    sizes: ['S', 'M', 'L', 'XL', '2XL'],
+    sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'],
   },
   {
     id: 'blank-deskmat',
@@ -487,7 +487,7 @@ export function CustomDropsClient() {
       : tier.matPrice;
 
   const retailPrice =
-    productType === 'tee' ? 699 : productType === 'hoodie' ? 1499 : 899;
+    productType === 'tee' ? 849 : productType === 'hoodie' ? 1499 : 899;
 
   const totalEstimate = unitPrice * quantity;
   const totalRetail = retailPrice * quantity;
@@ -1430,7 +1430,7 @@ export function CustomDropsClient() {
                   >
                     <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-400 block mb-1">TEE</span>
                     <span className="block font-bold text-xs text-neutral-900">240 GSM Oversized Tee</span>
-                    <span className="block text-[11px] text-[#FF4D24] font-bold mt-0.5">From ₹269/unit</span>
+                    <span className="block text-[11px] text-[#FF4D24] font-bold mt-0.5">From ₹549/unit</span>
                   </button>
 
                   <button
@@ -1444,7 +1444,7 @@ export function CustomDropsClient() {
                   >
                     <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-400 block mb-1">FLEECE</span>
                     <span className="block font-bold text-xs text-neutral-900">380 GSM Fleece Hoodie</span>
-                    <span className="block text-[11px] text-[#FF4D24] font-bold mt-0.5">From ₹549/unit</span>
+                    <span className="block text-[11px] text-[#FF4D24] font-bold mt-0.5">From ₹949/unit</span>
                   </button>
 
                   <button
@@ -1458,7 +1458,7 @@ export function CustomDropsClient() {
                   >
                     <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-400 block mb-1">DESK</span>
                     <span className="block font-bold text-xs text-neutral-900">900x400 Desk Mat</span>
-                    <span className="block text-[11px] text-[#FF4D24] font-bold mt-0.5">From ₹299/unit</span>
+                    <span className="block text-[11px] text-[#FF4D24] font-bold mt-0.5">From ₹549/unit</span>
                   </button>
                 </div>
               </div>

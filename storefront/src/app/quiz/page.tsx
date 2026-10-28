@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from '@/components/ui/ProductCard';
 import { ChapterHeading } from '@/components/ui/Story';
-import { formatPrice, products } from '@/lib/data/products';
+import { formatPrice, enforcePriceFloor, products } from '@/lib/data/products';
 
 const steps = [
   {
@@ -117,23 +117,27 @@ export default function QuizPage() {
                 Based on your aesthetic preferences — here are the top factory-direct recommendations{name ? ` for ${name}` : ''}:
               </p>
               <div style={{ display: 'grid', gap: '1.2rem' }}>
-                {results.map((p) => (
-                  <ProductCard
-                    key={p.id}
-                    id={p.id}
-                    emoji={p.emoji || '🛍️'}
-                    tag={'Aesthetic Match'}
-                    tagColor="#ff4d24"
-                    tagBg="rgba(255,77,36,0.12)"
-                    title={p.title}
-                    desc={p.short}
-                    price={formatPrice(p.price)}
-                    oldPrice={p.compareAtPrice ? formatPrice(p.compareAtPrice) : undefined}
-                    rawPrice={p.price}
-                    gradient={p.gradient || 'linear-gradient(135deg, #18181b, #09090b)'}
-                    chapter={p.chapter || 'Curated'}
-                  />
-                ))}
+                {results.map((rawP) => {
+                  const p = enforcePriceFloor(rawP);
+                  return (
+                    <ProductCard
+                      key={p.id}
+                      id={p.id}
+                      slug={p.slug}
+                      imageUrl={p.image_url}
+                      sizes={p.sizes}
+                      tag="Aesthetic Match"
+                      tagColor="#ff4d24"
+                      tagBg="rgba(255,77,36,0.12)"
+                      title={p.title}
+                      desc={p.short}
+                      price={formatPrice(p.price_inr || p.price)}
+                      oldPrice={p.compareAtPrice ? formatPrice(p.compareAtPrice) : undefined}
+                      rawPrice={p.price_inr || p.price}
+                      rawComparePrice={p.compareAtPrice}
+                    />
+                  );
+                })}
               </div>
               <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem', flexWrap: 'wrap' }}>
                 <button onClick={() => { setStep(0); setAnswers({}); }} style={{ padding: '0.9rem 1.8rem', borderRadius: '9999px', border: '1px solid #ebebeb', background: 'white', fontWeight: 800, cursor: 'pointer' }}>

@@ -80,11 +80,6 @@ const nextConfig = {
         destination: '/',
         permanent: true,
       },
-      {
-        source: '/custom-drops',
-        destination: '/shop',
-        permanent: true,
-      },
 
       {
         source: '/:path*',
