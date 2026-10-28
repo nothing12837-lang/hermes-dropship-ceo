@@ -104,6 +104,16 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/custom-drops',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
+        source: '/bulk-orders',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
         source: '/product/rare-ember-gateway-test-pass',
         destination: '/shop',
         permanent: true,

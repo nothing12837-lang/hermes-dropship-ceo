@@ -37,10 +37,6 @@ Rare Ember (https://www.rareember.shop) is an Indian direct-to-consumer (D2C) st
   - 11Oz Matte Black Ceramic Mugs, Glossy Mugs, Enamel Camp Mugs, Stainless Steel Sippers.
   - Price: ₹449 – ₹649.
 
-### C. B2B & Creator Merch Studio (Custom Drops)
-- **URL**: https://www.rareember.shop/custom-drops
-- **Features**: Custom logo/artwork upload, bulk hackathon & college merch estimator (₹269/unit at scale), 20% advance booking, Hermes AI Desk quote engine.
-
 ---
 
 ## 3. Shipping, Payments & Service Capabilities
@@ -68,7 +64,6 @@ Rare Ember (https://www.rareember.shop) is an Indian direct-to-consumer (D2C) st
 - **Girl's Crew Neck T-Shirt**: https://www.rareember.shop/product/girls-crew-neck-t-shirt-32476832
 - **900x400mm Extended Gaming / Desk Mat**: https://www.rareember.shop/product/desk-mat-900x400-32476856
 - **Matte Black Coffee Mug**: https://www.rareember.shop/product/black-coffee-mug-32476865
-- **Custom Merch Studio & Bulk Estimator**: https://www.rareember.shop/custom-drops
 - **Live Order Tracking**: https://www.rareember.shop/track
 - **7-Day Returns & Exchanges**: https://www.rareember.shop/returns
 - **About Rare Ember**: https://www.rareember.shop/about

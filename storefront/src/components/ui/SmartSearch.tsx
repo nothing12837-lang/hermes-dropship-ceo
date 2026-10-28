@@ -12,7 +12,7 @@ const TRENDING_SEARCHES = [
   '900x400 Desk Mat',
   'Founding 50 Pack',
   'Git Commit Dreams',
-  'Custom Drops B2B',
+  'Heavyweight Hoodie',
 ];
 
 /**
