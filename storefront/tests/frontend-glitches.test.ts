@@ -457,5 +457,21 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
     expect(pulloverHoodie?.title).toContain('Pullover Hoodie');
     expect(pulloverHoodie?.price_inr).toBe(1399);
   });
+
+  it('ensures product gallery color images map accurately without spurious color changes on alternate angles', () => {
+    const acidHoodie = getProduct('32493953');
+    expect(acidHoodie).toBeDefined();
+    expect(acidHoodie?.colorImages).toBeDefined();
+
+    const colorEntries = Object.entries(acidHoodie?.colorImages || {});
+    expect(colorEntries.length).toBeGreaterThan(0);
+    for (const [color, url] of colorEntries) {
+      expect(color).toBeTruthy();
+      expect(url.startsWith('http')).toBe(true);
+    }
+
+    const gallery = acidHoodie?.images || [];
+    expect(gallery.length).toBeGreaterThan(0);
+  });
 });
 

@@ -952,9 +952,31 @@ export function ProductClient({ product }: Props) {
   }, [baseGalleryImages, product.colorImages]);
 
   const [selectedImgIndex, setSelectedImgIndex] = useState(0);
+  const lastSyncedColorRef = useRef<string>(selectedColor);
+  const thumbnailRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Instant image preloading: prefetch all gallery images into browser cache for zero-latency switching
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    galleryImages.forEach((url) => {
+      if (url && typeof url === 'string') {
+        const img = new window.Image();
+        img.src = url;
+      }
+    });
+  }, [galleryImages]);
+
+  // Keep active thumbnail scrolled into view
+  useEffect(() => {
+    const activeThumb = thumbnailRefs.current[selectedImgIndex];
+    if (activeThumb && typeof activeThumb.scrollIntoView === 'function') {
+      activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }, [selectedImgIndex]);
 
   const handleSelectColor = (colorName: string, index?: number) => {
     setSelectedColor(colorName);
+    lastSyncedColorRef.current = colorName;
     let targetUrl: string | undefined = undefined;
     if (product.colorImages) {
       const match = Object.entries(product.colorImages).find(
@@ -975,16 +997,20 @@ export function ProductClient({ product }: Props) {
     }
   };
 
-  // Sync selectedImgIndex whenever selectedColor changes on initial mount or update
+  // Sync selectedImgIndex ONLY when selectedColor actually changes (swatch click or external change)
+  // NEVER when the user is simply clicking through gallery thumbnails/views of the current color
   useEffect(() => {
     if (!selectedColor) return;
+    if (lastSyncedColorRef.current && lastSyncedColorRef.current.toLowerCase().trim() === selectedColor.toLowerCase().trim()) return;
+    lastSyncedColorRef.current = selectedColor;
+
     if (product.colorImages) {
       const match = Object.entries(product.colorImages).find(
         ([c]) => c.toLowerCase().trim() === selectedColor.toLowerCase().trim()
       );
       if (match && match[1]) {
         const idx = galleryImages.indexOf(match[1]);
-        if (idx >= 0 && idx !== selectedImgIndex) {
+        if (idx >= 0) {
           setSelectedImgIndex(idx);
           return;
         }
@@ -994,10 +1020,21 @@ export function ProductClient({ product }: Props) {
     const colorIndex = availableColors.findIndex(
       (c) => c.toLowerCase().trim() === selectedColor.toLowerCase().trim()
     );
-    if (colorIndex >= 0 && galleryImages[colorIndex] && colorIndex !== selectedImgIndex) {
+    if (colorIndex >= 0 && galleryImages[colorIndex]) {
       setSelectedImgIndex(colorIndex);
     }
-  }, [selectedColor, galleryImages, product.colorImages, availableColors, selectedImgIndex]);
+  }, [selectedColor, galleryImages, product.colorImages, availableColors]);
+
+  // Keep selectedColor in sync if user navigates to an image specifically belonging to another colorway
+  useEffect(() => {
+    const activeUrl = galleryImages[selectedImgIndex];
+    if (!activeUrl || !product.colorImages) return;
+    const match = Object.entries(product.colorImages).find(([, url]) => url === activeUrl);
+    if (match && match[0] && match[0].toLowerCase().trim() !== selectedColor.toLowerCase().trim()) {
+      setSelectedColor(match[0]);
+      lastSyncedColorRef.current = match[0];
+    }
+  }, [selectedImgIndex, galleryImages, product.colorImages, selectedColor]);
   const [failedImages, setFailedImages] = useState<Record<number, boolean>>({});
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
@@ -1773,13 +1810,12 @@ export function ProductClient({ product }: Props) {
                 />
               ) : showImage && currentSrc ? (
                 <Image
-                  key={isCustomizing && activeStudioImage ? activeStudioImage : currentSrc}
                   src={isCustomizing && activeStudioImage ? activeStudioImage : currentSrc}
                   alt={`${product.title} - Photo ${selectedImgIndex + 1}`}
                   fill
-                  priority={selectedImgIndex === 0}
+                  priority
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  style={{ objectFit: 'cover', transition: 'opacity 0.25s ease-in-out' }}
+                  style={{ objectFit: 'cover' }}
                   onError={() => setFailedImages((prev) => ({ ...prev, [selectedImgIndex]: true }))}
                 />
               ) : (
@@ -1932,6 +1968,7 @@ export function ProductClient({ product }: Props) {
               {galleryImages.length > 1 && (
                 <>
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedImgIndex((prev) => (prev > 0 ? prev - 1 : galleryImages.length - 1));
@@ -1963,6 +2000,7 @@ export function ProductClient({ product }: Props) {
                     ‹
                   </button>
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedImgIndex((prev) => (prev < galleryImages.length - 1 ? prev + 1 : 0));
@@ -2041,22 +2079,22 @@ export function ProductClient({ product }: Props) {
                       }}
                     >
                       <button
+                        type="button"
                         onClick={() => {
                           setSelectedImgIndex(idx);
                           const targetUrl = galleryImages[idx];
-                          let matchedColor: string | undefined = undefined;
-                          if (product.colorImages) {
+                          if (product.colorImages && targetUrl) {
                             const entry = Object.entries(product.colorImages).find(([, u]) => u === targetUrl);
-                            if (entry) matchedColor = entry[0];
-                          }
-                          if (!matchedColor && availableColors[idx]) {
-                            matchedColor = availableColors[idx];
-                          }
-                          if (matchedColor) {
-                            setSelectedColor(matchedColor);
+                            if (entry && entry[0]) {
+                              setSelectedColor(entry[0]);
+                              lastSyncedColorRef.current = entry[0];
+                            }
                           }
                         }}
-                        aria-label={availableColors[idx] ? `View ${availableColors[idx]} color` : `View photo ${idx + 1}`}
+                        ref={(el) => {
+                          thumbnailRefs.current[idx] = el;
+                        }}
+                        aria-label={`View photo ${idx + 1}`}
                         style={{
                           position: 'relative',
                           width: '4.75rem',
