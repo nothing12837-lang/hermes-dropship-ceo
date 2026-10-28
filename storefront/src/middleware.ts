@@ -17,12 +17,18 @@ export function middleware(request: NextRequest) {
     hostname.endsWith('.local') ||
     hostname.includes('192.168.');
 
+  const { pathname, search } = request.nextUrl;
+
+  // Block legacy test/sandbox drops at the edge with immediate 404
+  if (/^\/product\/(?:rare-ember-gateway-test-pass|.*test[-_ ]?pass.*)/i.test(pathname)) {
+    return new NextResponse('Drop Not Located', { status: 404 });
+  }
+
   if (!isLocal) {
     const isBareDomain = hostname === 'rareember.shop';
     const isVercelDomain = hostname.endsWith('.vercel.app');
 
     if (isBareDomain || isVercelDomain) {
-      const { pathname, search } = request.nextUrl;
       const destination = `https://www.rareember.shop${pathname}${search}`;
       return NextResponse.redirect(destination, 308);
     }
