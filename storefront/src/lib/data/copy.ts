@@ -34,6 +34,7 @@ export const COPY = {
         title: 'About Rare Ember',
         links: [
           { label: 'Brand Story', href: '/about' },
+          { label: 'Contact Us', href: '/contact' },
           { label: 'All Catalog Drops', href: '/shop' },
         ],
       },
@@ -43,6 +44,7 @@ export const COPY = {
           { label: 'Live Order Tracking', href: '/track' },
           { label: '7-Day Returns Portal', href: '/returns' },
           { label: 'Help Desk & Support Ticket', href: '/support' },
+          { label: 'Contact Us & Wholesale', href: '/contact' },
           { label: 'support@rareember.shop', href: 'mailto:support@rareember.shop' },
         ],
       },

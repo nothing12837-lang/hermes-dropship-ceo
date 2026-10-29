@@ -9,9 +9,9 @@ export const revalidate = 60; // 60s ISR: Edge cached in Mumbai (bom1)
 
 export const metadata = {
   title: {
-    absolute: 'Rare Ember — Independent Heavyweight Streetwear & Graphic Drops',
+    absolute: 'Rare Ember — 240 GSM Heavyweight Streetwear & Acid Wash Hoodies India',
   },
-  description: '240 GSM combed cotton streetwear, full sleeve silhouettes & original graphic drops. Tailored in India, dispatched via express air with 7-day returns.',
+  description: '240 GSM combed cotton streetwear, acid wash hoodies, and original graphic drops. Tailored in India, dispatched via express air with Cash on Delivery & 7-day returns.',
   alternates: {
     canonical: 'https://www.rareember.shop',
   },
@@ -99,8 +99,19 @@ export default async function Home() {
   );
 
   return (
-    <main className="page-top min-h-screen text-[#0D0D0F] pb-20">
-      {/* 1. RESTRAINED ANNOUNCEMENT & CATEGORY STRIP */}
+    <main id="main-content" className="page-top min-h-screen text-[#0D0D0F] pb-20">
+      {/* 1. BREADCRUMBS FOR AGENTS & SEARCH ENGINES */}
+      <nav aria-label="Breadcrumb" className="bg-[#FAF8F5] border-b border-black/[0.05] py-2 px-4 sm:px-6 md:px-8 lg:px-12">
+        <div className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto flex items-center gap-2 text-[11px] font-mono text-neutral-500">
+          <Link href="/" className="hover:text-black transition-colors">Home</Link>
+          <span>/</span>
+          <Link href="/shop" className="hover:text-black transition-colors">Streetwear Catalog</Link>
+          <span>/</span>
+          <span className="text-neutral-900 font-bold">2026 Heavyweight Drops</span>
+        </div>
+      </nav>
+
+      {/* 2. RESTRAINED ANNOUNCEMENT & CATEGORY STRIP */}
       <section className="bg-[#F3F0EA] border-b border-black/[0.08] relative z-20">
         <div className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-2.5 flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
           <div className="flex items-center gap-1.5 shrink-0">
@@ -135,15 +146,15 @@ export default async function Home() {
             <span key={i} className="flex items-center gap-8 shrink-0">
               <span className="text-[#E04F33] font-bold">240 GSM COMBED COTTON</span>
               <span>•</span>
-              <span>240 GSM FULL SLEEVE DROPS</span>
+              <span>380 GSM ACID WASH HOODIES</span>
               <span>•</span>
-              <span className="text-[#E04F33] font-bold">DIRECT VERIFIED SELLER SOURCING</span>
+              <span className="text-[#E04F33] font-bold">DROP SHOULDER BOXY SILHOUETTES</span>
               <span>•</span>
               <span>FREE PAN-INDIA DELIVERY</span>
               <span>•</span>
               <span className="text-[#E04F33] font-bold">7-DAY EASY RETURNS</span>
               <span>•</span>
-              <span>BOX-FIT ARCHITECTURAL CUTS</span>
+              <span>CASH ON DELIVERY ACTIVE</span>
               <span>•</span>
             </span>
           ))}
@@ -160,19 +171,22 @@ export default async function Home() {
                 <div className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#E04F33] font-bold mb-1 flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E04F33] pulse-live-dot" />
                   Collection 01 • Flagship Drops
+                  <time dateTime="2026-10-29" className="text-neutral-400 font-mono text-[10px] ml-2">
+                    Updated October 2026
+                  </time>
                 </div>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-zinc-950">
-                  Men&apos;s Graphic Streetwear
+                  240 GSM Heavyweight Streetwear &amp; Graphic Drops
                 </h1>
                 <p className="text-sm sm:text-base text-neutral-600 mt-1.5 font-medium max-w-2xl">
-                  High-density DTF prints on 240 GSM bio-washed combed cotton.
+                  High-density DTF prints on 240 GSM bio-washed combed cotton. Architectural drop-shoulder cuts tailored in India.
                 </p>
               </div>
               <Link
                 href="/shop?cat=mens-printed"
                 className="text-xs sm:text-sm font-bold text-zinc-950 hover:text-[#E04F33] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#E04F33] transition-colors self-start sm:self-auto"
               >
-                <span>View All ({mensPrinted.length})</span>
+                <span>Explore All Graphic Drops ({mensPrinted.length})</span>
                 <span>→</span>
               </Link>
             </div>
@@ -189,8 +203,7 @@ export default async function Home() {
           </section>
         )}
 
-
-        {/* 3. SECTION: WOMEN'S & ART EDITIONS */}
+        {/* 2. SECTION: WOMEN'S & ART EDITIONS */}
         {otherPrinted.length > 0 && (
           <section id="other-printed" className="scroll-mt-24 overflow-x-hidden">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4 mb-4">
@@ -210,7 +223,7 @@ export default async function Home() {
                 href="/shop?cat=womens"
                 className="text-xs sm:text-sm font-bold text-zinc-950 hover:text-[#E04F33] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#E04F33] transition-colors self-start sm:self-auto"
               >
-                <span>View All ({otherPrinted.length})</span>
+                <span>Explore Women&apos;s Collection ({otherPrinted.length})</span>
                 <span>→</span>
               </Link>
             </div>
@@ -226,7 +239,7 @@ export default async function Home() {
           </section>
         )}
 
-        {/* 4. SECTION: ESSENTIAL STREETWEAR BLANKS */}
+        {/* 3. SECTION: ESSENTIAL STREETWEAR BLANKS */}
         {blanks.length > 0 && (
           <section id="streetwear-blanks" className="scroll-mt-24 overflow-x-hidden">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4 mb-4">
@@ -236,7 +249,7 @@ export default async function Home() {
                   Collection 03 • Daily Architecture
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-zinc-950">
-                  Essential Blanks
+                  Essential Blanks &amp; Acid Wash Silhouettes
                 </h2>
                 <p className="text-sm sm:text-base text-neutral-600 mt-1.5 font-medium max-w-2xl">
                   Acid-wash textures, heavyweight raglan tees, solid crewnecks, and minimal wardrobe staples.
@@ -246,7 +259,7 @@ export default async function Home() {
                 href="/shop?cat=blanks"
                 className="text-xs sm:text-sm font-bold text-zinc-950 hover:text-[#E04F33] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#E04F33] transition-colors self-start sm:self-auto"
               >
-                <span>View All ({blanks.length})</span>
+                <span>Explore Essential Blanks ({blanks.length})</span>
                 <span>→</span>
               </Link>
             </div>
@@ -262,7 +275,177 @@ export default async function Home() {
           </section>
         )}
 
-        {/* 8. PURCHASE ASSURANCES & TRANSPARENCY */}
+        {/* 4. GEO & SEO AUTHORITY SECTION: STREETWEAR CRAFTSMANSHIP, SIZING & SCIENCE */}
+        <section id="streetwear-craftsmanship" className="scroll-mt-24 bg-white border border-black/[0.08] rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm space-y-8">
+          <div>
+            <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#E04F33] font-bold block mb-1">
+              Fabric Engineering • Sizing Science
+            </span>
+            <h2 id="fabric-guide" className="text-xl sm:text-2xl lg:text-3xl font-black text-zinc-950">
+              Streetwear Craftsmanship &amp; Fabric Science Guide
+            </h2>
+            <p className="text-xs sm:text-sm text-neutral-600 mt-1 max-w-3xl leading-relaxed">
+              Why fabric weight, yarn density, and enzyme washing define the difference between disposable fast fashion and authentic streetwear.
+            </p>
+          </div>
+
+          {/* Question-Based Headings & Answer Snippets */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+            <div className="bg-[#FAF8F5] p-5 rounded-2xl border border-black/[0.05] space-y-2">
+              <h3 id="what-is-240-gsm" className="text-sm sm:text-base font-bold text-zinc-950">
+                What is a 240 GSM Oversized T-Shirt?
+              </h3>
+              <p className="speakable-lead text-xs sm:text-sm text-neutral-700 leading-relaxed">
+                A 240 GSM oversized t-shirt is a heavyweight luxury streetwear garment crafted from dense, super-combed cotton fabric. Unlike lightweight 160–180 GSM commercial t-shirts that turn transparent or deform after two washes, 240 GSM fabric delivers an architectural drop-shoulder silhouette, thick non-sagging ribbed collar, and substantial drape that maintains structure all day in Indian weather.
+              </p>
+            </div>
+
+            <div className="bg-[#FAF8F5] p-5 rounded-2xl border border-black/[0.05] space-y-2">
+              <h3 id="what-is-acid-wash-hoodie" className="text-sm sm:text-base font-bold text-zinc-950">
+                What is an Acid Wash French Terry Hoodie?
+              </h3>
+              <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed">
+                An acid wash French terry hoodie is a 380 GSM heavyweight pullover engineered with unbrushed interior loops for breathability and an artisanal enzyme mineral wash that gives each piece unique distressed vintage marble textures with zero transparency.
+              </p>
+            </div>
+
+            <div className="bg-[#FAF8F5] p-5 rounded-2xl border border-black/[0.05] space-y-2">
+              <h3 id="how-to-size-streetwear" className="text-sm sm:text-base font-bold text-zinc-950">
+                How to choose the right size for a boxy streetwear fit?
+              </h3>
+              <ol className="list-decimal pl-4 space-y-1.5 text-xs sm:text-sm text-neutral-700 leading-relaxed">
+                <li>Measure your chest circumference across the fullest part using a soft measuring tape.</li>
+                <li>For a true relaxed boxy look, select your regular size as Rare Ember silhouettes feature built-in drop shoulders and 2 inches of ease.</li>
+                <li>For an exaggerated streetwear drape, size up one level.</li>
+              </ol>
+            </div>
+          </div>
+
+          {/* Structured Comparison Data Table */}
+          <div className="space-y-3 pt-2">
+            <h3 id="fabric-comparison-table" className="text-base sm:text-lg font-bold text-zinc-950">
+              Fabric Comparison: Commercial Fast Fashion vs Rare Ember
+            </h3>
+            <div className="overflow-x-auto rounded-2xl border border-black/[0.08]">
+              <table className="w-full text-left text-xs sm:text-sm border-collapse bg-white">
+                <thead>
+                  <tr className="bg-zinc-100/80 border-b border-black/[0.08] text-zinc-900 font-bold">
+                    <th className="p-3 sm:p-4">Specification</th>
+                    <th className="p-3 sm:p-4">Standard Fast Fashion</th>
+                    <th className="p-3 sm:p-4 text-[#E04F33]">Rare Ember 240 GSM Tees</th>
+                    <th className="p-3 sm:p-4 text-[#E04F33]">Rare Ember 380 GSM Hoodies</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-black/[0.06] text-neutral-700">
+                  <tr>
+                    <td className="p-3 sm:p-4 font-bold text-zinc-950">Fabric Density</td>
+                    <td className="p-3 sm:p-4">160–180 GSM (Lightweight)</td>
+                    <td className="p-3 sm:p-4 font-semibold text-zinc-950">240 GSM (Dense Heavyweight)</td>
+                    <td className="p-3 sm:p-4 font-semibold text-zinc-950">380 GSM (French Terry Fleece)</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 sm:p-4 font-bold text-zinc-950">Cotton Grade</td>
+                    <td className="p-3 sm:p-4">Short-Staple Open-End Yarn</td>
+                    <td className="p-3 sm:p-4 font-semibold text-zinc-950">100% Super-Combed Bio-Washed</td>
+                    <td className="p-3 sm:p-4 font-semibold text-zinc-950">100% Combed Cotton Loopback</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 sm:p-4 font-bold text-zinc-950">Collar Durability</td>
+                    <td className="p-3 sm:p-4">1×1 Lightweight Rib (Stretches Out)</td>
+                    <td className="p-3 sm:p-4 font-semibold text-zinc-950">2.5cm Heavy 2×1 Lycra Rib (Retains Shape)</td>
+                    <td className="p-3 sm:p-4 font-semibold text-zinc-950">Double-Layer Thermal Hood &amp; Drawcords</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 sm:p-4 font-bold text-zinc-950">Indian Weather Drape</td>
+                    <td className="p-3 sm:p-4">Clings to body &amp; Translucent</td>
+                    <td className="p-3 sm:p-4 font-semibold text-zinc-950">Opaque, Breathable &amp; Boxy Drape</td>
+                    <td className="p-3 sm:p-4 font-semibold text-zinc-950">Thermal Insulation with Breathable Loopback</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 sm:p-4 font-bold text-zinc-950">Delivery &amp; COD</td>
+                    <td className="p-3 sm:p-4">Paid shipping + COD extra charge</td>
+                    <td className="p-3 sm:p-4 font-semibold text-zinc-950">Free Express Air + COD Available</td>
+                    <td className="p-3 sm:p-4 font-semibold text-zinc-950">Free Express Air + COD Available</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Definition List (<dl>, <dt>, <dd>) */}
+          <div className="space-y-3 pt-2">
+            <h3 id="streetwear-glossary" className="text-base sm:text-lg font-bold text-zinc-950">
+              Streetwear Terminology Glossary
+            </h3>
+            <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="bg-[#FAF8F5] p-4 rounded-xl border border-black/[0.05]">
+                <dt className="font-bold text-zinc-950 text-xs sm:text-sm">GSM (Grams per Square Meter)</dt>
+                <dd className="text-xs text-neutral-600 mt-1 leading-relaxed">
+                  Metric measuring fabric density. Commercial tees run 160–180 GSM, while true streetwear silhouettes begin at 240+ GSM.
+                </dd>
+              </div>
+
+              <div className="bg-[#FAF8F5] p-4 rounded-xl border border-black/[0.05]">
+                <dt className="font-bold text-zinc-950 text-xs sm:text-sm">Super-Combed Cotton</dt>
+                <dd className="text-xs text-neutral-600 mt-1 leading-relaxed">
+                  Premium long-staple cotton fibers combed to remove short fibers and impurities, completely preventing surface fuzz and pilling.
+                </dd>
+              </div>
+
+              <div className="bg-[#FAF8F5] p-4 rounded-xl border border-black/[0.05]">
+                <dt className="font-bold text-zinc-950 text-xs sm:text-sm">Bio-Washed Finish</dt>
+                <dd className="text-xs text-neutral-600 mt-1 leading-relaxed">
+                  Enzymatic bath that treats cellulose fibers, delivering a rich silky-smooth hand feel with enhanced dye retention over dozens of washes.
+                </dd>
+              </div>
+
+              <div className="bg-[#FAF8F5] p-4 rounded-xl border border-black/[0.05]">
+                <dt className="font-bold text-zinc-950 text-xs sm:text-sm">Drop-Shoulder Fit</dt>
+                <dd className="text-xs text-neutral-600 mt-1 leading-relaxed">
+                  Architectural tailoring pattern where sleeve seams rest below the natural shoulder line for a boxy, contemporary streetwear silhouette.
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          {/* 5. PAA FREQUENTLY ASKED QUESTIONS */}
+          <div className="space-y-4 pt-4 border-t border-black/[0.08]">
+            <h3 id="faq-section" className="text-lg sm:text-xl font-black text-zinc-950">
+              Frequently Asked Questions (FAQ)
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+              <div className="bg-[#FAF8F5] p-5 rounded-2xl border border-black/[0.05] space-y-1.5">
+                <h4 className="font-bold text-zinc-950">Does Rare Ember offer Cash on Delivery (COD) across India?</h4>
+                <p className="faq-answer text-neutral-700 leading-relaxed">
+                  Yes, Cash on Delivery is supported across 19,000+ PIN codes in India. We verify COD orders instantly via secure SMS OTP to prevent logistics delays.
+                </p>
+              </div>
+
+              <div className="bg-[#FAF8F5] p-5 rounded-2xl border border-black/[0.05] space-y-1.5">
+                <h4 className="font-bold text-zinc-950">How fast is delivery for streetwear orders?</h4>
+                <p className="faq-answer text-neutral-700 leading-relaxed">
+                  All orders are dispatched via express air couriers (BlueDart &amp; Delhivery Air), typically delivering in 2 to 4 business days to metro cities.
+                </p>
+              </div>
+
+              <div className="bg-[#FAF8F5] p-5 rounded-2xl border border-black/[0.05] space-y-1.5">
+                <h4 className="font-bold text-zinc-950">What is Rare Ember&apos;s return and replacement policy?</h4>
+                <p className="faq-answer text-neutral-700 leading-relaxed">
+                  We provide a 7-day doorstep replacement guarantee. If there is any sizing mismatch, transit defect, or manufacturing issue, submit a claim on our returns portal.
+                </p>
+              </div>
+
+              <div className="bg-[#FAF8F5] p-5 rounded-2xl border border-black/[0.05] space-y-1.5">
+                <h4 className="font-bold text-zinc-950">How should I wash 240 GSM tees and acid wash hoodies?</h4>
+                <p className="faq-answer text-neutral-700 leading-relaxed">
+                  Turn garments inside-out and machine wash in cold water with mild liquid detergent. Line dry in the shade. Never iron directly on graphic print surfaces.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 5. PURCHASE ASSURANCES & TRANSPARENCY */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-black/[0.08]">
           {ASSURANCES.map((a, i) => (
             <ScrollReveal key={a.title} delay={i * 60}>

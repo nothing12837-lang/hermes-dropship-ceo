@@ -23,7 +23,7 @@ export default function SmartSearch() {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState('');
   const router = useRouter();
-  const boxRef = useRef<HTMLDivElement>(null);
+  const boxRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (!focused) return;
@@ -60,7 +60,23 @@ export default function SmartSearch() {
         )}
       </AnimatePresence>
 
-      <div ref={boxRef} style={{ position: 'relative', zIndex: focused ? 151 : 1, flex: 1, maxWidth: focused ? '580px' : '420px', transition: 'max-width 0.35s cubic-bezier(0.16,1,0.3,1)' }}>
+      <form
+        role="search"
+        data-tool-name="siteSearch"
+        data-tool-description="Search Rare Ember streetwear catalog for 240 GSM oversized tees, acid wash hoodies, and graphic drops"
+        onSubmit={(e) => {
+          e.preventDefault();
+          go(value);
+        }}
+        ref={boxRef}
+        style={{
+          position: 'relative',
+          zIndex: focused ? 151 : 1,
+          flex: 1,
+          maxWidth: focused ? '580px' : '420px',
+          transition: 'max-width 0.35s cubic-bezier(0.16,1,0.3,1)',
+        }}
+      >
         <motion.div
           animate={{ scale: focused ? 1.02 : 1 }}
           transition={{ type: 'spring', stiffness: 350, damping: 28 }}
@@ -74,6 +90,7 @@ export default function SmartSearch() {
         >
           <span style={{ fontSize: '1rem' }}>🔍</span>
           <input
+            name="q"
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onFocus={() => setFocused(true)}
@@ -87,7 +104,7 @@ export default function SmartSearch() {
           />
           {focused && value && (
             <button
-              onClick={() => go(value)}
+              type="submit"
               style={{
                 border: 'none', borderRadius: '9999px', padding: '0.45rem 1rem',
                 background: '#0a0a0a', color: 'white', fontWeight: 800,
@@ -135,7 +152,7 @@ export default function SmartSearch() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </form>
     </>
   );
 }
