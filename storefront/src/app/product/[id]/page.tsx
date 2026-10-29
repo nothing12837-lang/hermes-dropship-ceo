@@ -25,22 +25,50 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const cleanSlug = product.slug || product.id;
   const currentPrice = product.price_inr || product.price || 999;
+
+  // Clean factory SKU noise (e.g. '| UC61', 'UH62', etc.)
+  const cleanTitle = (product.title || '')
+    .replace(/\|\s*[A-Z0-9_-]{2,8}/gi, '')
+    .replace(/\b(qikink|ut58|cc32|ms65|fc38|fa30|uj31|fd16|ur50|ua22|ut27|mt45|ut68|uc61|uh62|uc28|uc23|ma45|us52|ua51|ua26|bc50|mf31|ur37|ms36|ub39|us21|uv34|uj35|bc21|uh83|ur39)\b/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const isHoodie = cleanTitle.toLowerCase().includes('hoodie');
+  const isTee = cleanTitle.toLowerCase().includes('tee') || cleanTitle.toLowerCase().includes('shirt');
+  const isBottom = cleanTitle.toLowerCase().includes('shorts') || cleanTitle.toLowerCase().includes('sweatpants');
+  const gsmTag = isHoodie ? '380 GSM Heavyweight' : isTee ? '240 GSM Combed Cotton' : isBottom ? 'French Terry' : 'Heavyweight Streetwear';
+
+  const seoTitle = `${cleanTitle} (${gsmTag}) — Rare Ember Streetwear India`;
   const description =
     product.short ||
-    `Get ${product.title} for ₹${currentPrice} at Rare Ember. 100% Super-Combed Bio-Washed Cotton. Fast Pan-India Express Air Shipping via Delhivery Air with COD & 7-Day Returns.`;
+    `Buy ${cleanTitle} online in India for ₹${currentPrice}. Premium ${gsmTag}, super-combed bio-washed fabric, drop-shoulder streetwear fit. Express 2-4 day pan-India delivery with Cash on Delivery (COD) & 7-day easy returns.`;
 
   const canonicalUrl = `${siteUrl}/product/${cleanSlug}`;
   const rawImage = product.image_url || '/flame-icon.png';
   const ogImageUrl = rawImage.startsWith('http') ? rawImage : `${siteUrl}${rawImage}`;
 
+  const keywords = [
+    cleanTitle,
+    `${cleanTitle} India`,
+    'buy streetwear online india',
+    'oversized t shirt india',
+    'heavyweight t shirt 240 gsm',
+    '380 gsm hoodie india',
+    'acid wash streetwear',
+    'drop shoulder t shirt',
+    'rare ember',
+    'cod streetwear india',
+  ];
+
   return {
-    title: `${product.title} — ₹${currentPrice}`,
+    title: seoTitle,
     description,
+    keywords,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: `${product.title} — ₹${currentPrice}`,
+      title: seoTitle,
       description,
       url: canonicalUrl,
       siteName: 'Rare Ember',
@@ -51,14 +79,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: ogImageUrl,
           width: 1200,
           height: 1200,
-          alt: `${product.title} — Rare Ember Streetwear`,
+          alt: `${cleanTitle} — Rare Ember Streetwear`,
           type: 'image/jpeg',
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${product.title} — ₹${currentPrice} | Rare Ember`,
+      title: `${seoTitle} | Rare Ember`,
       description,
       images: [ogImageUrl],
       creator: '@rareember',
