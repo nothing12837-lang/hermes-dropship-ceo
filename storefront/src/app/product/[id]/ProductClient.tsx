@@ -2922,7 +2922,7 @@ export function ProductClient({ product }: Props) {
                   {activeItemIsApparel ? (
                     <div>
                       <span className="text-[11px] font-black uppercase tracking-wider text-neutral-400 block mb-1.5">
-                        Choose Placement (Qikink Direct Zones):
+                        Choose Placement (Studio Print Zones):
                       </span>
                       <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
                         {[

@@ -2,11 +2,11 @@ import Link from 'next/link';
 import { blogPosts } from '@/lib/data/content';
 import { ChapterHeading } from '@/components/ui/Story';
 
-export const metadata  = {
-  title: 'Rare Ember Journal • Streetwear & Tech Culture',
-  description: 'Fabric engineering, 240/380 GSM craftsmanship, hackathon custom merch guides, and minimalist creator workstation blueprints.',
+export const metadata = {
+  title: 'RareEmber™ Journal • High-Fashion Streetwear & Architectural Craftsmanship',
+  description: 'Editorial essays and lookbook archives on 240 GSM combed cotton, 380 GSM fleece architecture, mineral acid washes, and digital ownership provenance.',
   alternates: {
-    canonical: 'https://www.rareember.shop/blog',
+    canonical: 'https://www.rareember.shop/journal',
   },
 };
 
@@ -28,7 +28,6 @@ export function deduplicatePosts<T extends { title?: string; slug?: string }>(it
   const result: T[] = [];
 
   for (const item of items) {
-    // Normalize slug by removing trailing numeric timestamp suffixes (e.g. -202610151640)
     const baseSlug = (item.slug || '').toLowerCase().replace(/-\d{10,}$/, '');
     const normTitle = (item.title || '')
       .toLowerCase()
@@ -62,7 +61,7 @@ export default async function BlogPage() {
             .map((r: any) => ({
               slug: r.slug,
               title: r.title,
-              category: r.category || 'Streetwear & Desk',
+              category: r.category || 'High-Fashion Editorial',
               readTime: '4 min',
               emoji: '⚡',
               wash: '#fff3e0',
@@ -85,13 +84,13 @@ export default async function BlogPage() {
   return (
     <main className="page-top" style={{ background: '#fffbf5', minHeight: '100vh' }}>
       <div style={{ maxWidth: '76rem', margin: '0 auto', padding: '2rem' }}>
-        <ChapterHeading index="⚡" label="Rare Ember Journal" title="Streetwear, Craft &" accent="Creator Culture." />
-        <p style={{ color: '#52453e', marginTop: '-1.5rem', marginBottom: '2.5rem', maxWidth: '600px' }}>
-          Actionable guides on 240/380 GSM garment engineering, domestic maker craftsmanship, campus merch, and minimalist creator workspaces.
+        <ChapterHeading index="⚡" label="RareEmber™ Editorial Archive" title="Modern Streetwear &" accent="Architectural Cuts." />
+        <p style={{ color: '#52453e', marginTop: '-1.5rem', marginBottom: '2.5rem', maxWidth: '640px', fontSize: '0.95rem', lineHeight: 1.6 }}>
+          Editorial essays and styling lookbooks on 240 GSM combed cotton, 380 GSM fleece architecture, mineral acid washes, and digital ownership provenance.
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: '1.4rem' }}>
           {posts.map((b) => (
-            <Link key={b.slug} href={`/blog/${b.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link key={b.slug} href={`/journal/${b.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
               <div style={{ background: b.wash, borderRadius: '1.6rem', padding: '2.2rem', minHeight: '300px', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ fontSize: '2.6rem' }}>{b.emoji}</div>
                 <div style={{ fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', marginTop: '1.2rem', opacity: 0.6 }}>
@@ -99,7 +98,7 @@ export default async function BlogPage() {
                 </div>
                 <div style={{ fontWeight: 900, fontSize: '1.35rem', lineHeight: 1.3, marginTop: '0.6rem' }}>{b.title}</div>
                 <div style={{ color: '#52453e', marginTop: '0.8rem', lineHeight: 1.6 }}>{b.excerpt}</div>
-                <div style={{ marginTop: 'auto', paddingTop: '1.2rem', fontWeight: 800, color: '#ff4d24' }}>Read guide →</div>
+                <div style={{ marginTop: 'auto', paddingTop: '1.2rem', fontWeight: 800, color: '#ff4d24' }}>Read article →</div>
               </div>
             </Link>
           ))}

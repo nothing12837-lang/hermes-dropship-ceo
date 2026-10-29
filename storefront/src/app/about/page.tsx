@@ -153,7 +153,7 @@ export default function AboutPage() {
                 Explore Active Streetwear Drops
               </h2>
               <p className="text-neutral-400 text-sm mt-3 leading-relaxed">
-                Boxy t-shirts, heavyweight winter hoodies, custom drops, and desk essentials.
+                Boxy t-shirts, heavyweight winter hoodies, limited archival drops, and desk essentials.
               </p>
             </div>
             <div>

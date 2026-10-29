@@ -33,6 +33,63 @@ export function matchesCategory(cat: string, p: any): boolean {
   return (p.category ?? 'mens') === cat;
 }
 
+
+const shopCollectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'RareEmber™ — Luxury Streetwear Collection',
+  description: 'Modern Streetwear. Timeless Cuts. Statement art & refined silhouettes crafted for the rare, never the crowd.',
+  url: 'https://www.rareember.shop/shop',
+  brand: {
+    '@type': 'Brand',
+    name: 'RareEmber',
+  },
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'RareEmber',
+    url: 'https://www.rareember.shop',
+  },
+};
+
+const shopFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'How do RareEmber streetwear silhouettes fit compared to standard retail?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'All RareEmber pieces feature an authentic architectural drop-shoulder cut with generous chest and sleeve volume. Engineered to hang with substantial, structured drape without clinging. If you prefer a tailored streetwear drape, select your true size; for an exaggerated high-street volume, size up one size.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How should I care for RareEmber 240 GSM tees and 380 GSM fleece garments?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Turn garments inside-out before laundering. Machine wash on a gentle cycle in cold water with mild liquid detergent. Line dry in the shade to maintain cotton fiber integrity and prevent shrinkage. Never iron directly on archival graphic prints.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What are your delivery timelines across India?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'We provide complimentary express air shipping across 29,000+ PIN codes in India via BlueDart Air and Delhivery. Orders are prepared within 24 to 48 hours and arrive at your doorstep within 3 to 5 business days with full milestone tracking.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is the RareEmber 7-Day Doorstep Size Exchange Policy?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'We guarantee a 7-day doorstep size exchange. If the silhouette or size does not fit your proportions as desired, initiate an exchange via our /returns portal. Our logistics partner will pick up the piece from your doorstep and deliver your replacement free of charge.',
+      },
+    },
+  ],
+};
+
 function ShopInner() {
   const search = useSearchParams();
   const param = search.get('cat') || 'all';
@@ -99,6 +156,14 @@ function ShopInner() {
 
   return (
     <main className="page-top min-h-screen text-[#0D0D0F] pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(shopCollectionSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(shopFaqSchema) }}
+      />
       {/* Editorial Catalog Header */}
       <section className="bg-[#F3F0EA] border-b border-black/[0.08] py-8 sm:py-12">
         <div className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 text-center">

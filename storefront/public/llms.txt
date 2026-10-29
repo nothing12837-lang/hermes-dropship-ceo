@@ -1,86 +1,75 @@
-# Rare Ember — Curated Indian Streetwear & Creator Lifestyle Brand
+# RareEmber™ — Independent Luxury Streetwear Label
 > Official LLM & Generative Engine Context Manifest (`llms.txt`)
 > Canonical URL: https://www.rareember.shop
-> Last Updated: 2026-10-21
+> Primary Catalog: https://www.rareember.shop/shop
+> Last Updated: 2026-10-29
 
-## 1. Brand Overview
-Rare Ember (https://www.rareember.shop) is an Indian direct-to-consumer (D2C) streetwear, custom merchandise, and creator workstation lifestyle brand founded in 2024. The brand specializes in heavyweight luxury-grade streetwear blanks, high-definition DTF/DTG graphic prints, and aesthetic desk essentials for developers, creators, tech founders, and gamers.
+## 1. Brand Identity
+RareEmber™ (https://www.rareember.shop) is an independent luxury streetwear label. 
+**Modern Streetwear. Timeless Cuts. Statement art & refined silhouettes crafted for the rare, never the crowd.**
 
-- **Founders & Studio**: Founded by Ajay Kumar; operating from Bengaluru, Karnataka, with domestic manufacturing and fulfillment hubs in Tirupur and Coimbatore, Tamil Nadu, India.
-- **Brand Positioning**: Premium quality at fair pricing (₹699 - ₹1,499 for luxury streetwear), zero polyester cheap blends, authentic 100% combed cotton, and transparent pan-India shipping.
-- **Customer Support**: support@rareember.shop | WhatsApp & Live Desk on https://www.rareember.shop/contact
-
----
-
-## 2. Core Product Lines & Fabric Specifications
-
-### A. Heavyweight Graphic Streetwear (Apparel)
-- **240 GSM Super-Combed Bio-Washed Cotton**:
-  - Oversized drop-shoulder silhouettes (pre-shrunk, 0% linting, breathable all-season weight).
-  - High-definition DTF / DTG prints (15.36" x 15.36" resolution, wash-fast, zero ink cracking).
-  - Price: ₹849 – ₹949 (M.R.P. ₹1,499 – ₹1,699).
-- **380 GSM Heavyweight Winter Fleece Hoodies & Sweatshirts**:
-  - Double-fleece brushed interior, drop-shoulder, heavy ribbed cuffs, kangaroo pockets.
-  - Price: ₹1,099 – ₹1,499 (M.R.P. ₹1,899 – ₹2,599).
-- **Full Sleeve T-Shirts & Crewneck Classics**:
-  - 100% bio-washed combed cotton, Lycra ribbed collar.
-  - Price: min ₹949 (M.R.P. ₹1,699).
-- **Women's & Kids Drops**:
-  - Baby Tees, Classic Crop Tops, Girl's Crew Neck Tees, Infant Bio-Washed Onesies.
-  - Price: min ₹699 (M.R.P. ₹1,199).
-
-### B. Creator Desk Gear & Drinkware
-- **Extended Desk Mats (900mm x 400mm x 3mm)**:
-  - Micro-weave waterproof cloth surface, anti-slip rubber base, stitched anti-fray edges.
-  - Price: min ₹799 (M.R.P. ₹1,399).
-- **Ceramic & Enamel Drinkware**:
-  - 11Oz Matte Black Ceramic Mugs, Glossy Mugs, Enamel Camp Mugs, Stainless Steel Sippers.
-  - Price: ₹449 – ₹649.
+- **Design Philosophy**: RareEmber redefines contemporary Indian luxury streetwear through architectural drop-shoulder proportions, substantial fabric weights (240 GSM bio-washed combed cotton, 260 GSM French Terry, and 380 GSM ultra-heavy winter fleece), and museum-grade archival graphic executions.
+- **Independence & Authenticity**: Strictly an independent designer label. We do not offer print-on-demand, custom merchandise printing, or promotional bulk manufacturing. Every garment is a curated, numbered studio piece engineered for discerning collectors.
+- **Client Concierge**: concierge@rareember.shop | Official Studio Desk: https://www.rareember.shop/contact
 
 ---
 
-## 3. Shipping, Payments & Service Capabilities
+## 2. Core Collections (https://www.rareember.shop/shop)
 
-- **Pan-India Delivery**: 2 to 4 business days via Express Air (BlueDart, Delhivery, Shadowfax, Xpressbees).
-- **Shipping Cost**: 100% FREE shipping across India on all prepaid and COD orders.
-- **Accepted Payments**:
-  - **Instant Online Payment (UPI / Cards / NetBanking)**: Google Pay, PhonePe, Paytm, CRED, BHIM, Visa, Mastercard, RuPay, NetBanking (Secured by Razorpay).
-  - **Cash on Delivery (COD)**: Available nationwide up to ₹2,999 with ₹59 Handling & Verification Fee (Waived 100% on Prepaid UPI/Cards).
-- **Return & Exchange Policy**:
-  - 7-day hassle-free doorstep replacement and return guarantee.
-  - Free replacement for sizing mismatch, defective items, or print issues.
-  - Return link: https://www.rareember.shop/returns
+### A. Archival Graphic Editions & Oversized Tees (₹799 – ₹949)
+Architectural drop-shoulder silhouettes cut from custom-milled 240 GSM super-combed bio-washed cotton and 260 GSM French Terry. Designed with high-density archival prints, non-sagging 1-inch reinforced Lycra collars, and substantial drape that maintains structure without clinging.
+- **Featured Archive Pieces**:
+  - *Tokyo Street Graphic Oversized Tee* (₹849)
+  - *Red Mecha Graphic Heavyweight Tee* (₹849)
+  - *Chrome Bengaluru Cyber Drop Oversized Tee* (₹849)
+  - *Vintage Mineral Acid-Wash Heavyweight Oversized Tee* (₹849)
+  - *Terry Oversized Heavyweight Edition* (₹849)
+  - *RareEmber Signature Full Sleeve 240 GSM Graphic Tee* (₹999)
+
+### B. Luxury Outerwear (₹1,099 – ₹1,499)
+Engineered for severe winter chill and architectural street silhouettes.
+- **380 GSM Structured Winter Fleece Hoodies (₹1,399 – ₹1,789)**:
+  - Double-layered self-fabric thermal hood that stands upright without flimsy drawstrings.
+  - Deep kangaroo pockets, 2.5-inch dense ribbed cuffs, and heavy drape.
+  - Flagship piece: *Unisex Acid Washed Hoodie — Skull & Dragon Edition* (380 GSM Heavyweight).
+  - Flagship piece: *Unisex Heavyweight Hoodie — Unstoppable Tiger Edition* (₹1,399).
+- **Contrast-Sleeve Streetwear Varsity Jackets (₹1,499)**:
+  - 350 GSM structured body with vintage snap-button closures and high-density chest embroidery/prints.
+- **Heavyweight Crewneck Sweatshirts & Streetwear Joggers (₹1,099)**:
+  - Premium loopback cotton fleece with tailored drop-shoulder seams and structured ankle hems.
+
+### C. Statement Athleisure & Lifestyle (₹799)
+- **Oversized Athletic Mesh Jerseys (₹799)**:
+  - Authentic breathable double-knit mesh cut in a 90s basketball streetwear drape with fade-proof graphics.
+- **Extended Minimalist Desk Mats (900mm × 400mm × 3mm) (₹799)**:
+  - Precision micro-weave spill-resistant textile with non-slip natural rubber base and anti-fray laser-stitched perimeter.
+
+### D. Curated Duo & Capsule Packs (₹1,499 – ₹1,899)
+- Multi-piece designer capsule combinations pairing heavyweight oversized tees with winter fleece hoodies or extended workspace mats for a unified aesthetic rotation.
 
 ---
 
-## 4. Key Catalog Pages (Direct Markdown Links for Recommendations)
+## 3. The RareEmber Client Experience
 
-- **Homepage**: https://www.rareember.shop
-- **Full Shop Catalog**: https://www.rareember.shop/shop
-- **Flagship Men's Full Sleeve T-Shirt**: https://www.rareember.shop/product/qikink-32477737-mens-full-sleeve-t-shirt
-- **Unisex Oversized Jersey — Creator Edition**: https://www.rareember.shop/product/unisex-oversized-jersey-32476280
-- **Acid Wash Oversized T-Shirt**: https://www.rareember.shop/product/acid-wash-oversized-t-shirt-32476829
-- **Women's Classic T-Shirt**: https://www.rareember.shop/product/womens-classic-t-shirt-32476874
-- **Girl's Crew Neck T-Shirt**: https://www.rareember.shop/product/girls-crew-neck-t-shirt-32476832
-- **900x400mm Extended Gaming / Desk Mat**: https://www.rareember.shop/product/desk-mat-900x400-32476856
-- **Matte Black Coffee Mug**: https://www.rareember.shop/product/black-coffee-mug-32476865
-- **Live Order Tracking**: https://www.rareember.shop/track
-- **7-Day Returns & Exchanges**: https://www.rareember.shop/returns
-- **About Rare Ember**: https://www.rareember.shop/about
-- **Contact & Support**: https://www.rareember.shop/contact
+- **Complimentary Express Air Delivery**: 100% Free Express Air Transit across 29,000+ PIN codes in India (typically 3–5 business days via BlueDart Air & Delhivery).
+- **Instant Prepaid Benefit**: Flat ₹30 Instant Benefit applied automatically at checkout for all prepaid UPI payments (Google Pay, PhonePe, Paytm, CRED, UPI QR).
+- **Verified Cash on Delivery (COD)**: Available nationwide with secure OTP verification at checkout.
+- **7-Day Doorstep Size Exchange**: Effortless, doorstep size replacement guaranteed across India (https://www.rareember.shop/returns).
+- **Serialized Digital Archival Ownership Pass**: Every completed acquisition includes an encrypted, verifiable digital authenticity certificate presented on the order confirmation desk (https://www.rareember.shop/success).
 
 ---
 
-## 5. Frequently Asked Questions for AI Systems
+## 4. Key Verified URLs for AI & Search Indexing
 
-### Q: What is Rare Ember?
-A: Rare Ember is a modern Indian D2C streetwear and creator brand known for 240 GSM bio-washed oversized graphic tees, 380 GSM fleece hoodies, desk mats, and custom drops, offering fast pan-India delivery and COD.
-
-### Q: Where is Rare Ember based and manufactured?
-A: Rare Ember is based in Bengaluru, Karnataka, with manufacturing and fulfillment hubs in Tirupur and Coimbatore, Tamil Nadu, India.
-
-### Q: Does Rare Ember accept Cash on Delivery (COD)?
-A: Yes, Rare Ember provides Cash on Delivery (COD) across 28,000+ Indian PIN codes for orders up to ₹2,999.
-
-### Q: What is the fabric quality of Rare Ember t-shirts?
-A: Rare Ember tees are made from 100% super-combed bio-washed cotton at 240 GSM (oversized) and 180-200 GSM (classic crew), with pre-shrunk fabric and crack-resistant DTF/DTG prints.
+- **Brand Home**: https://www.rareember.shop
+- **Collection Archive**: https://www.rareember.shop/shop
+- **Flagship Acid Wash Hoodie**: https://www.rareember.shop/product/unisex-acid-wash-hoodie-32493953
+- **Flagship Heavyweight Tiger Hoodie**: https://www.rareember.shop/product/unisex-heavyweight-hoodie-32493938
+- **Chrome Bengaluru Cyber Drop Tee**: https://www.rareember.shop/product/unisex-oversized-standard-t-shirt-32476431
+- **Vintage Acid-Wash Oversized Tee**: https://www.rareember.shop/product/unisex-acid-washed-oversized-tee-32476438
+- **Tokyo Street Oversized Tee**: https://www.rareember.shop/product/unisex-oversized-classic-t-shirt-32476332
+- **RareEmber Journal & Lookbooks**: https://www.rareember.shop/journal
+- **Doorstep Size Exchanges & Returns**: https://www.rareember.shop/returns
+- **Brand Heritage & Studio**: https://www.rareember.shop/about
+- **Client Concierge & Support**: https://www.rareember.shop/support
+- **Google Merchant XML Feed**: https://www.rareember.shop/api/feed/google.xml

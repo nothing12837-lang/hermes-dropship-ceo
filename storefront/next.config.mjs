@@ -198,6 +198,56 @@ const nextConfig = {
         destination: '/blog',
         permanent: true,
       },
+      {
+        source: '/blog/minimalist-desk-setup-guide',
+        destination: '/journal',
+        permanent: true,
+      },
+      {
+        source: '/journal/minimalist-desk-setup-guide',
+        destination: '/journal',
+        permanent: true,
+      },
+      {
+        source: '/blog/hackathon-college-fest-custom-merch-guide',
+        destination: '/journal',
+        permanent: true,
+      },
+      {
+        source: '/journal/hackathon-college-fest-custom-merch-guide',
+        destination: '/journal',
+        permanent: true,
+      },
+      {
+        source: '/blog/380-gsm-french-terry-hoodie-craftsmanship',
+        destination: '/journal/autumn-winter-layering-varsity-jackets-heavyweight-hoodies',
+        permanent: true,
+      },
+      {
+        source: '/journal/380-gsm-french-terry-hoodie-craftsmanship',
+        destination: '/journal/autumn-winter-layering-varsity-jackets-heavyweight-hoodies',
+        permanent: true,
+      },
+      {
+        source: '/blog/why-240-gsm-heavyweight-tees-dominate-indian-streetwear',
+        destination: '/journal/the-architecture-of-the-drop-shoulder-silhouette',
+        permanent: true,
+      },
+      {
+        source: '/journal/why-240-gsm-heavyweight-tees-dominate-indian-streetwear',
+        destination: '/journal/the-architecture-of-the-drop-shoulder-silhouette',
+        permanent: true,
+      },
+      {
+        source: '/blog/how-to-style-oversized-full-sleeve-tees',
+        destination: '/journal/inside-collection-01-statement-graphics-acid-wash-textures',
+        permanent: true,
+      },
+      {
+        source: '/journal/how-to-style-oversized-full-sleeve-tees',
+        destination: '/journal/inside-collection-01-statement-graphics-acid-wash-textures',
+        permanent: true,
+      },
     ];
   },
   async headers() {

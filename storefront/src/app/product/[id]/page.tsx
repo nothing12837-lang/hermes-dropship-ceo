@@ -185,7 +185,7 @@ export default async function ProductPage({ params }: Props) {
     },
     brand: {
       '@type': 'Brand',
-      name: 'Rare Ember',
+      name: 'RareEmber',
     },
     offers: {
       '@type': 'Offer',
@@ -198,7 +198,7 @@ export default async function ProductPage({ params }: Props) {
       availability: 'https://schema.org/InStock',
       seller: {
         '@type': 'Organization',
-        name: 'Rare Ember',
+        name: 'RareEmber',
         url: siteUrl,
       },
       hasMerchantReturnPolicy: {

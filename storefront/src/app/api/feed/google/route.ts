@@ -133,7 +133,7 @@ export async function GET() {
       <g:description>${desc}</g:description>
       <g:link>${link}</g:link>
       <g:image_link>${imageLink}</g:image_link>
-${additionalImages ? additionalImages + '\n' : ''}      <g:brand>Rare Ember</g:brand>
+${additionalImages ? additionalImages + '\n' : ''}      <g:brand>RareEmber</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in_stock</g:availability>
       <g:price>${priceVal.toFixed(2)} INR</g:price>
@@ -149,7 +149,7 @@ ${additionalImages ? additionalImages + '\n' : ''}      <g:brand>Rare Ember</g:b
       <g:shipping_weight>${weight}</g:shipping_weight>
       <g:shipping>
         <g:country>IN</g:country>
-        <g:service>Delhivery Express Air</g:service>
+        <g:service>Express Air</g:service>
         <g:price>0.00 INR</g:price>
         <g:min_handling_time>0</g:min_handling_time>
         <g:max_handling_time>1</g:max_handling_time>
@@ -164,7 +164,7 @@ ${additionalImages ? additionalImages + '\n' : ''}      <g:brand>Rare Ember</g:b
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
   <channel>
-    <title>Rare Ember — Curated Streetwear, Living &amp; Workstation Tech</title>
+    <title>RareEmber™ — Luxury Streetwear Collection</title>
     <link>${siteUrl}</link>
     <description>Rare Ember Official Product Catalog for Google Shopping Tab Free Listings</description>
 ${itemsXml}

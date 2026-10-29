@@ -11,18 +11,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${base}/`, lastModified: now, changeFrequency: 'daily', priority: 1.0 },
     { url: `${base}/shop`, lastModified: now, changeFrequency: 'daily', priority: 0.95 },
+    { url: `${base}/journal`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${base}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.75 },
     { url: `${base}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/returns`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
-        { url: `${base}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.5 },
+    { url: `${base}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.5 },
     { url: `${base}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.5 },
-        { url: `${base}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.75 },
     { url: `${base}/quiz`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${base}/wishlist`, lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
-    { url: `${base}/llms.txt`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${base}/llms.txt`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
   ];
-
-  
 
   // Dynamic Product Pages fetched from Supabase
   let liveProducts: Array<{ id: string; slug?: string; title?: string; category?: string; updated_at?: string }> = [];
@@ -65,36 +64,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85,
   }));
 
-  // Blog Article Pages from Supabase (Aarav's Content Engine)
-  let liveBlogs: Array<{ slug: string; updated_at?: string }> = [];
-  try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    if (supabaseUrl && supabaseKey) {
-      const bRes = await fetch(`${supabaseUrl}/rest/v1/blog_posts?select=slug,updated_at&published=eq.true&limit=100`, {
-        headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}` },
-        next: { revalidate: 3600 }
-      });
-      if (bRes.ok) {
-        const bData = await bRes.json();
-        if (Array.isArray(bData)) liveBlogs = bData;
-      }
-    }
-  } catch {}
-
-  const blogRoutes: MetadataRoute.Sitemap = liveBlogs.length > 0
-    ? liveBlogs.map(b => ({
-        url: `${base}/blog/${b.slug}`,
-        lastModified: b.updated_at ? new Date(b.updated_at) : now,
-        changeFrequency: 'weekly' as const,
-        priority: 0.75,
-      }))
-    : blogPosts.map((b) => ({
-        url: `${base}/blog/${b.slug}`,
-        lastModified: now,
-        changeFrequency: 'monthly' as const,
-        priority: 0.65,
-      }));
+  // Journal & Blog Article Pages
+  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((b) => ({
+    url: `${base}/journal/${b.slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly' as const,
+    priority: 0.75,
+  }));
 
   return [...staticRoutes, ...activeProducts, ...blogRoutes];
 }
