@@ -124,6 +124,12 @@ export const EVERGREEN_COUPONS: Record<
     minOrder: 899,
     desc: 'Flat ₹100 OFF for Verified Community Reviewers (orders above ₹899)',
   },
+  REDDIT10: {
+    type: 'percentage',
+    value: 10,
+    minOrder: 899,
+    desc: '10% OFF for Reddit Streetwear Community supporters (₹899+)',
+  },
   FIRST50: {
     type: 'flat',
     value: 50,
