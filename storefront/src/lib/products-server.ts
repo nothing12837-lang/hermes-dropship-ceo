@@ -268,10 +268,23 @@ function sanitizeLocalProduct(p: Product): Product {
   };
 }
 
+const PRODUCT_SLUG_ALIASES: Record<string, string> = {
+  'rare-ember-acid-wash-hoodie': 'unisex-acid-wash-hoodie-32493953',
+  'acid-wash-hoodie': 'unisex-acid-wash-hoodie-32493953',
+  'unisex-acid-wash-hoodie': 'unisex-acid-wash-hoodie-32493953',
+  'rare-ember-heavyweight-hoodie': 'unisex-heavyweight-hoodie-32493938',
+  'heavyweight-hoodie': 'unisex-heavyweight-hoodie-32493938',
+  'rare-ember-pullover-hoodie': 'unisex-pullover-hoodie-32493470',
+  'pullover-hoodie': 'unisex-pullover-hoodie-32493470',
+  'rare-ember-acid-washed-oversized-tee': 'unisex-acid-washed-oversized-tee-32476438',
+  'acid-washed-oversized-tee': 'unisex-acid-washed-oversized-tee-32476438',
+};
+
 function findLocalProduct(term: string): Product | null {
   if (!term) return null;
-  const cleanTerm = term.trim().toLowerCase();
-  if (/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs)/i.test(cleanTerm)) return null;
+  const rawTerm = term.trim().toLowerCase();
+  if (/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs)/i.test(rawTerm)) return null;
+  const cleanTerm = PRODUCT_SLUG_ALIASES[rawTerm] || rawTerm;
   const cleanedSlug = cleanBrandSlug(cleanTerm);
   const match = localProducts.find((p) => {
     if (p.id.toLowerCase() === cleanTerm || p.slug.toLowerCase() === cleanTerm) return true;
@@ -284,6 +297,10 @@ function findLocalProduct(term: string): Product | null {
     const pIdBase = p.id.replace(/-[a-z]{1,3}[0-9]{1,4}$/, '').toLowerCase();
     const termBase = cleanTerm.replace(/-[a-z]{1,3}[0-9]{1,4}$/, '').toLowerCase();
     if (pIdBase === termBase || pIdBase.replace(/^qikink-/, '') === termBase.replace(/^rare-ember-/, '')) return true;
+    // Normalized slug match (stripping numeric suffix and unisex/brand prefixes)
+    const normSlug = p.slug.toLowerCase().replace(/-\d+$/, '').replace(/^unisex-/, '');
+    const normTerm = cleanTerm.replace(/^rare-ember-/, '').replace(/^unisex-/, '');
+    if (normSlug && normTerm && normSlug === normTerm) return true;
     return false;
   });
   return match && !isDisallowedProduct(match) ? sanitizeLocalProduct(match) : null;
