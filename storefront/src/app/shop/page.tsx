@@ -156,14 +156,6 @@ function ShopInner() {
 
   return (
     <main className="page-top min-h-screen text-[#0D0D0F] pb-20">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(shopCollectionSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(shopFaqSchema) }}
-      />
       {/* Editorial Catalog Header */}
       <section className="bg-[#F3F0EA] border-b border-black/[0.08] py-8 sm:py-12">
         <div className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 text-center">
@@ -322,8 +314,18 @@ function ShopInner() {
 
 export default function ShopPage() {
   return (
-    <Suspense>
-      <ShopInner />
-    </Suspense>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(shopCollectionSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(shopFaqSchema) }}
+      />
+      <Suspense>
+        <ShopInner />
+      </Suspense>
+    </>
   );
 }
