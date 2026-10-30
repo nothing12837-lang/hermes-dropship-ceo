@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Truck, ShieldCheck, Banknote, RefreshCw } from 'lucide-react';
 import ProductCard from '@/components/ui/ProductCard';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import GsmCategorizerSection from '@/components/GsmCategorizerSection';
 import { formatPrice, computeDiscount, getGarmentSpecBadge, enforcePriceFloor, isKidsProduct, type Product } from '@/lib/data/products';
 import { getProductsFromDB } from '@/lib/products-server';
 
@@ -144,9 +145,9 @@ export default async function Home() {
         <div className="animate-marquee flex items-center gap-8 text-[11px] sm:text-xs font-mono tracking-widest uppercase">
           {[...Array(4)].map((_, i) => (
             <span key={i} className="flex items-center gap-8 shrink-0">
-              <span className="text-[#E04F33] font-bold">240 GSM COMBED COTTON</span>
+              <span className="text-[#E04F33] font-bold">160 TO 400 GSM ARCHIVAL CUTS</span>
               <span>•</span>
-              <span>380 GSM ACID WASH HOODIES</span>
+              <span>CRAFTED FOR THE RARE</span>
               <span>•</span>
               <span className="text-[#E04F33] font-bold">DROP SHOULDER BOXY SILHOUETTES</span>
               <span>•</span>
@@ -163,23 +164,46 @@ export default async function Home() {
 
       <div className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 pt-6 sm:pt-8 flex flex-col gap-12 sm:gap-16">
 
-        {/* 1. SECTION: MEN'S GRAPHIC STREETWEAR (PRIORITY USER SPOTLIGHT) */}
+        {/* 1. SECTION: ARCHIVAL DROPS — CRAFTED FOR THE RARE */}
         {mensPrinted.length > 0 && (
           <section id="mens-printed" className="scroll-mt-24 overflow-x-hidden">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4 mb-4">
+            {/* KNOW ABOUT GSM PROMINENT DISCOVERY BANNER */}
+            <div className="mb-5 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-zinc-950 via-neutral-900 to-zinc-900 text-white border border-white/10 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <span className="w-2 h-2 rounded-full bg-[#E04F33] pulse-live-dot shrink-0" />
+                <div>
+                  <div className="text-xs sm:text-sm font-bold tracking-tight text-white flex items-center gap-2">
+                    <span>Know About GSM?</span>
+                    <span className="px-2 py-0.5 rounded bg-white/10 text-[10px] font-mono text-[#FF6B4A]">NEW GUIDE</span>
+                  </div>
+                  <p className="text-[11px] sm:text-xs text-neutral-400 mt-0.5">
+                    Fabric weight dictates drape, opacity, opacity &amp; durability. Understand 160 to 400 GSM before buying.
+                  </p>
+                </div>
+              </div>
+              <Link
+                href="/gsm"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-[#E04F33] text-white text-xs font-mono font-bold transition-all no-underline shrink-0 self-start sm:self-auto"
+              >
+                <span>Read Fabric &amp; Weight Guide</span>
+                <span>→</span>
+              </Link>
+            </div>
+
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-4">
               <div>
                 <div className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#E04F33] font-bold mb-1 flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E04F33] pulse-live-dot" />
-                  Collection 01 • Flagship Drops
-                  <time dateTime="2026-10-29" className="text-neutral-400 font-mono text-[10px] ml-2">
-                    Updated October 2026
+                  Collection 01 • Crafted For The Rare
+                  <time dateTime="2026-10-30" className="text-neutral-400 font-mono text-[10px] ml-2">
+                    Studio Archive 2026
                   </time>
                 </div>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-zinc-950">
-                  240 GSM Heavyweight Streetwear &amp; Graphic Drops
+                  Made For The Rare, Never The Crowd
                 </h1>
-                <p className="text-sm sm:text-base text-neutral-600 mt-1.5 font-medium max-w-2xl">
-                  High-density DTF prints on 240 GSM bio-washed combed cotton. Architectural drop-shoulder cuts tailored in India.
+                <p className="text-sm sm:text-base text-neutral-600 mt-1.5 font-medium max-w-2xl leading-relaxed">
+                  We don&apos;t make disposable fast-fashion. Every piece is engineered with substantial, verified factory weights (180 to 400 GSM) and museum-grade archival prints. Architectural drop-shoulder proportions designed for those who walk their own path.
                 </p>
               </div>
               <Link
@@ -202,6 +226,9 @@ export default async function Home() {
             </div>
           </section>
         )}
+
+        {/* 1.5 DEDICATED GSM CATEGORIZER SECTION */}
+        <GsmCategorizerSection products={allProducts} />
 
         {/* 2. SECTION: WOMEN'S & ART EDITIONS */}
         {otherPrinted.length > 0 && (

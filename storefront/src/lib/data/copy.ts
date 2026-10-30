@@ -34,6 +34,7 @@ export const COPY = {
         title: 'About Rare Ember',
         links: [
           { label: 'Brand Story', href: '/about' },
+          { label: 'GSM & Fabric Guide', href: '/gsm' },
           { label: 'Contact Us', href: '/contact' },
           { label: 'All Catalog Drops', href: '/shop' },
         ],

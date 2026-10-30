@@ -30,6 +30,17 @@ export function matchesCategory(cat: string, p: any): boolean {
   if (cat === 'mens') return Boolean(p.gender === 'men' || p.category === 'mens');
   if (cat === 'womens') return Boolean(p.gender === 'women' || p.category === 'womens' || p.category === 'women');
   if (cat === 'blanks') return Boolean(p.is_printed === false || p.isPrinted === false);
+  if (cat.startsWith('gsm-')) {
+    const targetGsm = Number(cat.replace('gsm-', ''));
+    const str = `${p.title || ''} ${p.id || ''} ${p.badge || ''}`.toLowerCase();
+    if (targetGsm === 400) return /32493938|uh32/i.test(str);
+    if (targetGsm === 300) return /32493953|uh62/i.test(str);
+    if (targetGsm === 260) return /32493470|uh83|32476620|ut27|32476436|ut58/i.test(str);
+    if (targetGsm === 240) return /32476332|uc22|32476438|uc61|32476629|uc28|32476280|uj35|32476716|ft47/i.test(str);
+    if (targetGsm === 220) return /32476788|mp25/i.test(str);
+    if (targetGsm === 180) return !/32493938|32493953|32493470|32476620|32476436|32476332|32476438|32476629|32476280|32476716|32476788|32476281|32476663|32476284/i.test(str);
+    if (targetGsm === 160) return /32476663|uc23|32476284|ud15|32476281|us02/i.test(str);
+  }
   return (p.category ?? 'mens') === cat;
 }
 
@@ -166,8 +177,18 @@ function ShopInner() {
             All Garments &amp; Graphic Drops
           </h1>
           <p className="text-neutral-600 text-xs sm:text-sm md:text-base leading-relaxed max-w-xl mx-auto mt-2 font-medium">
-            240 GSM combed cotton tees, full sleeve drops &amp; signature silhouettes. Directly sourced from verified makers with free express air delivery.
+            Crafted for the rare, never the crowd. 160 to 400 GSM factory-verified silhouettes with museum-grade archival prints and free express air delivery.
           </p>
+
+          <div className="mt-4 flex justify-center">
+            <Link
+              href="/gsm"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-zinc-950 text-white hover:bg-[#E04F33] text-xs font-mono font-bold transition-all no-underline shadow-2xs"
+            >
+              <span>🧵 Know About GSM? Explore The Fabric Guide</span>
+              <span>→</span>
+            </Link>
+          </div>
 
           {/* Category Tabs */}
           <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-2 px-1 max-w-full justify-start sm:justify-center mt-6">
