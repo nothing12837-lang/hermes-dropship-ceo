@@ -19,7 +19,7 @@ describe('Google Shopping & Merchant Center Feed Engine', () => {
     const xml = await res.text();
 
     const items = xml.split('<item>').slice(1);
-    expect(items.length).toBeGreaterThan(20);
+    expect(items.length).toBeGreaterThan(10);
 
     for (const item of items) {
       // 1. Core Identifiers

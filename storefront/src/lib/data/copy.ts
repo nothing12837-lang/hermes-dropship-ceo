@@ -5,7 +5,7 @@
 export const COPY = {
   brand: 'Rare Ember',
   slogan: 'Heavyweight streetwear and graphic drops. Crafted in India.',
-  tagline: '240 GSM combed cotton tees, heavyweight full sleeve drops, and functional lifestyle goods.',
+  tagline: '240 GSM combed cotton tees, 320–380 GSM fleece outerwear, and functional lifestyle goods.',
   promise: 'Pan-India express air dispatch • Free prepaid delivery • 7-day easy returns',
 
   trustBar: [
@@ -23,11 +23,10 @@ export const COPY = {
       {
         title: 'Collection',
         links: [
-          { label: 'All Catalog', href: '/shop' },
-          { label: "Men's Graphic Drops", href: '/shop?cat=mens-printed' },
-          { label: 'All Graphic Prints', href: '/shop?cat=printed' },
-          { label: "Women's Collection", href: '/shop?cat=womens' },
-          { label: 'Essential Blanks', href: '/shop?cat=blanks' },
+          { label: 'All Collection', href: '/shop' },
+          { label: '240 GSM Oversized Tees', href: '/shop?cat=tees' },
+          { label: '320–380 GSM Hoodies & Jackets', href: '/shop?cat=outerwear' },
+          { label: 'Bundles & Desk Gear', href: '/shop?cat=gear' },
         ],
       },
       {

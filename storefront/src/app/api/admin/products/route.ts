@@ -568,7 +568,7 @@ export async function POST(req: NextRequest) {
     short: `Premium ${cleanTitle} crafted in Tirupur from high-grade bio-washed fabric. Features precision fade-proof graphics, tailored modern streetwear fit, and Pan-India express delivery.`,
     story: `Designed for everyday comfort and durability, the ${cleanTitle} brings authentic domestic textile craftsmanship from our Tirupur workshop directly to your wardrobe. Built with pre-shrunk combed yarns and high-definition print detailing.`,
     details: [
-      `Fabric: ${rawMatch?.blank_sku ? '240 GSM 100% Combed Bio-Washed Cotton' : 'Premium Bio-Washed Heavyweight Cotton'}`,
+      `Fabric: ${rawMatch?.blank_sku ? '240 GSM 100% Combed Bio-Washed Cotton' : 'Premium Bio-Washed Combed Cotton'}`,
       'Fit: Modern Streetwear Boxy Drape',
       'Print: High-Definition OEKO-TEX® Certified Fade-Proof Print',
       'Dispatch: Dispatched from Domestic Tirupur POD Hub in 24–48 Hours',

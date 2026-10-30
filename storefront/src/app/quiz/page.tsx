@@ -12,7 +12,7 @@ const steps = [
     q: 'What is your current aesthetic or style focus?',
     key: 'space',
     options: [
-      { id: 'streetwear', label: '👕 Oversized Streetwear Fits', desc: '240 GSM heavyweight tees, 380 GSM fleece hoodies, boxy cuts' },
+      { id: 'streetwear', label: '👕 Oversized Streetwear Fits', desc: '240 GSM combed cotton tees, 380 GSM fleece hoodies, boxy cuts' },
       { id: 'desk', label: '🖥️ Coding & Gaming Desk Setup', desc: 'Extended 900x400 micro-weave mats, artisan ceramic mugs, desk pads' },
       { id: 'edc', label: '🎒 Daily Carry Essentials', desc: 'Reinforced canvas totes, commuter accessories, stainless drinkware' },
     ],

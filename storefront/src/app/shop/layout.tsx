@@ -3,15 +3,15 @@ import type { Metadata } from 'next';
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://www.rareember.shop';
 
 export const metadata: Metadata = {
-  title: 'All Streetwear & Graphic Drops',
+  title: 'All Collection — 240 GSM Tees & 380 GSM Outerwear',
   description:
-    'Explore Rare Ember catalog: heavyweight streetwear, 240 GSM full sleeve drops, artisan ceramic mugs, extended desk mats, and creator gear. Pan-India COD & Express Delivery.',
+    'Explore the Rare Ember collection: 240 GSM combed cotton oversized tees, 320–380 GSM fleece hoodies, varsity bombers, and creator workstation gear. Pan-India COD & Express Delivery.',
   keywords: [
     'streetwear online india',
-    'heavyweight oversized t-shirt',
-    '240 gsm full sleeve t-shirt',
+    '240 gsm oversized t-shirt',
+    '380 gsm fleece hoodie',
     'creator desk accessories',
-    'aesthetic coffee mug',
+    'contrast varsity jacket',
     'cash on delivery streetwear',
   ],
   alternates: {

@@ -6,32 +6,23 @@ import { useSearchParams } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import ProductCard from '@/components/ui/ProductCard';
 import { COPY } from '@/lib/data/copy';
-import { formatPrice, computeDiscount, getGarmentSpecBadge, enforcePriceFloor, isKidsProduct, SHOP_CATEGORIES, products as localProducts } from '@/lib/data/products';
+import { formatPrice, computeDiscount, getGarmentSpecBadge, enforcePriceFloor, isKidsProduct, SHOP_CATEGORIES, matchesCategory, products as localProducts } from '@/lib/data/products';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { type ProductRow } from '@/lib/supabase';
 
 const TABS = [
-  { id: 'all', label: 'All Catalog', count: 33, hint: 'Direct Sourced Drops' },
+  { id: 'all', label: 'All Collection', count: 18, hint: 'Independent Luxury Streetwear Drops' },
   ...SHOP_CATEGORIES,
 ];
 
 function isDisallowedRow(p: ProductRow): boolean {
   if (isKidsProduct(p as any)) return true;
   const targetId = `${p.id || ''} ${p.slug || ''} ${p.title || ''}`.toLowerCase();
-  return /calmcloud|ember-glow|warm-paw|lickmat|pawtrack|cozy-nest|aesthetic-scratch|smart-fetch|button-badge|button_badge|button badge|temporary-tattoo|temporary tattoo|tattoo|scrunchies|bow scrunchie|bookmark|balaclava|arm sleeves|arm sleeve|basic t-shirt pc|^bundle-|bundle|gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|64953488|64953664|32476832|32476744/i.test(targetId);
+  if (/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|64953488|64953664|32476832|32476744)/i.test(targetId)) return true;
+  return /calmcloud|ember-glow|warm-paw|lickmat|pawtrack|cozy-nest|aesthetic-scratch|smart-fetch|button-badge|temporary-tattoo|scrunchies|bookmark|balaclava|arm sleeve|full[-_ ]?sleeve|basic[-_ ]?t[-_ ]?shirt|classic[-_ ]?crew|round[-_ ]?neck[-_ ]?t[-_ ]?shirt|raglan|ringer|v[-_ ]?neck|stretch[-_ ]?t[-_ ]?shirt|dry[-_ ]?fit|dryfit|polo|sleeveless|tank|crop|baby[-_ ]?tee|t-shirt[-_ ]?dress|maternity|supima|kaftan|shorts|legging|stole|apron|drawstring|tote|poster|mug|puzzle|notebook|sketchbook|water[-_ ]?bottle|tapestry|pillow|cushion|case|bandana|mask|cap|hat|patches|greeting|sticker|coaster|planner|sipper|tablerunner|tumbler|bra|headband|bike[-_ ]?rider/i.test(targetId);
 }
 
-export function matchesCategory(cat: string, p: any): boolean {
-  if (isDisallowedRow(p)) return false;
-  if (cat === 'all') return true;
-  if (cat === 'new') return Boolean(p.is_new === true);
-  if (cat === 'mens-printed') return Boolean((p.gender === 'men' || p.category === 'mens') && (p.is_printed === true || p.isPrinted === true));
-  if (cat === 'printed') return Boolean(p.is_printed === true || p.isPrinted === true);
-  if (cat === 'mens') return Boolean(p.gender === 'men' || p.category === 'mens');
-  if (cat === 'womens') return Boolean(p.gender === 'women' || p.category === 'womens' || p.category === 'women');
-  if (cat === 'blanks') return Boolean(p.is_printed === false || p.isPrinted === false);
-  return (p.category ?? 'mens') === cat;
-}
+export { matchesCategory };
 
 
 const shopCollectionSchema = {
@@ -166,7 +157,7 @@ function ShopInner() {
             All Garments &amp; Graphic Drops
           </h1>
           <p className="text-neutral-600 text-xs sm:text-sm md:text-base leading-relaxed max-w-xl mx-auto mt-2 font-medium">
-            240 GSM combed cotton tees, full sleeve drops &amp; signature silhouettes. Directly sourced from verified makers with free express air delivery.
+            240 GSM combed cotton tees, 320–380 GSM fleece outerwear &amp; curated workstation gear. Directly sourced from verified makers with free express air delivery.
           </p>
 
           {/* Category Tabs */}

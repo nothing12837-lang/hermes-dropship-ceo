@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isHoodie = cleanTitle.toLowerCase().includes('hoodie');
   const isTee = cleanTitle.toLowerCase().includes('tee') || cleanTitle.toLowerCase().includes('shirt');
   const isBottom = cleanTitle.toLowerCase().includes('shorts') || cleanTitle.toLowerCase().includes('sweatpants');
-  const gsmTag = isHoodie ? '380 GSM Heavyweight' : isTee ? '240 GSM Combed Cotton' : isBottom ? 'French Terry' : 'Heavyweight Streetwear';
+  const gsmTag = isHoodie ? '380 GSM Heavyweight' : isTee ? '240 GSM Combed Cotton' : isBottom ? 'French Terry' : 'Luxury Streetwear';
 
   const seoTitle = `${cleanTitle} (${gsmTag}) — Rare Ember Streetwear India`;
   const description =
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     `${cleanTitle} India`,
     'buy streetwear online india',
     'oversized t shirt india',
-    'heavyweight t shirt 240 gsm',
+    '240 gsm oversized t shirt',
     '380 gsm hoodie india',
     'acid wash streetwear',
     'drop shoulder t shirt',
@@ -117,7 +117,7 @@ export default async function ProductPage({ params }: Props) {
     ? 'High-Density Heat-Retaining Ceramic'
     : isDeskGear
     ? 'Waterproof Micro-Weave Cloth & Non-Slip Rubber Base'
-    : '100% Super-Combed Bio-Washed Cotton (240 GSM Heavyweight)';
+    : '100% Super-Combed Bio-Washed Cotton (240 GSM Combed Cotton)';
 
   // Real review data only.
   //
