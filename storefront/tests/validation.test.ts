@@ -15,6 +15,10 @@ describe('normalizeEmail', () => {
   it('lowercases and trims', () => {
     expect(normalizeEmail('  Ada@Example.COM ')).toBe('ada@example.com');
   });
+  it('autocorrects common domain typos', () => {
+    expect(normalizeEmail('rareemberagency@gma.com')).toBe('rareemberagency@gmail.com');
+    expect(normalizeEmail('user@gmial.com')).toBe('user@gmail.com');
+  });
   it('rejects bad emails', () => {
     expect(normalizeEmail('not-an-email')).toBeNull();
     expect(normalizeEmail('a@b')).toBeNull();

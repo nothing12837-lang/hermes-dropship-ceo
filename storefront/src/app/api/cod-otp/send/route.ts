@@ -50,6 +50,7 @@ export async function POST(req: NextRequest) {
     // Generate cryptographic 6-digit OTP (100000 - 999999)
     const otp = crypto.randomInt(100000, 1000000).toString();
     const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes validity
+    console.log('[COD OTP Send API] Issued OTP=%s for email=%s, phone=%s', otp, email, cleanPhone);
 
     const secret = process.env.COD_OTP_SECRET || process.env.ADMIN_SECRET;
     if (!secret) {

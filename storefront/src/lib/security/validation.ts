@@ -16,7 +16,12 @@ export function isValidEmail(v: unknown): v is string {
 
 export function normalizeEmail(v: unknown): string | null {
   if (!isValidEmail(v)) return null;
-  return (v as string).toLowerCase().trim();
+  let email = (v as string).toLowerCase().trim();
+  // Autocorrect common typo domains (e.g. @gma.com, @gmial.com -> @gmail.com)
+  email = email.replace(/@(gma|gmial|gamil|gmai|gmaill)\.com$/i, '@gmail.com');
+  email = email.replace(/@(hotmial|hotmaill|hotmai)\.com$/i, '@hotmail.com');
+  email = email.replace(/@(yaho|yahooo)\.com$/i, '@yahoo.com');
+  return email;
 }
 
 export function cleanOrderId(raw: unknown): string {
