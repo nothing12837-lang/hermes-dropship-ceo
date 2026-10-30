@@ -202,14 +202,7 @@ export default function GsmCategorizerSection({ products }: Props) {
           </p>
         </div>
 
-        {/* KNOW ABOUT GSM PROMINENT CTA BUTTON */}
-        <Link
-          href="/gsm"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-950 text-white hover:bg-[#E04F33] text-xs sm:text-sm font-mono font-bold transition-all shadow-sm no-underline shrink-0 self-start sm:self-auto group"
-        >
-          <span>🧵 Know About GSM? Explore Full Guide</span>
-          <span className="group-hover:translate-x-0.5 transition-transform">→</span>
-        </Link>
+        
       </div>
 
       {/* GSM FILTER TABS (DESKTOP + MOBILE HORIZONTAL SCROLL) */}
@@ -263,18 +256,18 @@ export default function GsmCategorizerSection({ products }: Props) {
               <div>
                 <span className="text-emerald-400 font-semibold">Advantage:</span> {activeTier.pros}
               </div>
+              {activeTier.cons && (
+                <>
+                  <span className="hidden sm:inline text-white/20">•</span>
+                  <div>
+                    <span className="text-amber-300 font-semibold">Honest Note:</span> {activeTier.cons}
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-white/10">
-            <Link
-              href={activeTier.anchor}
-              className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold transition-all no-underline inline-flex items-center gap-1.5"
-            >
-              <span>Deep-Dive Pros &amp; Cons</span>
-              <span>→</span>
-            </Link>
-          </div>
+          
         </div>
       </div>
 

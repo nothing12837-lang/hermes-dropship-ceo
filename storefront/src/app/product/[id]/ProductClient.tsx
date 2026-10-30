@@ -14,6 +14,7 @@ import { resolveProductImages } from '@/lib/data/product-gallery';
 import ProductCard from '@/components/ui/ProductCard';
 import PincodeChecker from '@/components/ui/PincodeChecker';
 import ProductReviews from '@/components/ui/ProductReviews';
+import GsmProductGuideModal, { GSM_TIERS_DATA } from '@/components/GsmProductGuideModal';
 import { useGeo } from '@/context/GeoContext';
 import { trackViewItem, trackAddToCart } from '@/lib/telemetry/dataLayer';
 
@@ -711,6 +712,20 @@ export function ProductClient({ product }: Props) {
   })();
   const [selectedSize, setSelectedSize] = useState<string>(initialSingleSize);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [showGsmGuide, setShowGsmGuide] = useState(false);
+
+  const garmentFabricSpec = useMemo(() => getGarmentFabricSpecs(product), [product]);
+  const currentGsmTierData = useMemo(() => {
+    const g = garmentFabricSpec.gsm || 240;
+    if (g >= 380) return GSM_TIERS_DATA.find((t) => t.gsm === 400);
+    if (g >= 320) return GSM_TIERS_DATA.find((t) => t.gsm === 320);
+    if (g >= 290) return GSM_TIERS_DATA.find((t) => t.gsm === 300);
+    if (g >= 250) return GSM_TIERS_DATA.find((t) => t.gsm === 260);
+    if (g >= 230) return GSM_TIERS_DATA.find((t) => t.gsm === 240);
+    if (g >= 200) return GSM_TIERS_DATA.find((t) => t.gsm === 220);
+    if (g >= 175) return GSM_TIERS_DATA.find((t) => t.gsm === 180);
+    return GSM_TIERS_DATA.find((t) => t.gsm === 160) || GSM_TIERS_DATA[3];
+  }, [garmentFabricSpec]);
   const [sizeUnit, setSizeUnit] = useState<'in' | 'cm'>('in');
   const [showSizeCalc, setShowSizeCalc] = useState(false);
   const [sizeCalcHeight, setSizeCalcHeight] = useState<string | null>(null);
@@ -2402,13 +2417,27 @@ export function ProductClient({ product }: Props) {
                         <span className="text-xs font-black uppercase tracking-wider text-neutral-600">
                           Select Size {isComboProduct && activeComboItem ? `for ${activeComboItem.name}` : ''}
                         </span>
-                        <button
-                          type="button"
-                          onClick={() => setShowSizeGuide(true)}
-                          className="text-xs font-bold text-[#FF4D24] hover:underline flex items-center gap-1 cursor-pointer bg-transparent border-none p-0"
-                        >
-                          <span>Size Guide &amp; Measurements ↗</span>
-                        </button>
+                        <div className="flex items-center gap-2.5">
+                          {isApparel && (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => setShowGsmGuide(true)}
+                                className="text-xs font-bold text-neutral-600 hover:text-black hover:underline flex items-center gap-1 cursor-pointer bg-transparent border-none p-0"
+                              >
+                                <span>🧵 GSM Guide ↗</span>
+                              </button>
+                              <span className="text-neutral-300">•</span>
+                            </>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => setShowSizeGuide(true)}
+                            className="text-xs font-bold text-[#FF4D24] hover:underline flex items-center gap-1 cursor-pointer bg-transparent border-none p-0"
+                          >
+                            <span>Size Guide &amp; Measurements ↗</span>
+                          </button>
+                        </div>
                       </div>
 
                       {/* Quick Size Finder Toggle & Calculator */}
@@ -3388,10 +3417,19 @@ export function ProductClient({ product }: Props) {
                   <span className="text-sm">🧵</span>
                   <span>{gsmProfile.weight} • {gsmProfile.tag.replace(/^[\d\s]+GSM\s*/i, '')}</span>
                 </div>
-                <div className="flex items-center gap-1.5 text-[10px] text-neutral-600 font-bold flex-wrap">
-                  <span className="bg-neutral-100 px-2 py-0.5 rounded">Pre-Shrunk</span>
-                  <span className="bg-neutral-100 px-2 py-0.5 rounded">Fade-Proof</span>
-                  <span className="bg-emerald-50 text-emerald-800 border border-emerald-200/60 px-2 py-0.5 rounded">Tagless</span>
+                <div className="flex items-center gap-2">
+                  <div className="hidden sm:flex items-center gap-1 text-[10px] text-neutral-600 font-bold">
+                    <span className="bg-neutral-100 px-2 py-0.5 rounded">Pre-Shrunk</span>
+                    <span className="bg-neutral-100 px-2 py-0.5 rounded">Fade-Proof</span>
+                    <span className="bg-emerald-50 text-emerald-800 border border-emerald-200/60 px-2 py-0.5 rounded">Tagless</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowGsmGuide(true)}
+                    className="text-[11px] font-bold text-[#FF4D24] hover:underline flex items-center gap-1 cursor-pointer bg-amber-500/10 hover:bg-amber-500/15 px-2.5 py-1 rounded-lg border border-amber-500/20"
+                  >
+                    <span>Fabric &amp; GSM Guide ↗</span>
+                  </button>
                 </div>
               </div>
             )}
@@ -3466,24 +3504,65 @@ export function ProductClient({ product }: Props) {
                   className="w-full p-3.5 flex items-center justify-between text-left font-black text-neutral-900 cursor-pointer hover:bg-neutral-50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="text-base">🫧</span>
-                    <span>Fabric &amp; Care Guide</span>
+                    <span className="text-base">🧵</span>
+                    <span>Fabric, GSM &amp; Wash Care Guide {isApparel ? `(${gsmProfile.weight})` : ''}</span>
                   </div>
                   <span className="text-neutral-400 font-bold text-sm">
                     {openAccordion === 'care' ? '−' : '+'}
                   </span>
                 </button>
                 {openAccordion === 'care' && (
-                  <div className="px-3.5 pb-3.5 text-neutral-600 space-y-2 border-t border-black/[0.06] pt-2.5 leading-relaxed">
+                  <div className="px-3.5 pb-3.5 text-neutral-600 space-y-3 border-t border-black/[0.06] pt-2.5 leading-relaxed">
                     {isApparel ? (
-                      <div>
-                        <p className="font-bold text-neutral-900 mb-1">Archival Garment &amp; DTF Print Care:</p>
-                        <ul className="list-disc pl-4 space-y-1 text-[11px]">
-                          <li>Machine wash cold (30°C max) inside-out with gentle detergent.</li>
-                          <li>Do NOT iron directly over the print. Iron on reverse side on low heat.</li>
-                          <li>Tumble dry low or line dry in shade to maintain rich fabric density.</li>
-                          <li>Do not bleach or dry clean. Fabric is pre-shrunk for zero post-wash distortion.</li>
-                        </ul>
+                      <div className="space-y-3">
+                        <div className="p-3 rounded-xl bg-neutral-50 border border-black/[0.06] space-y-2">
+                          <div className="flex items-center justify-between flex-wrap gap-2">
+                            <span className="font-bold text-zinc-950 text-xs">
+                              {currentGsmTierData?.label} • {currentGsmTierData?.badge}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => setShowGsmGuide(true)}
+                              className="text-[11px] font-bold text-[#FF4D24] hover:underline cursor-pointer bg-transparent border-none p-0"
+                            >
+                              Compare All GSM Weights ↗
+                            </button>
+                          </div>
+                          <p className="text-[11px] text-neutral-600 leading-relaxed">
+                            <strong className="text-neutral-900">Hand Feel &amp; Drape:</strong> {currentGsmTierData?.feel}
+                          </p>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-1">
+                            <div className="p-2 rounded-lg bg-emerald-50/60 border border-emerald-100">
+                              <strong className="text-emerald-800 block mb-0.5">✓ Pros (Advantages):</strong>
+                              <ul className="list-disc pl-3.5 space-y-0.5 text-neutral-700">
+                                {currentGsmTierData?.pros.map((p, i) => (
+                                  <li key={i}>{p}</li>
+                                ))}
+                              </ul>
+                            </div>
+                            <div className="p-2 rounded-lg bg-amber-50/60 border border-amber-100">
+                              <strong className="text-amber-900 block mb-0.5">⚠ Honest Trade-Offs:</strong>
+                              <ul className="list-disc pl-3.5 space-y-0.5 text-neutral-700">
+                                {currentGsmTierData?.cons.map((c, i) => (
+                                  <li key={i}>{c}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                          <div className="text-[11px] text-neutral-600 pt-1 border-t border-black/[0.05]">
+                            <strong className="text-neutral-900">Optimal Indian Climate:</strong> {currentGsmTierData?.climate}
+                          </div>
+                        </div>
+
+                        <div>
+                          <p className="font-bold text-neutral-900 mb-1">Archival Garment &amp; DTF Print Care:</p>
+                          <ul className="list-disc pl-4 space-y-1 text-[11px]">
+                            <li>Machine wash cold (30°C max) inside-out with gentle detergent.</li>
+                            <li>Do NOT iron directly over the print. Iron on reverse side on low heat.</li>
+                            <li>Tumble dry low or line dry in shade to maintain rich fabric density.</li>
+                            <li>Do not bleach or dry clean. Fabric is pre-shrunk for zero post-wash distortion.</li>
+                          </ul>
+                        </div>
                       </div>
                     ) : isDeskMat ? (
                       <div>
@@ -3595,6 +3674,13 @@ export function ProductClient({ product }: Props) {
             </div>
           </section>
         )}
+        {/* Dedicated In-Product GSM & Fabric Guide Modal */}
+        <GsmProductGuideModal
+          isOpen={showGsmGuide}
+          onClose={() => setShowGsmGuide(false)}
+          currentGsm={garmentFabricSpec.gsm}
+        />
+
         {/* Size Guide & Fit Advice Modal */}
         {showSizeGuide && (
           <div

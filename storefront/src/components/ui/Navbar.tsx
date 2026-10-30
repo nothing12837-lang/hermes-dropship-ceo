@@ -14,7 +14,6 @@ import { useGeo } from '@/context/GeoContext';
 const links = [
   { href: '/shop', label: 'Catalog' },
   { href: '/shop?cat=mens-printed', label: 'Graphic Drops' },
-  { href: '/gsm', label: 'GSM Guide' },
   { href: '/track', label: 'Tracking' },
 ];
 
@@ -22,7 +21,6 @@ const drawerLinks = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'All Catalog' },
   { href: '/shop?cat=mens-printed', label: 'Graphic Streetwear' },
-  { href: '/gsm', label: 'Fabric & GSM Guide' },
   { href: '/shop?cat=blanks', label: 'Essential Blanks' },
   { href: '/track', label: 'Track Order' },
   { href: '/returns', label: '7-Day Easy Returns' },

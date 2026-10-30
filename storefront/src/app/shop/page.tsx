@@ -180,15 +180,7 @@ function ShopInner() {
             Crafted for the rare, never the crowd. 160 to 400 GSM factory-verified silhouettes with museum-grade archival prints and free express air delivery.
           </p>
 
-          <div className="mt-4 flex justify-center">
-            <Link
-              href="/gsm"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-zinc-950 text-white hover:bg-[#E04F33] text-xs font-mono font-bold transition-all no-underline shadow-2xs"
-            >
-              <span>🧵 Know About GSM? Explore The Fabric Guide</span>
-              <span>→</span>
-            </Link>
-          </div>
+          
 
           {/* Category Tabs */}
           <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-2 px-1 max-w-full justify-start sm:justify-center mt-6">

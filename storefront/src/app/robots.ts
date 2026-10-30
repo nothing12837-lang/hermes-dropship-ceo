@@ -6,7 +6,6 @@ export default function robots(): MetadataRoute.Robots {
   const publicAllowedRoutes = [
     '/',
     '/shop',
-    '/gsm',
     '/product/',
     '/journal',
     '/blog/',
