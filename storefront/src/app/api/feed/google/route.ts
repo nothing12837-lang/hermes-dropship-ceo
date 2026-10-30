@@ -36,7 +36,7 @@ function getGoogleProductCategory(p: Product): string {
   if (title.includes('dress')) {
     return 'Apparel & Accessories > Clothing > Dresses';
   }
-  // All streetwear t-shirts, tops, and silhouettes
+  // All t-shirts, full sleeves, tops, crops, tanks, and polos
   return 'Apparel & Accessories > Clothing > Shirts & Tops';
 }
 
@@ -77,7 +77,7 @@ function getMaterial(p: Product): string {
   if (title.includes('desk mat')) return 'Waterproof Micro-Weave Cloth & Rubber Base';
   if (title.includes('hoodie')) return '100% Super-Combed Bio-Washed Cotton French Terry (380 GSM)';
   if (title.includes('terry')) return '260 GSM French Terry Cotton';
-  return '100% Super-Combed Bio-Washed Cotton (240 GSM Combed Cotton)';
+  return '100% Super-Combed Bio-Washed Cotton (240 GSM Heavyweight)';
 }
 
 function getShippingWeight(p: Product): string {

@@ -117,9 +117,11 @@ export function computeDiscount(rawPrice: number, rawCompare?: number, priceInr?
 }
 
 export const SHOP_CATEGORIES = [
-  { id: 'tees', label: '240 GSM Oversized Tees', count: 6, hint: '240 GSM Combed Cotton (Structured Mid-Weight Fit)' },
-  { id: 'outerwear', label: '320–380 GSM Hoodies & Jackets', count: 7, hint: '320–380 GSM Heavyweight Fleece Outerwear' },
-  { id: 'gear', label: 'Bundles & Desk Gear', count: 5, hint: 'Curated Packs & 900×400mm Extended Mats' },
+  { id: 'mens-printed', label: "Men's Graphic Drops", count: 18, hint: '240 GSM Combed Cotton Drops' },
+  { id: 'printed', label: 'All Graphic Prints', count: 24, hint: 'High-Density Direct-to-Film Prints' },
+  { id: 'mens', label: "Men's & Unisex", count: 23, hint: 'Oversized & Full Sleeve Graphic Tees' },
+  { id: 'womens', label: "Women's Collection", count: 7, hint: 'Crops, Tees & Typographic Prints' },
+  { id: 'blanks', label: 'Essential Blanks', count: 8, hint: 'Solid Silhouettes & Acid Wash' },
 ];
 
 export function isKidsProduct(p: { id?: string; title?: string; category?: string; gender?: string; sizes?: string[] } | null | undefined): boolean {
@@ -148,7 +150,7 @@ export function enforcePriceFloor(p: Product): Product {
     : 0;
 
   // 1. Curated Value Combos
-  // - bundle-streetwear-duo (2x 240 GSM Oversized Tees): min ₹1,499 (M.R.P. ₹2,499)
+  // - bundle-streetwear-duo (2x Heavyweight 240 GSM Tees): min ₹1,499 (M.R.P. ₹2,499)
   if (pid.includes('bundle-streetwear-duo') || pid.includes('streetwear-duo') || pid.includes('pack-of-2')) {
     if (price < 1499) price = 1499;
     if (compare < 2499) compare = 2499;
@@ -268,11 +270,11 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
   {
     id: 'bundle-streetwear-duo',
     slug: 'bundle-streetwear-duo',
-    title: 'The Streetwear Duo — 2x 240 GSM Oversized Tees',
+    title: 'The Streetwear Duo — 2x Heavyweight Oversized Tees',
     short: 'Two signature 240 GSM super combed cotton oversized tees with fade-proof archival screen prints.',
     story: 'Engineered for high-rotation streetwear. Crafted from premium 240 GSM bio-washed cotton and reinforced Lycra collar.',
     details: [
-      '2x 240 GSM Combed Cotton Oversized Drop-Shoulder Tees',
+      '2x 240 GSM Heavyweight Oversized Drop-Shoulder Tees',
       '100% Super Combed Bio-Washed Cotton',
       'High-Density Archival Fade-Proof Prints',
       '7-Day Easy Returns Guarantee'
@@ -299,10 +301,10 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
     id: 'bundle-founding-50',
     slug: 'bundle-founding-50',
     title: 'The Founding 50 Builder Pack — 240 GSM Tee + Desk Mat',
-    short: 'Structured 240 GSM builder tee paired with a 900×400mm micro-weave precision desk mat.',
+    short: 'Heavyweight 240 GSM builder tee paired with a 900×400mm micro-weave precision desk mat.',
     story: 'Designed for engineers, designers, and creators who ship daily. Features archival graphics and water-repellent precision desk surface.',
     details: [
-      '1x 240 GSM Combed Cotton Oversized Drop-Shoulder Tee',
+      '1x 240 GSM Heavyweight Oversized Drop-Shoulder Tee',
       '1x 900×400mm Extended Precision Micro-Weave Desk Mat',
       'Zero-Fray 360° Reinforced Edge Stitching',
       '7-Day Easy Returns Guarantee'
@@ -438,6 +440,9 @@ export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: str
   if (/\b(mat|pad|desk\s*mat|mouse\s*pad|gaming\s*pad)\b|desk-mat/i.test(str)) {
     return 'Extended 900×400mm';
   }
+  if (/mug|ceramic|drinkware|cup|sipper|bottle/i.test(str)) {
+    return /bottle|sipper/i.test(str) ? 'Insulated Steel 750ml' : 'Gloss Ceramic 330ml';
+  }
   if (/varsity|bomber/i.test(str)) {
     return '350 GSM Varsity';
   }
@@ -456,8 +461,17 @@ export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: str
   if (/oversized\s+jersey|jersey/i.test(str)) {
     return '220 GSM Breathable Mesh';
   }
-  if (/terry.*(tee|shirt|oversized)|(tee|shirt|oversized).*terry/i.test(str)) {
-    return '260 GSM French Terry';
+  if (/dryfit|dry fit/i.test(str)) {
+    return '180 GSM Quick-Dry Mesh';
+  }
+  if (/polo/i.test(str)) {
+    return '220 GSM Pique Cotton';
+  }
+  if (/crop/i.test(str)) {
+    return '220 GSM Cotton Spandex';
+  }
+  if (/kid|boy|girl|baby/i.test(str)) {
+    return '180 GSM Combed Cotton';
   }
   if (/streetwear-duo|pack-of-2/i.test(str)) {
     return 'Pack of 2 • 240 GSM';
@@ -471,177 +485,18 @@ export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: str
 export const CUSTOM_BLANK_PRODUCTS: Product[] = [];
 
 // Bundles paused until store reaches 10 successful orders (per strategic roadmap)
-export const SURVIVING_OUTERWEAR_AND_GEAR: Product[] = [
-  {
-    id: 'qikink-hoodies-varsity-jacket-uj31',
-    slug: 'rare-ember-varsity-jacket',
-    title: 'Rare Ember 350 GSM Contrast-Sleeve Varsity Jacket',
-    short: '350 GSM heavy blend fleece with contrast sleeves, derby ribbed collar & cuffs, snap-button front, and structured boxy drape.',
-    story: 'Engineered for evening street aesthetics and winter layering. Features heavyweight 350 GSM fleece, durable metal snap buttons, and deep welt pockets.',
-    details: [
-      '350 GSM Heavy Blend Fleece Construction',
-      'Contrast-Sleeve Vintage Streetwear Cut',
-      'Derby Ribbed Stand Collar, Hem & Cuffs',
-      'Heavy-Duty Snap-Button Front Closure',
-      'Free Express Air Delivery Across India with 7-Day Returns'
-    ],
-    price: 1499,
-    price_inr: 1499,
-    compareAtPrice: 2599,
-    compare_at_price: 2599,
-    rating: 5.0,
-    reviews: 45,
-    tag: '350 GSM Varsity',
-    tagColor: '#f97316',
-    tagBg: 'rgba(249, 115, 22, 0.12)',
-    gradient: 'linear-gradient(135deg, #18181b, #09090b)',
-    image_url: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/95/b3298941-1294-4945-ac9c-c5aaafd3403d.jpg',
-    images: ['https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/95/b3298941-1294-4945-ac9c-c5aaafd3403d.jpg'],
-    active: true,
-    category: 'fashion',
-    sizes: ['S', 'M', 'L', 'XL', 'XXL']
-  },
-  {
-    id: 'qikink-hoodies-sweatshirt-uh26',
-    slug: 'rare-ember-sweatshirt',
-    title: 'Rare Ember 320 GSM Crewneck Sweatshirt',
-    short: '320 GSM super combed cotton French Terry fleece with relaxed drop-shoulder streetwear seams and ribbed collar.',
-    story: 'A daily rotation staple. Crafted from 320 GSM loopback cotton fleece that breathes in air-conditioned studios and holds firm structure.',
-    details: [
-      '320 GSM Super Combed French Terry Cotton Fleece',
-      'Relaxed Drop-Shoulder Streetwear Silhouette',
-      'Dense 2-Inch Lycra Ribbed Hem & Cuffs',
-      'Pre-Shrunk Yarn for Zero Distortion After 50+ Washes',
-      'Free Express Air Delivery Across India with 7-Day Returns'
-    ],
-    price: 1099,
-    price_inr: 1099,
-    compareAtPrice: 1899,
-    compare_at_price: 1899,
-    rating: 4.9,
-    reviews: 38,
-    tag: '320 GSM French Terry',
-    tagColor: '#f97316',
-    tagBg: 'rgba(249, 115, 22, 0.12)',
-    gradient: 'linear-gradient(135deg, #18181b, #09090b)',
-    image_url: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/4/23175e0b-febe-4d12-83e2-f9a76506d24f.jpg',
-    images: ['https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/4/23175e0b-febe-4d12-83e2-f9a76506d24f.jpg'],
-    active: true,
-    category: 'fashion',
-    sizes: ['S', 'M', 'L', 'XL', 'XXL']
-  },
-  {
-    id: 'qikink-bottomwear-joggers-uj29',
-    slug: 'rare-ember-bottomwear-joggers',
-    title: 'Rare Ember 320 GSM French Terry Joggers',
-    short: '320 GSM loopback French Terry relaxed joggers with reinforced zippered pockets and elastic waistband.',
-    story: 'Engineered for volume discipline beneath oversized drop-shoulder tees and heavy hoodies. Built with dense ribbed ankle cuffs.',
-    details: [
-      '320 GSM Dense Loopback French Terry Cotton',
-      'Relaxed Streetwear Taper with Derby Ribbed Ankle Cuffs',
-      'Deep Zippered Side Pockets + Rear Stash Pocket',
-      'Heavy-Duty Drawstring with Metal Aglets',
-      'Free Express Air Delivery Across India with 7-Day Returns'
-    ],
-    price: 1099,
-    price_inr: 1099,
-    compareAtPrice: 1899,
-    compare_at_price: 1899,
-    rating: 4.8,
-    reviews: 42,
-    tag: '320 GSM French Terry',
-    tagColor: '#3b82f6',
-    tagBg: 'rgba(59, 130, 246, 0.12)',
-    gradient: 'linear-gradient(135deg, #18181b, #09090b)',
-    image_url: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/32/3f45e6d3-837a-461b-9f52-b2c615eb14e4.jpg',
-    images: ['https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/32/3f45e6d3-837a-461b-9f52-b2c615eb14e4.jpg'],
-    active: true,
-    category: 'fashion',
-    sizes: ['S', 'M', 'L', 'XL', 'XXL']
-  },
-  {
-    id: 'qikink-bottomwear-sweatpants-us52',
-    slug: 'rare-ember-bottomwear-sweatpants',
-    title: 'Rare Ember 320 GSM Straight-Leg Sweatpants',
-    short: '320 GSM heavyweight loopback fleece sweatpants with relaxed open-hem drape and deep pockets.',
-    story: 'Wide, relaxed streetwear cut engineered to fall effortlessly over chunky sneakers. Crafted with premium pre-shrunk cotton yarn.',
-    details: [
-      '320 GSM Premium Looped Fleece Cotton',
-      'Relaxed Straight-Leg Open Hem Cut',
-      'Encased Elastic Waistband with Contrast Drawcord',
-      'Zero-Shrink Bio-Washed Softness',
-      'Free Express Air Delivery Across India with 7-Day Returns'
-    ],
-    price: 1099,
-    price_inr: 1099,
-    compareAtPrice: 1899,
-    compare_at_price: 1899,
-    rating: 4.9,
-    reviews: 31,
-    tag: '320 GSM French Terry',
-    tagColor: '#3b82f6',
-    tagBg: 'rgba(59, 130, 246, 0.12)',
-    gradient: 'linear-gradient(135deg, #18181b, #09090b)',
-    image_url: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/320/c87587e9-0faa-4c24-8c3d-a74f012c3eb3.webp',
-    images: ['https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/320/c87587e9-0faa-4c24-8c3d-a74f012c3eb3.webp'],
-    active: true,
-    category: 'fashion',
-    sizes: ['S', 'M', 'L', 'XL', 'XXL']
-  },
-  {
-    id: 'qikink-accessories-desk-mat',
-    slug: 'rare-ember-desk-mat',
-    title: 'Rare Ember 900×400mm Extended Desk Mat',
-    short: 'Extended 900×400mm water-repellent micro-weave surface with 3mm natural non-slip rubber base and 360° anti-fray precision stitching.',
-    story: 'Engineered for high-focus creator setups. High-density textile weave provides pixel-precise optical tracking and dampens mechanical keyboard reverberations.',
-    details: [
-      'Extended 900mm × 400mm × 3mm Desk Surface',
-      'Spill-Resistant Precision Micro-Weave Textile',
-      '360° Anti-Fray Laser-Locked Border Stitching',
-      'Eco-Friendly Natural Rubber Anti-Slip Base',
-      'Free Express Air Delivery Across India with 7-Day Returns'
-    ],
-    price: 799,
-    price_inr: 799,
-    compareAtPrice: 1399,
-    compare_at_price: 1399,
-    rating: 5.0,
-    reviews: 45,
-    tag: 'Extended 900×400mm',
-    tagColor: '#6366f1',
-    tagBg: 'rgba(99, 102, 241, 0.12)',
-    gradient: 'linear-gradient(135deg, #18181b, #09090b)',
-    image_url: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg',
-    images: ['https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg'],
-    active: true,
-    category: 'tech',
-    sizes: ['900x400mm']
-  }
-];
-
-const SURVIVING_QIKINK_IDS = new Set([
-  'qikink-32493953-unisex-acid-wash-hoodie',
-  'qikink-32493938-unisex-heavyweight-hoodie',
-  'qikink-32493470-unisex-pullover-hoodie',
-  'qikink-32476431-unisex-oversized-standard-t-shirt',
-  'qikink-32476332-unisex-oversized-classic-t-shirt',
-  'qikink-32476620-unisex-terry-oversized-tee',
-  'qikink-32476438-unisex-acid-washed-oversized-tee',
-  'qikink-32476436-unisex-tie-dye-oversized-t-shirt',
-  'qikink-32476629-unisex-oversized-shirt',
-  'qikink-32476280-unisex-oversized-jersey'
-]);
-
 export const products: Product[] = [
   ...((qikinkCatalog as unknown as Product[])
-    .filter((p) => SURVIVING_QIKINK_IDS.has(p.id))
+    .filter((p) => !p.id.startsWith('bundle-'))
+    // Filter out kids/baby clothes completely from catalog
+    .filter((p) => !isKidsProduct(p))
+    // Gateway/test SKUs and custom mockups are excluded from public catalog
+    .filter((p) => !/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|rare-ember-custom|blank-)/i.test(`${p.id} ${p.title} ${p.slug || ''}`))
     .map((p) => ({
       ...p,
       sizes: sortSizes(p.sizes),
     }))
     .map(enforcePriceFloor)),
-  ...SURVIVING_OUTERWEAR_AND_GEAR.map(enforcePriceFloor),
-  ...BUNDLE_FALLBACK_PRODUCTS.map(enforcePriceFloor),
 ];
 
 export const PET_META: Record<string, any> = {
@@ -664,32 +519,4 @@ export function getProduct(id: string): Product | undefined {
     p.slug.toLowerCase() === cleanId ||
     (p.qikinkClientProductId && (cleanId.includes(p.qikinkClientProductId) || baseId.includes(p.qikinkClientProductId)))
   );
-}
-
-export function matchesCategory(cat: string, p: any): boolean {
-  if (!p || isKidsProduct(p)) return false;
-  const str = `${p.id || ''} ${p.slug || ''} ${p.title || ''} ${p.tag || ''} ${p.category || ''}`.toLowerCase();
-
-  if (/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|64953488|64953664|32476832|32476744)/i.test(str)) return false;
-
-  // Purge thin blanks, accessories, and promotional items
-  if (/calmcloud|ember-glow|warm-paw|lickmat|pawtrack|cozy-nest|aesthetic-scratch|smart-fetch|button-badge|temporary-tattoo|scrunchies|bookmark|balaclava|arm sleeve|full[-_ ]?sleeve|basic[-_ ]?t[-_ ]?shirt|classic[-_ ]?crew|round[-_ ]?neck[-_ ]?t[-_ ]?shirt|raglan|ringer|v[-_ ]?neck|stretch[-_ ]?t[-_ ]?shirt|dry[-_ ]?fit|dryfit|polo|sleeveless|tank|crop|baby[-_ ]?tee|t-shirt[-_ ]?dress|maternity|supima|kaftan|shorts|legging|stole|apron|drawstring|tote|poster|mug|puzzle|notebook|sketchbook|water[-_ ]?bottle|tapestry|pillow|cushion|case|bandana|mask|cap|hat|patches|greeting|sticker|coaster|planner|sipper|tablerunner|tumbler|bra|headband|bike[-_ ]?rider/i.test(str)) {
-    return false;
-  }
-
-  if (cat === 'all') return true;
-
-  if (cat === 'tees' || cat === '240-gsm-tees' || cat === 'mens-printed' || cat === 'printed' || cat === 'mens') {
-    return /oversized.*(tee|shirt)|(tee|t-shirt).*oversized|acid-wash.*tee|terry.*tee|tie-dye.*tee|chrome bengaluru|tokyo street|dil se delhi|32476431|32476332|32476620|32476438|32476436|32476629|uc61|uc28|us22|ut27|ut58|uc22/i.test(str) && !/hoodie|jacket|sweatshirt|jogger|sweatpant|mat|pad|bundle/i.test(str);
-  }
-
-  if (cat === 'outerwear' || cat === '320-380-gsm-outerwear' || cat === 'hoodies') {
-    return /hoodie|jacket|sweatshirt|jogger|sweatpant|varsity|fleece/i.test(str);
-  }
-
-  if (cat === 'gear' || cat === 'bundles-desk-gear' || cat === 'bundles' || cat === 'blanks') {
-    return /bundle-|desk[-_ ]?mat|gaming[-_ ]?pad|mesh jersey|oversized jersey|32476280|uj35/i.test(str);
-  }
-
-  return (p.category ?? 'mens') === cat;
 }

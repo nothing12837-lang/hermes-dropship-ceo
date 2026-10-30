@@ -463,7 +463,7 @@ export default function InvoiceClient() {
               <tbody className="divide-y divide-neutral-200 font-sans">
                 {(order?.items && order.items.length > 0 ? order.items : [
                   {
-                    title: "Unisex Oversized Classic T-Shirt — Tokyo Street Graphic",
+                    title: "Men's Full Sleeve T-Shirt — Rare Ember Signature Graphic",
                     size: 'M',
                     color: 'Grey Melange',
                     qty: 1,

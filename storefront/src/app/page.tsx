@@ -2,15 +2,14 @@ import Link from 'next/link';
 import { Truck, ShieldCheck, Banknote, RefreshCw } from 'lucide-react';
 import ProductCard from '@/components/ui/ProductCard';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { formatPrice, computeDiscount, getGarmentSpecBadge, enforcePriceFloor, isKidsProduct, matchesCategory, type Product } from '@/lib/data/products';
-
+import { formatPrice, computeDiscount, getGarmentSpecBadge, enforcePriceFloor, isKidsProduct, type Product } from '@/lib/data/products';
 import { getProductsFromDB } from '@/lib/products-server';
 
 export const revalidate = 60; // 60s ISR: Edge cached in Mumbai (bom1)
 
 export const metadata = {
   title: {
-    absolute: 'Rare Ember — 240 GSM Combed Cotton Oversized Streetwear & Acid Wash Hoodies India',
+    absolute: 'Rare Ember — 240 GSM Heavyweight Streetwear & Acid Wash Hoodies India',
   },
   description: '240 GSM combed cotton streetwear, acid wash hoodies, and original graphic drops. Tailored in India, dispatched via express air with Cash on Delivery & 7-day returns.',
   alternates: {
@@ -51,10 +50,11 @@ function toCard(rawP: Product, rank?: number) {
 }
 
 const CATEGORY_TABS = [
-  { id: 'all', label: 'All Collection', href: '/shop' },
-  { id: 'tees', label: '240 GSM Oversized Tees', href: '/shop?cat=tees' },
-  { id: 'outerwear', label: '320–380 GSM Hoodies & Jackets', href: '/shop?cat=outerwear' },
-  { id: 'gear', label: 'Bundles & Desk Gear', href: '/shop?cat=gear' },
+  { id: 'all', label: 'All Catalog', href: '/shop' },
+  { id: 'mens-printed', label: "Men's Graphic Drops", href: '/shop?cat=mens-printed' },
+  { id: 'printed', label: 'All Graphic Prints', href: '/shop?cat=printed' },
+  { id: 'womens', label: "Women's Collection", href: '/shop?cat=womens' },
+  { id: 'blanks', label: 'Essential Blanks', href: '/shop?cat=blanks' },
 ];
 
 const ASSURANCES = [
@@ -83,19 +83,19 @@ const ASSURANCES = [
 export default async function Home() {
   const allProducts = await getProductsFromDB();
 
-  // 1. 240 GSM Oversized Tees (Priority showcase)
-  const oversizedTees = allProducts.filter(
-    (p) => !isKidsProduct(p) && matchesCategory('tees', p)
+  // 1. Men's Graphic Printed Streetwear (Priority showcase)
+  const mensPrinted = allProducts.filter(
+    (p) => (p.gender === 'men' || p.category === 'mens') && (p.is_printed === true || (p as any).isPrinted === true) && !p.id.startsWith('bundle-') && !isKidsProduct(p)
   );
 
-  // 2. 320–380 GSM Fleece Outerwear
-  const outerwear = allProducts.filter(
-    (p) => !isKidsProduct(p) && matchesCategory('outerwear', p)
+  // 2. Women's & Art Editions Printed Graphic Drops (Strictly adult drops only)
+  const otherPrinted = allProducts.filter(
+    (p) => (p.gender === 'women' || p.category === 'womens') && (p.is_printed === true || (p as any).isPrinted === true) && !p.id.startsWith('bundle-') && !isKidsProduct(p)
   );
 
-  // 3. Bundles & Desk Gear
-  const gear = allProducts.filter(
-    (p) => !isKidsProduct(p) && matchesCategory('gear', p)
+  // 3. Essential Streetwear Blanks (Acid Wash, Solid Oversized Tees, Polos, Minimal Silhouettes)
+  const blanks = allProducts.filter(
+    (p) => (p.is_printed === false || (p as any).isPrinted === false) && !p.id.startsWith('bundle-') && !isKidsProduct(p)
   );
 
   return (
@@ -107,7 +107,7 @@ export default async function Home() {
           <span>/</span>
           <Link href="/shop" className="hover:text-black transition-colors">Streetwear Catalog</Link>
           <span>/</span>
-          <span className="text-neutral-900 font-bold">2026 Streetwear Drops</span>
+          <span className="text-neutral-900 font-bold">2026 Heavyweight Drops</span>
         </div>
       </nav>
 
@@ -163,30 +163,30 @@ export default async function Home() {
 
       <div className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 pt-6 sm:pt-8 flex flex-col gap-12 sm:gap-16">
 
-        {/* 1. SECTION: 240 GSM OVERSIZED TEES */}
-        {oversizedTees.length > 0 && (
-          <section id="tees" className="scroll-mt-24 overflow-x-hidden">
+        {/* 1. SECTION: MEN'S GRAPHIC STREETWEAR (PRIORITY USER SPOTLIGHT) */}
+        {mensPrinted.length > 0 && (
+          <section id="mens-printed" className="scroll-mt-24 overflow-x-hidden">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4 mb-4">
               <div>
                 <div className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#E04F33] font-bold mb-1 flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E04F33] pulse-live-dot" />
-                  Collection 01 • Architectural Drops
-                  <time dateTime="2026-10-30" className="text-neutral-400 font-mono text-[10px] ml-2">
+                  Collection 01 • Flagship Drops
+                  <time dateTime="2026-10-29" className="text-neutral-400 font-mono text-[10px] ml-2">
                     Updated October 2026
                   </time>
                 </div>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-zinc-950">
-                  240 GSM Combed Cotton Oversized Drops
-                </h2>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-zinc-950">
+                  240 GSM Heavyweight Streetwear &amp; Graphic Drops
+                </h1>
                 <p className="text-sm sm:text-base text-neutral-600 mt-1.5 font-medium max-w-2xl">
                   High-density DTF prints on 240 GSM bio-washed combed cotton. Architectural drop-shoulder cuts tailored in India.
                 </p>
               </div>
               <Link
-                href="/shop?cat=tees"
+                href="/shop?cat=mens-printed"
                 className="text-xs sm:text-sm font-bold text-zinc-950 hover:text-[#E04F33] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#E04F33] transition-colors self-start sm:self-auto"
               >
-                <span>Explore 240 GSM Tees ({oversizedTees.length})</span>
+                <span>Explore All Graphic Drops ({mensPrinted.length})</span>
                 <span>→</span>
               </Link>
             </div>
@@ -194,7 +194,7 @@ export default async function Home() {
 
             {/* Product Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-              {oversizedTees.map((p, i) => (
+              {mensPrinted.map((p, i) => (
                 <ScrollReveal key={p.id} delay={Math.min(i * 30, 240)}>
                   <ProductCard {...toCard(p)} priority={i < 6} />
                 </ScrollReveal>
@@ -203,34 +203,34 @@ export default async function Home() {
           </section>
         )}
 
-        {/* 2. SECTION: 320–380 GSM FLEECE HOODIES & JACKETS */}
-        {outerwear.length > 0 && (
-          <section id="outerwear" className="scroll-mt-24 overflow-x-hidden">
+        {/* 2. SECTION: WOMEN'S & ART EDITIONS */}
+        {otherPrinted.length > 0 && (
+          <section id="other-printed" className="scroll-mt-24 overflow-x-hidden">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4 mb-4">
               <div>
                 <div className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#E04F33] font-bold mb-1 flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E04F33] pulse-live-dot" />
-                  Collection 02 • Heavyweight Outerwear
+                  Collection 02 • Limited Drops
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-zinc-950">
-                  320–380 GSM Heavyweight Hoodies &amp; Jackets
+                  Women&apos;s &amp; Art Editions
                 </h2>
                 <p className="text-sm sm:text-base text-neutral-600 mt-1.5 font-medium max-w-2xl">
-                  380 GSM French Terry pullovers, contrast-sleeve varsity bombers, and 320 GSM fleece joggers.
+                  Crop silhouettes, classic crewnecks, and aesthetic typographic graphics.
                 </p>
               </div>
               <Link
-                href="/shop?cat=outerwear"
+                href="/shop?cat=womens"
                 className="text-xs sm:text-sm font-bold text-zinc-950 hover:text-[#E04F33] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#E04F33] transition-colors self-start sm:self-auto"
               >
-                <span>Explore Outerwear ({outerwear.length})</span>
+                <span>Explore Women&apos;s Collection ({otherPrinted.length})</span>
                 <span>→</span>
               </Link>
             </div>
             <div className="w-full h-px bg-zinc-200/80 mb-5" />
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-              {outerwear.map((p, i) => (
+              {otherPrinted.map((p, i) => (
                 <ScrollReveal key={p.id} delay={Math.min(i * 30, 240)}>
                   <ProductCard {...toCard(p)} />
                 </ScrollReveal>
@@ -239,34 +239,34 @@ export default async function Home() {
           </section>
         )}
 
-        {/* 3. SECTION: BUNDLES & DESK GEAR */}
-        {gear.length > 0 && (
-          <section id="gear" className="scroll-mt-24 overflow-x-hidden">
+        {/* 3. SECTION: ESSENTIAL STREETWEAR BLANKS */}
+        {blanks.length > 0 && (
+          <section id="streetwear-blanks" className="scroll-mt-24 overflow-x-hidden">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4 mb-4">
               <div>
                 <div className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#0D0D0F] font-bold mb-1 flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#0D0D0F] pulse-live-dot" />
-                  Collection 03 • Workstation &amp; Curated Packs
+                  Collection 03 • Daily Architecture
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-zinc-950">
-                  Bundles, Mesh Jerseys &amp; Extended Desk Gear
+                  Essential Blanks &amp; Acid Wash Silhouettes
                 </h2>
                 <p className="text-sm sm:text-base text-neutral-600 mt-1.5 font-medium max-w-2xl">
-                  Curated multi-piece capsules, 900×400mm precision micro-weave desk mats, and 90s athletic mesh jerseys.
+                  Acid-wash textures, heavyweight raglan tees, solid crewnecks, and minimal wardrobe staples.
                 </p>
               </div>
               <Link
-                href="/shop?cat=gear"
+                href="/shop?cat=blanks"
                 className="text-xs sm:text-sm font-bold text-zinc-950 hover:text-[#E04F33] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#E04F33] transition-colors self-start sm:self-auto"
               >
-                <span>Explore Bundles &amp; Gear ({gear.length})</span>
+                <span>Explore Essential Blanks ({blanks.length})</span>
                 <span>→</span>
               </Link>
             </div>
             <div className="w-full h-px bg-zinc-200/80 mb-5" />
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-              {gear.map((p, i) => (
+              {blanks.map((p, i) => (
                 <ScrollReveal key={p.id} delay={Math.min(i * 30, 240)}>
                   <ProductCard {...toCard(p)} />
                 </ScrollReveal>
@@ -296,7 +296,7 @@ export default async function Home() {
                 What is a 240 GSM Oversized T-Shirt?
               </h3>
               <p className="speakable-lead text-xs sm:text-sm text-neutral-700 leading-relaxed">
-                A 240 GSM oversized t-shirt is a structured mid-weight luxury streetwear garment crafted from dense, super-combed cotton fabric. Unlike lightweight 160–180 GSM commercial t-shirts that turn transparent or deform after two washes, 240 GSM combed cotton delivers an architectural drop-shoulder silhouette, thick non-sagging ribbed collar, and substantial breathable drape that maintains structure all day without clinging in Indian weather.
+                A 240 GSM oversized t-shirt is a heavyweight luxury streetwear garment crafted from dense, super-combed cotton fabric. Unlike lightweight 160–180 GSM commercial t-shirts that turn transparent or deform after two washes, 240 GSM fabric delivers an architectural drop-shoulder silhouette, thick non-sagging ribbed collar, and substantial drape that maintains structure all day in Indian weather.
               </p>
             </div>
 
@@ -340,7 +340,7 @@ export default async function Home() {
                   <tr>
                     <td className="p-3 sm:p-4 font-bold text-zinc-950">Fabric Density</td>
                     <td className="p-3 sm:p-4">160–180 GSM (Lightweight)</td>
-                    <td className="p-3 sm:p-4 font-semibold text-zinc-950">240 GSM Combed Cotton (Structured Mid-Weight)</td>
+                    <td className="p-3 sm:p-4 font-semibold text-zinc-950">240 GSM (Dense Heavyweight)</td>
                     <td className="p-3 sm:p-4 font-semibold text-zinc-950">380 GSM (French Terry Fleece)</td>
                   </tr>
                   <tr>

@@ -34,11 +34,11 @@ describe('normalizeIndianState', () => {
 });
 
 describe('Product Catalog Resolution (Zero 404 Glitches)', () => {
-  it('successfully resolves the Chrome Bengaluru 240 GSM Oversized Drop without 404', async () => {
-    const drop = await getProductFromDB('qikink-32476431-unisex-oversized-standard-t-shirt');
+  it('successfully resolves the Signature Graphic Drop without 404', async () => {
+    const drop = await getProductFromDB('qikink-32477737-mens-full-sleeve-t-shirt');
     expect(drop).toBeDefined();
-    expect(drop?.id).toBe('qikink-32476431-unisex-oversized-standard-t-shirt');
-    expect(drop?.title).toContain('Oversized');
+    expect(drop?.id).toBe('qikink-32477737-mens-full-sleeve-t-shirt');
+    expect(drop?.title).toContain('Men\'s Full Sleeve T-Shirt');
   });
 
   it('resolves all products in the catalog cleanly', async () => {
@@ -154,7 +154,7 @@ describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
     // 240 GSM Oversized Acid Wash: min ₹849 (M.R.P. ₹1,499)
     const acidWash = enforcePriceFloor({
       id: 'qikink-32476620-acid-wash-tee',
-      title: "Vintage Acid-Wash Oversized Tee",
+      title: "Vintage Acid-Wash Oversized Heavyweight Tee",
       price: 699,
     } as any);
     expect(acidWash.price).toBe(849);

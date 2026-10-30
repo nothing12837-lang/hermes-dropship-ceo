@@ -11,9 +11,9 @@ import { ScrollReveal } from './ScrollReveal';
 // — Shop by Department —
 export function ShopByDepartment({ onPick }: { onPick?: (dept: string) => void }) {
   const cards = [
-    { id: 'tees', title: '240 GSM Oversized Tees', sub: '240 GSM drop-shoulder tees, bio-washed combed cotton', emoji: '👕', color: '#ff4d24', bg: '#fff7ed' },
-    { id: 'outerwear', title: '320–380 GSM Outerwear', sub: 'Acid wash hoodies, varsity bombers, sweatpants', emoji: '🧥', color: '#16a34a', bg: '#f0fdf4' },
-    { id: 'gear', title: 'Bundles & Desk Gear', sub: '900x400 extended mats, capsule duos, creator EDC', emoji: '⚡', color: '#2563eb', bg: '#eff6ff' },
+    { id: 'fashion', title: 'Heavyweight Streetwear', sub: '240 GSM drop-shoulder tees, bio-washed cotton', emoji: '👕', color: '#ff4d24', bg: '#fff7ed' },
+    { id: 'home-garden', title: 'Artisan Drinkware', sub: 'Stoneware mugs, matte tumblers, coasters', emoji: '☕', color: '#16a34a', bg: '#f0fdf4' },
+    { id: 'electronics', title: 'Desk & Creator Gear', sub: '900x400 extended mats, mousepads, EDC', emoji: '🖥️', color: '#2563eb', bg: '#eff6ff' },
   ];
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: '1rem' }}>

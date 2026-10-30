@@ -28,7 +28,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.rareember.shop'),
   title: {
-    default: "Rare Ember — 240 GSM Combed Cotton Oversized Streetwear & Acid Wash Hoodies India",
+    default: "Rare Ember — 240 GSM Heavyweight Streetwear & Acid Wash Hoodies India",
     template: "%s | Rare Ember",
   },
   description: "Independent Indian streetwear engineered from 240 GSM combed cotton and architectural cuts. Directly sourced from verified makers with free express air delivery.",
@@ -37,10 +37,10 @@ export const metadata: Metadata = {
     "Rare Ember store",
     "streetwear India",
     "oversized t-shirts online India",
-    "240 gsm oversized tshirt",
+    "240 gsm heavyweight tshirt",
     "acid wash hoodie india",
     "380 gsm french terry hoodie",
-    "drop shoulder streetwear tee",
+    "full sleeve t-shirt 240 gsm",
     "aesthetic lifestyle brand India",
     "cash on delivery streetwear"
   ],
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: siteUrl,
     siteName: 'Rare Ember',
-    title: 'Rare Ember — 240 GSM Combed Cotton Oversized Streetwear & Acid Wash Hoodies India',
+    title: 'Rare Ember — 240 GSM Heavyweight Streetwear & Acid Wash Hoodies India',
     description: '240 GSM combed cotton oversized streetwear, acid wash hoodies, and original graphic drops with free Pan-India delivery.',
     images: [
       {
@@ -160,7 +160,7 @@ export default function RootLayout({
               logo: 'https://www.rareember.shop/icon-512.png',
               image: `${siteUrl}/icon-512.png`,
               description:
-                'Rare Ember is an Indian direct-to-consumer streetwear brand specializing in 240 GSM bio-washed oversized graphic tees, 380 GSM acid wash hoodies, and luxury streetwear drops with express Pan-India delivery and Cash on Delivery.',
+                'Rare Ember is an Indian direct-to-consumer streetwear brand specializing in 240 GSM bio-washed oversized graphic tees, 380 GSM acid wash hoodies, and heavyweight streetwear drops with express Pan-India delivery and Cash on Delivery.',
               priceRange: '₹699 - ₹1,899',
               currenciesAccepted: 'INR',
               paymentAccepted: 'Cash on Delivery, UPI, Credit Card, Debit Card, NetBanking',
@@ -232,8 +232,8 @@ export default function RootLayout({
                 {
                   '@type': 'ListItem',
                   position: 3,
-                  name: "240 GSM Oversized Tees",
-                  item: `${siteUrl}/shop?cat=tees`,
+                  name: "Men's Graphic Drops",
+                  item: `${siteUrl}/shop?cat=mens-printed`,
                 },
               ],
             }),
@@ -253,7 +253,7 @@ export default function RootLayout({
                   name: 'What is a 240 GSM oversized t-shirt?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'A 240 GSM oversized t-shirt is a luxury streetwear garment made from dense, super-combed bio-washed cotton (240 GSM Combed Cotton) that delivers an architectural drop-shoulder drape, durable non-sagging ribbed collar, and substantial breathable structure that maintains form all day in Indian weather.',
+                    text: 'A 240 GSM oversized t-shirt is a luxury heavyweight streetwear garment made from dense, super-combed bio-washed cotton that delivers an architectural drop-shoulder drape, durable non-sagging ribbed collar, and substantial opaque structure that maintains form all day in Indian weather.',
                   },
                 },
                 {

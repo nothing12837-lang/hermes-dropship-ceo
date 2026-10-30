@@ -336,7 +336,7 @@ export const BUNDLE_SUB_ITEMS: Record<string, BundleSubItem[]> = {
     },
     {
       id: 'heavyweight-tee',
-      name: '240 GSM Oversized Tee',
+      name: '240 GSM Heavyweight Tee',
       badge: 'Streetwear Drop',
       emoji: '👕',
       plainImage: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp',
@@ -1092,7 +1092,7 @@ export function ProductClient({ product }: Props) {
     if (isHoodie) {
       return {
         tag: '380 GSM HEAVYWEIGHT FRENCH TERRY',
-        weight: '320–380 GSM Brushed Fleece',
+        weight: '380 GSM',
         silhouette: 'Structured Boxy Drop-Shoulder Silhouette',
         weightPct: 96,
         weightDesc: 'Fast-Fashion Mall Hoodie: 220 GSM [Thin/Baggy] vs Rare Ember: 380 GSM [Structured Heavyweight Drape, Zero See-Through]',
@@ -1107,7 +1107,7 @@ export function ProductClient({ product }: Props) {
     if (isVarsityJacket) {
       return {
         tag: '350 GSM HEAVY BLEND FLEECE',
-        weight: '320–380 GSM Brushed Fleece',
+        weight: '350 GSM',
         silhouette: 'Vintage Boxy Varsity Bomber Silhouette',
         weightPct: 90,
         weightDesc: 'Fast-Fashion Mall Jacket: 240 GSM [Unstructured] vs Rare Ember: 350 GSM [Structured Heavyweight Drape, Zero See-Through]',
@@ -1122,7 +1122,7 @@ export function ProductClient({ product }: Props) {
     if (isCrewneckSweatshirt) {
       return {
         tag: '320 GSM MID-HEAVY FLEECE',
-        weight: '320–380 GSM Brushed Fleece',
+        weight: '320 GSM',
         silhouette: 'Relaxed Streetwear Crewneck Silhouette',
         weightPct: 84,
         weightDesc: 'Fast-Fashion Mall Sweatshirt: 200 GSM [Flawed Drape] vs Rare Ember: 320 GSM [Structured Heavyweight Drape, Zero See-Through]',
@@ -1151,12 +1151,12 @@ export function ProductClient({ product }: Props) {
     }
     return {
       tag: '240 GSM SUPER-COMBED BIO-WASH',
-      weight: '240 GSM Combed Cotton (Breathable Structured Drape — Not Overly Thick)',
-      silhouette: 'Signature Mid-Weight Drop-Shoulder Oversized Silhouette',
+      weight: '240 GSM',
+      silhouette: 'Signature Heavy Drop-Shoulder Oversized Silhouette',
       weightPct: 68,
-      weightDesc: 'Fast-Fashion Mall Tee: 145 GSM [Thin/See-through] vs Rare Ember: 240 GSM [Breathable Structured Drape — Not Overly Thick]',
+      weightDesc: 'Fast-Fashion Mall Tee: 145 GSM [Thin/See-through] vs Rare Ember: 240–380 GSM [Structured Heavyweight Drape, Zero See-Through]',
       climatePct: 95,
-      climateDesc: '240 GSM Combed Cotton (Breathable Structured Drape — Not Overly Thick) — cool against skin in Indian humidity, structured on the outside',
+      climateDesc: '100% Super-Combed Bio-Washed Cotton — cool against skin in Indian humidity, structured on the outside',
       washPct: 99,
       washDesc: 'Pre-shrunk compacted yarn (0% shrinkage) + Industrial heat-cured DTF/Sublimation print that stretches with the fabric without cracking or peeling.',
       colorPct: 100,
@@ -1578,7 +1578,7 @@ export function ProductClient({ product }: Props) {
     }
     if (isCottonTee || isApparel) {
       return [
-        '240 GSM Super Combed 100% Bio-Washed Cotton (Structured Mid-Weight Drape)',
+        '240 GSM Super Combed 100% Bio-Washed Cotton Heavyweight Jersey',
         'Relaxed Drop-Shoulder Oversized Streetwear Silhouette',
         '1.25-Inch Lycra Ribbed Anti-Sag Neckband with Reinforced Collar',
         '1200 DPI Direct-to-Film (DTF) Archival Print with Zero Cracking',
@@ -2170,7 +2170,7 @@ export function ProductClient({ product }: Props) {
                   isJerseyOrDryFit ? '180 GSM QUICK-DRY' :
                   isDeskMat ? 'EXTENDED 900×400MM' :
                   isDrinkware ? (isSteelBottleOrTumbler ? 'INSULATED STEEL' : 'CERAMIC STONEWARE') :
-                  isCottonTee ? '240 GSM COMBED COTTON' :
+                  isCottonTee ? '240 GSM HEAVYWEIGHT' :
                   'FLAGSHIP DROP'
                 ))}
               </span>
