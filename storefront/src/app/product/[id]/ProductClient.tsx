@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import PrebuiltMockupRenderer from '@/components/PrebuiltMockupRenderer';
 import { useCart } from '@/lib/store/cart';
 import { useWishlist } from '@/lib/store/wishlist';
-import { formatPrice, computeDiscount, PET_META, bundles, getProduct, products, sortSizes } from '@/lib/data/products';
+import { formatPrice, computeDiscount, PET_META, bundles, getProduct, products, sortSizes, getGarmentFabricSpecs } from '@/lib/data/products';
 import type { Product } from '@/lib/data/products';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { resolveProductImages } from '@/lib/data/product-gallery';
@@ -1089,15 +1089,18 @@ export function ProductClient({ product }: Props) {
   const isCottonTee = isApparel && !isKidsApparel && !isHoodieOrSweatshirt && !isCropTopOrPolySpandex && !isJerseyOrDryFit && !isBottomwear;
 
   const gsmProfile = useMemo(() => {
+    const spec = getGarmentFabricSpecs(product);
+
     if (isHoodie) {
+      const gsmVal = spec.gsm > 0 ? spec.gsm : 380;
       return {
-        tag: '380 GSM HEAVYWEIGHT FRENCH TERRY',
-        weight: '380 GSM',
+        tag: `${gsmVal} GSM ${spec.badge.toUpperCase()}`,
+        weight: `${gsmVal} GSM`,
         silhouette: 'Structured Boxy Drop-Shoulder Silhouette',
-        weightPct: 96,
-        weightDesc: 'Fast-Fashion Mall Hoodie: 220 GSM [Thin/Baggy] vs Rare Ember: 380 GSM [Structured Heavyweight Drape, Zero See-Through]',
-        climatePct: 82,
-        climateDesc: '100% Super-Combed Bio-Washed Cotton Fleece — warm structured shell, breathable brushed interior',
+        weightPct: Math.min(100, Math.round((gsmVal / 400) * 100)),
+        weightDesc: `Fast-Fashion Mall Hoodie: 220 GSM [Thin/Baggy] vs Rare Ember: ${gsmVal} GSM [${spec.composition}]`,
+        climatePct: 85,
+        climateDesc: `${spec.composition} — warm structured shell, breathable interior`,
         washPct: 99,
         washDesc: 'Pre-shrunk compacted yarn (0% shrinkage) + Industrial heat-cured DTF print that stretches without cracking or peeling',
         colorPct: 100,
@@ -1135,34 +1138,37 @@ export function ProductClient({ product }: Props) {
       };
     }
     if (isJerseyOrDryFit) {
+      const gsmVal = spec.gsm > 0 ? spec.gsm : 180;
       return {
-        tag: '180 GSM QUICK-DRY MATRIX MESH',
-        weight: '180 GSM',
+        tag: `${gsmVal} GSM ${spec.badge.toUpperCase()}`,
+        weight: `${gsmVal} GSM`,
         silhouette: 'Athletic Aerodynamic Cut',
-        weightPct: 45,
-        weightDesc: 'Fast-Fashion Jersey: 120 GSM [Flimsy/Clinging] vs Rare Ember: 180 GSM [Structured Matrix Mesh, Zero See-Through]',
+        weightPct: Math.min(100, Math.round((gsmVal / 240) * 80)),
+        weightDesc: `Fast-Fashion Jersey: 120 GSM [Flimsy/Clinging] vs Rare Ember: ${gsmVal} GSM [${spec.composition}]`,
         climatePct: 99,
-        climateDesc: '180 GSM Honeycomb Hydrophobic Mesh — hyper-breathable airflow matrix cool against skin in high humidity',
+        climateDesc: `${spec.composition} — hyper-breathable airflow matrix cool against skin in high humidity`,
         washPct: 99,
         washDesc: 'Thermal dye-sublimation ink infused into fiber matrix — 100% anti-shrink with lifetime graphic vibrancy (zero cracking or peeling)',
         colorPct: 100,
         colorDesc: 'Studio Color Guarantee: Photographed under 5500K natural daylight. Sublimation molecular pigment that never fades.',
       };
     }
+
+    const gsmVal = spec.gsm > 0 ? spec.gsm : 180;
     return {
-      tag: '240 GSM SUPER-COMBED BIO-WASH',
-      weight: '240 GSM',
-      silhouette: 'Signature Heavy Drop-Shoulder Oversized Silhouette',
-      weightPct: 68,
-      weightDesc: 'Fast-Fashion Mall Tee: 145 GSM [Thin/See-through] vs Rare Ember: 240–380 GSM [Structured Heavyweight Drape, Zero See-Through]',
+      tag: `${gsmVal} GSM ${spec.badge.toUpperCase()}`,
+      weight: `${gsmVal} GSM`,
+      silhouette: gsmVal >= 240 ? 'Signature Heavy Drop-Shoulder Oversized Silhouette' : 'Classic Streetwear Comfort Silhouette',
+      weightPct: Math.min(100, Math.round((gsmVal / 260) * 90)),
+      weightDesc: `Fast-Fashion Mall Tee: 145 GSM [Thin/See-through] vs Rare Ember: ${gsmVal} GSM [${spec.composition}]`,
       climatePct: 95,
-      climateDesc: '100% Super-Combed Bio-Washed Cotton — cool against skin in Indian humidity, structured on the outside',
+      climateDesc: `${spec.composition} — cool against skin in Indian climate, structured on the outside`,
       washPct: 99,
       washDesc: 'Pre-shrunk compacted yarn (0% shrinkage) + Industrial heat-cured DTF/Sublimation print that stretches with the fabric without cracking or peeling.',
       colorPct: 100,
       colorDesc: 'Studio Color Guarantee: Photographed under 5500K natural daylight. Vat-dyed deep pigment that resists fading after 50+ cold washes.',
     };
-  }, [isHoodie, isVarsityJacket, isCrewneckSweatshirt, isJerseyOrDryFit]);
+  }, [product, isHoodie, isVarsityJacket, isCrewneckSweatshirt, isJerseyOrDryFit]);
 
   const blankGarmentImage = (() => {
     if (isKidsApparel) {
@@ -3380,7 +3386,7 @@ export function ProductClient({ product }: Props) {
               <div className="mt-3.5 p-3 rounded-2xl bg-white border border-black/[0.08] shadow-xs flex flex-wrap items-center justify-between gap-2 text-xs">
                 <div className="flex items-center gap-2 font-bold text-neutral-900">
                   <span className="text-sm">🧵</span>
-                  <span>{gsmProfile.weight} 100% Super-Combed Cotton</span>
+                  <span>{gsmProfile.weight} • {gsmProfile.tag.replace(/^[\d\s]+GSM\s*/i, '')}</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-[10px] text-neutral-600 font-bold flex-wrap">
                   <span className="bg-neutral-100 px-2 py-0.5 rounded">Pre-Shrunk</span>

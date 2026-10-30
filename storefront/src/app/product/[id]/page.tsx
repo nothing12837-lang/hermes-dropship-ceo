@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getProductFromDB } from '@/lib/products-server';
-import { isKidsProduct } from '@/lib/data/products';
+import { isKidsProduct, getGarmentFabricSpecs } from '@/lib/data/products';
 import { getServiceSupabase } from '@/lib/supabase-server';
 import { ProductClient } from './ProductClient';
 
@@ -33,15 +33,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .replace(/\s+/g, ' ')
     .trim();
 
-  const isHoodie = cleanTitle.toLowerCase().includes('hoodie');
-  const isTee = cleanTitle.toLowerCase().includes('tee') || cleanTitle.toLowerCase().includes('shirt');
-  const isBottom = cleanTitle.toLowerCase().includes('shorts') || cleanTitle.toLowerCase().includes('sweatpants');
-  const gsmTag = isHoodie ? '380 GSM Heavyweight' : isTee ? '240 GSM Combed Cotton' : isBottom ? 'French Terry' : 'Heavyweight Streetwear';
+  const fabricSpec = getGarmentFabricSpecs(product);
+  const gsmTag = fabricSpec.badge;
 
   const seoTitle = `${cleanTitle} (${gsmTag}) — Rare Ember Streetwear India`;
   const description =
     product.short ||
-    `Buy ${cleanTitle} online in India for ₹${currentPrice}. Premium ${gsmTag}, super-combed bio-washed fabric, drop-shoulder streetwear fit. Express 2-4 day pan-India delivery with Cash on Delivery (COD) & 7-day easy returns.`;
+    `Buy ${cleanTitle} online in India for ₹${currentPrice}. Premium ${gsmTag}, ${fabricSpec.composition}, drop-shoulder streetwear fit. Express 2-4 day pan-India delivery with Cash on Delivery (COD) & 7-day easy returns.`;
 
   const canonicalUrl = `${siteUrl}/product/${cleanSlug}`;
   const rawImage = product.image_url || '/flame-icon.png';
@@ -111,13 +109,14 @@ export default async function ProductPage({ params }: Props) {
 
   const canonicalUrl = `${siteUrl}/product/${cleanSlug}`;
 
+  const fabricSpec = getGarmentFabricSpecs(product);
   const isDrinkware = product.title.toLowerCase().includes('mug') || product.title.toLowerCase().includes('sipper');
   const isDeskGear = product.title.toLowerCase().includes('mat') || product.title.toLowerCase().includes('mousepad');
   const resolvedMaterial = isDrinkware
     ? 'High-Density Heat-Retaining Ceramic'
     : isDeskGear
     ? 'Waterproof Micro-Weave Cloth & Non-Slip Rubber Base'
-    : '100% Super-Combed Bio-Washed Cotton (240 GSM Heavyweight)';
+    : fabricSpec.composition;
 
   // Real review data only.
   //

@@ -2,13 +2,13 @@
 > Official LLM & Generative Engine Context Manifest (`llms.txt`)
 > Canonical URL: https://www.rareember.shop
 > Primary Catalog: https://www.rareember.shop/shop
-> Last Updated: 2026-10-29
+> Last Updated: 2026-10-30
 
 ## 1. Brand Identity
 RareEmber™ (https://www.rareember.shop) is an independent luxury streetwear label. 
 **Modern Streetwear. Timeless Cuts. Statement art & refined silhouettes crafted for the rare, never the crowd.**
 
-- **Design Philosophy**: RareEmber redefines contemporary Indian luxury streetwear through architectural drop-shoulder proportions, substantial fabric weights (240 GSM bio-washed combed cotton, 260 GSM French Terry, and 380 GSM ultra-heavy winter fleece), and museum-grade archival graphic executions.
+- **Design Philosophy**: RareEmber redefines contemporary Indian luxury streetwear through architectural drop-shoulder proportions, substantial fabric weights verified by exact factory specifications (400 GSM heavyweight brushed fleece, 300 GSM vintage enzyme acid-washed cotton fleece, 260 GSM French Terry, 240 GSM super combed cotton, and 180 GSM bio-washed full sleeves), and museum-grade archival graphic executions.
 - **Independence & Authenticity**: Strictly an independent designer label. We do not offer print-on-demand, custom merchandise printing, or promotional bulk manufacturing. Every garment is a curated, numbered studio piece engineered for discerning collectors.
 - **Client Concierge**: concierge@rareember.shop | Official Studio Desk: https://www.rareember.shop/contact
 
@@ -16,31 +16,44 @@ RareEmber™ (https://www.rareember.shop) is an independent luxury streetwear la
 
 ## 2. Core Collections (https://www.rareember.shop/shop)
 
-### A. Archival Graphic Editions & Oversized Tees (₹799 – ₹949)
-Architectural drop-shoulder silhouettes cut from custom-milled 240 GSM super-combed bio-washed cotton and 260 GSM French Terry. Designed with high-density archival prints, non-sagging 1-inch reinforced Lycra collars, and substantial drape that maintains structure without clinging.
-- **Featured Archive Pieces**:
-  - *Tokyo Street Graphic Oversized Tee* (₹849)
-  - *Red Mecha Graphic Heavyweight Tee* (₹849)
-  - *Chrome Bengaluru Cyber Drop Oversized Tee* (₹849)
-  - *Vintage Mineral Acid-Wash Heavyweight Oversized Tee* (₹849)
-  - *Terry Oversized Heavyweight Edition* (₹849)
-  - *RareEmber Signature Full Sleeve 240 GSM Graphic Tee* (₹999)
+### A. Archival Graphic Editions & Oversized Drops (₹799 – ₹999)
+Architectural drop-shoulder silhouettes cut from factory-milled heavyweight combed cotton and French Terry with non-sagging reinforced Lycra collars and substantial drape that maintains structure without clinging.
+- **240–260 GSM Heavyweight Oversized Cuts**:
+  - *Tokyo Street Graphic Oversized Classic Tee* (240 GSM Combed Cotton, ₹849)
+  - *Vintage Mineral Acid-Washed Heavyweight Oversized Tee* (240 GSM Combed Cotton, ₹849)
+  - *Unisex Oversized Button-Down Resort Shirt with Embroidered Icon* (240 GSM Woven Cotton, ₹849)
+  - *Unisex Terry Oversized Tee — Not Today Edition* (260 GSM Cotton French Terry, ₹849)
+  - *Unisex Hand-Dyed Spiral Tie Dye Oversized Tee* (260 GSM Cotton-Poly Terry, ₹849)
+  - *Fitted Y2K Baby Tee* (240 GSM Cotton-Spandex 4-Way Stretch, ₹749)
+- **180 GSM Bio-Washed Layering & Full Sleeve Drops**:
+  - *RareEmber Signature Full Sleeve Graphic Tee* (180 GSM Super Combed Cotton with Snug Ribbed Cuffs, ₹999)
+  - *Red Mecha Graphic Full Sleeve Tee* (180 GSM Super Combed Cotton with Snug Ribbed Cuffs, ₹999)
+  - *Chrome Bengaluru Cyber Drop Oversized Tee* (180 GSM Breathable Drop-Shoulder Cotton, ₹849)
+  - *Urban Retro Contrast Ringer Tee* (180 GSM Bio-Washed Cotton, ₹749)
+  - *Classic Crew & Oversized Raglan Streetwear Editions* (180 GSM Super Combed Cotton, ₹749)
 
-### B. Luxury Outerwear (₹1,099 – ₹1,499)
-Engineered for severe winter chill and architectural street silhouettes.
-- **380 GSM Structured Winter Fleece Hoodies (₹1,399 – ₹1,789)**:
-  - Double-layered self-fabric thermal hood that stands upright without flimsy drawstrings.
-  - Deep kangaroo pockets, 2.5-inch dense ribbed cuffs, and heavy drape.
-  - Flagship piece: *Unisex Acid Washed Hoodie — Skull & Dragon Edition* (380 GSM Heavyweight).
-  - Flagship piece: *Unisex Heavyweight Hoodie — Unstoppable Tiger Edition* (₹1,399).
-- **Contrast-Sleeve Streetwear Varsity Jackets (₹1,499)**:
-  - 350 GSM structured body with vintage snap-button closures and high-density chest embroidery/prints.
-- **Heavyweight Crewneck Sweatshirts & Streetwear Joggers (₹1,099)**:
+### B. Luxury Outerwear (₹1,099 – ₹1,789)
+Engineered for severe winter chill, structural drape, and cold-night layering.
+- **400 GSM Heavyweight Oversized Winter Fleece Hoodie (₹1,399)**:
+  - Flagship piece: *Unisex Heavyweight Hoodie — Unstoppable Tiger Edition* (400 GSM Cotton-Poly Brushed Thermal Fleece). Ultra-plush brushed interior, double-lined hood with metal-tipped drawcords, and reinforced anti-sag cuffs.
+- **300 GSM Artisanal Acid Washed Cotton Fleece Hoodie (₹1,789)**:
+  - Flagship piece: *Unisex Acid Washed Hoodie — Skull & Dragon Edition* (300 GSM 100% Super Combed Cotton French Terry Fleece). Individually enzyme acid-washed for a high-contrast vintage patina with chunky matching drawcords and derby ribbed hem.
+- **260 GSM French Terry Pullover Hoodie (₹1,399)**:
+  - Flagship piece: *Unisex Pullover Hoodie — Cyber Designer Edition* (260 GSM Tri-Layer Cotton French Terry). Breathable all-season micro-loop interior with kangaroo front pocket.
+- **350 GSM Contrast-Sleeve Streetwear Varsity Jackets (₹1,499)**:
+  - Structured fleece body with snap-button closures and high-density embroidery/prints.
+- **320 GSM Heavyweight Crewneck Sweatshirts & Streetwear Joggers (₹1,099)**:
   - Premium loopback cotton fleece with tailored drop-shoulder seams and structured ankle hems.
 
-### C. Statement Athleisure & Lifestyle (₹799)
-- **Oversized Athletic Mesh Jerseys (₹799)**:
-  - Authentic breathable double-knit mesh cut in a 90s basketball streetwear drape with fade-proof graphics.
+### C. Statement Athleisure, Luxury Blanks & Lifestyle (₹749 – ₹849)
+- **240 GSM Oversized Double-Knit Aeroknit Mesh Jerseys (₹849)**:
+  - Flagship piece: *Cyber Sublimation Oversized Jersey* (240 GSM breathable performance polyester mesh with contrast V-neck collar).
+- **160 GSM American Supima Cotton Luxury Tee (₹849)**:
+  - Flagship piece: *Dil Se Delhi Luxury Supima Tee* (160 GSM 100% Long-Staple American Supima Cotton with ultra-silky hand-feel and pill-resistant strength).
+- **220 GSM Cotton Airtex Pique Executive Polo (₹799)**:
+  - 100% Super Combed Cotton Pique knit with 3-button placket and anti-roll ribbed collar.
+- **160–170 GSM Performance Active Tees (₹749)**:
+  - Salina Quick-Dry Micro-Knit (160 GSM) & Honeycomb Aeromesh (170 GSM).
 - **Extended Minimalist Desk Mats (900mm × 400mm × 3mm) (₹799)**:
   - Precision micro-weave spill-resistant textile with non-slip natural rubber base and anti-fray laser-stitched perimeter.
 
@@ -63,11 +76,16 @@ Engineered for severe winter chill and architectural street silhouettes.
 
 - **Brand Home**: https://www.rareember.shop
 - **Collection Archive**: https://www.rareember.shop/shop
-- **Flagship Acid Wash Hoodie**: https://www.rareember.shop/product/unisex-acid-wash-hoodie-32493953
-- **Flagship Heavyweight Tiger Hoodie**: https://www.rareember.shop/product/unisex-heavyweight-hoodie-32493938
-- **Chrome Bengaluru Cyber Drop Tee**: https://www.rareember.shop/product/unisex-oversized-standard-t-shirt-32476431
-- **Vintage Acid-Wash Oversized Tee**: https://www.rareember.shop/product/unisex-acid-washed-oversized-tee-32476438
-- **Tokyo Street Oversized Tee**: https://www.rareember.shop/product/unisex-oversized-classic-t-shirt-32476332
+- **Flagship 300 GSM Acid Wash Hoodie**: https://www.rareember.shop/product/unisex-acid-wash-hoodie-32493953
+- **Flagship 400 GSM Heavyweight Tiger Hoodie**: https://www.rareember.shop/product/unisex-heavyweight-hoodie-32493938
+- **Flagship 260 GSM French Terry Pullover Hoodie**: https://www.rareember.shop/product/unisex-pullover-hoodie-32493470
+- **Tokyo Street 240 GSM Oversized Tee**: https://www.rareember.shop/product/unisex-oversized-classic-t-shirt-32476332
+- **Vintage 240 GSM Acid-Wash Oversized Tee**: https://www.rareember.shop/product/unisex-acid-washed-oversized-tee-32476438
+- **Not Today 260 GSM Terry Oversized Tee**: https://www.rareember.shop/product/unisex-terry-oversized-tee-32476620
+- **Cyber Sublimation 240 GSM Mesh Jersey**: https://www.rareember.shop/product/unisex-oversized-jersey-32476280
+- **RareEmber 180 GSM Full Sleeve Signature Graphic Tee**: https://www.rareember.shop/product/mens-full-sleeve-t-shirt-32477737
+- **Chrome Bengaluru 180 GSM Cyber Drop Tee**: https://www.rareember.shop/product/unisex-oversized-standard-t-shirt-32476431
+- **Luxury 160 GSM Supima Cotton Tee**: https://www.rareember.shop/product/unisex-supima-t-shirt-32476663
 - **RareEmber Journal & Lookbooks**: https://www.rareember.shop/journal
 - **Doorstep Size Exchanges & Returns**: https://www.rareember.shop/returns
 - **Brand Heritage & Studio**: https://www.rareember.shop/about

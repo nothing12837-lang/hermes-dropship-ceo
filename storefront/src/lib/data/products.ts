@@ -117,7 +117,7 @@ export function computeDiscount(rawPrice: number, rawCompare?: number, priceInr?
 }
 
 export const SHOP_CATEGORIES = [
-  { id: 'mens-printed', label: "Men's Graphic Drops", count: 18, hint: '240 GSM Combed Cotton Drops' },
+  { id: 'mens-printed', label: "Men's Graphic Drops", count: 18, hint: '180–260 GSM Bio-Washed Drops' },
   { id: 'printed', label: 'All Graphic Prints', count: 24, hint: 'High-Density Direct-to-Film Prints' },
   { id: 'mens', label: "Men's & Unisex", count: 23, hint: 'Oversized & Full Sleeve Graphic Tees' },
   { id: 'womens', label: "Women's Collection", count: 7, hint: 'Crops, Tees & Typographic Prints' },
@@ -446,8 +446,16 @@ export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: str
   if (/varsity|bomber/i.test(str)) {
     return '350 GSM Varsity';
   }
-  if (/acid\s*wash.*hoodie|hoodie.*acid\s*wash/i.test(str)) {
-    return '380 GSM Acid Wash';
+
+  // Exact Qikink Hoodies
+  if (/32493953|uh62|acid.*hoodie/i.test(str)) {
+    return '300 GSM Acid Wash';
+  }
+  if (/32493938|uh32|unstoppable.*tiger/i.test(str)) {
+    return '400 GSM Heavy Fleece';
+  }
+  if (/32493470|uh83/i.test(str)) {
+    return '260 GSM French Terry';
   }
   if (/pullover\s*hoodie/i.test(str)) {
     return '320 GSM French Terry';
@@ -458,17 +466,102 @@ export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: str
   if (/sweatshirt|crewneck|jogger|sweatpant/i.test(str)) {
     return '320 GSM French Terry';
   }
+
+  // Exact Qikink Specialties
+  if (/32476280|uj35/i.test(str)) {
+    return '240 GSM Breathable Mesh';
+  }
+  if (/32476281|us02/i.test(str)) {
+    return '170 GSM Honeycomb Mesh';
+  }
+  if (/jersey-01/i.test(str)) {
+    return '220 GSM Breathable Mesh';
+  }
   if (/oversized\s+jersey|jersey/i.test(str)) {
     return '220 GSM Breathable Mesh';
   }
-  if (/dryfit|dry fit/i.test(str)) {
-    return '180 GSM Quick-Dry Mesh';
+  if (/32476284|ud15|dryfit|dry fit/i.test(str)) {
+    return '160 GSM Quick-Dry';
   }
-  if (/polo/i.test(str)) {
+  if (/32476663|uc23|supima/i.test(str)) {
+    return '160 GSM Supima Cotton';
+  }
+  if (/32476788|mp25|polo/i.test(str)) {
     return '220 GSM Pique Cotton';
   }
+  if (/32476620|ut27/i.test(str)) {
+    return '260 GSM Cotton Terry';
+  }
+  if (/32476436|ut58|tie\s*dye/i.test(str)) {
+    return '260 GSM Tie-Dye';
+  }
+  if (/32476716|baby\s*tee|ft47/i.test(str)) {
+    return '240 GSM Cotton Spandex';
+  }
+  if (/32476629|uc28|oversized-shirt|button[- ]down/i.test(str)) {
+    return '240 GSM Woven Cotton';
+  }
+  if (/32476438|uc61/i.test(str)) {
+    return '240 GSM Acid Wash';
+  }
+  if (/32476332|uc22|tokyo\s*street/i.test(str)) {
+    return '240 GSM Combed Cotton';
+  }
+
+  // 180 GSM Qikink Blanks
+  if (/32477737|32476824|mrnfs|full\s*sleeve/i.test(str)) {
+    return '180 GSM Super Combed';
+  }
+  if (/32476431|us22/i.test(str)) {
+    return '180 GSM Relaxed Fit';
+  }
+  if (/32476313|32476326|mrnhs/i.test(str)) {
+    return '180 GSM Classic Crew';
+  }
+  if (/32476319|us21/i.test(str)) {
+    return '180 GSM Standard Crew';
+  }
+  if (/32476299|ur39|ringer/i.test(str)) {
+    return '180 GSM Retro Ringer';
+  }
+  if (/32476295|ur50/i.test(str)) {
+    return '180 GSM Oversized Raglan';
+  }
+  if (/32476636|ur37|raglan/i.test(str)) {
+    return '180 GSM Raglan';
+  }
+  if (/32476772|uv34|v\s*neck/i.test(str)) {
+    return '180 GSM V-Neck';
+  }
+  if (/32476699|uc48|stretch/i.test(str)) {
+    return '180 GSM Cotton Stretch';
+  }
+  if (/32476681|ub73|basic.*t-shirt/i.test(str)) {
+    return '180 GSM Poly-Cotton';
+  }
+  if (/32476800|ms36|sleeveless/i.test(str)) {
+    return '180 GSM Sleeveless';
+  }
+  if (/32476874|frnhs/i.test(str)) {
+    return '180 GSM Classic Tee';
+  }
+  if (/32476851|fc39|crop\s*top/i.test(str)) {
+    return '180 GSM Crop Top';
+  }
+  if (/32476722|fc40|crop\s*tank/i.test(str)) {
+    return '180 GSM Crop Tank';
+  }
+  if (/32476764|ft37|tank\s*top/i.test(str)) {
+    return '180 GSM Tank Top';
+  }
+  if (/32476756|fc43|t-shirt\s*dress/i.test(str)) {
+    return '180 GSM T-Shirt Dress';
+  }
+  if (/32476736|fm44|maternity/i.test(str)) {
+    return '180 GSM Maternity Dress';
+  }
   if (/crop/i.test(str)) {
-    return '220 GSM Cotton Spandex';
+    return '180 GSM Cotton';
   }
   if (/kid|boy|girl|baby/i.test(str)) {
     return '180 GSM Combed Cotton';
@@ -480,6 +573,83 @@ export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: str
     return 'Multi-Item Value Pack';
   }
   return '240 GSM Combed Cotton';
+}
+
+export interface GarmentFabricSpec {
+  gsm: number;
+  composition: string;
+  badge: string;
+  category: string;
+}
+
+export function getGarmentFabricSpecs(p?: { title?: string; id?: string; blank_sku?: string; tag?: string }): GarmentFabricSpec {
+  const badge = getGarmentSpecBadge(p);
+  const str = `${p?.title || ''} ${p?.id || ''} ${p?.blank_sku || ''}`.toLowerCase();
+
+  if (/32493938|uh32|unstoppable.*tiger/i.test(str)) {
+    return { gsm: 400, composition: '400 GSM Heavy Brushed Cotton-Poly Thermal Fleece', badge, category: 'Outerwear' };
+  }
+  if (/32493953|uh62|acid.*hoodie/i.test(str)) {
+    return { gsm: 300, composition: '300 GSM 100% Super Combed Cotton French Terry Fleece', badge, category: 'Outerwear' };
+  }
+  if (/32493470|uh83|pullover.*hoodie/i.test(str)) {
+    return { gsm: 260, composition: '260 GSM Tri-Layer French Terry (90% Cotton / 10% Poly)', badge, category: 'Outerwear' };
+  }
+  if (/varsity|bomber/i.test(str)) {
+    return { gsm: 350, composition: '350 GSM Heavyweight Fleece with Contrast Sleeves', badge, category: 'Outerwear' };
+  }
+  if (/sweatshirt|crewneck|jogger/i.test(str)) {
+    return { gsm: 320, composition: '320 GSM Super Combed French Terry Cotton Fleece', badge, category: 'Streetwear' };
+  }
+  if (/32476620|ut27/i.test(str)) {
+    return { gsm: 260, composition: '260 GSM 100% Cotton French Terry Loop-Back Fabric', badge, category: 'Oversized' };
+  }
+  if (/32476436|ut58|tie\s*dye/i.test(str)) {
+    return { gsm: 260, composition: '260 GSM Heavyweight French Terry (90% Cotton / 10% Poly)', badge, category: 'Oversized' };
+  }
+  if (/32476716|baby\s*tee|ft47/i.test(str)) {
+    return { gsm: 240, composition: '240 GSM 95% Combed Cotton / 5% Spandex Stretch Jersey', badge, category: 'Tops' };
+  }
+  if (/32476280|uj35/i.test(str)) {
+    return { gsm: 240, composition: '240 GSM Double-Knit Aeroknit Performance Polyester Mesh', badge, category: 'Athletic' };
+  }
+  if (/32476629|uc28|oversized-shirt|button[- ]down/i.test(str)) {
+    return { gsm: 240, composition: '240 GSM 100% Premium Woven Combed Cotton Canvas', badge, category: 'Shirts' };
+  }
+  if (/32476438|uc61/i.test(str)) {
+    return { gsm: 240, composition: '240 GSM 100% Combed Cotton Single Jersey (Enzyme Acid Wash)', badge, category: 'Oversized' };
+  }
+  if (/32476332|uc22|tokyo\s*street/i.test(str)) {
+    return { gsm: 240, composition: '240 GSM 100% Super Combed Bio-Washed Heavyweight Cotton', badge, category: 'Oversized' };
+  }
+  if (/32476788|mp25|polo/i.test(str)) {
+    return { gsm: 220, composition: '220 GSM 100% Super Combed Cotton Airtex Pique Knit', badge, category: 'Polo' };
+  }
+  if (/32476281|us02/i.test(str)) {
+    return { gsm: 170, composition: '170 GSM Lightweight Polyester Honeycomb Aeromesh', badge, category: 'Athletic' };
+  }
+  if (/32476284|ud15|dryfit|dry fit/i.test(str)) {
+    return { gsm: 160, composition: '160 GSM Salina Micro-Knit Quick-Dry Performance Polyester', badge, category: 'Athletic' };
+  }
+  if (/32476663|uc23|supima/i.test(str)) {
+    return { gsm: 160, composition: '160 GSM 100% Long-Staple American Supima Cotton Single Jersey', badge, category: 'Luxury' };
+  }
+  if (/32477737|32476824|mrnfs|full\s*sleeve/i.test(str)) {
+    return { gsm: 180, composition: '180 GSM 100% Super Combed Bio-Washed Cotton with Ribbed Cuffs', badge, category: 'Full Sleeve' };
+  }
+  if (/32476699|uc48|stretch/i.test(str)) {
+    return { gsm: 180, composition: '180 GSM 95% Cotton / 5% Lycra Dynamic Stretch Jersey', badge, category: 'Tees' };
+  }
+  if (/32476681|ub73|basic.*t-shirt/i.test(str)) {
+    return { gsm: 180, composition: '180 GSM Poly-Cotton Durable Everyday Blend', badge, category: 'Tees' };
+  }
+  if (/\b(mat|pad|desk\s*mat|mouse\s*pad|gaming\s*pad)\b|desk-mat/i.test(str)) {
+    return { gsm: 0, composition: 'Extended 900×400mm Waterproof Micro-Weave Cloth & Natural Rubber Base', badge, category: 'Gear' };
+  }
+  if (/mug|ceramic|drinkware|cup|sipper|bottle/i.test(str)) {
+    return { gsm: 0, composition: 'Gloss Ceramic 330ml / Insulated Stainless Steel', badge, category: 'Drinkware' };
+  }
+  return { gsm: 180, composition: '180 GSM 100% Super Combed Bio-Washed Cotton', badge, category: 'Streetwear' };
 }
 
 export const CUSTOM_BLANK_PRODUCTS: Product[] = [];
