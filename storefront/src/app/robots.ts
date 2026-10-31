@@ -13,6 +13,7 @@ export default function robots(): MetadataRoute.Robots {
     '/about',
     '/contact',
     '/returns',
+    '/shipping',
     '/terms',
     '/privacy',
     '/llms.txt',

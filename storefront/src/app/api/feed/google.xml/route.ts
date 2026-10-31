@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { products as curatedCatalog, Product, isKidsProduct } from '@/lib/data/products';
+import { products as curatedCatalog, Product, isKidsProduct, enforcePriceFloor } from '@/lib/data/products';
 
 export const runtime = 'nodejs';
 export const revalidate = 3600; // Cache feed for 1 hour
@@ -21,7 +21,9 @@ function isDisallowed(p: Product): boolean {
 
 export async function GET() {
   const siteUrl = 'https://www.rareember.shop';
-  const activeProducts = (curatedCatalog as Product[]).filter((p) => !isDisallowed(p) && p.active !== false);
+  const activeProducts = (curatedCatalog as Product[])
+    .filter((p) => !isDisallowed(p) && p.active !== false)
+    .map((raw) => enforcePriceFloor(raw));
 
   const itemsXml = activeProducts
     .map((p) => {
@@ -36,7 +38,9 @@ export async function GET() {
         )
       );
       const link = `${siteUrl}/product/${cleanSlug}`;
-      const imageLink = escapeXml(String(p.image_url || `${siteUrl}/flame-icon.png`));
+      const rawImg = p.image_url || '/flame-icon.png';
+      const fullImg = rawImg.startsWith('http') ? rawImg : `${siteUrl}${rawImg}`;
+      const imageLink = escapeXml(fullImg);
       const priceVal = Number(p.price_inr || p.price || 849);
 
       return `    <item>

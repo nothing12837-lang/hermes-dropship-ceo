@@ -180,8 +180,18 @@ export default function RootLayout({
                 'https://instagram.com/rareember',
                 'https://twitter.com/rareember',
               ],
+              telephone: '+919118211860',
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: 'Near Aerospace Park, Bagalur Main Road',
+                addressLocality: 'Bangalore',
+                addressRegion: 'Karnataka',
+                postalCode: '562107',
+                addressCountry: 'IN',
+              },
               contactPoint: {
                 '@type': 'ContactPoint',
+                telephone: '+919118211860',
                 email: 'support@rareember.shop',
                 contactType: 'customer service',
                 availableLanguage: ['English', 'Hindi'],

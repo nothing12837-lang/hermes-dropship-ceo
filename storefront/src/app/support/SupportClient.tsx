@@ -140,6 +140,35 @@ export default function SupportClient() {
         </div>
       </div>
 
+      {/* Official Business Information Grid (Google Merchant Center Compliant) */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-white p-5 rounded-2xl border border-black/[0.08] shadow-xs space-y-1">
+          <span className="text-[10px] font-mono font-bold text-neutral-400 uppercase tracking-wider block">📍 REGISTERED ADDRESS</span>
+          <p className="text-xs font-bold text-neutral-950">Rare Ember</p>
+          <p className="text-xs text-neutral-600 leading-relaxed">
+            Near Aerospace Park, Bagalur Main Road, Bangalore, Karnataka — 562107, India
+          </p>
+        </div>
+        <div className="bg-white p-5 rounded-2xl border border-black/[0.08] shadow-xs space-y-1">
+          <span className="text-[10px] font-mono font-bold text-neutral-400 uppercase tracking-wider block">📞 DIRECT HELPLINE</span>
+          <a href="tel:+919118211860" className="text-sm font-bold text-[#E04F33] hover:underline block">
+            +91 91182 11860
+          </a>
+          <p className="text-xs text-neutral-500 leading-relaxed">
+            Mon – Sat: 9:00 AM – 8:00 PM IST<br/>Instant WhatsApp &amp; Voice Assistance
+          </p>
+        </div>
+        <div className="bg-white p-5 rounded-2xl border border-black/[0.08] shadow-xs space-y-1">
+          <span className="text-[10px] font-mono font-bold text-neutral-400 uppercase tracking-wider block">✉️ SUPPORT EMAIL</span>
+          <a href="mailto:support@rareember.shop" className="text-sm font-bold text-neutral-950 hover:text-[#E04F33] hover:underline block">
+            support@rareember.shop
+          </a>
+          <p className="text-xs text-neutral-500 leading-relaxed">
+            12-Hour SLA Commitment<br/>Orders, Returns &amp; Tracking Desk
+          </p>
+        </div>
+      </div>
+
       {/* Navigation Tabs */}
       <div className="flex items-center justify-center p-1 rounded-xl bg-white border border-black/[0.08] shadow-xs max-w-lg mx-auto">
         <button
