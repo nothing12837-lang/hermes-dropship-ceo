@@ -35,7 +35,7 @@ export default function Footer() {
                     Registered Operating Address
                   </span>
                   <span className="text-white/80 text-[11px] leading-relaxed">
-                    Near Aerospace Park, Bagalur Main Road, Bangalore, Karnataka — 562107, India
+                    Near Ayyappa Swami Temple, Yadavnahalli (Landmark: Near St Antony's Church), Bangalore, Karnataka — 562107, India
                   </span>
                 </div>
               </div>

@@ -183,7 +183,7 @@ export default function RootLayout({
               telephone: '+919118211860',
               address: {
                 '@type': 'PostalAddress',
-                streetAddress: 'Near Aerospace Park, Bagalur Main Road',
+                streetAddress: "Near Ayyappa Swami Temple, Yadavnahalli (Landmark: Near St Antony's Church)",
                 addressLocality: 'Bangalore',
                 addressRegion: 'Karnataka',
                 postalCode: '562107',

@@ -146,7 +146,7 @@ export default function SupportClient() {
           <span className="text-[10px] font-mono font-bold text-neutral-400 uppercase tracking-wider block">📍 REGISTERED ADDRESS</span>
           <p className="text-xs font-bold text-neutral-950">Rare Ember</p>
           <p className="text-xs text-neutral-600 leading-relaxed">
-            Near Aerospace Park, Bagalur Main Road, Bangalore, Karnataka — 562107, India
+            Near Ayyappa Swami Temple, Yadavnahalli (Landmark: Near St Antony's Church), Bangalore, Karnataka — 562107, India
           </p>
         </div>
         <div className="bg-white p-5 rounded-2xl border border-black/[0.08] shadow-xs space-y-1">

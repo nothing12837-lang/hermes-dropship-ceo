@@ -64,7 +64,7 @@ export default function TermsPage() {
             <h2 className="text-lg font-bold text-neutral-950 mb-2">6. Verified Merchant &amp; Contact Information</h2>
             <div className="space-y-1 text-xs font-mono bg-neutral-50 p-4 rounded-xl border border-black/[0.06] text-neutral-800">
               <p><strong className="text-neutral-950">Brand / Legal Entity:</strong> Rare Ember</p>
-              <p><strong className="text-neutral-950">Registered Operating Address:</strong> Near Aerospace Park, Bagalur Main Road, Bangalore, Karnataka — 562107, India</p>
+              <p><strong className="text-neutral-950">Registered Operating Address:</strong> Near Ayyappa Swami Temple, Yadavnahalli (Landmark: Near St Antony's Church), Bangalore, Karnataka — 562107, India</p>
               <p><strong className="text-neutral-950">Customer Care Helpline:</strong> <a href="tel:+919118211860" className="text-[#E04F33] underline">+91 91182 11860</a></p>
               <p><strong className="text-neutral-950">Official Support Email:</strong> <a href="mailto:support@rareember.shop" className="text-[#E04F33] underline">support@rareember.shop</a></p>
               <p><strong className="text-neutral-950">Operating Hours:</strong> Monday – Saturday: 9:00 AM – 8:00 PM IST</p>
