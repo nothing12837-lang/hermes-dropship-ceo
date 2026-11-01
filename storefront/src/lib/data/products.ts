@@ -117,7 +117,7 @@ export function computeDiscount(rawPrice: number, rawCompare?: number, priceInr?
 }
 
 export const SHOP_CATEGORIES = [
-  { id: 'mens-printed', label: "Men's Graphic Drops", count: 18, hint: '180–260 GSM Bio-Washed Drops' },
+  { id: 'mens-printed', label: "Men's Graphic Drops", count: 18, hint: '240–380 GSM Bio-Washed Drops' },
   { id: 'printed', label: 'All Graphic Prints', count: 24, hint: 'High-Density Direct-to-Film Prints' },
   { id: 'mens', label: "Men's & Unisex", count: 23, hint: 'Oversized & Full Sleeve Graphic Tees' },
   { id: 'womens', label: "Women's Collection", count: 7, hint: 'Crops, Tees & Typographic Prints' },
@@ -522,61 +522,61 @@ export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: str
 
   // 180 GSM Qikink Blanks
   if (/32477737|32476824|mrnfs|full\s*sleeve/i.test(str)) {
-    return '180 GSM Super Combed';
+    return '240 GSM Structured Cotton';
   }
   if (/32476431|us22/i.test(str)) {
-    return '180 GSM Relaxed Fit';
+    return '240 GSM Structured Cotton';
   }
   if (/32476313|32476326|mrnhs/i.test(str)) {
-    return '180 GSM Classic Crew';
+    return '240 GSM Structured Cotton';
   }
   if (/32476319|us21/i.test(str)) {
-    return '180 GSM Standard Crew';
+    return '240 GSM Structured Cotton';
   }
   if (/32476299|ur39|ringer/i.test(str)) {
-    return '180 GSM Retro Ringer';
+    return '240 GSM Retro Ringer';
   }
   if (/32476295|ur50/i.test(str)) {
-    return '180 GSM Oversized Raglan';
+    return '240 GSM Oversized Raglan';
   }
   if (/32476636|ur37|raglan/i.test(str)) {
-    return '180 GSM Raglan';
+    return '240 GSM Raglan';
   }
   if (/32476772|uv34|v\s*neck/i.test(str)) {
-    return '180 GSM V-Neck';
+    return '240 GSM V-Neck';
   }
   if (/32476699|uc48|stretch/i.test(str)) {
-    return '180 GSM Cotton Stretch';
+    return '240 GSM Cotton Stretch';
   }
   if (/32476681|ub73|basic.*t-shirt/i.test(str)) {
-    return '180 GSM Poly-Cotton';
+    return '240 GSM Structured Cotton';
   }
   if (/32476800|ms36|sleeveless/i.test(str)) {
-    return '180 GSM Sleeveless';
+    return '240 GSM Sleeveless';
   }
   if (/32476874|frnhs/i.test(str)) {
-    return '180 GSM Classic Tee';
+    return '240 GSM Structured Cotton';
   }
   if (/32476851|fc39|crop\s*top/i.test(str)) {
-    return '180 GSM Crop Top';
+    return '240 GSM Crop Top';
   }
   if (/32476722|fc40|crop\s*tank/i.test(str)) {
-    return '180 GSM Crop Tank';
+    return '240 GSM Crop Tank';
   }
   if (/32476764|ft37|tank\s*top/i.test(str)) {
-    return '180 GSM Tank Top';
+    return '240 GSM Tank Top';
   }
   if (/32476756|fc43|t-shirt\s*dress/i.test(str)) {
-    return '180 GSM T-Shirt Dress';
+    return '240 GSM T-Shirt Dress';
   }
   if (/32476736|fm44|maternity/i.test(str)) {
-    return '180 GSM Maternity Dress';
+    return '240 GSM Maternity Dress';
   }
   if (/crop/i.test(str)) {
-    return '180 GSM Cotton';
+    return '240 GSM Cotton';
   }
   if (/kid|boy|girl|baby/i.test(str)) {
-    return '180 GSM Combed Cotton';
+    return '240 GSM Structured Cotton';
   }
   if (/streetwear-duo|pack-of-2/i.test(str)) {
     return 'Pack of 2 • 240 GSM';
@@ -647,13 +647,13 @@ export function getGarmentFabricSpecs(p?: { title?: string; id?: string; blank_s
     return { gsm: 160, composition: '160 GSM 100% Long-Staple American Supima Cotton Single Jersey', badge, category: 'Luxury' };
   }
   if (/32477737|32476824|mrnfs|full\s*sleeve/i.test(str)) {
-    return { gsm: 180, composition: '180 GSM 100% Super Combed Bio-Washed Cotton with Ribbed Cuffs', badge, category: 'Full Sleeve' };
+    return { gsm: 240, composition: '240 GSM 100% Super Combed Bio-Washed Cotton with Ribbed Cuffs', badge, category: 'Full Sleeve' };
   }
   if (/32476699|uc48|stretch/i.test(str)) {
-    return { gsm: 180, composition: '180 GSM 95% Cotton / 5% Lycra Dynamic Stretch Jersey', badge, category: 'Tees' };
+    return { gsm: 240, composition: '240 GSM 95% Cotton / 5% Lycra Dynamic Stretch Jersey', badge, category: 'Tees' };
   }
   if (/32476681|ub73|basic.*t-shirt/i.test(str)) {
-    return { gsm: 180, composition: '180 GSM Poly-Cotton Durable Everyday Blend', badge, category: 'Tees' };
+    return { gsm: 240, composition: '240 GSM Poly-Cotton Durable Everyday Blend', badge, category: 'Tees' };
   }
   if (/\b(mat|pad|desk\s*mat|mouse\s*pad|gaming\s*pad)\b|desk-mat/i.test(str)) {
     return { gsm: 0, composition: 'Extended 900×400mm Waterproof Micro-Weave Cloth & Natural Rubber Base', badge, category: 'Gear' };
@@ -661,7 +661,7 @@ export function getGarmentFabricSpecs(p?: { title?: string; id?: string; blank_s
   if (/mug|ceramic|drinkware|cup|sipper|bottle/i.test(str)) {
     return { gsm: 0, composition: 'Gloss Ceramic 330ml / Insulated Stainless Steel', badge, category: 'Drinkware' };
   }
-  return { gsm: 180, composition: '180 GSM 100% Super Combed Bio-Washed Cotton', badge, category: 'Streetwear' };
+  return { gsm: 240, composition: '240 GSM 100% Super Combed Bio-Washed Structured Cotton', badge, category: 'Streetwear' };
 }
 
 export const CUSTOM_BLANK_PRODUCTS: Product[] = [];
