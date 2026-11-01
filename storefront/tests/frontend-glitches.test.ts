@@ -53,155 +53,155 @@ describe('Product Catalog Resolution (Zero 404 Glitches)', () => {
 
 describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
   it('enforces updated price floors for key drops and bundles', () => {
-    // Unisex Oversized Jersey: ₹699 (M.R.P. ₹1,499)
+    // Unisex Oversized Jersey (Both Sides): ₹799 (M.R.P. ₹1,499)
     const jersey = enforcePriceFloor({
       id: 'qikink-32476280-unisex-oversized-jersey',
       title: 'Unisex Oversized Jersey — Creator Edition',
       price: 489,
     } as any);
-    expect(jersey.price).toBe(699);
+    expect(jersey.price).toBe(799);
     expect(jersey.compareAtPrice).toBe(1499);
 
-    // 240 GSM Unisex Oversized Standard T-Shirt: ₹699 (M.R.P. ₹1,499)
+    // 240 GSM Unisex Oversized Standard T-Shirt (Both Sides): ₹799 (M.R.P. ₹1,499)
     const tee = enforcePriceFloor({
       id: 'qikink-32476431-unisex-oversized-standard-t-shirt',
       title: 'Rare Ember Unisex Oversized Standard T-Shirt',
       price: 499,
     } as any);
-    expect(tee.price).toBe(699);
+    expect(tee.price).toBe(799);
     expect(tee.compareAtPrice).toBe(1499);
 
-    // Gaming Pad / Desk Mat: ₹549 (M.R.P. ₹1,199)
+    // Gaming Pad / Desk Mat: ₹599 (M.R.P. ₹1,199)
     const pad = enforcePriceFloor({
       id: 'rare-ember-desk-mat',
       title: 'Rare Ember Gaming Pad',
       price: 499,
     } as any);
-    expect(pad.price).toBe(549);
+    expect(pad.price).toBe(599);
     expect(pad.compareAtPrice).toBe(1199);
 
-    // Streetwear Duo: ₹1,299 (M.R.P. ₹2,499)
+    // Streetwear Duo (2x Both-Side Printed Tees): ₹1,499 (M.R.P. ₹2,499)
     const duo = enforcePriceFloor({
       id: 'bundle-streetwear-duo',
       title: 'The Streetwear Duo (2x Heavyweight Oversized Tees)',
       price: 899,
     } as any);
-    expect(duo.price).toBe(1299);
+    expect(duo.price).toBe(1499);
     expect(duo.compareAtPrice).toBe(2499);
 
-    // Founding 50: ₹1,299 (M.R.P. ₹2,499)
+    // Founding 50: ₹1,499 (M.R.P. ₹2,499)
     const f50 = enforcePriceFloor({
       id: 'bundle-founding-50',
       title: 'The Founding 50 Builder Pack',
       price: 1099,
     } as any);
-    expect(f50.price).toBe(1299);
+    expect(f50.price).toBe(1499);
     expect(f50.compareAtPrice).toBe(2499);
 
-    // Workstation Pack: ₹1,699 (M.R.P. ₹2,999)
+    // Workstation Pack: ₹1,899 (M.R.P. ₹3,199)
     const workstation = enforcePriceFloor({
       id: 'bundle-workstation',
       title: 'The Creator Workstation Pack',
       price: 1199,
     } as any);
-    expect(workstation.price).toBe(1699);
-    expect(workstation.compareAtPrice).toBe(2999);
+    expect(workstation.price).toBe(1899);
+    expect(workstation.compareAtPrice).toBe(3199);
 
-    // Women's Classic Tee, Crop Top, Tank Top, Sleeveless: min ₹599 (M.R.P. ₹1,099)
+    // Women's Classic Tee, Crop Top, Tank Top, Sleeveless (Both Sides): min ₹649 (M.R.P. ₹1,199)
     const crop = enforcePriceFloor({
       id: 'qikink-64953748-crop-top',
       title: "Women's Graphic Crop Top",
       price: 399,
     } as any);
-    expect(crop.price).toBe(599);
-    expect(crop.compareAtPrice).toBe(1099);
+    expect(crop.price).toBe(649);
+    expect(crop.compareAtPrice).toBe(1199);
 
     const sleeveless = enforcePriceFloor({
       id: 'qikink-64953600-sleeveless',
       title: "Men's Sleeveless Athletic Tee",
       price: 499,
     } as any);
-    expect(sleeveless.price).toBe(599);
-    expect(sleeveless.compareAtPrice).toBe(1099);
+    expect(sleeveless.price).toBe(649);
+    expect(sleeveless.compareAtPrice).toBe(1199);
 
-    // Men's Polo (220 GSM): min ₹749 (M.R.P. ₹1,499)
+    // Men's Polo (220 GSM Both Sides): min ₹849 (M.R.P. ₹1,599)
     const polo = enforcePriceFloor({
       id: 'qikink-64953576-polo',
       title: "Executive Pique Polo",
       price: 549,
     } as any);
-    expect(polo.price).toBe(749);
-    expect(polo.compareAtPrice).toBe(1499);
+    expect(polo.price).toBe(849);
+    expect(polo.compareAtPrice).toBe(1599);
 
-    // Unisex V-Neck (64953544): min ₹749 (M.R.P. ₹1,499)
+    // Unisex V-Neck (64953544 Both Sides): min ₹849 (M.R.P. ₹1,599)
     const vneck = enforcePriceFloor({
       id: 'qikink-64953544-v-neck',
       title: "Bio-Washed Combed Cotton V-Neck Tee",
       price: 499,
     } as any);
-    expect(vneck.price).toBe(749);
-    expect(vneck.compareAtPrice).toBe(1499);
+    expect(vneck.price).toBe(849);
+    expect(vneck.compareAtPrice).toBe(1599);
 
-    // Full-Sleeve Tee / T-Shirt Dress: min ₹799 (M.R.P. ₹1,499)
+    // Full-Sleeve Tee / T-Shirt Dress (Both Sides): min ₹849 (M.R.P. ₹1,599)
     const fullSleeve = enforcePriceFloor({
       id: 'qikink-64953648-full-sleeve',
       title: "Men's Full Sleeve T-Shirt",
       price: 699,
     } as any);
-    expect(fullSleeve.price).toBe(799);
-    expect(fullSleeve.compareAtPrice).toBe(1499);
+    expect(fullSleeve.price).toBe(849);
+    expect(fullSleeve.compareAtPrice).toBe(1599);
 
-    // 240 GSM Oversized Acid Wash: min ₹749 (M.R.P. ₹1,499)
+    // 240 GSM Oversized Acid Wash (Both Sides): min ₹849 (M.R.P. ₹1,599)
     const acidWash = enforcePriceFloor({
       id: 'qikink-32476620-acid-wash-tee',
       title: "Vintage Acid-Wash Oversized Heavyweight Tee",
       price: 699,
     } as any);
-    expect(acidWash.price).toBe(749);
-    expect(acidWash.compareAtPrice).toBe(1499);
+    expect(acidWash.price).toBe(849);
+    expect(acidWash.compareAtPrice).toBe(1599);
 
-    // 320 GSM Crewneck Sweatshirt & Heavyweight Joggers: min ₹1,199 (M.R.P. ₹2,199)
+    // 320 GSM Crewneck Sweatshirt & Heavyweight Joggers (Both Sides): min ₹1,299 (M.R.P. ₹2,299)
     const sweatshirt = enforcePriceFloor({
       id: 'qikink-320gsm-sweatshirt',
       title: "320 GSM French Terry Crewneck Sweatshirt",
       price: 799,
     } as any);
-    expect(sweatshirt.price).toBe(1199);
-    expect(sweatshirt.compareAtPrice).toBe(2199);
+    expect(sweatshirt.price).toBe(1299);
+    expect(sweatshirt.compareAtPrice).toBe(2299);
 
     const joggers = enforcePriceFloor({
       id: 'qikink-320gsm-joggers',
       title: "320 GSM Heavyweight Streetwear Joggers",
       price: 899,
     } as any);
-    expect(joggers.price).toBe(1199);
-    expect(joggers.compareAtPrice).toBe(2199);
+    expect(joggers.price).toBe(1299);
+    expect(joggers.compareAtPrice).toBe(2299);
 
-    // 380 GSM Heavyweight Winter Hoodie: min ₹1,249 (M.R.P. ₹2,299)
+    // 380 GSM Heavyweight Winter Hoodie (Both Sides): min ₹1,399 (M.R.P. ₹2,399)
     const hoodie = enforcePriceFloor({
       id: 'qikink-heavyweight-hoodie',
       title: "380 GSM Heavyweight Winter Hoodie",
       price: 999,
     } as any);
-    expect(hoodie.price).toBe(1249);
-    expect(hoodie.compareAtPrice).toBe(2299);
+    expect(hoodie.price).toBe(1399);
+    expect(hoodie.compareAtPrice).toBe(2399);
 
-    // 350 GSM Contrast-Sleeve Varsity Jacket & Bomber Jacket: min ₹1,399 (M.R.P. ₹2,499)
+    // 350 GSM Contrast-Sleeve Varsity Jacket & Bomber Jacket (Both Sides): min ₹1,649 (M.R.P. ₹2,699)
     const varsityJacket = enforcePriceFloor({
       id: 'qikink-varsity-jacket-01',
       title: "350 GSM Contrast-Sleeve Varsity Jacket",
       price: 1199,
     } as any);
-    expect(varsityJacket.price).toBe(1399);
-    expect(varsityJacket.compareAtPrice).toBe(2499);
+    expect(varsityJacket.price).toBe(1649);
+    expect(varsityJacket.compareAtPrice).toBe(2699);
 
     const bomberJacket = enforcePriceFloor({
       id: 'qikink-bomber-jacket-01',
       title: "Architectural Streetwear Bomber Jacket",
       price: 1199,
     } as any);
-    expect(bomberJacket.price).toBe(1399);
-    expect(bomberJacket.compareAtPrice).toBe(2499);
+    expect(bomberJacket.price).toBe(1649);
+    expect(bomberJacket.compareAtPrice).toBe(2699);
   });
 
   it('correctly maps getGarmentSpecBadge without shifting array indices', () => {
@@ -312,10 +312,10 @@ describe('Glitches Fix 4: Journal & Blog Filtering & Deduplication', () => {
 
 describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', () => {
   it('protects coupon minimum order thresholds from eroding margins', () => {
-    // PREPAID30: minOrder: 549
+    // PREPAID30: minOrder: 599
     expect(validateCouponCode('PREPAID30', 500).valid).toBe(false);
-    expect(validateCouponCode('PREPAID30', 548).valid).toBe(false);
-    const p30 = validateCouponCode('PREPAID30', 549);
+    expect(validateCouponCode('PREPAID30', 598).valid).toBe(false);
+    const p30 = validateCouponCode('PREPAID30', 599);
     expect(p30.valid).toBe(true);
     expect(p30.discountAmount).toBe(30);
 
@@ -373,9 +373,9 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
       id: 'custom-drop-empty',
       title: 'Rare Ember Atelier Drop',
     } as any);
-    expect(noPrice.price).toBe(649);
-    expect(noPrice.price_inr).toBe(649);
-    expect(noPrice.compareAtPrice).toBe(1299);
+    expect(noPrice.price).toBe(699);
+    expect(noPrice.price_inr).toBe(699);
+    expect(noPrice.compareAtPrice).toBe(1399);
 
     const zeroPrice = enforcePriceFloor({
       id: 'custom-drop-zero',
@@ -383,18 +383,18 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
       price: 0,
       price_inr: 0,
     } as any);
-    expect(zeroPrice.price).toBe(649);
-    expect(zeroPrice.price_inr).toBe(649);
-    expect(zeroPrice.compareAtPrice).toBe(1299);
+    expect(zeroPrice.price).toBe(699);
+    expect(zeroPrice.price_inr).toBe(699);
+    expect(zeroPrice.compareAtPrice).toBe(1399);
   });
 
-  it('preserves profit margin on Standard Crew, Raglan & Ringer Tees with ₹699 floor', () => {
+  it('preserves profit margin on Standard Crew, Raglan & Ringer Tees with ₹799 floor', () => {
     const raglan = enforcePriceFloor({
       id: 'qikink-32476636-unisex-raglan-t-shirt',
       title: 'Unisex Raglan T-Shirt — Namaste Hustle Graphic',
       price: 499,
     } as any);
-    expect(raglan.price).toBe(699);
+    expect(raglan.price).toBe(799);
     expect(raglan.compareAtPrice).toBe(1499);
 
     const ringer = enforcePriceFloor({
@@ -402,7 +402,7 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
       title: 'Unisex Ringer T-Shirt — Urban Retro Graphic',
       price: 499,
     } as any);
-    expect(ringer.price).toBe(699);
+    expect(ringer.price).toBe(799);
     expect(ringer.compareAtPrice).toBe(1499);
   });
 
@@ -445,17 +445,17 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
     const acidHoodie = getProduct('32493953');
     expect(acidHoodie).toBeDefined();
     expect(acidHoodie?.title).toContain('Acid Washed Hoodie');
-    expect(acidHoodie?.price_inr).toBe(1549);
+    expect(acidHoodie?.price_inr).toBe(1699);
 
     const tigerHoodie = getProduct('32493938');
     expect(tigerHoodie).toBeDefined();
     expect(tigerHoodie?.title).toContain('Tiger');
-    expect(tigerHoodie?.price_inr).toBe(1249);
+    expect(tigerHoodie?.price_inr).toBe(1399);
 
     const pulloverHoodie = getProduct('32493470');
     expect(pulloverHoodie).toBeDefined();
     expect(pulloverHoodie?.title).toContain('Pullover Hoodie');
-    expect(pulloverHoodie?.price_inr).toBe(1249);
+    expect(pulloverHoodie?.price_inr).toBe(1399);
   });
 
   it('ensures product gallery color images map accurately without spurious color changes on alternate angles', () => {

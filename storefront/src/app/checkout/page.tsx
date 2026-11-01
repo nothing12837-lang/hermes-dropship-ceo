@@ -108,7 +108,7 @@ export default function CheckoutPage() {
     setPaymentMethod(method);
     setError('');
     if (method === 'online') {
-      if (!couponApplied && !appliedCouponCode && subtotal >= 549) {
+      if (!couponApplied && !appliedCouponCode && subtotal >= 599) {
         const res = validateCouponCode('PREPAID50', subtotal);
         if (res.valid) {
           setCoupon('PREPAID50');
@@ -345,9 +345,9 @@ export default function CheckoutPage() {
   };
   const subtotal = detailed.reduce((a, b) => a + getProductItemPrice(b.product) * b.qty, 0);
 
-  // Auto-apply PREPAID50 for online checkout when subtotal >= 549
+  // Auto-apply PREPAID50 for online checkout when subtotal >= 599
   useEffect(() => {
-    if (paymentMethod === 'online' && !couponApplied && !appliedCouponCode && subtotal >= 549) {
+    if (paymentMethod === 'online' && !couponApplied && !appliedCouponCode && subtotal >= 599) {
       const res = validateCouponCode('PREPAID50', subtotal);
       if (res.valid) {
         setCoupon('PREPAID50');
