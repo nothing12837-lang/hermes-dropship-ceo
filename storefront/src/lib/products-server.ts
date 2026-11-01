@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
-import { products as localProducts, cleanBrandTitle, enforcePriceFloor, isKidsProduct, isDisallowed180GsmOrThin, BUNDLE_FALLBACK_PRODUCTS, type Product, type ProductCategory, type PetType, type AgeGroup } from '@/lib/data/products';
+import { products as localProducts, cleanBrandTitle, enforcePriceFloor, isKidsProduct, isDisallowed180GsmOrThin, BUNDLE_FALLBACK_PRODUCTS, getGarmentSpecBadge, type Product, type ProductCategory, type PetType, type AgeGroup } from '@/lib/data/products';
+export { getGarmentSpecBadge };
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { resolveProductImages } from '@/lib/data/product-gallery';
 import type { Database, Json } from '@/lib/database.types';
@@ -70,7 +71,7 @@ export function cleanWholesaleDescription(text: string): string {
     .replace(/^Sell full sleeve crop tops \(AOP\) with (?:Qikink|Rare Ember Studio)'s print-on-demand model\..*$/i, 'Crafted in small batches for everyday comfort and durability. 220 GSM 4-way stretch poly-spandex with vibrant, fade-proof all-over print.')
     .replace(/^Design & sell custom dry fit t-shirts with quick-dry fabric.*$/i, 'Engineered for intense workouts and high-heat street sessions. Breathable, moisture-wicking quick-dry fabric with crisp sublimation graphics.')
     .replace(/^Design & sell custom jersey t-shirts in mesh fabric.*$/i, 'Authentic breathable mesh athletic jersey engineered for pitch performance and streetwear layering. Deep sublimation graphics and athletic seams.')
-    .replace(/^Design & sell custom oversized jersey T-shirts.*$/i, 'Heavyweight oversized boxy jersey blending 90s basketball aesthetics with modern streetwear drape. Premium breathable mesh with fade-proof graphics.')
+    .replace(/^Design & sell custom oversized jersey T-shirts.*$/i, 'Structured oversized boxy jersey blending 90s basketball aesthetics with modern streetwear drape. 240 GSM Aeroknit mesh with fade-proof graphics.')
     .replace(/^Sell gym\/sports crop tops.*$/i, 'Performance athletic crop top crafted from 220 GSM poly-spandex with 4-way compression stretch and sweat-wicking comfort.')
     .replace(/^Sell custom acrylic photo frames.*$/i, 'Museum-grade crystal clear acrylic photo display paired with a solid wooden stand. High-definition UV print with rich contrast for your desk setup.')
     .replace(/^Personalized Pens with custom laser engraving.*$/i, 'Precision-crafted metal executive pen with ergonomic balanced weight, smooth blue ballpoint ink, and permanent laser engraving.')
@@ -128,7 +129,7 @@ function mapRowToProduct(r: ProductRow): Product {
   // Extract clean complete first sentence for short description instead of slicing at 140 chars
   let shortText = r.short && r.short.trim().length > 0
     ? cleanSentence(cleanWholesaleDescription(r.short))
-    : (description.split(/[.!?]\s+/)[0]?.trim() || 'Premium domestic heavyweight quality with fast express dispatch across India.');
+    : (description.split(/[.!?]\s+/)[0]?.trim() || 'Premium domestic structured cotton quality with fast express dispatch across India.');
 
   if (isKids && shortText.includes('240 GSM')) {
     shortText = shortText.replace(/240 GSM/g, '180 GSM');

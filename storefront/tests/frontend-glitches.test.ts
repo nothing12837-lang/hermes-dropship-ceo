@@ -72,19 +72,19 @@ describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
     expect(tee.price).toBe(799);
     expect(tee.compareAtPrice).toBe(1499);
 
-    // Gaming Pad / Desk Mat: ₹599 (M.R.P. ₹1,199)
+    // Gaming Pad / Desk Mat: ₹699 (M.R.P. ₹1,299)
     const pad = enforcePriceFloor({
       id: 'rare-ember-desk-mat',
       title: 'Rare Ember Gaming Pad',
       price: 499,
     } as any);
-    expect(pad.price).toBe(599);
-    expect(pad.compareAtPrice).toBe(1199);
+    expect(pad.price).toBe(699);
+    expect(pad.compareAtPrice).toBe(1299);
 
     // Streetwear Duo (2x Both-Side Printed Tees): ₹1,499 (M.R.P. ₹2,499)
     const duo = enforcePriceFloor({
       id: 'bundle-streetwear-duo',
-      title: 'The Streetwear Duo (2x Heavyweight Oversized Tees)',
+      title: 'The Streetwear Duo - 2x 240 GSM Structured Oversized Tees',
       price: 899,
     } as any);
     expect(duo.price).toBe(1499);
@@ -222,12 +222,19 @@ describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
     });
     expect(hoodie).toBe('380 GSM Heavy Fleece');
 
-    // Unisex jersey
+    // Unisex jersey: 240 GSM AEROKNIT MESH (never heavyweight)
     const jersey = getGarmentSpecBadge({
       id: 'jersey-01',
       title: 'Unisex Oversized Jersey — Creator Edition',
     });
-    expect(jersey).toBe('220 GSM Breathable Mesh');
+    expect(jersey).toBe('240 GSM AEROKNIT MESH');
+
+    // Specific Qikink Items from Catalog
+    expect(getGarmentSpecBadge({ id: '32493953', title: 'Acid Washed Hoodie' })).toBe('320 GSM ACID WASH FLEECE');
+    expect(getGarmentSpecBadge({ id: '32493938', title: 'Heavyweight Hoodie' })).toBe('380 GSM BRUSHED FLEECE');
+    expect(getGarmentSpecBadge({ id: '32493470', title: 'Pullover Hoodie' })).toBe('320 GSM FRENCH TERRY HOODIE');
+    expect(getGarmentSpecBadge({ id: '32476438', title: 'Acid Washed Tee' })).toBe('240 GSM ACID WASH COTTON');
+    expect(getGarmentSpecBadge({ id: '32476431', title: 'Oversized Tee' })).toBe('240 GSM STRUCTURED COTTON');
   });
 });
 

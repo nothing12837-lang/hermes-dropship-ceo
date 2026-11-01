@@ -96,7 +96,8 @@ export function cleanBrandTitle(rawTitle: string): string {
   if (!rawTitle) return '';
   return rawTitle
     .replace(/\|\s*[A-Z0-9-]{2,10}/gi, '')
-    .replace(/\b(qikink|ut58|cc32|ms65|fc38|fa30|uj31|fd16|ur50|ua22|ut27|mt45|ut68|uc61|us22|uh32|uh62|uh83|mp25)\b/gi, '')
+    .replace(/\bblank\b/gi, '')
+    .replace(/\b(qikink|ut58|cc32|ms65|fc38|fa30|uj31|fd16|ur50|ua22|ut27|mt45|ut68|uc61|us22|uh32|uh62|uh83|mp25|uh26|uh35|uj29|us52)\b/gi, '')
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -252,13 +253,13 @@ export function enforcePriceFloor(p: Product): Product {
     if (price < 799) price = 799;
     if (compare < 1499) compare = 1499;
   }
-  // 8. 900×400mm Extended Gaming Desk Mat / Pad: min ₹599 (M.R.P. ₹1,199)
+  // 8. 900×400mm Extended Gaming Desk Mat / Pad: min ₹699 (M.R.P. ₹1,299)
   else if (
     title.includes('gaming pad') || title.includes('desk mat') || title.includes('mouse pad') ||
     pid.includes('desk-mat') || pid.includes('desk_mat') || pid.includes('mpad') || pid.includes('blank-deskmat')
   ) {
-    if (price < 599) price = 599;
-    if (compare < 1199) compare = 1199;
+    if (price < 699) price = 699;
+    if (compare < 1299) compare = 1299;
   }
   // 9. Default fallback: min ₹799 (M.R.P. ₹1,499)
   else {
@@ -283,11 +284,11 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
   {
     id: 'bundle-streetwear-duo',
     slug: 'bundle-streetwear-duo',
-    title: 'The Streetwear Duo — 2x Heavyweight Oversized Tees',
+    title: 'The Streetwear Duo - 2x 240 GSM Structured Oversized Tees',
     short: 'Two signature 240 GSM super combed cotton oversized tees with fade-proof archival screen prints.',
-    story: 'Engineered for high-rotation streetwear. Crafted from premium 240 GSM bio-washed cotton and reinforced Lycra collar.',
+    story: 'Engineered for high-rotation streetwear. Crafted from premium 240 GSM bio-washed structured cotton and reinforced Lycra collar.',
     details: [
-      '2x 240 GSM Heavyweight Oversized Drop-Shoulder Tees',
+      '2x 240 GSM Structured Cotton Oversized Drop-Shoulder Tees',
       '100% Super Combed Bio-Washed Cotton',
       'High-Density Archival Fade-Proof Prints',
       '7-Day Easy Returns Guarantee'
@@ -314,10 +315,10 @@ export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
     id: 'bundle-founding-50',
     slug: 'bundle-founding-50',
     title: 'The Founding 50 Builder Pack — 240 GSM Tee + Desk Mat',
-    short: 'Heavyweight 240 GSM builder tee paired with a 900×400mm micro-weave precision desk mat.',
+    short: 'Structured 240 GSM builder tee paired with a 900×400mm micro-weave precision desk mat.',
     story: 'Designed for engineers, designers, and creators who ship daily. Features archival graphics and water-repellent precision desk surface.',
     details: [
-      '1x 240 GSM Heavyweight Oversized Drop-Shoulder Tee',
+      '1x 240 GSM Structured Cotton Oversized Drop-Shoulder Tee',
       '1x 900×400mm Extended Precision Micro-Weave Desk Mat',
       'Zero-Fray 360° Reinforced Edge Stitching',
       '7-Day Easy Returns Guarantee'
@@ -447,7 +448,7 @@ export function sortSizes(sizes?: string[]): string[] {
  * Binds directly to the product object attributes, never by array index.
  */
 export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: string; category?: string; subCategory?: string }): string {
-  if (!p) return '240 GSM Combed Cotton';
+  if (!p) return '240 GSM STRUCTURED COTTON';
   const str = `${p.title || ''} ${p.id || ''} ${p.subCategory || ''} ${p.tag || ''}`.toLowerCase();
 
   if (/\b(mat|pad|desk\s*mat|mouse\s*pad|gaming\s*pad)\b|desk-mat/i.test(str)) {
@@ -462,16 +463,13 @@ export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: str
 
   // Exact Qikink Hoodies
   if (/32493953|uh62|acid.*hoodie/i.test(str)) {
-    return '300 GSM Acid Wash';
+    return '320 GSM ACID WASH FLEECE';
   }
   if (/32493938|uh32|unstoppable.*tiger/i.test(str)) {
-    return '400 GSM Heavy Fleece';
+    return '380 GSM BRUSHED FLEECE';
   }
-  if (/32493470|uh83/i.test(str)) {
-    return '260 GSM French Terry';
-  }
-  if (/pullover\s*hoodie/i.test(str)) {
-    return '320 GSM French Terry';
+  if (/32493470|uh83|pullover\s*hoodie/i.test(str)) {
+    return '320 GSM FRENCH TERRY HOODIE';
   }
   if (/hoodie/i.test(str)) {
     return '380 GSM Heavy Fleece';
@@ -482,16 +480,16 @@ export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: str
 
   // Exact Qikink Specialties
   if (/32476280|uj35/i.test(str)) {
-    return '240 GSM Breathable Mesh';
+    return '240 GSM AEROKNIT MESH';
   }
   if (/32476281|us02/i.test(str)) {
     return '170 GSM Honeycomb Mesh';
   }
   if (/jersey-01/i.test(str)) {
-    return '220 GSM Breathable Mesh';
+    return '240 GSM AEROKNIT MESH';
   }
   if (/oversized\s+jersey|jersey/i.test(str)) {
-    return '220 GSM Breathable Mesh';
+    return '240 GSM AEROKNIT MESH';
   }
   if (/32476284|ud15|dryfit|dry fit/i.test(str)) {
     return '160 GSM Quick-Dry';
@@ -512,13 +510,16 @@ export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: str
     return '240 GSM Cotton Spandex';
   }
   if (/32476629|uc28|oversized-shirt|button[- ]down/i.test(str)) {
-    return '240 GSM Woven Cotton';
+    return '240 GSM STRUCTURED COTTON';
   }
-  if (/32476438|uc61/i.test(str)) {
-    return '240 GSM Acid Wash';
+  if (/32476438|uc61|acid.*tee/i.test(str)) {
+    return '240 GSM ACID WASH COTTON';
   }
   if (/32476332|uc22|tokyo\s*street/i.test(str)) {
-    return '240 GSM Combed Cotton';
+    return '240 GSM STRUCTURED COTTON';
+  }
+  if (/32476431|us22|ua22/i.test(str)) {
+    return '240 GSM STRUCTURED COTTON';
   }
 
   // 180 GSM Qikink Blanks
@@ -585,7 +586,7 @@ export function getGarmentSpecBadge(p?: { title?: string; id?: string; tag?: str
   if (/founding-50|workstation|pack-of-3|bundle/i.test(str)) {
     return 'Multi-Item Value Pack';
   }
-  return '240 GSM Combed Cotton';
+  return '240 GSM STRUCTURED COTTON';
 }
 
 export interface GarmentFabricSpec {
