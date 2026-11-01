@@ -118,11 +118,10 @@ export function computeDiscount(rawPrice: number, rawCompare?: number, priceInr?
 }
 
 export const SHOP_CATEGORIES = [
-  { id: 'mens-printed', label: "Men's Graphic Drops", count: 18, hint: '240–380 GSM Bio-Washed Drops' },
-  { id: 'printed', label: 'All Graphic Prints', count: 24, hint: 'High-Density Direct-to-Film Prints' },
-  { id: 'mens', label: "Men's & Unisex", count: 23, hint: 'Oversized & Full Sleeve Graphic Tees' },
-  { id: 'womens', label: "Women's Collection", count: 7, hint: 'Crops, Tees & Typographic Prints' },
-  { id: 'blanks', label: 'Essential Blanks', count: 8, hint: 'Solid Silhouettes & Acid Wash' },
+  { id: 'mens-printed', label: 'Graphic Drops', count: 8, hint: '240–380 GSM Heavyweight Streetwear' },
+  { id: 'printed', label: 'All Graphic Prints', count: 8, hint: 'High-Density Direct-to-Film Prints' },
+  { id: 'hoodies', label: 'Heavyweight Hoodies', count: 3, hint: '320–380 GSM Heavy Fleece' },
+  { id: 'tees', label: 'Oversized Tees', count: 5, hint: '240 GSM Structured Cotton' },
 ];
 
 export function isKidsProduct(p: { id?: string; title?: string; category?: string; gender?: string; sizes?: string[] } | null | undefined): boolean {
@@ -158,6 +157,13 @@ export function isDisallowed180GsmOrThin(p?: { id?: string; title?: string; slug
   // 3. Full-Sleeve T-Shirts & T-Shirt Dresses (Qikink SKU 5474 180 GSM)
   if (/full[-_ ]?sleeve|dress|maternity|5474|180[-_ ]?gsm|mrnfs|mf31|fc43|fm44/i.test(str)) return true;
   if (/32477737|32476824|32476756|32476736|64953648/i.test(str)) return true;
+
+  // 4. Raw Unprinted Factory Blanks & Non-Printed Products (Must have verified custom printing)
+  if (p && ((p as any).is_printed === false || /blank|desk[-_ ]?mat|mouse[-_ ]?pad|uj29|us52|uj31|ua30|uh26|uh35|ut27|ut58|uc61/i.test(str))) {
+    if (!/32493953|32493938|32493470|32476431|32476620|32476280|32476332|32476629/.test(str)) {
+      return true;
+    }
+  }
 
   return false;
 }
@@ -676,6 +682,8 @@ export const products: Product[] = [
     .filter((p) => !isKidsProduct(p))
     // Filter out 180 GSM and thin blanks permanently from catalog
     .filter((p) => !isDisallowed180GsmOrThin(p))
+    // Strictly require verified custom printing and client product ID
+    .filter((p) => p.is_printed === true && Boolean(p.qikinkClientProductId))
     // Gateway/test SKUs and custom mockups are excluded from public catalog
     .filter((p) => !/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|rare-ember-custom|blank-)/i.test(`${p.id} ${p.title} ${p.slug || ''}`))
     .map((p) => ({
