@@ -64,13 +64,18 @@ Real Net Margin per Order:                         ₹56.07 (~9.8%)
 
 To preserve high-converting impulse buying while securing defensible **25%–28% net margins**, the catalog pricing floors are locked as follows:
 
-| Category & Silhouette | Qikink Base + Print + GST | Air Freight (Pan-India) | Base Retail Price | Full Prepaid UPI Price | Partial COD (Doorstep Total) | Net Cash Margin (Prepaid) | Net Cash Margin (COD) |
+| Category & Silhouette | Qikink Base + Print + GST | Air Freight + Pack | Base Retail Price | Full Prepaid UPI Price | Partial COD (Doorstep Total) | Net Cash Margin (Prepaid) | Net Cash Margin (COD) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **240 GSM Structured Cotton Drop-Shoulder Tees** | ₹390 – ₹410 | ₹80 – ₹90 | **₹699** | **₹649** (₹50 off) | **₹748** (₹100 + ₹648) | **₹179 (27.6%)** | **₹184 (24.6%)** |
-| **240 GSM French Terry Cut & Sew Editions** | ₹420 – ₹440 | ₹80 – ₹90 | **₹749** | **₹699** (₹50 off) | **₹798** (₹100 + ₹698) | **₹189 (27.0%)** | **₹194 (24.3%)** |
-| **320 GSM Crewneck Sweatshirts & Joggers** | ₹710 – ₹740 | ₹95 – ₹110 | **₹1,299** | **₹1,249** (₹50 off) | **₹1,348** (₹100 + ₹1,248) | **₹379 (30.3%)** | **₹384 (28.5%)** |
-| **300/380 GSM Heavy Fleece & Acid Hoodies** | ₹890 – ₹940 | ₹110 – ₹130 | **₹1,399** | **₹1,349** (₹50 off) | **₹1,448** (₹100 + ₹1,348) | **₹339 (25.1%)** | **₹344 (23.8%)** |
-| **350 GSM Contrast-Sleeve Varsity Jackets** | ₹960 – ₹1,020 | ₹120 – ₹140 | **₹1,499** | **₹1,449** (₹50 off) | **₹1,548** (₹100 + ₹1,448) | **₹359 (24.8%)** | **₹364 (23.5%)** |
+| **Women's Crops, Baby Tees & Tanks** | ₹283 | ₹100 | **₹599** | **₹549** (₹50 off) | **₹648** (₹100 + ₹548) | **₹152 (27.8%)** | **₹202 (31.2%)** |
+| **Everyday Classic Crew & Basic Tees** | ₹325 | ₹100 | **₹649** | **₹599** (₹50 off) | **₹698** (₹100 + ₹598) | **₹159 (26.6%)** | **₹209 (29.9%)** |
+| **240 GSM Structured Cotton Drop-Shoulder Tees** | ₹383 | ₹100 | **₹699** | **₹649** (₹50 off) | **₹748** (₹100 + ₹648) | **₹150 (23.2%)** | **₹200 (26.7%)** |
+| **240 GSM Acid Wash, Tie-Dye, Terry & V-Neck** | ₹420 | ₹100 | **₹749** | **₹699** (₹50 off) | **₹798** (₹100 + ₹698) | **₹162 (23.2%)** | **₹212 (26.6%)** |
+| **Full-Sleeve Tees & T-Shirt Dresses** | ₹430 | ₹100 | **₹799** | **₹749** (₹50 off) | **₹848** (₹100 + ₹748) | **₹201 (26.9%)** | **₹251 (29.6%)** |
+| **320 GSM Crewneck Sweatshirts & Joggers** | ₹703 | ₹115 | **₹1,199** | **₹1,149** (₹50 off) | **₹1,248** (₹100 + ₹1,148) | **₹303 (26.4%)** | **₹353 (28.3%)** |
+| **320/380 GSM Heavy Fleece Hoodies** | ₹766 | ₹140 | **₹1,249** | **₹1,199** (₹50 off) | **₹1,298** (₹100 + ₹1,198) | **₹264 (22.0%)** | **₹314 (24.2%)** |
+| **350 GSM Contrast-Sleeve Varsity Jackets** | ₹860 | ₹140 | **₹1,399** | **₹1,349** (₹50 off) | **₹1,448** (₹100 + ₹1,348) | **₹317 (23.5%)** | **₹367 (25.3%)** |
+| **380 GSM Mineral Acid Wash Heavy Hoodie** | ₹987 | ₹150 | **₹1,549** | **₹1,499** (₹50 off) | **₹1,598** (₹100 + ₹1,498) | **₹326 (21.8%)** | **₹376 (23.5%)** |
+| **900×400mm Extended Gaming Desk Mat** | ₹325 | ₹95 | **₹549** | **₹549** (Net) | **₹598** (₹100 + ₹498) | **₹126 (23.0%)** | **₹176 (29.4%)** |
 
 ---
 

@@ -279,7 +279,7 @@ export default function RootLayout({
                   name: 'Does Rare Ember offer Cash on Delivery (COD) in India?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Yes, Cash on Delivery is available across 19,000+ PIN codes in India with instant SMS OTP verification.',
+                    text: 'Yes, Cash on Delivery is available across 19,000+ PIN codes in India. Book with a ₹100 online booking advance via UPI, and pay the remaining balance at your doorstep upon delivery.',
                   },
                 },
                 {

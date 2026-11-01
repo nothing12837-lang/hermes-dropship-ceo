@@ -293,50 +293,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Valid email required' }, { status: 400 });
     }
 
-    // Enforce 100% Free COD OTP Verification Token
+    // Enforce Partial COD: Free / zero-advance COD is permanently discontinued.
     if (isCod) {
-      const codToken = typeof body.cod_verified_token === 'string' ? body.cod_verified_token.trim() : '';
-      if (!codToken) {
+      const advance = Number(body.advance_paid || 0);
+      const isPartialCod = advance === 100 || body.payment_type === 'partial_cod';
+      if (!isPartialCod) {
         return NextResponse.json(
-          { error: 'Cash on Delivery orders require 6-digit email OTP verification before submission.' },
+          { error: 'Zero-advance Cash on Delivery is discontinued. Cash on Delivery orders require a ₹100 booking advance paid online via UPI.' },
           { status: 400 }
         );
-      }
-
-      const secret = process.env.COD_OTP_SECRET || process.env.ADMIN_SECRET;
-      if (!secret) {
-        return NextResponse.json(
-          { error: 'COD verification service unavailable (COD_OTP_SECRET required)' },
-          { status: 503 }
-        );
-      }
-      const parts = codToken.split(':');
-      if (parts.length !== 5 || parts[0] !== 'cod-verified') {
-        return NextResponse.json({ error: 'Invalid COD verification token format' }, { status: 400 });
-      }
-
-      const [, tokenEmail, tokenPhone, tokenTimestampStr, tokenSig] = parts;
-      const tokenTimestamp = Number(tokenTimestampStr);
-
-      // Token valid for 30 minutes
-      if (isNaN(tokenTimestamp) || Date.now() - tokenTimestamp > 30 * 60 * 1000) {
-        return NextResponse.json({ error: 'COD verification code has expired. Please verify again.' }, { status: 400 });
-      }
-
-      if (tokenEmail.toLowerCase() !== email.toLowerCase()) {
-        return NextResponse.json({ error: 'COD verification token email mismatch' }, { status: 400 });
-      }
-
-      const expectedSig = crypto
-        .createHmac('sha256', secret)
-        .update(`cod-verified:${tokenEmail}:${tokenPhone}:${tokenTimestampStr}`)
-        .digest('hex');
-
-      const sigBuf = Buffer.from(tokenSig, 'utf8');
-      const expBuf = Buffer.from(expectedSig, 'utf8');
-
-      if (sigBuf.length !== expBuf.length || !crypto.timingSafeEqual(sigBuf, expBuf)) {
-        return NextResponse.json({ error: 'Invalid or forged COD verification token' }, { status: 400 });
       }
     }
 

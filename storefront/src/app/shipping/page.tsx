@@ -104,8 +104,8 @@ export default function ShippingPage() {
               We support transparent payment options with zero hidden checkout fees:
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-xs text-neutral-600">
-              <li><strong>Prepaid Orders:</strong> Processed securely via Razorpay (UPI: Google Pay, PhonePe, Paytm, BHIM; Cards: Visa, MasterCard, RuPay; NetBanking: All major Indian banks). Prepaid orders receive instant dispatch prioritization and an additional ₹30 discount.</li>
-              <li><strong>Cash on Delivery (COD):</strong> Available across India. To prevent logistics fraud and duplicate dispatches, COD orders are verified via automated SMS OTP prior to dispatch. You pay the exact cart amount in cash or UPI to the delivery courier at your doorstep.</li>
+              <li><strong>Prepaid Orders:</strong> Processed securely via Razorpay (UPI: Google Pay, PhonePe, Paytm, BHIM; Cards: Visa, MasterCard, RuPay; NetBanking: All major Indian banks). Prepaid orders receive instant dispatch prioritization and an additional ₹50 instant UPI discount.</li>
+              <li><strong>Cash on Delivery (COD):</strong> Available across eligible PIN codes in India. To verify delivery intent and reserve inventory, an initial booking advance of ₹100 is paid online via UPI, with the remaining balance collected at your doorstep upon delivery.</li>
             </ul>
           </section>
 

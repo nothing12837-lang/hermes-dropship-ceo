@@ -139,14 +139,14 @@ export const EVERGREEN_COUPONS: Record<
   PREPAID50: {
     type: 'flat',
     value: 50,
-    minOrder: 649,
-    desc: 'Flat ₹50 Instant Savings for 100% Prepaid UPI Checkout (₹649+)',
+    minOrder: 549,
+    desc: 'Flat ₹50 Instant Savings for 100% Prepaid UPI Checkout (₹549+)',
   },
   PREPAID30: {
     type: 'flat',
     value: 30,
-    minOrder: 649,
-    desc: 'Flat ₹30 Instant Savings for 100% Prepaid UPI Checkout (₹649+)',
+    minOrder: 549,
+    desc: 'Flat ₹30 Instant Savings for 100% Prepaid UPI Checkout (₹549+)',
   },
   EMBERARCHIVE: {
     type: 'flat',
