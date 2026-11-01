@@ -57,7 +57,7 @@ export async function issueOrderLoyaltyVoucher(order: {
   if (total <= 0) return null;
 
   const voucherAmount = 50; // Universal ₹50 Post-Delivery Gift Voucher
-  const minOrderFloor = 799; // Allows redemption on any single drop (₹799+)
+  const minOrderFloor = 799; // Allows redemption on any order of ₹799+ (protecting margin floor)
   const supabase = supabaseClient || getServiceSupabase();
   if (!supabase) return null;
 
@@ -345,15 +345,14 @@ export function isEligible240Tee(item: { id?: string; title?: string; price?: nu
   const id = (item.id || '').toLowerCase();
   const title = (item.title || '').toLowerCase();
   const p = Number(item.price_inr || item.price || 0);
-  if (p === 799) return true;
+  if (p === 669 || p === 799) return true;
   if (id.includes('32476431') || id.includes('32476280') || id.includes('32476332') || id.includes('32476629')) return true;
   if (/240 gsm|standard-t-shirt|classic-t-shirt|oversized-shirt|oversized-jersey/i.test(`${title} ${id}`)) return true;
   return false;
 }
 
 /**
- * Calculates bundle savings for 240 GSM Tees:
- * Any 2 tees get flat ₹99 bundle savings (combines with ₹100 prepaid UPI discount to hit ₹1,399).
+ * Calculates multi-piece savings for 240 GSM Tees if applicable.
  */
 export function calculateTeeBundleSavings(
   items: Array<{ id: string; qty?: number; title?: string; price?: number; price_inr?: number }>

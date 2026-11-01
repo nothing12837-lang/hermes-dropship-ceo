@@ -5,13 +5,13 @@ const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_
 export const metadata: Metadata = {
   title: 'All Streetwear & Graphic Drops',
   description:
-    'Explore Rare Ember catalog: heavyweight streetwear, 240 GSM full sleeve drops, artisan ceramic mugs, extended desk mats, and creator gear. Pan-India COD & Express Delivery.',
+    'Explore Rare Ember: architectural 240 GSM structured cotton oversized tees, 260 GSM French terry tees, and 320–380 GSM heavyweight fleece hoodies. Handcrafted graphic streetwear. Pan-India COD & Express Air Delivery.',
   keywords: [
     'streetwear online india',
-    'heavyweight oversized t-shirt',
-    '240 gsm full sleeve t-shirt',
-    'creator desk accessories',
-    'aesthetic coffee mug',
+    '240 gsm structured cotton t-shirt',
+    'heavyweight fleece hoodie',
+    'oversized drop shoulder tee',
+    'luxury indian streetwear',
     'cash on delivery streetwear',
   ],
   alternates: {
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'All Streetwear & Graphic Drops',
     description:
-      'Curated heavyweight streetwear, artisan drinkware, extended desk gear, and creator lifestyle essentials. Free Pan-India express delivery options.',
+      'Curated architectural streetwear: 240 GSM structured tees and 320–380 GSM heavyweight hoodies with archival prints. Free Pan-India express delivery.',
     type: 'website',
     url: `${siteUrl}/shop`,
   },

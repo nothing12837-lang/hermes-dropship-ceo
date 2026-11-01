@@ -6,7 +6,7 @@ import { clientIp, normalizeEmail, sanitizeCheckoutItems, sanitizeMessage } from
 import { products as staticCatalog, getProduct, enforcePriceFloor } from '@/lib/data/products';
 import { validateCouponCode } from '@/lib/festivals';
 import { verifyStoreCreditCode, redeemStoreCredit } from '@/lib/store-credit';
-import { verifyLoyaltyVoucher, redeemLoyaltyVoucher, calculateTeeBundleSavings } from '@/lib/loyalty';
+import { verifyLoyaltyVoucher, redeemLoyaltyVoucher } from '@/lib/loyalty';
 
 function getRazorpay(): Razorpay | null {
   const key_id = process.env.RAZORPAY_KEY_ID;
@@ -212,27 +212,15 @@ export async function POST(req: NextRequest) {
       console.warn('[Checkout API] First order check failed, defaulting to true:', checkErr);
     }
 
-    // Calculate Buy Any 2 (240 GSM Tees) Bundle Savings
-    const teeBundleSavings = calculateTeeBundleSavings(items.map(it => {
-      const prod = (byId.get(it.id) || staticCatalog.find((p) => p.id === it.id)) as any;
-      return {
-        id: it.id,
-        qty: it.qty,
-        title: prod?.title || (it as any).title,
-        price: prod?.price != null ? Number(prod.price) : undefined,
-        price_inr: prod?.price_inr != null ? Number(prod.price_inr) : undefined,
-      };
-    }));
-
     // Apply Coupon Code if verified (block stacking on bundles)
     let discountAmount = 0;
     let verifiedCoupon = '';
     const hasBundle = items.some((i) => i.id.startsWith('bundle-'));
 
     if (body.coupon_code) {
-      if (hasBundle || teeBundleSavings > 0) {
-        console.log(`[Checkout API] Coupon ${body.coupon_code} disallowed on bundle/buy2 cart.`);
-        return NextResponse.json({ error: 'Coupon codes cannot be applied to combo or 240 GSM multi-tee bundles.' }, { status: 400 });
+      if (hasBundle) {
+        console.log(`[Checkout API] Coupon ${body.coupon_code} disallowed on bundle cart.`);
+        return NextResponse.json({ error: 'Coupon codes cannot be applied to combo bundles.' }, { status: 400 });
       }
       const rawCode = body.coupon_code.trim().toUpperCase();
       if (isCod && (rawCode === 'PREPAID50' || rawCode === 'PREPAID30' || rawCode === 'ARCHIVE100' || rawCode === 'WELCOME_UPI100')) {

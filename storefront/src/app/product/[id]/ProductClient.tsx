@@ -3520,9 +3520,8 @@ export function ProductClient({ product }: Props) {
                       📦 <strong>Damage-Proof Packaging:</strong>
                     </p>
                     <ul className="list-disc pl-4 space-y-1 text-[11px]">
-                      <li><strong>Extended Desk Mats:</strong> Shipped rolled in heavy-duty triangular protective tube packaging to prevent edge curling and transport creasing.</li>
-                      <li><strong>Streetwear Tees &amp; Hoodies:</strong> Packed in tamper-evident, weather-proof protective courier mailers with branded dust wrap.</li>
-                      <li><strong>Ceramic Drinkware:</strong> Enclosed in custom shock-absorbent molded thermocol double-box packaging.</li>
+                      <li><strong>Architectural Garments:</strong> Packed in tamper-evident, weather-proof protective courier mailers with premium branded tissue wrap.</li>
+                      <li><strong>Air Express Transit:</strong> Shipped via BlueDart Air &amp; Delhivery Express with live real-time SMS &amp; email tracking.</li>
                     </ul>
                   </div>
                 )}

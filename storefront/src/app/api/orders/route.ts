@@ -9,7 +9,7 @@ import { issueOrderLoyaltyVoucher } from '@/lib/loyalty';
 import { isAdmin } from '@/lib/security/auth';
 import { validateCouponCode } from '@/lib/festivals';
 import { verifyStoreCreditCode, redeemStoreCredit } from '@/lib/store-credit';
-import { verifyLoyaltyVoucher, redeemLoyaltyVoucher, calculateTeeBundleSavings } from '@/lib/loyalty';
+import { verifyLoyaltyVoucher, redeemLoyaltyVoucher } from '@/lib/loyalty';
 import { products as fallbackCatalog, getProduct, enforcePriceFloor } from '@/lib/data/products';
 import { fulfillQikinkOrder, isTestOrder } from '@/lib/fulfillment/qikink';
 
@@ -462,23 +462,14 @@ export async function POST(req: NextRequest) {
       console.warn('[Orders API] First order check failed, defaulting to true:', checkErr);
     }
 
-    // Calculate Buy Any 2 (240 GSM Tees) Bundle Savings
-    const teeBundleSavings = calculateTeeBundleSavings(enrichedItems.map(it => ({
-      id: it.id,
-      qty: it.qty,
-      title: it.title,
-      price: it.price,
-      price_inr: it.price,
-    })));
-
     // Apply Coupon Code server-side only (block stacking on bundles)
     let discountAmount = 0;
     let verifiedCoupon = '';
     const hasBundle = validatedItems.some((i) => i.id.startsWith('bundle-'));
     if (body.coupon_code) {
-      if (hasBundle || teeBundleSavings > 0) {
-        console.log(`[Orders API] Coupon ${body.coupon_code} disallowed on bundle/buy2 order.`);
-        return NextResponse.json({ error: 'Coupon codes cannot be applied to combo or 240 GSM multi-tee bundles.' }, { status: 400 });
+      if (hasBundle) {
+        console.log(`[Orders API] Coupon ${body.coupon_code} disallowed on bundle order.`);
+        return NextResponse.json({ error: 'Coupon codes cannot be applied to combo bundles.' }, { status: 400 });
       } else {
         const normalizedCode = String(body.coupon_code).trim().toUpperCase();
         if (isCod && (normalizedCode === 'PREPAID50' || normalizedCode === 'PREPAID30' || normalizedCode === 'ARCHIVE100' || normalizedCode === 'WELCOME_UPI100')) {

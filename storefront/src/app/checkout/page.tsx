@@ -377,16 +377,6 @@ export default function CheckoutPage() {
   };
   const subtotal = detailed.reduce((a, b) => a + getProductItemPrice(b.product) * b.qty, 0);
 
-  // Buy Any 2 (240 GSM Tees) calculation
-  const eligible240Tees = detailed.filter((d) => {
-    const p = d.product.price_inr || d.product.price;
-    const pid = (d.product.id || '').toLowerCase();
-    const ptitle = (d.product.title || '').toLowerCase();
-    return p === 799 || pid.includes('32476431') || pid.includes('32476280') || pid.includes('32476332') || pid.includes('32476629') || /240 gsm|standard-t-shirt|classic-t-shirt|oversized-shirt|oversized-jersey/i.test(`${ptitle} ${pid}`);
-  });
-  const total240TeeQty = eligible240Tees.reduce((sum, item) => sum + (item.qty || 1), 0);
-  const bundleSavings = Math.floor(total240TeeQty / 2) * 99;
-
   // Auto-apply UPI instant discount calibrated for strict 20.0% to 25.0% profit margin
   useEffect(() => {
     if (paymentMethod === 'online') {
@@ -455,16 +445,6 @@ export default function CheckoutPage() {
   };
 
   const applyCoupon = async () => {
-    const hasBundle = detailed.some((d) => d.id.startsWith('bundle-') || (d.product && d.product.id.startsWith('bundle-')));
-    if (hasBundle || bundleSavings > 0) {
-      setError('Promotional discount codes cannot be stacked on pre-discounted combo or Buy Any 2 bundles. Add individual drops to use this coupon!');
-      setCouponApplied(false);
-      setDiscount(0);
-      setAppliedCouponCode('');
-      setAppliedCouponLabel('');
-      return;
-    }
-
     const rawCode = coupon.trim().toUpperCase();
     if (!rawCode) {
       setError('Please enter a discount code.');
@@ -1396,9 +1376,9 @@ export default function CheckoutPage() {
                     <div className="mt-2 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60 inline-flex items-center gap-1.5 flex-wrap">
                       <span>⚡</span>
                       <span>
-                        {bundleSavings > 0
-                          ? 'Buy Any 2 Deal: 240 GSM Tees for ₹1,399 on UPI • ₹0 COD Fee'
-                          : '1st Order on UPI: ₹50 First-Order + ₹50 UPI = ₹100 Instant Off • ₹0 COD Fee'}
+                        {subtotal <= 700
+                          ? 'Instant UPI Discount: ₹10 OFF • ₹0 COD Fee • Free Express Air Delivery'
+                          : 'Instant UPI Discount: ₹20 OFF • ₹0 COD Fee • Free Express Air Delivery'}
                       </span>
                     </div>
                   </div>

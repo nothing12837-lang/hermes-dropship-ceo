@@ -462,7 +462,7 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
               ₹${payload.voucher.amount} Wardrobe Voucher Unlocked
             </div>
             <p style="font-size: 12px; color: #D1D5DB; line-height: 1.6; margin: 0 auto 16px; max-width: 440px;">
-              Thank you for welcoming Rare Ember into your rotation. To celebrate your order, your exclusive ₹${payload.voucher.amount} gift voucher is active for the next 90 days on any drop of ₹${payload.voucher.minOrderValue || 799}+.
+              Thank you for welcoming Rare Ember into your rotation. To celebrate your order, your exclusive ₹${payload.voucher.amount} gift voucher is active for the next 90 days on any drop of ₹${payload.voucher.minOrderValue || 669}+.
             </p>
             <div style="background: rgba(255, 255, 255, 0.05); border: 1.5px dashed #F59E0B; border-radius: 12px; padding: 14px 20px; display: inline-block; margin-bottom: 14px;">
               <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: #F59E0B; font-weight: 800; margin-bottom: 4px;">Single-Use Voucher Code</div>
@@ -471,7 +471,7 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
               </div>
             </div>
             <div style="font-size: 11px; color: #9CA3AF; margin-bottom: 16px;">
-              Expires: <strong style="color: #F3F4F6;">${payload.voucher.expiresAt}</strong> • Minimum Order: ₹${payload.voucher.minOrderValue || 799}
+              Expires: <strong style="color: #F3F4F6;">${payload.voucher.expiresAt}</strong> • Minimum Order: ₹${payload.voucher.minOrderValue || 669}
             </div>
             <div>
               <a href="https://www.rareember.shop/shop" style="display: inline-block; padding: 12px 28px; background: #FF4D24; color: #FFFFFF; text-decoration: none; font-weight: 800; font-size: 12px; border-radius: 10px; letter-spacing: 0.05em; text-transform: uppercase;">
@@ -912,8 +912,8 @@ export async function sendVoucherReminderEmail(
     headline = 'Halfway mark. Fresh drops unlocked.';
     messageBody = `
       Hello ${name},<br/><br/>
-      We’ve just dropped fresh 240 GSM Structured Cotton silhouettes and heavyweight outerwear at the atelier. Your personal voucher code <strong>${code}</strong> (₹${amount} OFF on orders of ₹999+) is valid for 45 more days.<br/><br/>
-      Pair it with our automated <strong>Buy Any 2 Tees for ₹1,399</strong> bundle or apply it directly at checkout.
+      We’ve just dropped fresh 240 GSM Structured Cotton silhouettes and heavyweight outerwear at the atelier. Your personal voucher code <strong>${code}</strong> (₹${amount} OFF on orders of ₹669+) is valid for 45 more days.<br/><br/>
+      Apply it directly at checkout on your next order.
     `;
     ctaText = `Browse New Drops with ₹${amount} Credit →`;
   } else {

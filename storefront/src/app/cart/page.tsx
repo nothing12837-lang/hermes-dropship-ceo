@@ -19,8 +19,8 @@ export default function CartPage() {
     const floored = enforcePriceFloor({
       id: found?.id || item.id || '',
       title: found?.title || item.title || '',
-      price: found?.price_inr ?? found?.price ?? item.price_inr ?? item.price ?? 849,
-      price_inr: found?.price_inr ?? item.price_inr ?? found?.price ?? item.price ?? 849,
+      price: found?.price_inr ?? found?.price ?? item.price_inr ?? item.price ?? 669,
+      price_inr: found?.price_inr ?? item.price_inr ?? found?.price ?? item.price ?? 669,
     } as any);
     const inr = floored.price_inr || floored.price;
     if (isIndia) {

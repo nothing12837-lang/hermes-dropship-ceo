@@ -42,7 +42,7 @@ export async function GET() {
       const rawImg = p.image_url || '/flame-icon.png';
       const fullImg = rawImg.startsWith('http') ? rawImg : `${siteUrl}${rawImg}`;
       const imageLink = escapeXml(fullImg);
-      const priceVal = Number(p.price_inr || p.price || 849);
+      const priceVal = Number(p.price_inr || p.price || 669);
 
       return `    <item>
       <g:id>${id}</g:id>

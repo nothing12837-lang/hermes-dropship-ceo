@@ -263,11 +263,12 @@ export function enforcePriceFloor(p: Product): Product {
     if (price < 669) price = 669;
     if (compare < 1299) compare = 1299;
   }
-  // 8. 900×400mm Extended Gaming Desk Mat / Pad: min ₹699 (M.R.P. ₹1,299)
+  // 8. Desk Mats & Mousepads are strictly inactive
   else if (
     title.includes('gaming pad') || title.includes('desk mat') || title.includes('mouse pad') ||
     pid.includes('desk-mat') || pid.includes('desk_mat') || pid.includes('mpad') || pid.includes('blank-deskmat')
   ) {
+    p.active = false;
     if (price < 699) price = 699;
     if (compare < 1299) compare = 1299;
   }
@@ -290,98 +291,7 @@ export function enforcePriceFloor(p: Product): Product {
   };
 }
 
-export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [
-  {
-    id: 'bundle-streetwear-duo',
-    slug: 'bundle-streetwear-duo',
-    title: 'The Streetwear Duo - 2x 240 GSM Structured Oversized Tees',
-    short: 'Two signature 240 GSM super combed cotton oversized tees with fade-proof archival screen prints.',
-    story: 'Engineered for high-rotation streetwear. Crafted from premium 240 GSM bio-washed structured cotton and reinforced Lycra collar.',
-    details: [
-      '2x 240 GSM Structured Cotton Oversized Drop-Shoulder Tees',
-      '100% Super Combed Bio-Washed Cotton',
-      'High-Density Archival Fade-Proof Prints',
-      '7-Day Easy Returns Guarantee'
-    ],
-    price: 1499,
-    price_inr: 1499,
-    compareAtPrice: 2499,
-    compare_at_price: 2499,
-    rating: 4.9,
-    reviews: 68,
-    tag: 'PACK OF 2 (SAVE ₹1,000)',
-    tagColor: '#FFFFFF',
-    tagBg: '#FF4D24',
-    gradient: 'linear-gradient(135deg, #18181b, #09090b)',
-    image_url: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c6b-67a6-4a41-b841-f050b182fb32.jpg',
-    images: [
-      'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/4ca57c6b-67a6-4a41-b841-f050b182fb32.jpg',
-      'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/28/30c13fe2-0ca2-4f63-b857-7970c0c0a593.jpg'
-    ],
-    active: true,
-    category: 'fashion'
-  },
-  {
-    id: 'bundle-founding-50',
-    slug: 'bundle-founding-50',
-    title: 'The Founding 50 Builder Pack — 240 GSM Tee + Desk Mat',
-    short: 'Structured 240 GSM builder tee paired with a 900×400mm micro-weave precision desk mat.',
-    story: 'Designed for engineers, designers, and creators who ship daily. Features archival graphics and water-repellent precision desk surface.',
-    details: [
-      '1x 240 GSM Structured Cotton Oversized Drop-Shoulder Tee',
-      '1x 900×400mm Extended Precision Micro-Weave Desk Mat',
-      'Zero-Fray 360° Reinforced Edge Stitching',
-      '7-Day Easy Returns Guarantee'
-    ],
-    price: 1499,
-    price_inr: 1499,
-    compareAtPrice: 2499,
-    compare_at_price: 2499,
-    rating: 5.0,
-    reviews: 52,
-    tag: 'BUILDER PACK (SAVE ₹1,000)',
-    tagColor: '#FFFFFF',
-    tagBg: '#FF4D24',
-    gradient: 'linear-gradient(135deg, #18181b, #09090b)',
-    image_url: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg',
-    images: [
-      'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg',
-      'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp'
-    ],
-    active: true,
-    category: 'fashion'
-  },
-  {
-    id: 'bundle-workstation',
-    slug: 'bundle-workstation',
-    title: 'The Creator Workstation Pack — Hoodie + Desk Mat',
-    short: 'Complete setup upgrade: 380 GSM heavyweight fleece hoodie paired with 900×400mm precision desk mat.',
-    story: 'Your desk daily rotation in one coordinated package. Dispatched directly from verified domestic makers.',
-    details: [
-      '1x 380 GSM Heavyweight Winter Fleece Hoodie',
-      '1x 900×400mm Extended Precision Desk Mat',
-      '7-Day Easy Returns Guarantee'
-    ],
-    price: 1899,
-    price_inr: 1899,
-    compareAtPrice: 3199,
-    compare_at_price: 3199,
-    rating: 4.9,
-    reviews: 44,
-    tag: 'WORKSTATION COMBO (SAVE ₹1,300)',
-    tagColor: '#FFFFFF',
-    tagBg: '#FF4D24',
-    gradient: 'linear-gradient(135deg, #18181b, #09090b)',
-    image_url: 'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg',
-    images: [
-      'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/81/053d5b4d-c93f-4234-9e2b-6bc122a7db0b.jpg',
-      'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/63/variations/b8d5807e-f669-4087-9dd4-a136e0af3e87.webp',
-      'https://qikink-stores.s3.ap-south-1.amazonaws.com/assets/mockups/26/b10e9b51-65a6-43f7-9e93-0e184c5853e9.jpg'
-    ],
-    active: true,
-    category: 'fashion'
-  }
-];
+export const BUNDLE_FALLBACK_PRODUCTS: Product[] = [];
 
 export const CANONICAL_ADULT_SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '2XL', '3XL'] as const;
 export const ADULT_SIZE_ORDER = CANONICAL_ADULT_SIZES;

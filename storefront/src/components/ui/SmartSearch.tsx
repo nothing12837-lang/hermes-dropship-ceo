@@ -6,12 +6,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 const TRENDING_SEARCHES = [
   '240 GSM Oversized Tee',
-  '240 GSM Full Sleeve Drop',
-  'Tokyo Cyber Mecha',
-  'Vintage Acid Flame',
-  '900x400 Desk Mat',
-  'Founding 50 Pack',
-  'Git Commit Dreams',
+  'Tokyo Street Graphic',
+  'Chrome Bengaluru Cyber',
+  'Skull & Dragon Acid Hoodie',
+  'Unstoppable Tiger Hoodie',
+  'Cyber Designer Pullover',
   'Heavyweight Hoodie',
 ];
 
@@ -95,7 +94,7 @@ export default function SmartSearch() {
             onChange={(e) => setValue(e.target.value)}
             onFocus={() => setFocused(true)}
             onKeyDown={(e) => e.key === 'Enter' && go(value)}
-            placeholder="Search oversized tees, hoodies, desk mats…"
+            placeholder="Search 240 GSM tees, heavyweight hoodies…"
             aria-label="Search products"
             style={{
               flex: 1, border: 'none', outline: 'none', background: 'transparent',
