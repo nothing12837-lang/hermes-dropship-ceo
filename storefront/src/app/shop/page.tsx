@@ -6,17 +6,19 @@ import { useSearchParams } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import ProductCard from '@/components/ui/ProductCard';
 import { COPY } from '@/lib/data/copy';
-import { formatPrice, computeDiscount, getGarmentSpecBadge, enforcePriceFloor, isKidsProduct, SHOP_CATEGORIES, products as localProducts } from '@/lib/data/products';
+import { formatPrice, computeDiscount, getGarmentSpecBadge, enforcePriceFloor, isKidsProduct, isDisallowed180GsmOrThin, SHOP_CATEGORIES, products as localProducts } from '@/lib/data/products';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { type ProductRow } from '@/lib/supabase';
 
 const TABS = [
-  { id: 'all', label: 'All Catalog', count: 33, hint: 'Direct Sourced Drops' },
+  { id: 'all', label: 'All Catalog', count: 8, hint: 'Archival Streetwear Drops' },
   ...SHOP_CATEGORIES,
 ];
 
 function isDisallowedRow(p: ProductRow): boolean {
   if (isKidsProduct(p as any)) return true;
+  if (isDisallowed180GsmOrThin(p as any)) return true;
+  if (p.is_printed !== true && (p as any).isPrinted !== true) return true;
   const targetId = `${p.id || ''} ${p.slug || ''} ${p.title || ''}`.toLowerCase();
   return /calmcloud|ember-glow|warm-paw|lickmat|pawtrack|cozy-nest|aesthetic-scratch|smart-fetch|button-badge|button_badge|button badge|temporary-tattoo|temporary tattoo|tattoo|scrunchies|bow scrunchie|bookmark|balaclava|arm sleeves|arm sleeve|basic t-shirt pc|^bundle-|bundle|gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|64953488|64953664|32476832|32476744/i.test(targetId);
 }
@@ -25,21 +27,25 @@ export function matchesCategory(cat: string, p: any): boolean {
   if (isDisallowedRow(p)) return false;
   if (cat === 'all') return true;
   if (cat === 'new') return Boolean(p.is_new === true);
-  if (cat === 'mens-printed') return Boolean((p.gender === 'men' || p.category === 'mens') && (p.is_printed === true || p.isPrinted === true));
-  if (cat === 'printed') return Boolean(p.is_printed === true || p.isPrinted === true);
-  if (cat === 'mens') return Boolean(p.gender === 'men' || p.category === 'mens');
-  if (cat === 'womens') return Boolean(p.gender === 'women' || p.category === 'womens' || p.category === 'women');
-  if (cat === 'blanks') return Boolean(p.is_printed === false || p.isPrinted === false);
+  if (cat === 'mens-printed' || cat === 'printed' || cat === 'mens') return true;
+  if (cat === 'hoodies') {
+    const str = `${p.title || ''} ${p.id || ''}`.toLowerCase();
+    return str.includes('hoodie');
+  }
+  if (cat === 'tees') {
+    const str = `${p.title || ''} ${p.id || ''}`.toLowerCase();
+    return str.includes('tee') || str.includes('t-shirt') || str.includes('shirt') || str.includes('jersey');
+  }
+  if (cat === 'womens') return false;
+  if (cat === 'blanks') return false;
   if (cat.startsWith('gsm-')) {
     const targetGsm = Number(cat.replace('gsm-', ''));
     const str = `${p.title || ''} ${p.id || ''} ${p.badge || ''}`.toLowerCase();
-    if (targetGsm === 400) return /32493938|uh32/i.test(str);
-    if (targetGsm === 300) return /32493953|uh62/i.test(str);
-    if (targetGsm === 260) return /32493470|uh83|32476620|ut27|32476436|ut58/i.test(str);
-    if (targetGsm === 240) return /32476332|uc22|32476438|uc61|32476629|uc28|32476280|uj35|32476716|ft47/i.test(str);
-    if (targetGsm === 220) return /32476788|mp25/i.test(str);
-    if (targetGsm === 180) return !/32493938|32493953|32493470|32476620|32476436|32476332|32476438|32476629|32476280|32476716|32476788|32476281|32476663|32476284/i.test(str);
-    if (targetGsm === 160) return /32476663|uc23|32476284|ud15|32476281|us02/i.test(str);
+    if (targetGsm === 380 || targetGsm === 400) return /32493938|uh32/i.test(str);
+    if (targetGsm === 320 || targetGsm === 300) return /32493953|uh62|32493470|uh83/i.test(str);
+    if (targetGsm === 260) return /32476620|ut27/i.test(str);
+    if (targetGsm === 240) return /32476332|uc22|32476431|us22|ua22|32476629|uc28|32476280|uj35/i.test(str);
+    return false;
   }
   return (p.category ?? 'mens') === cat;
 }
@@ -177,7 +183,7 @@ function ShopInner() {
             All Garments &amp; Graphic Drops
           </h1>
           <p className="text-neutral-600 text-xs sm:text-sm md:text-base leading-relaxed max-w-xl mx-auto mt-2 font-medium">
-            Crafted for the rare, never the crowd. 160 to 400 GSM factory-verified silhouettes with museum-grade archival prints and free express air delivery.
+            Crafted for the rare, never the crowd. 240 to 380 GSM factory-verified architectural silhouettes with museum-grade archival prints and free express air delivery.
           </p>
 
           
