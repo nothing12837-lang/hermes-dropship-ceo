@@ -53,17 +53,17 @@ describe('Loyalty Voucher & 240 GSM Bundle Engine', () => {
     expect(validAbove2k.discountAmount).toBe(100);
   });
 
-  it('validates RE-GIFT- voucher format and enforces ₹999 minimum order value', () => {
-    const tooLow = validateCouponCode('RE-GIFT-ABC123', 850);
+  it('validates RE-GIFT- voucher format and enforces ₹799 minimum order value', () => {
+    const tooLow = validateCouponCode('RE-GIFT-ABC123', 699);
     expect(tooLow.valid).toBe(false);
-    expect(tooLow.error).toContain('minimum order value of ₹999');
+    expect(tooLow.error).toContain('minimum order value of ₹799');
+
+    const validAtMin = validateCouponCode('RE-GIFT-ABC123', 799);
+    expect(validAtMin.valid).toBe(true);
+    expect(validAtMin.discountAmount).toBe(50);
 
     const validAboveMin = validateCouponCode('RE-GIFT-ABC123', 1399);
     expect(validAboveMin.valid).toBe(true);
     expect(validAboveMin.discountAmount).toBe(50);
-
-    const validVip = validateCouponCode('RE-GIFT-ABC123', 2499);
-    expect(validVip.valid).toBe(true);
-    expect(validVip.discountAmount).toBe(100);
   });
 });

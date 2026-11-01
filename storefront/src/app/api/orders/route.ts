@@ -439,6 +439,29 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // First-Order Welcome Discount verification
+    let isFirstOrder = true;
+    try {
+      const cleanEmail = normalizeEmail(body.email);
+      const cleanPhone = String(body.phone || addr?.phone || '').replace(/\D/g, '').slice(-10);
+      if ((cleanEmail || cleanPhone) && sb) {
+        let checkQuery = sb.from('orders').select('id', { count: 'exact', head: true });
+        if (cleanEmail && cleanPhone) {
+          checkQuery = checkQuery.or(`user_email.ilike.${cleanEmail},shipping_address->>phone.ilike.%${cleanPhone}%`);
+        } else if (cleanEmail) {
+          checkQuery = checkQuery.ilike('user_email', cleanEmail);
+        } else {
+          checkQuery = checkQuery.ilike('shipping_address->>phone', `%${cleanPhone}%`);
+        }
+        const { count } = await checkQuery.in('status', ['paid', 'delivered', 'shipped', 'processing']);
+        if (count && count > 0) {
+          isFirstOrder = false;
+        }
+      }
+    } catch (checkErr) {
+      console.warn('[Orders API] First order check failed, defaulting to true:', checkErr);
+    }
+
     // Calculate Buy Any 2 (240 GSM Tees) Bundle Savings
     const teeBundleSavings = calculateTeeBundleSavings(enrichedItems.map(it => ({
       id: it.id,
@@ -458,7 +481,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Coupon codes cannot be applied to combo or 240 GSM multi-tee bundles.' }, { status: 400 });
       } else {
         const normalizedCode = String(body.coupon_code).trim().toUpperCase();
-        if (isCod && (normalizedCode === 'PREPAID50' || normalizedCode === 'PREPAID30' || normalizedCode === 'ARCHIVE100')) {
+        if (isCod && (normalizedCode === 'PREPAID50' || normalizedCode === 'PREPAID30' || normalizedCode === 'ARCHIVE100' || normalizedCode === 'WELCOME_UPI100')) {
           return NextResponse.json({
             error: `The ${normalizedCode} coupon is exclusively valid for online prepaid orders.`
           }, { status: 400 });
@@ -475,7 +498,8 @@ export async function POST(req: NextRequest) {
           if (!voucherCheck.valid) {
             return NextResponse.json({ error: voucherCheck.error || 'Invalid gift voucher.' }, { status: 400 });
           }
-          discountAmount = Math.min(voucherCheck.discountAmount, calculatedSubtotal);
+          const baseVoucher = voucherCheck.discountAmount;
+          discountAmount = !isCod ? Math.min(baseVoucher + 50, calculatedSubtotal) : Math.min(baseVoucher, calculatedSubtotal);
           verifiedCoupon = normalizedCode;
         } else {
           // Regular promotional coupon validation
@@ -490,21 +514,20 @@ export async function POST(req: NextRequest) {
           }
         }
       }
-    } else if (isCod && teeBundleSavings > 0) {
-      // 240 GSM Tee Bundle Savings on COD (₹99 per pair)
-      discountAmount = teeBundleSavings;
-      verifiedCoupon = 'BUY2_240GSM';
+    } else if (isCod) {
+      if (teeBundleSavings > 0) {
+        discountAmount = teeBundleSavings + (isFirstOrder ? 50 : 0);
+        verifiedCoupon = 'BUY2_240GSM_COD';
+      } else if (isFirstOrder) {
+        discountAmount = Math.min(50, calculatedSubtotal);
+        verifiedCoupon = 'FIRST50';
+      }
     }
-    // NOTE: the previous `else if (body.discount)` branch trusted a
-    // client-sent discount on COD orders with none of the prepaid-only /
-    // minimum-order rules. It is deleted. COD orders get coupons only,
-    // validated above; the prepaid incentive is computed server-side in the
-    // checkout route for prepaid orders.
 
     const finalTotal = Math.max(1, calculatedSubtotal - discountAmount);
 
-    // COD Handling & Verification Fee: ₹49 to cover courier collection costs (waived 100% on Prepaid UPI/Cards)
-    const codFee = isCod ? 49 : 0;
+    // ₹0 COD Handling Surcharge across all payment rails
+    const codFee = 0;
     const chargedTotal = finalTotal + codFee;
 
     // Server-side COD Threshold Protection: COD capped strictly under ₹3,000 to prevent RTO courier fraud

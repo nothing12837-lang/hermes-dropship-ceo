@@ -293,17 +293,15 @@ export default function ProductCard({
               <div className="flex flex-col">
                 <div className="flex items-baseline gap-1.5 flex-wrap">
                   <span className="text-base sm:text-lg font-black text-[#0D0D0F] tracking-tight">
-                    {geoFormatPrice(Math.max(1, inr - 50))} <span className="text-xs font-bold text-[#E04F33]">with UPI</span>
+                    {geoFormatPrice(Math.max(1, inr - 100))}{' '}
+                    <span className="text-xs font-bold text-[#E04F33]">on 1st UPI Order</span>
                   </span>
                 </div>
-                <div className="flex items-baseline gap-1.5 text-[11px] text-neutral-500 font-medium mt-0.5">
+                <div className="flex items-baseline gap-1.5 text-[11px] text-neutral-500 font-medium mt-0.5 flex-wrap">
                   <span>Base {displayPrice}</span>
-                  {displayOldPrice && (
-                    <span className="line-through text-neutral-400">{displayOldPrice}</span>
-                  )}
-                  {calculatedDiscount > 0 && (
-                    <span className="font-bold text-[#E04F33]">-{calculatedDiscount}%</span>
-                  )}
+                  <span className="text-[10px] text-emerald-800 font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200/60">
+                    ₹50 Welcome + ₹50 UPI Off
+                  </span>
                 </div>
               </div>
 
@@ -334,7 +332,7 @@ export default function ProductCard({
             <div className="mt-2">
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-900 border border-amber-200/80 tracking-wide">
                 <span>⚡</span>
-                <span>Or Book Now for ₹100 COD Advance</span>
+                <span>Or Book for ₹100 COD (₹0 COD Fee)</span>
               </span>
             </div>
 

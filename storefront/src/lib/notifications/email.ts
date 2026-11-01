@@ -298,12 +298,12 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
   const codRowHtml = isCod ? `
     <tr style="border-bottom: 1px solid #f0ede8; background: #fafafa;">
       <td style="padding: 10px 8px; font-weight: bold; color: #161311; font-size: 13px;">
-        Courier COD Doorstep Handling Surcharge (Composite Supply)
+        Courier COD Doorstep Handling (Waived 100%)
       </td>
       <td style="padding: 10px 8px; text-align: center; font-family: monospace; font-size: 12px; color: #525252;">6109</td>
       <td style="padding: 10px 8px; text-align: center; color: #525252; font-size: 13px;">1</td>
-      <td style="padding: 10px 8px; text-align: right; color: #525252; font-size: 13px;">₹49.00</td>
-      <td style="padding: 10px 8px; text-align: right; font-weight: bold; color: #161311; font-size: 13px;">₹49.00</td>
+      <td style="padding: 10px 8px; text-align: right; color: #059669; font-size: 13px;">FREE</td>
+      <td style="padding: 10px 8px; text-align: right; font-weight: bold; color: #059669; font-size: 13px;">₹0.00</td>
     </tr>
   ` : '';
 
@@ -425,7 +425,7 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
                     ${isCod ? `
                       <tr>
                         <td style="color: #737373; padding-bottom: 6px;">Courier COD Handling Fee:</td>
-                        <td style="text-align: right; font-weight: bold; padding-bottom: 6px;">₹49.00</td>
+                        <td style="text-align: right; font-weight: bold; color: #059669; padding-bottom: 6px;">FREE (₹0.00)</td>
                       </tr>
                     ` : ''}
                     <tr>
@@ -462,7 +462,7 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
               ₹${payload.voucher.amount} Wardrobe Voucher Unlocked
             </div>
             <p style="font-size: 12px; color: #D1D5DB; line-height: 1.6; margin: 0 auto 16px; max-width: 440px;">
-              Thank you for welcoming Rare Ember into your rotation. To celebrate your order, your exclusive ₹${payload.voucher.amount} gift voucher is active for the next 90 days on any drop of ₹${payload.voucher.minOrderValue || 999}+.
+              Thank you for welcoming Rare Ember into your rotation. To celebrate your order, your exclusive ₹${payload.voucher.amount} gift voucher is active for the next 90 days on any drop of ₹${payload.voucher.minOrderValue || 799}+.
             </p>
             <div style="background: rgba(255, 255, 255, 0.05); border: 1.5px dashed #F59E0B; border-radius: 12px; padding: 14px 20px; display: inline-block; margin-bottom: 14px;">
               <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: #F59E0B; font-weight: 800; margin-bottom: 4px;">Single-Use Voucher Code</div>
@@ -471,7 +471,7 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
               </div>
             </div>
             <div style="font-size: 11px; color: #9CA3AF; margin-bottom: 16px;">
-              Expires: <strong style="color: #F3F4F6;">${payload.voucher.expiresAt}</strong> • Minimum Order: ₹${payload.voucher.minOrderValue || 999}
+              Expires: <strong style="color: #F3F4F6;">${payload.voucher.expiresAt}</strong> • Minimum Order: ₹${payload.voucher.minOrderValue || 799}
             </div>
             <div>
               <a href="https://www.rareember.shop/shop" style="display: inline-block; padding: 12px 28px; background: #FF4D24; color: #FFFFFF; text-decoration: none; font-weight: 800; font-size: 12px; border-radius: 10px; letter-spacing: 0.05em; text-transform: uppercase;">
@@ -480,6 +480,11 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
             </div>
           </div>
           ` : ''}
+
+          <!-- Unboxing Video Return Guard -->
+          <div style="background: #FFFDF9; border: 1.5px dashed #FF4D24; border-radius: 14px; padding: 14px 18px; margin-bottom: 24px; text-align: left; font-size: 11px; color: #78350F; line-height: 1.6;">
+            📹 <strong>Unboxing Video Return Guard:</strong> For 100% free instant replacement on any transit or print defect, please record a quick 360° unboxing video showing the shipping label.
+          </div>
 
           <!-- Photo Review UGC Reward Card (₹100 Store Credit) -->
           <div style="background: #FFFBF5; border: 1.5px solid #F59E0B; border-radius: 16px; padding: 20px; margin-bottom: 24px; text-align: left;">
@@ -898,7 +903,7 @@ export async function sendVoucherReminderEmail(
     messageBody = `
       Hello ${name},<br/><br/>
       It’s been 20 days since your <strong>${garment}</strong> arrived at your doorstep. We hope the architectural drape, verified heavyweight cotton, and bespoke graphics are holding up to your rotation.<br/><br/>
-      As a token of our gratitude for being part of Rare Ember's early collector community, your <strong>₹${amount} Wardrobe Voucher</strong> is active and waiting for your next pickup.
+      As a token of our gratitude for welcoming Rare Ember into your rotation, your <strong>₹${amount} Gift Voucher</strong> (+ <strong>₹50 Extra UPI Off</strong> = <strong>₹100 Total Savings</strong>) is active and waiting for your next drop pickup.
     `;
     ctaText = `Claim ₹${amount} OFF on New Drops →`;
   } else if (payload.stage === 'day45') {

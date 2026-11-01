@@ -136,6 +136,12 @@ export const EVERGREEN_COUPONS: Record<
     minOrder: 799,
     desc: 'Flat ₹50 OFF on orders above ₹799',
   },
+  WELCOME_UPI100: {
+    type: 'flat',
+    value: 100,
+    minOrder: 799,
+    desc: 'Flat ₹100 Instant Discount (₹50 Welcome + ₹50 UPI) on First Order (₹799+)',
+  },
   PREPAID50: {
     type: 'flat',
     value: 50,
@@ -363,19 +369,19 @@ export function validateCouponCode(
   // 4. Check VIP Loyalty Gift Vouchers (e.g. RE-GIFT-XXXXXX)
   const giftMatch = code.match(/^RE-GIFT-[A-Z0-9]{6}$/i);
   if (giftMatch) {
-    if (subtotal < 999) {
+    if (subtotal < 799) {
       return {
         valid: false,
         discountAmount: 0,
         label: '',
-        error: 'Loyalty gift vouchers require a minimum order value of ₹999.',
+        error: 'Loyalty gift vouchers require a minimum order value of ₹799.',
       };
     }
-    const estimatedAmount = subtotal >= 2000 ? 100 : 50;
+    const estimatedAmount = 50;
     return {
       valid: true,
       discountAmount: estimatedAmount,
-      label: `VIP Gift Voucher (${code}: ₹${estimatedAmount} OFF)`,
+      label: `Gift Voucher (${code}: ₹${estimatedAmount} OFF)`,
     };
   }
   return {

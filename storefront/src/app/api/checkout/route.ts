@@ -184,10 +184,33 @@ export async function POST(req: NextRequest) {
       subtotal += unitPrice * item.qty;
     }
 
-    // COD Handling & Verification Fee: ₹49 (waived 100% on Prepaid UPI/Cards)
+    // ₹0 COD Handling Surcharge across all payment methods
     const isCod = (body as any).payment_method === 'cod' || (body as any).payment_method === 'partial_cod';
     const isPartialCod = (body as any).payment_method === 'partial_cod';
-    const codFee = isCod ? 49 : 0;
+    const codFee = 0; // ₹0 COD Fee
+
+    // First-Order Welcome Discount verification (0 previous confirmed/delivered orders)
+    let isFirstOrder = true;
+    try {
+      const cleanEmail = normalizeEmail(body.email);
+      const cleanPhone = String(body.phone || address?.phone || '').replace(/\D/g, '').slice(-10);
+      if ((cleanEmail || cleanPhone) && supabase) {
+        let checkQuery = supabase.from('orders').select('id', { count: 'exact', head: true });
+        if (cleanEmail && cleanPhone) {
+          checkQuery = checkQuery.or(`user_email.ilike.${cleanEmail},shipping_address->>phone.ilike.%${cleanPhone}%`);
+        } else if (cleanEmail) {
+          checkQuery = checkQuery.ilike('user_email', cleanEmail);
+        } else {
+          checkQuery = checkQuery.ilike('shipping_address->>phone', `%${cleanPhone}%`);
+        }
+        const { count } = await checkQuery.in('status', ['paid', 'delivered', 'shipped', 'processing']);
+        if (count && count > 0) {
+          isFirstOrder = false;
+        }
+      }
+    } catch (checkErr) {
+      console.warn('[Checkout API] First order check failed, defaulting to true:', checkErr);
+    }
 
     // Calculate Buy Any 2 (240 GSM Tees) Bundle Savings
     const teeBundleSavings = calculateTeeBundleSavings(items.map(it => {
@@ -212,7 +235,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Coupon codes cannot be applied to combo or 240 GSM multi-tee bundles.' }, { status: 400 });
       }
       const rawCode = body.coupon_code.trim().toUpperCase();
-      if (isCod && (rawCode === 'PREPAID50' || rawCode === 'PREPAID30' || rawCode === 'ARCHIVE100')) {
+      if (isCod && (rawCode === 'PREPAID50' || rawCode === 'PREPAID30' || rawCode === 'ARCHIVE100' || rawCode === 'WELCOME_UPI100')) {
         return NextResponse.json({
           error: `The ${rawCode} coupon is exclusively valid for online prepaid orders.`
         }, { status: 400 });
@@ -229,7 +252,9 @@ export async function POST(req: NextRequest) {
         if (!voucherCheck.valid) {
           return NextResponse.json({ error: voucherCheck.error || 'Invalid gift voucher.' }, { status: 400 });
         }
-        discountAmount = Math.min(voucherCheck.discountAmount, subtotal);
+        // Returning customer combines ₹50 Gift Voucher + ₹50 UPI Discount on online prepaid
+        const baseVoucher = voucherCheck.discountAmount;
+        discountAmount = !isCod && isIndia ? Math.min(baseVoucher + 50, subtotal) : Math.min(baseVoucher, subtotal);
         verifiedCoupon = rawCode;
       } else {
         const couponCheck = validateCouponCode(body.coupon_code, subtotal);
@@ -247,22 +272,25 @@ export async function POST(req: NextRequest) {
       if (!isCod && isIndia) {
         if (teeBundleSavings > 0) {
           // Buy Any 2 240 GSM Tees deal on UPI:
-          // ₹99 bundle savings + ₹100 instant prepaid discount => 2 tees for ₹1,399!
-          discountAmount = teeBundleSavings + 100;
+          // ₹99 bundle savings + ₹50 First-Order Welcome + ₹50 UPI = ₹199 total discount => 2 tees for ₹1,399!
+          discountAmount = teeBundleSavings + (isFirstOrder ? 100 : 50);
           verifiedCoupon = 'BUY2_240GSM_UPI';
-        } else if (subtotal >= 2000) {
-          // VIP Tier instant discount: ₹100 off
-          discountAmount = 100;
-          verifiedCoupon = 'ARCHIVE100';
         } else {
-          // Standard UPI instant discount: ₹50 off
-          discountAmount = Math.min(50, subtotal);
-          verifiedCoupon = 'PREPAID50';
+          // 1st Order on UPI: ₹50 First-Order + ₹50 UPI = ₹100 Total Instant Discount!
+          // Returning order on UPI: ₹50 UPI Discount (or ₹100 if subtotal >= 2000)
+          discountAmount = isFirstOrder ? Math.min(100, subtotal) : (subtotal >= 2000 ? 100 : Math.min(50, subtotal));
+          verifiedCoupon = isFirstOrder ? 'WELCOME_UPI100' : (subtotal >= 2000 ? 'ARCHIVE100' : 'PREPAID50');
         }
-      } else if (isCod && teeBundleSavings > 0) {
-        // COD customers still get the ₹99 bundle savings for 2 tees (base bundle ₹1,499)
-        discountAmount = teeBundleSavings;
-        verifiedCoupon = 'BUY2_240GSM';
+      } else if (isCod) {
+        if (teeBundleSavings > 0) {
+          // Buy Any 2 240 GSM Tees on COD: ₹99 bundle + ₹50 First-Order
+          discountAmount = teeBundleSavings + (isFirstOrder ? 50 : 0);
+          verifiedCoupon = 'BUY2_240GSM_COD';
+        } else if (isFirstOrder) {
+          // 1st Order on Partial COD: ₹50 First-Order Welcome Discount
+          discountAmount = Math.min(50, subtotal);
+          verifiedCoupon = 'FIRST50';
+        }
       }
     }
 

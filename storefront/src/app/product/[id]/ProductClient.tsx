@@ -2540,6 +2540,16 @@ export function ProductClient({ product }: Props) {
                         const currentSpecs = activeItemIsKids ? KIDS_SIZE_SPECS : SIZE_SPECS;
                         return (
                           <>
+                            {/* Anti-Return Size Helper */}
+                            <div className="mb-2.5 p-2.5 rounded-xl bg-amber-500/[0.08] border border-amber-500/25 text-xs">
+                              <div className="flex items-center justify-between text-[11px] font-bold text-neutral-800 flex-wrap gap-1">
+                                <span className="text-[#FF4D24] font-black uppercase tracking-wider">Exact Chest Measurements:</span>
+                                <span className="font-mono text-neutral-900 font-black">S: 40" | M: 42" | L: 44" | XL: 46" | XXL: 48"</span>
+                              </div>
+                              <p className="text-[10px] text-neutral-600 mt-1 italic leading-tight">
+                                True Oversized Drop-Shoulder Cut — Select your regular size (do not size up).
+                              </p>
+                            </div>
                             <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
                               {currentSizeList.map((s) => {
                                 const isSelected = selectedSize === s || (selectedSize === '2XL' && s === 'XXL') || (selectedSize === 'XXL' && s === '2XL');
@@ -3411,19 +3421,19 @@ export function ProductClient({ product }: Props) {
                   <div className="flex items-start gap-2 text-neutral-600">
                     <span className="text-rose-500 font-bold shrink-0">✕</span>
                     <div>
-                      <strong className="text-neutral-800">Fast-Fashion Brands (₹999–₹1,499):</strong> Thin 180 GSM cloth &amp; cracking rubber prints.
+                      <strong className="text-neutral-800">Fast-Fashion Brands (₹999–₹1,499):</strong> Thin 180 GSM cloth &amp; cracking prints.
                     </div>
                   </div>
                   <div className="flex items-start gap-2 text-neutral-800">
                     <span className="text-emerald-600 font-bold shrink-0">✓</span>
                     <div>
-                      <strong className="text-neutral-950">RareEmber Atelier ({geoFormatPrice(Math.max(1, effectiveInr - 50))} on UPI):</strong> True {getGarmentFabricSpecs(product).badge} + Both-Side HD Archival Prints + Free Express Air Delivery included.
+                      <strong className="text-neutral-950">RareEmber Atelier ({geoFormatPrice(Math.max(1, effectiveInr - 100))} on 1st UPI Order):</strong> True {getGarmentFabricSpecs(product).badge} + Both-Side HD Archival Prints + Free Express Air Delivery.
                     </div>
                   </div>
                   <div className="flex items-start gap-2 text-[#E04F33] pt-1.5 border-t border-black/[0.06]">
                     <span className="shrink-0">⚡</span>
                     <div>
-                      <strong className="text-[#0D0D0F]">Zero-Risk Checkout:</strong> Save ₹50–₹100 instantly on UPI, or Book for ₹100 COD Advance.
+                      <strong className="text-[#0D0D0F]">Zero-Risk Checkout:</strong> ₹50 1st-Order Off + ₹50 UPI Off, or ₹100 COD Advance with ₹0 COD Fee.
                     </div>
                   </div>
                 </div>

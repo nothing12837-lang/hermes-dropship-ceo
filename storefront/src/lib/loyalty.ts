@@ -54,9 +54,10 @@ export async function issueOrderLoyaltyVoucher(order: {
   purchasedItemTitle?: string;
 }, supabaseClient?: any): Promise<{ code: string; amount: number; minOrderValue: number; expiresAt: string } | null> {
   const total = Number(order.total) || 0;
-  if (total < 1000) return null;
+  if (total <= 0) return null;
 
-  const voucherAmount = total >= 2000 ? 100 : 50;
+  const voucherAmount = 50; // Universal ₹50 Post-Delivery Gift Voucher
+  const minOrderFloor = 799; // Allows redemption on any single drop (₹799+)
   const supabase = supabaseClient || getServiceSupabase();
   if (!supabase) return null;
 
@@ -72,7 +73,7 @@ export async function issueOrderLoyaltyVoucher(order: {
       return {
         code: existing.code,
         amount: Number(existing.amount_inr),
-        minOrderValue: Number(existing.min_order_value || 999),
+        minOrderValue: Number(existing.min_order_value || 799),
         expiresAt: new Date(existing.expires_at).toLocaleDateString('en-IN', {
           day: '2-digit',
           month: 'short',
@@ -93,7 +94,7 @@ export async function issueOrderLoyaltyVoucher(order: {
         source_order_id: order.id,
         purchased_item_title: order.purchasedItemTitle || 'Rare Ember Architectural Garment',
         amount_inr: voucherAmount,
-        min_order_value: 999,
+        min_order_value: 799,
         issued_at: new Date().toISOString(),
         expires_at: expiresDate.toISOString(),
         is_redeemed: false,
@@ -165,7 +166,7 @@ export async function verifyLoyaltyVoucher(
       return { valid: false, discountAmount: 0, code: cleanCode, error: 'This gift voucher has expired.' };
     }
 
-    const minReq = Number(voucher.min_order_value || 999);
+    const minReq = Number(voucher.min_order_value || 799);
     if (cartTotal < minReq) {
       return {
         valid: false,

@@ -126,7 +126,7 @@ export function ReturnsClient() {
           </div>
           <h3 className="text-base font-bold text-neutral-950 mb-2">Defect Guarantee</h3>
           <p className="text-xs text-neutral-600 leading-relaxed">
-            Defective print or transit damage? 100% Free reprint covered directly with quick photo verification.
+            For 100% free instant replacement on any transit or print defect, please record a quick 360° unboxing video showing the shipping label.
           </p>
         </div>
       </div>
@@ -371,7 +371,7 @@ export function ReturnsClient() {
             Size Exchanges vs. Manufacturing Defects
           </h2>
           <ul className="text-xs text-neutral-600 space-y-2 list-disc pl-5 leading-relaxed">
-            <li><b>Factory Defects or Damage:</b> 100% Free doorstep replacement with zero cost upon photo verification.</li>
+            <li><b>Factory Defects or Damage:</b> For 100% free instant replacement on any transit or print defect, please record a quick 360° unboxing video showing the shipping label.</li>
             <li><b>Size Mismatches:</b> To prevent duplicate inventory waste, size exchanges require a 1-to-1 physical handover of the original unworn garment with tags intact to the courier upon delivery of the new size.</li>
           </ul>
         </div>

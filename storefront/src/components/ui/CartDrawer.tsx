@@ -527,21 +527,36 @@ export default function CartDrawer() {
                 <span className="font-bold">{formatCartPrice(subtotal)}</span>
               </div>
 
+              {/* Automatic First-Order Welcome Discount */}
+              <div className="flex justify-between text-xs mb-2 text-emerald-800 font-bold bg-emerald-50 px-2.5 py-1.5 rounded-lg border border-emerald-200">
+                <span>First-Order Welcome Discount:</span>
+                <span>-₹50</span>
+              </div>
+
               {bundleSavings > 0 && (
-                <div className="flex justify-between text-xs mb-2 text-emerald-800 font-bold bg-emerald-50 px-2.5 py-1.5 rounded-lg border border-emerald-200">
+                <div className="flex justify-between text-xs mb-2 text-amber-900 font-bold bg-amber-50 px-2.5 py-1.5 rounded-lg border border-amber-200">
                   <span>Buy Any 2 Deal (240 GSM Tees):</span>
                   <span>-{formatCartPrice(bundleSavings)}</span>
                 </div>
               )}
 
-              <div className="flex justify-between text-xs mb-3 text-neutral-600 font-medium">
+              <div className="flex justify-between text-xs mb-2 text-neutral-600 font-medium">
                 <span>Prepaid Delivery (Express Air)</span>
                 <span className="text-emerald-700 font-bold">FREE</span>
               </div>
 
-              <div className="flex justify-between font-black text-lg text-[#12100E] pt-3 border-t border-black/10 mb-3">
-                <span>Total</span>
-                <span className="text-[#FF4D24] font-black">{formatCartPrice(netCartTotal)}</span>
+              <div className="flex justify-between text-xs mb-3 text-neutral-600 font-medium">
+                <span>Doorstep COD Handling Fee</span>
+                <span className="text-emerald-700 font-bold">FREE (₹0 Fee)</span>
+              </div>
+
+              <div className="flex justify-between font-black text-lg text-[#12100E] pt-3 border-t border-black/10 mb-2">
+                <span>1st Order Total</span>
+                <span className="text-[#FF4D24] font-black">{formatCartPrice(Math.max(1, netCartTotal - 50))}</span>
+              </div>
+
+              <div className="text-[11px] text-emerald-800 font-bold bg-emerald-50/90 px-2.5 py-1.5 rounded-xl border border-emerald-200/80 mb-3 text-center">
+                ⚡ Extra ₹50 OFF applied instantly on UPI at checkout!
               </div>
 
               {/* Dynamic Milestone Progress Bar */}
