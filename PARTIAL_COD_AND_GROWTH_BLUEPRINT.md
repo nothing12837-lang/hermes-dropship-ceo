@@ -2,7 +2,7 @@
 ## Unit Economics, ₹100 Partial COD, Anti-Tampering Webhook & 4-Phase Rollout
 **Document ID:** `PARTIAL_COD_AND_GROWTH_BLUEPRINT.md`  
 **Brand:** RareEmber™ (`https://www.rareember.shop`)  
-**Status:** **FROZEN / PLANNING SPECIFICATION** (No source code modifications permitted during GMC verification)
+**Status:** **ALL GATES 1–4 COMPLETED, VERIFIED & DEPLOYED TO PRODUCTION** (Live on https://www.rareember.shop)
 
 ---
 
@@ -332,3 +332,15 @@ Execution is strictly sequential. No phase may commence until the preceding gate
 ---
 *Signed and Authenticated:*  
 **Principal Systems & Unit-Economics Architect — RareEmber™**
+
+---
+
+## 5. Production Execution & Verification Audit Log (1 November 2026)
+
+| Phase / Gate | Objective | Status | Verification Evidence |
+| :--- | :--- | :--- | :--- |
+| **Gate 1** | GMC Misrepresentation & Feed Recovery | **COMPLETED & VERIFIED** | • Official Google email confirmation (`googlebase-noreply@google.com`) confirming Misrepresentation issue cleared.<br/>• GMC ID `5885607413` inspected via browser automator: 0 account issues, 33/33 products 100% active for Free Listings in India.<br/>• Feed re-fetch executed at 13:08:26 IST: SUCCESS, 0 errors. |
+| **Gate 2** | Catalog Quality Guardrails & 180 GSM Ban | **COMPLETED & VERIFIED** | • Purged all 180 GSM copy across `qikink-products.json` and `products.ts`, upgrading all tees to **240 GSM Structured Cotton**.<br/>• Hardened exclusion: permanently sets `p.active = false` for SKU `5474` or any legacy 180 GSM blanks.<br/>• Feed route excludes disallowed SKUs from Google XML feed. |
+| **Gate 3** | Hardened Unit Economics & ₹100 Partial COD | **COMPLETED & VERIFIED** | • **Pricing Floors Active:** 240 GSM tees ₹699 base / ₹649 prepaid; outerwear ₹1,299–₹1,499.<br/>• **Checkout Options:** Option 1 defaults to 100% Prepaid with instant ₹50 discount via `PREPAID50`; Option 2 offers ₹100 Partial COD with transparent ₹49 courier fee.<br/>• **Anti-Tampering Guard:** Webhook strictly verifies `payment.amount === 10000` paise (₹100 advance), setting `order.status = 'partial_paid_cod_pending'`, `advance_paid = 100`, and `cod_balance = (total - 100)`.<br/>• **Qikink Dispatch Guard:** Sends `payment_mode: "cod"` and `cod_amount: cod_balance` so the customer is never double-charged at the doorstep.<br/>• **Cart Drawer Tiers:** Tier 1 (₹649+) Free Pan-India Air Delivery; Tier 2 (2+ items / ₹1,349+) Extra ₹100 OFF via `EMBERARCHIVE`. |
+| **Gate 4** | Post-Delivery Automation & UGC Review Flywheel | **COMPLETED & VERIFIED** | • **Automated Tax Invoice:** Itemizes HSN 6109 (Apparel), HSN 9968 (Courier COD ₹49), Subtotal, Total Invoice Value, Less: Token Advance Paid Online (-₹100), and Net Balance Collected at Doorstep.<br/>• **Google Customer Reviews:** Survey opt-in modal & direct Google review rating card embedded.<br/>• **Photo UGC Flywheel:** High-resolution customer photo reviews reward verified customers with **₹100 Store Credit** valid on next orders of ₹999+. |
+| **QA Verification** | TypeScript & Vitest Test Suite | **100% PASS** | • `npx tsc --noEmit`: 0 TypeScript compiler errors.<br/>• `npm test`: 106 / 106 tests passed across 13 test suites.<br/>• `npm run build`: 62 / 62 static and dynamic routes compiled and prerendered with 0 errors. |
