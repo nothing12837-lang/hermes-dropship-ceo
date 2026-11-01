@@ -183,9 +183,10 @@ export async function POST(req: NextRequest) {
       subtotal += unitPrice * item.qty;
     }
 
-    // COD Handling & Verification Fee: ₹59 (waived 100% on Prepaid UPI/Cards)
-    const isCod = (body as any).payment_method === 'cod';
-    const codFee = isCod ? 59 : 0;
+    // COD Handling & Verification Fee: ₹49 (waived 100% on Prepaid UPI/Cards)
+    const isCod = (body as any).payment_method === 'cod' || (body as any).payment_method === 'partial_cod';
+    const isPartialCod = (body as any).payment_method === 'partial_cod';
+    const codFee = isCod ? 49 : 0;
 
     // Apply Coupon Code if verified (block stacking on bundles)
     let discountAmount = 0;
@@ -298,16 +299,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No valid products in cart' }, { status: 400 });
     }
 
-    // Razorpay amount in paise (1 INR = 100 paise)
-    const inrPaise = isIndia
-      ? Math.round(finalTotal * 100)
-      : Math.round(finalTotal * 85 * 100);
+    const isPartialCodOrder = isPartialCod;
+    // For Partial COD, charge exactly ₹100.00 advance (10,000 paise). Full prepaid charges finalTotal.
+    const inrPaise = isPartialCodOrder
+      ? 10000
+      : (isIndia ? Math.round(finalTotal * 100) : Math.round(finalTotal * 85 * 100));
 
+    const checkoutOrderId = crypto.randomUUID();
     const rzpOrder = await razorpay.orders.create({
       amount: inrPaise,
       currency: 'INR',
       receipt: `rcpt_${Date.now()}`,
       notes: {
+        order_id: checkoutOrderId,
+        payment_type: isPartialCodOrder ? 'partial_cod' : 'full_prepaid',
+        full_total: String(finalTotal),
+        cod_balance: String(isPartialCodOrder ? Math.max(0, finalTotal - 100) : 0),
         email,
         name: (name || '').slice(0, 100),
         phone: String(body.phone || address?.phone || '').slice(0, 20),
@@ -316,7 +323,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const checkoutOrderId = crypto.randomUUID();
     const saved = await insertOrder({
       id: checkoutOrderId,
       user_email: email,
@@ -324,7 +330,9 @@ export async function POST(req: NextRequest) {
       stripe_session_id: rzpOrder.id,
       total_amount: finalTotal,
       status: 'pending',
-      payment_method: 'prepaid',
+      payment_method: isPartialCodOrder ? 'partial_cod' : 'prepaid',
+      advance_paid: isPartialCodOrder ? 100 : finalTotal,
+      cod_balance: isPartialCodOrder ? Math.max(0, finalTotal - 100) : 0,
       items,
       subtotal,
       shipping: 0,
@@ -355,6 +363,8 @@ export async function POST(req: NextRequest) {
       amount: inrPaise,
       currency: 'INR',
       key_id: process.env.RAZORPAY_KEY_ID,
+      payment_type: isPartialCodOrder ? 'partial_cod' : 'full_prepaid',
+      cod_balance: isPartialCodOrder ? Math.max(0, finalTotal - 100) : 0,
     });
   } catch (err: any) {
     console.error('POST /api/checkout error:', err);

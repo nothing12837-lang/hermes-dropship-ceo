@@ -53,32 +53,32 @@ describe('Product Catalog Resolution (Zero 404 Glitches)', () => {
 
 describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
   it('enforces updated price floors for key drops and bundles', () => {
-    // Unisex Oversized Jersey: ₹849 (M.R.P. ₹1,499)
+    // Unisex Oversized Jersey: ₹699 (M.R.P. ₹1,499)
     const jersey = enforcePriceFloor({
       id: 'qikink-32476280-unisex-oversized-jersey',
       title: 'Unisex Oversized Jersey — Creator Edition',
       price: 489,
     } as any);
-    expect(jersey.price).toBe(849);
+    expect(jersey.price).toBe(699);
     expect(jersey.compareAtPrice).toBe(1499);
 
-    // 240 GSM Unisex Oversized Standard T-Shirt: ₹849 (M.R.P. ₹1,499)
+    // 240 GSM Unisex Oversized Standard T-Shirt: ₹699 (M.R.P. ₹1,499)
     const tee = enforcePriceFloor({
       id: 'qikink-32476431-unisex-oversized-standard-t-shirt',
       title: 'Rare Ember Unisex Oversized Standard T-Shirt',
       price: 499,
     } as any);
-    expect(tee.price).toBe(849);
+    expect(tee.price).toBe(699);
     expect(tee.compareAtPrice).toBe(1499);
 
-    // Gaming Pad / Desk Mat: ₹799 (M.R.P. ₹1,399)
+    // Gaming Pad / Desk Mat: ₹599 (M.R.P. ₹1,199)
     const pad = enforcePriceFloor({
       id: 'rare-ember-desk-mat',
       title: 'Rare Ember Gaming Pad',
       price: 499,
     } as any);
-    expect(pad.price).toBe(799);
-    expect(pad.compareAtPrice).toBe(1399);
+    expect(pad.price).toBe(599);
+    expect(pad.compareAtPrice).toBe(1199);
 
     // Streetwear Duo: ₹1,499 (M.R.P. ₹2,499)
     const duo = enforcePriceFloor({
@@ -166,16 +166,16 @@ describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
       title: "320 GSM French Terry Crewneck Sweatshirt",
       price: 799,
     } as any);
-    expect(sweatshirt.price).toBe(1099);
-    expect(sweatshirt.compareAtPrice).toBe(1899);
+    expect(sweatshirt.price).toBe(1299);
+    expect(sweatshirt.compareAtPrice).toBe(2299);
 
     const joggers = enforcePriceFloor({
       id: 'qikink-320gsm-joggers',
       title: "320 GSM Heavyweight Streetwear Joggers",
       price: 899,
     } as any);
-    expect(joggers.price).toBe(1099);
-    expect(joggers.compareAtPrice).toBe(1899);
+    expect(joggers.price).toBe(1299);
+    expect(joggers.compareAtPrice).toBe(2299);
 
     // 380 GSM Heavyweight Winter Hoodie: min ₹1,399 (M.R.P. ₹2,699)
     const hoodie = enforcePriceFloor({
@@ -312,10 +312,10 @@ describe('Glitches Fix 4: Journal & Blog Filtering & Deduplication', () => {
 
 describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', () => {
   it('protects coupon minimum order thresholds from eroding margins', () => {
-    // PREPAID30: minOrder: 699
+    // PREPAID30: minOrder: 649
     expect(validateCouponCode('PREPAID30', 500).valid).toBe(false);
-    expect(validateCouponCode('PREPAID30', 698).valid).toBe(false);
-    const p30 = validateCouponCode('PREPAID30', 699);
+    expect(validateCouponCode('PREPAID30', 648).valid).toBe(false);
+    const p30 = validateCouponCode('PREPAID30', 649);
     expect(p30.valid).toBe(true);
     expect(p30.discountAmount).toBe(30);
 
@@ -373,8 +373,8 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
       id: 'custom-drop-empty',
       title: 'Rare Ember Atelier Drop',
     } as any);
-    expect(noPrice.price).toBe(849);
-    expect(noPrice.price_inr).toBe(849);
+    expect(noPrice.price).toBe(699);
+    expect(noPrice.price_inr).toBe(699);
     expect(noPrice.compareAtPrice).toBe(1499);
 
     const zeroPrice = enforcePriceFloor({
@@ -383,8 +383,8 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
       price: 0,
       price_inr: 0,
     } as any);
-    expect(zeroPrice.price).toBe(849);
-    expect(zeroPrice.price_inr).toBe(849);
+    expect(zeroPrice.price).toBe(699);
+    expect(zeroPrice.price_inr).toBe(699);
     expect(zeroPrice.compareAtPrice).toBe(1499);
   });
 

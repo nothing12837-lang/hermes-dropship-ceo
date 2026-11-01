@@ -144,6 +144,7 @@ export default function CartDrawer() {
     .filter((d): d is NonNullable<typeof d> => Boolean(d));
 
   const subtotal = detailed.reduce((a, b) => a + getItemPrice((b as any).product) * b.qty, 0);
+  const totalQuantity = detailed.reduce((sum, item) => sum + (item.qty || 1), 0);
 
   const isAddOn = (p: Product) => {
     const t = p.title.toLowerCase();
@@ -505,21 +506,32 @@ export default function CartDrawer() {
                 <span className="text-[#FF4D24] font-black">{formatCartPrice(subtotal)}</span>
               </div>
 
-              {/* Free-Shipping & Instant UPI Savings Bar with smooth 500ms animation */}
-              <div className="mb-4 p-3 rounded-xl bg-[#FAF8F5] border border-black/[0.06]">
+              {/* Tiered Shipping & Multi-Piece Archive Discount Bar */}
+              <div className="mb-4 p-3 rounded-xl bg-[#FAF8F5] border border-black/[0.06] space-y-2">
                 <div className="flex justify-between items-center text-[11px] font-bold text-neutral-800">
                   <span className="flex items-center gap-1.5">
                     <span>⚡</span>
                     <span>
-                      {subtotal >= 449
-                        ? 'FREE Prepaid Express Air Delivery & ₹30 UPI Off'
-                        : 'FREE Prepaid Express Air Delivery Active'}
+                      {subtotal >= 649
+                        ? 'FREE Pan-India Express Air Delivery & ₹50 UPI Off'
+                        : `Add ₹${Math.max(0, 649 - subtotal)} for Free Express Air Delivery`}
                     </span>
                   </span>
                   <span className="text-[10px] font-mono text-emerald-700 font-extrabold">
-                    100% FREE
+                    {subtotal >= 649 ? 'UNLOCKED' : 'TIER 1'}
                   </span>
                 </div>
+                {totalQuantity >= 2 || subtotal >= 1349 ? (
+                  <div className="flex justify-between items-center text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-1 rounded-md border border-emerald-200">
+                    <span>🔥 Multi-Piece Archive Discount: Extra ₹100 OFF Unlocked!</span>
+                    <span className="font-mono text-emerald-900 font-black">EMBERARCHIVE</span>
+                  </div>
+                ) : (
+                  <div className="flex justify-between items-center text-[10px] text-neutral-500">
+                    <span>Add 1 more item to unlock Extra ₹100 Multi-Piece Savings</span>
+                    <span className="font-mono font-bold text-neutral-700">TIER 2</span>
+                  </div>
+                )}
               </div>
 
               {/* Why Zero Customers Regret Their Fit Reassurance Strip */}
@@ -530,7 +542,7 @@ export default function CartDrawer() {
                 <div className="text-[10px] text-neutral-800 flex items-center justify-between gap-1 font-bold">
                   <span>📏 Exact Chest Size Verified</span>
                   <span className="text-neutral-300">•</span>
-                  <span>🧶 Heavyweight Bio-Washed Cotton</span>
+                  <span>🧶 240 GSM Structured Cotton</span>
                   <span className="text-neutral-300">•</span>
                   <span>🔄 Free 7-Day Size Swap</span>
                 </div>

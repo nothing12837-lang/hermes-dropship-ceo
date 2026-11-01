@@ -636,7 +636,8 @@ export async function fulfillQikinkOrder(
 
   const rawItems = Array.isArray(order.items) ? order.items : [];
   const items = expandBundleItems(rawItems);
-  const isCod = order.payment_method === 'cod';
+  const isPartialCod = order.payment_method === 'partial_cod' || order.status === 'partial_paid_cod_pending';
+  const isCod = order.payment_method === 'cod' || isPartialCod;
   const addr = (order.shipping_address as Record<string, string>) || {};
 
   // Clean alphanumeric order reference (max 15 chars for Qikink)
@@ -799,11 +800,15 @@ export async function fulfillQikinkOrder(
 
   const shippingAddress = cleanShippingAddress(order.shipping_name, addr, order.user_email || '');
 
+  const collectibleCodAmount = isPartialCod && (order as any).cod_balance != null
+    ? Math.round(Number((order as any).cod_balance))
+    : Math.round(Number(order.total_amount || 0));
+
   const qikinkPayload = {
     order_number: cleanOrderNum,
     qikink_shipping: '1', // BlueDart / integrated courier fulfillment
-    gateway: isCod ? 'COD' : 'Prepaid',
-    total_order_value: String(Math.round(Number(order.total_amount || 0))),
+    gateway: isPartialCod ? 'Partial COD (Advance Paid)' : (isCod ? 'COD' : 'Prepaid'),
+    total_order_value: String(isCod ? collectibleCodAmount : Math.round(Number(order.total_amount || 0))),
     line_items: lineItems,
     shipping_address: shippingAddress,
   };

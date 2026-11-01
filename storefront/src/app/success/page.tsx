@@ -11,6 +11,9 @@ function SuccessInner() {
   const q = useSearchParams();
   const mock = q.get('mock');
   const isCod = q.get('cod') === '1';
+  const isPartial = q.get('partial') === '1';
+  const advanceAmount = q.get('advance') ? parseFloat(q.get('advance')!) : 100;
+  const balanceParam = q.get('balance');
   const emailParam = q.get('email') || '';
   const initialEmail = emailParam && emailParam.includes('@') ? emailParam.trim() : '';
   const email = initialEmail || emailParam || 'your inbox';
@@ -215,10 +218,17 @@ function SuccessInner() {
 
         <p className="text-neutral-600 text-sm md:text-base -mt-4 mb-6 leading-relaxed max-w-md mx-auto font-medium">
           {isCod ? (
-            <>
-              Your Cash on Delivery order has been registered in the verified fulfillment queue. Please keep{' '}
-              <strong className="text-neutral-900 font-black">₹{total || orderTotal}</strong> ready in Cash or UPI QR scan upon delivery.
-            </>
+            isPartial ? (
+              <>
+                Your ₹{advanceAmount.toFixed(0)} Advance Booking has been securely received via UPI. Please keep the remaining balance of{' '}
+                <strong className="text-neutral-900 font-black">₹{balanceParam ? parseFloat(balanceParam).toFixed(2) : Math.max(0, orderTotal - 100).toFixed(2)}</strong> ready in Cash or UPI QR scan upon courier doorstep arrival.
+              </>
+            ) : (
+              <>
+                Your Cash on Delivery order has been registered in the verified fulfillment queue. Please keep{' '}
+                <strong className="text-neutral-900 font-black">₹{total || orderTotal}</strong> ready in Cash or UPI QR scan upon delivery.
+              </>
+            )
           ) : (
             <>
               Your payment has been securely verified. Factory dispatch queue has been assigned to your items.
@@ -324,10 +334,10 @@ function SuccessInner() {
                   <span>⚡</span> Instant VIP Upgrade
                 </div>
                 <h3 className="text-base sm:text-lg font-black text-neutral-950 tracking-tight">
-                  Upgrade to Prepaid UPI &amp; Save ₹59 COD Fee + Unlock Priority Air Dispatch
+                  Upgrade to Prepaid UPI &amp; Save ₹49 COD Fee + Unlock Priority Air Dispatch
                 </h3>
                 <p className="text-xs text-neutral-600 leading-relaxed max-w-xl">
-                  Skip the doorstep cash or QR scan hassle. Settle payment now via Google Pay, PhonePe, Paytm, or UPI to instantly waive the ₹59 COD courier surcharge and prioritize your parcel for the earliest Delhivery cargo flight.
+                  Skip the doorstep cash or QR scan hassle. Settle payment now via Google Pay, PhonePe, Paytm, or UPI to instantly waive the ₹49 Courier COD surcharge and prioritize your parcel for the earliest Delhivery cargo flight.
                 </p>
                 <div className="flex flex-wrap items-center gap-3 pt-1 text-[11px] font-bold text-emerald-800">
                   <span className="flex items-center gap-1">✓ 100% RBI &amp; Razorpay Protected</span>
@@ -338,13 +348,13 @@ function SuccessInner() {
               <div className="flex flex-col sm:flex-row md:flex-col gap-2.5 w-full md:w-auto shrink-0">
                 <a
                   href={`https://wa.me/919118211860?text=${encodeURIComponent(
-                    `Namaste Rare Ember! 🙏\n\nI want to convert my COD Order #${session || orderId} (Total: ₹${total || orderTotal}) to Prepaid UPI to save the ₹59 COD courier fee and unlock priority air dispatch.\n\nPlease share the official UPI QR / payment link.`
+                    `Namaste Rare Ember! 🙏\n\nI want to convert my COD Order #${session || orderId} (Total: ₹${total || orderTotal}) to Prepaid UPI to save the ₹49 Courier COD fee and unlock priority air dispatch.\n\nPlease share the official UPI QR / payment link.`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-5 py-3 rounded-xl bg-[#0D0D0F] hover:bg-neutral-800 text-white text-xs font-black uppercase tracking-wider text-center no-underline shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>📲</span> Pay via WhatsApp UPI (Save ₹59)
+                  <span>📲</span> Pay via WhatsApp UPI (Save ₹49)
                 </a>
                 <Link
                   href={trackUrl}

@@ -149,8 +149,13 @@ export function enforcePriceFloor(p: Product): Product {
     ? Number(rawCompare)
     : 0;
 
+  // Catalog Quality Guardrail: Permanently exclude 180 GSM blanks and SKU 5474
+  if (pid.includes('5474') || pid.includes('180gsm') || title.includes('180 gsm') || title.includes('180gsm')) {
+    p.active = false;
+  }
+
   // 1. Curated Value Combos
-  // - bundle-streetwear-duo (2x Heavyweight 240 GSM Tees): min ₹1,499 (M.R.P. ₹2,499)
+  // - bundle-streetwear-duo (2x Structured Cotton 240 GSM Tees): min ₹1,499 (M.R.P. ₹2,499)
   if (pid.includes('bundle-streetwear-duo') || pid.includes('streetwear-duo') || pid.includes('pack-of-2')) {
     if (price < 1499) price = 1499;
     if (compare < 2499) compare = 2499;
@@ -166,12 +171,17 @@ export function enforcePriceFloor(p: Product): Product {
     if (compare < 3199) compare = 3199;
   }
   else if (pid.includes('pack-of-3')) {
-    if (price < 1999) price = 1999;
+    if (price < 1899) price = 1899;
     if (compare < 3299) compare = 3299;
+  }
+  // 1. Streetwear Duo (2x Tees Pack): min ₹1,499 (M.R.P. ₹2,499)
+  else if (pid.includes('bundle-streetwear-duo') || pid.includes('bundle-duo')) {
+    if (price < 1499) price = 1499;
+    if (compare < 2499) compare = 2499;
   }
   // Any other bundle combos
   else if (pid.startsWith('bundle-')) {
-    if (price < 1499) price = 1499;
+    if (price < 1299) price = 1299;
     if (compare < 2499) compare = 2499;
   }
   // 2. 350 GSM Contrast-Sleeve Varsity Jacket & Bomber Jacket: min ₹1,499 (M.R.P. ₹2,599)
@@ -182,30 +192,48 @@ export function enforcePriceFloor(p: Product): Product {
     if (price < 1499) price = 1499;
     if (compare < 2599) compare = 2599;
   }
-  // 3. 380 GSM Heavyweight Winter Hoodie: min ₹1,399 (M.R.P. ₹2,699)
+  // 3. 300/380 GSM Heavy Fleece & Acid Hoodies: min ₹1,399 (M.R.P. ₹2,699)
   else if (pid.includes('hoodie') || title.includes('hoodie') || pid.includes('uhd') || pid.includes('uzhd') || pid.includes('blank-hoodie')) {
     if (price < 1399) price = 1399;
     if (compare < 2699) compare = 2699;
   }
-  // 4. 320 GSM Crewneck Sweatshirt & 320 GSM Heavyweight Joggers: min ₹1,099 (M.R.P. ₹1,899)
+  // 4. 320 GSM Crewneck Sweatshirts & 320 GSM Heavyweight Joggers: min ₹1,299 (M.R.P. ₹2,299)
   else if (
     pid.includes('sweatshirt') || pid.includes('crewneck') || pid.includes('jogger') || pid.includes('sweatpant') ||
     title.includes('sweatshirt') || title.includes('crewneck') || title.includes('jogger') || title.includes('sweatpant') ||
     pid.includes('uss') || pid.includes('ujg') || pid.includes('blank-crewneck')
   ) {
-    if (price < 1099) price = 1099;
-    if (compare < 1899) compare = 1899;
+    if (price < 1299) price = 1299;
+    if (compare < 2299) compare = 2299;
   }
-  // 5. Full-Sleeve Tees & T-Shirt Dresses: min ₹999 (M.R.P. ₹1,799)
+  // 5. 240 GSM French Terry Cut & Sew Editions, Raglan, Ringer, Crop Top, Tank & Sleeveless: min ₹749 (M.R.P. ₹1,299)
   else if (
-    pid.includes('64953648') || pid.includes('32477737') || pid.includes('32476824') || pid.includes('mrnfs') ||
-    title.includes('full sleeve') || pid.includes('full-sleeve') ||
-    pid.includes('64953512') || pid.includes('32476756') || pid.includes('32476736') || pid.includes('t-shirt-dress') || pid.includes('maternity-dress') || title.includes('dress')
+    pid.includes('ut27') || title.includes('french terry') || title.includes('terry') ||
+    pid.includes('32476636') || pid.includes('32476299') || title.includes('raglan') || title.includes('ringer') ||
+    title.includes('crop') || title.includes('tank') || title.includes('baby tee') || title.includes('sleeveless')
   ) {
+    if (price < 749) price = 749;
+    if (compare < 1299) compare = 1299;
+  }
+  // Men's Polo (220 GSM): min ₹799 (M.R.P. ₹1,399)
+  else if (pid.includes('polo') || title.includes('polo')) {
+    if (price < 799) price = 799;
+    if (compare < 1399) compare = 1399;
+  }
+  // Unisex V-Neck (64953544) & 240 GSM Acid Wash: min ₹849 (M.R.P. ₹1,499)
+  else if (
+    pid.includes('64953544') || title.includes('v neck') || title.includes('v-neck') ||
+    pid.includes('32476620') || pid.includes('blank-acid-tee') || title.includes('acid')
+  ) {
+    if (price < 849) price = 849;
+    if (compare < 1499) compare = 1499;
+  }
+  // Full-Sleeve Tee / T-Shirt Dress: min ₹999 (M.R.P. ₹1,799)
+  else if (pid.includes('64953648') || title.includes('full sleeve') || title.includes('dress')) {
     if (price < 999) price = 999;
     if (compare < 1799) compare = 1799;
   }
-  // 6. 240 GSM Oversized Tees, Oversized Jerseys (Cyber Sublimation, Matrix), Supima, V-Neck, Acid Wash, Tie Dye, French Terry: min ₹849 (M.R.P. ₹1,499)
+  // 6. 240 GSM Structured Cotton Drop-Shoulder Tees & Sublimation Mesh Jerseys: min ₹699 (M.R.P. ₹1,499)
   else if (
     pid.includes('64950694') || pid.includes('32476280') || pid.includes('32476281') ||
     title.includes('cyber sublimation') || title.includes('matrix') ||
@@ -214,42 +242,26 @@ export function enforcePriceFloor(p: Product): Product {
     pid.includes('32476332') || title.includes('tokyo street') ||
     pid.includes('32476663') || title.includes('supima') ||
     pid.includes('32476772') || pid.includes('64953544') || title.includes('v neck') || title.includes('v-neck') ||
-    pid.includes('32476620') || pid.includes('ut27') || title.includes('french terry') || title.includes('terry') ||
     pid.includes('32476438') || pid.includes('blank-acid-tee') || pid.includes('uc61') || pid.includes('ate') || title.includes('acid') ||
     pid.includes('32476436') || pid.includes('ut58') || title.includes('tie dye') || title.includes('tie-dye') ||
-    pid.includes('blank-oversized-tee') || title.includes('oversized')
+    pid.includes('blank-oversized-tee') || title.includes('oversized') ||
+    title.includes('standard crew') || title.includes('classic crew') ||
+    title.includes('stretch') || title.includes('dryfit') || title.includes('dry fit') || title.includes('basic')
   ) {
-    if (price < 849) price = 849;
+    if (price < 699) price = 699;
     if (compare < 1499) compare = 1499;
   }
-  // 7. 900×400mm Extended Gaming Desk Mat / Pad & Custom Blank Jersey: min ₹799 (M.R.P. ₹1,399)
+  // 7. 900×400mm Extended Gaming Desk Mat / Pad: min ₹599 (M.R.P. ₹1,199)
   else if (
     title.includes('gaming pad') || title.includes('desk mat') || title.includes('mouse pad') ||
-    pid.includes('desk-mat') || pid.includes('desk_mat') || pid.includes('mpad') || pid.includes('blank-deskmat') ||
-    pid.includes('blank-jersey') || pid.includes('uj35') || pid.includes('us02') ||
-    pid.includes('64953576') || pid.includes('32476788') || title.includes('polo') || pid.includes('mp25')
+    pid.includes('desk-mat') || pid.includes('desk_mat') || pid.includes('mpad') || pid.includes('blank-deskmat')
   ) {
-    if (price < 799) price = 799;
-    if (compare < 1399) compare = 1399;
+    if (price < 599) price = 599;
+    if (compare < 1199) compare = 1199;
   }
-  // 8. Ceramic Mug: min ₹499 (M.R.P. ₹999)
-  else if (title.includes('mug') || pid.includes('mug') || pid.includes('blank-mug')) {
-    if (price < 499) price = 499;
-    if (compare < 999) compare = 999;
-  }
-  // 9. Standard Crew, Raglan, Ringer, Stretch, DryFit, Women's Tee, Crop Top, Essential Blank: min ₹749 (M.R.P. ₹1,299)
-  else if (
-    title.includes('standard crew') || title.includes('classic crew') || title.includes('raglan') || title.includes('ringer') ||
-    title.includes('stretch') || title.includes('dryfit') || title.includes('dry fit') ||
-    title.includes('crop') || title.includes('tank') || title.includes('baby tee') || title.includes('sleeveless') || title.includes('basic') ||
-    ['32476313', '32476636', '32476299', '32476699', '32476681', '32476319', '32476284', '32476722', '32476716', '32476800', '32476326', '32476874', '32476851', '32476764', '64953748', '64953600'].some(k => pid.includes(k))
-  ) {
-    if (price < 749) price = 749;
-    if (compare < 1299) compare = 1299;
-  }
-  // 10. Default fallback: min ₹849 (M.R.P. ₹1,499)
+  // 8. Default fallback: min ₹699 (M.R.P. ₹1,499)
   else {
-    if (price < 849) price = 849;
+    if (price < 699) price = 699;
     if (compare < 1499) compare = 1499;
   }
 

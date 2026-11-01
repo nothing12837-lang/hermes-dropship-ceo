@@ -34,6 +34,8 @@ export interface OrderDeliveredInvoicePayload {
   total: number;
   subtotal?: number;
   paymentMethod: string;
+  advancePaid?: number;
+  codBalance?: number;
   trackingNumber?: string | null;
   deliveryDate?: string;
   items: Array<{
@@ -244,6 +246,10 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
   }
 
   const isCod = (payload.paymentMethod || '').toLowerCase().includes('cod');
+  const isPartialCod = payload.paymentMethod === 'partial_cod' || (payload.advancePaid != null && payload.advancePaid > 0 && isCod);
+  const totalAmount = Number(payload.total) || 0;
+  const advancePaid = isPartialCod ? (payload.advancePaid || 100) : (isCod ? 0 : totalAmount);
+  const codBalance = isCod ? (payload.codBalance != null ? payload.codBalance : Math.max(0, totalAmount - advancePaid)) : 0;
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'Rare Ember <support@rareember.shop>';
   const shortOrderId = payload.orderId.slice(0, 8);
   const invoiceNumber = `INV-RE-${shortOrderId.toUpperCase()}`;
@@ -262,7 +268,6 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
   ].filter(Boolean).join(', ');
 
   // GST Calculation (5% inclusive on apparel)
-  const totalAmount = Number(payload.total) || 0;
   const cgst = (totalAmount * 0.0238).toFixed(2);
   const sgst = (totalAmount * 0.0238).toFixed(2);
   const taxableValue = (totalAmount - Number(cgst) - Number(sgst)).toFixed(2);
@@ -287,12 +292,12 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
   const codRowHtml = isCod ? `
     <tr style="border-bottom: 1px solid #f0ede8; background: #fafafa;">
       <td style="padding: 10px 8px; font-weight: bold; color: #161311; font-size: 13px;">
-        Cash on Delivery (COD) Doorstep Handling Surcharge
+        Courier COD Doorstep Handling Surcharge
       </td>
       <td style="padding: 10px 8px; text-align: center; font-family: monospace; font-size: 12px; color: #525252;">9968</td>
       <td style="padding: 10px 8px; text-align: center; color: #525252; font-size: 13px;">1</td>
-      <td style="padding: 10px 8px; text-align: right; color: #525252; font-size: 13px;">₹59.00</td>
-      <td style="padding: 10px 8px; text-align: right; font-weight: bold; color: #161311; font-size: 13px;">₹59.00</td>
+      <td style="padding: 10px 8px; text-align: right; color: #525252; font-size: 13px;">₹49.00</td>
+      <td style="padding: 10px 8px; text-align: right; font-weight: bold; color: #161311; font-size: 13px;">₹49.00</td>
     </tr>
   ` : '';
 
@@ -343,7 +348,7 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
               </div>
             </div>
             <div style="font-size: 12px; color: #065F46; margin-top: 8px; border-top: 1px dashed #A7F3D0; padding-top: 8px;">
-              <strong>Payment Status:</strong> ₹${totalAmount} collected in full via ${isCod ? 'Cash / UPI QR on Doorstep Delivery' : 'Prepaid Online Payment'}.
+              <strong>Payment Status:</strong> ₹${totalAmount} settled in full (${isPartialCod ? `₹${advancePaid} Advance Paid via UPI + ₹${codBalance} Doorstep COD` : (isCod ? 'Collected in full via Cash / UPI QR on Doorstep Delivery' : 'Prepaid Online Payment')}).
             </div>
           </div>
 
@@ -413,8 +418,8 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
                     </tr>
                     ${isCod ? `
                       <tr>
-                        <td style="color: #737373; padding-bottom: 6px;">COD Doorstep Surcharge:</td>
-                        <td style="text-align: right; font-weight: bold; padding-bottom: 6px;">₹59.00</td>
+                        <td style="color: #737373; padding-bottom: 6px;">Courier COD Handling Fee:</td>
+                        <td style="text-align: right; font-weight: bold; padding-bottom: 6px;">₹49.00</td>
                       </tr>
                     ` : ''}
                     <tr>
@@ -422,13 +427,64 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
                       <td style="text-align: right; font-weight: bold; color: #059669; padding-bottom: 6px;">FREE</td>
                     </tr>
                     <tr style="border-top: 2px solid #161311;">
-                      <td style="padding-top: 8px; font-size: 14px; font-weight: 900; color: #161311;">Total Paid:</td>
+                      <td style="padding-top: 8px; font-size: 14px; font-weight: 900; color: #161311;">Total Invoice Value:</td>
                       <td style="padding-top: 8px; font-size: 16px; font-weight: 900; text-align: right; color: #FF4D24;">₹${totalAmount}</td>
                     </tr>
+                    ${isPartialCod ? `
+                      <tr style="border-top: 1px dashed #e5e5e5;">
+                        <td style="padding-top: 6px; font-size: 11px; color: #059669; font-weight: bold;">Less: Advance Paid Online (UPI/Cards):</td>
+                        <td style="padding-top: 6px; font-size: 11px; color: #059669; font-weight: bold; text-align: right;">−₹${advancePaid}</td>
+                      </tr>
+                      <tr>
+                        <td style="padding-top: 6px; font-size: 12px; font-weight: 900; color: #161311;">Balance Collected on Delivery:</td>
+                        <td style="padding-top: 6px; font-size: 13px; font-weight: 900; text-align: right; color: #161311;">₹${codBalance}</td>
+                      </tr>
+                    ` : ''}
                   </table>
                 </td>
               </tr>
             </table>
+          </div>
+
+          <!-- Photo Review UGC Reward Card (₹100 Store Credit) -->
+          <div style="background: #FFFBF5; border: 1.5px solid #F59E0B; border-radius: 16px; padding: 20px; margin-bottom: 24px; text-align: left;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 11px; font-weight: 900; color: #B45309; text-transform: uppercase; letter-spacing: 1px;">
+                📸 Claim ₹100 Store Credit
+              </span>
+              <span style="background: #F59E0B; color: #ffffff; font-size: 10px; font-weight: 900; padding: 3px 8px; border-radius: 9999px;">
+                Verified UGC Reward
+              </span>
+            </div>
+            <div style="font-size: 14px; font-weight: 800; color: #161311; margin-bottom: 6px;">
+              Show us how you style your Rare Ember piece!
+            </div>
+            <p style="font-size: 12px; color: #78350F; line-height: 1.6; margin: 0 0 12px;">
+              Submit a photo review wearing your garment or send it to us on WhatsApp (<strong>+91 91182 11860</strong>). Once approved, we will issue an authentic <strong>₹100 Store Credit Voucher</strong> directly to your email, valid on your next order of ₹999+.
+            </p>
+            <a href="https://www.rareember.shop/track?orderId=${payload.orderId}&email=${encodeURIComponent(payload.email)}#review" style="display: inline-block; background: #0D0D0F; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 12px; padding: 10px 20px; border-radius: 10px;">
+              Submit Photo Review &amp; Claim ₹100 Voucher →
+            </a>
+          </div>
+
+          <!-- Google Customer Reviews Verification -->
+          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 16px; padding: 16px 20px; margin-bottom: 24px; text-align: left;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <div style="font-size: 11px; font-weight: 800; color: #0284C7; text-transform: uppercase; letter-spacing: 0.5px;">
+                  ⭐ Google Customer Reviews
+                </div>
+                <div style="font-size: 13px; font-weight: 700; color: #0F172A; margin-top: 2px;">
+                  Rate Rare Ember on Google Shopping
+                </div>
+                <div style="font-size: 11px; color: #64748B; margin-top: 2px;">
+                  Merchant ID: 5885607413 • 100% Verified Buyer Protection
+                </div>
+              </div>
+              <a href="https://g.page/r/rareember/review" target="_blank" style="background: #0284C7; color: #ffffff; text-decoration: none; font-size: 11px; font-weight: 800; padding: 8px 14px; border-radius: 8px; white-space: nowrap;">
+                Rate on Google ➔
+              </a>
+            </div>
           </div>
 
           <!-- Printable Invoice CTA -->

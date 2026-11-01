@@ -99,10 +99,9 @@ export default function CheckoutPage() {
   const [pincodeInfo, setPincodeInfo] = useState<{ city: string; state: string; valid: boolean; error?: string } | null>(null);
   const pincodeTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [hasSavedAddress, setHasSavedAddress] = useState(false);
-  // COD is the advertised option for an India D2C store and the server
-  // already caps it at Rs.3,000 for RTO protection. Defaulting to 'online'
-  // silently withdrew the advertised COD.
-  const [paymentMethod, setPaymentMethod] = useState<'online' | 'cod'>('cod');
+  // Default to 100% Prepaid UPI to protect cash flow and give ₹50 instant discount.
+  // COD is available via ₹100 Advance Booking (+₹49 handling fee).
+  const [paymentMethod, setPaymentMethod] = useState<'online' | 'cod'>('online');
   const [showMobileSummary, setShowMobileSummary] = useState(false);
 
   const handleSelectPaymentMethod = (method: 'online' | 'cod') => {
@@ -110,19 +109,21 @@ export default function CheckoutPage() {
     setError('');
     setCodOtpError('');
     if (method === 'online') {
-      if (!couponApplied && !appliedCouponCode && subtotal >= 449) {
-        const res = validateCouponCode('PREPAID30', subtotal);
+      if (!couponApplied && !appliedCouponCode && subtotal >= 649) {
+        const res = validateCouponCode('PREPAID50', subtotal);
         if (res.valid) {
-          setCoupon('PREPAID30');
-          setAppliedCouponCode('PREPAID30');
+          setCoupon('PREPAID50');
+          setAppliedCouponCode('PREPAID50');
+          setAppliedCouponLabel('PREPAID50 (₹50 Instant UPI Discount)');
           setDiscount(res.discountAmount);
           setCouponApplied(true);
         }
       }
     } else if (method === 'cod') {
-      if (appliedCouponCode === 'PREPAID30') {
+      if (appliedCouponCode === 'PREPAID50' || appliedCouponCode === 'PREPAID30') {
         setCoupon('');
         setAppliedCouponCode('');
+        setAppliedCouponLabel('');
         setDiscount(0);
         setCouponApplied(false);
       }
@@ -367,6 +368,20 @@ export default function CheckoutPage() {
     return p.price >= 80 ? p.price / 85 : p.price;
   };
   const subtotal = detailed.reduce((a, b) => a + getProductItemPrice(b.product) * b.qty, 0);
+
+  // Auto-apply PREPAID50 for online checkout when subtotal >= 649
+  useEffect(() => {
+    if (paymentMethod === 'online' && !couponApplied && !appliedCouponCode && subtotal >= 649) {
+      const res = validateCouponCode('PREPAID50', subtotal);
+      if (res.valid) {
+        setCoupon('PREPAID50');
+        setAppliedCouponCode('PREPAID50');
+        setAppliedCouponLabel('PREPAID50 (₹50 Instant UPI Discount)');
+        setDiscount(res.discountAmount);
+        setCouponApplied(true);
+      }
+    }
+  }, [subtotal, paymentMethod, couponApplied, appliedCouponCode]);
   // The server caps COD on the POST-DISCOUNT total (`finalTotal`), so the
   // client must use the same number -- otherwise COD is hidden for orders the
   // server would happily accept.
@@ -380,7 +395,7 @@ export default function CheckoutPage() {
     }
   }, [isAboveCodThreshold, paymentMethod]);
 
-  const codFee = paymentMethod === 'cod' ? 59 : 0; // COD Handling & Verification Fee ₹59 (Waived 100% on Prepaid UPI/Cards)
+  const codFee = paymentMethod === 'cod' ? 49 : 0; // Courier COD Handling Fee ₹49 (Waived 100% on Prepaid UPI/Cards)
   const rawTotal = subtotal + codFee - discount;
   const total = Math.max(0, rawTotal);
 
@@ -669,19 +684,8 @@ export default function CheckoutPage() {
       }));
     } catch {}
 
-    // If COD selected, require 6-digit OTP verification first
+    // If Partial COD selected, open confirmation modal to lock in ₹100 booking advance
     if (paymentMethod === 'cod') {
-      if (!isCodOtpVerified || !codVerifiedToken) {
-        if (!codOtpSent) {
-          await sendCodOtp();
-          setError('We sent a 6-digit verification code to your email. Please enter it below to confirm Cash on Delivery.');
-        } else {
-          setError('Please enter the 6-digit verification code sent to ' + (email || 'your email') + ' to confirm Cash on Delivery.');
-        }
-        const el = document.getElementById('cod-verification-section');
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
-      }
       setShowCodConfirmModal(true);
       return;
     }
@@ -809,6 +813,160 @@ export default function CheckoutPage() {
       setError('Connection interrupted. Please check network and retry.');
       setLoading(false);
       setProcessing(false);
+    }
+  };
+
+  const executePartialCodPayment = async () => {
+    setLoading(true);
+    setProcessing(true);
+    setError('');
+
+    const rzWindow = window as unknown as RazorpayWindow;
+    if (!rzWindow.Razorpay) {
+      const existingScript = document.querySelector('script[src*="checkout.razorpay.com"]');
+      if (existingScript) {
+        await new Promise((r) => setTimeout(r, 300));
+      } else {
+        try {
+          await new Promise<void>((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+            script.async = true;
+            script.onload = () => resolve();
+            script.onerror = () => reject(new Error('Razorpay SDK failed to load'));
+            document.body.appendChild(script);
+          });
+        } catch {
+          setError('Payment gateway failed to load. Please check your internet connection or ad blocker.');
+          setLoading(false);
+          setProcessing(false);
+          return;
+        }
+      }
+    }
+
+    const resolvedZip = zip.trim().replace(/\D/g, '');
+    const cleanDigits = phone.replace(/\D/g, '');
+    const normalizedPhone = cleanDigits.length >= 10 ? cleanDigits.slice(-10) : cleanDigits;
+    const resolvedFlat = flatHouse.trim();
+    const resolvedStreet = areaStreet.trim();
+    const resolvedLandmark = landmark.trim();
+    const fullStreetLine = [resolvedFlat, resolvedStreet].filter(Boolean).join(', ') || address.trim();
+    const finalFullAddress = resolvedLandmark ? `${fullStreetLine} (Landmark: ${resolvedLandmark})` : fullStreetLine;
+
+    const shippingAddressPayload = {
+      line1: finalFullAddress,
+      line2: resolvedLandmark ? `Landmark: ${resolvedLandmark}` : (resolvedStreet || ''),
+      flat: resolvedFlat,
+      street: resolvedStreet,
+      landmark: resolvedLandmark,
+      city: city.trim(),
+      state: state.trim(),
+      zip: resolvedZip,
+      phone: normalizedPhone,
+      address_type: addressType,
+    };
+
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim(),
+          name: name.trim(),
+          phone: normalizedPhone,
+          address: shippingAddressPayload,
+          items: detailed.map((d) => ({
+            id: d.id,
+            product_id: d.id.split('__')[0],
+            title: cleanBrandTitle(d.product.title),
+            qty: d.qty,
+            imageUrl: d.imageUrl || (d.product as any).image_url,
+            selectedStyle: (d as any).selectedStyle,
+            size: d.size,
+            color: (d as any).color,
+            phoneModel: d.phoneModel,
+            customText: d.customText,
+            customPlacement: d.customPlacement,
+            customPosition: (d as any).customPosition,
+            customScale: (d as any).customScale,
+            customTextColor: (d as any).customTextColor,
+            customFont: (d as any).customFont,
+            customImage: (d as any).customImage,
+            customImageName: (d as any).customImageName,
+            customBackText: (d as any).customBackText,
+            customBackImage: (d as any).customBackImage,
+            customBackPlacement: (d as any).customBackPlacement,
+            customRotation: (d as any).customRotation,
+          })),
+          user_id: userId,
+          market,
+          payment_method: 'partial_cod',
+          coupon_code: appliedCouponCode || undefined,
+          discount: discount || 0,
+          _hp_company: hpCompany,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.mock) {
+        clear();
+        window.location.href = `/success?mock=1&cod=1&partial=1&email=${encodeURIComponent(email)}&total=${total.toFixed(2)}&advance=100&balance=${Math.max(0, total - 100).toFixed(2)}`;
+        return;
+      }
+
+      if (data.error) {
+        setError(data.error);
+        setLoading(false);
+        setProcessing(false);
+        setShowCodConfirmModal(false);
+        return;
+      }
+
+      const options = {
+        key: data.key_id,
+        amount: data.amount,
+        currency: data.currency,
+        name: 'Rare Ember',
+        description: '₹100 COD Advance Booking',
+        order_id: data.order_id,
+        handler: function () {
+          clear();
+          window.location.href = `/success?cod=1&partial=1&session_id=${data.order_id}&email=${encodeURIComponent(email.trim())}&total=${total.toFixed(2)}&advance=100&balance=${Math.max(0, total - 100).toFixed(2)}`;
+        },
+        modal: {
+          ondismiss: function () {
+            setLoading(false);
+            setProcessing(false);
+          },
+        },
+        prefill: { name: name.trim(), email: email.trim(), contact: normalizedPhone },
+        theme: { color: '#FF4D24' },
+      };
+
+      const RazorpayCtor = (window as unknown as RazorpayWindow).Razorpay;
+      if (!RazorpayCtor) {
+        setError('Payment gateway failed to initialize. Please refresh.');
+        setLoading(false);
+        setProcessing(false);
+        return;
+      }
+
+      const rzp = new RazorpayCtor(options);
+      rzp.on('payment.failed', function (response) {
+        setError('Advance Payment Unsuccessful: ' + response.error.description);
+        setLoading(false);
+        setProcessing(false);
+      });
+      setShowCodConfirmModal(false);
+      rzp.open();
+      setLoading(false);
+    } catch {
+      setError('Connection interrupted while booking Partial COD order.');
+      setLoading(false);
+      setProcessing(false);
+      setShowCodConfirmModal(false);
     }
   };
 
@@ -1349,26 +1507,26 @@ export default function CheckoutPage() {
                     </p>
                     <div className="mt-2 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60 inline-flex items-center gap-1.5">
                       <span>⚡</span>
-                      <span>Extra ₹30 OFF via PREPAID30 • Free Prepaid Delivery</span>
+                      <span>Extra ₹50 OFF via PREPAID50 • ₹0 COD Handling Fee</span>
                     </div>
                   </div>
                 </label>
 
-                {/* Option 2: Cash on Delivery */}
+                {/* Option 2: ₹100 Partial COD (Advance Booking) */}
                 {isAboveCodThreshold ? (
                   <div className="p-4 rounded-xl border border-dashed border-amber-300 bg-amber-500/[0.04]">
                     <div className="flex items-start gap-3">
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
                           <span className="font-bold text-sm text-neutral-800">
-                            Cash on Delivery (Capped at ₹2,999)
+                            Partial COD (Capped at ₹2,999)
                           </span>
                           <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-900 border border-amber-500/30">
                             High-Value Order Protection
                           </span>
                         </div>
                         <p className="text-xs text-neutral-600 mt-1.5 leading-relaxed">
-                          To protect against courier transit damages and guarantee doorstep air delivery, orders of <b>₹3,000 and above</b> require Instant Online Payment (UPI / Cards). Enjoy <b>zero COD fees</b> and priority domestic fulfillment.
+                          To protect against courier transit damages and guarantee doorstep air delivery, orders of <b>₹3,000 and above</b> require Instant Online Payment (UPI / Cards). Enjoy <b>zero COD fees</b>, <b>instant ₹50 discount</b>, and priority domestic fulfillment.
                         </p>
                       </div>
                     </div>
@@ -1392,15 +1550,20 @@ export default function CheckoutPage() {
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <span className="font-bold text-sm text-neutral-900">
-                          Cash on Delivery (COD)
+                          Cash on Delivery (₹100 Advance Booking)
                         </span>
                         {market === 'IN' && (
-                          <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">+₹59 Verification Fee</span>
+                          <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">+₹49 Courier COD Fee</span>
                         )}
                       </div>
                       <p className="text-xs text-neutral-500 mt-1">
-                        Pay cash or UPI directly to the courier agent upon doorstep arrival. Waived 100% on Prepaid UPI/Cards.
+                        Pay ₹100 online now via UPI to verify intent &amp; book fulfillment. Pay remaining balance at doorstep upon delivery.
                       </p>
+                      <div className="mt-2 text-[11px] font-medium text-neutral-700 bg-neutral-100 px-2.5 py-1 rounded-lg border border-black/[0.08] flex items-center justify-between">
+                        <span>Due Now: <b className="text-neutral-900 font-bold">₹100.00</b></span>
+                        <span className="text-neutral-300">•</span>
+                        <span>Pay at Doorstep: <b className="text-emerald-700 font-bold">₹{Math.max(0, total - 100).toFixed(2)}</b></span>
+                      </div>
                     </div>
                   </label>
                 )}
@@ -1550,7 +1713,7 @@ export default function CheckoutPage() {
                 )}
                 {codFee > 0 && (
                   <div className="flex justify-between">
-                    <span>COD Handling & Verification Fee</span>
+                    <span>Courier COD Handling Fee</span>
                     <span className="font-semibold text-white">{formatCheckoutPrice(codFee)}</span>
                   </div>
                 )}
@@ -1560,6 +1723,18 @@ export default function CheckoutPage() {
                     FREE ⚡
                   </span>
                 </div>
+                {paymentMethod === 'cod' && (
+                  <div className="pt-2 border-t border-white/10 space-y-1">
+                    <div className="flex justify-between text-amber-300 font-bold">
+                      <span>Advance Due Now (Online UPI)</span>
+                      <span>₹100.00</span>
+                    </div>
+                    <div className="flex justify-between text-emerald-400 font-bold">
+                      <span>Collectible at Doorstep (COD)</span>
+                      <span>₹{Math.max(0, total - 100).toFixed(2)}</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Total Row */}
@@ -1735,22 +1910,10 @@ export default function CheckoutPage() {
                 ) : detailed.length === 0 ? (
                   <span>Bag is Empty</span>
                 ) : paymentMethod === 'cod' ? (
-                  isCodOtpVerified ? (
-                    <>
-                      <span>Place Verified COD Order</span>
-                      <span>• {formatCheckoutPrice(total)}</span>
-                    </>
-                  ) : !codOtpSent ? (
-                    <>
-                      <span>Send Code &amp; Place COD Order</span>
-                      <span>• {formatCheckoutPrice(total)}</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>Enter Code to Complete COD</span>
-                      <span>• {formatCheckoutPrice(total)}</span>
-                    </>
-                  )
+                  <>
+                    <span>Pay ₹100 Advance &amp; Book COD</span>
+                    <span>• ₹{Math.max(0, total - 100).toFixed(2)} Doorstep</span>
+                  </>
                 ) : (
                   <>
                     <span>Pay with UPI / Cards</span>
@@ -1783,7 +1946,7 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      {/* Explicit COD Order Double Confirmation Modal */}
+      {/* Explicit Partial COD Advance Booking Modal */}
       {showCodConfirmModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
           <div className="w-full max-w-md rounded-3xl bg-white border border-black/10 p-6 md:p-7 shadow-2xl space-y-4 text-left">
@@ -1793,7 +1956,7 @@ export default function CheckoutPage() {
                   COD
                 </span>
                 <h3 className="text-base font-bold text-neutral-900">
-                  Confirm Cash on Delivery?
+                  Confirm Partial COD Booking
                 </h3>
               </div>
               <button
@@ -1806,12 +1969,12 @@ export default function CheckoutPage() {
             </div>
 
             <div className="space-y-3 text-xs">
-              <div className="p-3.5 rounded-xl bg-neutral-100 border border-black/[0.08] text-neutral-800 leading-relaxed">
-                <p className="font-bold text-neutral-950 mb-1">
-                  ₹{Math.max(0, total).toFixed(2)} to be collected at doorstep
+              <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-950 leading-relaxed">
+                <p className="font-bold text-amber-900 mb-1">
+                  ⚡ Pay ₹100 Advance Now • ₹{Math.max(0, total - 100).toFixed(2)} on Doorstep
                 </p>
                 <p className="text-[11px] text-amber-800">
-                  Please confirm that you or a family member will be available to accept the parcel and pay via Cash or UPI QR upon delivery.
+                  To verify shipping intent and issue your insured airway bill, pay a ₹100 booking advance via UPI/Card. The remaining balance of ₹{Math.max(0, total - 100).toFixed(2)} is collected at your doorstep upon delivery.
                 </p>
               </div>
 
@@ -1829,8 +1992,12 @@ export default function CheckoutPage() {
                   <span className="font-bold text-neutral-900">{city}, {state} ({zip})</span>
                 </div>
                 <div className="flex items-center justify-between text-[11px] pt-1 border-t border-black/5">
-                  <span className="text-neutral-500 font-medium">Items ({detailed.length}):</span>
-                  <span className="font-extrabold text-[#FF4D24]">₹{Math.max(0, total).toFixed(2)} Total</span>
+                  <span className="text-neutral-500 font-medium">Advance Due Now:</span>
+                  <span className="font-extrabold text-[#FF4D24]">₹100.00 (Online UPI)</span>
+                </div>
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-neutral-500 font-medium">Balance at Doorstep:</span>
+                  <span className="font-bold text-emerald-700">₹{Math.max(0, total - 100).toFixed(2)} (Cash/UPI)</span>
                 </div>
               </div>
             </div>
@@ -1842,22 +2009,22 @@ export default function CheckoutPage() {
                 onClick={() => setShowCodConfirmModal(false)}
                 className="w-full sm:w-1/2 py-3 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-bold border-none cursor-pointer transition-all text-center"
               >
-                ← Edit Details
+                ← Edit Address
               </button>
               <button
                 type="button"
                 disabled={loading || processing}
-                onClick={executeCodOrder}
+                onClick={executePartialCodPayment}
                 className="w-full sm:w-1/2 py-3 rounded-lg btn-ember text-white text-xs font-bold uppercase tracking-wider border-none shadow-md cursor-pointer transition-all flex items-center justify-center gap-1.5"
               >
                 {loading || processing ? (
                   <>
                     <span className="w-3.5 h-3.5 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                    <span>Placing Order…</span>
+                    <span>Opening UPI…</span>
                   </>
                 ) : (
                   <>
-                    <span>Confirm Order</span>
+                    <span>Pay ₹100 Advance ➔</span>
                   </>
                 )}
               </button>
@@ -1883,9 +2050,9 @@ export default function CheckoutPage() {
             {loading || processing ? (
               <span>Processing…</span>
             ) : paymentMethod === 'cod' ? (
-              <span>{isCodOtpVerified ? 'Place COD Order' : 'Complete COD'}</span>
+              <span>Pay ₹100 Advance &amp; Book COD →</span>
             ) : (
-              <span>Pay via UPI →</span>
+              <span>Pay via UPI (Save ₹50) →</span>
             )}
           </button>
         </div>

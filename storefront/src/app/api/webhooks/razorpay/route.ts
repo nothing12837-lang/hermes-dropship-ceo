@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
     if (event.event === 'payment.captured') {
       const lookup = await supabase
         .from('orders')
-        .select('id, status, user_email, total_amount, shipping_name, shipping_address, items, cj_order_id')
+        .select('id, status, user_email, total_amount, shipping_name, shipping_address, items, cj_order_id, payment_method')
         .eq('stripe_session_id', orderId)
         .maybeSingle();
       if (lookup.error && /column .* does not exist/i.test(lookup.error.message)) {
@@ -92,6 +92,7 @@ export async function POST(req: NextRequest) {
         shipping_address?: any;
         items?: any[];
         cj_order_id?: string | null;
+        payment_method?: string;
       } | null;
 
       // Only the transition pending -> paid may trigger fulfilment. Razorpay
@@ -100,17 +101,36 @@ export async function POST(req: NextRequest) {
       const justPaid = Boolean(order && order.status === 'pending');
 
       if (order && order.status === 'pending') {
-        // Verify payment amount matches order total in paise (prevents gateway underpayment tampering)
+        const isPartialCod = order.payment_method === 'partial_cod';
         const paidPaise = Number(event?.payload?.payment?.entity?.amount);
-        const expectedPaise = Math.round(Number(order.total_amount || 0) * 100);
-        if (!Number.isFinite(paidPaise) || !Number.isFinite(expectedPaise) || paidPaise !== expectedPaise) {
-          console.error(`Razorpay webhook: amount mismatch for order ${order.id}. Paid: ${paidPaise}, expected: ${expectedPaise}`);
-          return NextResponse.json({ error: 'Payment amount mismatch' }, { status: 400 });
+
+        // Anti-Tampering Amount Guard
+        if (isPartialCod) {
+          // Exact enforcement: MUST be exactly 10,000 paise (₹100 advance booking)
+          if (paidPaise !== 10000) {
+            console.error(`[SECURITY ALERT] Partial COD advance mismatch for order ${order.id}: received ${paidPaise}, expected 10000 paise`);
+            return NextResponse.json({ error: 'Invalid advance payment amount' }, { status: 400 });
+          }
+        } else {
+          // Full prepaid: must match expected full total exactly
+          const expectedPaise = Math.round(Number(order.total_amount || 0) * 100);
+          if (!Number.isFinite(paidPaise) || !Number.isFinite(expectedPaise) || paidPaise !== expectedPaise) {
+            console.error(`[SECURITY ALERT] Prepaid amount mismatch for order ${order.id}: received ${paidPaise}, expected ${expectedPaise}`);
+            return NextResponse.json({ error: 'Payment amount mismatch' }, { status: 400 });
+          }
         }
+
+        const newStatus = isPartialCod ? 'partial_paid_cod_pending' : 'paid';
+        const codBalance = isPartialCod ? Math.max(0, Math.round(Number(order.total_amount || 0) - 100)) : 0;
 
         const claim = await supabase
           .from('orders')
-          .update({ status: 'paid' })
+          .update({
+            status: newStatus,
+            payment_status: isPartialCod ? 'partial_paid' : 'paid_full',
+            advance_paid: isPartialCod ? 100 : Number(order.total_amount || 0),
+            cod_balance: codBalance,
+          })
           .eq('id', order.id)
           .eq('status', 'pending')
           .select('id')
@@ -128,7 +148,7 @@ export async function POST(req: NextRequest) {
         notifyTelegramOrder({
           id: order.id,
           total: Number(order.total_amount || 0),
-          paymentMethod: 'online',
+          paymentMethod: isPartialCod ? 'partial_cod' : 'online',
           email: order.user_email || (order as { email?: string }).email || 'customer@rareember.shop',
           name: order.shipping_name,
           itemsCount: Array.isArray(order.items) ? order.items.length : 1,

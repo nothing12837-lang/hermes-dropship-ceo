@@ -251,6 +251,8 @@ export async function POST(req: NextRequest) {
         total: Number(order.total_amount || 0),
         subtotal: Number(order.subtotal || order.total_amount || 0),
         paymentMethod: String(order.payment_method || 'cod'),
+        advancePaid: Number((order as any).advance_paid || (order.payment_method === 'partial_cod' ? 100 : 0)),
+        codBalance: Number((order as any).cod_balance || 0),
         trackingNumber: order.tracking_number,
         deliveryDate: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
         items: Array.isArray(order.items) ? order.items : [],
@@ -278,12 +280,13 @@ export async function POST(req: NextRequest) {
       typeof body.payment_method === 'string' ? body.payment_method.trim().toLowerCase() : '';
     if (!['cod', 'prepaid', 'online'].includes(rawPaymentMethod)) {
       return NextResponse.json(
-        { error: 'Unsupported payment method. Use "cod" or "prepaid".' },
+        { error: 'Unsupported payment method. Use "cod", "partial_cod", or "prepaid".' },
         { status: 400 }
       );
     }
-    const isCod = rawPaymentMethod === 'cod';
-    const paymentMethod = isCod ? 'cod' : 'prepaid';
+    const isCod = rawPaymentMethod === 'cod' || rawPaymentMethod === 'partial_cod';
+    const isPartialCod = rawPaymentMethod === 'partial_cod';
+    const paymentMethod = isPartialCod ? 'partial_cod' : (isCod ? 'cod' : 'prepaid');
 
     const email = normalizeEmail(body.email);
     if (!email) {
@@ -500,8 +503,8 @@ export async function POST(req: NextRequest) {
 
     const finalTotal = Math.max(1, calculatedSubtotal - discountAmount);
 
-    // COD Handling & Verification Fee: ₹59 to cover courier collection costs (waived 100% on Prepaid UPI/Cards)
-    const codFee = isCod ? 59 : 0;
+    // COD Handling & Verification Fee: ₹49 to cover courier collection costs (waived 100% on Prepaid UPI/Cards)
+    const codFee = isCod ? 49 : 0;
     const chargedTotal = finalTotal + codFee;
 
     // Server-side COD Threshold Protection: COD capped strictly under ₹3,000 to prevent RTO courier fraud
@@ -550,14 +553,20 @@ export async function POST(req: NextRequest) {
 
     const verifiedUserId = await getVerifiedUserId(req, sb);
 
+    const advancePaid = isPartialCod ? 100 : (isCod ? 0 : chargedTotal);
+    const codBalance = isPartialCod ? Math.max(0, chargedTotal - 100) : (isCod ? chargedTotal : 0);
+    const orderStatus = isPartialCod ? 'partial_paid_cod_pending' : (isCod ? 'pending_cod' : 'pending');
+
     const newOrder = {
       id: orderId,
       user_email: email,
       user_id: verifiedUserId,
       stripe_session_id: orderRef,
       total_amount: chargedTotal,
-      status: isCod ? 'pending_cod' : 'pending',
+      status: orderStatus,
       payment_method: paymentMethod,
+      advance_paid: advancePaid,
+      cod_balance: codBalance,
       items: enrichedItems,
       subtotal: calculatedSubtotal,
       shipping: 0,

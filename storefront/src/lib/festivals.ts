@@ -136,11 +136,23 @@ export const EVERGREEN_COUPONS: Record<
     minOrder: 799,
     desc: 'Flat ₹50 OFF on orders above ₹799',
   },
+  PREPAID50: {
+    type: 'flat',
+    value: 50,
+    minOrder: 649,
+    desc: 'Flat ₹50 Instant Savings for 100% Prepaid UPI Checkout (₹649+)',
+  },
   PREPAID30: {
     type: 'flat',
     value: 30,
-    minOrder: 699,
-    desc: 'Flat ₹30 Instant Savings for 100% Prepaid UPI Checkout (₹699+)',
+    minOrder: 649,
+    desc: 'Flat ₹30 Instant Savings for 100% Prepaid UPI Checkout (₹649+)',
+  },
+  EMBERARCHIVE: {
+    type: 'flat',
+    value: 100,
+    minOrder: 1349,
+    desc: 'Flat ₹100 Multi-Piece Archive Discount (2+ items / ₹1,349+)',
   },
   DUO99: {
     type: 'flat',

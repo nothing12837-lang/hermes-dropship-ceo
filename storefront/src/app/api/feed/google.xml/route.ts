@@ -16,7 +16,7 @@ function escapeXml(unsafe: string): string {
 function isDisallowed(p: Product): boolean {
   if (isKidsProduct(p)) return true;
   const str = `${p.id || ''} ${p.slug || ''} ${p.title || ''}`.toLowerCase();
-  return /gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs|rare-ember-custom|blank-|bundle-/i.test(str);
+  return /gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs|rare-ember-custom|blank-|bundle-|5474|180[-_ ]?gsm/i.test(str);
 }
 
 export async function GET() {
