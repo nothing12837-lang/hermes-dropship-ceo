@@ -48,3 +48,5 @@ Only the following 8 products—created and verified with client artwork in Qiki
 - **Checkout Verification:** COD orders require 6-digit email OTP verification before order submission to prevent RTO fraud.
 - **Product Gate Rule:** In code, all catalog exports must enforce `.filter((p) => p.is_printed === true && Boolean(p.qikinkClientProductId))`.
 - **Database Status:** Supabase `public.products` must keep non-printed rows set to `active = false`.
+- **Qikink Addition & Sync Invariant:** When instructed to add products from Qikink, ALWAYS KEEP all live drops currently available on the website, and ONLY add newly created custom-printed drops with client artwork created in Qikink client account `658581`. NEVER re-add old, discarded blanks or thin 180 GSM items.
+- **Clean Luxury Pricing Policy:** Never show tacky gimmicks like "₹10 OFF on UPI", "₹20 OFF on UPI", or "+₹49 Courier COD Fee". Display clean, authoritative luxury prices (₹669, ₹759, ₹1,329, ₹1,349, ₹1,499) with ₹0 COD handling fee.
