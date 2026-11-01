@@ -6,6 +6,7 @@ import {
   formatSizeRange,
   getGarmentSpecBadge,
   enforcePriceFloor,
+  isDisallowed180GsmOrThin,
   products,
   getProduct,
   BUNDLE_FALLBACK_PRODUCTS,
@@ -107,49 +108,44 @@ describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
     expect(workstation.price).toBe(1899);
     expect(workstation.compareAtPrice).toBe(3199);
 
-    // Women's Classic Tee, Crop Top, Tank Top, Sleeveless (Both Sides): min ₹649 (M.R.P. ₹1,199)
+    // Non-240 GSM garments (Crops, Sleeveless, Full-Sleeve, Polo) are disallowed and default to ₹799 fallback floor
     const crop = enforcePriceFloor({
       id: 'qikink-64953748-crop-top',
       title: "Women's Graphic Crop Top",
       price: 399,
     } as any);
-    expect(crop.price).toBe(649);
-    expect(crop.compareAtPrice).toBe(1199);
+    expect(isDisallowed180GsmOrThin(crop)).toBe(true);
+    expect(crop.price).toBe(799);
+    expect(crop.compareAtPrice).toBe(1499);
 
     const sleeveless = enforcePriceFloor({
       id: 'qikink-64953600-sleeveless',
       title: "Men's Sleeveless Athletic Tee",
       price: 499,
     } as any);
-    expect(sleeveless.price).toBe(649);
-    expect(sleeveless.compareAtPrice).toBe(1199);
+    expect(isDisallowed180GsmOrThin(sleeveless)).toBe(true);
+    expect(sleeveless.price).toBe(799);
+    expect(sleeveless.compareAtPrice).toBe(1499);
 
-    // Men's Polo (220 GSM Both Sides): min ₹849 (M.R.P. ₹1,599)
+    // Men's Polo (Disallowed 180-220 GSM non-oversized): min ₹799 fallback floor
     const polo = enforcePriceFloor({
       id: 'qikink-64953576-polo',
       title: "Executive Pique Polo",
       price: 549,
     } as any);
-    expect(polo.price).toBe(849);
-    expect(polo.compareAtPrice).toBe(1599);
+    expect(isDisallowed180GsmOrThin(polo)).toBe(true);
+    expect(polo.price).toBe(799);
+    expect(polo.compareAtPrice).toBe(1499);
 
-    // Unisex V-Neck (64953544 Both Sides): min ₹849 (M.R.P. ₹1,599)
-    const vneck = enforcePriceFloor({
-      id: 'qikink-64953544-v-neck',
-      title: "Bio-Washed Combed Cotton V-Neck Tee",
-      price: 499,
-    } as any);
-    expect(vneck.price).toBe(849);
-    expect(vneck.compareAtPrice).toBe(1599);
-
-    // Full-Sleeve Tee / T-Shirt Dress (Both Sides): min ₹849 (M.R.P. ₹1,599)
+    // Full-Sleeve Tee / T-Shirt Dress (Disallowed 180 GSM SKU 5474): min ₹799 fallback floor
     const fullSleeve = enforcePriceFloor({
       id: 'qikink-64953648-full-sleeve',
       title: "Men's Full Sleeve T-Shirt",
       price: 699,
     } as any);
-    expect(fullSleeve.price).toBe(849);
-    expect(fullSleeve.compareAtPrice).toBe(1599);
+    expect(isDisallowed180GsmOrThin(fullSleeve)).toBe(true);
+    expect(fullSleeve.price).toBe(799);
+    expect(fullSleeve.compareAtPrice).toBe(1499);
 
     // 240 GSM Oversized Acid Wash (Both Sides): min ₹849 (M.R.P. ₹1,599)
     const acidWash = enforcePriceFloor({
@@ -373,9 +369,9 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
       id: 'custom-drop-empty',
       title: 'Rare Ember Atelier Drop',
     } as any);
-    expect(noPrice.price).toBe(699);
-    expect(noPrice.price_inr).toBe(699);
-    expect(noPrice.compareAtPrice).toBe(1399);
+    expect(noPrice.price).toBe(799);
+    expect(noPrice.price_inr).toBe(799);
+    expect(noPrice.compareAtPrice).toBe(1499);
 
     const zeroPrice = enforcePriceFloor({
       id: 'custom-drop-zero',
@@ -383,9 +379,9 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
       price: 0,
       price_inr: 0,
     } as any);
-    expect(zeroPrice.price).toBe(699);
-    expect(zeroPrice.price_inr).toBe(699);
-    expect(zeroPrice.compareAtPrice).toBe(1399);
+    expect(zeroPrice.price).toBe(799);
+    expect(zeroPrice.price_inr).toBe(799);
+    expect(zeroPrice.compareAtPrice).toBe(1499);
   });
 
   it('preserves profit margin on Standard Crew, Raglan & Ringer Tees with ₹799 floor', () => {

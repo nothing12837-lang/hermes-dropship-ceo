@@ -145,17 +145,18 @@ export function isDisallowed180GsmOrThin(p?: { id?: string; title?: string; slug
   if (!p) return false;
   const str = `${p.id || ''} ${p.slug || ''} ${p.title || ''}`.toLowerCase();
 
-  // 1. Everyday Classic Crew & Basic Tees (180 GSM)
+  // 1. Classic Crew, Basic Tees, Raglan, Ringer, Stretch, DryFit, V-Neck, Supima, Polo (Non-240 GSM)
   if (/standard crew|classic crew|basic t-shirt|stretch t-shirt|dryfit|classic.*tee|basic.*tee|mrnhs|frnhs|ub73|uc48|ud15/i.test(str) && !str.includes('oversized')) return true;
-  if (/32476313|32476319|32476326|32476681|32476874|32476699|32476284/i.test(str)) return true;
+  if (/raglan|ringer|v[-_ ]?neck|supima|polo|uc23|mp25|ur37|ur39|uv34/i.test(str) && !str.includes('oversized')) return true;
+  if (/32476313|32476319|32476326|32476681|32476874|32476699|32476284|32476663|32476636|32476299|32476772|32476788|32476281/i.test(str)) return true;
 
-  // 2. Women's Crops, Baby Tees & Tanks (180 GSM)
+  // 2. Women's Crops, Baby Tees, Tank Tops, Sleeveless & Gym Vests (180 GSM)
   if (/crop|baby[-_ ]?tee|tank[-_ ]?top|sleeveless|gym vest|fc39|fc40|ft37|ms36/i.test(str)) return true;
   if (/32476722|32476716|32476800|32476851|32476764/i.test(str)) return true;
 
-  // 3. Men's Full-Sleeve T-Shirts & T-Shirt Dresses (Qikink SKU 5474 180 GSM)
+  // 3. Full-Sleeve T-Shirts & T-Shirt Dresses (Qikink SKU 5474 180 GSM)
   if (/full[-_ ]?sleeve|dress|maternity|5474|180[-_ ]?gsm|mrnfs|mf31|fc43|fm44/i.test(str)) return true;
-  if (/32477737|32476824|32476756|32476736/i.test(str)) return true;
+  if (/32477737|32476824|32476756|32476736|64953648/i.test(str)) return true;
 
   return false;
 }
@@ -229,60 +230,29 @@ export function enforcePriceFloor(p: Product): Product {
     if (price < 1299) price = 1299;
     if (compare < 2299) compare = 2299;
   }
-  // 6. Full-Sleeve Tee / T-Shirt Dress / Maternity Dress (Both Sides): min ₹849 (M.R.P. ₹1,599)
+  // 6. 240 GSM Acid Wash, French Terry & Hand Tie-Dye Oversized Tees: min ₹849 (M.R.P. ₹1,599)
   else if (
-    pid.includes('64953648') || pid.includes('32477737') || pid.includes('32476824') ||
-    pid.includes('32476756') || pid.includes('32476736') ||
-    title.includes('full sleeve') || title.includes('dress')
-  ) {
-    if (price < 849) price = 849;
-    if (compare < 1599) compare = 1599;
-  }
-  // 7. 240 GSM Acid Wash, Hand Tie-Dye, Terry Oversized, V-Neck & Polo (Both Sides): min ₹849 (M.R.P. ₹1,599)
-  else if (
-    pid.includes('64953544') || pid.includes('32476772') || title.includes('v neck') || title.includes('v-neck') ||
-    pid.includes('32476620') || title.includes('terry') || pid.includes('ut27') ||
+    pid.includes('64953544') || pid.includes('32476620') || title.includes('terry') || pid.includes('ut27') ||
     pid.includes('32476438') || pid.includes('blank-acid-tee') || title.includes('acid') ||
-    pid.includes('32476436') || pid.includes('ut58') || title.includes('tie dye') || title.includes('tie-dye') ||
-    pid.includes('32476295') || pid.includes('32476788') || title.includes('polo')
+    pid.includes('32476436') || pid.includes('ut58') || title.includes('tie dye') || title.includes('tie-dye')
   ) {
     if (price < 849) price = 849;
     if (compare < 1599) compare = 1599;
   }
-  // 8. 240 GSM Structured Cotton Drop-Shoulder Tees & Sublimation Mesh Jerseys, Raglan & Ringer (Both Sides): min ₹799 (M.R.P. ₹1,499)
+  // 7. 240 GSM Structured Cotton Drop-Shoulder Tees & Oversized Performance Mesh Jerseys (UJ35): min ₹799 (M.R.P. ₹1,499)
   else if (
-    pid.includes('64950694') || pid.includes('32476280') || pid.includes('32476281') ||
+    pid.includes('64950694') || pid.includes('32476280') || pid.includes('uj35') ||
     title.includes('cyber sublimation') || title.includes('matrix') ||
-    (title.includes('oversized') && title.includes('jersey')) || title.includes('mesh jersey') ||
+    title.includes('oversized') || title.includes('mesh jersey') ||
     pid.includes('32476431') || title.includes('chrome bengaluru') ||
     pid.includes('32476332') || title.includes('tokyo street') ||
-    pid.includes('32476663') || title.includes('supima') ||
-    pid.includes('32476629') || pid.includes('blank-oversized-tee') || title.includes('oversized') ||
-    pid.includes('32476636') || pid.includes('32476299') || title.includes('raglan') || title.includes('ringer')
+    pid.includes('32476629') || pid.includes('blank-oversized-tee') ||
+    pid.includes('us22') || pid.includes('ua22')
   ) {
     if (price < 799) price = 799;
     if (compare < 1499) compare = 1499;
   }
-  // 9. Everyday Classic Crew & Basic Tees, Cotton Stretch, DryFit (Both Sides): min ₹699 (M.R.P. ₹1,299)
-  else if (
-    pid.includes('32476313') || pid.includes('32476319') || pid.includes('32476326') ||
-    pid.includes('32476681') || pid.includes('32476874') || pid.includes('32476699') ||
-    pid.includes('32476284') || title.includes('standard crew') || title.includes('classic crew') ||
-    title.includes('stretch') || title.includes('dryfit') || title.includes('dry fit') || title.includes('basic')
-  ) {
-    if (price < 699) price = 699;
-    if (compare < 1299) compare = 1299;
-  }
-  // 10. Crop Tops, Baby Tees, Tank Tops, Sleeveless (Both Sides): min ₹649 (M.R.P. ₹1,199)
-  else if (
-    pid.includes('32476722') || pid.includes('32476716') || pid.includes('32476800') ||
-    pid.includes('32476851') || pid.includes('32476764') ||
-    title.includes('crop') || title.includes('tank') || title.includes('baby tee') || title.includes('sleeveless')
-  ) {
-    if (price < 649) price = 649;
-    if (compare < 1199) compare = 1199;
-  }
-  // 11. 900×400mm Extended Gaming Desk Mat / Pad: min ₹599 (M.R.P. ₹1,199)
+  // 8. 900×400mm Extended Gaming Desk Mat / Pad: min ₹599 (M.R.P. ₹1,199)
   else if (
     title.includes('gaming pad') || title.includes('desk mat') || title.includes('mouse pad') ||
     pid.includes('desk-mat') || pid.includes('desk_mat') || pid.includes('mpad') || pid.includes('blank-deskmat')
@@ -290,10 +260,10 @@ export function enforcePriceFloor(p: Product): Product {
     if (price < 599) price = 599;
     if (compare < 1199) compare = 1199;
   }
-  // 12. Default fallback: min ₹699 (M.R.P. ₹1,399)
+  // 9. Default fallback: min ₹799 (M.R.P. ₹1,499)
   else {
-    if (price < 699) price = 699;
-    if (compare < 1399) compare = 1399;
+    if (price < 799) price = 799;
+    if (compare < 1499) compare = 1499;
   }
 
   if (compare <= price) {
