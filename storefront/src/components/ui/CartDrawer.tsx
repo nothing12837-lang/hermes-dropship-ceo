@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCart } from '@/lib/store/cart';
-import { formatPrice, products, cleanBrandTitle, type Product } from '@/lib/data/products';
+import { formatPrice, products, cleanBrandTitle, getProduct, enforcePriceFloor, type Product } from '@/lib/data/products';
 import { COPY } from '@/lib/data/copy';
 import Image from 'next/image';
 import PrebuiltMockupRenderer from '@/components/PrebuiltMockupRenderer';
@@ -77,7 +77,8 @@ export default function CartDrawer() {
 
   const detailed = items
     .map((i) => {
-      const found = products.find((p) => p.id === i.id || p.id === i.id.split('__')[0]);
+      const baseId = i.id.split('__')[0];
+      const found = getProduct(i.id) || getProduct(baseId) || products.find((p) => p.id === i.id || p.id === baseId);
       const resolvedColorImage = (() => {
         const itemColor = (i as any).color;
         if (found && itemColor && found.colors) {
@@ -98,26 +99,45 @@ export default function CartDrawer() {
       })();
 
       if (found) {
+        const floored = enforcePriceFloor({
+          id: found.id,
+          title: found.title,
+          price: found.price_inr ?? found.price,
+          price_inr: found.price_inr ?? found.price,
+        } as any);
+        const canonicalPrice = floored.price_inr || floored.price;
         return {
           ...i,
+          price: canonicalPrice,
+          price_inr: canonicalPrice,
           imageUrl: resolvedColorImage || i.imageUrl,
           product: {
             ...found,
-            price_inr: found.price_inr ?? found.price,
+            price: canonicalPrice,
+            price_inr: canonicalPrice,
             image_url: resolvedColorImage || resolveProductImage(found.id, found.image_url),
           },
         };
       }
       const inferredInr = i.price_inr != null ? Number(i.price_inr) : (i.price ? (isUsdFloat(Number(i.price)) ? Math.round(Number(i.price) * 85) : Math.round(Number(i.price))) : 449);
+      const floored = enforcePriceFloor({
+        id: i.id,
+        title: i.title || '',
+        price: inferredInr,
+        price_inr: inferredInr,
+      } as any);
+      const canonicalPrice = floored.price_inr || floored.price;
       return {
         ...i,
+        price: canonicalPrice,
+        price_inr: canonicalPrice,
         imageUrl: resolvedColorImage || i.imageUrl,
         product: {
           id: i.id,
           slug: i.id,
           title: i.title || 'Curated Essential',
-          price: Number(i.price ?? inferredInr),
-          price_inr: inferredInr,
+          price: canonicalPrice,
+          price_inr: canonicalPrice,
           emoji: i.emoji || '',
           image_url: resolvedColorImage || resolveProductImage(i.id, i.imageUrl),
           gradient: i.gradient || 'linear-gradient(135deg, #f1f5f9, #e2e8f0)',

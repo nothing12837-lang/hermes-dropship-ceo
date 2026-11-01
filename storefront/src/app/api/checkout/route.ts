@@ -198,9 +198,9 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Coupon codes cannot be applied to combo bundles.' }, { status: 400 });
       }
       const rawCode = body.coupon_code.trim().toUpperCase();
-      if (isCod && rawCode === 'PREPAID30') {
+      if (isCod && (rawCode === 'PREPAID50' || rawCode === 'PREPAID30')) {
         return NextResponse.json({
-          error: 'The PREPAID30 coupon is exclusively valid for online prepaid orders.'
+          error: 'The PREPAID50 coupon is exclusively valid for online prepaid orders.'
         }, { status: 400 });
       }
       if (rawCode.startsWith('CREDIT-') || rawCode.startsWith('RECREDIT-') || rawCode.startsWith('RE-CREDIT-')) {

@@ -88,8 +88,8 @@ product1 = {
         "Dispatched from Domestic Maker Hub in 24–48 Hours",
         "7-Day Easy Doorstep Returns & Exchanges"
     ],
-    "price": 1789,
-    "price_inr": 1789,
+    "price": 1699,
+    "price_inr": 1699,
     "compareAtPrice": 2999,
     "compare_at_price": 2999,
     "old_price": 2999,
@@ -271,7 +271,7 @@ for v in d81['variants']:
         "variant_sku": v['variant_sku'],
         "product_sku": v['product_sku'],
         "cost_price": float(v.get('cost') or 1094.84),
-        "selling_price": 1789,
+        "selling_price": 1699,
         "color": v['color'],
         "size": v['size'],
         "variant_image": v.get('image_url') or p1_color_images.get(v['color'])

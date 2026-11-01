@@ -214,7 +214,7 @@ export function enforcePriceFloor(p: Product): Product {
   }
   // 3. 380 GSM Heavy Enzyme Acid Wash Fleece Hoodie (Both Sides): min ₹1,699 (M.R.P. ₹2,699)
   else if (pid.includes('32493953') || (pid.includes('hoodie') && (pid.includes('acid') || title.includes('acid')))) {
-    if (price < 1699) price = 1699;
+    if (price === 1789 || price < 1699) price = 1699;
     if (compare < 2699) compare = 2699;
   }
   // 4. 320/380 GSM Heavy Fleece Hoodies (Both Sides): min ₹1,399 (M.R.P. ₹2,399)

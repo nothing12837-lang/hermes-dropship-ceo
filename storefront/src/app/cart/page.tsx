@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useCart } from '@/lib/store/cart';
 import { useGeo } from '@/context/GeoContext';
-import { products } from '@/lib/data/products';
+import { products, getProduct, enforcePriceFloor } from '@/lib/data/products';
 import { CURATED_PRODUCT_GALLERIES } from '@/lib/data/product-gallery';
 
 export default function CartPage() {
@@ -13,23 +13,20 @@ export default function CartPage() {
 
   const isUsdFloat = (p: number) => p > 0 && p < 60 && !Number.isInteger(p);
 
-  const getItemPrice = (item: { price?: number; price_inr?: number }) => {
+  const getItemPrice = (item: { id?: string; title?: string; price?: number; price_inr?: number }) => {
+    const baseId = item.id ? item.id.split('__')[0] : '';
+    const found = item.id ? (getProduct(item.id) || getProduct(baseId) || products.find(p => p.id === item.id || p.id === baseId)) : undefined;
+    const floored = enforcePriceFloor({
+      id: found?.id || item.id || '',
+      title: found?.title || item.title || '',
+      price: found?.price_inr ?? found?.price ?? item.price_inr ?? item.price ?? 849,
+      price_inr: found?.price_inr ?? item.price_inr ?? found?.price ?? item.price ?? 849,
+    } as any);
+    const inr = floored.price_inr || floored.price;
     if (isIndia) {
-      if (item.price_inr != null && Number(item.price_inr) > 0) return Math.round(Number(item.price_inr));
-      if (item.price != null && Number(item.price) > 0) {
-        const p = Number(item.price);
-        return isUsdFloat(p) ? Math.round(p * 85) : Math.round(p);
-      }
-      return 449;
+      return inr;
     }
-    if (item.price != null && Number(item.price) > 0) {
-      const p = Number(item.price);
-      return p >= 80 ? Number((p / 85).toFixed(2)) : p;
-    }
-    if (item.price_inr != null && Number(item.price_inr) > 0) {
-      return Number((Number(item.price_inr) / 85).toFixed(2));
-    }
-    return 14.99;
+    return Number((inr / 85).toFixed(2));
   };
 
   const subtotal = items.reduce((acc, i) => acc + getItemPrice(i) * i.qty, 0);
@@ -119,7 +116,7 @@ export default function CartPage() {
                     </div>
                   )}
                   <div style={{ color: '#FF4D24', fontWeight: 900, marginTop: '0.2rem' }}>
-                    {formatPrice(item.price || 5.99, item.price_inr || 449)}
+                    {formatPrice(getItemPrice(item) / 85, getItemPrice(item))}
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginTop: '0.6rem' }}>
                     <div style={{ display: 'inline-flex', alignItems: 'center', border: '1px solid #e5e0d8', borderRadius: '9999px', overflow: 'hidden' }}>
