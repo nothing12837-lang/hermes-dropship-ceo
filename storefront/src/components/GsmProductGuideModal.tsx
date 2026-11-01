@@ -16,65 +16,11 @@ export interface GsmTierDetail {
 
 export const GSM_TIERS_DATA: GsmTierDetail[] = [
   {
-    gsm: 160,
-    label: '160–170 GSM',
-    badge: 'LUXURY SUPIMA & ACTIVE DRYFIT',
-    composition: 'American Long-Staple Supima Cotton or Salina Micro-Knit Polyester',
-    feel: 'Cashmere-silky Supima touch or weightless moisture-wicking micro-mesh.',
-    pros: [
-      'Ultra-breathable in extreme Indian heat and humidity',
-      'Long-staple fibers resist pilling for years',
-      'Rapid sweat evaporation and quick dry-time',
-    ],
-    cons: [
-      'Fluid relaxed drape (not rigid boxy streetwear)',
-      'Requires gentle wash cycle to protect fine yarns',
-    ],
-    climate: 'Peak summer heat (28°C–42°C), coastal humidity (Mumbai, Chennai, Goa), workout sessions.',
-    care: 'Cold machine wash gentle, shade line dry, low iron inside-out.',
-  },
-  {
-    gsm: 180,
-    label: '180 GSM',
-    badge: 'DAILY ESSENTIAL BIO-WASH',
-    composition: '100% Super Combed Bio-Washed Single Jersey Cotton',
-    feel: 'Silky smooth, lightweight, breathable second-skin drape.',
-    pros: [
-      'Effortless all-day comfort without feeling heavy',
-      'Bio-wash eliminates all surface fuzz and friction',
-      'Ideal weight for full-sleeve tees and warm weather layering',
-    ],
-    cons: [
-      'More fluid silhouette than heavyweight 240 GSM drops',
-      'Can show subtle body contouring when wet',
-    ],
-    climate: 'Year-round daily wear (22°C–38°C), under jackets/hoodies, summer days.',
-    care: 'Machine wash cold (30°C max) inside-out, line dry in shade.',
-  },
-  {
-    gsm: 220,
-    label: '220 GSM',
-    badge: 'AIRTEX HONEYCOMB PIQUE',
-    composition: '100% Super Combed Cotton Micro-Waffle Pique Knit',
-    feel: 'Structured, breathable honeycomb texture with anti-roll ribbing.',
-    pros: [
-      'Engineered air channels allow continuous ventilation',
-      'Holds sharp collar shape through 50+ washes',
-      'Premium smart-casual executive appearance',
-    ],
-    cons: [
-      'Textured micro-waffle finish rather than smooth jersey',
-      'Heavier than daily 180 GSM crews',
-    ],
-    climate: 'Warm afternoons, executive casual settings, breezy evenings (20°C–34°C).',
-    care: 'Wash cold inside-out, button collar before washing, flat dry.',
-  },
-  {
     gsm: 240,
     label: '240 GSM',
-    badge: 'ARCHITECTURAL STREETWEAR',
-    composition: '100% Super Combed Bio-Washed Heavyweight Cotton / Aeroknit',
-    feel: 'The gold standard of luxury streetwear. Substantial, structured, crisp.',
+    badge: '240 GSM STRUCTURED COTTON',
+    composition: '100% Super Combed Bio-Washed Structured Cotton & Aeroknit Mesh',
+    feel: 'The gold standard of luxury streetwear tees. Substantial, structured, crisp.',
     pros: [
       'Iconic drop-shoulder silhouette that hangs away from the body',
       '100% opaque (completely zero see-through under bright light)',
@@ -91,7 +37,7 @@ export const GSM_TIERS_DATA: GsmTierDetail[] = [
   {
     gsm: 260,
     label: '260 GSM',
-    badge: 'FRENCH TERRY & TIE-DYE',
+    badge: '260 GSM FRENCH TERRY',
     composition: '100% Cotton French Terry Loop-Back & Heavy Blends',
     feel: 'Distinctive textured micro-loops inside, velvety tactile exterior.',
     pros: [
@@ -106,28 +52,11 @@ export const GSM_TIERS_DATA: GsmTierDetail[] = [
     care: 'Machine wash cold inside-out, reshape when damp, flat or line dry.',
   },
   {
-    gsm: 300,
-    label: '300 GSM',
-    badge: 'VINTAGE ACID WASH FLEECE',
-    composition: '100% Super Combed Cotton French Terry Fleece',
-    feel: 'Artisanal enzyme mineral wash texture, soft shell with loopback interior.',
-    pros: [
-      'Pure 100% cotton breathability in a true fleece hoodie',
-      'One-of-a-kind vintage marbled patina on every piece',
-      'Substantial weight without synthetic poly sweating',
-    ],
-    cons: [
-      'Requires mild detergent to protect high-contrast vintage wash patina',
-    ],
-    climate: 'Autumn, mild winter, air-conditioned creator studios (14°C–24°C).',
-    care: 'Wash separately in cold water with gentle liquid detergent, shade dry.',
-  },
-  {
     gsm: 320,
-    label: '320–350 GSM',
-    badge: 'MID-HEAVY FLEECE & VARSITY',
-    composition: 'Super Combed Cotton & Poly-Fleece Heavy Blend',
-    feel: 'Thick, insulating, cozy brushed interior with structured shell.',
+    label: '320 GSM',
+    badge: '320 GSM HEAVY FLEECE',
+    composition: '100% Super Combed Cotton French Terry Fleece & Acid Wash',
+    feel: 'Thick, insulating, cozy interior with structured shell and vintage wash.',
     pros: [
       'Dense thermal insulation against chilly winds',
       'Rigid collar and ribbed cuffs that never lose tension',
@@ -136,24 +65,24 @@ export const GSM_TIERS_DATA: GsmTierDetail[] = [
     cons: [
       'Substantial winter heft; too warm for humid daytime heat',
     ],
-    climate: 'Winter months, nighttime travel, northern India winters (10°C–20°C).',
+    climate: 'Winter months, nighttime travel, northern India winters (10°C–22°C).',
     care: 'Turn inside-out, wash cold on gentle cycle, dry flat.',
   },
   {
-    gsm: 400,
-    label: '400 GSM',
-    badge: 'ULTRA-HEAVYWEIGHT BRUSHED FLEECE',
-    composition: 'Heavyweight Cotton-Poly Thermal Brushed Fleece',
-    feel: 'Fortress-grade thickness, ultra-dense thermal interior, rigid hood.',
+    gsm: 380,
+    label: '380 GSM',
+    badge: '380 GSM BRUSHED FLEECE',
+    composition: 'Heavyweight Cotton-Poly Thermal Brushed Heavyweight Fleece',
+    feel: 'Substantial thickness, ultra-dense thermal interior, rigid structural hood drape.',
     pros: [
       'Maximum thermal insulation engineered for deep winter',
       'Double-layered structured hood that never slouches or collapses',
       'Armor-like streetwear presence built for a lifetime',
     ],
     cons: [
-      'Very heavy garment; exclusively for cold weather and hill stations',
+      'Very heavy garment; exclusively for cold weather and winter nights',
     ],
-    climate: 'Deep winter, hill stations (Manali, Shimla, Ooty), cold AC nights (8°C–18°C).',
+    climate: 'Deep winter, cold evenings, AC rooms (8°C–18°C).',
     care: 'Cold wash gentle cycle, avoid heat tumble dryers, reshape and dry flat.',
   },
 ];
@@ -167,20 +96,16 @@ interface Props {
 export default function GsmProductGuideModal({ isOpen, onClose, currentGsm = 240 }: Props) {
   // Find matching tier or default to 240
   const initialTierGsm = useMemo(() => {
-    if (currentGsm >= 380) return 400;
-    if (currentGsm >= 320) return 320;
-    if (currentGsm >= 290) return 300;
+    if (currentGsm >= 350) return 380;
+    if (currentGsm >= 300) return 320;
     if (currentGsm >= 250) return 260;
-    if (currentGsm >= 230) return 240;
-    if (currentGsm >= 200) return 220;
-    if (currentGsm >= 175) return 180;
-    return 160;
+    return 240;
   }, [currentGsm]);
 
   const [selectedGsm, setSelectedGsm] = useState<number>(initialTierGsm);
 
   const activeTier = useMemo(() => {
-    return GSM_TIERS_DATA.find((t) => t.gsm === selectedGsm) || GSM_TIERS_DATA[3];
+    return GSM_TIERS_DATA.find((t) => t.gsm === selectedGsm) || GSM_TIERS_DATA[0];
   }, [selectedGsm]);
 
   if (!isOpen) return null;
@@ -223,7 +148,7 @@ export default function GsmProductGuideModal({ isOpen, onClose, currentGsm = 240
         {/* QUICK EXPLAINER */}
         <div className="p-3 rounded-xl bg-neutral-50 border border-black/[0.06] text-xs text-neutral-700 leading-relaxed mb-4">
           <p>
-            <strong>Why GSM Matters:</strong> Cheap mall tees use <strong>130–150 GSM</strong> (flimsy, transparent, twists after 2 washes). RareEmber uses <strong>180 to 400 GSM</strong> verified blanks for structured, long-lasting silhouettes that never cling.
+            <strong>Why GSM Matters:</strong> Cheap mall tees use <strong>130–150 GSM</strong> (flimsy, transparent, twists after 2 washes). RareEmber uses <strong>240 to 380 GSM</strong> verified blanks for structured, long-lasting silhouettes that never cling.
           </p>
         </div>
 

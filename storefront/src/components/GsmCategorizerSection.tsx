@@ -27,45 +27,45 @@ const GSM_TIERS: GsmTier[] = [
   {
     id: 'all',
     label: 'All Fabric Weights',
-    badge: '160–400 GSM ARCHIVE',
+    badge: '240–380 GSM ARCHIVE',
     gsmDisplay: 'All Weights',
     fabricName: 'The Complete RareEmber™ Textile Spectrum',
-    feel: 'From featherlight 160 GSM American Supima to 400 GSM fortress-grade brushed fleece.',
+    feel: 'From 240 GSM structured cotton & aeroknit mesh to 380 GSM brushed thermal fleece.',
     climate: 'Every Indian season & climate condition.',
     pros: '100% verified factory blanks sourced directly from domestic makers.',
     cons: 'Browse all pieces to find your exact desired silhouette.',
     anchor: '/gsm',
   },
   {
-    id: '400',
-    label: '400 GSM Ultra-Heavy',
-    badge: '400 GSM BRUSHED FLEECE',
-    gsmDisplay: '400 GSM',
+    id: '380',
+    label: '380 GSM Heavyweight Fleece',
+    badge: '380 GSM BRUSHED FLEECE',
+    gsmDisplay: '380 GSM',
     fabricName: 'Heavyweight Cotton-Poly Brushed Thermal Fleece',
-    feel: 'Fortress-grade thickness, ultra-plush thermal interior, rigid structural hood.',
-    climate: 'Cold winter nights, hill stations, AC workspaces (10°C–18°C).',
-    pros: 'Ultimate cold-weather insulation, zero hood slouch, lifetime shape retention.',
-    cons: 'Substantial heft; too warm for humid summer afternoons.',
-    anchor: '/gsm#gsm-400',
+    feel: 'Substantial thickness, ultra-plush thermal interior, rigid structural hood drape.',
+    climate: 'Cold winter nights, hill stations, AC workspaces (10°C–20°C).',
+    pros: 'Heavyweight insulation, zero hood slouch, lifetime shape retention.',
+    cons: 'Substantial heft; suited for colder weather and evening streetwear.',
+    anchor: '/gsm#gsm-380',
   },
   {
-    id: '300',
-    label: '300 GSM Acid Wash',
-    badge: '300 GSM ACID WASH FLEECE',
-    gsmDisplay: '300 GSM',
-    fabricName: '100% Super Combed Cotton French Terry Fleece',
-    feel: 'Artisanal enzyme mineral wash texture, soft exterior with breathable loopback interior.',
+    id: '320',
+    label: '320 GSM French Terry & Acid Wash',
+    badge: '320 GSM HEAVY FLEECE',
+    gsmDisplay: '320 GSM',
+    fabricName: '100% Super Combed Cotton French Terry & Acid Wash Fleece',
+    feel: 'Artisanal enzyme mineral wash and dense loopback French Terry fleece.',
     climate: 'Autumn, mild winter, evening streetwear (15°C–24°C).',
-    pros: '100% pure cotton breathability with distinctive vintage acid-wash patina.',
-    cons: 'Requires gentle cold wash to preserve vintage high-contrast enzyme tones.',
-    anchor: '/gsm#gsm-300',
+    pros: 'Pure cotton breathability with distinctive vintage streetwear drape.',
+    cons: 'Requires gentle cold wash to preserve high-contrast enzyme tones.',
+    anchor: '/gsm#gsm-320',
   },
   {
     id: '260',
     label: '260 GSM French Terry',
     badge: '260 GSM FRENCH TERRY',
     gsmDisplay: '260 GSM',
-    fabricName: '100% Cotton French Terry & Tie-Dye Blends',
+    fabricName: '100% Cotton French Terry',
     feel: 'Distinctive micro-loop interior, weighty tactile exterior, natural horizontal drape.',
     climate: 'Monsoon, transition months, year-round air-conditioned spaces (18°C–28°C).',
     pros: 'Exceptional sweat absorption from loopback weave; zero chest cling.',
@@ -74,64 +74,24 @@ const GSM_TIERS: GsmTier[] = [
   },
   {
     id: '240',
-    label: '240 GSM Architectural',
-    badge: '240 GSM HEAVYWEIGHT',
+    label: '240 GSM Structured Cotton',
+    badge: '240 GSM STRUCTURED COTTON',
     gsmDisplay: '240 GSM',
-    fabricName: 'Super Combed Cotton, Aeroknit Mesh & Woven Canvas',
+    fabricName: 'Super Combed Cotton & Aeroknit Mesh',
     feel: 'The gold standard of luxury streetwear. Substantial, structured, 100% opaque.',
     climate: 'Year-round daily street rotation across all Indian cities (20°C–32°C).',
     pros: 'Clean drop-shoulder drape that hangs away from the body without clinging or see-through.',
-    cons: 'Noticeably heavier than fast-fashion 140 GSM summer mall tees.',
+    cons: 'Noticeably heavier than fast-fashion summer mall tees.',
     anchor: '/gsm#gsm-240',
-  },
-  {
-    id: '220',
-    label: '220 GSM Cotton Pique',
-    badge: '220 GSM AIRTEX PIQUE',
-    gsmDisplay: '220 GSM',
-    fabricName: '100% Super Combed Cotton Airtex Pique',
-    feel: 'Classic micro-waffle honeycomb knit with structured anti-roll collar.',
-    climate: 'Warm afternoons, executive casual meetings, daytime events (22°C–34°C).',
-    pros: 'Engineered honeycomb ventilation for active airflow; sharp polo structure.',
-    cons: 'Textured weave rather than smooth jersey finish.',
-    anchor: '/gsm#gsm-220',
-  },
-  {
-    id: '180',
-    label: '180 GSM Bio-Washed',
-    badge: '180 GSM SUPER COMBED',
-    gsmDisplay: '180 GSM',
-    fabricName: '100% Super Combed Bio-Washed Single Jersey',
-    feel: 'Featherlight, ultra-soft second-skin hand feel with non-sheer bio-wash finish.',
-    climate: 'Peak summer heatwaves, base-layering under hoodies/jackets (24°C–40°C).',
-    pros: 'Effortless all-day breathability, quick-drying, perfect full-sleeve layering.',
-    cons: 'Fluid relaxed drape rather than rigid architectural boxiness.',
-    anchor: '/gsm#gsm-180',
-  },
-  {
-    id: '160',
-    label: '160–170 GSM Supima & Active',
-    badge: '160–170 GSM LUXURY & SPEED',
-    gsmDisplay: '160–170 GSM',
-    fabricName: 'Long-Staple American Supima & Salina Quick-Dry',
-    feel: 'Cashmere-silky Supima touch or weightless moisture-wicking micro-mesh.',
-    climate: 'Tropical coastal humidity (Mumbai, Chennai, Goa) and workout sessions.',
-    pros: 'Supima fibers are 45% stronger and never pill; Salina wicks sweat in seconds.',
-    cons: 'Requires gentle cycle laundering; delicate fine-yarn weave.',
-    anchor: '/gsm#gsm-160',
   },
 ];
 
 function getProductGsm(p: Product): number {
   const str = `${p.title || ''} ${p.id || ''} ${p.badge || ''} ${p.qikinkSkuPrefix || ''} ${(p as any).blank_sku || ''}`.toLowerCase();
-  if (/32493938|uh32/i.test(str)) return 400;
-  if (/32493953|uh62/i.test(str)) return 300;
-  if (/32493470|uh83|32476620|ut27|32476436|ut58/i.test(str)) return 260;
-  if (/32476332|uc22|32476438|uc61|32476629|uc28|32476280|uj35|32476716|ft47/i.test(str)) return 240;
-  if (/32476788|mp25/i.test(str)) return 220;
-  if (/32476281|us02/i.test(str)) return 170;
-  if (/32476663|uc23|32476284|ud15/i.test(str)) return 160;
-  return 180;
+  if (/32493938|uh32/i.test(str)) return 380;
+  if (/32493953|uh62|32493470|uh83/i.test(str)) return 320;
+  if (/32476620|ut27/i.test(str)) return 260;
+  return 240;
 }
 
 function toCard(rawP: Product, rank?: number) {
@@ -175,13 +135,10 @@ export default function GsmCategorizerSection({ products }: Props) {
 
   const filteredProducts = useMemo(() => {
     if (activeTierId === 'all') return products;
-    if (activeTierId === '400') return products.filter((p) => getProductGsm(p) === 400);
-    if (activeTierId === '300') return products.filter((p) => getProductGsm(p) === 300);
+    if (activeTierId === '380') return products.filter((p) => getProductGsm(p) === 380);
+    if (activeTierId === '320') return products.filter((p) => getProductGsm(p) === 320);
     if (activeTierId === '260') return products.filter((p) => getProductGsm(p) === 260);
     if (activeTierId === '240') return products.filter((p) => getProductGsm(p) === 240);
-    if (activeTierId === '220') return products.filter((p) => getProductGsm(p) === 220);
-    if (activeTierId === '180') return products.filter((p) => getProductGsm(p) === 180);
-    if (activeTierId === '160') return products.filter((p) => [160, 170].includes(getProductGsm(p)));
     return products;
   }, [products, activeTierId]);
 

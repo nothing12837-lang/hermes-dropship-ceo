@@ -52,10 +52,9 @@ function toCard(rawP: Product, rank?: number) {
 
 const CATEGORY_TABS = [
   { id: 'all', label: 'All Catalog', href: '/shop' },
-  { id: 'mens-printed', label: "Men's Graphic Drops", href: '/shop?cat=mens-printed' },
-  { id: 'printed', label: 'All Graphic Prints', href: '/shop?cat=printed' },
-  { id: 'womens', label: "Women's Collection", href: '/shop?cat=womens' },
-  { id: 'blanks', label: 'Essential Blanks', href: '/shop?cat=blanks' },
+  { id: 'mens-printed', label: 'Graphic Drops', href: '/shop?cat=mens-printed' },
+  { id: 'hoodies', label: 'Heavyweight Hoodies', href: '/shop?cat=hoodies' },
+  { id: 'tees', label: 'Oversized Tees', href: '/shop?cat=tees' },
 ];
 
 const ASSURANCES = [
@@ -161,17 +160,7 @@ export default async function Home() {
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-zinc-950">
                   Made For The Rare, Never The Crowd
                 </h1>
-                <p className="text-sm sm:text-base text-neutral-600 mt-1.5 font-medium max-w-2xl leading-relaxed">
-                  We don&apos;t make disposable fast-fashion. Every piece is engineered with substantial, verified factory weights (180 to 400 GSM) and museum-grade archival prints. Architectural drop-shoulder proportions designed for those who walk their own path.
-                </p>
               </div>
-              <Link
-                href="/shop?cat=mens-printed"
-                className="text-xs sm:text-sm font-bold text-zinc-950 hover:text-[#E04F33] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#E04F33] transition-colors self-start sm:self-auto"
-              >
-                <span>Explore All Graphic Drops ({mensPrinted.length})</span>
-                <span>→</span>
-              </Link>
             </div>
             <div className="w-full h-px bg-zinc-200/80 mb-5" />
 
@@ -326,7 +315,7 @@ export default async function Home() {
                   <tr>
                     <td className="p-3 sm:p-4 font-bold text-zinc-950">Fabric Density</td>
                     <td className="p-3 sm:p-4">160–180 GSM (Lightweight)</td>
-                    <td className="p-3 sm:p-4 font-semibold text-zinc-950">240 GSM (Dense Heavyweight)</td>
+                    <td className="p-3 sm:p-4 font-semibold text-zinc-950">240 GSM (Dense Structured Cotton)</td>
                     <td className="p-3 sm:p-4 font-semibold text-zinc-950">380 GSM (French Terry Fleece)</td>
                   </tr>
                   <tr>
