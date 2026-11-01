@@ -514,14 +514,9 @@ export async function POST(req: NextRequest) {
           }
         }
       }
-    } else if (isCod) {
-      if (teeBundleSavings > 0) {
-        discountAmount = teeBundleSavings + (isFirstOrder ? 50 : 0);
-        verifiedCoupon = 'BUY2_240GSM_COD';
-      } else if (isFirstOrder) {
-        discountAmount = Math.min(50, calculatedSubtotal);
-        verifiedCoupon = 'FIRST50';
-      }
+    } else {
+      discountAmount = 0;
+      verifiedCoupon = '';
     }
 
     const finalTotal = Math.max(1, calculatedSubtotal - discountAmount);

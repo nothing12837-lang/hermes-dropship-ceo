@@ -291,18 +291,26 @@ export default function ProductCard({
           <div className="flex flex-col mt-auto pt-2">
             <div className="flex items-start justify-between gap-2 flex-wrap">
               <div className="flex flex-col">
-                <div className="flex items-baseline gap-1.5 flex-wrap">
-                  <span className="text-base sm:text-lg font-black text-[#0D0D0F] tracking-tight">
-                    {geoFormatPrice(Math.max(1, inr - 100))}{' '}
-                    <span className="text-xs font-bold text-[#E04F33]">on 1st UPI Order</span>
-                  </span>
-                </div>
-                <div className="flex items-baseline gap-1.5 text-[11px] text-neutral-500 font-medium mt-0.5 flex-wrap">
-                  <span>Base {displayPrice}</span>
-                  <span className="text-[10px] text-emerald-800 font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200/60">
-                    ₹50 Welcome + ₹50 UPI Off
-                  </span>
-                </div>
+                {(() => {
+                  const upiPrice = inr === 669 ? 659 : inr === 759 ? 739 : inr === 1329 ? 1309 : inr === 1349 ? 1329 : inr === 1499 ? 1479 : Math.max(1, inr - 20);
+                  const upiSavings = inr - upiPrice;
+                  return (
+                    <>
+                      <div className="flex items-baseline gap-1.5 flex-wrap">
+                        <span className="text-base sm:text-lg font-black text-[#0D0D0F] tracking-tight">
+                          {geoFormatPrice(upiPrice)}{' '}
+                          <span className="text-xs font-bold text-[#E04F33]">on Instant UPI</span>
+                        </span>
+                      </div>
+                      <div className="flex items-baseline gap-1.5 text-[11px] text-neutral-500 font-medium mt-0.5 flex-wrap">
+                        <span>Base {displayPrice}</span>
+                        <span className="text-[10px] text-emerald-800 font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200/60">
+                          ⚡ ₹{upiSavings} Instant UPI Discount
+                        </span>
+                      </div>
+                    </>
+                  );
+                })()}
               </div>
 
               {/* Color preview dots */}

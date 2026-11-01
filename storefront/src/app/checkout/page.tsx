@@ -116,46 +116,27 @@ export default function CheckoutPage() {
     const total240Qty = eligible240.reduce((sum, item) => sum + (item.qty || 1), 0);
     const bSavings = Math.floor(total240Qty / 2) * 99;
 
-    const isAutoPromo = !couponApplied || appliedCouponCode === 'PREPAID50' || appliedCouponCode === 'ARCHIVE100' || appliedCouponCode === 'BUY2_240GSM' || appliedCouponCode === 'BUY2_240GSM_UPI' || appliedCouponCode === 'BUY2_240GSM_COD' || appliedCouponCode === 'FIRST50' || appliedCouponCode === 'WELCOME_UPI100';
+    const isAutoPromo = !couponApplied || appliedCouponCode === 'PREPAID20' || appliedCouponCode === 'PREPAID10' || appliedCouponCode === 'PREPAID50' || appliedCouponCode === 'WELCOME_UPI100';
 
     if (method === 'online') {
       if (isAutoPromo) {
-        if (bSavings > 0) {
-          setCoupon('BUY2_240GSM_UPI');
-          setAppliedCouponCode('BUY2_240GSM_UPI');
-          setAppliedCouponLabel('Buy Any 2 Deal: 240 GSM Tees for ₹1,399 on UPI (₹99 Bundle + ₹50 Welcome + ₹50 UPI)');
-          setDiscount(bSavings + 100);
-          setCouponApplied(true);
-        } else {
-          setCoupon('WELCOME_UPI100');
-          setAppliedCouponCode('WELCOME_UPI100');
-          setAppliedCouponLabel('1st Order on UPI: ₹50 First-Order + ₹50 UPI Instant Discount');
-          setDiscount(Math.min(100, subtotal));
-          setCouponApplied(true);
-        }
+        const upiOff = subtotal <= 700 ? 10 : 20;
+        setCoupon(upiOff === 10 ? 'PREPAID10' : 'PREPAID20');
+        setAppliedCouponCode(upiOff === 10 ? 'PREPAID10' : 'PREPAID20');
+        setAppliedCouponLabel(`⚡ Instant ₹${upiOff} UPI Discount`);
+        setDiscount(upiOff);
+        setCouponApplied(true);
       } else if (appliedCouponCode.startsWith('RE-GIFT-')) {
-        // Stack ₹50 extra UPI discount on top of gift voucher
-        setDiscount(50 + 50);
-        setAppliedCouponLabel(`VIP Gift Voucher + UPI: ₹100 OFF (${appliedCouponCode})`);
+        setDiscount(50);
+        setAppliedCouponLabel(`Gift Voucher: ₹50 OFF (${appliedCouponCode})`);
       }
     } else if (method === 'cod') {
       if (isAutoPromo) {
-        if (bSavings > 0) {
-          setCoupon('BUY2_240GSM_COD');
-          setAppliedCouponCode('BUY2_240GSM_COD');
-          setAppliedCouponLabel(`Buy Any 2 Deal: ₹${bSavings} Bundle + ₹50 Welcome (₹0 COD Fee)`);
-          setDiscount(bSavings + 50);
-          setCouponApplied(true);
-        } else {
-          setCoupon('FIRST50');
-          setAppliedCouponCode('FIRST50');
-          setAppliedCouponLabel('FIRST50 (₹50 First-Order Welcome Discount • ₹0 COD Fee)');
-          setDiscount(Math.min(50, subtotal));
-          setCouponApplied(true);
-        }
-      } else if (appliedCouponCode.startsWith('RE-GIFT-')) {
-        setDiscount(50);
-        setAppliedCouponLabel(`VIP Gift Voucher: ₹50 OFF (${appliedCouponCode})`);
+        setCoupon('');
+        setAppliedCouponCode('');
+        setAppliedCouponLabel('');
+        setDiscount(0);
+        setCouponApplied(false);
       }
     }
   };
@@ -406,42 +387,27 @@ export default function CheckoutPage() {
   const total240TeeQty = eligible240Tees.reduce((sum, item) => sum + (item.qty || 1), 0);
   const bundleSavings = Math.floor(total240TeeQty / 2) * 99;
 
-  // Auto-apply First-Order & UPI tiered discounts or Buy Any 2 bundle deals
+  // Auto-apply UPI instant discount calibrated for strict 20.0% to 25.0% profit margin
   useEffect(() => {
     if (paymentMethod === 'online') {
       if (!couponApplied && !appliedCouponCode) {
-        if (bundleSavings > 0) {
-          setCoupon('BUY2_240GSM_UPI');
-          setAppliedCouponCode('BUY2_240GSM_UPI');
-          setAppliedCouponLabel('Buy Any 2 Deal: 240 GSM Tees for ₹1,399 on UPI (₹99 Bundle + ₹50 Welcome + ₹50 UPI)');
-          setDiscount(bundleSavings + 100);
-          setCouponApplied(true);
-        } else {
-          setCoupon('WELCOME_UPI100');
-          setAppliedCouponCode('WELCOME_UPI100');
-          setAppliedCouponLabel('1st Order on UPI: ₹50 First-Order + ₹50 UPI Instant Discount');
-          setDiscount(Math.min(100, subtotal));
-          setCouponApplied(true);
-        }
+        const upiOff = subtotal <= 700 ? 10 : 20;
+        setCoupon(upiOff === 10 ? 'PREPAID10' : 'PREPAID20');
+        setAppliedCouponCode(upiOff === 10 ? 'PREPAID10' : 'PREPAID20');
+        setAppliedCouponLabel(`⚡ Instant ₹${upiOff} UPI Discount`);
+        setDiscount(upiOff);
+        setCouponApplied(true);
       }
     } else if (paymentMethod === 'cod') {
       if (!couponApplied && !appliedCouponCode) {
-        if (bundleSavings > 0) {
-          setCoupon('BUY2_240GSM_COD');
-          setAppliedCouponCode('BUY2_240GSM_COD');
-          setAppliedCouponLabel(`Buy Any 2 Deal: ₹${bundleSavings} Bundle + ₹50 Welcome (₹0 COD Fee)`);
-          setDiscount(bundleSavings + 50);
-          setCouponApplied(true);
-        } else {
-          setCoupon('FIRST50');
-          setAppliedCouponCode('FIRST50');
-          setAppliedCouponLabel('FIRST50 (₹50 First-Order Welcome Discount • ₹0 COD Fee)');
-          setDiscount(Math.min(50, subtotal));
-          setCouponApplied(true);
-        }
+        setCoupon('');
+        setAppliedCouponCode('');
+        setAppliedCouponLabel('');
+        setDiscount(0);
+        setCouponApplied(false);
       }
     }
-  }, [subtotal, paymentMethod, couponApplied, appliedCouponCode, bundleSavings]);
+  }, [subtotal, paymentMethod, couponApplied, appliedCouponCode]);
   // The server caps COD on the POST-DISCOUNT total (`finalTotal`), so the
   // client must use the same number -- otherwise COD is hidden for orders the
   // server would happily accept.

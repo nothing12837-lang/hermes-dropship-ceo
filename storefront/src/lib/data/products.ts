@@ -218,17 +218,21 @@ export function enforcePriceFloor(p: Product): Product {
     if (price < 1649) price = 1649;
     if (compare < 2699) compare = 2699;
   }
-  // 3. 380 GSM Heavy Enzyme Acid Wash Fleece Hoodie (Both Sides): min ₹1,699 (M.R.P. ₹2,699)
+  // 3. 320 GSM Acid Wash Fleece Hoodie (Skull & Dragon): min ₹1,499 (M.R.P. ₹2,499)
   else if (pid.includes('32493953') || (pid.includes('hoodie') && (pid.includes('acid') || title.includes('acid')))) {
-    if (price === 1789 || price < 1699) price = 1699;
-    if (compare < 2699) compare = 2699;
+    if (price === 1789 || price < 1499) price = 1499;
+    if (compare < 2499) compare = 2499;
   }
-  // 4. 320/380 GSM Heavy Fleece Hoodies (Both Sides): min ₹1,399 (M.R.P. ₹2,399)
+  // 4. Heavy Fleece Hoodies: Cyber Designer (₹1,329) & Heavyweight Tiger (₹1,349)
+  else if (pid.includes('32493470') || title.includes('pullover')) {
+    if (price < 1329) price = 1329;
+    if (compare < 2199) compare = 2199;
+  }
   else if (pid.includes('hoodie') || title.includes('hoodie') || pid.includes('uhd') || pid.includes('uzhd') || pid.includes('blank-hoodie')) {
-    if (price < 1399) price = 1399;
-    if (compare < 2399) compare = 2399;
+    if (price < 1349) price = 1349;
+    if (compare < 2299) compare = 2299;
   }
-  // 5. 320 GSM Crewneck Sweatshirts & 320 GSM Heavyweight Joggers (Both Sides): min ₹1,299 (M.R.P. ₹2,299)
+  // 5. 320 GSM Crewneck Sweatshirts & 320 GSM Heavyweight Joggers: min ₹1,299 (M.R.P. ₹2,299)
   else if (
     pid.includes('sweatshirt') || pid.includes('crewneck') || pid.includes('jogger') || pid.includes('sweatpant') ||
     title.includes('sweatshirt') || title.includes('crewneck') || title.includes('jogger') || title.includes('sweatpant') ||
@@ -237,16 +241,16 @@ export function enforcePriceFloor(p: Product): Product {
     if (price < 1299) price = 1299;
     if (compare < 2299) compare = 2299;
   }
-  // 6. 240 GSM Acid Wash, French Terry & Hand Tie-Dye Oversized Tees: min ₹849 (M.R.P. ₹1,599)
+  // 6. 260 GSM French Terry Cotton Oversized Tee (Not Today): min ₹759 (M.R.P. ₹1,399)
   else if (
     pid.includes('64953544') || pid.includes('32476620') || title.includes('terry') || pid.includes('ut27') ||
     pid.includes('32476438') || pid.includes('blank-acid-tee') || title.includes('acid') ||
     pid.includes('32476436') || pid.includes('ut58') || title.includes('tie dye') || title.includes('tie-dye')
   ) {
-    if (price < 849) price = 849;
-    if (compare < 1599) compare = 1599;
+    if (price < 759) price = 759;
+    if (compare < 1399) compare = 1399;
   }
-  // 7. 240 GSM Structured Cotton Drop-Shoulder Tees & Oversized Performance Mesh Jerseys (UJ35): min ₹799 (M.R.P. ₹1,499)
+  // 7. 240 GSM Structured Cotton Drop-Shoulder Tees & Performance Mesh Jersey: min ₹669 (M.R.P. ₹1,299)
   else if (
     pid.includes('64950694') || pid.includes('32476280') || pid.includes('uj35') ||
     title.includes('cyber sublimation') || title.includes('matrix') ||
@@ -256,8 +260,8 @@ export function enforcePriceFloor(p: Product): Product {
     pid.includes('32476629') || pid.includes('blank-oversized-tee') ||
     pid.includes('us22') || pid.includes('ua22')
   ) {
-    if (price < 799) price = 799;
-    if (compare < 1499) compare = 1499;
+    if (price < 669) price = 669;
+    if (compare < 1299) compare = 1299;
   }
   // 8. 900×400mm Extended Gaming Desk Mat / Pad: min ₹699 (M.R.P. ₹1,299)
   else if (

@@ -130,11 +130,23 @@ export const EVERGREEN_COUPONS: Record<
     minOrder: 899,
     desc: '10% OFF for Reddit Streetwear Community supporters (₹899+)',
   },
+  PREPAID10: {
+    type: 'flat',
+    value: 10,
+    minOrder: 650,
+    desc: 'Instant ₹10 UPI Checkout Discount',
+  },
+  PREPAID20: {
+    type: 'flat',
+    value: 20,
+    minOrder: 700,
+    desc: 'Instant ₹20 UPI Checkout Discount',
+  },
   FIRST50: {
     type: 'flat',
     value: 50,
-    minOrder: 799,
-    desc: 'Flat ₹50 OFF on orders above ₹799',
+    minOrder: 669,
+    desc: 'Flat ₹50 OFF on orders above ₹669',
   },
   WELCOME_UPI100: {
     type: 'flat',

@@ -166,16 +166,7 @@ export default function CartDrawer() {
   const subtotal = detailed.reduce((a, b) => a + getItemPrice((b as any).product) * b.qty, 0);
   const totalQuantity = detailed.reduce((sum, item) => sum + (item.qty || 1), 0);
 
-  // Buy Any 2 (240 GSM Tees) for ₹1,399 on UPI Rule
-  const eligible240Tees = detailed.filter((d) => {
-    const price = d.product.price_inr || d.product.price;
-    const id = (d.product.id || '').toLowerCase();
-    const title = (d.product.title || '').toLowerCase();
-    return price === 799 || id.includes('32476431') || id.includes('32476280') || id.includes('32476332') || id.includes('32476629') || /240 gsm|standard-t-shirt|classic-t-shirt|oversized-shirt|oversized-jersey/i.test(`${title} ${id}`);
-  });
-  const total240TeeQty = eligible240Tees.reduce((sum, item) => sum + (item.qty || 1), 0);
-  const bundleSavings = Math.floor(total240TeeQty / 2) * 99;
-  const netCartTotal = Math.max(0, subtotal - bundleSavings);
+  const netCartTotal = subtotal;
 
   const isAddOn = (p: Product) => {
     const t = p.title.toLowerCase();
@@ -527,19 +518,6 @@ export default function CartDrawer() {
                 <span className="font-bold">{formatCartPrice(subtotal)}</span>
               </div>
 
-              {/* Automatic First-Order Welcome Discount */}
-              <div className="flex justify-between text-xs mb-2 text-emerald-800 font-bold bg-emerald-50 px-2.5 py-1.5 rounded-lg border border-emerald-200">
-                <span>First-Order Welcome Discount:</span>
-                <span>-₹50</span>
-              </div>
-
-              {bundleSavings > 0 && (
-                <div className="flex justify-between text-xs mb-2 text-amber-900 font-bold bg-amber-50 px-2.5 py-1.5 rounded-lg border border-amber-200">
-                  <span>Buy Any 2 Deal (240 GSM Tees):</span>
-                  <span>-{formatCartPrice(bundleSavings)}</span>
-                </div>
-              )}
-
               <div className="flex justify-between text-xs mb-2 text-neutral-600 font-medium">
                 <span>Prepaid Delivery (Express Air)</span>
                 <span className="text-emerald-700 font-bold">FREE</span>
@@ -551,12 +529,12 @@ export default function CartDrawer() {
               </div>
 
               <div className="flex justify-between font-black text-lg text-[#12100E] pt-3 border-t border-black/10 mb-2">
-                <span>1st Order Total</span>
-                <span className="text-[#FF4D24] font-black">{formatCartPrice(Math.max(1, netCartTotal - 50))}</span>
+                <span>Total</span>
+                <span className="text-[#FF4D24] font-black">{formatCartPrice(subtotal)}</span>
               </div>
 
               <div className="text-[11px] text-emerald-800 font-bold bg-emerald-50/90 px-2.5 py-1.5 rounded-xl border border-emerald-200/80 mb-3 text-center">
-                ⚡ Extra ₹50 OFF applied instantly on UPI at checkout!
+                ⚡ Instant UPI Discount applied automatically at checkout!
               </div>
 
               {/* Dynamic Milestone Progress Bar */}
@@ -601,18 +579,7 @@ export default function CartDrawer() {
                     </div>
                   )}
 
-                  {/* Buy Any 2 Deal Callout */}
-                  {bundleSavings > 0 ? (
-                    <div className="bg-amber-50 text-amber-950 p-2 rounded-lg border border-amber-200/80 font-bold flex justify-between items-center text-[10px]">
-                      <span>⚡ Buy Any 2 Deal: 240 GSM Tees for ₹1,399 on UPI!</span>
-                      <span className="font-mono text-emerald-800 font-black">-₹{bundleSavings}</span>
-                    </div>
-                  ) : total240TeeQty === 1 ? (
-                    <div className="text-[10px] text-amber-900 bg-amber-50/60 p-2 rounded-lg border border-amber-200/50 flex justify-between items-center">
-                      <span>Add 1 more 240 GSM Tee to get <strong>Any 2 for ₹1,399 on UPI</strong>!</span>
-                      <span className="font-bold text-[#FF4D24]">+₹99 Deal</span>
-                    </div>
-                  ) : null}
+
                 </div>
               </div>
 

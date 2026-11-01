@@ -54,23 +54,23 @@ describe('Product Catalog Resolution (Zero 404 Glitches)', () => {
 
 describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
   it('enforces updated price floors for key drops and bundles', () => {
-    // Unisex Oversized Jersey (Both Sides): ₹799 (M.R.P. ₹1,499)
+    // Unisex Oversized Jersey (Both Sides): ₹669 (M.R.P. ₹1,299)
     const jersey = enforcePriceFloor({
       id: 'qikink-32476280-unisex-oversized-jersey',
       title: 'Unisex Oversized Jersey — Creator Edition',
       price: 489,
     } as any);
-    expect(jersey.price).toBe(799);
-    expect(jersey.compareAtPrice).toBe(1499);
+    expect(jersey.price).toBe(669);
+    expect(jersey.compareAtPrice).toBe(1299);
 
-    // 240 GSM Unisex Oversized Standard T-Shirt (Both Sides): ₹799 (M.R.P. ₹1,499)
+    // 240 GSM Unisex Oversized Standard T-Shirt (Both Sides): ₹669 (M.R.P. ₹1,299)
     const tee = enforcePriceFloor({
       id: 'qikink-32476431-unisex-oversized-standard-t-shirt',
       title: 'Rare Ember Unisex Oversized Standard T-Shirt',
       price: 499,
     } as any);
-    expect(tee.price).toBe(799);
-    expect(tee.compareAtPrice).toBe(1499);
+    expect(tee.price).toBe(669);
+    expect(tee.compareAtPrice).toBe(1299);
 
     // Gaming Pad / Desk Mat: ₹699 (M.R.P. ₹1,299)
     const pad = enforcePriceFloor({
@@ -147,14 +147,14 @@ describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
     expect(fullSleeve.price).toBe(799);
     expect(fullSleeve.compareAtPrice).toBe(1499);
 
-    // 240 GSM Oversized Acid Wash (Both Sides): min ₹849 (M.R.P. ₹1,599)
+    // 240 GSM Oversized Acid Wash / Terry (Both Sides): min ₹759 (M.R.P. ₹1,399)
     const acidWash = enforcePriceFloor({
       id: 'qikink-32476620-acid-wash-tee',
       title: "Vintage Acid-Wash Oversized Heavyweight Tee",
       price: 699,
     } as any);
-    expect(acidWash.price).toBe(849);
-    expect(acidWash.compareAtPrice).toBe(1599);
+    expect(acidWash.price).toBe(759);
+    expect(acidWash.compareAtPrice).toBe(1399);
 
     // 320 GSM Crewneck Sweatshirt & Heavyweight Joggers (Both Sides): min ₹1,299 (M.R.P. ₹2,299)
     const sweatshirt = enforcePriceFloor({
@@ -173,14 +173,14 @@ describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
     expect(joggers.price).toBe(1299);
     expect(joggers.compareAtPrice).toBe(2299);
 
-    // 380 GSM Heavyweight Winter Hoodie (Both Sides): min ₹1,399 (M.R.P. ₹2,399)
+    // 380 GSM Heavyweight Winter Hoodie (Both Sides): min ₹1,349 (M.R.P. ₹2,299)
     const hoodie = enforcePriceFloor({
       id: 'qikink-heavyweight-hoodie',
       title: "380 GSM Heavyweight Winter Hoodie",
       price: 999,
     } as any);
-    expect(hoodie.price).toBe(1399);
-    expect(hoodie.compareAtPrice).toBe(2399);
+    expect(hoodie.price).toBe(1349);
+    expect(hoodie.compareAtPrice).toBe(2299);
 
     // 350 GSM Contrast-Sleeve Varsity Jacket & Bomber Jacket (Both Sides): min ₹1,649 (M.R.P. ₹2,699)
     const varsityJacket = enforcePriceFloor({
@@ -322,10 +322,10 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
     expect(p30.valid).toBe(true);
     expect(p30.discountAmount).toBe(30);
 
-    // FIRST50: minOrder: 799
-    expect(validateCouponCode('FIRST50', 699).valid).toBe(false);
-    expect(validateCouponCode('FIRST50', 798).valid).toBe(false);
-    const f50 = validateCouponCode('FIRST50', 799);
+    // FIRST50: minOrder: 669
+    expect(validateCouponCode('FIRST50', 649).valid).toBe(false);
+    expect(validateCouponCode('FIRST50', 668).valid).toBe(false);
+    const f50 = validateCouponCode('FIRST50', 669);
     expect(f50.valid).toBe(true);
     expect(f50.discountAmount).toBe(50);
 
@@ -448,17 +448,17 @@ describe('Financial Margin Protection: Coupons, Neck Label & COD Handling Fee', 
     const acidHoodie = getProduct('32493953');
     expect(acidHoodie).toBeDefined();
     expect(acidHoodie?.title).toContain('Acid Washed Hoodie');
-    expect(acidHoodie?.price_inr).toBe(1699);
+    expect(acidHoodie?.price_inr).toBe(1499);
 
     const tigerHoodie = getProduct('32493938');
     expect(tigerHoodie).toBeDefined();
     expect(tigerHoodie?.title).toContain('Tiger');
-    expect(tigerHoodie?.price_inr).toBe(1399);
+    expect(tigerHoodie?.price_inr).toBe(1349);
 
     const pulloverHoodie = getProduct('32493470');
     expect(pulloverHoodie).toBeDefined();
     expect(pulloverHoodie?.title).toContain('Pullover Hoodie');
-    expect(pulloverHoodie?.price_inr).toBe(1399);
+    expect(pulloverHoodie?.price_inr).toBe(1329);
   });
 
   it('ensures product gallery color images map accurately without spurious color changes on alternate angles', () => {

@@ -32,16 +32,16 @@ Every agent operating in this workspace must adhere to the following permanent r
 ### ✅ STRICT ALLOWED CATALOG: EXACT 8 CUSTOM-PRINTED DROPS
 Only the following 8 products—created and verified with client artwork in Qikink—are permitted to be active:
 
-| # | Qikink ID | Product Title | Fabric & GSM | Base Price | Prepaid Price | Landed Cost | Net Margin |
-|---|---|---|---|---|---|---|---|
-| **1** | `32493953` | **Unisex Acid Washed Hoodie — Skull & Dragon Edition** | 320 GSM Acid Wash Fleece | ₹1,699 | ₹1,649 | ₹949.00 | **30.6%** |
-| **2** | `32493938` | **Unisex Heavyweight Hoodie — Unstoppable Tiger Edition** | 380 GSM Brushed Fleece | ₹1,399 | ₹1,349 | ₹919.00 | **20.4%** |
-| **3** | `32493470` | **Unisex Pullover Hoodie — Cyber Designer Edition** | 320 GSM French Terry Fleece | ₹1,399 | ₹1,349 | ₹868.00 | **24.2%** |
-| **4** | `32476431` | **Unisex Oversized Standard T-Shirt — Chrome Bengaluru Cyber Drop** | 240 GSM Structured Cotton | ₹799 | ₹749 | ₹443.00 | **26.2%** |
-| **5** | `32476620` | **Unisex Terry Oversized Tee — Not Today 260 GSM Terry** | 260 GSM French Terry Cotton | ₹849 | ₹799 | ₹479.00 | **25.9%** |
-| **6** | `32476280` | **Unisex Oversized Jersey — Cyber Sublimation Jersey** | 240 GSM Aeroknit Mesh | ₹799 | ₹749 | ₹443.00 | **26.2%** |
-| **7** | `32476332` | **Unisex Oversized Classic T-Shirt — Tokyo Street Graphic** | 240 GSM Structured Cotton | ₹799 | ₹749 | ₹443.00 | **26.2%** |
-| **8** | `32476629` | **Unisex Oversized Shirt — Flame Embroidered Icon** | 240 GSM Structured Cotton | ₹799 | ₹749 | ₹443.00 | **26.2%** |
+| # | Qikink ID | Product Title | Fabric & GSM | Base Price | Prepaid Price | Landed Cost | Net Margin (Prepaid) | Net Margin (Base) |
+|---|---|---|---|---|---|---|---|---|
+| **1** | `32493953` | **Unisex Acid Washed Hoodie — Skull & Dragon Edition** | 320 GSM Acid Wash Fleece | ₹1,499 | ₹1,479 | ₹1,131.25 | **21.2%** | **24.5%** |
+| **2** | `32493938` | **Unisex Heavyweight Hoodie — Unstoppable Tiger Edition** | 380 GSM Brushed Fleece | ₹1,349 | ₹1,329 | ₹1,016.25 | **21.2%** | **24.7%** |
+| **3** | `32493470` | **Unisex Pullover Hoodie — Cyber Designer Edition** | 320 GSM French Terry Fleece | ₹1,329 | ₹1,309 | ₹1,006.25 | **20.8%** | **24.3%** |
+| **4** | `32476431` | **Unisex Oversized Standard T-Shirt — Chrome Bengaluru Cyber Drop** | 240 GSM Structured Cotton | ₹669 | ₹659 | ₹507.00 | **20.7%** | **24.2%** |
+| **5** | `32476620` | **Unisex Terry Oversized Tee — Not Today 260 GSM Terry** | 260 GSM French Terry Cotton | ₹759 | ₹739 | ₹570.00 | **20.5%** | **24.9%** |
+| **6** | `32476280` | **Unisex Oversized Jersey — Cyber Sublimation Jersey** | 240 GSM Aeroknit Mesh | ₹669 | ₹659 | ₹507.00 | **20.7%** | **24.2%** |
+| **7** | `32476332` | **Unisex Oversized Classic T-Shirt — Tokyo Street Graphic** | 240 GSM Structured Cotton | ₹669 | ₹659 | ₹507.00 | **20.7%** | **24.2%** |
+| **8** | `32476629` | **Unisex Oversized Shirt — Flame Embroidered Icon** | 240 GSM Structured Cotton | ₹669 | ₹659 | ₹507.00 | **20.7%** | **24.2%** |
 
 ### ⚙️ SYSTEM & COMPLIANCE SPECIFICATIONS
 - **Tax Invoice Supply Classification:** Courier COD Handling Fees are composite supply bundled with the principal garment under HSN `6109` (5% GST: 2.5% CGST + 2.5% SGST), not standalone 18% HSN `9968`.
