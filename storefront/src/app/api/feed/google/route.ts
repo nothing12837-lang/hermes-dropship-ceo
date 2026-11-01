@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { products as curatedCatalog, Product } from '@/lib/data/products';
+import { products as curatedCatalog, Product, isKidsProduct, isDisallowed180GsmOrThin } from '@/lib/data/products';
 
 export const runtime = 'nodejs';
 export const revalidate = 3600; // Cache feed for 1 hour
@@ -89,7 +89,7 @@ function getShippingWeight(p: Product): string {
 }
 
 export async function GET() {
-  const catalogItems = curatedCatalog as Product[];
+  const catalogItems = (curatedCatalog as Product[]).filter((p) => !isKidsProduct(p) && !isDisallowed180GsmOrThin(p) && p.active !== false);
   const siteUrl = 'https://www.rareember.shop';
 
   const itemsXml = catalogItems

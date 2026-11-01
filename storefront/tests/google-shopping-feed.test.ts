@@ -81,7 +81,6 @@ describe('Google Shopping & Merchant Center Feed Engine', () => {
   });
 });
 
-
 import { GET as getXmlFeed } from '@/app/api/feed/google.xml/route';
 
 describe('Google Shopping XML Dedicated Route (/api/feed/google.xml)', () => {
@@ -94,5 +93,18 @@ describe('Google Shopping XML Dedicated Route (/api/feed/google.xml)', () => {
     expect(xml).toContain('<g:service>Express Air</g:service>');
     expect(xml).toContain('<g:price>');
     expect(xml).toContain('<g:availability>in_stock</g:availability>');
+  });
+
+  it('strictly excludes all 180 GSM fabrics, classic crews, crops, tanks, and SKU 5474 from the feed', async () => {
+    const res = await getXmlFeed();
+    const xml = await res.text();
+    expect(xml).not.toMatch(/180\s*gsm/i);
+    expect(xml).not.toMatch(/5474/);
+    expect(xml).not.toMatch(/crop\s*tank/i);
+    expect(xml).not.toMatch(/baby\s*tee/i);
+    expect(xml).not.toMatch(/standard\s*crew/i);
+    expect(xml).not.toMatch(/classic\s*crew/i);
+    expect(xml).not.toMatch(/full\s*sleeve\s*t-shirt/i);
+    expect(xml).not.toMatch(/t-shirt\s*dress/i);
   });
 });

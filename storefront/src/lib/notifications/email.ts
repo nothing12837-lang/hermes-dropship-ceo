@@ -292,9 +292,9 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
   const codRowHtml = isCod ? `
     <tr style="border-bottom: 1px solid #f0ede8; background: #fafafa;">
       <td style="padding: 10px 8px; font-weight: bold; color: #161311; font-size: 13px;">
-        Courier COD Doorstep Handling Surcharge
+        Courier COD Doorstep Handling Surcharge (Composite Supply)
       </td>
-      <td style="padding: 10px 8px; text-align: center; font-family: monospace; font-size: 12px; color: #525252;">9968</td>
+      <td style="padding: 10px 8px; text-align: center; font-family: monospace; font-size: 12px; color: #525252;">6109</td>
       <td style="padding: 10px 8px; text-align: center; color: #525252; font-size: 13px;">1</td>
       <td style="padding: 10px 8px; text-align: right; color: #525252; font-size: 13px;">₹49.00</td>
       <td style="padding: 10px 8px; text-align: right; font-weight: bold; color: #161311; font-size: 13px;">₹49.00</td>

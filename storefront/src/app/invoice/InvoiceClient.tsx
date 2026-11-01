@@ -505,7 +505,7 @@ export default function InvoiceClient() {
                       <p className="font-bold text-neutral-900">Cash on Delivery (COD) Doorstep Handling</p>
                       <p className="text-[10px] text-neutral-500 font-mono">Courier Cash Collection &amp; Verification</p>
                     </td>
-                    <td className="py-2.5 px-2 text-center font-mono text-neutral-600">9968</td>
+                    <td className="py-2.5 px-2 text-center font-mono text-neutral-600">6109</td>
                     <td className="py-2.5 px-2 text-center font-bold text-neutral-900">1</td>
                     <td className="py-2.5 px-2 text-right font-mono text-emerald-700 font-bold">FREE</td>
                     <td className="py-2.5 px-2 text-right font-mono text-neutral-600">₹0.00</td>

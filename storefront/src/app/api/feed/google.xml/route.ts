@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { products as curatedCatalog, Product, isKidsProduct, enforcePriceFloor } from '@/lib/data/products';
+import { products as curatedCatalog, Product, isKidsProduct, isDisallowed180GsmOrThin, enforcePriceFloor } from '@/lib/data/products';
 
 export const runtime = 'nodejs';
 export const revalidate = 3600; // Cache feed for 1 hour
@@ -15,6 +15,7 @@ function escapeXml(unsafe: string): string {
 
 function isDisallowed(p: Product): boolean {
   if (isKidsProduct(p)) return true;
+  if (isDisallowed180GsmOrThin(p)) return true;
   const str = `${p.id || ''} ${p.slug || ''} ${p.title || ''}`.toLowerCase();
   return /gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs|rare-ember-custom|blank-|bundle-|5474|180[-_ ]?gsm/i.test(str);
 }

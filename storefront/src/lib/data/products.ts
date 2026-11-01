@@ -137,6 +137,29 @@ export function isKidsProduct(p: { id?: string; title?: string; category?: strin
   return false;
 }
 
+/**
+ * Permanently purges 180 GSM and thin fabrics from the entire system.
+ * Enforces strict catalog floor: ONLY 240+ GSM structured cotton and heavyweight outerwear.
+ */
+export function isDisallowed180GsmOrThin(p?: { id?: string; title?: string; slug?: string } | null): boolean {
+  if (!p) return false;
+  const str = `${p.id || ''} ${p.slug || ''} ${p.title || ''}`.toLowerCase();
+
+  // 1. Everyday Classic Crew & Basic Tees (180 GSM)
+  if (/standard crew|classic crew|basic t-shirt|stretch t-shirt|dryfit|classic.*tee|basic.*tee|mrnhs|frnhs|ub73|uc48|ud15/i.test(str) && !str.includes('oversized')) return true;
+  if (/32476313|32476319|32476326|32476681|32476874|32476699|32476284/i.test(str)) return true;
+
+  // 2. Women's Crops, Baby Tees & Tanks (180 GSM)
+  if (/crop|baby[-_ ]?tee|tank[-_ ]?top|sleeveless|gym vest|fc39|fc40|ft37|ms36/i.test(str)) return true;
+  if (/32476722|32476716|32476800|32476851|32476764/i.test(str)) return true;
+
+  // 3. Men's Full-Sleeve T-Shirts & T-Shirt Dresses (Qikink SKU 5474 180 GSM)
+  if (/full[-_ ]?sleeve|dress|maternity|5474|180[-_ ]?gsm|mrnfs|mf31|fc43|fm44/i.test(str)) return true;
+  if (/32477737|32476824|32476756|32476736/i.test(str)) return true;
+
+  return false;
+}
+
 export function enforcePriceFloor(p: Product): Product {
   const pid = (p.id || '').toLowerCase();
   const title = (p.title || '').toLowerCase();
@@ -149,8 +172,8 @@ export function enforcePriceFloor(p: Product): Product {
     ? Number(rawCompare)
     : 0;
 
-  // Catalog Quality Guardrail: Permanently exclude 180 GSM blanks and SKU 5474
-  if (pid.includes('5474') || pid.includes('180gsm') || title.includes('180 gsm') || title.includes('180gsm')) {
+  // Catalog Quality Guardrail: Permanently exclude 180 GSM blanks, SKU 5474, thin crops, basic tees, and full sleeves
+  if (isDisallowed180GsmOrThin(p) || pid.includes('5474') || pid.includes('180gsm') || title.includes('180 gsm') || title.includes('180gsm')) {
     p.active = false;
   }
 
@@ -680,13 +703,16 @@ export const products: Product[] = [
     .filter((p) => !p.id.startsWith('bundle-'))
     // Filter out kids/baby clothes completely from catalog
     .filter((p) => !isKidsProduct(p))
+    // Filter out 180 GSM and thin blanks permanently from catalog
+    .filter((p) => !isDisallowed180GsmOrThin(p))
     // Gateway/test SKUs and custom mockups are excluded from public catalog
     .filter((p) => !/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|rare-ember-custom|blank-)/i.test(`${p.id} ${p.title} ${p.slug || ''}`))
     .map((p) => ({
       ...p,
       sizes: sortSizes(p.sizes),
     }))
-    .map(enforcePriceFloor)),
+    .map(enforcePriceFloor)
+    .filter((p) => p.active !== false)),
 ];
 
 export const PET_META: Record<string, any> = {
@@ -701,6 +727,7 @@ export function getProduct(id: string): Product | undefined {
   if (!id) return undefined;
   const cleanId = id.trim().toLowerCase();
   if (/(gateway|test[-_ ]?pass|rare-ember-custom|blank-)/i.test(cleanId)) return undefined;
+  if (isDisallowed180GsmOrThin({ id: cleanId, title: cleanId, slug: cleanId })) return undefined;
   const baseId = cleanId.split('__')[0];
   return products.find((p) => 
     p.id.toLowerCase() === baseId || 

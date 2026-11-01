@@ -35,10 +35,10 @@ describe('normalizeIndianState', () => {
 
 describe('Product Catalog Resolution (Zero 404 Glitches)', () => {
   it('successfully resolves the Signature Graphic Drop without 404', async () => {
-    const drop = await getProductFromDB('qikink-32477737-mens-full-sleeve-t-shirt');
+    const drop = await getProductFromDB('qikink-32476431-unisex-oversized-standard-t-shirt');
     expect(drop).toBeDefined();
-    expect(drop?.id).toBe('qikink-32477737-mens-full-sleeve-t-shirt');
-    expect(drop?.title).toContain('Men\'s Full Sleeve T-Shirt');
+    expect(drop?.id).toBe('qikink-32476431-unisex-oversized-standard-t-shirt');
+    expect(drop?.title).toContain('Oversized Standard T-Shirt');
   });
 
   it('resolves all products in the catalog cleanly', async () => {

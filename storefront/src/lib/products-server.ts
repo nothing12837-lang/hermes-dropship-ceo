@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { products as localProducts, cleanBrandTitle, enforcePriceFloor, isKidsProduct, type Product, type ProductCategory, type PetType, type AgeGroup } from '@/lib/data/products';
+import { products as localProducts, cleanBrandTitle, enforcePriceFloor, isKidsProduct, isDisallowed180GsmOrThin, BUNDLE_FALLBACK_PRODUCTS, type Product, type ProductCategory, type PetType, type AgeGroup } from '@/lib/data/products';
 import { resolveProductImage } from '@/lib/data/fallback-images';
 import { resolveProductImages } from '@/lib/data/product-gallery';
 import type { Database, Json } from '@/lib/database.types';
@@ -196,6 +196,7 @@ export function isDisallowedProduct(p: { id?: string; slug?: string; title?: str
   if (!p) return true;
   if (p.isCustomBlank) return true;
   if (isKidsProduct(p)) return true;
+  if (isDisallowed180GsmOrThin(p)) return true;
   const targetId = `${p.id || ''} ${p.slug || ''} ${p.title || ''}`.toLowerCase();
   if (/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs|rare-ember-custom|blank-)/i.test(targetId)) return true;
   return DISALLOWED_KEYWORDS.some((kw) => targetId.includes(kw));
@@ -286,7 +287,8 @@ function findLocalProduct(term: string): Product | null {
   if (/(gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|10rs|5rs)/i.test(rawTerm)) return null;
   const cleanTerm = PRODUCT_SLUG_ALIASES[rawTerm] || rawTerm;
   const cleanedSlug = cleanBrandSlug(cleanTerm);
-  const match = localProducts.find((p) => {
+  const allAvailable = [...localProducts, ...BUNDLE_FALLBACK_PRODUCTS];
+  const match = allAvailable.find((p) => {
     if (p.id.toLowerCase() === cleanTerm || p.slug.toLowerCase() === cleanTerm) return true;
     if (p.qikinkClientProductId && cleanTerm.includes(p.qikinkClientProductId)) return true;
     if ((cleanTerm === "64950694" || cleanTerm === "64951032") && (p.id.includes(cleanTerm) || p.slug.includes(cleanTerm))) return true;
