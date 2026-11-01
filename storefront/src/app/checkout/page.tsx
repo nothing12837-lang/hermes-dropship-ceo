@@ -107,31 +107,14 @@ export default function CheckoutPage() {
   const handleSelectPaymentMethod = (method: 'online' | 'cod') => {
     setPaymentMethod(method);
     setError('');
-    const eligible240 = detailed.filter((d) => {
-      const p = d.product.price_inr || d.product.price;
-      const pid = (d.product.id || '').toLowerCase();
-      const ptitle = (d.product.title || '').toLowerCase();
-      return p === 799 || pid.includes('32476431') || pid.includes('32476280') || pid.includes('32476332') || pid.includes('32476629') || /240 gsm|standard-t-shirt|classic-t-shirt|oversized-shirt|oversized-jersey/i.test(`${ptitle} ${pid}`);
-    });
-    const total240Qty = eligible240.reduce((sum, item) => sum + (item.qty || 1), 0);
-    const bSavings = Math.floor(total240Qty / 2) * 99;
-
-    const isAutoPromo = !couponApplied || appliedCouponCode === 'PREPAID20' || appliedCouponCode === 'PREPAID10' || appliedCouponCode === 'PREPAID50' || appliedCouponCode === 'WELCOME_UPI100';
 
     if (method === 'online') {
-      if (isAutoPromo) {
-        const upiOff = subtotal <= 700 ? 10 : 20;
-        setCoupon(upiOff === 10 ? 'PREPAID10' : 'PREPAID20');
-        setAppliedCouponCode(upiOff === 10 ? 'PREPAID10' : 'PREPAID20');
-        setAppliedCouponLabel(`⚡ Instant ₹${upiOff} UPI Discount`);
-        setDiscount(upiOff);
-        setCouponApplied(true);
-      } else if (appliedCouponCode.startsWith('RE-GIFT-')) {
+      if (appliedCouponCode.startsWith('RE-GIFT-')) {
         setDiscount(50);
         setAppliedCouponLabel(`Gift Voucher: ₹50 OFF (${appliedCouponCode})`);
       }
     } else if (method === 'cod') {
-      if (isAutoPromo) {
+      if (appliedCouponCode === 'PREPAID20' || appliedCouponCode === 'PREPAID10' || appliedCouponCode === 'PREPAID50' || appliedCouponCode === 'WELCOME_UPI100') {
         setCoupon('');
         setAppliedCouponCode('');
         setAppliedCouponLabel('');
@@ -377,27 +360,16 @@ export default function CheckoutPage() {
   };
   const subtotal = detailed.reduce((a, b) => a + getProductItemPrice(b.product) * b.qty, 0);
 
-  // Auto-apply UPI instant discount calibrated for strict 20.0% to 25.0% profit margin
+  // Clear prepaid-only coupons if switching to COD
   useEffect(() => {
-    if (paymentMethod === 'online') {
-      if (!couponApplied && !appliedCouponCode) {
-        const upiOff = subtotal <= 700 ? 10 : 20;
-        setCoupon(upiOff === 10 ? 'PREPAID10' : 'PREPAID20');
-        setAppliedCouponCode(upiOff === 10 ? 'PREPAID10' : 'PREPAID20');
-        setAppliedCouponLabel(`⚡ Instant ₹${upiOff} UPI Discount`);
-        setDiscount(upiOff);
-        setCouponApplied(true);
-      }
-    } else if (paymentMethod === 'cod') {
-      if (!couponApplied && !appliedCouponCode) {
-        setCoupon('');
-        setAppliedCouponCode('');
-        setAppliedCouponLabel('');
-        setDiscount(0);
-        setCouponApplied(false);
-      }
+    if (paymentMethod === 'cod' && (appliedCouponCode === 'PREPAID10' || appliedCouponCode === 'PREPAID20')) {
+      setCoupon('');
+      setAppliedCouponCode('');
+      setAppliedCouponLabel('');
+      setDiscount(0);
+      setCouponApplied(false);
     }
-  }, [subtotal, paymentMethod, couponApplied, appliedCouponCode]);
+  }, [paymentMethod, appliedCouponCode]);
   // The server caps COD on the POST-DISCOUNT total (`finalTotal`), so the
   // client must use the same number -- otherwise COD is hidden for orders the
   // server would happily accept.
@@ -1373,13 +1345,9 @@ export default function CheckoutPage() {
                     <p className="text-xs text-neutral-500 mt-1">
                       Instant 1-click payment via Google Pay, PhonePe, Paytm, Cards &amp; NetBanking.
                     </p>
-                    <div className="mt-2 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60 inline-flex items-center gap-1.5 flex-wrap">
+                    <div className="mt-2 text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60 inline-flex items-center gap-1.5 flex-wrap">
                       <span>⚡</span>
-                      <span>
-                        {subtotal <= 700
-                          ? 'Instant UPI Discount: ₹10 OFF • ₹0 COD Fee • Free Express Air Delivery'
-                          : 'Instant UPI Discount: ₹20 OFF • ₹0 COD Fee • Free Express Air Delivery'}
-                      </span>
+                      <span>Zero Gateway Convenience Fees • Insured Priority Air Dispatch</span>
                     </div>
                   </div>
                 </label>
@@ -1398,7 +1366,7 @@ export default function CheckoutPage() {
                           </span>
                         </div>
                         <p className="text-xs text-neutral-600 mt-1.5 leading-relaxed">
-                          To protect against courier transit damages and guarantee doorstep air delivery, orders of <b>₹3,000 and above</b> require Instant Online Payment (UPI / Cards). Enjoy <b>zero COD fees</b>, <b>instant ₹50 discount</b>, and priority domestic fulfillment.
+                          To protect against courier transit damages and guarantee doorstep air delivery, orders of <b>₹3,000 and above</b> require Instant Online Payment (UPI / Cards). Enjoy <b>zero COD fees</b>, <b>complimentary express delivery</b>, and priority domestic fulfillment.
                         </p>
                       </div>
                     </div>
@@ -1425,16 +1393,16 @@ export default function CheckoutPage() {
                           Cash on Delivery (₹100 Advance Booking)
                         </span>
                         {market === 'IN' && (
-                          <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">+₹49 Courier COD Fee</span>
+                          <span className="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">₹0 COD Handling Fee</span>
                         )}
                       </div>
                       <p className="text-xs text-neutral-500 mt-1">
                         Pay ₹100 online now via UPI to verify intent &amp; book fulfillment. Pay remaining balance at doorstep upon delivery.
                       </p>
                       <div className="mt-2 text-[11px] font-medium text-neutral-700 bg-neutral-100 px-2.5 py-1 rounded-lg border border-black/[0.08] flex items-center justify-between">
-                        <span>Due Now: <b className="text-neutral-900 font-bold">₹100.00</b></span>
+                        <span>Due Now: <b className="text-neutral-900 font-bold">₹100</b></span>
                         <span className="text-neutral-300">•</span>
-                        <span>Pay at Doorstep: <b className="text-emerald-700 font-bold">₹{Math.max(0, total - 100).toFixed(2)}</b></span>
+                        <span>Pay at Doorstep: <b className="text-emerald-700 font-bold">₹{Math.max(0, Math.round(total - 100)).toLocaleString('en-IN')}</b></span>
                       </div>
                     </div>
                   </label>
@@ -1597,11 +1565,11 @@ export default function CheckoutPage() {
                   <div className="pt-2 border-t border-white/10 space-y-1">
                     <div className="flex justify-between text-amber-300 font-bold">
                       <span>Advance Due Now (Online UPI)</span>
-                      <span>₹100.00</span>
+                      <span>₹100</span>
                     </div>
                     <div className="flex justify-between text-emerald-400 font-bold">
                       <span>Collectible at Doorstep (COD)</span>
-                      <span>₹{Math.max(0, total - 100).toFixed(2)}</span>
+                      <span>₹{Math.max(0, Math.round(total - 100)).toLocaleString('en-IN')}</span>
                     </div>
                   </div>
                 )}
@@ -1647,7 +1615,7 @@ export default function CheckoutPage() {
                     <span>₹100 Online Advance Booking • Balance on Delivery</span>
                   </div>
                   <p className="text-[11px] text-neutral-300 leading-relaxed">
-                    Pay ₹100 now via UPI to verify shipping intent and reserve your piece. The remaining balance of <b className="text-white">₹{Math.max(0, total - 100).toFixed(2)}</b> is collected at your doorstep upon delivery.
+                    Pay ₹100 now via UPI to verify shipping intent and reserve your piece. The remaining balance of <b className="text-white">₹{Math.max(0, Math.round(total - 100)).toLocaleString('en-IN')}</b> is collected at your doorstep upon delivery.
                   </p>
                 </div>
               )}
@@ -1668,7 +1636,7 @@ export default function CheckoutPage() {
                 ) : paymentMethod === 'cod' ? (
                   <>
                     <span>Pay ₹100 Advance &amp; Book COD</span>
-                    <span>• ₹{Math.max(0, total - 100).toFixed(2)} Doorstep</span>
+                    <span>• ₹{Math.max(0, Math.round(total - 100)).toLocaleString('en-IN')} Doorstep</span>
                   </>
                 ) : (
                   <>
@@ -1727,10 +1695,10 @@ export default function CheckoutPage() {
             <div className="space-y-3 text-xs">
               <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-950 leading-relaxed">
                 <p className="font-bold text-amber-900 mb-1">
-                  ⚡ Pay ₹100 Advance Now • ₹{Math.max(0, total - 100).toFixed(2)} on Doorstep
+                  ⚡ Pay ₹100 Advance Now • ₹{Math.max(0, Math.round(total - 100)).toLocaleString('en-IN')} on Doorstep
                 </p>
                 <p className="text-[11px] text-amber-800">
-                  To verify shipping intent and issue your insured airway bill, pay a ₹100 booking advance via UPI/Card. The remaining balance of ₹{Math.max(0, total - 100).toFixed(2)} is collected at your doorstep upon delivery.
+                  To verify shipping intent and issue your insured airway bill, pay a ₹100 booking advance via UPI/Card. The remaining balance of ₹{Math.max(0, Math.round(total - 100)).toLocaleString('en-IN')} is collected at your doorstep upon delivery.
                 </p>
               </div>
 
@@ -1749,11 +1717,11 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex items-center justify-between text-[11px] pt-1 border-t border-black/5">
                   <span className="text-neutral-500 font-medium">Advance Due Now:</span>
-                  <span className="font-extrabold text-[#FF4D24]">₹100.00 (Online UPI)</span>
+                  <span className="font-extrabold text-[#FF4D24]">₹100 (Online UPI)</span>
                 </div>
                 <div className="flex items-center justify-between text-[11px]">
                   <span className="text-neutral-500 font-medium">Balance at Doorstep:</span>
-                  <span className="font-bold text-emerald-700">₹{Math.max(0, total - 100).toFixed(2)} (Cash/UPI)</span>
+                  <span className="font-bold text-emerald-700">₹{Math.max(0, Math.round(total - 100)).toLocaleString('en-IN')} (Cash/UPI)</span>
                 </div>
               </div>
             </div>

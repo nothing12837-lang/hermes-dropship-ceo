@@ -2188,10 +2188,10 @@ export function ProductClient({ product }: Props) {
                   isBottomwear ? 'STREETWEAR TERRY' :
                   isHoodieOrSweatshirt ? '380 GSM FLEECE' :
                   isCropTopOrPolySpandex ? '220 GSM POLY-SPANDEX' :
-                  isJerseyOrDryFit ? '180 GSM QUICK-DRY' :
+                  isJerseyOrDryFit ? '240 GSM AEROKNIT MESH' :
                   isDeskMat ? 'EXTENDED 900×400MM' :
                   isDrinkware ? (isSteelBottleOrTumbler ? 'INSULATED STEEL' : 'CERAMIC STONEWARE') :
-                  isCottonTee ? '240 GSM HEAVYWEIGHT' :
+                  isCottonTee ? '240 GSM STRUCTURED COTTON' :
                   'FLAGSHIP DROP'
                 ))}
               </span>
@@ -2226,6 +2226,22 @@ export function ProductClient({ product }: Props) {
                   </span>
                 );
               })()}
+            </div>
+
+            {/* Sleek Luxury Value Badges */}
+            <div className="flex items-center gap-2 mt-3 flex-wrap">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-neutral-900 text-white tracking-wide">
+                <span>⚡</span>
+                <span>₹100 COD Advance Booking</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                <span>✈️</span>
+                <span>Free Express Air Delivery</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-neutral-100 text-neutral-800 border border-black/10">
+                <span>🔄</span>
+                <span>7-Day Doorstep Replacement</span>
+              </span>
             </div>
 
             
@@ -3417,23 +3433,23 @@ export function ProductClient({ product }: Props) {
                 </div>
 
                 {/* 3-Line Quality Comparison Box */}
-                <div className="mt-3 p-3.5 rounded-2xl bg-[#FAF8F5] border border-black/[0.08] text-xs space-y-2">
-                  <div className="flex items-start gap-2 text-neutral-600">
+                <div className="mt-3 p-4 rounded-2xl bg-[#FAF8F5] border border-black/[0.08] text-xs space-y-2.5">
+                  <div className="flex items-start gap-2.5 text-neutral-600">
                     <span className="text-rose-500 font-bold shrink-0">✕</span>
                     <div>
-                      <strong className="text-neutral-800">Fast-Fashion Brands (₹999–₹1,499):</strong> Thin 180 GSM cloth &amp; cracking prints.
+                      <strong className="text-neutral-900">Commercial Fast-Fashion (₹999–₹1,499):</strong> Thin 180 GSM cotton, cracking plastic prints &amp; boxy polyester blends.
                     </div>
                   </div>
-                  <div className="flex items-start gap-2 text-neutral-800">
+                  <div className="flex items-start gap-2.5 text-neutral-900">
                     <span className="text-emerald-600 font-bold shrink-0">✓</span>
                     <div>
-                      <strong className="text-neutral-950">RareEmber Atelier ({geoFormatPrice(Math.max(1, effectiveInr - 100))} on 1st UPI Order):</strong> True {getGarmentFabricSpecs(product).badge} + Both-Side HD Archival Prints + Free Express Air Delivery.
+                      <strong className="text-neutral-950">RareEmber Studio ({geoFormatPrice(effectivePriceUsd, effectiveInr)}):</strong> True {getGarmentFabricSpecs(product).badge} + Archival HD Direct-to-Film Prints + Tailored Architectural Drape.
                     </div>
                   </div>
-                  <div className="flex items-start gap-2 text-[#E04F33] pt-1.5 border-t border-black/[0.06]">
-                    <span className="shrink-0">⚡</span>
+                  <div className="flex items-start gap-2.5 text-neutral-900 pt-2 border-t border-black/[0.06]">
+                    <span className="text-amber-600 font-bold shrink-0">⚡</span>
                     <div>
-                      <strong className="text-[#0D0D0F]">Zero-Risk Checkout:</strong> ₹50 1st-Order Off + ₹50 UPI Off, or ₹100 COD Advance with ₹0 COD Fee.
+                      <strong className="text-neutral-950">Zero-Risk Doorstep Booking:</strong> Book with a ₹100 advance online via UPI, with balance collected upon doorstep delivery (₹0 COD fee).
                     </div>
                   </div>
                 </div>

@@ -256,15 +256,8 @@ export async function POST(req: NextRequest) {
         }
       }
     } else {
-      // Auto UPI Instant Discount calibrated for strict 20.0% to 25.0% profit margin
-      if (!isCod && isIndia) {
-        const upiOff = subtotal <= 700 ? 10 : 20;
-        discountAmount = upiOff;
-        verifiedCoupon = upiOff === 10 ? 'PREPAID10' : 'PREPAID20';
-      } else {
-        discountAmount = 0;
-        verifiedCoupon = '';
-      }
+      discountAmount = 0;
+      verifiedCoupon = '';
     }
 
     const finalTotal = Math.max(1, subtotal - discountAmount + codFee);

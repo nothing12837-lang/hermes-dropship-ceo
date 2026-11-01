@@ -534,7 +534,7 @@ export default function CartDrawer() {
               </div>
 
               <div className="text-[11px] text-emerald-800 font-bold bg-emerald-50/90 px-2.5 py-1.5 rounded-xl border border-emerald-200/80 mb-3 text-center">
-                ⚡ Instant UPI Discount applied automatically at checkout!
+                ⚡ Complimentary Express Air Delivery Across 29,000+ PIN Codes
               </div>
 
               {/* Dynamic Milestone Progress Bar */}
@@ -561,7 +561,7 @@ export default function CartDrawer() {
                 <div className="space-y-1.5 text-[11px]">
                   {subtotal < 1000 ? (
                     <div className="text-neutral-700 flex justify-between items-center">
-                      <span>• Active: <strong>₹50 UPI Discount + Free Express Air</strong></span>
+                      <span>• Active: <strong>Free Insured Express Air Delivery</strong></span>
                       <span className="text-[10px] text-amber-700 font-bold">Add ₹{1000 - subtotal} for ₹50 Voucher</span>
                     </div>
                   ) : subtotal < 2000 ? (

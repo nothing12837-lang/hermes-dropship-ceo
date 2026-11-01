@@ -288,34 +288,29 @@ export default function ProductCard({
             {cleanTitle}
           </h3>
 
-          <div className="flex flex-col mt-auto pt-2">
+            <div className="flex flex-col mt-auto pt-2">
             <div className="flex items-start justify-between gap-2 flex-wrap">
               <div className="flex flex-col">
-                {(() => {
-                  const upiPrice = inr === 669 ? 659 : inr === 759 ? 739 : inr === 1329 ? 1309 : inr === 1349 ? 1329 : inr === 1499 ? 1479 : Math.max(1, inr - 20);
-                  const upiSavings = inr - upiPrice;
-                  return (
-                    <>
-                      <div className="flex items-baseline gap-1.5 flex-wrap">
-                        <span className="text-base sm:text-lg font-black text-[#0D0D0F] tracking-tight">
-                          {geoFormatPrice(upiPrice)}{' '}
-                          <span className="text-xs font-bold text-[#E04F33]">on Instant UPI</span>
-                        </span>
-                      </div>
-                      <div className="flex items-baseline gap-1.5 text-[11px] text-neutral-500 font-medium mt-0.5 flex-wrap">
-                        <span>Base {displayPrice}</span>
-                        <span className="text-[10px] text-emerald-800 font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200/60">
-                          ⚡ ₹{upiSavings} Instant UPI Discount
-                        </span>
-                      </div>
-                    </>
-                  );
-                })()}
+                <div className="flex items-baseline gap-2 flex-wrap">
+                  <span className="text-base sm:text-lg font-black text-[#0D0D0F] tracking-tight">
+                    {displayPrice}
+                  </span>
+                  {displayOldPrice && (
+                    <span className="text-xs text-neutral-400 line-through font-medium">
+                      {displayOldPrice}
+                    </span>
+                  )}
+                  {calculatedDiscount > 0 && (
+                    <span className="text-[10px] font-black text-[#E04F33] bg-[#E04F33]/10 px-1.5 py-0.5 rounded">
+                      -{calculatedDiscount}%
+                    </span>
+                  )}
+                </div>
               </div>
 
               {/* Color preview dots */}
               {colors && colors.length > 0 && (
-                <div className="flex items-center gap-1 shrink-0" title={`Available in: ${colors.join(', ')}`}>
+                <div className="flex items-center gap-1 shrink-0 mt-0.5" title={`Available in: ${colors.join(', ')}`}>
                   {colors.slice(0, 4).map((c, idx) => {
                     const bg = getCardColorHex(c);
                     return (
@@ -336,17 +331,17 @@ export default function ProductCard({
               )}
             </div>
 
-                        {/* Sleek COD Booking Pill Badge */}
-            <div className="mt-2">
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-900 border border-amber-200/80 tracking-wide">
+            {/* Clean Luxury COD Booking Badge */}
+            <div className="mt-2 flex items-center gap-1.5 flex-wrap">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-neutral-100 text-neutral-800 border border-black/10 tracking-wide">
                 <span>⚡</span>
-                <span>Or Book for ₹100 COD (₹0 COD Fee)</span>
+                <span>₹100 COD Advance Booking</span>
               </span>
             </div>
 
             <div className="text-[10px] sm:text-[11px] text-neutral-500 font-medium mt-1.5 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#059669] pulse-live-dot" />
-              <span>Verified Seller Sourcing • Free Prepaid Delivery</span>
+              <span>Verified Architectural Drop • Free Express Air</span>
             </div>
           </div>
         </div>
