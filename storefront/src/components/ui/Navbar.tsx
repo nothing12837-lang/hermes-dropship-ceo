@@ -21,7 +21,8 @@ const drawerLinks = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'All Catalog' },
   { href: '/shop?cat=mens-printed', label: 'Graphic Streetwear' },
-  { href: '/shop?cat=blanks', label: 'Essential Blanks' },
+  { href: '/shop?cat=hoodies', label: 'Heavyweight Hoodies' },
+  { href: '/shop?cat=tees', label: '240 GSM Oversized Tees' },
   { href: '/track', label: 'Track Order' },
   { href: '/returns', label: '7-Day Easy Returns' },
   { href: '/support', label: 'Customer Support' },
@@ -86,7 +87,7 @@ export default function Navbar() {
       <header className="fixed top-0 left-0 right-0 z-[100]">
         {/* Top Announcement Bar */}
         <div className="bg-zinc-950 text-[#FAF8F5] text-[11px] py-1.5 px-3 text-center tracking-wide font-medium flex items-center justify-center gap-1.5 border-b border-white/5">
-          <span>⚡ FREE PREPAID DELIVERY • EXTRA ₹30 OFF ON UPI • 7-DAY EASY RETURNS</span>
+          <span>⚡ FREE EXPRESS AIR DELIVERY • INSTANT UPI SAVINGS • 7-DAY DOORSTEP REPLACEMENT</span>
         </div>
 
         {/* Desktop Navbar (>= lg) */}

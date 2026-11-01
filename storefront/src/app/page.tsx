@@ -83,19 +83,9 @@ const ASSURANCES = [
 export default async function Home() {
   const allProducts = await getProductsFromDB();
 
-  // 1. Men's Graphic Printed Streetwear (Priority showcase)
-  const mensPrinted = allProducts.filter(
-    (p) => (p.gender === 'men' || p.category === 'mens') && (p.is_printed === true || (p as any).isPrinted === true) && !p.id.startsWith('bundle-') && !isKidsProduct(p)
-  );
-
-  // 2. Women's & Art Editions Printed Graphic Drops (Strictly adult drops only)
-  const otherPrinted = allProducts.filter(
-    (p) => (p.gender === 'women' || p.category === 'womens') && (p.is_printed === true || (p as any).isPrinted === true) && !p.id.startsWith('bundle-') && !isKidsProduct(p)
-  );
-
-  // 3. Essential Streetwear Blanks (Acid Wash, Solid Oversized Tees, Polos, Minimal Silhouettes)
-  const blanks = allProducts.filter(
-    (p) => (p.is_printed === false || (p as any).isPrinted === false) && !p.id.startsWith('bundle-') && !isKidsProduct(p)
+  // 1. Curated Custom-Printed Graphic Streetwear Drops (The Strict 8 Pieces)
+  const graphicDrops = allProducts.filter(
+    (p) => (p.is_printed === true || (p as any).isPrinted === true) && !p.id.startsWith('bundle-') && !isKidsProduct(p)
   );
 
   return (
@@ -144,10 +134,8 @@ export default async function Home() {
       <div className="max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 pt-6 sm:pt-8 flex flex-col gap-12 sm:gap-16">
 
         {/* 1. SECTION: ARCHIVAL DROPS — CRAFTED FOR THE RARE */}
-        {mensPrinted.length > 0 && (
+        {graphicDrops.length > 0 && (
           <section id="mens-printed" className="scroll-mt-24 overflow-x-hidden">
-            
-
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-4">
               <div>
                 <div className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#E04F33] font-bold mb-1 flex items-center gap-1.5">
@@ -166,7 +154,7 @@ export default async function Home() {
 
             {/* Product Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-              {mensPrinted.map((p, i) => (
+              {graphicDrops.map((p, i) => (
                 <ScrollReveal key={p.id} delay={Math.min(i * 30, 240)}>
                   <ProductCard {...toCard(p)} priority={i < 6} />
                 </ScrollReveal>
@@ -177,78 +165,6 @@ export default async function Home() {
 
         {/* 1.5 DEDICATED GSM CATEGORIZER SECTION */}
         <GsmCategorizerSection products={allProducts} />
-
-        {/* 2. SECTION: WOMEN'S & ART EDITIONS */}
-        {otherPrinted.length > 0 && (
-          <section id="other-printed" className="scroll-mt-24 overflow-x-hidden">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4 mb-4">
-              <div>
-                <div className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#E04F33] font-bold mb-1 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E04F33] pulse-live-dot" />
-                  Collection 02 • Limited Drops
-                </div>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-zinc-950">
-                  Women&apos;s &amp; Art Editions
-                </h2>
-                <p className="text-sm sm:text-base text-neutral-600 mt-1.5 font-medium max-w-2xl">
-                  Crop silhouettes, classic crewnecks, and aesthetic typographic graphics.
-                </p>
-              </div>
-              <Link
-                href="/shop?cat=womens"
-                className="text-xs sm:text-sm font-bold text-zinc-950 hover:text-[#E04F33] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#E04F33] transition-colors self-start sm:self-auto"
-              >
-                <span>Explore Women&apos;s Collection ({otherPrinted.length})</span>
-                <span>→</span>
-              </Link>
-            </div>
-            <div className="w-full h-px bg-zinc-200/80 mb-5" />
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-              {otherPrinted.map((p, i) => (
-                <ScrollReveal key={p.id} delay={Math.min(i * 30, 240)}>
-                  <ProductCard {...toCard(p)} />
-                </ScrollReveal>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* 3. SECTION: ESSENTIAL STREETWEAR BLANKS */}
-        {blanks.length > 0 && (
-          <section id="streetwear-blanks" className="scroll-mt-24 overflow-x-hidden">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4 mb-4">
-              <div>
-                <div className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#0D0D0F] font-bold mb-1 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#0D0D0F] pulse-live-dot" />
-                  Collection 03 • Daily Architecture
-                </div>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-zinc-950">
-                  Essential Blanks &amp; Acid Wash Silhouettes
-                </h2>
-                <p className="text-sm sm:text-base text-neutral-600 mt-1.5 font-medium max-w-2xl">
-                  Acid-wash textures, heavyweight raglan tees, solid crewnecks, and minimal wardrobe staples.
-                </p>
-              </div>
-              <Link
-                href="/shop?cat=blanks"
-                className="text-xs sm:text-sm font-bold text-zinc-950 hover:text-[#E04F33] no-underline flex items-center gap-1 shrink-0 pb-1 border-b border-black/20 hover:border-[#E04F33] transition-colors self-start sm:self-auto"
-              >
-                <span>Explore Essential Blanks ({blanks.length})</span>
-                <span>→</span>
-              </Link>
-            </div>
-            <div className="w-full h-px bg-zinc-200/80 mb-5" />
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-              {blanks.map((p, i) => (
-                <ScrollReveal key={p.id} delay={Math.min(i * 30, 240)}>
-                  <ProductCard {...toCard(p)} />
-                </ScrollReveal>
-              ))}
-            </div>
-          </section>
-        )}
 
         {/* 4. GEO & SEO AUTHORITY SECTION: STREETWEAR CRAFTSMANSHIP, SIZING & SCIENCE */}
         <section id="streetwear-craftsmanship" className="scroll-mt-24 bg-white border border-black/[0.08] rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm space-y-8">

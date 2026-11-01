@@ -24,10 +24,9 @@ export const COPY = {
         title: 'Collection',
         links: [
           { label: 'All Catalog', href: '/shop' },
-          { label: "Men's Graphic Drops", href: '/shop?cat=mens-printed' },
-          { label: 'All Graphic Prints', href: '/shop?cat=printed' },
-          { label: "Women's Collection", href: '/shop?cat=womens' },
-          { label: 'Essential Blanks', href: '/shop?cat=blanks' },
+          { label: 'Graphic Drops', href: '/shop?cat=mens-printed' },
+          { label: 'Heavyweight Hoodies', href: '/shop?cat=hoodies' },
+          { label: '240 GSM Oversized Tees', href: '/shop?cat=tees' },
         ],
       },
       {

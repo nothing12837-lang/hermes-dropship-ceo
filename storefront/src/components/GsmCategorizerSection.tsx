@@ -155,7 +155,7 @@ export default function GsmCategorizerSection({ products }: Props) {
             Categorize By Exact Fabric Weight (GSM)
           </h2>
           <p className="text-sm sm:text-base text-neutral-600 mt-1 font-medium max-w-2xl">
-            Choose your silhouette by verified fabric density. From breathable 160 GSM American Supima to fortress-like 400 GSM winter fleece.
+            Choose your silhouette by verified fabric density. From architectural 240 GSM structured cotton to 380 GSM heavyweight thermal fleece.
           </p>
         </div>
 
