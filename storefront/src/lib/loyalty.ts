@@ -40,10 +40,23 @@ export function generateVoucherCode(): string {
 }
 
 /**
- * Issues a post-delivery 90-day gift voucher upon order delivery.
- * - Total >= 2000 => ₹100 Gift Voucher
- * - Total >= 1000 => ₹50 Gift Voucher
- * - Min Order Value: ₹999
+ * Tiered Automatic Order Volume Discount:
+ * - Subtotal >= 2000 => Flat ₹149 Instant Auto-Deduction
+ * - Subtotal >= 1000 => Flat ₹69 Instant Auto-Deduction
+ * - Subtotal < 1000 => ₹0
+ */
+export function calculateTierAutoDiscount(subtotal: number): number {
+  if (subtotal >= 2000) return 149;
+  if (subtotal >= 1000) return 69;
+  return 0;
+}
+
+/**
+ * Issues a post-delivery 60-day gift voucher upon order delivery.
+ * - Total >= 2000 => ₹130 Gift Voucher (valid 60 days)
+ * - Total >= 1000 => ₹70 Gift Voucher (valid 60 days)
+ * - Total < 1000 => ₹50 Gift Voucher (valid 60 days)
+ * - Min Order Value: ₹669
  * - Idempotent via UNIQUE(source_order_id)
  */
 export async function issueOrderLoyaltyVoucher(order: {
@@ -56,8 +69,9 @@ export async function issueOrderLoyaltyVoucher(order: {
   const total = Number(order.total) || 0;
   if (total <= 0) return null;
 
-  const voucherAmount = 50; // Universal ₹50 Post-Delivery Gift Voucher
-  const minOrderFloor = 799; // Allows redemption on any order of ₹799+ (protecting margin floor)
+  // Tiered Post-Delivery Voucher for 60-day repeat purchase:
+  const voucherAmount = total >= 2000 ? 130 : total >= 1000 ? 70 : 50;
+  const minOrderFloor = 669; // Allows redemption on any active catalog drop
   const supabase = supabaseClient || getServiceSupabase();
   if (!supabase) return null;
 
@@ -73,7 +87,7 @@ export async function issueOrderLoyaltyVoucher(order: {
       return {
         code: existing.code,
         amount: Number(existing.amount_inr),
-        minOrderValue: Number(existing.min_order_value || 799),
+        minOrderValue: Number(existing.min_order_value || 669),
         expiresAt: new Date(existing.expires_at).toLocaleDateString('en-IN', {
           day: '2-digit',
           month: 'short',
@@ -83,7 +97,7 @@ export async function issueOrderLoyaltyVoucher(order: {
     }
 
     const code = generateVoucherCode();
-    const expiresDate = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
+    const expiresDate = new Date(Date.now() + 60 * 24 * 60 * 60 * 1000); // 60-day validity window
 
     const { data: created, error } = await supabase
       .from('loyalty_vouchers')
@@ -94,7 +108,7 @@ export async function issueOrderLoyaltyVoucher(order: {
         source_order_id: order.id,
         purchased_item_title: order.purchasedItemTitle || 'Rare Ember Architectural Garment',
         amount_inr: voucherAmount,
-        min_order_value: 799,
+        min_order_value: minOrderFloor,
         issued_at: new Date().toISOString(),
         expires_at: expiresDate.toISOString(),
         is_redeemed: false,
@@ -166,7 +180,7 @@ export async function verifyLoyaltyVoucher(
       return { valid: false, discountAmount: 0, code: cleanCode, error: 'This gift voucher has expired.' };
     }
 
-    const minReq = Number(voucher.min_order_value || 799);
+    const minReq = Number(voucher.min_order_value || 669);
     if (cartTotal < minReq) {
       return {
         valid: false,
@@ -266,7 +280,7 @@ export async function processVoucherReminders(supabaseClient?: any): Promise<{
       year: 'numeric',
     });
 
-    // Stage 3: 72-Hour Warning (approx 3 days or less before expiry)
+    // Stage 3: 72-Hour Final Expiry Alert (Day 57 of 60 / <= 3 days remaining)
     if (daysUntilExpiry <= 3 && !v.reminder_87d_sent_at) {
       const sent = await sendVoucherReminderEmail({
         stage: 'day87',
@@ -287,8 +301,8 @@ export async function processVoucherReminders(supabaseClient?: any): Promise<{
       continue;
     }
 
-    // Stage 2: Mid-Validity Reminder (Day 45)
-    if (daysSinceIssued >= 45 && !v.reminder_45d_sent_at) {
+    // Stage 2: Mid-Validity Reminder (Day 35 of 60)
+    if (daysSinceIssued >= 35 && !v.reminder_45d_sent_at) {
       const sent = await sendVoucherReminderEmail({
         stage: 'day45',
         customerEmail: v.customer_email,
@@ -308,8 +322,8 @@ export async function processVoucherReminders(supabaseClient?: any): Promise<{
       continue;
     }
 
-    // Stage 1: Wardrobe Check-In (Day 20)
-    if (daysSinceIssued >= 20 && !v.reminder_20d_sent_at) {
+    // Stage 1: Wardrobe Check-In & Activation (Day 15 of 60)
+    if (daysSinceIssued >= 15 && !v.reminder_20d_sent_at) {
       const sent = await sendVoucherReminderEmail({
         stage: 'day20',
         customerEmail: v.customer_email,

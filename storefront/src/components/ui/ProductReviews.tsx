@@ -207,7 +207,7 @@ export default function ProductReviews({ productId, productTitle }: ProductRevie
             Be the First to Review This Drop
           </h3>
           <p className="text-xs text-stone-600 max-w-md mx-auto mb-4 leading-relaxed">
-            Order this piece today, share your honest fit & fabric photo feedback, and get <span className="font-bold text-orange-600">₹100 OFF</span> your next drop with code <span className="font-mono font-bold text-stone-900 bg-stone-200/80 px-1.5 py-0.5 rounded">FIRST100</span>.
+            Order this piece today and share your verified fit &amp; fabric photo review to help other collectors in the community.
           </p>
           <button
             onClick={() => setShowForm(true)}

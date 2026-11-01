@@ -381,15 +381,15 @@ export function validateCouponCode(
   // 4. Check VIP Loyalty Gift Vouchers (e.g. RE-GIFT-XXXXXX)
   const giftMatch = code.match(/^RE-GIFT-[A-Z0-9]{6}$/i);
   if (giftMatch) {
-    if (subtotal < 799) {
+    if (subtotal < 669) {
       return {
         valid: false,
         discountAmount: 0,
         label: '',
-        error: 'Loyalty gift vouchers require a minimum order value of ₹799.',
+        error: 'Loyalty gift vouchers require a minimum order value of ₹669.',
       };
     }
-    const estimatedAmount = 50;
+    const estimatedAmount = subtotal >= 2000 ? 130 : 70;
     return {
       valid: true,
       discountAmount: estimatedAmount,
@@ -400,6 +400,6 @@ export function validateCouponCode(
     valid: false,
     discountAmount: 0,
     label: '',
-    error: 'Invalid coupon code. Try "DIWALI100" (orders above ₹1,299) or "FIRST50".',
+    error: 'Invalid coupon code. Try "ARCHIVE100" (orders above ₹2,000) or check your 60-day drop voucher.',
   };
 }

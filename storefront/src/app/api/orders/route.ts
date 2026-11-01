@@ -5,11 +5,10 @@ import { checkRateLimit } from '@/lib/security/rate-limit';
 import { clientIp, isValidOrderId, normalizeEmail, sanitizeCheckoutItems, cleanOrderId, isUuid, isHexPrefix, isNumericTracking } from '@/lib/security/validation';
 import { notifyTelegramOrder } from '@/lib/notifications/telegram';
 import { sendOrderConfirmationEmail, sendOrderDeliveredInvoiceEmail } from '@/lib/notifications/email';
-import { issueOrderLoyaltyVoucher } from '@/lib/loyalty';
+import { issueOrderLoyaltyVoucher, verifyLoyaltyVoucher, redeemLoyaltyVoucher, calculateTierAutoDiscount } from '@/lib/loyalty';
 import { isAdmin } from '@/lib/security/auth';
 import { validateCouponCode } from '@/lib/festivals';
 import { verifyStoreCreditCode, redeemStoreCredit } from '@/lib/store-credit';
-import { verifyLoyaltyVoucher, redeemLoyaltyVoucher } from '@/lib/loyalty';
 import { products as fallbackCatalog, getProduct, enforcePriceFloor } from '@/lib/data/products';
 import { fulfillQikinkOrder, isTestOrder } from '@/lib/fulfillment/qikink';
 
@@ -462,8 +461,11 @@ export async function POST(req: NextRequest) {
       console.warn('[Orders API] First order check failed, defaulting to true:', checkErr);
     }
 
-    // Apply Coupon Code server-side only (block stacking on bundles)
-    let discountAmount = 0;
+    // Automatic Volume Tier Auto-Deduction (₹69 on ₹1,000+, ₹149 on ₹2,000+)
+    const autoTierSavings = calculateTierAutoDiscount(calculatedSubtotal);
+
+    // Apply Coupon / Loyalty Voucher Code server-side (stacks with tier auto-discount for returning customers)
+    let couponSavings = 0;
     let verifiedCoupon = '';
     const hasBundle = validatedItems.some((i) => i.id.startsWith('bundle-'));
     if (body.coupon_code) {
@@ -482,21 +484,21 @@ export async function POST(req: NextRequest) {
           if (!credCheck.valid) {
             return NextResponse.json({ error: credCheck.error || 'Invalid store credit voucher.' }, { status: 400 });
           }
-          discountAmount = Math.min(credCheck.creditAmount, calculatedSubtotal);
+          couponSavings = Math.min(credCheck.creditAmount, Math.max(0, calculatedSubtotal - autoTierSavings));
           verifiedCoupon = normalizedCode;
         } else if (normalizedCode.startsWith('RE-GIFT-')) {
           const voucherCheck = await verifyLoyaltyVoucher(normalizedCode, calculatedSubtotal, sb);
           if (!voucherCheck.valid) {
             return NextResponse.json({ error: voucherCheck.error || 'Invalid gift voucher.' }, { status: 400 });
           }
-          const baseVoucher = voucherCheck.discountAmount;
-          discountAmount = !isCod ? Math.min(baseVoucher + 50, calculatedSubtotal) : Math.min(baseVoucher, calculatedSubtotal);
+          // Returning customer stacks valid gift voucher with any active tier auto-deduction
+          couponSavings = voucherCheck.discountAmount;
           verifiedCoupon = normalizedCode;
         } else {
           // Regular promotional coupon validation
           const couponCheck = validateCouponCode(body.coupon_code, calculatedSubtotal);
           if (couponCheck.valid) {
-            discountAmount = couponCheck.discountAmount;
+            couponSavings = couponCheck.discountAmount;
             verifiedCoupon = normalizedCode;
           } else {
             return NextResponse.json({
@@ -505,11 +507,9 @@ export async function POST(req: NextRequest) {
           }
         }
       }
-    } else {
-      discountAmount = 0;
-      verifiedCoupon = '';
     }
 
+    const discountAmount = autoTierSavings + couponSavings;
     const finalTotal = Math.max(1, calculatedSubtotal - discountAmount);
 
     // ₹0 COD Handling Surcharge across all payment rails

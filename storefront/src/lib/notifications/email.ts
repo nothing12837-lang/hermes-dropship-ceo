@@ -865,7 +865,7 @@ export async function sendStoreCreditActivatedEmail(payload: {
 
 
 export interface VoucherReminderPayload {
-  stage: 'day20' | 'day45' | 'day87';
+  stage: 'day20' | 'day45' | 'day87' | 'day15' | 'day35' | 'day57';
   customerEmail: string;
   customerName: string;
   voucherCode: string;
@@ -896,23 +896,23 @@ export async function sendVoucherReminderEmail(
   let messageBody = '';
   let ctaText = 'Explore The Catalog →';
 
-  if (payload.stage === 'day20') {
+  if (payload.stage === 'day20' || payload.stage === 'day15') {
     subject = `How is your ${garment} settling in? (+ ₹${amount} Wardrobe Voucher) — Rare Ember`;
-    badgeText = 'Day 20 • Wardrobe Check-In';
+    badgeText = 'Day 15 • Wardrobe Check-In';
     headline = 'Fabric drape & fit check.';
     messageBody = `
       Hello ${name},<br/><br/>
-      It’s been 20 days since your <strong>${garment}</strong> arrived at your doorstep. We hope the architectural drape, verified heavyweight cotton, and bespoke graphics are holding up to your rotation.<br/><br/>
-      As a token of our gratitude for welcoming Rare Ember into your rotation, your <strong>₹${amount} Gift Voucher</strong> (+ <strong>₹50 Extra UPI Off</strong> = <strong>₹100 Total Savings</strong>) is active and waiting for your next drop pickup.
+      It’s been 15 days since your <strong>${garment}</strong> arrived at your doorstep. We hope the architectural drape, verified heavyweight cotton, and bespoke graphics are holding up to your rotation.<br/><br/>
+      As a token of our gratitude for welcoming Rare Ember into your rotation, your <strong>₹${amount} Gift Voucher</strong> is active and waiting for your next drop pickup (valid for 45 more days).
     `;
     ctaText = `Claim ₹${amount} OFF on New Drops →`;
-  } else if (payload.stage === 'day45') {
+  } else if (payload.stage === 'day45' || payload.stage === 'day35') {
     subject = `Mid-Season Drop: Your ₹${amount} Voucher (${code}) is halfway to expiry — Rare Ember`;
-    badgeText = 'Day 45 • Mid-Season Update';
+    badgeText = 'Day 35 • Mid-Season Update';
     headline = 'Halfway mark. Fresh drops unlocked.';
     messageBody = `
       Hello ${name},<br/><br/>
-      We’ve just dropped fresh 240 GSM Structured Cotton silhouettes and heavyweight outerwear at the atelier. Your personal voucher code <strong>${code}</strong> (₹${amount} OFF on orders of ₹669+) is valid for 45 more days.<br/><br/>
+      We’ve just dropped fresh 240 GSM Structured Cotton silhouettes and heavyweight outerwear at the atelier. Your personal voucher code <strong>${code}</strong> (₹${amount} OFF on your next order) is valid for 25 more days.<br/><br/>
       Apply it directly at checkout on your next order.
     `;
     ctaText = `Browse New Drops with ₹${amount} Credit →`;

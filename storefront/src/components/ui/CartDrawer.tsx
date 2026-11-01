@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCart } from '@/lib/store/cart';
 import { formatPrice, products, cleanBrandTitle, getProduct, enforcePriceFloor, type Product } from '@/lib/data/products';
+import { calculateTierAutoDiscount } from '@/lib/loyalty';
 import { COPY } from '@/lib/data/copy';
 import Image from 'next/image';
 import PrebuiltMockupRenderer from '@/components/PrebuiltMockupRenderer';
@@ -166,7 +167,8 @@ export default function CartDrawer() {
   const subtotal = detailed.reduce((a, b) => a + getItemPrice((b as any).product) * b.qty, 0);
   const totalQuantity = detailed.reduce((sum, item) => sum + (item.qty || 1), 0);
 
-  const netCartTotal = subtotal;
+  const autoTierSavings = isIndia ? calculateTierAutoDiscount(subtotal) : 0;
+  const netCartTotal = Math.max(0, subtotal - autoTierSavings);
 
   const isAddOn = (p: Product) => {
     const t = p.title.toLowerCase();
@@ -241,7 +243,7 @@ export default function CartDrawer() {
         size: d.size,
         category: 'Streetwear Apparel',
       })),
-      subtotal
+      netCartTotal
     );
     closeCart();
     router.push('/checkout');
@@ -518,6 +520,13 @@ export default function CartDrawer() {
                 <span className="font-bold">{formatCartPrice(subtotal)}</span>
               </div>
 
+              {autoTierSavings > 0 && (
+                <div className="flex justify-between text-xs mb-2 text-emerald-700 font-bold">
+                  <span>Tier Auto-Savings ({subtotal >= 2000 ? 'Cart ₹2,000+' : 'Cart ₹1,000+'})</span>
+                  <span>−{formatCartPrice(autoTierSavings)}</span>
+                </div>
+              )}
+
               <div className="flex justify-between text-xs mb-2 text-neutral-600 font-medium">
                 <span>Prepaid Delivery (Express Air)</span>
                 <span className="text-emerald-700 font-bold">FREE</span>
@@ -530,7 +539,7 @@ export default function CartDrawer() {
 
               <div className="flex justify-between font-black text-lg text-[#12100E] pt-3 border-t border-black/10 mb-2">
                 <span>Total</span>
-                <span className="text-[#FF4D24] font-black">{formatCartPrice(subtotal)}</span>
+                <span className="text-[#FF4D24] font-black">{formatCartPrice(netCartTotal)}</span>
               </div>
 
               <div className="text-[11px] text-emerald-800 font-bold bg-emerald-50/90 px-2.5 py-1.5 rounded-xl border border-emerald-200/80 mb-3 text-center">
@@ -545,7 +554,7 @@ export default function CartDrawer() {
                     <span>Reward Milestones</span>
                   </span>
                   <span className="text-[10px] font-mono text-emerald-700 font-bold">
-                    {subtotal >= 2000 ? 'VIP TIER' : subtotal >= 1000 ? 'TIER 2' : 'TIER 1'}
+                    {subtotal >= 2000 ? 'VIP TIER (₹149 OFF)' : subtotal >= 1000 ? 'TIER 1 (₹69 OFF)' : 'STARTER'}
                   </span>
                 </div>
 
@@ -561,25 +570,25 @@ export default function CartDrawer() {
                 <div className="space-y-1.5 text-[11px]">
                   {subtotal < 1000 ? (
                     <div className="text-neutral-700 flex justify-between items-center">
-                      <span>• Active: <strong>Free Insured Express Air Delivery</strong></span>
-                      <span className="text-[10px] text-amber-700 font-bold">Add ₹{1000 - subtotal} for ₹50 Voucher</span>
+                      <span>• Active: <strong>Free Insured Express Air</strong></span>
+                      <span className="text-[10px] text-amber-700 font-bold">Add ₹{1000 - subtotal} for Instant ₹69 OFF + ₹70 Voucher</span>
                     </div>
                   ) : subtotal < 2000 ? (
                     <div className="text-emerald-900 bg-emerald-50/80 p-2 rounded-lg border border-emerald-200/60 space-y-1">
                       <div className="font-bold flex items-center justify-between">
-                        <span>✓ Unlocked: ₹50 Instant Off + ₹50 Post-Delivery Voucher</span>
+                        <span>✓ Tier 1 Active: Instant ₹69 OFF Auto-Applied!</span>
+                        <span className="text-[10px] bg-emerald-600 text-white px-1.5 py-0.5 rounded font-black">+ ₹70 Voucher</span>
                       </div>
                       <div className="text-[10px] text-neutral-600 font-medium">
-                        Add ₹{2000 - subtotal} more to unlock <strong>₹100 Off + ₹100 Gift Voucher</strong>!
+                        Add ₹{2000 - subtotal} more to unlock <strong>Instant ₹149 OFF + ₹130 Voucher</strong>!
                       </div>
                     </div>
                   ) : (
                     <div className="text-emerald-900 bg-emerald-50 p-2 rounded-lg border border-emerald-300 font-bold flex items-center justify-between">
-                      <span>🎉 VIP: ₹100 Instant Discount + ₹100 Post-Delivery Voucher Unlocked!</span>
+                      <span>🎉 VIP Tier Active: Instant ₹149 OFF Auto-Applied!</span>
+                      <span className="text-[10px] bg-emerald-600 text-white px-1.5 py-0.5 rounded font-black">+ ₹130 Voucher</span>
                     </div>
                   )}
-
-
                 </div>
               </div>
 
@@ -603,7 +612,7 @@ export default function CartDrawer() {
                 whileTap={{ scale: 0.98 }}
                 className="block text-center w-full btn-ember py-3.5 rounded-lg font-bold text-xs uppercase tracking-wider cursor-pointer border-none shadow-md active:scale-95 transition-all"
               >
-                {`Proceed to Checkout • ${formatCartPrice(subtotal)}`}
+                {`Proceed to Checkout • ${formatCartPrice(netCartTotal)}`}
               </motion.button>
 
               <p className="text-center text-xs mt-3">

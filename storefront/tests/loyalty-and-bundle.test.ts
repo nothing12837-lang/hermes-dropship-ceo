@@ -1,12 +1,22 @@
 import { describe, it, expect } from 'vitest';
-import { generateVoucherCode, isEligible240Tee, calculateTeeBundleSavings } from '@/lib/loyalty';
+import { generateVoucherCode, isEligible240Tee, calculateTeeBundleSavings, calculateTierAutoDiscount } from '@/lib/loyalty';
 import { validateCouponCode } from '@/lib/festivals';
 
-describe('Loyalty Voucher & 240 GSM Bundle Engine', () => {
+describe('Loyalty Voucher, Tier Auto-Discounts & 240 GSM Bundle Engine', () => {
   it('generates random uppercase 6-character RE-GIFT-XXXXXX codes', () => {
     const code = generateVoucherCode();
     expect(code).toMatch(/^RE-GIFT-[A-Z0-9]{6}$/);
     expect(code.length).toBe(14);
+  });
+
+  it('calculates Tier Auto-Deductions accurately (₹69 on ₹1,000+, ₹149 on ₹2,000+)', () => {
+    expect(calculateTierAutoDiscount(669)).toBe(0);
+    expect(calculateTierAutoDiscount(999)).toBe(0);
+    expect(calculateTierAutoDiscount(1000)).toBe(69);
+    expect(calculateTierAutoDiscount(1349)).toBe(69);
+    expect(calculateTierAutoDiscount(1999)).toBe(69);
+    expect(calculateTierAutoDiscount(2000)).toBe(149);
+    expect(calculateTierAutoDiscount(2999)).toBe(149);
   });
 
   it('correctly identifies eligible 240 GSM Structured Cotton tees and jerseys', () => {
@@ -24,7 +34,7 @@ describe('Loyalty Voucher & 240 GSM Bundle Engine', () => {
     // 1 tee: no savings
     expect(calculateTeeBundleSavings([{ id: '32476431', qty: 1, price_inr: 799 }])).toBe(0);
 
-    // 2 tees: ₹99 bundle savings (combines with ₹100 UPI discount => ₹1,399 net)
+    // 2 tees: ₹99 bundle savings
     expect(calculateTeeBundleSavings([
       { id: '32476431', qty: 1, price_inr: 799 },
       { id: '32476332', qty: 1, price_inr: 799 },
@@ -53,17 +63,45 @@ describe('Loyalty Voucher & 240 GSM Bundle Engine', () => {
     expect(validAbove2k.discountAmount).toBe(100);
   });
 
-  it('validates RE-GIFT- voucher format and enforces ₹799 minimum order value', () => {
-    const tooLow = validateCouponCode('RE-GIFT-ABC123', 699);
+  it('validates RE-GIFT- voucher format and enforces ₹669 minimum order value with tiered amounts', () => {
+    const tooLow = validateCouponCode('RE-GIFT-ABC123', 600);
     expect(tooLow.valid).toBe(false);
-    expect(tooLow.error).toContain('minimum order value of ₹799');
+    expect(tooLow.error).toContain('minimum order value of ₹669');
 
-    const validAtMin = validateCouponCode('RE-GIFT-ABC123', 799);
-    expect(validAtMin.valid).toBe(true);
-    expect(validAtMin.discountAmount).toBe(50);
+    const validAtTier1 = validateCouponCode('RE-GIFT-ABC123', 669);
+    expect(validAtTier1.valid).toBe(true);
+    expect(validAtTier1.discountAmount).toBe(70);
 
-    const validAboveMin = validateCouponCode('RE-GIFT-ABC123', 1399);
-    expect(validAboveMin.valid).toBe(true);
-    expect(validAboveMin.discountAmount).toBe(50);
+    const validAbove1k = validateCouponCode('RE-GIFT-ABC123', 1499);
+    expect(validAbove1k.valid).toBe(true);
+    expect(validAbove1k.discountAmount).toBe(70);
+
+    const validAbove2k = validateCouponCode('RE-GIFT-ABC123', 2199);
+    expect(validAbove2k.valid).toBe(true);
+    expect(validAbove2k.discountAmount).toBe(130);
+  });
+
+  it('supports returning customer stacking: tier auto-discount + gift voucher', () => {
+    // 2nd time customer buying a ₹1,349 hoodie with a ₹70 voucher:
+    const subtotal = 1349;
+    const tierDiscount = calculateTierAutoDiscount(subtotal); // ₹69
+    const voucherRes = validateCouponCode('RE-GIFT-ABC123', subtotal); // ₹70
+    const totalSavings = tierDiscount + voucherRes.discountAmount;
+
+    expect(tierDiscount).toBe(69);
+    expect(voucherRes.discountAmount).toBe(70);
+    expect(totalSavings).toBe(139);
+    expect(subtotal - totalSavings).toBe(1210);
+
+    // 2nd time customer buying 2 hoodies (₹2,698) with a ₹130 voucher:
+    const vipSubtotal = 2698;
+    const vipTierDiscount = calculateTierAutoDiscount(vipSubtotal); // ₹149
+    const vipVoucherRes = validateCouponCode('RE-GIFT-ABC123', vipSubtotal); // ₹130
+    const vipTotalSavings = vipTierDiscount + vipVoucherRes.discountAmount;
+
+    expect(vipTierDiscount).toBe(149);
+    expect(vipVoucherRes.discountAmount).toBe(130);
+    expect(vipTotalSavings).toBe(279);
+    expect(vipSubtotal - vipTotalSavings).toBe(2419);
   });
 });

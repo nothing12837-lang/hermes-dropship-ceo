@@ -228,8 +228,8 @@ export function LoyaltyBanner({ points = 0 }: { points?: number }) {
     <div style={{ background: 'linear-gradient(135deg,#fff3e0,#fed7aa)', borderRadius: '1.6rem', padding: '2rem', display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
       <div style={{ fontSize: '2.5rem' }}>🎁</div>
       <div style={{ flex: 1, minWidth: '220px' }}>
-        <div style={{ fontWeight: 900, fontSize: '1.2rem', color: '#161311' }}>Rare Ember Club — earn {points} VIP pts today</div>
-        <div style={{ color: '#52453e', fontSize: '0.92rem' }}>1 pt per ₹10 • 100 pts = ₹100 off • Secret Festive Codes • Priority Dispatch</div>
+        <div style={{ fontWeight: 900, fontSize: '1.2rem', color: '#161311' }}>Rare Ember Atelier Rewards — Instant Drop Savings</div>
+        <div style={{ color: '#52453e', fontSize: '0.92rem' }}>₹69 Auto-Off on ₹1,000+ • ₹149 Auto-Off on ₹2,000+ • Up to ₹130 Voucher for Next Drop (60 Days)</div>
       </div>
       <Link href="/shop" style={{ background: '#161311', color: 'white', padding: '0.9rem 1.8rem', borderRadius: '9999px', fontWeight: 800, textDecoration: 'none' }}>
         Explore Catalog →

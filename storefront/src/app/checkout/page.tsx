@@ -11,6 +11,7 @@ import { CURATED_PRODUCT_GALLERIES } from '@/lib/data/product-gallery';
 import { supabase } from '@/lib/supabase-client';
 import { useGeo } from '@/context/GeoContext';
 import { validateCouponCode } from '@/lib/festivals';
+import { calculateTierAutoDiscount } from '@/lib/loyalty';
 import { scoreRtoRisk } from '@/lib/rto';
 import { trackBeginCheckout, trackAddShippingInfo } from '@/lib/telemetry/dataLayer';
 
@@ -108,12 +109,7 @@ export default function CheckoutPage() {
     setPaymentMethod(method);
     setError('');
 
-    if (method === 'online') {
-      if (appliedCouponCode.startsWith('RE-GIFT-')) {
-        setDiscount(50);
-        setAppliedCouponLabel(`Gift Voucher: ₹50 OFF (${appliedCouponCode})`);
-      }
-    } else if (method === 'cod') {
+    if (method === 'cod') {
       if (appliedCouponCode === 'PREPAID20' || appliedCouponCode === 'PREPAID10' || appliedCouponCode === 'PREPAID50' || appliedCouponCode === 'WELCOME_UPI100') {
         setCoupon('');
         setAppliedCouponCode('');
@@ -370,10 +366,10 @@ export default function CheckoutPage() {
       setCouponApplied(false);
     }
   }, [paymentMethod, appliedCouponCode]);
-  // The server caps COD on the POST-DISCOUNT total (`finalTotal`), so the
-  // client must use the same number -- otherwise COD is hidden for orders the
-  // server would happily accept.
-  const postDiscountSubtotal = Math.max(0, subtotal - discount);
+  // Automatic Volume Tier Auto-Deduction (₹69 on ₹1,000+, ₹149 on ₹2,000+)
+  const autoTierSavings = isIndia ? calculateTierAutoDiscount(subtotal) : 0;
+  const totalDiscount = autoTierSavings + discount;
+  const postDiscountSubtotal = Math.max(0, subtotal - totalDiscount);
   const isAboveCodThreshold = isIndia && postDiscountSubtotal >= 3000;
 
   // Auto-switch away from COD if cart crosses ₹3,000 threshold
@@ -383,8 +379,8 @@ export default function CheckoutPage() {
     }
   }, [isAboveCodThreshold, paymentMethod]);
 
-  const codFee = 0; // ₹0 COD Handling Fee across all payment rails (Waived 100%) // Courier COD Handling Fee ₹49 (Waived 100% on Prepaid UPI/Cards)
-  const rawTotal = subtotal + codFee - discount;
+  const codFee = 0; // ₹0 COD Handling Fee across all payment rails (Waived 100%)
+  const rawTotal = subtotal + codFee - totalDiscount;
   const total = Math.max(0, rawTotal);
 
   // Telemetry: track begin_checkout on checkout load
@@ -440,14 +436,10 @@ export default function CheckoutPage() {
           setAppliedCouponLabel('');
           return;
         }
-        const combinedDiscount = paymentMethod === 'online' ? vData.discountAmount + 50 : vData.discountAmount;
-        setDiscount(combinedDiscount);
+        const voucherSavings = vData.discountAmount;
+        setDiscount(voucherSavings);
         setAppliedCouponCode(rawCode);
-        setAppliedCouponLabel(
-          paymentMethod === 'online'
-            ? `VIP Gift Voucher + UPI: ₹${combinedDiscount} OFF (${rawCode})`
-            : `VIP Gift Voucher: ₹${combinedDiscount} OFF (${rawCode})`
-        );
+        setAppliedCouponLabel(`VIP Gift Voucher: ₹${voucherSavings} OFF (${rawCode})`);
         setCouponApplied(true);
         setError('');
         return;
@@ -1545,9 +1537,15 @@ export default function CheckoutPage() {
                   <span>Subtotal</span>
                   <span className="font-semibold text-white">{formatCheckoutPrice(subtotal)}</span>
                 </div>
+                {autoTierSavings > 0 && (
+                  <div className="flex justify-between text-emerald-400 font-semibold">
+                    <span>Tier Auto-Savings ({subtotal >= 2000 ? 'Cart ₹2,000+' : 'Cart ₹1,000+'})</span>
+                    <span className="font-bold">−{formatCheckoutPrice(autoTierSavings)}</span>
+                  </div>
+                )}
                 {discount > 0 && (
                   <div className="flex justify-between text-emerald-400 font-semibold">
-                    <span>Discount ({appliedCouponCode || 'Festive Promo'})</span>
+                    <span>{appliedCouponLabel || `Voucher (${appliedCouponCode})`}</span>
                     <span className="font-bold">−{formatCheckoutPrice(discount)}</span>
                   </div>
                 )}
@@ -1776,7 +1774,7 @@ export default function CheckoutPage() {
             ) : paymentMethod === 'cod' ? (
               <span>Pay ₹100 Advance &amp; Book COD →</span>
             ) : (
-              <span>Pay via UPI (Save ₹50) →</span>
+              <span>Complete Instant Payment →</span>
             )}
           </button>
         </div>

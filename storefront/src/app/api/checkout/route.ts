@@ -6,7 +6,7 @@ import { clientIp, normalizeEmail, sanitizeCheckoutItems, sanitizeMessage } from
 import { products as staticCatalog, getProduct, enforcePriceFloor } from '@/lib/data/products';
 import { validateCouponCode } from '@/lib/festivals';
 import { verifyStoreCreditCode, redeemStoreCredit } from '@/lib/store-credit';
-import { verifyLoyaltyVoucher, redeemLoyaltyVoucher } from '@/lib/loyalty';
+import { verifyLoyaltyVoucher, redeemLoyaltyVoucher, calculateTierAutoDiscount } from '@/lib/loyalty';
 
 function getRazorpay(): Razorpay | null {
   const key_id = process.env.RAZORPAY_KEY_ID;
@@ -212,8 +212,11 @@ export async function POST(req: NextRequest) {
       console.warn('[Checkout API] First order check failed, defaulting to true:', checkErr);
     }
 
-    // Apply Coupon Code if verified (block stacking on bundles)
-    let discountAmount = 0;
+    // Automatic Volume Tier Auto-Deduction (₹69 on ₹1,000+, ₹149 on ₹2,000+)
+    const autoTierSavings = isIndia ? calculateTierAutoDiscount(subtotal) : 0;
+
+    // Apply Coupon / Loyalty Voucher Code if verified
+    let couponSavings = 0;
     let verifiedCoupon = '';
     const hasBundle = items.some((i) => i.id.startsWith('bundle-'));
 
@@ -233,21 +236,20 @@ export async function POST(req: NextRequest) {
         if (!creditCheck.valid) {
           return NextResponse.json({ error: creditCheck.error || 'Invalid store credit voucher.' }, { status: 400 });
         }
-        discountAmount = Math.min(creditCheck.creditAmount, subtotal);
+        couponSavings = Math.min(creditCheck.creditAmount, Math.max(0, subtotal - autoTierSavings));
         verifiedCoupon = rawCode;
       } else if (rawCode.startsWith('RE-GIFT-')) {
         const voucherCheck = await verifyLoyaltyVoucher(rawCode, subtotal, supabase);
         if (!voucherCheck.valid) {
           return NextResponse.json({ error: voucherCheck.error || 'Invalid gift voucher.' }, { status: 400 });
         }
-        // Returning customer combines ₹50 Gift Voucher + ₹50 UPI Discount on online prepaid
-        const baseVoucher = voucherCheck.discountAmount;
-        discountAmount = !isCod && isIndia ? Math.min(baseVoucher + 50, subtotal) : Math.min(baseVoucher, subtotal);
+        // Returning customer stacks valid gift voucher with any active tier auto-deduction
+        couponSavings = voucherCheck.discountAmount;
         verifiedCoupon = rawCode;
       } else {
         const couponCheck = validateCouponCode(body.coupon_code, subtotal);
         if (couponCheck.valid) {
-          discountAmount = couponCheck.discountAmount;
+          couponSavings = couponCheck.discountAmount;
           verifiedCoupon = rawCode;
         } else {
           return NextResponse.json({
@@ -255,11 +257,9 @@ export async function POST(req: NextRequest) {
           }, { status: 400 });
         }
       }
-    } else {
-      discountAmount = 0;
-      verifiedCoupon = '';
     }
 
+    const discountAmount = autoTierSavings + couponSavings;
     const finalTotal = Math.max(1, subtotal - discountAmount + codFee);
 
     // Insert helper: tries the full schema.sql shape first, then falls back
