@@ -1,160 +1,173 @@
-# 🏛️ RAREEMBER & RADHA CEO — MASTER PROJECT MEMORY & SYSTEM HANDOVER
+# 🏛️ RARE EMBER — MASTER PROJECT MEMORY & PERMANENT ARCHITECTURAL LEDGER
 
-> **CONFIDENTIAL & COMPREHENSIVE PROJECT STATE DOCUMENT**  
-> **Last Synchronized:** 2026-10-14T18:35:00+05:30  
-> **Status:** 100% Operational, Hardened, Multi-Agent Autonomous & Cloud-Native (0% Laptop Dependency)  
-> **Target Audience:** Any AI Model (Antigravity, Claude, GPT, Gemini), Developer, or Founder Ajay Rajbhar.
-
----
-
-## 1. 👤 FOUNDER & BUSINESS PROFILE
-
-| Attribute | Details |
-| :--- | :--- |
-| **Founder & Owner** | Ajay Rajbhar |
-| **Autonomous CEO** | **Radha** (Executive Leader of RareEmber with full corporate stewardship) |
-| **Brand Name** | **RareEmber** (Curated Indian Lifestyle, Desk Tech & Aesthetic Home Boutique) |
-| **Founder Telegram ID** | `5238068527` (Authorized Master ID) |
-| **Telegram Bot** | `@rereemberbot` (Radha Dropship CEO) |
-| **Official Instagram** | `@RareEmber` |
-| **Live Storefront URL** | [https://rareember-store.vercel.app](https://rareember-store.vercel.app) |
-| **Production Alias** | [https://frontend-lilac-ten-hpsy3bzdcd.vercel.app](https://frontend-lilac-ten-hpsy3bzdcd.vercel.app) |
-| **Admin Orders Portal** | [https://rareember-store.vercel.app/admin/orders](https://rareember-store.vercel.app/admin/orders) |
-| **Live Order Tracking** | [https://rareember-store.vercel.app/track](https://rareember-store.vercel.app/track) |
-| **Support Email** | `support@rareember.shop` |
+> **CONFIDENTIAL & COMPREHENSIVE BRAND & SYSTEM RECORD**  
+> **Last Synchronized:** 2026-11-01T20:24:00+05:30  
+> **Brand:** Rare Ember ([https://www.rareember.shop](https://www.rareember.shop))  
+> **Founder & Owner:** Ajay Rajbhar  
+> **Brand Category:** Luxury Architectural Heavyweight Streetwear (Custom-Printed Drops)  
+> **Production Status:** 100% Live on Vercel Edge (`dpl_8KjzVbJSKYzPcoEKq5khfzBTuBqL`), Supabase PostgreSQL, Qikink POD API, Razorpay Live UPI & Email COD OTP.
 
 ---
 
-## 2. 🌐 100% CLOUD-NATIVE ARCHITECTURE (ZERO LAPTOP LOAD)
+## 1. 📋 EXECUTIVE SUMMARY OF WHAT WAS REMOVED VS. WHAT WAS ADDED / KEPT
 
-The entire business operates 24/7 autonomously on cloud infrastructure without requiring Ajay's laptop to be turned on.
+This ledger records every catalog transition, purge, and addition to prevent any regression or accidental re-addition by future agents or automated routines.
 
 ```mermaid
 flowchart TD
-    subgraph Customer Experience
-        C[Customer] -->|Visits| WEB["Vercel Storefront (rareember-store.vercel.app)"]
-        WEB -->|1-Click COD / Razorpay Live UPI| PAY[Payment Processing]
-        PAY -->|Orders Table| DB[(Supabase Cloud PostgreSQL)]
-    end
-
-    subgraph 24/7 Autonomous Cloud AI
-        GH["GitHub Actions Cloud Runner (worker_a.yml)"]
-        GH -->|Runs on 6-hr schedule + Nightly reflection| BOT[Radha Dropship CEO Gateway]
-        BOT -->|Perpetual Loop: Deep Business Research & Auto-Improvement| PERP[radha_ceo.perpetual]
-    end
-
-    subgraph Supplier & Inventory Automation
-        BOT -->|4-Hour Silent Stock Audit| MEE[Meesho Product URL Checker]
-        MEE -->|If out-of-stock| DB
-        BOT -->|Real Order Alert with Direct Link| TG["Telegram @rereemberbot -> Ajay"]
-        TG -->|1-Tap Meesho Order Booking| MAPP[Meesho Seller Dispatch]
-        BOT -->|Courier AWB Sync| TRK["Customer Live Tracking: /track"]
-    end
+    A["Raw / Legacy Catalog Ingestion"] --> B{"Catalog Filter Gates"}
+    B -->|BANNED: 180 GSM & Thin Fabrics| C["Permanent Purge: 10 Items Removed"]
+    B -->|BANNED: Unprinted Wholesale Blanks| D["Permanent Purge: 11 Factory Blanks Removed"]
+    B -->|BANNED: Non-Custom / Test Products| E["Permanent Purge: Generic Dropship Purged"]
+    B -->|APPROVED: is_printed === true & Qikink ID| F["STRICT SURVIVING CATALOG: 8 PRINTED DROPS"]
+    F --> G["Supabase DB (active: true)"]
+    F --> H["Storefront /api/products"]
+    F --> I["Google Merchant Center /api/feed/google.xml"]
+    F --> J["Sitemap.xml (8 Drops)"]
+    F --> K["Master Blueprint PDF (8 Drops)"]
 ```
 
-### Hosting Breakdown:
-1. **Storefront (Next.js 16 + React 18):** Hosted on **Vercel Global Edge Network** (`rareember-store.vercel.app`).
-2. **Database:** Hosted on **Supabase Cloud PostgreSQL** (`db.qdkkxpfhwrwyoardlceo.supabase.co`).
-3. **Radha Dropship CEO Engine:** Hosted on **GitHub Actions Cloud** via scheduled singleton worker (`worker_a.yml`) in repo `nothing12837-lang/hermes-dropship-ceo`.
-4. **Payment Gateways:**
-   - **Razorpay Live Gateway:** Active for UPI, Credit/Debit Cards, NetBanking.
-   - **Cash on Delivery (COD):** 100% active across all 19,000+ Indian postal codes.
+---
+
+## 2. 🚫 EVERYTHING THAT WAS REMOVED & PURGED (PERMANENT BAN)
+
+### A. The 180 GSM & Thin Fabrics Purge
+In compliance with Rare Ember's luxury heavyweight brand standard, **all 180 GSM and lightweight apparel are permanently banned**:
+1. **Everyday Classic Crew & Basic Tees** (₹230 blank / ₹699 retail — 180 GSM).
+2. **Women's Crops, Baby Tees, Tank Tops & T-Shirt Dresses** (₹200 blank / ₹649 retail — 180 GSM).
+3. **Men's Full-Sleeve T-Shirts & T-Shirt Dresses** (₹310 blank / ₹849 retail — Qikink SKU `5474` 180 GSM).
+4. **All Thin Sub-240 GSM Variants**: Raglan tees, Ringer tees, Stretch tees, DryFit polyester gym tees, V-Neck tees, Baby rompers, and Kids apparel.
+*Reason for Purge:* Qikink does not manufacture 240 GSM full-sleeve tees, crops, tanks, or basic crewnecks. All map to flimsy 180 GSM blanks that destroy streetwear drape, cause customer dissatisfaction, and violate brand standards.
+
+### B. The Unprinted Wholesale Factory Blanks Purge
+When 180 GSM items were initially cleared, a previous automated script pulled 11 raw wholesale apparel blanks from Qikink's general catalog to fill category gaps. **These have all been completely wiped**:
+1. `rare-ember-acid-wash-oversized-t-shirt` (`qikink-t-shirts-acid-wash-oversized-t-shirt-uc61` — Blank `UC61`)
+2. `rare-ember-terry-oversized-t-shirt` (`qikink-t-shirts-terry-oversized-t-shirt-ut27` — Blank `UT27`)
+3. `rare-ember-tie-and-dye-oversized-t-shirt` (`qikink-t-shirts-tie-and-dye-oversized-t-shirt-ut58` — Blank `UT58`)
+4. `rare-ember-unisex-french-terry-sweatshirt` (`qikink-hoodies-sweatshirt-uh26` — Blank `UH26`)
+5. `rare-ember-unisex-oversized-sweatshirt` (`qikink-hoodies-oversized-sweatshirt-uh35` — Blank `UH35`)
+6. `rare-ember-unisex-heavyweight-joggers` (`qikink-bottomwear-joggers-uj29` — Blank `UJ29`)
+7. `rare-ember-unisex-heavyweight-t-shirt` (`qikink-t-shirts-oversized-t-shirt-ua22` — Blank `UA22`)
+8. `rare-ember-unisex-standard-t-shirt` (`qikink-t-shirts-oversized-standard-t-shirt-us22` — Blank `US22`)
+9. `rare-ember-unisex-joggers` (`qikink-bottomwear-french-terry-joggers-uj31` — Blank `UJ31`)
+10. `rare-ember-unisex-bomber-jacket` (`qikink-hoodies-bomber-jacket-ua30` — Blank `UA30`)
+11. `qikink-accessories-desk-mat` (Extended Gaming Desk Mat — unprinted accessory)
+*Reason for Purge:* Rare Ember is strictly an original graphic streetwear brand. Selling blank, unprinted garments dilutes brand identity, exposes wholesale supply lines, and confuses customers expecting graphic streetwear drops.
+
+### C. Legacy Dropshipping & Test Skus Purged
+- Purged all legacy Meesho/Deodap pet, home, and generic gadgets (`calmcloud`, `lickmat`, `warm-paw`, `pawtrack`, etc.).
+- Purged all test products, 5rs/10rs sandbox payment passes, and fake seed review ratings.
 
 ---
 
-## 3. 🛡️ RAW-LEVEL SECURITY & INTEGRITY REMEDIATION
+## 3. ✅ EVERYTHING THAT WAS ADDED & KEPT: THE 8 GENUINE PRINTED DROPS
 
-All security checkpoints are strictly enforced across backend APIs and client routes:
+Only **8 authentic products** created by Ajay in Qikink client account `658581` with custom graphic artwork files (`is_printed: true`) are permitted in the catalog:
 
-### A. Authentication & Backdoors Closed
-- **Timing-Safe Auth (`storefront/src/lib/security/auth.ts`):** Enforces `Authorization: Bearer <token>` timing-safe verification via `crypto.timingSafeEqual`. Zero backdoor query parameters (`?key=`), zero hardcoded secret fallbacks.
+### 1. Unisex Acid Washed Hoodie — Skull & Dragon Edition
+- **Qikink Client Product ID:** `32493953`
+- **Internal Slug:** `unisex-acid-wash-hoodie-32493953`
+- **Garment Blank:** Qikink `UH62`
+- **Fabric & GSM:** 320 GSM Acid Washed Cotton Fleece
+- **Printing Method:** Archival Front & Back Graphic Print
+- **Base Retail:** ₹1,699 | **Net Prepaid:** ₹1,649
+- **Wholesale Blank + Print:** ₹849.00 | **Landed Cost (+ ₹100 Shipping):** ₹949.00
+- **Net Profit:** ₹504.60 | **Net Margin:** **30.6%**
 
-### B. IDOR & PII Protection
-- **Secure Orders Route (`storefront/src/app/api/orders/route.ts`):** Public tracking lookups require dual parameters (`orderId` + `user_email`) with strict exact-match equality. Prefix wildcard matching (`ilike id%`) was removed to prevent order enumeration. Customer PII and street addresses are masked for unauthenticated queries.
-- **Chatbot Privacy (`storefront/src/app/api/chat/route.ts`):** Removed unauthenticated order lookup from conversational chat. Order queries safely redirect to `/track`. Prompt injection defense filters jailbreak attempts.
+### 2. Unisex Heavyweight Hoodie — Unstoppable Tiger Edition
+- **Qikink Client Product ID:** `32493938`
+- **Internal Slug:** `unisex-heavyweight-hoodie-32493938`
+- **Garment Blank:** Qikink `UH32`
+- **Fabric & GSM:** 380 GSM Brushed Cotton Heavyweight Fleece
+- **Printing Method:** High-Density Tiger Archival Print
+- **Base Retail:** ₹1,399 | **Net Prepaid:** ₹1,349
+- **Wholesale Blank + Print:** ₹819.00 | **Landed Cost (+ ₹100 Shipping):** ₹919.00
+- **Net Profit:** ₹275.40 | **Net Margin:** **20.4%**
 
-### C. Server-Side Price Tampering Defeated
-- **Server Pricing Engine (`storefront/src/app/api/checkout/route.ts` & `storefront/src/app/api/orders/route.ts`):** Discards client-supplied `total` or unverified `discount` values. Subtotals are recalculated server-side against live Supabase catalog rows. Non-existent items reject with HTTP 400. Cart quantities clamped strictly between 1 and 99.
+### 3. Unisex Pullover Hoodie — Cyber Designer Edition
+- **Qikink Client Product ID:** `32493470`
+- **Internal Slug:** `unisex-pullover-hoodie-32493470`
+- **Garment Blank:** Qikink `UH83` / `UH32`
+- **Fabric & GSM:** 320 GSM French Terry Fleece
+- **Printing Method:** Precision Cyber Graphic Print
+- **Base Retail:** ₹1,399 | **Net Prepaid:** ₹1,349
+- **Wholesale Blank + Print:** ₹768.00 | **Landed Cost (+ ₹100 Shipping):** ₹868.00
+- **Net Profit:** ₹326.40 | **Net Margin:** **24.2%**
 
-### D. Webhook Verification
-- **CJ Webhook (`storefront/src/app/api/webhooks/cj/route.ts`):** Requires mandatory `CJ_WEBHOOK_SECRET` and timing-safe header validation.
-- **Razorpay Webhook (`storefront/src/app/api/webhooks/razorpay/route.ts`):** Enforces HMAC SHA-256 verification via `crypto.timingSafeEqual`.
+### 4. Unisex Oversized Standard T-Shirt — Chrome Bengaluru Cyber Drop
+- **Qikink Client Product ID:** `32476431`
+- **Internal Slug:** `unisex-oversized-standard-t-shirt-32476431`
+- **Garment Blank:** Qikink `US22`
+- **Fabric & GSM:** 240 GSM Structured Combed Cotton
+- **Printing Method:** Chrome Metallic Cyber Graphic DTF Print
+- **Base Retail:** ₹799 | **Net Prepaid:** ₹749
+- **Wholesale Blank + Print:** ₹343.00 | **Landed Cost (+ ₹100 Shipping):** ₹443.00
+- **Net Profit:** ₹196.20 | **Net Margin:** **26.2%**
 
-### E. Database Safety & SQL Injection Elimination
-- **Parameterized SQL:** All SQL queries in `dropship_gateway.py` and `radha_ceo` utilize parameter binding (`con.run(sql, **kwargs)`).
-- **Safe Categories:** Synonymous category mappings (`home-living`, `home-garden`, `electronics`, `tech`) correctly query Supabase with `in('category', [...])`.
+### 5. Unisex Terry Oversized Tee — Not Today 260 GSM Terry
+- **Qikink Client Product ID:** `32476620`
+- **Internal Slug:** `unisex-terry-oversized-tee-32476620`
+- **Garment Blank:** Qikink `UT27`
+- **Fabric & GSM:** 260 GSM French Terry Cotton
+- **Printing Method:** Typography Archival DTF Print
+- **Base Retail:** ₹849 | **Net Prepaid:** ₹799
+- **Wholesale Blank + Print:** ₹379.00 | **Landed Cost (+ ₹100 Shipping):** ₹479.00
+- **Net Profit:** ₹207.20 | **Net Margin:** **25.9%**
 
-### F. PostgreSQL Row-Level Security (RLS) Complete Hardening
-- **All 9 Tables Sealed with RLS (`RLS = True`):**
-  - `agent_memory`, `store_goals`, `orders_pnl`, `scouted_products`, `rto_risk_scores`: RLS enabled with 0 public policies. All anonymous PostgREST access blocked; internal autonomous engine connects securely via superuser/service role.
-  - `orders`: Dropped legacy open `allow_order_select` policy (`qual = true`) that previously allowed anonymous table dumping. Restricted SELECT to authenticated users (`auth.uid() = user_id`). Implemented security-definer RPC `track_order(p_order_id, p_email)` for dual-keyed public tracking. Public checkout INSERT preserved.
-  - `blog_posts`: RLS enabled with public SELECT restricted to `published = true`. Anonymous modifications completely blocked.
-  - `products`: RLS enabled with public SELECT restricted to `active = true`.
-  - `reviews`: RLS enabled with public read and sanitized review creation.
+### 6. Unisex Oversized Jersey — Cyber Sublimation Jersey
+- **Qikink Client Product ID:** `32476280`
+- **Internal Slug:** `unisex-oversized-jersey-32476280`
+- **Garment Blank:** Qikink `UJ35`
+- **Fabric & GSM:** 240 GSM Aeroknit Engineered Mesh
+- **Printing Method:** All-Over Sublimation Print
+- **Base Retail:** ₹799 | **Net Prepaid:** ₹749
+- **Wholesale Blank + Print:** ₹343.00 | **Landed Cost (+ ₹100 Shipping):** ₹443.00
+- **Net Profit:** ₹196.20 | **Net Margin:** **26.2%**
 
----
+### 7. Unisex Oversized Classic T-Shirt — Tokyo Street Graphic
+- **Qikink Client Product ID:** `32476332`
+- **Internal Slug:** `unisex-oversized-classic-t-shirt-32476332`
+- **Garment Blank:** Qikink `UA22`
+- **Fabric & GSM:** 240 GSM Structured Combed Cotton
+- **Printing Method:** Tokyo Streetwear Graphic DTF Print
+- **Base Retail:** ₹799 | **Net Prepaid:** ₹749
+- **Wholesale Blank + Print:** ₹343.00 | **Landed Cost (+ ₹100 Shipping):** ₹443.00
+- **Net Profit:** ₹196.20 | **Net Margin:** **26.2%**
 
-## 4. 📦 PRODUCT CATALOG (103 VERIFIED INDIAN PRODUCTS)
-
-1. **Catalog Scale:** Expanded to **103 active, high-quality domestic dropshipping products** (exceeding the 100-product requirement).
-2. **100% Domestic Indian Sourcing:** Direct Meesho supplier dropshipping with 50–70% gross profit margins.
-3. **7-Day Doorstep Replacement Guarantee:** Consistent 7-day domestic replacement window aligned strictly with Meesho terms.
-4. **Logistics:** Express 2–4 day delivery via Delhivery, Shadowfax, Xpressbees, and BlueDart.
-5. **Key Categories:**
-   - Ambient Lighting, Lamps & Cozy Glow (19 items)
-   - Desk Tech, Workspace & Ergonomics (24 items)
-   - Smart Home, Kitchen & Daily Utilities (23 items)
-   - Minimalist Storage, Organizers & Decor (22 items)
-   - Curated Lifestyle & Personal Care Essentials (15 items)
-
----
-
-## 5. 🤖 RADHA GOD-CEO & 6-AGENT EXECUTIVE SUITE (`radha_ceo/`)
-
-The core autonomous intelligence resides in the `radha_ceo` Python package (with `hermes_ceo` compatibility alias), backed by Supabase Cloud PostgreSQL for long-term episodic, semantic, and procedural memory:
-
-| Agent | Role | Scope & Autonomous Capabilities |
-| :--- | :--- | :--- |
-| **Radha (God-CEO)** | Central Orchestrator & Corporate Leader | Oversees full company A-to-Z; watches & guides every employee; PRAL (Perceive, Read, Act, Learn) loop; multi-model fallback (Gemini 3.8 Flash -> Gemini 3.5 Flash Lite -> OpenRouter -> Deep heuristic); 11:30 PM nightly reflection; perpetual business research engine. |
-| **Vikram** | Chief Commercial Officer (Sales & Pricing) | Dynamic price optimizations; festival flash sales (`DIWALI100`, `FIRST50`, `NEWYEAR`); margin preservation (>50%); price elasticity simulations. |
-| **Aarav** | Head of SEO & Organic Content | Continuous automated Indian e-commerce blog generation into Supabase `blog_posts`; search keyword trend research; automated IndexNow indexing pings. |
-| **Pooja** | VP of Operations & Customer Care | 1-click WhatsApp COD confirmation link generation (`wa.me`); RTO pincode risk classification (`LOW`, `MEDIUM`, `HIGH`); multi-carrier courier tracking (Delhivery, Shadowfax, BlueDart, Xpressbees). |
-| **Meera** | Creative Media Director | 28-second viral Hindi Reel scriptwriting for Evaa; visual storyboard generation; trend analysis. |
-| **Kabir** | Chief Financial Officer | Daily P&L audits into Supabase `orders_pnl`; unit economics calculation (COGS + ₹79 ship + ₹50 RTO reserve = >50% profit margin). |
-| **Arjun** | VP of Procurement & Product Scouting | Meesho domestic catalog discovery (>4.7⭐, >1000 reviews, ₹299–₹999 bracket); populates `scouted_products`; supplier stock & price audit. |
-
-### Perpetual Autonomous Business Engine (`radha_ceo/perpetual.py`):
-- Operates 24/7 without stopping.
-- When primary operational queues (pending orders, customer inquiries) are clear, Radha and her team automatically transition to **Continuous Deep Business Research**:
-  1. Emerging Indian e-commerce search trends
-  2. Supplier price monitoring and margin preservation
-  3. Automated SEO blog publishing to Supabase
-  4. Viral Reels script and hook generation
-  5. Strategic reflection and episodic memory consolidation into Supabase `agent_memory`.
-
----
-
-## 6. 🗄️ SUPABASE CLOUD DATABASE SCHEMA
-
-Tables configured on `db.qdkkxpfhwrwyoardlceo.supabase.co`:
-
-1. `products`: 103 active, verified dropship products with Rupee pricing, Meesho CDN links, and domestic logistics badges.
-2. `orders`: Full order tracking with COD state, shipping address, and items JSON.
-3. `agent_memory`: Cloud episodic, semantic, and procedural knowledge graph for Radha CEO and sub-agents.
-4. `store_goals`: Daily GMV, conversion rate, AOV, and RTO benchmarks and progress tracking.
-5. `blog_posts`: Content engine articles for automated SEO visibility, read dynamically by `/blog` and `/blog/[slug]`.
-6. `scouted_products`: Winning Meesho items identified by Arjun ready for 1-click catalog import.
-7. `orders_pnl`: Financial ledger logging revenue, COGS, shipping expenses, and net profit per order.
-8. `rto_risk_scores`: Historical RTO tracking and risk mitigation for high-risk postal codes.
-9. `reviews`: Customer reviews and star ratings.
+### 8. Unisex Oversized Shirt — Flame Embroidered Icon
+- **Qikink Client Product ID:** `32476629`
+- **Internal Slug:** `unisex-oversized-shirt-32476629`
+- **Garment Blank:** Qikink `UC28` / `US22`
+- **Fabric & GSM:** 240 GSM Structured Combed Cotton
+- **Printing Method:** Flame Embroidered / High-Density Print
+- **Base Retail:** ₹799 | **Net Prepaid:** ₹749
+- **Wholesale Blank + Print:** ₹343.00 | **Landed Cost (+ ₹100 Shipping):** ₹443.00
+- **Net Profit:** ₹196.20 | **Net Margin:** **26.2%**
 
 ---
 
-## 7. 🚀 SYSTEM HANDOVER CHECKLIST FOR ANY AI MODEL
+## 4. ⚖️ SYSTEM ARCHITECTURE & COMPLIANCE FIXES SAVED
 
-When any AI model resumes work on this repository:
-1. **Repository Root:** `nothing12837-lang/hermes-dropship-ceo` on branch `main`.
-2. **Local vs Cloud Rule:** NEVER run heavy training or background daemons on Ajay's local laptop. Ajay's laptop is an editor only. The live runtime is GitHub Actions (`worker_a.yml`), Vercel, and Supabase.
-3. **Environment:** Secrets are loaded automatically from `.env` (root) or `.env.local` (storefront). Never hardcode secrets in committed files.
-4. **Testing Storefront:** Run `npm run build` inside `storefront/` to verify Turbopack App Router compilation.
-5. **Testing Radha CEO:** Run `python -c "from radha_ceo import RadhaBrain; b = RadhaBrain(); print(b.perceive())"` to verify cloud database and multi-agent connectivity.
+1. **Composite Supply Tax Invoicing (GST HSN 6109):**
+   - In `src/lib/notifications/email.ts`, courier COD handling fees (₹59) are classified as a composite supply under principal garment HSN `6109` (5% GST: 2.5% CGST + 2.5% SGST) instead of standalone HSN `9968` (18% GST).
+2. **COD OTP Fraud Prevention:**
+   - COD checkouts trigger a 6-digit email OTP verification before order submission to stop bot bookings and RTO losses.
+3. **Strict Whitelist Catalog Filter in Code:**
+   - In `storefront/src/lib/data/products.ts`, the product array enforces `.filter((p) => p.is_printed === true && Boolean(p.qikinkClientProductId))`.
+4. **Naming Standards:**
+   - Never label 240 GSM as "Heavyweight". Always use "240 GSM STRUCTURED COTTON".
+   - Never expose raw factory codes (`| UC61`) or the word `"Blank"` in customer titles.
+5. **Blueprint Storage Security:**
+   - Master blueprint PDFs are stored in root and user `Downloads/`—never in `storefront/public/` where wholesale unit economics could be scraped.
+
+---
+
+## 5. 🌐 LIVE PRODUCTION STATE & HEALTH
+
+- **Storefront URL:** [https://www.rareember.shop](https://www.rareember.shop)
+- **Deployment ID:** `dpl_8KjzVbJSKYzPcoEKq5khfzBTuBqL`
+- **Live Products Count (`/api/products`):** Exactly 8 products
+- **Live Google Shopping Feed (`/api/feed/google.xml`):** Exactly 8 items
+- **Live Sitemap (`/sitemap.xml`):** Exactly 8 product URLs
+- **Supabase Database (`public.products`):** Exactly 8 active rows (`active: true`), all non-printed rows deactivated (`active: false`).
+- **Test Suite:** 107/107 unit & integration tests passing cleanly.
