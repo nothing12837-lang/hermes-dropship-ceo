@@ -27,6 +27,12 @@ export interface OrderEmailPayload {
 }
 
 export interface OrderDeliveredInvoicePayload {
+  voucher?: {
+    code: string;
+    amount: number;
+    minOrderValue: number;
+    expiresAt: string;
+  };
   orderId: string;
   email: string;
   name?: string | null;
@@ -446,6 +452,35 @@ export async function sendOrderDeliveredInvoiceEmail(payload: OrderDeliveredInvo
             </table>
           </div>
 
+          ${payload.voucher ? `
+          <!-- Exclusive 90-Day VIP Collector Gift Voucher -->
+          <div style="background: #0D0D0F; border: 2px solid #F59E0B; border-radius: 18px; padding: 24px 20px; margin-bottom: 24px; text-align: center; color: #FFFFFF; box-shadow: 0 10px 25px rgba(0,0,0,0.15);">
+            <div style="display: inline-block; padding: 4px 12px; border-radius: 999px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: #F59E0B; font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px;">
+              🎁 90-Day VIP Collector Reward
+            </div>
+            <div style="font-size: 22px; font-weight: 900; letter-spacing: -0.02em; color: #FFFFFF; margin-bottom: 6px;">
+              ₹${payload.voucher.amount} Wardrobe Voucher Unlocked
+            </div>
+            <p style="font-size: 12px; color: #D1D5DB; line-height: 1.6; margin: 0 auto 16px; max-width: 440px;">
+              Thank you for welcoming Rare Ember into your rotation. To celebrate your order, your exclusive ₹${payload.voucher.amount} gift voucher is active for the next 90 days on any drop of ₹${payload.voucher.minOrderValue || 999}+.
+            </p>
+            <div style="background: rgba(255, 255, 255, 0.05); border: 1.5px dashed #F59E0B; border-radius: 12px; padding: 14px 20px; display: inline-block; margin-bottom: 14px;">
+              <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: #F59E0B; font-weight: 800; margin-bottom: 4px;">Single-Use Voucher Code</div>
+              <div style="font-size: 24px; font-weight: 900; letter-spacing: 0.2em; color: #FFFFFF; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;">
+                ${payload.voucher.code}
+              </div>
+            </div>
+            <div style="font-size: 11px; color: #9CA3AF; margin-bottom: 16px;">
+              Expires: <strong style="color: #F3F4F6;">${payload.voucher.expiresAt}</strong> • Minimum Order: ₹${payload.voucher.minOrderValue || 999}
+            </div>
+            <div>
+              <a href="https://www.rareember.shop/shop" style="display: inline-block; padding: 12px 28px; background: #FF4D24; color: #FFFFFF; text-decoration: none; font-weight: 800; font-size: 12px; border-radius: 10px; letter-spacing: 0.05em; text-transform: uppercase;">
+                Explore New Drops &amp; Redeem →
+              </a>
+            </div>
+          </div>
+          ` : ''}
+
           <!-- Photo Review UGC Reward Card (₹100 Store Credit) -->
           <div style="background: #FFFBF5; border: 1.5px solid #F59E0B; border-radius: 16px; padding: 20px; margin-bottom: 24px; text-align: left;">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
@@ -822,3 +857,141 @@ export async function sendStoreCreditActivatedEmail(payload: {
 }
 
 
+
+
+export interface VoucherReminderPayload {
+  stage: 'day20' | 'day45' | 'day87';
+  customerEmail: string;
+  customerName: string;
+  voucherCode: string;
+  amount: number;
+  expiresAt: string;
+  purchasedItemTitle: string;
+}
+
+export async function sendVoucherReminderEmail(
+  payload: VoucherReminderPayload
+): Promise<{ ok: boolean; error?: string }> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.log('[Email Service] RESEND_API_KEY not configured. Voucher reminder queued in memory.');
+    return { ok: false, error: 'RESEND_API_KEY not configured' };
+  }
+
+  const fromEmail = process.env.RESEND_FROM_EMAIL || 'Rare Ember <support@rareember.shop>';
+  const name = payload.customerName || 'Collector';
+  const garment = payload.purchasedItemTitle || 'Rare Ember Garment';
+  const amount = payload.amount || 50;
+  const code = payload.voucherCode;
+  const expiry = payload.expiresAt;
+
+  let subject = '';
+  let badgeText = '';
+  let headline = '';
+  let messageBody = '';
+  let ctaText = 'Explore The Catalog →';
+
+  if (payload.stage === 'day20') {
+    subject = `How is your ${garment} settling in? (+ ₹${amount} Wardrobe Voucher) — Rare Ember`;
+    badgeText = 'Day 20 • Wardrobe Check-In';
+    headline = 'Fabric drape & fit check.';
+    messageBody = `
+      Hello ${name},<br/><br/>
+      It’s been 20 days since your <strong>${garment}</strong> arrived at your doorstep. We hope the architectural drape, verified heavyweight cotton, and bespoke graphics are holding up to your rotation.<br/><br/>
+      As a token of our gratitude for being part of Rare Ember's early collector community, your <strong>₹${amount} Wardrobe Voucher</strong> is active and waiting for your next pickup.
+    `;
+    ctaText = `Claim ₹${amount} OFF on New Drops →`;
+  } else if (payload.stage === 'day45') {
+    subject = `Mid-Season Drop: Your ₹${amount} Voucher (${code}) is halfway to expiry — Rare Ember`;
+    badgeText = 'Day 45 • Mid-Season Update';
+    headline = 'Halfway mark. Fresh drops unlocked.';
+    messageBody = `
+      Hello ${name},<br/><br/>
+      We’ve just dropped fresh 240 GSM Structured Cotton silhouettes and heavyweight outerwear at the atelier. Your personal voucher code <strong>${code}</strong> (₹${amount} OFF on orders of ₹999+) is valid for 45 more days.<br/><br/>
+      Pair it with our automated <strong>Buy Any 2 Tees for ₹1,399</strong> bundle or apply it directly at checkout.
+    `;
+    ctaText = `Browse New Drops with ₹${amount} Credit →`;
+  } else {
+    subject = `[Final 72 Hours] Your ₹${amount} Voucher (${code}) expires on ${expiry} — Rare Ember`;
+    badgeText = 'Final 72 Hours • Expiry Alert';
+    headline = 'Last chance to redeem your credit.';
+    messageBody = `
+      Hello ${name},<br/><br/>
+      This is a quick courtesy notification that your personal reward voucher <strong>${code}</strong> worth <strong>₹${amount}</strong> will permanently expire on <strong>${expiry}</strong>.<br/><br/>
+      Once expired, the code will be purged and cannot be reissued. Complete your rotation today with zero-risk free prepaid express air dispatch.
+    `;
+    ctaText = `Redeem ₹${amount} Credit Before Expiry →`;
+  }
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${subject}</title>
+      </head>
+      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #0D0D0F; margin: 0; padding: 36px 16px; color: #FFFFFF;">
+        <div style="max-width: 560px; margin: 0 auto; background: #16161A; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+          
+          <div style="text-align: center; margin-bottom: 28px;">
+            <div style="font-size: 22px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: #FFFFFF;">
+              RARE EMBER<span style="color: #FF4D24;">.</span>
+            </div>
+            <div style="font-size: 10px; letter-spacing: 0.15em; color: #A1A1AA; text-transform: uppercase; margin-top: 4px;">
+              Architectural Indian Streetwear
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-bottom: 28px;">
+            <div style="display: inline-block; padding: 6px 16px; border-radius: 999px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: #F59E0B; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px;">
+              ${badgeText}
+            </div>
+            <h1 style="font-size: 24px; font-weight: 900; color: #FFFFFF; margin: 0 0 10px 0; letter-spacing: -0.02em;">
+              ${headline}
+            </h1>
+            <div style="font-size: 13px; color: #D1D5DB; line-height: 1.6; text-align: left; background: rgba(255, 255, 255, 0.03); border-radius: 14px; padding: 20px; border: 1px solid rgba(255, 255, 255, 0.06); margin-top: 16px;">
+              ${messageBody}
+            </div>
+          </div>
+
+          <!-- Voucher Box -->
+          <div style="background: linear-gradient(135deg, rgba(255, 77, 36, 0.1), rgba(245, 158, 11, 0.15)); border: 1.5px dashed #F59E0B; border-radius: 18px; padding: 24px 20px; text-align: center; margin-bottom: 28px;">
+            <div style="font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #F59E0B; margin-bottom: 6px;">
+              Your Exclusive Gift Voucher
+            </div>
+            <div style="font-size: 26px; font-weight: 900; letter-spacing: 0.18em; color: #FFFFFF; font-family: ui-monospace, SFMono-Regular, monospace; margin-bottom: 8px;">
+              ${code}
+            </div>
+            <div style="font-size: 13px; color: #10B981; font-weight: 800; margin-bottom: 4px;">
+              Flat ₹${amount} OFF on Orders of ₹999+
+            </div>
+            <div style="font-size: 11px; color: #9CA3AF;">
+              Valid till <strong style="color: #FFFFFF;">${expiry}</strong>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-bottom: 28px;">
+            <a href="https://www.rareember.shop/shop?voucher=${code}" style="display: inline-block; padding: 14px 32px; background: #FF4D24; color: #FFFFFF; text-decoration: none; font-weight: 800; font-size: 13px; border-radius: 12px; letter-spacing: 0.05em; text-transform: uppercase; box-shadow: 0 4px 15px rgba(255, 77, 36, 0.4);">
+              ${ctaText}
+            </a>
+          </div>
+
+          <div style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 20px; text-align: center; font-size: 11px; color: #71717A; line-height: 1.6;">
+            Registered Office: Near Ayyappa Swami Temple, Bangalore, Karnataka — 562107<br/>
+            Need assistance with sizing or fabric? WhatsApp <strong>+91 91182 11860</strong> or reply to this email.<br/>
+            &copy; ${new Date().getFullYear()} Rare Ember. Strictly Architectural Indian Streetwear.
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  return await sendEmailWithFallback({
+    apiKey,
+    fromEmail,
+    toEmail: payload.customerEmail,
+    subjectLine: subject,
+    html,
+  });
+}

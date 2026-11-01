@@ -6,6 +6,7 @@ import { clientIp, normalizeEmail, sanitizeCheckoutItems, sanitizeMessage } from
 import { products as staticCatalog, getProduct, enforcePriceFloor } from '@/lib/data/products';
 import { validateCouponCode } from '@/lib/festivals';
 import { verifyStoreCreditCode, redeemStoreCredit } from '@/lib/store-credit';
+import { verifyLoyaltyVoucher, redeemLoyaltyVoucher, calculateTeeBundleSavings } from '@/lib/loyalty';
 
 function getRazorpay(): Razorpay | null {
   const key_id = process.env.RAZORPAY_KEY_ID;
@@ -188,19 +189,32 @@ export async function POST(req: NextRequest) {
     const isPartialCod = (body as any).payment_method === 'partial_cod';
     const codFee = isCod ? 49 : 0;
 
+    // Calculate Buy Any 2 (240 GSM Tees) Bundle Savings
+    const teeBundleSavings = calculateTeeBundleSavings(items.map(it => {
+      const prod = (byId.get(it.id) || staticCatalog.find((p) => p.id === it.id)) as any;
+      return {
+        id: it.id,
+        qty: it.qty,
+        title: prod?.title || (it as any).title,
+        price: prod?.price != null ? Number(prod.price) : undefined,
+        price_inr: prod?.price_inr != null ? Number(prod.price_inr) : undefined,
+      };
+    }));
+
     // Apply Coupon Code if verified (block stacking on bundles)
     let discountAmount = 0;
     let verifiedCoupon = '';
     const hasBundle = items.some((i) => i.id.startsWith('bundle-'));
+
     if (body.coupon_code) {
-      if (hasBundle) {
-        console.log(`[Checkout API] Coupon ${body.coupon_code} disallowed on bundle cart.`);
-        return NextResponse.json({ error: 'Coupon codes cannot be applied to combo bundles.' }, { status: 400 });
+      if (hasBundle || teeBundleSavings > 0) {
+        console.log(`[Checkout API] Coupon ${body.coupon_code} disallowed on bundle/buy2 cart.`);
+        return NextResponse.json({ error: 'Coupon codes cannot be applied to combo or 240 GSM multi-tee bundles.' }, { status: 400 });
       }
       const rawCode = body.coupon_code.trim().toUpperCase();
-      if (isCod && (rawCode === 'PREPAID50' || rawCode === 'PREPAID30')) {
+      if (isCod && (rawCode === 'PREPAID50' || rawCode === 'PREPAID30' || rawCode === 'ARCHIVE100')) {
         return NextResponse.json({
-          error: 'The PREPAID50 coupon is exclusively valid for online prepaid orders.'
+          error: `The ${rawCode} coupon is exclusively valid for online prepaid orders.`
         }, { status: 400 });
       }
       if (rawCode.startsWith('CREDIT-') || rawCode.startsWith('RECREDIT-') || rawCode.startsWith('RE-CREDIT-')) {
@@ -209,6 +223,13 @@ export async function POST(req: NextRequest) {
           return NextResponse.json({ error: creditCheck.error || 'Invalid store credit voucher.' }, { status: 400 });
         }
         discountAmount = Math.min(creditCheck.creditAmount, subtotal);
+        verifiedCoupon = rawCode;
+      } else if (rawCode.startsWith('RE-GIFT-')) {
+        const voucherCheck = await verifyLoyaltyVoucher(rawCode, subtotal, supabase);
+        if (!voucherCheck.valid) {
+          return NextResponse.json({ error: voucherCheck.error || 'Invalid gift voucher.' }, { status: 400 });
+        }
+        discountAmount = Math.min(voucherCheck.discountAmount, subtotal);
         verifiedCoupon = rawCode;
       } else {
         const couponCheck = validateCouponCode(body.coupon_code, subtotal);
@@ -221,12 +242,28 @@ export async function POST(req: NextRequest) {
           }, { status: 400 });
         }
       }
-    } else if (!isCod && isIndia) {
-      // Auto prepaid incentive: Rs.50 off prepaid orders, computed
-      // SERVER-SIDE. The client used to send `discount` and the server
-      // trusted it; combined with a client-controlled `market` this let any
-      // cart be bought for ~Rs.85. A client-sent discount is never trusted.
-      discountAmount = Math.min(50, subtotal);
+    } else {
+      // Auto-discounts when no manual coupon is entered:
+      if (!isCod && isIndia) {
+        if (teeBundleSavings > 0) {
+          // Buy Any 2 240 GSM Tees deal on UPI:
+          // ₹99 bundle savings + ₹100 instant prepaid discount => 2 tees for ₹1,399!
+          discountAmount = teeBundleSavings + 100;
+          verifiedCoupon = 'BUY2_240GSM_UPI';
+        } else if (subtotal >= 2000) {
+          // VIP Tier instant discount: ₹100 off
+          discountAmount = 100;
+          verifiedCoupon = 'ARCHIVE100';
+        } else {
+          // Standard UPI instant discount: ₹50 off
+          discountAmount = Math.min(50, subtotal);
+          verifiedCoupon = 'PREPAID50';
+        }
+      } else if (isCod && teeBundleSavings > 0) {
+        // COD customers still get the ₹99 bundle savings for 2 tees (base bundle ₹1,499)
+        discountAmount = teeBundleSavings;
+        verifiedCoupon = 'BUY2_240GSM';
+      }
     }
 
     const finalTotal = Math.max(1, subtotal - discountAmount + codFee);
@@ -288,6 +325,8 @@ export async function POST(req: NextRequest) {
           });
           if (verifiedCoupon && (verifiedCoupon.startsWith('CREDIT-') || verifiedCoupon.startsWith('RECREDIT-') || verifiedCoupon.startsWith('RE-CREDIT-'))) {
             await redeemStoreCredit(verifiedCoupon, mockOrderId, supabase);
+          } else if (verifiedCoupon && verifiedCoupon.startsWith('RE-GIFT-')) {
+            await redeemLoyaltyVoucher(verifiedCoupon, mockOrderId, supabase);
           }
         }
         return NextResponse.json({ mock: true, url: `/success?mock=1&email=${encodeURIComponent(email)}&total=${finalTotal.toFixed(2)}` });
@@ -355,6 +394,11 @@ export async function POST(req: NextRequest) {
           { error: redemption.error || 'This store credit voucher has already been used.' },
           { status: 400 }
         );
+      }
+    } else if (verifiedCoupon && verifiedCoupon.startsWith('RE-GIFT-')) {
+      const voucherRedeemed = await redeemLoyaltyVoucher(verifiedCoupon, checkoutOrderId, supabase);
+      if (!voucherRedeemed) {
+        console.warn(`[Checkout API] Failed to mark loyalty voucher ${verifiedCoupon} as redeemed for order ${checkoutOrderId}`);
       }
     }
 

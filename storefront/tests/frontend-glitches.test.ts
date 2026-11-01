@@ -220,7 +220,7 @@ describe('Glitches Fix 1: Pricing Floor & Dynamic Garment Badges', () => {
       id: 'hoodie-01',
       title: 'Rare Ember Git Commit Or Die Trying Heavyweight Dev Hoodie',
     });
-    expect(hoodie).toBe('380 GSM Heavy Fleece');
+    expect(hoodie).toBe('380 GSM BRUSHED FLEECE');
 
     // Unisex jersey: 240 GSM AEROKNIT MESH (never heavyweight)
     const jersey = getGarmentSpecBadge({

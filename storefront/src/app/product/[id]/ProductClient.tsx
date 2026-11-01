@@ -3406,6 +3406,28 @@ export function ProductClient({ product }: Props) {
                   </button>
                 </div>
 
+                {/* 3-Line Quality Comparison Box */}
+                <div className="mt-3 p-3.5 rounded-2xl bg-[#FAF8F5] border border-black/[0.08] text-xs space-y-2">
+                  <div className="flex items-start gap-2 text-neutral-600">
+                    <span className="text-rose-500 font-bold shrink-0">✕</span>
+                    <div>
+                      <strong className="text-neutral-800">Fast-Fashion Brands (₹999–₹1,499):</strong> Thin 180 GSM cloth &amp; cracking rubber prints.
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2 text-neutral-800">
+                    <span className="text-emerald-600 font-bold shrink-0">✓</span>
+                    <div>
+                      <strong className="text-neutral-950">RareEmber Atelier ({geoFormatPrice(Math.max(1, effectiveInr - 50))} on UPI):</strong> True {getGarmentFabricSpecs(product).badge} + Both-Side HD Archival Prints + Free Express Air Delivery included.
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2 text-[#E04F33] pt-1.5 border-t border-black/[0.06]">
+                    <span className="shrink-0">⚡</span>
+                    <div>
+                      <strong className="text-[#0D0D0F]">Zero-Risk Checkout:</strong> Save ₹50–₹100 instantly on UPI, or Book for ₹100 COD Advance.
+                    </div>
+                  </div>
+                </div>
+
 
               </div>
             )}

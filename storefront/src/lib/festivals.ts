@@ -142,6 +142,12 @@ export const EVERGREEN_COUPONS: Record<
     minOrder: 599,
     desc: 'Flat ₹50 Instant Savings for 100% Prepaid UPI Checkout (₹599+)',
   },
+  ARCHIVE100: {
+    type: 'flat',
+    value: 100,
+    minOrder: 2000,
+    desc: 'Flat ₹100 Instant VIP Archive Discount for Orders of ₹2,000+',
+  },
   PREPAID30: {
     type: 'flat',
     value: 30,
@@ -353,6 +359,25 @@ export function validateCouponCode(
     }
   }
 
+
+  // 4. Check VIP Loyalty Gift Vouchers (e.g. RE-GIFT-XXXXXX)
+  const giftMatch = code.match(/^RE-GIFT-[A-Z0-9]{6}$/i);
+  if (giftMatch) {
+    if (subtotal < 999) {
+      return {
+        valid: false,
+        discountAmount: 0,
+        label: '',
+        error: 'Loyalty gift vouchers require a minimum order value of ₹999.',
+      };
+    }
+    const estimatedAmount = subtotal >= 2000 ? 100 : 50;
+    return {
+      valid: true,
+      discountAmount: estimatedAmount,
+      label: `VIP Gift Voucher (${code}: ₹${estimatedAmount} OFF)`,
+    };
+  }
   return {
     valid: false,
     discountAmount: 0,

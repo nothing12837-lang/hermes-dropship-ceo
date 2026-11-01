@@ -5,9 +5,11 @@ import { checkRateLimit } from '@/lib/security/rate-limit';
 import { clientIp, isValidOrderId, normalizeEmail, sanitizeCheckoutItems, cleanOrderId, isUuid, isHexPrefix, isNumericTracking } from '@/lib/security/validation';
 import { notifyTelegramOrder } from '@/lib/notifications/telegram';
 import { sendOrderConfirmationEmail, sendOrderDeliveredInvoiceEmail } from '@/lib/notifications/email';
+import { issueOrderLoyaltyVoucher } from '@/lib/loyalty';
 import { isAdmin } from '@/lib/security/auth';
 import { validateCouponCode } from '@/lib/festivals';
 import { verifyStoreCreditCode, redeemStoreCredit } from '@/lib/store-credit';
+import { verifyLoyaltyVoucher, redeemLoyaltyVoucher, calculateTeeBundleSavings } from '@/lib/loyalty';
 import { products as fallbackCatalog, getProduct, enforcePriceFloor } from '@/lib/data/products';
 import { fulfillQikinkOrder, isTestOrder } from '@/lib/fulfillment/qikink';
 
@@ -242,8 +244,21 @@ export async function POST(req: NextRequest) {
 
       const order = data[0];
       const addr = (order.shipping_address as any) || {};
+      let voucherData: any = undefined;
+      try {
+        voucherData = await issueOrderLoyaltyVoucher({
+          id: String(order.id),
+          email: String(order.user_email || targetEmail),
+          name: order.shipping_name,
+          total: Number(order.total_amount || 0),
+          purchasedItemTitle: Array.isArray(order.items) && order.items[0]?.title ? order.items[0].title : undefined,
+        }, sb);
+      } catch (vErr) {
+        console.warn('[Orders API] Loyalty voucher query/issue error:', vErr);
+      }
 
       const sendRes = await sendOrderDeliveredInvoiceEmail({
+        voucher: voucherData || undefined,
         orderId: String(order.id),
         email: String(order.user_email || targetEmail),
         name: order.shipping_name,
@@ -424,19 +439,28 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // Calculate Buy Any 2 (240 GSM Tees) Bundle Savings
+    const teeBundleSavings = calculateTeeBundleSavings(enrichedItems.map(it => ({
+      id: it.id,
+      qty: it.qty,
+      title: it.title,
+      price: it.price,
+      price_inr: it.price,
+    })));
+
     // Apply Coupon Code server-side only (block stacking on bundles)
     let discountAmount = 0;
     let verifiedCoupon = '';
     const hasBundle = validatedItems.some((i) => i.id.startsWith('bundle-'));
     if (body.coupon_code) {
-      if (hasBundle) {
-        console.log(`[Orders API] Coupon ${body.coupon_code} disallowed on bundle order.`);
-        return NextResponse.json({ error: 'Coupon codes cannot be applied to combo bundles.' }, { status: 400 });
+      if (hasBundle || teeBundleSavings > 0) {
+        console.log(`[Orders API] Coupon ${body.coupon_code} disallowed on bundle/buy2 order.`);
+        return NextResponse.json({ error: 'Coupon codes cannot be applied to combo or 240 GSM multi-tee bundles.' }, { status: 400 });
       } else {
         const normalizedCode = String(body.coupon_code).trim().toUpperCase();
-        if (isCod && (normalizedCode === 'PREPAID50' || normalizedCode === 'PREPAID30')) {
+        if (isCod && (normalizedCode === 'PREPAID50' || normalizedCode === 'PREPAID30' || normalizedCode === 'ARCHIVE100')) {
           return NextResponse.json({
-            error: 'The PREPAID50 coupon is exclusively valid for online prepaid orders.'
+            error: `The ${normalizedCode} coupon is exclusively valid for online prepaid orders.`
           }, { status: 400 });
         }
         if (normalizedCode.startsWith('CREDIT-') || normalizedCode.startsWith('RECREDIT-') || normalizedCode.startsWith('RE-CREDIT-')) {
@@ -445,6 +469,13 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: credCheck.error || 'Invalid store credit voucher.' }, { status: 400 });
           }
           discountAmount = Math.min(credCheck.creditAmount, calculatedSubtotal);
+          verifiedCoupon = normalizedCode;
+        } else if (normalizedCode.startsWith('RE-GIFT-')) {
+          const voucherCheck = await verifyLoyaltyVoucher(normalizedCode, calculatedSubtotal, sb);
+          if (!voucherCheck.valid) {
+            return NextResponse.json({ error: voucherCheck.error || 'Invalid gift voucher.' }, { status: 400 });
+          }
+          discountAmount = Math.min(voucherCheck.discountAmount, calculatedSubtotal);
           verifiedCoupon = normalizedCode;
         } else {
           // Regular promotional coupon validation
@@ -459,6 +490,10 @@ export async function POST(req: NextRequest) {
           }
         }
       }
+    } else if (isCod && teeBundleSavings > 0) {
+      // 240 GSM Tee Bundle Savings on COD (₹99 per pair)
+      discountAmount = teeBundleSavings;
+      verifiedCoupon = 'BUY2_240GSM';
     }
     // NOTE: the previous `else if (body.discount)` branch trusted a
     // client-sent discount on COD orders with none of the prepaid-only /
@@ -578,6 +613,11 @@ export async function POST(req: NextRequest) {
           { error: redemption.error || 'This store credit voucher has already been used.' },
           { status: 400 }
         );
+      }
+    } else if (verifiedCoupon && verifiedCoupon.startsWith('RE-GIFT-')) {
+      const voucherRedeemed = await redeemLoyaltyVoucher(verifiedCoupon, finalOrderId, sb);
+      if (!voucherRedeemed) {
+        console.warn(`[Orders API] Failed to mark loyalty voucher ${verifiedCoupon} as redeemed for order ${finalOrderId}`);
       }
     }
 

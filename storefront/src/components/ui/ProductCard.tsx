@@ -289,15 +289,22 @@ export default function ProductCard({
           </h3>
 
           <div className="flex flex-col mt-auto pt-2">
-            <div className="flex items-center justify-between gap-2 flex-wrap">
-              <div className="flex items-baseline gap-1.5 flex-wrap">
-                <span className="text-base sm:text-lg font-black text-[#0D0D0F] tracking-tight">{displayPrice}</span>
-                {displayOldPrice && (
-                  <span className="text-[11px] sm:text-xs text-neutral-400 line-through font-medium">{displayOldPrice}</span>
-                )}
-                {calculatedDiscount > 0 && (
-                  <span className="text-[11px] sm:text-xs font-bold text-[#E04F33]">-{calculatedDiscount}%</span>
-                )}
+            <div className="flex items-start justify-between gap-2 flex-wrap">
+              <div className="flex flex-col">
+                <div className="flex items-baseline gap-1.5 flex-wrap">
+                  <span className="text-base sm:text-lg font-black text-[#0D0D0F] tracking-tight">
+                    {geoFormatPrice(Math.max(1, inr - 50))} <span className="text-xs font-bold text-[#E04F33]">with UPI</span>
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-1.5 text-[11px] text-neutral-500 font-medium mt-0.5">
+                  <span>Base {displayPrice}</span>
+                  {displayOldPrice && (
+                    <span className="line-through text-neutral-400">{displayOldPrice}</span>
+                  )}
+                  {calculatedDiscount > 0 && (
+                    <span className="font-bold text-[#E04F33]">-{calculatedDiscount}%</span>
+                  )}
+                </div>
               </div>
 
               {/* Color preview dots */}
@@ -321,6 +328,14 @@ export default function ProductCard({
                   )}
                 </div>
               )}
+            </div>
+
+                        {/* Sleek COD Booking Pill Badge */}
+            <div className="mt-2">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-900 border border-amber-200/80 tracking-wide">
+                <span>⚡</span>
+                <span>Or Book Now for ₹100 COD Advance</span>
+              </span>
             </div>
 
             <div className="text-[10px] sm:text-[11px] text-neutral-500 font-medium mt-1.5 flex items-center gap-1.5">

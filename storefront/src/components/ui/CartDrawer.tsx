@@ -166,6 +166,17 @@ export default function CartDrawer() {
   const subtotal = detailed.reduce((a, b) => a + getItemPrice((b as any).product) * b.qty, 0);
   const totalQuantity = detailed.reduce((sum, item) => sum + (item.qty || 1), 0);
 
+  // Buy Any 2 (240 GSM Tees) for ₹1,399 on UPI Rule
+  const eligible240Tees = detailed.filter((d) => {
+    const price = d.product.price_inr || d.product.price;
+    const id = (d.product.id || '').toLowerCase();
+    const title = (d.product.title || '').toLowerCase();
+    return price === 799 || id.includes('32476431') || id.includes('32476280') || id.includes('32476332') || id.includes('32476629') || /240 gsm|standard-t-shirt|classic-t-shirt|oversized-shirt|oversized-jersey/i.test(`${title} ${id}`);
+  });
+  const total240TeeQty = eligible240Tees.reduce((sum, item) => sum + (item.qty || 1), 0);
+  const bundleSavings = Math.floor(total240TeeQty / 2) * 99;
+  const netCartTotal = Math.max(0, subtotal - bundleSavings);
+
   const isAddOn = (p: Product) => {
     const t = p.title.toLowerCase();
     return (
@@ -516,6 +527,13 @@ export default function CartDrawer() {
                 <span className="font-bold">{formatCartPrice(subtotal)}</span>
               </div>
 
+              {bundleSavings > 0 && (
+                <div className="flex justify-between text-xs mb-2 text-emerald-800 font-bold bg-emerald-50 px-2.5 py-1.5 rounded-lg border border-emerald-200">
+                  <span>Buy Any 2 Deal (240 GSM Tees):</span>
+                  <span>-{formatCartPrice(bundleSavings)}</span>
+                </div>
+              )}
+
               <div className="flex justify-between text-xs mb-3 text-neutral-600 font-medium">
                 <span>Prepaid Delivery (Express Air)</span>
                 <span className="text-emerald-700 font-bold">FREE</span>
@@ -523,35 +541,64 @@ export default function CartDrawer() {
 
               <div className="flex justify-between font-black text-lg text-[#12100E] pt-3 border-t border-black/10 mb-3">
                 <span>Total</span>
-                <span className="text-[#FF4D24] font-black">{formatCartPrice(subtotal)}</span>
+                <span className="text-[#FF4D24] font-black">{formatCartPrice(netCartTotal)}</span>
               </div>
 
-              {/* Tiered Shipping & Multi-Piece Archive Discount Bar */}
-              <div className="mb-4 p-3 rounded-xl bg-[#FAF8F5] border border-black/[0.06] space-y-2">
-                <div className="flex justify-between items-center text-[11px] font-bold text-neutral-800">
+              {/* Dynamic Milestone Progress Bar */}
+              <div className="mb-4 p-3 rounded-2xl bg-[#FAF8F5] border border-black/[0.08] space-y-2.5">
+                <div className="flex justify-between items-center text-[11px] font-black uppercase tracking-wider text-neutral-800">
                   <span className="flex items-center gap-1.5">
-                    <span>⚡</span>
-                    <span>
-                      {subtotal >= 649
-                        ? 'FREE Pan-India Express Air Delivery & ₹50 UPI Off'
-                        : `Add ₹${Math.max(0, 649 - subtotal)} for Free Express Air Delivery`}
-                    </span>
+                    <span className="text-[#FF4D24]">🔥</span>
+                    <span>Reward Milestones</span>
                   </span>
-                  <span className="text-[10px] font-mono text-emerald-700 font-extrabold">
-                    {subtotal >= 649 ? 'UNLOCKED' : 'TIER 1'}
+                  <span className="text-[10px] font-mono text-emerald-700 font-bold">
+                    {subtotal >= 2000 ? 'VIP TIER' : subtotal >= 1000 ? 'TIER 2' : 'TIER 1'}
                   </span>
                 </div>
-                {totalQuantity >= 2 || subtotal >= 1349 ? (
-                  <div className="flex justify-between items-center text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-1 rounded-md border border-emerald-200">
-                    <span>🔥 Multi-Piece Archive Discount: Extra ₹100 OFF Unlocked!</span>
-                    <span className="font-mono text-emerald-900 font-black">EMBERARCHIVE</span>
-                  </div>
-                ) : (
-                  <div className="flex justify-between items-center text-[10px] text-neutral-500">
-                    <span>Add 1 more item to unlock Extra ₹100 Multi-Piece Savings</span>
-                    <span className="font-mono font-bold text-neutral-700">TIER 2</span>
-                  </div>
-                )}
+
+                {/* Progress Track */}
+                <div className="w-full bg-neutral-200 h-2 rounded-full overflow-hidden">
+                  <div
+                    className="bg-[#FF4D24] h-full transition-all duration-300 rounded-full"
+                    style={{ width: `${Math.min(100, Math.round((subtotal / 2000) * 100))}%` }}
+                  />
+                </div>
+
+                {/* Milestone Details */}
+                <div className="space-y-1.5 text-[11px]">
+                  {subtotal < 1000 ? (
+                    <div className="text-neutral-700 flex justify-between items-center">
+                      <span>• Active: <strong>₹50 UPI Discount + Free Express Air</strong></span>
+                      <span className="text-[10px] text-amber-700 font-bold">Add ₹{1000 - subtotal} for ₹50 Voucher</span>
+                    </div>
+                  ) : subtotal < 2000 ? (
+                    <div className="text-emerald-900 bg-emerald-50/80 p-2 rounded-lg border border-emerald-200/60 space-y-1">
+                      <div className="font-bold flex items-center justify-between">
+                        <span>✓ Unlocked: ₹50 Instant Off + ₹50 Post-Delivery Voucher</span>
+                      </div>
+                      <div className="text-[10px] text-neutral-600 font-medium">
+                        Add ₹{2000 - subtotal} more to unlock <strong>₹100 Off + ₹100 Gift Voucher</strong>!
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-emerald-900 bg-emerald-50 p-2 rounded-lg border border-emerald-300 font-bold flex items-center justify-between">
+                      <span>🎉 VIP: ₹100 Instant Discount + ₹100 Post-Delivery Voucher Unlocked!</span>
+                    </div>
+                  )}
+
+                  {/* Buy Any 2 Deal Callout */}
+                  {bundleSavings > 0 ? (
+                    <div className="bg-amber-50 text-amber-950 p-2 rounded-lg border border-amber-200/80 font-bold flex justify-between items-center text-[10px]">
+                      <span>⚡ Buy Any 2 Deal: 240 GSM Tees for ₹1,399 on UPI!</span>
+                      <span className="font-mono text-emerald-800 font-black">-₹{bundleSavings}</span>
+                    </div>
+                  ) : total240TeeQty === 1 ? (
+                    <div className="text-[10px] text-amber-900 bg-amber-50/60 p-2 rounded-lg border border-amber-200/50 flex justify-between items-center">
+                      <span>Add 1 more 240 GSM Tee to get <strong>Any 2 for ₹1,399 on UPI</strong>!</span>
+                      <span className="font-bold text-[#FF4D24]">+₹99 Deal</span>
+                    </div>
+                  ) : null}
+                </div>
               </div>
 
               {/* Why Zero Customers Regret Their Fit Reassurance Strip */}

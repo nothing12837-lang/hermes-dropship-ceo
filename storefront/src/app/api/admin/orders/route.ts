@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { fulfillQikinkOrder } from '@/lib/fulfillment/qikink';
 import { sendOrderDeliveredInvoiceEmail } from '@/lib/notifications/email';
+import { issueOrderLoyaltyVoucher } from '@/lib/loyalty';
 import { isAdmin } from '@/lib/security/auth';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { clientIp } from '@/lib/security/validation';
@@ -200,7 +201,21 @@ export async function PATCH(req: NextRequest) {
 
         if (fullOrder) {
           const addr = (fullOrder.shipping_address as any) || {};
+          let voucherData: any = undefined;
+          try {
+            voucherData = await issueOrderLoyaltyVoucher({
+              id: String(fullOrder.id),
+              email: String(fullOrder.user_email || ''),
+              name: fullOrder.shipping_name,
+              total: Number(fullOrder.total_amount || 0),
+              purchasedItemTitle: Array.isArray(fullOrder.items) && fullOrder.items[0]?.title ? fullOrder.items[0].title : undefined,
+            }, supabase);
+          } catch (vErr) {
+            console.warn('[Admin Orders] Loyalty voucher issuance error:', vErr);
+          }
+
           void sendOrderDeliveredInvoiceEmail({
+            voucher: voucherData || undefined,
             orderId: String(fullOrder.id),
             email: String(fullOrder.user_email || ''),
             name: fullOrder.shipping_name,
@@ -269,7 +284,21 @@ export async function POST(req: NextRequest) {
     }
 
     const addr = (fullOrder.shipping_address as any) || {};
+    let voucherData: any = undefined;
+    try {
+      voucherData = await issueOrderLoyaltyVoucher({
+        id: String(fullOrder.id),
+        email: String(fullOrder.user_email || ''),
+        name: fullOrder.shipping_name,
+        total: Number(fullOrder.total_amount || 0),
+        purchasedItemTitle: Array.isArray(fullOrder.items) && fullOrder.items[0]?.title ? fullOrder.items[0].title : undefined,
+      }, supabase);
+    } catch (vErr) {
+      console.warn('[Admin Orders] Loyalty voucher query/issue error:', vErr);
+    }
+
     const emailResult = await sendOrderDeliveredInvoiceEmail({
+      voucher: voucherData || undefined,
       orderId: String(fullOrder.id),
       email: String(fullOrder.user_email || ''),
       name: fullOrder.shipping_name,

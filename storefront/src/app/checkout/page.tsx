@@ -107,19 +107,45 @@ export default function CheckoutPage() {
   const handleSelectPaymentMethod = (method: 'online' | 'cod') => {
     setPaymentMethod(method);
     setError('');
+    const eligible240 = detailed.filter((d) => {
+      const p = d.product.price_inr || d.product.price;
+      const pid = (d.product.id || '').toLowerCase();
+      const ptitle = (d.product.title || '').toLowerCase();
+      return p === 799 || pid.includes('32476431') || pid.includes('32476280') || pid.includes('32476332') || pid.includes('32476629') || /240 gsm|standard-t-shirt|classic-t-shirt|oversized-shirt|oversized-jersey/i.test(`${ptitle} ${pid}`);
+    });
+    const total240Qty = eligible240.reduce((sum, item) => sum + (item.qty || 1), 0);
+    const bSavings = Math.floor(total240Qty / 2) * 99;
+
     if (method === 'online') {
-      if (!couponApplied && !appliedCouponCode && subtotal >= 599) {
-        const res = validateCouponCode('PREPAID50', subtotal);
-        if (res.valid) {
+      if (!couponApplied || appliedCouponCode === 'PREPAID50' || appliedCouponCode === 'ARCHIVE100' || appliedCouponCode === 'BUY2_240GSM' || appliedCouponCode === 'BUY2_240GSM_UPI') {
+        if (bSavings > 0) {
+          setCoupon('BUY2_240GSM_UPI');
+          setAppliedCouponCode('BUY2_240GSM_UPI');
+          setAppliedCouponLabel('Buy Any 2 Deal: 240 GSM Tees for ₹1,399 on UPI');
+          setDiscount(bSavings + 100);
+          setCouponApplied(true);
+        } else if (subtotal >= 2000) {
+          setCoupon('ARCHIVE100');
+          setAppliedCouponCode('ARCHIVE100');
+          setAppliedCouponLabel('ARCHIVE100 (₹100 Instant VIP UPI Discount)');
+          setDiscount(100);
+          setCouponApplied(true);
+        } else if (subtotal >= 599) {
           setCoupon('PREPAID50');
           setAppliedCouponCode('PREPAID50');
           setAppliedCouponLabel('PREPAID50 (₹50 Instant UPI Discount)');
-          setDiscount(res.discountAmount);
+          setDiscount(50);
           setCouponApplied(true);
         }
       }
     } else if (method === 'cod') {
-      if (appliedCouponCode === 'PREPAID50' || appliedCouponCode === 'PREPAID30') {
+      if (bSavings > 0) {
+        setCoupon('BUY2_240GSM');
+        setAppliedCouponCode('BUY2_240GSM');
+        setAppliedCouponLabel(`Buy Any 2 Deal (₹${bSavings} Bundle Savings)`);
+        setDiscount(bSavings);
+        setCouponApplied(true);
+      } else if (appliedCouponCode === 'PREPAID50' || appliedCouponCode === 'ARCHIVE100' || appliedCouponCode === 'PREPAID30' || appliedCouponCode === 'BUY2_240GSM_UPI') {
         setCoupon('');
         setAppliedCouponCode('');
         setAppliedCouponLabel('');
@@ -365,19 +391,50 @@ export default function CheckoutPage() {
   };
   const subtotal = detailed.reduce((a, b) => a + getProductItemPrice(b.product) * b.qty, 0);
 
-  // Auto-apply PREPAID50 for online checkout when subtotal >= 599
+  // Buy Any 2 (240 GSM Tees) calculation
+  const eligible240Tees = detailed.filter((d) => {
+    const p = d.product.price_inr || d.product.price;
+    const pid = (d.product.id || '').toLowerCase();
+    const ptitle = (d.product.title || '').toLowerCase();
+    return p === 799 || pid.includes('32476431') || pid.includes('32476280') || pid.includes('32476332') || pid.includes('32476629') || /240 gsm|standard-t-shirt|classic-t-shirt|oversized-shirt|oversized-jersey/i.test(`${ptitle} ${pid}`);
+  });
+  const total240TeeQty = eligible240Tees.reduce((sum, item) => sum + (item.qty || 1), 0);
+  const bundleSavings = Math.floor(total240TeeQty / 2) * 99;
+
+  // Auto-apply tiered discounts or Buy Any 2 bundle deals
   useEffect(() => {
-    if (paymentMethod === 'online' && !couponApplied && !appliedCouponCode && subtotal >= 599) {
-      const res = validateCouponCode('PREPAID50', subtotal);
-      if (res.valid) {
-        setCoupon('PREPAID50');
-        setAppliedCouponCode('PREPAID50');
-        setAppliedCouponLabel('PREPAID50 (₹50 Instant UPI Discount)');
-        setDiscount(res.discountAmount);
+    if (paymentMethod === 'online') {
+      if (!couponApplied && !appliedCouponCode) {
+        if (bundleSavings > 0) {
+          setCoupon('BUY2_240GSM_UPI');
+          setAppliedCouponCode('BUY2_240GSM_UPI');
+          setAppliedCouponLabel('Buy Any 2 Deal: 240 GSM Tees for ₹1,399 on UPI');
+          setDiscount(bundleSavings + 100);
+          setCouponApplied(true);
+        } else if (subtotal >= 2000) {
+          setCoupon('ARCHIVE100');
+          setAppliedCouponCode('ARCHIVE100');
+          setAppliedCouponLabel('ARCHIVE100 (₹100 Instant VIP UPI Discount)');
+          setDiscount(100);
+          setCouponApplied(true);
+        } else if (subtotal >= 599) {
+          setCoupon('PREPAID50');
+          setAppliedCouponCode('PREPAID50');
+          setAppliedCouponLabel('PREPAID50 (₹50 Instant UPI Discount)');
+          setDiscount(50);
+          setCouponApplied(true);
+        }
+      }
+    } else if (paymentMethod === 'cod') {
+      if (bundleSavings > 0 && (!couponApplied || appliedCouponCode === 'BUY2_240GSM_UPI')) {
+        setCoupon('BUY2_240GSM');
+        setAppliedCouponCode('BUY2_240GSM');
+        setAppliedCouponLabel(`Buy Any 2 Deal (₹${bundleSavings} Bundle Savings)`);
+        setDiscount(bundleSavings);
         setCouponApplied(true);
       }
     }
-  }, [subtotal, paymentMethod, couponApplied, appliedCouponCode]);
+  }, [subtotal, paymentMethod, couponApplied, appliedCouponCode, bundleSavings]);
   // The server caps COD on the POST-DISCOUNT total (`finalTotal`), so the
   // client must use the same number -- otherwise COD is hidden for orders the
   // server would happily accept.
@@ -424,15 +481,49 @@ export default function CheckoutPage() {
     return `₹${inrVal.toLocaleString('en-IN')}`;
   };
 
-  const applyCoupon = () => {
+  const applyCoupon = async () => {
     const hasBundle = detailed.some((d) => d.id.startsWith('bundle-') || (d.product && d.product.id.startsWith('bundle-')));
-    if (hasBundle) {
-      setError('Promotional discount codes cannot be stacked on pre-discounted combo bundles. Add individual drops to use this coupon!');
+    if (hasBundle || bundleSavings > 0) {
+      setError('Promotional discount codes cannot be stacked on pre-discounted combo or Buy Any 2 bundles. Add individual drops to use this coupon!');
       setCouponApplied(false);
       setDiscount(0);
       setAppliedCouponCode('');
       setAppliedCouponLabel('');
       return;
+    }
+
+    const rawCode = coupon.trim().toUpperCase();
+    if (!rawCode) {
+      setError('Please enter a discount code.');
+      return;
+    }
+
+    // Check RE-GIFT- Loyalty Voucher
+    if (rawCode.startsWith('RE-GIFT-')) {
+      try {
+        const verifyRes = await fetch('/api/loyalty/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: rawCode, subtotal }),
+        });
+        const vData = await verifyRes.json();
+        if (!vData.valid) {
+          setError(vData.error || 'Invalid or expired gift voucher code.');
+          setCouponApplied(false);
+          setDiscount(0);
+          setAppliedCouponCode('');
+          setAppliedCouponLabel('');
+          return;
+        }
+        setDiscount(vData.discountAmount);
+        setAppliedCouponCode(rawCode);
+        setAppliedCouponLabel(`VIP Gift Voucher (${rawCode}: ₹${vData.discountAmount} OFF)`);
+        setCouponApplied(true);
+        setError('');
+        return;
+      } catch (vErr) {
+        console.error('Failed to verify loyalty voucher:', vErr);
+      }
     }
 
     const res = validateCouponCode(coupon, subtotal);
@@ -446,10 +537,7 @@ export default function CheckoutPage() {
     }
 
     setDiscount(res.discountAmount);
-    // The server validates the raw CODE. Sending res.label ("FIRST50 (Rs 50 OFF)")
-    // made every promotion silently fail server-side: the shopper was quoted a
-    // discount and then charged full price.
-    setAppliedCouponCode(coupon.trim().toUpperCase());
+    setAppliedCouponCode(rawCode);
     setAppliedCouponLabel(res.label);
     setCouponApplied(true);
     setError('');
@@ -1329,7 +1417,13 @@ export default function CheckoutPage() {
                     </p>
                     <div className="mt-2 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60 inline-flex items-center gap-1.5">
                       <span>⚡</span>
-                      <span>Extra ₹50 OFF via PREPAID50 • ₹0 COD Handling Fee</span>
+                      <span>
+                        {bundleSavings > 0
+                          ? 'Buy Any 2 Deal: ₹99 Bundle Savings + ₹100 Instant UPI Discount • ₹0 COD Fee'
+                          : subtotal >= 2000
+                          ? 'Extra ₹100 OFF via ARCHIVE100 • ₹0 COD Handling Fee'
+                          : 'Extra ₹50 OFF via PREPAID50 • ₹0 COD Handling Fee'}
+                      </span>
                     </div>
                   </div>
                 </label>
