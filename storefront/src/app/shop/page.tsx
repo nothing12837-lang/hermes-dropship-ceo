@@ -18,7 +18,7 @@ const TABS = [
 function isDisallowedRow(p: ProductRow): boolean {
   if (isKidsProduct(p as any)) return true;
   if (isDisallowed180GsmOrThin(p as any)) return true;
-  if (p.is_printed !== true && (p as any).isPrinted !== true) return true;
+  if ((p as any).is_printed !== true && (p as any).isPrinted !== true) return true;
   const targetId = `${p.id || ''} ${p.slug || ''} ${p.title || ''}`.toLowerCase();
   return /calmcloud|ember-glow|warm-paw|lickmat|pawtrack|cozy-nest|aesthetic-scratch|smart-fetch|button-badge|button_badge|button badge|temporary-tattoo|temporary tattoo|tattoo|scrunchies|bow scrunchie|bookmark|balaclava|arm sleeves|arm sleeve|basic t-shirt pc|^bundle-|bundle|gateway|test[-_ ]?pass|test[-_ ]?sku|sandbox|verification|64953488|64953664|32476832|32476744/i.test(targetId);
 }
