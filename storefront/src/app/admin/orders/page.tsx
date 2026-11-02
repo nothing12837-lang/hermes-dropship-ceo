@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { products as catalogProducts } from '@/lib/data/products';
 
 interface AdminOrderItem {
@@ -16,6 +15,7 @@ interface AdminOrderItem {
   price?: number;
   price_inr?: number;
   imageUrl?: string;
+  image?: string;
   selectedStyle?: string;
 }
 
@@ -58,13 +58,48 @@ interface AdminTicket {
 
 const KEY_STORAGE = 'rareember_admin_vault_key';
 
+// Helper to resolve real product titles, images, and prices even if test orders stored minimal data
+function resolveItemDetails(item: AdminOrderItem, totalAmount: number = 0) {
+  const cleanId = String(item.product_id || item.id || '').trim();
+  const matched = catalogProducts.find(
+    (p) => p.id === cleanId || p.slug === cleanId || (p as any).qikinkClientProductId === cleanId
+  );
+
+  const title =
+    item.title && item.title !== 'Drop Item' && item.title !== 'Product'
+      ? item.title
+      : item.name && item.name !== 'Drop Item'
+      ? item.name
+      : matched?.title || 'Rare Ember Architectural Drop';
+
+  const imageUrl =
+    item.imageUrl ||
+    item.image ||
+    matched?.image_url ||
+    matched?.images?.[0] ||
+    '';
+
+  const rawPrice = Number(item.price_inr || item.price || 0);
+  const price = rawPrice > 0 ? rawPrice : matched?.price_inr || matched?.price || totalAmount || 0;
+
+  return {
+    title,
+    imageUrl,
+    price,
+    color: item.color || 'Black',
+    size: item.size || 'L',
+    qty: Number(item.qty || 1),
+    fabric: matched?.tag || matched?.badge || 'Heavyweight Combed Cotton',
+  };
+}
+
 export default function AdminCommandCenter() {
   const [key, setKey] = useState('');
   const [showKey, setShowKey] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [tickets, setTickets] = useState<AdminTicket[]>([]);
-  const [leads, setLeads] = useState<any[]>([]);
+  const [, setLeads] = useState<any[]>([]);
 
   // Navigation & Filtering State
   const [activeTab, setActiveTab] = useState<'orders' | 'tickets' | 'customers' | 'drops' | 'website'>('orders');
@@ -80,6 +115,11 @@ export default function AdminCommandCenter() {
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [lastRefreshedAt, setLastRefreshedAt] = useState<Date | null>(null);
+  const [syncCountdown, setSyncCountdown] = useState<number>(15);
+
+  // Inline AWB Editing State
+  const [editingAwbOrderId, setEditingAwbOrderId] = useState<string | null>(null);
+  const [awbInputValue, setAwbInputValue] = useState<string>('');
 
   const headers = useCallback(
     (): HeadersInit => ({ Authorization: `Bearer ${key}` }),
@@ -110,6 +150,7 @@ export default function AdminCommandCenter() {
 
       setUnlocked(true);
       setLastRefreshedAt(new Date());
+      setSyncCountdown(15);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Load failed');
       if (String(err).includes('Unauthorized')) setUnlocked(false);
@@ -151,12 +192,18 @@ export default function AdminCommandCenter() {
     } catch {}
   }, []);
 
-  // Live auto-refresh polling every 15 seconds
+  // Live auto-refresh polling countdown every second
   useEffect(() => {
     if (!unlocked || !autoRefresh) return;
     const interval = setInterval(() => {
-      void load();
-    }, 15000);
+      setSyncCountdown((prev) => {
+        if (prev <= 1) {
+          void load();
+          return 15;
+        }
+        return prev - 1;
+      });
+    }, 1000);
     return () => clearInterval(interval);
   }, [unlocked, autoRefresh, load]);
 
@@ -190,6 +237,9 @@ export default function AdminCommandCenter() {
     setUpdatingId(orderId);
     setError('');
     setActionSuccess('');
+    // Optimistic update
+    setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o)));
+
     try {
       const res = await fetch('/api/admin/orders', {
         method: 'PATCH',
@@ -199,15 +249,59 @@ export default function AdminCommandCenter() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Update failed');
       setActionSuccess(`Order #${orderId.slice(0, 8)} status set to ${newStatus.toUpperCase()}`);
-      setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o)));
     } catch (err: any) {
       setError(err?.message || 'Update failed');
+      // Rollback on error
+      await load();
     } finally {
       setUpdatingId(null);
     }
   };
 
-  const handleTriggerQikink = async (orderId: string, reprint = false) => {
+  const handleSaveAwb = async (orderId: string, trackingNumber: string) => {
+    const cleanTn = trackingNumber.trim();
+    if (!cleanTn) {
+      setError('Please enter a valid tracking number / AWB.');
+      return;
+    }
+    setUpdatingId(orderId);
+    setError('');
+    setActionSuccess('');
+
+    const trackingUrl = `https://www.delhivery.com/track/package/${cleanTn}`;
+    // Optimistic update
+    setOrders((prev) =>
+      prev.map((o) =>
+        o.id === orderId
+          ? { ...o, tracking_number: cleanTn, tracking_url: trackingUrl, status: 'shipped' }
+          : o
+      )
+    );
+    setEditingAwbOrderId(null);
+
+    try {
+      const res = await fetch('/api/admin/orders', {
+        method: 'PATCH',
+        headers: { ...headers(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId,
+          tracking_number: cleanTn,
+          tracking_url: trackingUrl,
+          status: 'shipped',
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to update AWB tracking');
+      setActionSuccess(`AWB ${cleanTn} assigned & Order marked as SHIPPED!`);
+    } catch (err: any) {
+      setError(err?.message || 'AWB update failed');
+      await load();
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
+  const handleTriggerQikink = async (orderId: string) => {
     setUpdatingId(orderId);
     setError('');
     setActionSuccess('');
@@ -215,35 +309,14 @@ export default function AdminCommandCenter() {
       const res = await fetch('/api/admin/orders', {
         method: 'POST',
         headers: { ...headers(), 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId, action: 'fulfill_qikink', reprint }),
+        body: JSON.stringify({ orderId, action: 'fulfill_qikink' }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Qikink dispatch failed');
-      setActionSuccess(`Order #${orderId.slice(0, 8)} sent to Qikink. Dispatch Ref: ${data.qikinkOrderId || 'QUEUED'}`);
+      if (!res.ok) throw new Error(data.reason || data.error || 'Qikink dispatch failed');
+      setActionSuccess(`Order #${orderId.slice(0, 8)} dispatched to Qikink (Ref: ${data.qikinkOrderId || 'QUEUED'})`);
       await load();
     } catch (err: any) {
-      setError(err?.message || 'Qikink fulfillment failed');
-    } finally {
-      setUpdatingId(null);
-    }
-  };
-
-  const handleReleaseStoreCredit = async (orderId: string) => {
-    setUpdatingId(orderId);
-    setError('');
-    setActionSuccess('');
-    try {
-      const res = await fetch('/api/admin/orders', {
-        method: 'POST',
-        headers: { ...headers(), 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId, action: 'release_store_credit' }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Store credit release failed');
-      setActionSuccess(`110% Store Credit generated: ${data.voucherCode} (Value: ₹${data.creditAmount})`);
-      await load();
-    } catch (err: any) {
-      setError(err?.message || 'Failed to approve and release store credit');
+      setError(err?.message || 'Qikink fulfillment error');
     } finally {
       setUpdatingId(null);
     }
@@ -253,6 +326,8 @@ export default function AdminCommandCenter() {
     if (!window.confirm(`Permanently delete order #${orderId.slice(0, 8)}? This cannot be undone.`)) return;
     setUpdatingId(orderId);
     setError('');
+    // Optimistic removal
+    setOrders((prev) => prev.filter((o) => o.id !== orderId));
     try {
       const res = await fetch(`/api/admin/orders?orderId=${encodeURIComponent(orderId)}`, {
         method: 'DELETE',
@@ -261,9 +336,9 @@ export default function AdminCommandCenter() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Delete failed');
       setActionSuccess(`Order #${orderId.slice(0, 8)} deleted successfully.`);
-      setOrders((prev) => prev.filter((o) => o.id !== orderId));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Delete failed');
+      await load();
     } finally {
       setUpdatingId(null);
     }
@@ -280,7 +355,7 @@ export default function AdminCommandCenter() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to dispatch tax invoice');
-      setActionSuccess(`Official Tax Invoice dispatched for Order #${orderId.slice(0, 8)}`);
+      setActionSuccess(`Official Tax Invoice PDF & receipt dispatched for Order #${orderId.slice(0, 8)}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Invoice email dispatch failed');
     } finally {
@@ -293,6 +368,7 @@ export default function AdminCommandCenter() {
     setUpdatingId(ticketId);
     setError('');
     setActionSuccess('');
+    setTickets((prev) => prev.map((t) => (t.id === ticketId ? { ...t, status: newStatus } : t)));
     try {
       const res = await fetch('/api/admin/support', {
         method: 'PATCH',
@@ -302,9 +378,9 @@ export default function AdminCommandCenter() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to update ticket');
       setActionSuccess(`Ticket #${ticketId} status updated to ${newStatus.toUpperCase()}`);
-      setTickets((prev) => prev.map((t) => (t.id === ticketId ? { ...t, status: newStatus } : t)));
     } catch (err: any) {
       setError(err?.message || 'Update failed');
+      await load();
     } finally {
       setUpdatingId(null);
     }
@@ -313,6 +389,7 @@ export default function AdminCommandCenter() {
   const handleDeleteTicket = async (ticketId: string) => {
     if (!window.confirm(`Delete ticket #${ticketId}?`)) return;
     setUpdatingId(ticketId);
+    setTickets((prev) => prev.filter((t) => t.id !== ticketId));
     try {
       const res = await fetch(`/api/admin/support?id=${encodeURIComponent(ticketId)}&type=ticket`, {
         method: 'DELETE',
@@ -321,9 +398,9 @@ export default function AdminCommandCenter() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Delete failed');
       setActionSuccess(`Ticket #${ticketId} deleted.`);
-      setTickets((prev) => prev.filter((t) => t.id !== ticketId));
     } catch (err: any) {
       setError(err?.message || 'Delete failed');
+      await load();
     } finally {
       setUpdatingId(null);
     }
@@ -457,19 +534,19 @@ export default function AdminCommandCenter() {
   // ── LOCKED SCREEN ──
   if (!unlocked) {
     return (
-      <main className="min-h-screen bg-[#070A12] text-white flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-[#0F172A] border border-slate-800 rounded-3xl p-8 shadow-2xl space-y-6 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-3xl mx-auto shadow-inner">
+      <main className="min-h-screen bg-radial from-[#151221] via-[#090A12] to-[#040508] text-white flex items-center justify-center p-4">
+        <div className="w-full max-w-md bg-[#0F1424]/90 backdrop-blur-xl border border-amber-500/25 rounded-3xl p-8 shadow-[0_20px_60px_rgba(255,107,36,0.15)] space-y-6 text-center">
+          <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-[#FF4D24]/20 via-[#FF9900]/25 to-amber-500/10 border border-[#FF4D24]/40 flex items-center justify-center text-4xl mx-auto shadow-lg shadow-[#FF4D24]/20 animate-pulse">
             👑
           </div>
           <div>
             <h1 className="text-2xl font-black tracking-tight text-white">Rare Ember Founder Portal</h1>
-            <p className="text-xs text-slate-400 mt-1">
-              Enter your master secret key to unlock live orders, customer CRM &amp; support tickets.
+            <p className="text-xs text-neutral-400 mt-1.5 leading-relaxed">
+              Enter your master vault secret key to unlock live orders, customer CRM &amp; dispatch controls.
             </p>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-3.5">
             <div className="relative">
               <input
                 type={showKey ? 'text' : 'password'}
@@ -477,12 +554,12 @@ export default function AdminCommandCenter() {
                 onChange={(e) => setKey(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleUnlock()}
                 placeholder="Enter ADMIN_SECRET..."
-                className="w-full bg-[#070A12] border border-slate-700 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-orange-500 transition-colors"
+                className="w-full bg-[#070A14] border border-neutral-700 focus:border-[#FF4D24] rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all shadow-inner"
               />
               <button
                 type="button"
                 onClick={() => setShowKey(!showKey)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-neutral-400 hover:text-white"
               >
                 {showKey ? 'Hide' : 'Show'}
               </button>
@@ -491,20 +568,20 @@ export default function AdminCommandCenter() {
             <button
               onClick={handleUnlock}
               disabled={loading}
-              className="w-full py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-black text-sm transition-all shadow-lg shadow-orange-500/20 cursor-pointer disabled:opacity-50"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#FF4D24] via-[#FF6B35] to-[#FF9900] hover:brightness-110 text-white font-black text-sm tracking-wide transition-all shadow-lg shadow-[#FF4D24]/30 cursor-pointer disabled:opacity-50"
             >
               {loading ? 'Authenticating…' : 'Unlock Command Center ⚡'}
             </button>
           </div>
 
           {error && (
-            <p className="text-xs font-bold text-rose-400 bg-rose-500/10 p-3 rounded-xl border border-rose-500/20">
+            <p className="text-xs font-bold text-rose-300 bg-rose-500/15 p-3 rounded-xl border border-rose-500/30">
               ⚠️ {error}
             </p>
           )}
 
-          <p className="text-[11px] text-slate-400">
-            Rare Ember Ops • Powered by Supabase &amp; Razorpay Engine
+          <p className="text-[11px] text-neutral-500 font-medium">
+            Architectural Indian Streetwear • Supreme Founder Authority
           </p>
         </div>
       </main>
@@ -513,132 +590,207 @@ export default function AdminCommandCenter() {
 
   // ── UNLOCKED COMMAND CENTER ──
   return (
-    <main className="min-h-screen bg-[#070A12] text-white pt-24 pb-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <main className="min-h-screen bg-[#070913] text-white pt-24 pb-20 px-3 sm:px-6 lg:px-8 selection:bg-[#FF4D24] selection:text-white">
+      <div className="max-w-[1520px] mx-auto space-y-5">
         {/* Top Master Header Bar */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-[#0F172A] border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-2xl">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-3xl shadow-inner shrink-0">
-              👑
-            </div>
-            <div>
-              <div className="flex items-center gap-2.5 flex-wrap">
-                <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white">Rare Ember Command Center</h1>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center gap-1.5 shadow-sm">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /> LIVE STREAM
-                </span>
+        <div className="relative overflow-hidden bg-gradient-to-r from-[#170E0B] via-[#0D1322] to-[#120B1C] border border-[#FF4D24]/30 rounded-3xl p-5 sm:p-6 shadow-[0_12px_40px_rgba(0,0,0,0.5)]">
+          <div className="absolute -top-24 -left-24 w-64 h-64 bg-[#FF4D24]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#FF4D24]/30 via-amber-500/20 to-purple-500/10 border border-[#FF4D24]/50 flex items-center justify-center text-3xl shadow-lg shadow-[#FF4D24]/20 shrink-0">
+                👑
               </div>
-              <p className="text-xs text-slate-400 mt-1">
-                Founder: <span className="text-white font-bold">Ajay Kumar</span> • Real-Time Orders, Customer CRM &amp; Support SLA
-              </p>
+              <div>
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white">Rare Ember Command Center</h1>
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 flex items-center gap-1.5 shadow-xs">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /> LIVE STREAM
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 border border-amber-500/30 text-amber-300">
+                    Next sync in: <strong>{syncCountdown}s</strong>
+                  </span>
+                </div>
+                <p className="text-xs text-neutral-400 mt-1">
+                  Founder: <span className="text-white font-extrabold">Ajay Kumar</span> • Real-Time Orders, Customer CRM &amp; Factory Dispatch
+                  {lastRefreshedAt && (
+                    <span className="text-[11px] text-neutral-500 ml-2">
+                      (Synced {lastRefreshedAt.toLocaleTimeString('en-IN')})
+                    </span>
+                  )}
+                </p>
+              </div>
             </div>
-          </div>
 
-          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-            {/* Auto-Refresh Indicator */}
-            <button
-              onClick={() => setAutoRefresh(!autoRefresh)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer border ${
-                autoRefresh
-                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 shadow-md shadow-emerald-500/10'
-                  : 'bg-slate-800 border-slate-700 text-slate-400'
-              }`}
-              title="Auto-refreshes every 15 seconds"
-            >
-              <span className={`w-2 h-2 rounded-full ${autoRefresh ? 'bg-emerald-400 animate-ping' : 'bg-slate-500'}`} />
-              <span>{autoRefresh ? 'Live Sync: 15s' : 'Sync: Paused'}</span>
-            </button>
+            <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
+              {/* Auto-Refresh Toggle */}
+              <button
+                onClick={() => setAutoRefresh(!autoRefresh)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer border ${
+                  autoRefresh
+                    ? 'bg-emerald-500/15 border-emerald-500/50 text-emerald-300 shadow-md shadow-emerald-500/10'
+                    : 'bg-neutral-800 border-neutral-700 text-neutral-400'
+                }`}
+                title="Toggles automatic background polling"
+              >
+                <span className={`w-2 h-2 rounded-full ${autoRefresh ? 'bg-emerald-400 animate-ping' : 'bg-neutral-500'}`} />
+                <span>{autoRefresh ? `Auto-Sync: ${syncCountdown}s` : 'Sync: Paused'}</span>
+              </button>
 
-            {/* Manual Sync */}
-            <button
-              onClick={() => void load()}
-              disabled={loading}
-              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-slate-200 transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
-            >
-              <span className={loading ? 'animate-spin' : ''}>⚡</span>
-              <span>{loading ? 'Syncing…' : 'Sync Now'}</span>
-            </button>
+              {/* Instant Manual Sync */}
+              <button
+                onClick={() => void load()}
+                disabled={loading}
+                className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/40 text-xs font-black text-amber-300 transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50 shadow-xs"
+              >
+                <span className={loading ? 'animate-spin' : ''}>⚡</span>
+                <span>{loading ? 'Syncing…' : 'Sync Now'}</span>
+              </button>
 
-            <Link
-              href="/"
-              target="_blank"
-              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-slate-200 transition-all no-underline"
-            >
-              Live Store ↗
-            </Link>
+              <Link
+                href="/"
+                target="_blank"
+                className="px-3 py-1.5 rounded-xl bg-neutral-800/80 hover:bg-neutral-700 border border-neutral-700 text-xs font-bold text-neutral-200 transition-all no-underline"
+              >
+                Live Store ↗
+              </Link>
 
-            <button
-              onClick={handleLock}
-              className="px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-xs font-bold text-rose-400 transition-all flex items-center gap-1.5 cursor-pointer"
-            >
-              <span>🔒</span> Lock
-            </button>
+              <button
+                onClick={handleLock}
+                className="px-3 py-1.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/35 text-xs font-bold text-rose-300 transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>🔒</span> Lock Vault
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Executive KPI Matrix */}
+        {/* Executive KPI Matrix with Colorful Gradient Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-          <div className="bg-[#0F172A] border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg">
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Gross Revenue</p>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-amber-400 mt-1 font-mono">
+          {/* Card 1: Gross Revenue (Gold/Amber) */}
+          <div className="relative overflow-hidden bg-gradient-to-br from-[#1F1708] via-[#120F0B] to-[#0A0B10] border border-amber-500/40 rounded-3xl p-4 sm:p-5 shadow-xl shadow-amber-950/20">
+            <div className="flex items-center justify-between">
+              <p className="text-[11px] font-black text-amber-400/90 uppercase tracking-wider flex items-center gap-1.5">
+                <span>💰</span> Gross Revenue
+              </p>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                INR Live
+              </span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-amber-400 mt-2 font-mono tracking-tight drop-shadow-sm">
               ₹{metrics.totalRevenue.toLocaleString('en-IN')}
             </h2>
-            <p className="text-[10px] text-slate-400 mt-1">
-              Prepaid: <span className="text-emerald-400 font-bold">₹{metrics.paidRevenue.toLocaleString('en-IN')}</span> • COD: ₹{metrics.pendingCodRevenue.toLocaleString('en-IN')}
-            </p>
+            <div className="flex items-center gap-2 mt-2 pt-2 border-t border-amber-500/20 text-[11px] flex-wrap">
+              <span className="text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">
+                ⚡ Prepaid: ₹{metrics.paidRevenue.toLocaleString('en-IN')}
+              </span>
+              <span className="text-neutral-400">•</span>
+              <span className="text-amber-300 font-bold bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">
+                💵 COD: ₹{metrics.pendingCodRevenue.toLocaleString('en-IN')}
+              </span>
+            </div>
           </div>
 
-          <div className="bg-[#0F172A] border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg">
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total Orders Placed</p>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-white mt-1 font-mono">
+          {/* Card 2: Total Orders (Electric Cyan) */}
+          <div className="relative overflow-hidden bg-gradient-to-br from-[#081824] via-[#0A1017] to-[#0A0B10] border border-cyan-500/40 rounded-3xl p-4 sm:p-5 shadow-xl shadow-cyan-950/20">
+            <div className="flex items-center justify-between">
+              <p className="text-[11px] font-black text-cyan-400/90 uppercase tracking-wider flex items-center gap-1.5">
+                <span>📦</span> Orders Placed
+              </p>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                {metrics.totalItems} Units
+              </span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-cyan-300 mt-2 font-mono tracking-tight drop-shadow-sm">
               {metrics.totalOrders}
             </h2>
-            <p className="text-[10px] text-slate-400 mt-1">{metrics.totalItems} units volume</p>
+            <div className="flex items-center gap-2 mt-2 pt-2 border-t border-cyan-500/20 text-[11px]">
+              <span className="text-cyan-200">
+                Delivered: <strong className="text-emerald-400">{orders.filter((o) => o.status === 'delivered').length}</strong>
+              </span>
+              <span className="text-neutral-600">•</span>
+              <span className="text-cyan-200">
+                Transit: <strong className="text-cyan-400">{orders.filter((o) => o.status === 'shipped').length}</strong>
+              </span>
+              <span className="text-neutral-600">•</span>
+              <span className="text-cyan-200">
+                Pending: <strong className="text-amber-400">{orders.filter((o) => o.status.includes('pending')).length}</strong>
+              </span>
+            </div>
           </div>
 
-          <div className="bg-[#0F172A] border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg">
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Customer Directory</p>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-cyan-400 mt-1 font-mono">
+          {/* Card 3: Customer Directory (Royal Purple) */}
+          <div className="relative overflow-hidden bg-gradient-to-br from-[#1C0D2A] via-[#100A1A] to-[#0A0B10] border border-purple-500/40 rounded-3xl p-4 sm:p-5 shadow-xl shadow-purple-950/20">
+            <div className="flex items-center justify-between">
+              <p className="text-[11px] font-black text-purple-400/90 uppercase tracking-wider flex items-center gap-1.5">
+                <span>👥</span> Customer CRM
+              </p>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                {customers.filter((c) => c.orderCount >= 2 || c.totalSpend >= 2000).length} VIPs
+              </span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-purple-300 mt-2 font-mono tracking-tight drop-shadow-sm">
               {metrics.totalCustomers}
             </h2>
-            <p className="text-[10px] text-slate-400 mt-1">Unique shoppers in CRM</p>
+            <div className="flex items-center gap-2 mt-2 pt-2 border-t border-purple-500/20 text-[11px] text-purple-200/80">
+              <span>Avg Basket: <strong className="text-white">₹{metrics.totalCustomers > 0 ? Math.round(metrics.totalRevenue / metrics.totalCustomers).toLocaleString('en-IN') : 0}</strong></span>
+              <span className="text-neutral-600">•</span>
+              <span className="text-purple-300">100% Verified Phones</span>
+            </div>
           </div>
 
-          <div className="bg-[#0F172A] border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg">
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Support &amp; Callbacks</p>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-rose-400 mt-1 font-mono">
-              {metrics.openTicketsCount}{' '}
-              <span className="text-xs font-normal text-slate-400">Open Tickets</span>
+          {/* Card 4: Support SLA (Rose / Emerald) */}
+          <div className="relative overflow-hidden bg-gradient-to-br from-[#240A12] via-[#14080D] to-[#0A0B10] border border-rose-500/40 rounded-3xl p-4 sm:p-5 shadow-xl shadow-rose-950/20">
+            <div className="flex items-center justify-between">
+              <p className="text-[11px] font-black text-rose-400/90 uppercase tracking-wider flex items-center gap-1.5">
+                <span>🎫</span> Support &amp; SLA
+              </p>
+              <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                12h SLA Active
+              </span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-rose-400 mt-2 font-mono tracking-tight drop-shadow-sm flex items-baseline gap-2">
+              <span>{metrics.openTicketsCount}</span>
+              <span className="text-xs font-normal text-neutral-400">Open Tickets</span>
             </h2>
-            <p className="text-[10px] text-slate-400 mt-1">
-              {metrics.callbacksCount} Callbacks • 12h SLA Active
-            </p>
+            <div className="flex items-center gap-2 mt-2 pt-2 border-t border-rose-500/20 text-[11px] text-neutral-300">
+              <span className="text-rose-300 font-bold">{metrics.callbacksCount} Callbacks</span>
+              <span className="text-neutral-600">•</span>
+              <span className="text-emerald-400 font-bold">1-Click WhatsApp SLA</span>
+            </div>
           </div>
         </div>
 
         {/* Global Action Feedback Banners */}
         {actionSuccess && (
-          <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold flex items-center justify-between shadow-lg">
-            <span>✅ {actionSuccess}</span>
-            <button onClick={() => setActionSuccess('')} className="text-xs opacity-70 hover:opacity-100 cursor-pointer">✕</button>
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-500/20 via-emerald-500/10 to-transparent border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center justify-between shadow-lg">
+            <span className="flex items-center gap-2">
+              <span>✅</span>
+              <span>{actionSuccess}</span>
+            </span>
+            <button onClick={() => setActionSuccess('')} className="text-xs text-emerald-400 hover:text-white cursor-pointer border-none bg-transparent">✕</button>
           </div>
         )}
         {error && (
-          <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-bold flex items-center justify-between shadow-lg">
-            <span>⚠️ {error}</span>
-            <button onClick={() => setError('')} className="text-xs opacity-70 hover:opacity-100 cursor-pointer">✕</button>
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-rose-500/20 via-rose-500/10 to-transparent border border-rose-500/40 text-rose-300 text-xs font-bold flex items-center justify-between shadow-lg">
+            <span className="flex items-center gap-2">
+              <span>⚠️</span>
+              <span>{error}</span>
+            </span>
+            <button onClick={() => setError('')} className="text-xs text-rose-400 hover:text-white cursor-pointer border-none bg-transparent">✕</button>
           </div>
         )}
 
         {/* Master Navigation Tabs */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 pb-3">
           <div className="flex items-center gap-2 flex-wrap">
             <button
               onClick={() => setActiveTab('orders')}
-              className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
+              className={`px-4 py-2.5 rounded-2xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
                 activeTab === 'orders'
-                  ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/25'
-                  : 'bg-[#0F172A] text-slate-300 hover:bg-slate-800 border border-slate-800'
+                  ? 'bg-gradient-to-r from-[#FF4D24] to-[#FF7A00] text-white shadow-lg shadow-[#FF4D24]/30'
+                  : 'bg-[#0E121E] text-neutral-300 hover:bg-neutral-800 border border-neutral-800'
               }`}
             >
               <span>📦</span>
@@ -647,10 +799,10 @@ export default function AdminCommandCenter() {
 
             <button
               onClick={() => setActiveTab('tickets')}
-              className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
+              className={`px-4 py-2.5 rounded-2xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
                 activeTab === 'tickets'
-                  ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/25'
-                  : 'bg-[#0F172A] text-slate-300 hover:bg-slate-800 border border-slate-800'
+                  ? 'bg-gradient-to-r from-[#FF4D24] to-[#FF7A00] text-white shadow-lg shadow-[#FF4D24]/30'
+                  : 'bg-[#0E121E] text-neutral-300 hover:bg-neutral-800 border border-neutral-800'
               }`}
             >
               <span>🎫</span>
@@ -664,10 +816,10 @@ export default function AdminCommandCenter() {
 
             <button
               onClick={() => setActiveTab('customers')}
-              className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
+              className={`px-4 py-2.5 rounded-2xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
                 activeTab === 'customers'
-                  ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/25'
-                  : 'bg-[#0F172A] text-slate-300 hover:bg-slate-800 border border-slate-800'
+                  ? 'bg-gradient-to-r from-[#FF4D24] to-[#FF7A00] text-white shadow-lg shadow-[#FF4D24]/30'
+                  : 'bg-[#0E121E] text-neutral-300 hover:bg-neutral-800 border border-neutral-800'
               }`}
             >
               <span>👥</span>
@@ -676,10 +828,10 @@ export default function AdminCommandCenter() {
 
             <button
               onClick={() => setActiveTab('drops')}
-              className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
+              className={`px-4 py-2.5 rounded-2xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
                 activeTab === 'drops'
-                  ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/25'
-                  : 'bg-[#0F172A] text-slate-300 hover:bg-slate-800 border border-slate-800'
+                  ? 'bg-gradient-to-r from-[#FF4D24] to-[#FF7A00] text-white shadow-lg shadow-[#FF4D24]/30'
+                  : 'bg-[#0E121E] text-neutral-300 hover:bg-neutral-800 border border-neutral-800'
               }`}
             >
               <span>🏷️</span>
@@ -688,10 +840,10 @@ export default function AdminCommandCenter() {
 
             <button
               onClick={() => setActiveTab('website')}
-              className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
+              className={`px-4 py-2.5 rounded-2xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
                 activeTab === 'website'
-                  ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/25'
-                  : 'bg-[#0F172A] text-slate-300 hover:bg-slate-800 border border-slate-800'
+                  ? 'bg-gradient-to-r from-[#FF4D24] to-[#FF7A00] text-white shadow-lg shadow-[#FF4D24]/30'
+                  : 'bg-[#0E121E] text-neutral-300 hover:bg-neutral-800 border border-neutral-800'
               }`}
             >
               <span>🌐</span>
@@ -706,25 +858,25 @@ export default function AdminCommandCenter() {
         {activeTab === 'orders' && (
           <div className="space-y-4">
             {/* Filter & Search Bar */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#0F172A] border border-slate-800 rounded-2xl p-3.5">
+            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 bg-[#0D121F] border border-neutral-800 rounded-2xl p-3.5">
               <div className="flex items-center gap-1.5 flex-wrap">
                 {[
-                  { id: '', label: 'All Orders' },
-                  { id: 'paid', label: '⚡ Paid (Prepaid)' },
-                  { id: 'pending_cod', label: '💵 Pending COD' },
-                  { id: 'processing', label: '🏭 In Production' },
-                  { id: 'shipped', label: '🚚 In Transit' },
-                  { id: 'delivered', label: '✅ Delivered' },
-                  { id: 'return_requested', label: '🔄 Returns / Claims' },
-                  { id: 'refunded', label: 'Refunded' },
+                  { id: '', label: `All Orders (${orders.length})` },
+                  { id: 'paid', label: `⚡ Paid (${orders.filter((o) => o.status === 'paid').length})` },
+                  { id: 'pending_cod', label: `💵 Pending COD (${orders.filter((o) => o.status === 'pending_cod' || (o.status === 'pending' && o.payment_method === 'cod')).length})` },
+                  { id: 'processing', label: `🏭 In Production (${orders.filter((o) => o.status === 'processing').length})` },
+                  { id: 'shipped', label: `🚚 In Transit (${orders.filter((o) => o.status === 'shipped').length})` },
+                  { id: 'delivered', label: `✅ Delivered (${orders.filter((o) => o.status === 'delivered').length})` },
+                  { id: 'return_requested', label: `🔄 Returns (${orders.filter((o) => o.status === 'return_requested').length})` },
+                  { id: 'refunded', label: `Refunded (${orders.filter((o) => o.status === 'refunded').length})` },
                 ].map((f) => (
                   <button
                     key={f.id}
                     onClick={() => setStatusFilter(f.id)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                       statusFilter === f.id
-                        ? 'bg-orange-500 text-white shadow-md'
-                        : 'bg-[#070A12] text-slate-300 hover:bg-slate-800 border border-slate-800'
+                        ? 'bg-gradient-to-r from-[#FF4D24] to-[#FF7A00] text-white shadow-md shadow-[#FF4D24]/20'
+                        : 'bg-[#070A14] text-neutral-300 hover:bg-neutral-800 border border-neutral-800'
                     }`}
                   >
                     {f.label}
@@ -737,13 +889,13 @@ export default function AdminCommandCenter() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search by ID, Customer Name, Phone, City..."
-                  className="w-full sm:w-72 bg-[#070A12] border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-orange-500"
+                  placeholder="Search order ID, customer name, phone, city..."
+                  className="w-full md:w-80 bg-[#070A14] border border-neutral-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-neutral-500 outline-none focus:border-[#FF4D24]"
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white cursor-pointer"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-neutral-400 hover:text-white cursor-pointer bg-transparent border-none"
                   >
                     ✕
                   </button>
@@ -753,11 +905,11 @@ export default function AdminCommandCenter() {
 
             {/* Zero-State */}
             {filteredOrders.length === 0 ? (
-              <div className="bg-[#0F172A] border border-slate-800 rounded-3xl p-12 text-center space-y-3">
+              <div className="bg-[#0D121F] border border-neutral-800 rounded-3xl p-12 text-center space-y-3">
                 <span className="text-4xl block">📦</span>
                 <h3 className="text-lg font-black text-white">No Orders Found</h3>
-                <p className="text-xs text-slate-400 max-w-md mx-auto">
-                  {statusFilter ? `No orders currently match status "${statusFilter}".` : 'Your store is ready to receive orders from Meta ads and direct traffic.'}
+                <p className="text-xs text-neutral-400 max-w-md mx-auto">
+                  {statusFilter ? `No orders currently match status "${statusFilter}".` : 'Your store is ready to receive orders from Meta ads and direct customer checkouts.'}
                 </p>
               </div>
             ) : (
@@ -790,66 +942,69 @@ export default function AdminCommandCenter() {
                   return (
                     <div
                       key={o.id}
-                      className={`rounded-3xl p-5 sm:p-6 shadow-xl transition-all duration-300 space-y-4 border ${
-                        o.status === 'return_requested'
-                          ? 'bg-[#18111e] border-rose-500/40 shadow-rose-950/20'
-                          : isCod && o.status.includes('pending')
-                          ? 'bg-[#181512] border-amber-500/30'
-                          : o.status === 'delivered'
-                          ? 'bg-[#0f1d18] border-emerald-500/30'
+                      className={`rounded-3xl p-5 sm:p-6 shadow-2xl transition-all duration-300 space-y-4 border ${
+                        o.status === 'delivered'
+                          ? 'bg-gradient-to-br from-[#0C1A14] to-[#0A0D15] border-emerald-500/50 shadow-emerald-950/20'
                           : o.status === 'shipped'
-                          ? 'bg-[#0e1927] border-cyan-500/30'
-                          : 'bg-[#0F172A] border-slate-800 hover:border-slate-700'
+                          ? 'bg-gradient-to-br from-[#091724] to-[#0A0D15] border-cyan-500/50 shadow-cyan-950/20'
+                          : o.status === 'processing'
+                          ? 'bg-gradient-to-br from-[#180D26] to-[#0A0D15] border-purple-500/50 shadow-purple-950/20'
+                          : isCod
+                          ? 'bg-gradient-to-br from-[#1F140A] to-[#0A0D15] border-amber-500/50 shadow-amber-950/20'
+                          : o.status === 'return_requested'
+                          ? 'bg-gradient-to-br from-[#220B13] to-[#0A0D15] border-rose-500/50 shadow-rose-950/20 animate-pulse'
+                          : 'bg-gradient-to-br from-[#0E1322] to-[#080B12] border-blue-500/30 hover:border-blue-500/50'
                       }`}
                     >
                       {/* Order Header Row */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 pb-3">
                         <div className="flex items-center gap-2.5 flex-wrap">
-                          <span className="font-mono text-sm font-black text-orange-400">
+                          <span className="font-mono text-sm font-black text-amber-400">
                             #{o.id.slice(0, 8)}
                           </span>
                           <button
                             onClick={() => copyToClipboard(o.id, 'Order UUID')}
-                            className="text-[10px] px-2 py-0.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white cursor-pointer"
+                            className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white cursor-pointer border border-neutral-700"
                           >
                             Copy UUID
                           </button>
-                          <span className="text-[11px] text-slate-400">
-                            {new Date(o.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+                          <span className="text-[11px] text-neutral-400 font-medium">
+                            🗓️ {new Date(o.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                           </span>
 
                           {isCod ? (
-                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-500/15 border border-amber-500/30 text-amber-300">
-                              💵 CASH ON DELIVERY
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-500/20 border border-amber-500/40 text-amber-300 flex items-center gap-1">
+                              <span>💵</span>
+                              <span>CASH ON DELIVERY (₹100 ADVANCE)</span>
                             </span>
                           ) : (
-                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">
-                              ⚡ PREPAID (ONLINE/UPI)
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 flex items-center gap-1">
+                              <span>⚡</span>
+                              <span>PREPAID (ONLINE UPI)</span>
                             </span>
                           )}
                         </div>
 
                         <div className="flex items-center gap-3">
+                          {/* Dynamic Status Tag */}
                           <span
                             className={`px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider ${
-                              o.status === 'return_requested'
-                                ? 'bg-rose-500/20 border border-rose-500/50 text-rose-300 animate-pulse'
-                                : o.status === 'refunded'
-                                ? 'bg-neutral-500/20 border border-neutral-500/40 text-neutral-300'
-                                : o.status === 'delivered'
-                                ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-400'
+                              o.status === 'delivered'
+                                ? 'bg-emerald-500/20 border border-emerald-500/50 text-emerald-300 shadow-sm'
                                 : o.status === 'shipped'
-                                ? 'bg-cyan-500/10 border border-cyan-500/30 text-cyan-400'
+                                ? 'bg-cyan-500/20 border border-cyan-500/50 text-cyan-300 shadow-sm'
                                 : o.status === 'processing'
-                                ? 'bg-purple-500/10 border border-purple-500/30 text-purple-400'
+                                ? 'bg-purple-500/20 border border-purple-500/50 text-purple-300 shadow-sm'
                                 : o.status === 'paid'
-                                ? 'bg-blue-500/10 border border-blue-500/30 text-blue-400'
-                                : 'bg-amber-500/10 border border-amber-500/30 text-amber-400'
+                                ? 'bg-blue-500/20 border border-blue-500/50 text-blue-300 shadow-sm'
+                                : o.status === 'return_requested'
+                                ? 'bg-rose-500/25 border border-rose-500/60 text-rose-300 animate-pulse'
+                                : 'bg-amber-500/20 border border-amber-500/50 text-amber-300'
                             }`}
                           >
-                            {o.status === 'return_requested' ? '🔄 Return Claim Active' : o.status}
+                            ● {o.status.replace('_', ' ').toUpperCase()}
                           </span>
-                          <span className="text-xl font-black text-white font-mono">
+                          <span className="text-xl font-black text-white font-mono tracking-tight">
                             ₹{Number(o.total_amount).toLocaleString('en-IN')}
                           </span>
                         </div>
@@ -857,28 +1012,31 @@ export default function AdminCommandCenter() {
 
                       {/* Customer & Address Details Grid */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs">
-                        {/* Customer Contact */}
-                        <div className="space-y-2 bg-[#070A12] p-4 rounded-2xl border border-slate-800">
+                        {/* Customer Contact Card */}
+                        <div className="space-y-2 bg-[#060810]/70 p-4 rounded-2xl border border-neutral-800">
                           <div className="flex items-center justify-between">
-                            <p className="text-slate-400 font-bold uppercase text-[10px] tracking-wider">
+                            <p className="text-neutral-400 font-bold uppercase text-[10px] tracking-wider">
                               Customer Contact &amp; Actions
                             </p>
-                            <span className="text-[10px] px-2 py-0.5 rounded-lg bg-slate-800 text-slate-300 capitalize">
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-neutral-800 text-neutral-300 capitalize border border-neutral-700">
                               📍 {addressType}
                             </span>
                           </div>
                           <p className="text-sm font-black text-white">{customerName}</p>
-                          <p className="text-slate-300 flex items-center gap-1.5">
-                            <span>✉️</span> {o.user_email || 'No email provided'}
+                          <p className="text-neutral-300 flex items-center gap-1.5">
+                            <span>✉️</span>
+                            <a href={`mailto:${o.user_email}`} className="text-neutral-300 hover:text-white underline font-medium">
+                              {o.user_email || 'No email provided'}
+                            </a>
                           </p>
                           {formattedPhone && (
                             <div className="flex items-center gap-2 pt-1 flex-wrap">
-                              <span className="text-slate-200 font-mono font-bold">
+                              <span className="text-neutral-200 font-mono font-bold">
                                 📱 +91 {formattedPhone}
                               </span>
                               <a
                                 href={`tel:+91${formattedPhone}`}
-                                className="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 text-[11px] font-bold no-underline"
+                                className="px-2.5 py-1 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 text-[11px] font-bold no-underline border border-blue-500/30 transition-colors"
                               >
                                 📞 Call
                               </a>
@@ -888,7 +1046,7 @@ export default function AdminCommandCenter() {
                                 )}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold no-underline flex items-center gap-1"
+                                className="px-3 py-1 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-black no-underline flex items-center gap-1 shadow-md shadow-emerald-600/20 transition-all"
                               >
                                 💬 WhatsApp Customer
                               </a>
@@ -896,20 +1054,20 @@ export default function AdminCommandCenter() {
                           )}
                         </div>
 
-                        {/* Shipping Address */}
-                        <div className="space-y-2 bg-[#070A12] p-4 rounded-2xl border border-slate-800">
+                        {/* Shipping Destination Card */}
+                        <div className="space-y-2 bg-[#060810]/70 p-4 rounded-2xl border border-neutral-800">
                           <div className="flex items-center justify-between">
-                            <p className="text-slate-400 font-bold uppercase text-[10px] tracking-wider">
+                            <p className="text-neutral-400 font-bold uppercase text-[10px] tracking-wider">
                               Delivery Destination
                             </p>
                             <button
                               onClick={() => copyToClipboard(fullCourierLabel, 'Courier Label')}
-                              className="text-[10px] font-bold text-orange-400 hover:underline cursor-pointer"
+                              className="text-[10px] font-bold text-amber-400 hover:underline cursor-pointer border-none bg-transparent"
                             >
                               📋 Copy Courier Label
                             </button>
                           </div>
-                          <p className="text-slate-200 leading-relaxed font-mono">
+                          <p className="text-neutral-200 leading-relaxed font-mono">
                             {fullDeliveryAddress || 'Address in checkout notes'}
                           </p>
                           {landmark && (
@@ -917,117 +1075,206 @@ export default function AdminCommandCenter() {
                               <strong>Landmark:</strong> {landmark}
                             </p>
                           )}
-                          {o.tracking_number && (
-                            <div className="pt-1 flex items-center gap-2">
-                              <span className="text-cyan-400 font-mono font-bold text-xs">
-                                🚚 AWB: {o.tracking_number}
-                              </span>
-                              {o.tracking_url && (
-                                <a
-                                  href={o.tracking_url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-[10px] text-cyan-300 underline font-bold"
+
+                          {/* Tracking & AWB Section */}
+                          <div className="pt-1.5 space-y-1.5 border-t border-neutral-800/80">
+                            {o.tracking_number ? (
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-cyan-300 font-mono font-bold text-xs bg-cyan-500/10 px-2 py-0.5 rounded-lg border border-cyan-500/30">
+                                  🚚 AWB: {o.tracking_number}
+                                </span>
+                                {o.tracking_url && (
+                                  <a
+                                    href={o.tracking_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[11px] text-cyan-400 hover:text-cyan-200 underline font-bold"
+                                  >
+                                    Live Tracker ↗
+                                  </a>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setEditingAwbOrderId(o.id);
+                                    setAwbInputValue(o.tracking_number || '');
+                                  }}
+                                  className="text-[10px] text-neutral-400 hover:text-white underline cursor-pointer bg-transparent border-none"
                                 >
-                                  Live Tracker ↗
-                                </a>
-                              )}
-                            </div>
-                          )}
-                          {o.cj_order_id && (
-                            <p className="text-emerald-400 font-mono font-bold text-xs flex items-center gap-1.5">
-                              <span>🏭</span> Qikink Order: #{o.cj_order_id}
-                            </p>
-                          )}
+                                  ✏️ Edit AWB
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-2">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setEditingAwbOrderId(o.id);
+                                    setAwbInputValue('');
+                                  }}
+                                  className="text-[11px] font-bold text-cyan-400 bg-cyan-500/15 hover:bg-cyan-500/25 px-2.5 py-1 rounded-xl border border-cyan-500/30 cursor-pointer flex items-center gap-1 transition-all"
+                                >
+                                  <span>🚚</span>
+                                  <span>+ Add Courier AWB Tracking</span>
+                                </button>
+                              </div>
+                            )}
+
+                            {/* Inline AWB Input Box */}
+                            {editingAwbOrderId === o.id && (
+                              <div className="p-2.5 rounded-xl bg-neutral-900 border border-cyan-500/40 flex items-center gap-2 mt-2">
+                                <input
+                                  type="text"
+                                  value={awbInputValue}
+                                  onChange={(e) => setAwbInputValue(e.target.value)}
+                                  placeholder="Enter Delhivery / BlueDart AWB #..."
+                                  className="flex-1 bg-black/60 border border-neutral-700 rounded-lg px-2.5 py-1 text-xs text-white outline-none focus:border-cyan-400 font-mono"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => handleSaveAwb(o.id, awbInputValue)}
+                                  className="px-3 py-1 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-black cursor-pointer border-none"
+                                >
+                                  Save AWB
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setEditingAwbOrderId(null)}
+                                  className="px-2 py-1 text-xs text-neutral-400 hover:text-white cursor-pointer bg-transparent border-none"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            )}
+
+                            {o.cj_order_id && (
+                              <p className="text-emerald-400 font-mono font-bold text-xs flex items-center gap-1.5">
+                                <span>🏭</span> Qikink Order: #{o.cj_order_id}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
 
-                      {/* Ordered Items Breakdown */}
+                      {/* Ordered Items Breakdown with Smart Catalog Resolution */}
                       {Array.isArray(o.items) && o.items.length > 0 && (
-                        <div className="space-y-2 bg-[#070A12]/60 p-3.5 rounded-2xl border border-slate-800/80">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                        <div className="space-y-2 bg-[#060810]/50 p-3.5 rounded-2xl border border-neutral-800">
+                          <p className="text-[10px] font-black text-neutral-400 uppercase tracking-wider">
                             Ordered Items ({o.items.length})
                           </p>
                           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-                            {o.items.map((item, idx) => (
-                              <div
-                                key={idx}
-                                className="flex items-center gap-3 bg-[#0F172A] p-3 rounded-xl border border-slate-800"
-                              >
-                                {item.imageUrl && (
-                                  <img
-                                    src={item.imageUrl}
-                                    alt={item.title || 'Product'}
-                                    className="w-12 h-12 rounded-lg object-cover border border-slate-700 shrink-0"
-                                  />
-                                )}
-                                <div className="min-w-0 flex-1">
-                                  <p className="text-xs font-bold text-white truncate">
-                                    {item.title || item.name || 'Drop Item'}
-                                  </p>
-                                  <div className="flex items-center gap-1.5 text-[10px] text-slate-400 mt-0.5 flex-wrap">
-                                    {item.color && (
-                                      <span className="px-1.5 py-0.5 bg-slate-800 rounded text-slate-300">
-                                        {item.color}
+                            {o.items.map((rawItem, idx) => {
+                              const resolved = resolveItemDetails(rawItem, Number(o.total_amount) || 0);
+                              return (
+                                <div
+                                  key={idx}
+                                  className="flex items-center gap-3 bg-[#0D121E] p-3 rounded-2xl border border-neutral-800 hover:border-neutral-700 transition-all"
+                                >
+                                  {resolved.imageUrl ? (
+                                    <img
+                                      src={resolved.imageUrl}
+                                      alt={resolved.title}
+                                      className="w-14 h-14 rounded-xl object-cover border border-neutral-700 shrink-0 bg-black/40"
+                                    />
+                                  ) : (
+                                    <div className="w-14 h-14 rounded-xl bg-neutral-800 border border-neutral-700 flex items-center justify-center text-2xl shrink-0">
+                                      👕
+                                    </div>
+                                  )}
+                                  <div className="min-w-0 flex-1">
+                                    <p className="text-xs font-black text-white truncate" title={resolved.title}>
+                                      {resolved.title}
+                                    </p>
+                                    <div className="flex items-center gap-1.5 text-[10px] text-neutral-400 mt-1 flex-wrap">
+                                      <span className="px-1.5 py-0.5 bg-neutral-800 rounded text-neutral-300 font-medium">
+                                        Color: <strong>{resolved.color}</strong>
                                       </span>
-                                    )}
-                                    {item.size && (
-                                      <span className="px-1.5 py-0.5 bg-slate-800 rounded text-slate-300 font-bold">
-                                        {item.size}
+                                      <span className="px-1.5 py-0.5 bg-neutral-800 rounded text-neutral-300 font-bold">
+                                        Size: <strong>{resolved.size}</strong>
                                       </span>
-                                    )}
-                                    <span className="font-bold text-amber-400">Qty: {item.qty || 1}</span>
+                                      <span className="font-bold text-amber-400">Qty: {resolved.qty}</span>
+                                    </div>
+                                    <p className="text-xs font-mono font-bold text-emerald-400 mt-1">
+                                      ₹{resolved.price.toLocaleString('en-IN')}
+                                    </p>
                                   </div>
-                                  <p className="text-xs font-mono font-bold text-slate-300 mt-0.5">
-                                    ₹{Number(item.price_inr || item.price || 0).toLocaleString('en-IN')}
-                                  </p>
                                 </div>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         </div>
                       )}
 
                       {/* Operational Quick Actions Bar */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800/60">
+                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2.5 border-t border-neutral-800/80">
                         <div className="flex flex-wrap items-center gap-2">
+                          {/* Live Status Switcher Dropdown */}
+                          <div className="flex items-center gap-1.5 bg-[#060810] px-2.5 py-1 rounded-xl border border-neutral-700 text-xs">
+                            <span className="text-[10px] font-bold text-neutral-400 uppercase">Set Status:</span>
+                            <select
+                              value={o.status}
+                              onChange={(e) => updateOrderStatus(o.id, e.target.value)}
+                              disabled={updatingId === o.id}
+                              className="bg-transparent text-xs font-black text-white outline-none cursor-pointer"
+                            >
+                              <option value="pending" className="bg-[#0D121E]">Pending</option>
+                              <option value="pending_cod" className="bg-[#0D121E]">Pending COD</option>
+                              <option value="paid" className="bg-[#0D121E]">Paid (Prepaid)</option>
+                              <option value="processing" className="bg-[#0D121E]">In Production</option>
+                              <option value="shipped" className="bg-[#0D121E]">In Transit (Shipped)</option>
+                              <option value="delivered" className="bg-[#0D121E]">Delivered</option>
+                              <option value="return_requested" className="bg-[#0D121E]">Return Requested</option>
+                              <option value="refunded" className="bg-[#0D121E]">Refunded</option>
+                              <option value="cancelled" className="bg-[#0D121E]">Cancelled</option>
+                            </select>
+                          </div>
+
+                          {/* Dispatch via Qikink */}
                           <button
                             onClick={() => handleTriggerQikink(o.id)}
                             disabled={updatingId === o.id}
-                            className="px-3 py-1.5 rounded-xl bg-orange-600/20 hover:bg-orange-600/30 border border-orange-500/40 text-orange-400 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
+                            className="px-3 py-1.5 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 border border-orange-500/40 text-orange-300 text-xs font-black flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
                           >
-                            <span>🏭</span> Dispatch via Qikink
+                            <span>🏭</span>
+                            <span>{updatingId === o.id ? 'Connecting Qikink…' : 'Dispatch via Qikink'}</span>
                           </button>
 
+                          {/* Send Tax Invoice */}
                           <button
                             onClick={() => handleSendInvoiceEmail(o.id)}
                             disabled={updatingId === o.id}
-                            className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-all cursor-pointer border border-slate-700 disabled:opacity-50"
+                            className="px-3 py-1.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-bold transition-all cursor-pointer border border-neutral-700 disabled:opacity-50"
                           >
                             🧾 Send Tax Invoice
                           </button>
 
-                          <button
-                            onClick={() => updateOrderStatus(o.id, 'shipped')}
-                            disabled={updatingId === o.id}
-                            className="px-3 py-1.5 rounded-xl bg-cyan-600/20 hover:bg-cyan-600/30 border border-cyan-500/40 text-cyan-300 text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
-                          >
-                            🚚 Mark Shipped
-                          </button>
+                          {/* Fast Action Shipped & Delivered */}
+                          {o.status !== 'shipped' && o.status !== 'delivered' && (
+                            <button
+                              onClick={() => updateOrderStatus(o.id, 'shipped')}
+                              disabled={updatingId === o.id}
+                              className="px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
+                            >
+                              🚚 Mark Shipped
+                            </button>
+                          )}
 
-                          <button
-                            onClick={() => updateOrderStatus(o.id, 'delivered')}
-                            disabled={updatingId === o.id}
-                            className="px-3 py-1.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
-                          >
-                            ✅ Mark Delivered
-                          </button>
+                          {o.status !== 'delivered' && (
+                            <button
+                              onClick={() => updateOrderStatus(o.id, 'delivered')}
+                              disabled={updatingId === o.id}
+                              className="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
+                            >
+                              ✅ Mark Delivered
+                            </button>
+                          )}
                         </div>
 
+                        {/* Delete Order Button */}
                         <button
                           onClick={() => handleDeleteOrder(o.id)}
                           disabled={updatingId === o.id}
-                          className="px-2.5 py-1.5 rounded-xl text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 text-xs font-bold transition-all cursor-pointer"
+                          className="px-2.5 py-1.5 rounded-xl text-neutral-500 hover:text-rose-400 hover:bg-rose-500/10 text-xs font-bold transition-all cursor-pointer border-none bg-transparent"
                         >
                           🗑️ Delete
                         </button>
@@ -1046,7 +1293,7 @@ export default function AdminCommandCenter() {
         {activeTab === 'tickets' && (
           <div className="space-y-4">
             {/* Ticket Category & Status Filters */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#0F172A] border border-slate-800 rounded-2xl p-3.5">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#0D121F] border border-neutral-800 rounded-2xl p-3.5">
               <div className="flex items-center gap-1.5 flex-wrap">
                 {[
                   { id: 'all', label: `All Inquiries (${tickets.length})` },
@@ -1060,8 +1307,8 @@ export default function AdminCommandCenter() {
                     onClick={() => setTicketFilter(tf.id as any)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                       ticketFilter === tf.id
-                        ? 'bg-orange-500 text-white shadow-md'
-                        : 'bg-[#070A12] text-slate-300 hover:bg-slate-800 border border-slate-800'
+                        ? 'bg-gradient-to-r from-[#FF4D24] to-[#FF7A00] text-white shadow-md'
+                        : 'bg-[#070A14] text-neutral-300 hover:bg-neutral-800 border border-neutral-800'
                     }`}
                   >
                     {tf.label}
@@ -1069,17 +1316,17 @@ export default function AdminCommandCenter() {
                 ))}
               </div>
 
-              <div className="text-xs text-slate-400">
-                Guaranteed 12h Customer SLA
+              <div className="text-xs text-neutral-400 font-medium">
+                Guaranteed 12h Customer Support SLA
               </div>
             </div>
 
             {/* Support Tickets Feed */}
             {filteredTickets.length === 0 ? (
-              <div className="bg-[#0F172A] border border-slate-800 rounded-3xl p-12 text-center space-y-3">
+              <div className="bg-[#0D121F] border border-neutral-800 rounded-3xl p-12 text-center space-y-3">
                 <span className="text-4xl block">✨</span>
                 <h3 className="text-lg font-black text-white">No Tickets in this Filter</h3>
-                <p className="text-xs text-slate-400 max-w-md mx-auto">
+                <p className="text-xs text-neutral-400 max-w-md mx-auto">
                   Customer queries submitted on /support or /support/callback will instantly appear here with 1-click WhatsApp reply buttons.
                 </p>
               </div>
@@ -1094,28 +1341,28 @@ export default function AdminCommandCenter() {
                       key={t.id}
                       className={`rounded-3xl p-5 sm:p-6 shadow-xl transition-all duration-300 space-y-4 border ${
                         t.status === 'resolved'
-                          ? 'bg-[#0B1512] border-emerald-500/30'
+                          ? 'bg-gradient-to-br from-[#0B1512] to-[#0A0D15] border-emerald-500/30'
                           : t.status === 'in_progress'
-                          ? 'bg-[#181512] border-amber-500/30'
-                          : 'bg-[#0F172A] border-slate-800 hover:border-slate-700'
+                          ? 'bg-gradient-to-br from-[#181512] to-[#0A0D15] border-amber-500/30'
+                          : 'bg-gradient-to-br from-[#170E1A] to-[#0A0D15] border-rose-500/40'
                       }`}
                     >
                       {/* Ticket Header */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 pb-3">
                         <div className="flex items-center gap-2.5 flex-wrap">
-                          <span className="font-mono text-sm font-black text-orange-400">
+                          <span className="font-mono text-sm font-black text-amber-400">
                             #{t.id}
                           </span>
-                          <span className="text-[11px] text-slate-400">
-                            {new Date(t.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+                          <span className="text-[11px] text-neutral-400">
+                            {new Date(t.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                           </span>
 
-                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-blue-500/15 border border-blue-500/30 text-blue-300">
+                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-blue-500/20 border border-blue-500/40 text-blue-300">
                             {isCallback ? '📞 INSTANT CALLBACK' : t.category || 'General Support'}
                           </span>
 
                           {t.priority === 'high' && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-500/15 border border-rose-500/30 text-rose-300">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-500/20 border border-rose-500/40 text-rose-300">
                               HIGH PRIORITY
                             </span>
                           )}
@@ -1138,20 +1385,20 @@ export default function AdminCommandCenter() {
 
                       {/* Customer Details & WhatsApp Action */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs">
-                        <div className="space-y-1.5 bg-[#070A12] p-4 rounded-2xl border border-slate-800">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                        <div className="space-y-1.5 bg-[#060810] p-4 rounded-2xl border border-neutral-800">
+                          <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
                             Customer Information
                           </p>
                           <p className="text-sm font-black text-white">{t.name || 'Shopper'}</p>
-                          <p className="text-slate-300">✉️ {t.email || 'Not provided'}</p>
+                          <p className="text-neutral-300">✉️ {t.email || 'Not provided'}</p>
                           {phone && (
                             <div className="flex items-center gap-2 pt-1 flex-wrap">
-                              <span className="text-slate-200 font-mono font-bold">
+                              <span className="text-neutral-200 font-mono font-bold">
                                 📱 +91 {phone}
                               </span>
                               <a
                                 href={`tel:+91${phone}`}
-                                className="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 text-[11px] font-bold no-underline"
+                                className="px-2.5 py-1 rounded-xl bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 text-[11px] font-bold no-underline border border-blue-500/30"
                               >
                                 📞 Call
                               </a>
@@ -1161,7 +1408,7 @@ export default function AdminCommandCenter() {
                                 )}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold no-underline flex items-center gap-1"
+                                className="px-3 py-1 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-black no-underline flex items-center gap-1 shadow-sm"
                               >
                                 💬 WhatsApp Customer
                               </a>
@@ -1170,13 +1417,13 @@ export default function AdminCommandCenter() {
                         </div>
 
                         {/* Subject & Order Reference */}
-                        <div className="space-y-1.5 bg-[#070A12] p-4 rounded-2xl border border-slate-800">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                        <div className="space-y-1.5 bg-[#060810] p-4 rounded-2xl border border-neutral-800">
+                          <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
                             Ticket Subject
                           </p>
                           <p className="text-sm font-bold text-white">{t.subject || 'Support Query'}</p>
                           {t.order_id && (
-                            <p className="text-xs text-orange-400 font-mono pt-1">
+                            <p className="text-xs text-amber-400 font-mono pt-1">
                               📦 Related Order: #{t.order_id}
                             </p>
                           )}
@@ -1184,17 +1431,17 @@ export default function AdminCommandCenter() {
                       </div>
 
                       {/* Customer Message Box */}
-                      <div className="bg-[#070A12] p-4 rounded-2xl border border-slate-800/80 space-y-1">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      <div className="bg-[#060810] p-4 rounded-2xl border border-neutral-800/80 space-y-1">
+                        <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
                           Customer Message:
                         </p>
-                        <p className="text-xs text-slate-200 leading-relaxed whitespace-pre-wrap font-sans">
+                        <p className="text-xs text-neutral-200 leading-relaxed whitespace-pre-wrap font-sans">
                           {t.message || 'No message content provided.'}
                         </p>
                       </div>
 
                       {/* Ticket Action Controls */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800/60">
+                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-neutral-800/80">
                         <div className="flex items-center gap-2">
                           {t.status !== 'in_progress' && t.status !== 'resolved' && (
                             <button
@@ -1218,7 +1465,7 @@ export default function AdminCommandCenter() {
                             <button
                               onClick={() => handleUpdateTicketStatus(t.id, 'open')}
                               disabled={updatingId === t.id}
-                              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
+                              className="px-3 py-1.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
                             >
                               ↩ Reopen Ticket
                             </button>
@@ -1228,7 +1475,7 @@ export default function AdminCommandCenter() {
                         <button
                           onClick={() => handleDeleteTicket(t.id)}
                           disabled={updatingId === t.id}
-                          className="px-2.5 py-1.5 rounded-xl text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 text-xs font-bold transition-all cursor-pointer"
+                          className="px-2.5 py-1.5 rounded-xl text-neutral-500 hover:text-rose-400 hover:bg-rose-500/10 text-xs font-bold transition-all cursor-pointer border-none bg-transparent"
                         >
                           🗑️ Delete
                         </button>
@@ -1246,9 +1493,9 @@ export default function AdminCommandCenter() {
         ══════════════════════════════════════════════════════════ */}
         {activeTab === 'customers' && (
           <div className="space-y-4">
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#0F172A] border border-slate-800 rounded-2xl p-3.5">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#0D121F] border border-neutral-800 rounded-2xl p-3.5">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-white">Unique Shoppers: {customers.length}</span>
+                <span className="text-sm font-black text-white">Verified Shoppers: {customers.length}</span>
               </div>
 
               <div className="relative">
@@ -1257,12 +1504,12 @@ export default function AdminCommandCenter() {
                   value={customerSearch}
                   onChange={(e) => setCustomerSearch(e.target.value)}
                   placeholder="Search customer name, phone, email, city..."
-                  className="w-full sm:w-80 bg-[#070A12] border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-orange-500"
+                  className="w-full sm:w-80 bg-[#070A14] border border-neutral-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-neutral-500 outline-none focus:border-[#FF4D24]"
                 />
                 {customerSearch && (
                   <button
                     onClick={() => setCustomerSearch('')}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white cursor-pointer"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-neutral-400 hover:text-white cursor-pointer bg-transparent border-none"
                   >
                     ✕
                   </button>
@@ -1271,7 +1518,7 @@ export default function AdminCommandCenter() {
             </div>
 
             {filteredCustomers.length === 0 ? (
-              <div className="bg-[#0F172A] border border-slate-800 rounded-3xl p-12 text-center space-y-3">
+              <div className="bg-[#0D121F] border border-neutral-800 rounded-3xl p-12 text-center space-y-3">
                 <span className="text-4xl block">👥</span>
                 <h3 className="text-lg font-black text-white">No Customers Match Search</h3>
               </div>
@@ -1285,7 +1532,7 @@ export default function AdminCommandCenter() {
                   return (
                     <div
                       key={idx}
-                      className="bg-[#0F172A] border border-slate-800 rounded-3xl p-5 space-y-3 shadow-xl hover:border-slate-700 transition-all"
+                      className="bg-gradient-to-br from-[#121626] to-[#0A0D15] border border-neutral-800 hover:border-purple-500/40 rounded-3xl p-5 space-y-3 shadow-xl transition-all"
                     >
                       <div className="flex items-start justify-between gap-2">
                         <div>
@@ -1297,7 +1544,7 @@ export default function AdminCommandCenter() {
                               </span>
                             )}
                           </div>
-                          <p className="text-xs text-slate-400 mt-0.5">
+                          <p className="text-xs text-neutral-400 mt-0.5">
                             ✉️ {cust.email}
                           </p>
                         </div>
@@ -1306,21 +1553,21 @@ export default function AdminCommandCenter() {
                           <p className="text-sm font-black text-amber-400 font-mono">
                             ₹{cust.totalSpend.toLocaleString('en-IN')}
                           </p>
-                          <p className="text-[10px] text-slate-400">
+                          <p className="text-[10px] text-neutral-400">
                             {cust.orderCount} {cust.orderCount === 1 ? 'Order' : 'Orders'}
                           </p>
                         </div>
                       </div>
 
-                      <div className="text-xs text-slate-300 bg-[#070A12] p-3 rounded-2xl border border-slate-800/80 space-y-1">
-                        <p className="text-[10px] text-slate-500 uppercase font-bold">Latest Delivery Hub:</p>
+                      <div className="text-xs text-neutral-300 bg-[#060810] p-3 rounded-2xl border border-neutral-800 space-y-1">
+                        <p className="text-[10px] text-neutral-500 uppercase font-bold">Latest Delivery Hub:</p>
                         <p className="truncate">{city}{state ? `, ${state}` : ''} {cust.address?.zip ? `(${cust.address.zip})` : ''}</p>
                       </div>
 
-                      <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-800/60">
+                      <div className="flex items-center justify-between gap-2 pt-1 border-t border-neutral-800">
                         {cust.phone ? (
                           <div className="flex items-center gap-2">
-                            <span className="text-xs font-mono font-bold text-slate-300">
+                            <span className="text-xs font-mono font-bold text-neutral-300">
                               📱 +91 {cust.phone}
                             </span>
                             <a
@@ -1329,17 +1576,17 @@ export default function AdminCommandCenter() {
                               )}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold no-underline flex items-center gap-1"
+                              className="px-3 py-1 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-black no-underline flex items-center gap-1 shadow-xs"
                             >
                               💬 WhatsApp
                             </a>
                           </div>
                         ) : (
-                          <span className="text-xs text-slate-500">Phone not on file</span>
+                          <span className="text-xs text-neutral-500">Phone not on file</span>
                         )}
 
-                        <span className="text-[10px] text-slate-500">
-                          Last ordered: {new Date(cust.latestOrderDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}
+                        <span className="text-[10px] text-neutral-500">
+                          Last ordered: {new Date(cust.latestOrderDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}
                         </span>
                       </div>
                     </div>
@@ -1355,23 +1602,23 @@ export default function AdminCommandCenter() {
         ══════════════════════════════════════════════════════════ */}
         {activeTab === 'drops' && (
           <div className="space-y-4">
-            <div className="bg-[#0F172A] border border-slate-800 rounded-2xl p-4 flex items-center justify-between flex-wrap gap-2">
+            <div className="bg-[#0D121F] border border-neutral-800 rounded-2xl p-4 flex items-center justify-between flex-wrap gap-2">
               <div>
-                <h3 className="text-sm font-black text-white">Active Streetwear Drops &amp; Profit Margins</h3>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  Calculated against Tirupur factory base cost + DTF printing. All drops live on store.
+                <h3 className="text-sm font-black text-white">Active Custom-Printed Streetwear Drops (Exact 8 Pieces)</h3>
+                <p className="text-xs text-neutral-400 mt-0.5">
+                  Verified Tirupur factory blanks + client artwork in Qikink account 658581. Permanent catalog invariant.
                 </p>
               </div>
 
               <Link
                 href="/admin"
-                className="px-3.5 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold no-underline"
+                className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#FF4D24] to-[#FF7A00] text-white text-xs font-black no-underline shadow-sm"
               >
                 Qikink Catalog Sync Tool ↗
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {catalogProducts.map((p) => {
                 const price = Number(p.price_inr || p.price || 0);
                 const compareAt = Number(p.compareAtPrice || p.compare_at_price || 0);
@@ -1384,18 +1631,18 @@ export default function AdminCommandCenter() {
                 return (
                   <div
                     key={p.id}
-                    className="bg-[#0F172A] border border-slate-800 rounded-3xl p-4 space-y-3 shadow-lg hover:border-slate-700 transition-all flex flex-col justify-between"
+                    className="bg-gradient-to-br from-[#101422] to-[#0A0D15] border border-neutral-800 hover:border-amber-500/40 rounded-3xl p-4 space-y-3 shadow-xl transition-all flex flex-col justify-between"
                   >
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
                         <img
                           src={p.image_url}
                           alt={p.title}
-                          className="w-16 h-16 rounded-2xl object-cover border border-slate-800 shrink-0 bg-black/40"
+                          className="w-16 h-16 rounded-2xl object-cover border border-neutral-800 shrink-0 bg-black/40"
                         />
                         <div className="min-w-0 flex-1">
-                          <span className="text-[10px] font-bold text-orange-400 uppercase tracking-wider block">
-                            {p.category || 'Streetwear'}
+                          <span className="text-[10px] font-black text-amber-400 uppercase tracking-wider block">
+                            {p.tag || p.category || 'Streetwear'}
                           </span>
                           <h4 className="text-xs font-bold text-white truncate" title={p.title}>
                             {p.title}
@@ -1405,7 +1652,7 @@ export default function AdminCommandCenter() {
                               ₹{price.toLocaleString('en-IN')}
                             </span>
                             {compareAt > price && (
-                              <span className="text-xs text-slate-500 line-through font-mono">
+                              <span className="text-xs text-neutral-500 line-through font-mono">
                                 ₹{compareAt.toLocaleString('en-IN')}
                               </span>
                             )}
@@ -1413,27 +1660,27 @@ export default function AdminCommandCenter() {
                         </div>
                       </div>
 
-                      <div className="bg-[#070A12] p-3 rounded-2xl border border-slate-800/80 text-xs space-y-1">
-                        <div className="flex items-center justify-between text-slate-400">
-                          <span>Factory Base Cost:</span>
-                          <span className="font-mono text-slate-300">₹{baseCost}</span>
+                      <div className="bg-[#060810] p-3 rounded-2xl border border-neutral-800 text-xs space-y-1">
+                        <div className="flex items-center justify-between text-neutral-400">
+                          <span>Factory Cost:</span>
+                          <span className="font-mono text-neutral-300">₹{baseCost}</span>
                         </div>
-                        <div className="flex items-center justify-between text-emerald-400 font-bold">
-                          <span>Net Margin:</span>
+                        <div className="flex items-center justify-between text-emerald-400 font-black">
+                          <span>Net Profit Margin:</span>
                           <span className="font-mono">₹{grossProfit} ({marginPct}%)</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-800/60">
-                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-bold">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> In Stock
+                    <div className="flex items-center justify-between gap-2 pt-2 border-t border-neutral-800">
+                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 text-[10px] font-black border border-emerald-500/30">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Live Drop
                       </span>
 
                       <Link
                         href={`/product/${p.slug || p.id}`}
                         target="_blank"
-                        className="text-xs text-orange-400 font-bold hover:underline"
+                        className="text-xs text-amber-400 font-bold hover:underline"
                       >
                         View Live ↗
                       </Link>
@@ -1449,78 +1696,78 @@ export default function AdminCommandCenter() {
             TAB 5: WEBSITE STATUS & SYSTEM INTEGRATIONS
         ══════════════════════════════════════════════════════════ */}
         {activeTab === 'website' && (
-          <div className="bg-[#0F172A] border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
+          <div className="bg-[#0D121F] border border-neutral-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
             <div>
               <h2 className="text-xl font-black text-white">Rare Ember Infrastructure Health</h2>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs text-neutral-400 mt-1">
                 Real-time connection status across your cloud database, payment gateways, and ad pixels.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
-              <div className="bg-[#070A12] p-5 rounded-2xl border border-slate-800 space-y-2">
+              <div className="bg-[#060810] p-5 rounded-2xl border border-neutral-800 space-y-2">
                 <span className="text-2xl block">⚡</span>
                 <h3 className="text-sm font-black text-white">Vercel Edge Cloud</h3>
                 <p className="text-emerald-400 font-bold">● Active on Production</p>
-                <p className="text-slate-400">Aliased to www.rareember.shop with Turbopack SSR &amp; SSG.</p>
+                <p className="text-neutral-400">Aliased to www.rareember.shop with Turbopack SSR &amp; SSG.</p>
               </div>
 
-              <div className="bg-[#070A12] p-5 rounded-2xl border border-slate-800 space-y-2">
+              <div className="bg-[#060810] p-5 rounded-2xl border border-neutral-800 space-y-2">
                 <span className="text-2xl block">📸</span>
                 <h3 className="text-sm font-black text-white">Meta / Instagram Pixel</h3>
                 <p className="text-emerald-400 font-bold">● Active (ID: 1535815651644454)</p>
-                <p className="text-slate-400">Tracks PageViews, AddToCart, and Purchase events for your ads.</p>
+                <p className="text-neutral-400">Tracks PageViews, AddToCart, and Purchase events for your ads.</p>
               </div>
 
-              <div className="bg-[#070A12] p-5 rounded-2xl border border-slate-800 space-y-2">
+              <div className="bg-[#060810] p-5 rounded-2xl border border-neutral-800 space-y-2">
                 <span className="text-2xl block">💳</span>
                 <h3 className="text-sm font-black text-white">Razorpay Payments</h3>
                 <p className="text-emerald-400 font-bold">● Active &amp; Webhooks Armed</p>
-                <p className="text-slate-400">Accepts instant UPI, GooglePay, PhonePe, Cards &amp; NetBanking.</p>
+                <p className="text-neutral-400">Accepts instant UPI, GooglePay, PhonePe, Cards &amp; NetBanking.</p>
               </div>
 
-              <div className="bg-[#070A12] p-5 rounded-2xl border border-slate-800 space-y-2">
+              <div className="bg-[#060810] p-5 rounded-2xl border border-neutral-800 space-y-2">
                 <span className="text-2xl block">🏭</span>
                 <h3 className="text-sm font-black text-white">Qikink POD Automation</h3>
-                <p className="text-emerald-400 font-bold">● Connected Hub</p>
-                <p className="text-slate-400">Auto-fulfillment queue dispatches paid parcels directly to factory.</p>
+                <p className="text-emerald-400 font-bold">● Connected Hub (Account 658581)</p>
+                <p className="text-neutral-400">Auto-fulfillment queue dispatches paid parcels directly to factory.</p>
               </div>
 
-              <div className="bg-[#070A12] p-5 rounded-2xl border border-slate-800 space-y-2">
+              <div className="bg-[#060810] p-5 rounded-2xl border border-neutral-800 space-y-2">
                 <span className="text-2xl block">🛡️</span>
                 <h3 className="text-sm font-black text-white">Cloudflare Security Standard</h3>
                 <p className="text-emerald-400 font-bold">● Passed (Zero Vulnerabilities)</p>
-                <p className="text-slate-400">Timing-safe HMAC signatures, price floors, and rate limiting active.</p>
+                <p className="text-neutral-400">Timing-safe HMAC signatures, price floors, and rate limiting active.</p>
               </div>
 
-              <div className="bg-[#070A12] p-5 rounded-2xl border border-slate-800 space-y-2">
+              <div className="bg-[#060810] p-5 rounded-2xl border border-neutral-800 space-y-2">
                 <span className="text-2xl block">📬</span>
                 <h3 className="text-sm font-black text-white">Resend Email Gateway</h3>
                 <p className="text-emerald-400 font-bold">● Verified Delivery</p>
-                <p className="text-slate-400">Dispatches order receipts, COD OTPs &amp; support confirmation emails.</p>
+                <p className="text-neutral-400">Dispatches order receipts, COD OTPs &amp; support confirmation emails.</p>
               </div>
             </div>
 
             {/* Quick Store Links */}
-            <div className="pt-4 border-t border-slate-800 space-y-3">
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Quick Storefront Navigation</h3>
+            <div className="pt-4 border-t border-neutral-800 space-y-3">
+              <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-wider">Quick Storefront Navigation</h3>
               <div className="flex items-center gap-2 flex-wrap">
-                <Link href="/" target="_blank" className="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold no-underline hover:bg-slate-700">
+                <Link href="/" target="_blank" className="px-3 py-1.5 rounded-xl bg-neutral-800 text-neutral-200 text-xs font-bold no-underline hover:bg-neutral-700">
                   Homepage ↗
                 </Link>
-                <Link href="/shop" target="_blank" className="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold no-underline hover:bg-slate-700">
+                <Link href="/shop" target="_blank" className="px-3 py-1.5 rounded-xl bg-neutral-800 text-neutral-200 text-xs font-bold no-underline hover:bg-neutral-700">
                   Shop Catalog ↗
                 </Link>
-                <Link href="/checkout" target="_blank" className="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold no-underline hover:bg-slate-700">
+                <Link href="/checkout" target="_blank" className="px-3 py-1.5 rounded-xl bg-neutral-800 text-neutral-200 text-xs font-bold no-underline hover:bg-neutral-700">
                   Checkout Page ↗
                 </Link>
-                <Link href="/track" target="_blank" className="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold no-underline hover:bg-slate-700">
+                <Link href="/track" target="_blank" className="px-3 py-1.5 rounded-xl bg-neutral-800 text-neutral-200 text-xs font-bold no-underline hover:bg-neutral-700">
                   Order Tracker ↗
                 </Link>
-                <Link href="/returns" target="_blank" className="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold no-underline hover:bg-slate-700">
+                <Link href="/returns" target="_blank" className="px-3 py-1.5 rounded-xl bg-neutral-800 text-neutral-200 text-xs font-bold no-underline hover:bg-neutral-700">
                   7-Day Returns ↗
                 </Link>
-                <Link href="/support" target="_blank" className="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold no-underline hover:bg-slate-700">
+                <Link href="/support" target="_blank" className="px-3 py-1.5 rounded-xl bg-neutral-800 text-neutral-200 text-xs font-bold no-underline hover:bg-neutral-700">
                   Support Helpdesk ↗
                 </Link>
               </div>

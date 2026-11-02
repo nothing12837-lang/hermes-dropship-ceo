@@ -99,22 +99,7 @@ export async function PATCH(req: NextRequest) {
       'shipped', 'delivered', 'cancelled', 'refunded', 'returned', 'return_requested',
     ]);
 
-    // Legal transitions.
-    const ORDER_TRANSITIONS: Record<string, string[]> = {
-      pending: ['paid', 'cancelled'],
-      pending_cod: ['paid', 'cancelled'],
-      paid: ['processing', 'cancelled', 'refunded', 'return_requested'],
-      processing: ['shipped', 'delivered', 'cancelled', 'refunded', 'return_requested'],
-      shipped: ['delivered', 'refunded', 'return_requested'],
-      delivered: ['returned', 'return_requested', 'refunded'],
-      return_requested: ['processing', 'refunded', 'returned', 'cancelled'],
-      returned: ['refunded'],
-      cancelled: [],
-      refunded: [],
-    };
-
-    // Read the current status so the transition can be validated and the
-    // update can be made conditional (no lost updates).
+    // Read the current status so the transition can be logged
     const { data: currentRow, error: currentErr } = await supabase
       .from('orders')
       .select('status')
@@ -133,17 +118,6 @@ export async function PATCH(req: NextRequest) {
       const cleanStatus = status.trim().toLowerCase();
       if (!ALLOWED_STATUSES.has(cleanStatus)) {
         return NextResponse.json({ error: `Invalid status. Allowed: ${[...ALLOWED_STATUSES].join(', ')}` }, { status: 400 });
-      }
-      const allowedNext = ORDER_TRANSITIONS[currentStatus] || [];
-      if (!allowedNext.includes(cleanStatus)) {
-        return NextResponse.json(
-          {
-            error:
-              `Cannot move an order from "${currentStatus}" to "${cleanStatus}". ` +
-              `Allowed from "${currentStatus}": ${allowedNext.join(', ') || 'none'}.`,
-          },
-          { status: 400 }
-        );
       }
       updates.status = cleanStatus;
     }
@@ -164,7 +138,7 @@ export async function PATCH(req: NextRequest) {
         if (/^SF/i.test(cleanTn)) {
           updates.tracking_url = `https://tracker.shadowfax.in/#/track/${cleanTn}`;
         } else if (/^1\d{10,13}$/.test(cleanTn) || /^\d{12,14}$/.test(cleanTn)) {
-          updates.tracking_url = `https://courierupdates.com/?awb=${cleanTn}`;
+          updates.tracking_url = `https://www.delhivery.com/track/package/${cleanTn}`;
         } else if (/^XB/i.test(cleanTn)) {
           updates.tracking_url = `https://www.xpressbees.com/shipment/tracking?awbNo=${cleanTn}`;
         } else {
@@ -181,13 +155,10 @@ export async function PATCH(req: NextRequest) {
       if (u === "" || u.startsWith("https://")) updates.meesho_url = u || null;
     }
 
-    // Conditional on the status we validated against, so a concurrent write
-    // cannot be clobbered.
     const { error } = await supabase
       .from('orders')
       .update(updates)
-      .eq('id', orderId)
-      .eq('status', currentStatus);
+      .eq('id', orderId);
     if (error) return NextResponse.json({ error: 'Order update failed' }, { status: 500 });
 
     // When status changes to delivered, automatically dispatch the Official Tax Invoice email
