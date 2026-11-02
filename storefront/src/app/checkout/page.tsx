@@ -1433,6 +1433,32 @@ export default function CheckoutPage() {
                         <span className="text-neutral-300">•</span>
                         <span>Pay at Doorstep: <b className="text-emerald-700 font-bold">₹{Math.max(0, Math.round(total - 100)).toLocaleString('en-IN')}</b></span>
                       </div>
+
+                      {/* Transparent Reason for ₹100 Advance */}
+                      <div className="mt-2.5 p-3 rounded-xl bg-amber-500/[0.07] border border-amber-500/20 text-xs">
+                        <div className="flex items-center gap-1.5 font-bold text-neutral-900 mb-1.5">
+                          <span className="text-[#FF4D24]">💡</span>
+                          <span>Why do we collect a ₹100 booking advance for COD?</span>
+                        </div>
+                        <ul className="space-y-1 text-[11px] text-neutral-700 list-none pl-0">
+                          <li className="flex items-start gap-1.5">
+                            <span className="text-emerald-600 font-bold shrink-0">✓</span>
+                            <span><strong>Zero Courier Transit Fraud:</strong> Confirms genuine delivery intent and verified shipping address to eliminate fake/unreachable orders.</span>
+                          </li>
+                          <li className="flex items-start gap-1.5">
+                            <span className="text-emerald-600 font-bold shrink-0">✓</span>
+                            <span><strong>Atelier Reservation &amp; Express AWB:</strong> Immediately reserves your custom piece at our domestic maker atelier and issues your insured BlueDart/Delhivery air waybill.</span>
+                          </li>
+                          <li className="flex items-start gap-1.5">
+                            <span className="text-emerald-600 font-bold shrink-0">✓</span>
+                            <span><strong>100% Credited to Your Order:</strong> The ₹100 is deducted upfront from your total. You only pay the balance of <strong>₹{Math.max(0, Math.round(total - 100)).toLocaleString('en-IN')}</strong> at doorstep delivery (₹0 COD fee).</span>
+                          </li>
+                          <li className="flex items-start gap-1.5">
+                            <span className="text-emerald-600 font-bold shrink-0">✓</span>
+                            <span><strong>Zero-Risk Guarantee:</strong> 100% refundable if canceled prior to airway dispatch or in the event of non-delivery.</span>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </label>
                 )}
@@ -1667,14 +1693,29 @@ export default function CheckoutPage() {
 
               {/* Partial COD Intent Banner */}
               {paymentMethod === 'cod' && (
-                <div className="mb-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 text-left transition-all">
-                  <div className="flex items-center gap-2 mb-1 text-amber-300 font-bold text-xs">
-                    <span>⚡</span>
-                    <span>₹100 Online Advance Booking • Balance on Delivery</span>
+                <div className="mb-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 text-left transition-all space-y-2">
+                  <div className="flex items-center justify-between text-amber-300 font-bold text-xs flex-wrap gap-1">
+                    <span className="flex items-center gap-1.5">
+                      <span>⚡</span>
+                      <span>₹100 Online Advance Booking • Balance on Delivery</span>
+                    </span>
+                    <span className="text-[10px] text-emerald-400 bg-emerald-500/20 px-2 py-0.5 rounded-full border border-emerald-500/30 font-black">
+                      100% Credited to Total
+                    </span>
                   </div>
                   <p className="text-[11px] text-neutral-300 leading-relaxed">
-                    Pay ₹100 now via UPI to verify shipping intent and reserve your piece. The remaining balance of <b className="text-white">₹{Math.max(0, Math.round(total - 100)).toLocaleString('en-IN')}</b> is collected at your doorstep upon delivery.
+                    Pay ₹100 now via UPI to verify shipping intent and reserve your piece. The remaining balance of <b className="text-white">₹{Math.max(0, Math.round(total - 100)).toLocaleString('en-IN')}</b> is collected at your doorstep upon delivery (₹0 COD fee).
                   </p>
+                  <div className="pt-2 border-t border-amber-500/20 text-[10.5px] text-amber-200/90 flex flex-col gap-1">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-emerald-400 font-bold">✓</span>
+                      <span><strong>Why ₹100 advance?</strong> Confirms authentic intent, prevents courier transit waste, and locks factory production.</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-emerald-400 font-bold">✓</span>
+                      <span><strong>Zero-Risk Guarantee:</strong> 100% refundable if canceled prior to airway dispatch.</span>
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -1751,13 +1792,28 @@ export default function CheckoutPage() {
             </div>
 
             <div className="space-y-3 text-xs">
-              <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-950 leading-relaxed">
+              <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-950 leading-relaxed space-y-2">
                 <p className="font-bold text-amber-900 mb-1">
                   ⚡ Pay ₹100 Advance Now • ₹{Math.max(0, Math.round(total - 100)).toLocaleString('en-IN')} on Doorstep
                 </p>
                 <p className="text-[11px] text-amber-800">
-                  To verify shipping intent and issue your insured airway bill, pay a ₹100 booking advance via UPI/Card. The remaining balance of ₹{Math.max(0, Math.round(total - 100)).toLocaleString('en-IN')} is collected at your doorstep upon delivery.
+                  To verify shipping intent and issue your insured airway bill, pay a ₹100 booking advance via UPI/Card. The remaining balance of ₹{Math.max(0, Math.round(total - 100)).toLocaleString('en-IN')} is collected at your doorstep upon delivery (₹0 COD fee).
                 </p>
+                <div className="pt-2 border-t border-amber-200/80 text-[10.5px] text-amber-900 space-y-1">
+                  <div className="font-bold text-amber-950">Why do we take this ₹100 advance?</div>
+                  <div className="flex items-start gap-1.5">
+                    <span className="text-emerald-700 font-bold shrink-0">✓</span>
+                    <span><strong>Address &amp; Intent Verification:</strong> Eliminates fake orders and protects our courier network.</span>
+                  </div>
+                  <div className="flex items-start gap-1.5">
+                    <span className="text-emerald-700 font-bold shrink-0">✓</span>
+                    <span><strong>100% Deducted from Total:</strong> Fully credited to your bill—you only pay the balance at your doorstep.</span>
+                  </div>
+                  <div className="flex items-start gap-1.5">
+                    <span className="text-emerald-700 font-bold shrink-0">✓</span>
+                    <span><strong>Zero-Risk Guarantee:</strong> 100% refundable if canceled before airway dispatch.</span>
+                  </div>
+                </div>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-neutral-50 border border-black/5 space-y-1.5">

@@ -1779,28 +1779,32 @@ export function ProductClient({ product }: Props) {
   };
 
   return (
-    <main className="page-top pb-28 md:pb-12" style={{ background: '#fffbf5', minHeight: '100vh' }}>
-      <div className="max-w-[1560px] 2xl:max-w-[1720px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-4">
-        <Link href="/shop" style={{ color: '#8a7b6b', fontWeight: 700, textDecoration: 'none' }}>
-          ← Explore Catalog
+    <main className="page-top pb-24 md:pb-10" style={{ background: '#fffbf5', minHeight: '100vh' }}>
+      <div className="max-w-[1480px] 2xl:max-w-[1640px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 py-2 sm:py-3">
+        <Link href="/shop" className="text-xs text-[#8a7b6b] hover:text-neutral-900 font-bold tracking-tight inline-flex items-center gap-1 transition-colors">
+          <span>←</span> <span>Explore Catalog</span>
         </Link>
 
         <div
-          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mt-5 items-start"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 mt-2.5 sm:mt-3 items-start"
         >
           {/* Multi-Image Interactive Gallery (Sticky on Desktop Scroll) */}
-          <div className="lg:sticky lg:top-24 lg:self-start lg:col-span-6 2xl:col-span-7" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div className="lg:sticky lg:top-20 lg:self-start lg:col-span-6 2xl:col-span-6" style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
             <div
               style={{
                 aspectRatio: '1',
+                maxHeight: 'min(440px, 52vh)',
+                maxWidth: 'min(440px, 52vh)',
+                width: '100%',
+                margin: '0 auto',
                 background: product.gradient || '#f8fafc',
-                borderRadius: '1.5rem',
+                borderRadius: '1.25rem',
                 position: 'relative',
                 overflow: 'hidden',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 20px 40px -15px rgba(0,0,0,0.07)',
+                boxShadow: '0 16px 36px -12px rgba(0,0,0,0.07)',
                 border: '1px solid rgba(0,0,0,0.06)',
                 touchAction: 'pan-y',
               }}
@@ -2074,15 +2078,15 @@ export function ProductClient({ product }: Props) {
 
             {/* Clickable Thumbnail Strip */}
             {galleryImages.length > 1 && (
-              <div style={{ marginTop: '0.85rem' }}>
-                
+              <div style={{ marginTop: '0.5rem' }}>
                 <div
                   style={{
                     display: 'flex',
-                    gap: '0.75rem',
+                    gap: '0.45rem',
                     overflowX: 'auto',
-                    padding: '0.25rem 0.1rem',
+                    padding: '0.2rem 0.1rem',
                     scrollbarWidth: 'none',
+                    justifyContent: 'center',
                   }}
                 >
                 {galleryImages.map((imgUrl: string, idx: number) => {
@@ -2095,7 +2099,7 @@ export function ProductClient({ product }: Props) {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        gap: '0.35rem',
+                        gap: '0.25rem',
                         flexShrink: 0,
                       }}
                     >
@@ -2118,13 +2122,13 @@ export function ProductClient({ product }: Props) {
                         aria-label={`View photo ${idx + 1}`}
                         style={{
                           position: 'relative',
-                          width: '4.75rem',
-                          height: '4.75rem',
-                          borderRadius: '0.85rem',
+                          width: '3.5rem',
+                          height: '3.5rem',
+                          borderRadius: '0.65rem',
                           overflow: 'hidden',
-                          border: isSelected ? '2.5px solid #ff6b35' : '1.5px solid rgba(0,0,0,0.1)',
+                          border: isSelected ? '2px solid #ff6b35' : '1px solid rgba(0,0,0,0.1)',
                           transform: isSelected ? 'scale(1.03)' : 'scale(1)',
-                          boxShadow: isSelected ? '0 4px 12px rgba(255,107,53,0.25)' : 'none',
+                          boxShadow: isSelected ? '0 4px 10px rgba(255,107,53,0.2)' : 'none',
                           cursor: 'pointer',
                           padding: 0,
                           background: '#f1f5f9',
@@ -2163,15 +2167,15 @@ export function ProductClient({ product }: Props) {
           )}
           </div>
 
-          <div className="lg:col-span-6 2xl:col-span-5">
-            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+          <div className="lg:col-span-6 2xl:col-span-6">
+            <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
               <span
                 style={{
-                  padding: '0.35rem 0.9rem',
+                  padding: '0.25rem 0.75rem',
                   borderRadius: '9999px',
                   background: product.tagBg || 'rgba(255,107,53,0.12)',
                   color: product.tagColor || '#ff6b35',
-                  fontSize: '0.7rem',
+                  fontSize: '0.68rem',
                   fontWeight: 800,
                   textTransform: 'uppercase',
                   letterSpacing: '0.08em',
@@ -2197,31 +2201,31 @@ export function ProductClient({ product }: Props) {
               </span>
             </div>
 
-            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black tracking-tight text-neutral-900 leading-tight">
+            <h1 className="text-lg sm:text-xl lg:text-2xl 2xl:text-3xl font-black tracking-tight text-neutral-900 leading-snug">
               {displayTitle}
             </h1>
-            <p className="text-neutral-600 mt-1.5 sm:mt-2 text-xs sm:text-sm md:text-base leading-relaxed font-medium">
+            <p className="text-neutral-600 mt-1 text-xs sm:text-sm leading-relaxed font-medium line-clamp-2">
               {cleanSubtitle}
             </p>
 
-            <div className="flex items-baseline gap-2.5 sm:gap-3 mt-3 flex-wrap">
-              <span className="text-2xl sm:text-3xl md:text-4xl font-black text-neutral-900 tracking-tight">
+            <div className="flex items-baseline gap-2 sm:gap-2.5 mt-2 flex-wrap">
+              <span className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight">
                 {geoFormatPrice(effectivePriceUsd, effectiveInr)}
               </span>
-              <span className="text-xs sm:text-sm text-neutral-400 line-through font-medium">
+              <span className="text-xs text-neutral-400 line-through font-medium">
                 M.R.P.: {geoFormatPrice(mrpUsd, mrpInr)}
               </span>
-              <span className="text-[11px] font-bold text-[#FF4D24] bg-[#FF4D24]/10 px-2 py-0.5 rounded border border-[#FF4D24]/20">
+              <span className="text-[10px] font-bold text-[#FF4D24] bg-[#FF4D24]/10 px-1.5 py-0.5 rounded border border-[#FF4D24]/20">
                 {discountPercent}% OFF
               </span>
               {(() => {
                 const isOutOfStock = (product as any).active === false || ((product as any).stock != null && Number((product as any).stock) <= 0);
                 return !isOutOfStock ? (
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-bold border border-emerald-200">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[10px] font-bold border border-emerald-200">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" /> In Stock
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-800 text-[11px] font-bold border border-rose-200">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-50 text-rose-800 text-[10px] font-bold border border-rose-200">
                     Restocking Soon
                   </span>
                 );
@@ -2229,18 +2233,18 @@ export function ProductClient({ product }: Props) {
             </div>
 
             {/* Sleek Luxury Value Badges */}
-            <div className="flex items-center gap-2 mt-3 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-neutral-900 text-white tracking-wide">
+            <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-neutral-900 text-white tracking-wide">
                 <span>⚡</span>
-                <span>₹100 COD Advance Booking</span>
+                <span>₹100 COD Advance</span>
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
                 <span>✈️</span>
                 <span>Free Express Air Delivery</span>
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-neutral-100 text-neutral-800 border border-black/10">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-neutral-100 text-neutral-800 border border-black/10">
                 <span>🔄</span>
-                <span>7-Day Doorstep Replacement</span>
+                <span>7-Day Replacement</span>
               </span>
             </div>
 
@@ -2331,15 +2335,15 @@ export function ProductClient({ product }: Props) {
 
             {/* COLORWAY SELECTOR (When product has colorways) */}
             {hasColors && availableColors.length > 0 && (
-              <div className="mt-4 p-3.5 sm:p-4 rounded-2xl bg-white border border-black/10 shadow-xs">
-                <div className="flex items-center justify-between mb-2.5">
-                  <span className="text-xs font-black uppercase tracking-wider text-neutral-600 flex items-center gap-1.5">
+              <div className="mt-2.5 p-2.5 sm:p-3 rounded-xl bg-white border border-black/10 shadow-xs">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] font-black uppercase tracking-wider text-neutral-600 flex items-center gap-1.5">
                     <span>🎨</span>
                     <span>{availableColors.length > 1 ? `Step ${colorStepNum}: Select Color` : 'Colorway'}</span>
                   </span>
-                  <span className="text-xs font-black text-neutral-900 bg-neutral-100 px-2.5 py-1 rounded-full border border-black/10 flex items-center gap-1.5 shadow-xs">
+                  <span className="text-[11px] font-black text-neutral-900 bg-neutral-100 px-2 py-0.5 rounded-full border border-black/10 flex items-center gap-1.5 shadow-xs">
                     <span
-                      className="w-2.5 h-2.5 rounded-full border border-black/20 shrink-0"
+                      className="w-2 h-2 rounded-full border border-black/20 shrink-0"
                       style={{ backgroundColor: getColorHex(selectedColor || availableColors[0]) }}
                     />
                     <span>Color: <strong>{selectedColor || availableColors[0]}</strong></span>
@@ -2347,7 +2351,7 @@ export function ProductClient({ product }: Props) {
                 </div>
 
                 {availableColors.length > 1 ? (
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-1">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-0.5">
                     {availableColors.map((colorName, idx) => {
                       const isSelected = (selectedColor || availableColors[0]).toLowerCase() === colorName.toLowerCase();
                       const isComboColor = colorName.includes('&') || colorName.includes(',') || colorName.includes('Trio') || colorName.includes('Duo');
@@ -2358,7 +2362,7 @@ export function ProductClient({ product }: Props) {
                             key={colorName}
                             type="button"
                             onClick={() => handleSelectColor(colorName, idx)}
-                            className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all flex items-center gap-2 cursor-pointer ${
+                            className={`px-2.5 py-1.5 rounded-lg text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer ${
                               isSelected
                                 ? 'border-[#FF4D24] bg-[#FF4D24]/10 text-[#FF4D24] ring-2 ring-[#FF4D24]/30 shadow-xs font-black'
                                 : 'border-black/10 bg-neutral-50 text-neutral-700 hover:border-black/20 hover:bg-neutral-100'
@@ -2368,7 +2372,7 @@ export function ProductClient({ product }: Props) {
                               <img
                                 src={galleryImages[idx]}
                                 alt=""
-                                className="w-6 h-6 rounded-md object-cover border border-black/10 shrink-0"
+                                className="w-5 h-5 rounded object-cover border border-black/10 shrink-0"
                               />
                             )}
                             <span>{colorName}</span>
@@ -2386,10 +2390,10 @@ export function ProductClient({ product }: Props) {
                           onClick={() => handleSelectColor(colorName, idx)}
                           title={colorName}
                           aria-label={`Select ${colorName}`}
-                          className={`group relative w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-all cursor-pointer p-0 shrink-0 ${
+                          className={`group relative w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all cursor-pointer p-0 shrink-0 ${
                             isSelected
-                              ? 'ring-2 ring-[#FF4D24] ring-offset-2 scale-110 shadow-md'
-                              : 'ring-1 ring-black/20 hover:scale-110 hover:ring-black/40'
+                              ? 'ring-2 ring-[#FF4D24] ring-offset-2 scale-105 shadow-sm'
+                              : 'ring-1 ring-black/20 hover:scale-105 hover:ring-black/40'
                           }`}
                         >
                           <span
@@ -2413,9 +2417,9 @@ export function ProductClient({ product }: Props) {
                     })}
                   </div>
                 ) : (
-                  <div className="p-2.5 rounded-xl bg-neutral-50 border border-black/10 flex items-center gap-2 text-xs font-bold text-neutral-700">
+                  <div className="p-2 rounded-lg bg-neutral-50 border border-black/10 flex items-center gap-2 text-xs font-bold text-neutral-700">
                     <span
-                      className="w-3.5 h-3.5 rounded-full border border-black/20 shrink-0"
+                      className="w-3 h-3 rounded-full border border-black/20 shrink-0"
                       style={{ backgroundColor: getColorHex(availableColors[0]) }}
                     />
                     <span>Primary Color: <strong>{availableColors[0]}</strong></span>
@@ -2426,20 +2430,20 @@ export function ProductClient({ product }: Props) {
             )}
 
             {/* DYNAMIC STEP 2/1: SMART SIZE & FIT SELECTOR (Item-Aware) */}
-            <div className="mt-4">
+            <div className="mt-2.5">
                   {activeItemIsApparel ? (
                     <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-xs font-black uppercase tracking-wider text-neutral-600">
+                      <div className="flex justify-between items-center mb-1.5">
+                        <span className="text-[11px] font-black uppercase tracking-wider text-neutral-600">
                           Select Size {isComboProduct && activeComboItem ? `for ${activeComboItem.name}` : ''}
                         </span>
-                        <div className="flex items-center gap-2.5">
+                        <div className="flex items-center gap-2">
                           {isApparel && (
                             <>
                               <button
                                 type="button"
                                 onClick={() => setShowGsmGuide(true)}
-                                className="text-xs font-bold text-neutral-600 hover:text-black hover:underline flex items-center gap-1 cursor-pointer bg-transparent border-none p-0"
+                                className="text-[11px] font-bold text-neutral-600 hover:text-black hover:underline flex items-center gap-1 cursor-pointer bg-transparent border-none p-0"
                               >
                                 <span>🧵 GSM Guide ↗</span>
                               </button>
@@ -2449,34 +2453,34 @@ export function ProductClient({ product }: Props) {
                           <button
                             type="button"
                             onClick={() => setShowSizeGuide(true)}
-                            className="text-xs font-bold text-[#FF4D24] hover:underline flex items-center gap-1 cursor-pointer bg-transparent border-none p-0"
+                            className="text-[11px] font-bold text-[#FF4D24] hover:underline flex items-center gap-1 cursor-pointer bg-transparent border-none p-0"
                           >
-                            <span>Size Guide &amp; Measurements ↗</span>
+                            <span>Size Guide ↗</span>
                           </button>
                         </div>
                       </div>
 
                       {/* Quick Size Finder Toggle & Calculator */}
                       {!activeItemIsKids && (
-                        <div className="mb-3">
+                        <div className="mb-2">
                           <button
                             type="button"
                             onClick={() => setShowSizeCalc((prev) => !prev)}
-                            className="w-full px-3 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/15 border border-amber-500/20 text-amber-950 text-xs font-bold flex items-center justify-between transition-colors cursor-pointer"
+                            className="w-full px-2.5 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/15 border border-amber-500/20 text-amber-950 text-[11px] font-bold flex items-center justify-between transition-colors cursor-pointer"
                           >
                             <span className="flex items-center gap-1.5">
                               <span>📏</span>
-                              <span>Confused About Size? Tap Your Height &amp; Weight</span>
+                              <span>Confused About Size? Tap Height &amp; Weight</span>
                             </span>
-                            <span className="text-[11px] font-black text-[#E04F33]">
-                              {showSizeCalc ? 'Hide Quick Finder ▲' : 'Find My Exact Size in 5s ▼'}
+                            <span className="text-[10px] font-black text-[#E04F33]">
+                              {showSizeCalc ? 'Hide ▲' : 'Find Size in 5s ▼'}
                             </span>
                           </button>
 
                           {showSizeCalc && (
-                            <div className="mt-2 p-3.5 rounded-2xl bg-white border border-amber-500/30 shadow-xs space-y-3">
+                            <div className="mt-2 p-3 rounded-xl bg-white border border-amber-500/30 shadow-xs space-y-2.5">
                               <div>
-                                <span className="text-[10px] font-black uppercase tracking-wider text-neutral-500 block mb-1.5">
+                                <span className="text-[10px] font-black uppercase tracking-wider text-neutral-500 block mb-1">
                                   1. Your Height
                                 </span>
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
@@ -2501,7 +2505,7 @@ export function ProductClient({ product }: Props) {
                               </div>
 
                               <div>
-                                <span className="text-[10px] font-black uppercase tracking-wider text-neutral-500 block mb-1.5">
+                                <span className="text-[10px] font-black uppercase tracking-wider text-neutral-500 block mb-1">
                                   2. Your Body Weight
                                 </span>
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
@@ -2526,17 +2530,17 @@ export function ProductClient({ product }: Props) {
                               </div>
 
                               {recommendedFit ? (
-                                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-950 text-xs font-medium flex items-center justify-between gap-2.5 badge-pop">
-                                  <div className="flex-1 text-[11px] leading-relaxed">
+                                <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-950 text-xs font-medium flex items-center justify-between gap-2 badge-pop">
+                                  <div className="flex-1 text-[10.5px] leading-relaxed">
                                     {recommendedFit.note}
                                   </div>
-                                  <span className="shrink-0 px-2.5 py-1 bg-emerald-600 text-white rounded-lg text-[10px] font-black uppercase tracking-wider shadow-xs flex items-center gap-1">
+                                  <span className="shrink-0 px-2 py-0.5 bg-emerald-600 text-white rounded text-[10px] font-black uppercase tracking-wider shadow-xs flex items-center gap-1">
                                     <span>✓</span>
                                     <span>Size {recommendedFit.size} Selected</span>
                                   </span>
                                 </div>
                               ) : (
-                                <p className="text-[11px] text-neutral-500 italic">
+                                <p className="text-[10px] text-neutral-500 italic">
                                   Select both height and weight for an instant personalized drop-shoulder fit recommendation.
                                 </p>
                               )}
@@ -2557,16 +2561,16 @@ export function ProductClient({ product }: Props) {
                         return (
                           <>
                             {/* Anti-Return Size Helper */}
-                            <div className="mb-2.5 p-2.5 rounded-xl bg-amber-500/[0.08] border border-amber-500/25 text-xs">
-                              <div className="flex items-center justify-between text-[11px] font-bold text-neutral-800 flex-wrap gap-1">
-                                <span className="text-[#FF4D24] font-black uppercase tracking-wider">Exact Chest Measurements:</span>
-                                <span className="font-mono text-neutral-900 font-black">S: 40" | M: 42" | L: 44" | XL: 46" | XXL: 48"</span>
+                            <div className="mb-2 p-2 rounded-lg bg-amber-500/[0.08] border border-amber-500/25 text-[11px]">
+                              <div className="flex items-center justify-between font-bold text-neutral-800 flex-wrap gap-1">
+                                <span className="text-[#FF4D24] font-black uppercase tracking-wider text-[10px]">Exact Chest:</span>
+                                <span className="font-mono text-neutral-900 font-bold text-[11px]">S: 40" | M: 42" | L: 44" | XL: 46" | XXL: 48"</span>
                               </div>
-                              <p className="text-[10px] text-neutral-600 mt-1 italic leading-tight">
-                                True Oversized Drop-Shoulder Cut — Select your regular size (do not size up).
+                              <p className="text-[10px] text-neutral-600 mt-0.5 italic leading-tight">
+                                True Oversized Drop-Shoulder Cut — Select your regular size.
                               </p>
                             </div>
-                            <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
+                            <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5 sm:gap-2">
                               {currentSizeList.map((s) => {
                                 const isSelected = selectedSize === s || (selectedSize === '2XL' && s === 'XXL') || (selectedSize === 'XXL' && s === '2XL');
                                 return (
@@ -2579,14 +2583,14 @@ export function ProductClient({ product }: Props) {
                                         setBundleItemSizes((prev) => ({ ...prev, [selectedComboItemIndex]: s }));
                                       }
                                     }}
-                                    className={`py-1.5 sm:py-2 px-1 sm:px-2 rounded-lg sm:rounded-xl text-center transition-all cursor-pointer flex flex-col items-center justify-center min-h-[40px] sm:min-h-[46px] ${
+                                    className={`py-1 sm:py-1.5 px-1 rounded-lg text-center transition-all cursor-pointer flex flex-col items-center justify-center min-h-[36px] sm:min-h-[40px] ${
                                       isSelected
                                         ? 'bg-neutral-900 text-white border-2 border-[#FF4D24] shadow-sm'
                                         : 'bg-white text-neutral-800 border border-black/15 hover:border-black/30'
                                     }`}
                                   >
-                                    <span className="text-xs sm:text-sm font-black leading-none">{s}</span>
-                                    <span className={`text-[8px] sm:text-[9px] font-bold mt-1 leading-none ${isSelected ? 'text-[#FF9A3D]' : 'text-neutral-500'}`}>
+                                    <span className="text-xs font-black leading-none">{s}</span>
+                                    <span className={`text-[8px] font-bold mt-0.5 leading-none ${isSelected ? 'text-[#FF9A3D]' : 'text-neutral-500'}`}>
                                       {currentSpecs[s]?.chest || ''}
                                     </span>
                                   </button>
@@ -2597,8 +2601,8 @@ export function ProductClient({ product }: Props) {
                             {(() => {
                               const spec = GARMENT_EXACT_SPECS[selectedSize] || (selectedSize === 'XXL' ? GARMENT_EXACT_SPECS['2XL'] : null) || GARMENT_EXACT_SPECS['L'];
                               return (
-                                <div className="mt-2.5 px-3 py-2 rounded-xl bg-[#F3F0EA] border border-black/[0.06] text-xs flex flex-wrap items-center justify-between gap-2 text-neutral-700">
-                                  <div className="flex items-center gap-2 font-bold text-neutral-900">
+                                <div className="mt-1.5 px-2.5 py-1.5 rounded-lg bg-[#F3F0EA] border border-black/[0.06] text-[11px] flex flex-wrap items-center justify-between gap-1.5 text-neutral-700">
+                                  <div className="flex items-center gap-1.5 font-bold text-neutral-900">
                                     <span className="w-1.5 h-1.5 rounded-full bg-[#059669]" />
                                     <span>Chest: <strong>{spec?.chest || '42"'}</strong></span>
                                     <span>•</span>
@@ -2606,7 +2610,7 @@ export function ProductClient({ product }: Props) {
                                     <span>•</span>
                                     <span>Shoulder: <strong>{spec?.shoulder || '21"'}</strong></span>
                                   </div>
-                                  <span className="text-[11px] text-neutral-500">
+                                  <span className="text-[10px] text-neutral-500">
                                     🧍 Model (5'10", 72kg) wears Size L
                                   </span>
                                 </div>
@@ -3356,15 +3360,15 @@ export function ProductClient({ product }: Props) {
                 )}
               </div>
             ) : (
-              <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <div style={{ marginTop: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {/* Primary High-Converting 1-Tap CTA */}
                 <button
                   onClick={handleOrderNow}
                   style={{
                     ...addBtn,
                     width: '100%',
-                    padding: '1rem 1.5rem',
-                    fontSize: '1rem',
+                    padding: '0.85rem 1.25rem',
+                    fontSize: '0.95rem',
                     fontWeight: 900,
                     letterSpacing: '0.02em',
                     borderRadius: '0.75rem',
@@ -3382,8 +3386,8 @@ export function ProductClient({ product }: Props) {
                 </button>
 
                 {/* Secondary Row: Quantity, Add to Bag, Wishlist */}
-                <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'center' }}>
-                  <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', background: '#f5f5f4', padding: '0.35rem 0.55rem', borderRadius: '0.85rem', border: '1px solid rgba(0,0,0,0.06)' }}>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', gap: '0.25rem', alignItems: 'center', background: '#f5f5f4', padding: '0.25rem 0.45rem', borderRadius: '0.75rem', border: '1px solid rgba(0,0,0,0.06)' }}>
                     <button
                       onClick={() => setQty((q) => Math.max(1, q - 1))}
                       aria-label="Decrease quantity"
@@ -3391,7 +3395,7 @@ export function ProductClient({ product }: Props) {
                     >
                       −
                     </button>
-                    <span style={{ fontWeight: 800, minWidth: '1.5rem', textAlign: 'center', fontSize: '0.9rem' }}>{qty}</span>
+                    <span style={{ fontWeight: 800, minWidth: '1.25rem', textAlign: 'center', fontSize: '0.85rem' }}>{qty}</span>
                     <button
                       onClick={() => setQty((q) => Math.min(99, q + 1))}
                       aria-label="Increase quantity"
@@ -3406,8 +3410,9 @@ export function ProductClient({ product }: Props) {
                     style={{
                       ...secondaryAddBtn,
                       flex: 1,
-                      padding: '0.85rem 1rem',
+                      padding: '0.75rem 1rem',
                       borderRadius: '0.75rem',
+                      fontSize: '0.85rem',
                     }}
                   >
                     Add to Bag
@@ -3418,14 +3423,14 @@ export function ProductClient({ product }: Props) {
                     aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
                     style={{
                       ...wishBtn,
-                      width: '48px',
-                      height: '48px',
-                      borderRadius: '0.85rem',
+                      width: '42px',
+                      height: '42px',
+                      borderRadius: '0.75rem',
                       flexShrink: 0,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '1.25rem',
+                      fontSize: '1.15rem',
                     }}
                   >
                     {wished ? '♥' : '♡'}
