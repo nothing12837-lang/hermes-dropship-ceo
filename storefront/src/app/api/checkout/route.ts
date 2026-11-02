@@ -278,13 +278,19 @@ export async function POST(req: NextRequest) {
       };
       const { error } = await supabase.from('orders').insert([orderPayload]);
       if (!error) return true;
-      if (/column .* does not exist/i.test(error.message)) {
-        console.warn('Orders table missing extension columns — retrying with standard fulfillment columns.');
+      if (
+        /column .* does not exist/i.test(error.message) ||
+        error.code === 'PGRST204' ||
+        /schema cache/i.test(error.message) ||
+        /Could not find the '.*' column/i.test(error.message)
+      ) {
+        console.warn('Orders table schema mismatch — retrying with standard columns:', error.message);
         const minimal = {
           id: orderPayload.id,
           user_email: row.user_email,
           user_id: row.user_id,
           stripe_session_id: row.stripe_session_id,
+          razorpay_order_id: row.razorpay_order_id || row.stripe_session_id,
           total_amount: row.total_amount,
           status: row.status,
           payment_method: row.payment_method,
@@ -293,6 +299,7 @@ export async function POST(req: NextRequest) {
           shipping: row.shipping ?? 0,
           shipping_name: row.shipping_name,
           shipping_address: row.shipping_address,
+          fulfillment_error: row.fulfillment_error,
         };
         const retry = await supabase.from('orders').insert([minimal]);
         if (retry.error) {
@@ -367,16 +374,19 @@ export async function POST(req: NextRequest) {
       user_email: email,
       user_id: verifiedUserId,
       stripe_session_id: rzpOrder.id,
+      razorpay_order_id: rzpOrder.id,
       total_amount: finalTotal,
       status: 'pending',
       payment_method: isPartialCodOrder ? 'partial_cod' : 'prepaid',
-      advance_paid: isPartialCodOrder ? 100 : finalTotal,
-      cod_balance: isPartialCodOrder ? Math.max(0, finalTotal - 100) : 0,
       items,
       subtotal,
       shipping: 0,
       shipping_name: name || null,
-      shipping_address: address || null,
+      shipping_address: {
+        ...(typeof address === 'object' && address !== null ? address : {}),
+        advance_paid: isPartialCodOrder ? 100 : finalTotal,
+        cod_balance: isPartialCodOrder ? Math.max(0, finalTotal - 100) : 0,
+      },
       fulfillment_error: verifiedCoupon ? `STORE_CREDIT_APPLIED: [${verifiedCoupon}] Discount: ₹${discountAmount}` : null,
     });
 

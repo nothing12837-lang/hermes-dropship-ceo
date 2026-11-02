@@ -927,7 +927,10 @@ export default function AdminCommandCenter() {
                   const state = addr.state || '';
                   const zip = addr.zip || addr.pincode || '';
                   const addressType = addr.address_type || addr.addressType || 'Home';
-                  const isCod = o.payment_method === 'cod';
+                  const isCod = o.payment_method === 'cod' || o.payment_method === 'partial_cod';
+                  const isPartialCod = o.payment_method === 'partial_cod' || (isCod && Number(o.total_amount) > 100);
+                  const advancePaid = Number(addr.advance_paid || (isPartialCod ? 100 : 0));
+                  const codBalance = Number(addr.cod_balance || (isPartialCod ? Math.max(0, Number(o.total_amount) - 100) : Number(o.total_amount)));
 
                   const fullDeliveryAddress = [
                     flat,
@@ -937,7 +940,7 @@ export default function AdminCommandCenter() {
                     `${state} - ${zip}`,
                   ].filter(Boolean).join(', ');
 
-                  const fullCourierLabel = `Name: ${customerName}\nPhone: +91 ${formattedPhone}\nAddress: ${flat ? `${flat}, ` : ''}${street}\n${landmark ? `Landmark: ${landmark}\n` : ''}City: ${city}\nState: ${state} - ${zip}\nPayment: ${isCod ? `Cash on Delivery (₹${o.total_amount})` : 'PREPAID'}`;
+                  const fullCourierLabel = `Name: ${customerName}\nPhone: +91 ${formattedPhone}\nAddress: ${flat ? `${flat}, ` : ''}${street}\n${landmark ? `Landmark: ${landmark}\n` : ''}City: ${city}\nState: ${state} - ${zip}\nPayment: ${isCod ? (isPartialCod ? `Cash on Delivery (₹${advancePaid} Advance Paid, ₹${codBalance} Doorstep)` : `Cash on Delivery (₹${o.total_amount})`) : 'PREPAID'}`;
 
                   return (
                     <div
@@ -975,7 +978,7 @@ export default function AdminCommandCenter() {
                           {isCod ? (
                             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-500/20 border border-amber-500/40 text-amber-300 flex items-center gap-1">
                               <span>💵</span>
-                              <span>CASH ON DELIVERY (₹100 ADVANCE)</span>
+                              <span>{isPartialCod ? `COD (₹${advancePaid} ADVANCE PAID • ₹${codBalance} DOORSTEP)` : 'CASH ON DELIVERY'}</span>
                             </span>
                           ) : (
                             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 flex items-center gap-1">

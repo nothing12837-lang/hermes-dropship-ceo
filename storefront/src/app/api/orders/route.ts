@@ -580,8 +580,6 @@ export async function POST(req: NextRequest) {
       total_amount: chargedTotal,
       status: orderStatus,
       payment_method: paymentMethod,
-      advance_paid: advancePaid,
-      cod_balance: codBalance,
       items: enrichedItems,
       subtotal: calculatedSubtotal,
       shipping: 0,
@@ -593,6 +591,8 @@ export async function POST(req: NextRequest) {
         zip: String(addr.zip).slice(0, 20),
         country: 'India',
         phone: String(addr.phone || body.phone || '').slice(0, 20),
+        advance_paid: advancePaid,
+        cod_balance: codBalance,
       },
       fulfillment_error: verifiedCoupon ? `STORE_CREDIT_APPLIED: [${verifiedCoupon}] Discount: ₹${discountAmount}` : null,
     };
@@ -606,10 +606,17 @@ export async function POST(req: NextRequest) {
       const minimal = {
         id: orderId,
         user_email: email,
+        user_id: verifiedUserId,
+        stripe_session_id: orderRef,
         total_amount: chargedTotal,
         status: isCod ? 'pending_cod' : 'pending',
         payment_method: paymentMethod,
+        items: enrichedItems,
+        subtotal: calculatedSubtotal,
+        shipping: 0,
+        shipping_name: typeof body.name === 'string' ? body.name.slice(0, 100) : null,
         shipping_address: newOrder.shipping_address,
+        fulfillment_error: newOrder.fulfillment_error,
       };
       const retry = await sb.from('orders').insert([minimal]);
       if (retry.error) {

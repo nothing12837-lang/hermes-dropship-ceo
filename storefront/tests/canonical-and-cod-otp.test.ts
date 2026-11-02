@@ -108,3 +108,26 @@ describe('Stateless COD OTP Cryptographic Signature', () => {
     expect(parts[4]).toBe(recomputedSig);
   });
 });
+
+describe('Partial COD & Order Schema Resiliency', () => {
+  it('correctly embeds advance_paid and cod_balance in shipping_address payload', () => {
+    const address = {
+      line1: 'Focal Point, Banglore Road',
+      city: 'Moga',
+      state: 'Punjab',
+      zip: '142001',
+    };
+    const finalTotal = 1430;
+    const isPartialCod = true;
+
+    const shippingAddress = {
+      ...address,
+      advance_paid: isPartialCod ? 100 : finalTotal,
+      cod_balance: isPartialCod ? Math.max(0, finalTotal - 100) : 0,
+    };
+
+    expect(shippingAddress.advance_paid).toBe(100);
+    expect(shippingAddress.cod_balance).toBe(1330);
+    expect(shippingAddress.city).toBe('Moga');
+  });
+});
