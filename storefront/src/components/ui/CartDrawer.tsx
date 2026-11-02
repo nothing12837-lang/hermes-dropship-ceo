@@ -522,7 +522,7 @@ export default function CartDrawer() {
 
               {autoTierSavings > 0 && (
                 <div className="flex justify-between text-xs mb-2 text-emerald-700 font-bold">
-                  <span>Tier Auto-Savings ({subtotal >= 2000 ? 'Cart ₹2,000+' : 'Cart ₹1,000+'})</span>
+                  <span>First-Order Privilege ({subtotal >= 2000 ? 'Cart ₹2,000+' : 'Cart ₹1,000+'})</span>
                   <span>−{formatCartPrice(autoTierSavings)}</span>
                 </div>
               )}
@@ -571,21 +571,21 @@ export default function CartDrawer() {
                   {subtotal < 1000 ? (
                     <div className="text-neutral-700 flex justify-between items-center">
                       <span>• Active: <strong>Free Insured Express Air</strong></span>
-                      <span className="text-[10px] text-amber-700 font-bold">Add ₹{1000 - subtotal} for Instant ₹69 OFF + ₹70 Voucher</span>
+                      <span className="text-[10px] text-amber-700 font-bold">First Order: Add ₹{1000 - subtotal} for ₹69 OFF + ₹70 Voucher</span>
                     </div>
                   ) : subtotal < 2000 ? (
                     <div className="text-emerald-900 bg-emerald-50/80 p-2 rounded-lg border border-emerald-200/60 space-y-1">
                       <div className="font-bold flex items-center justify-between">
-                        <span>✓ Tier 1 Active: Instant ₹69 OFF Auto-Applied!</span>
+                        <span>✓ First Order: Instant ₹69 OFF Applied!</span>
                         <span className="text-[10px] bg-emerald-600 text-white px-1.5 py-0.5 rounded font-black">+ ₹70 Voucher</span>
                       </div>
                       <div className="text-[10px] text-neutral-600 font-medium">
-                        Add ₹{2000 - subtotal} more to unlock <strong>Instant ₹149 OFF + ₹130 Voucher</strong>!
+                        Add ₹{2000 - subtotal} more for <strong>Instant ₹149 OFF + ₹130 Voucher</strong>! (Returning? Redeem your drop voucher at checkout)
                       </div>
                     </div>
                   ) : (
                     <div className="text-emerald-900 bg-emerald-50 p-2 rounded-lg border border-emerald-300 font-bold flex items-center justify-between">
-                      <span>🎉 VIP Tier Active: Instant ₹149 OFF Auto-Applied!</span>
+                      <span>🎉 VIP First Order: Instant ₹149 OFF Applied!</span>
                       <span className="text-[10px] bg-emerald-600 text-white px-1.5 py-0.5 rounded font-black">+ ₹130 Voucher</span>
                     </div>
                   )}

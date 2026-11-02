@@ -132,6 +132,42 @@ export default function CheckoutPage() {
   const [authChecking, setAuthChecking] = useState(true);
   const [hpCompany, setHpCompany] = useState('');
   const [showCodConfirmModal, setShowCodConfirmModal] = useState(false);
+  const [isFirstOrder, setIsFirstOrder] = useState<boolean>(true);
+  const [checkingCustomerStatus, setCheckingCustomerStatus] = useState<boolean>(false);
+
+  // Check customer status when email, phone, or userId is available
+  useEffect(() => {
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPhone = phone.replace(/\D/g, '').slice(-10);
+    const hasValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail);
+    const hasValidPhone = cleanPhone.length === 10;
+
+    if (!hasValidEmail && !hasValidPhone && !userId) {
+      setIsFirstOrder(true);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      setCheckingCustomerStatus(true);
+      try {
+        const res = await fetch('/api/loyalty/customer-status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: cleanEmail, phone: cleanPhone, userId }),
+        });
+        const data = await res.json();
+        if (typeof data.isFirstOrder === 'boolean') {
+          setIsFirstOrder(data.isFirstOrder);
+        }
+      } catch (err) {
+        console.warn('Customer status check failed:', err);
+      } finally {
+        setCheckingCustomerStatus(false);
+      }
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [email, phone, userId]);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }: any) => {
@@ -366,8 +402,9 @@ export default function CheckoutPage() {
       setCouponApplied(false);
     }
   }, [paymentMethod, appliedCouponCode]);
-  // Automatic Volume Tier Auto-Deduction (₹69 on ₹1,000+, ₹149 on ₹2,000+)
-  const autoTierSavings = isIndia ? calculateTierAutoDiscount(subtotal) : 0;
+  // First-Order Privilege (₹69 on ₹1,000+, ₹149 on ₹2,000+) - First-time buyers ONLY per email/phone/account
+  // Returning customers receive ₹0 auto-discount and use their issued RE-GIFT- drop voucher
+  const autoTierSavings = isIndia && isFirstOrder ? calculateTierAutoDiscount(subtotal) : 0;
   const totalDiscount = autoTierSavings + discount;
   const postDiscountSubtotal = Math.max(0, subtotal - totalDiscount);
   const isAboveCodThreshold = isIndia && postDiscountSubtotal >= 3000;
@@ -1514,13 +1551,31 @@ export default function CheckoutPage() {
                 ))}
               </div>
 
+              {/* Returning Customer Notice */}
+              {!isFirstOrder && (
+                <div className="mb-3 p-3 rounded-xl bg-white/[0.04] border border-white/10 text-neutral-300 text-xs space-y-1">
+                  <div className="font-bold flex items-center justify-between text-white">
+                    <span className="flex items-center gap-1.5">
+                      <span>👑</span>
+                      <span>Returning Collector Status</span>
+                    </span>
+                    <span className="text-[10px] font-mono uppercase bg-[#FF4D24]/20 text-[#FF4D24] px-2 py-0.5 rounded font-black border border-[#FF4D24]/40">
+                      2nd+ Drop
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-neutral-400 leading-relaxed">
+                    First-Order privilege already claimed on your account. Paste your <strong>₹70</strong> or <strong>₹130 Gift Voucher</strong> below to apply your repeat credit!
+                  </p>
+                </div>
+              )}
+
               {/* Promo Code Input */}
               <div className="flex items-center gap-2 mb-4 pb-4 border-b border-white/10">
                 <input
                   type="text"
                   value={coupon}
                   onChange={(e) => setCoupon(e.target.value)}
-                  placeholder="Discount code (e.g. EMBER)"
+                  placeholder={!isFirstOrder ? "Paste gift voucher (e.g. RE-GIFT-...)" : "Discount code (e.g. ARCHIVE100)"}
                   className="flex-1 px-3 py-2 text-xs rounded-xl bg-white/[0.06] border border-white/10 text-white outline-none focus:border-[#FF4D24] uppercase placeholder:normal-case placeholder:text-neutral-500"
                 />
                 <button
@@ -1537,9 +1592,9 @@ export default function CheckoutPage() {
                   <span>Subtotal</span>
                   <span className="font-semibold text-white">{formatCheckoutPrice(subtotal)}</span>
                 </div>
-                {autoTierSavings > 0 && (
+                {isFirstOrder && autoTierSavings > 0 && (
                   <div className="flex justify-between text-emerald-400 font-semibold">
-                    <span>Tier Auto-Savings ({subtotal >= 2000 ? 'Cart ₹2,000+' : 'Cart ₹1,000+'})</span>
+                    <span>First-Order Privilege ({subtotal >= 2000 ? 'Cart ₹2,000+' : 'Cart ₹1,000+'})</span>
                     <span className="font-bold">−{formatCheckoutPrice(autoTierSavings)}</span>
                   </div>
                 )}
@@ -1547,6 +1602,11 @@ export default function CheckoutPage() {
                   <div className="flex justify-between text-emerald-400 font-semibold">
                     <span>{appliedCouponLabel || `Voucher (${appliedCouponCode})`}</span>
                     <span className="font-bold">−{formatCheckoutPrice(discount)}</span>
+                  </div>
+                )}
+                {!isFirstOrder && discount === 0 && (
+                  <div className="text-[11px] text-amber-400/90 bg-amber-400/[0.08] p-2 rounded-lg border border-amber-400/20">
+                    💡 <strong>Have a repeat drop voucher?</strong> Enter your <code>RE-GIFT-</code> code above to deduct ₹70 or ₹130!
                   </div>
                 )}
                 <div className="flex justify-between text-neutral-300">

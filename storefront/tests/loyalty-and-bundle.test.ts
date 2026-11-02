@@ -81,27 +81,34 @@ describe('Loyalty Voucher, Tier Auto-Discounts & 240 GSM Bundle Engine', () => {
     expect(validAbove2k.discountAmount).toBe(130);
   });
 
-  it('supports returning customer stacking: tier auto-discount + gift voucher', () => {
-    // 2nd time customer buying a ₹1,349 hoodie with a ₹70 voucher:
+  it('enforces first-order vs returning customer separation and repeat drop voucher cycle', () => {
+    // 1st time customer on ₹1,349 hoodie:
     const subtotal = 1349;
-    const tierDiscount = calculateTierAutoDiscount(subtotal); // ₹69
-    const voucherRes = validateCouponCode('RE-GIFT-ABC123', subtotal); // ₹70
-    const totalSavings = tierDiscount + voucherRes.discountAmount;
+    const isFirstOrder = true;
+    const firstOrderAutoSavings = isFirstOrder ? calculateTierAutoDiscount(subtotal) : 0;
+    expect(firstOrderAutoSavings).toBe(69);
+    expect(subtotal - firstOrderAutoSavings).toBe(1280);
 
-    expect(tierDiscount).toBe(69);
+    // 2nd time customer: auto-discount is 0, they fill their ₹70 voucher into the empty coupon space:
+    const returningSubtotal = 1349;
+    const isReturning = false;
+    const returningAutoSavings = isReturning ? calculateTierAutoDiscount(returningSubtotal) : 0;
+    const voucherRes = validateCouponCode('RE-GIFT-ABC123', returningSubtotal);
+
+    expect(returningAutoSavings).toBe(0); // No auto 69 for returning customer!
+    expect(voucherRes.valid).toBe(true);
     expect(voucherRes.discountAmount).toBe(70);
-    expect(totalSavings).toBe(139);
-    expect(subtotal - totalSavings).toBe(1210);
+    const finalReturningTotal = returningSubtotal - returningAutoSavings - voucherRes.discountAmount;
+    expect(finalReturningTotal).toBe(1279);
 
-    // 2nd time customer buying 2 hoodies (₹2,698) with a ₹130 voucher:
+    // 2nd time VIP customer buying 2 hoodies (₹2,698) with their ₹130 voucher:
     const vipSubtotal = 2698;
-    const vipTierDiscount = calculateTierAutoDiscount(vipSubtotal); // ₹149
-    const vipVoucherRes = validateCouponCode('RE-GIFT-ABC123', vipSubtotal); // ₹130
-    const vipTotalSavings = vipTierDiscount + vipVoucherRes.discountAmount;
+    const vipAutoSavings = isReturning ? calculateTierAutoDiscount(vipSubtotal) : 0;
+    const vipVoucherRes = validateCouponCode('RE-GIFT-ABC123', vipSubtotal);
 
-    expect(vipTierDiscount).toBe(149);
+    expect(vipAutoSavings).toBe(0);
+    expect(vipVoucherRes.valid).toBe(true);
     expect(vipVoucherRes.discountAmount).toBe(130);
-    expect(vipTotalSavings).toBe(279);
-    expect(vipSubtotal - vipTotalSavings).toBe(2419);
+    expect(vipSubtotal - vipAutoSavings - vipVoucherRes.discountAmount).toBe(2568);
   });
 });

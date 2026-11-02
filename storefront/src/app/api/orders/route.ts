@@ -438,31 +438,37 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // First-Order Welcome Discount verification
+    // First-Order Privilege verification (strictly 0 previous confirmed/delivered orders across email, phone, or account)
     let isFirstOrder = true;
     try {
       const cleanEmail = normalizeEmail(body.email);
       const cleanPhone = String(body.phone || addr?.phone || '').replace(/\D/g, '').slice(-10);
-      if ((cleanEmail || cleanPhone) && sb) {
-        let checkQuery = sb.from('orders').select('id', { count: 'exact', head: true });
-        if (cleanEmail && cleanPhone) {
-          checkQuery = checkQuery.or(`user_email.ilike.${cleanEmail},shipping_address->>phone.ilike.%${cleanPhone}%`);
-        } else if (cleanEmail) {
-          checkQuery = checkQuery.ilike('user_email', cleanEmail);
-        } else {
-          checkQuery = checkQuery.ilike('shipping_address->>phone', `%${cleanPhone}%`);
-        }
-        const { count } = await checkQuery.in('status', ['paid', 'delivered', 'shipped', 'processing']);
-        if (count && count > 0) {
-          isFirstOrder = false;
+      const cleanUserId = typeof (body as any).user_id === 'string' && (body as any).user_id.trim() ? (body as any).user_id.trim() : null;
+      if ((cleanEmail || cleanPhone || cleanUserId) && sb) {
+        const conditions: string[] = [];
+        if (cleanEmail) conditions.push(`user_email.ilike.${cleanEmail}`);
+        if (cleanPhone && cleanPhone.length === 10) conditions.push(`shipping_address->>phone.ilike.%${cleanPhone}%`);
+        if (cleanUserId) conditions.push(`user_id.eq.${cleanUserId}`);
+
+        if (conditions.length > 0) {
+          const { count } = await sb
+            .from('orders')
+            .select('id', { count: 'exact', head: true })
+            .or(conditions.join(','))
+            .in('status', ['paid', 'delivered', 'shipped', 'processing', 'completed']);
+
+          if (count && count > 0) {
+            isFirstOrder = false;
+          }
         }
       }
     } catch (checkErr) {
       console.warn('[Orders API] First order check failed, defaulting to true:', checkErr);
     }
 
-    // Automatic Volume Tier Auto-Deduction (₹69 on ₹1,000+, ₹149 on ₹2,000+)
-    const autoTierSavings = calculateTierAutoDiscount(calculatedSubtotal);
+    // First-Order Privilege: ₹69 on ₹1,000+ | ₹149 on ₹2,000+ (First time orders ONLY)
+    // Returning customers receive ₹0 auto-discount and redeem their issued RE-GIFT- vouchers instead
+    const autoTierSavings = isFirstOrder ? calculateTierAutoDiscount(calculatedSubtotal) : 0;
 
     // Apply Coupon / Loyalty Voucher Code server-side (stacks with tier auto-discount for returning customers)
     let couponSavings = 0;
