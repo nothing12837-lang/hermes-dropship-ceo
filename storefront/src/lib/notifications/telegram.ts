@@ -16,6 +16,19 @@ export function escapeHtml(str: string | null | undefined): string {
     .replace(/>/g, '&gt;');
 }
 
+function getTelegramConfig(): { token: string; chatId: string } | null {
+  const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
+  const chatId =
+    process.env.TELEGRAM_CHAT_ID?.trim() ||
+    (process.env.TELEGRAM_ALLOWED_USERS || '').split(',')[0].trim();
+  const enabled = process.env.TELEGRAM_ALERTS_ENABLED !== 'false';
+
+  if (!enabled || !token || !chatId) {
+    return null;
+  }
+  return { token, chatId };
+}
+
 async function sendTelegramMessage(token: string, chatId: string, rawText: string, disablePreview = false): Promise<boolean> {
   // Truncate to Telegram's 4096 character limit
   const text = rawText.length > 4000 ? `${rawText.slice(0, 3990)}…\n[truncated]` : rawText;
@@ -53,13 +66,9 @@ export async function notifyTelegramOrder(order: {
   items?: Array<{ id?: string; title?: string; name?: string; qty?: number; price?: number; size?: string; phoneModel?: string; customText?: string }>;
   address?: any;
 }) {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
-
-  if (!enabled || !token || !chatId) {
-    return;
-  }
+  const cfg = getTelegramConfig();
+  if (!cfg) return;
+  const { token, chatId } = cfg;
 
   const isCod = order.paymentMethod === 'cod';
   const icon = isCod ? '📦' : '💳';
@@ -160,11 +169,9 @@ export async function notifyTelegramReturnClaim(claim: {
   storeCreditAmount?: number | null;
   status?: string;
 }) {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
-
-  if (!enabled || !token || !chatId) return false;
+  const cfg = getTelegramConfig();
+  if (!cfg) return false;
+  const { token, chatId } = cfg;
 
   const cleanPhone = String(claim.contact || '').replace(/\D/g, '');
   const digits = cleanPhone.slice(-10);
@@ -223,11 +230,9 @@ export async function notifyTelegramStoreCreditReleased(details: {
   amount: number;
   email?: string;
 }) {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
-
-  if (!enabled || !token || !chatId) return false;
+  const cfg = getTelegramConfig();
+  if (!cfg) return false;
+  const { token, chatId } = cfg;
 
   const text = [
     `✅ <b>STORE CREDIT ACTIVATED & EMAILED!</b> 🎉`,
@@ -254,11 +259,9 @@ export async function notifyTelegramCustomLead(lead: {
   eventDate?: string;
   estimatedBudget?: number | string;
 }) {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
-
-  if (!enabled || !token || !chatId) return false;
+  const cfg = getTelegramConfig();
+  if (!cfg) return false;
+  const { token, chatId } = cfg;
 
   const cleanPhone = String(lead.phone || '').replace(/\D/g, '');
   const intlPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
@@ -306,11 +309,9 @@ export async function notifyTelegramSupportTicket(ticket: {
   message: string;
   priority?: string;
 }) {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
-
-  if (!enabled || !token || !chatId) return false;
+  const cfg = getTelegramConfig();
+  if (!cfg) return false;
+  const { token, chatId } = cfg;
 
   const cleanPhone = String(ticket.phone || '').replace(/\D/g, '');
   const intlPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
@@ -352,11 +353,9 @@ export async function notifyTelegramCallbackRequest(req: {
   slot: string;
   reason?: string;
 }): Promise<boolean> {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
-
-  if (!enabled || !token || !chatId) return false;
+  const cfg = getTelegramConfig();
+  if (!cfg) return false;
+  const { token, chatId } = cfg;
 
   const cleanPhone = String(req.phone || '').replace(/\D/g, '');
   const intlPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
@@ -387,13 +386,9 @@ export async function notifyTelegramOtp(params: {
   phone: string;
   name?: string;
 }): Promise<boolean> {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  const enabled = process.env.TELEGRAM_ALERTS_ENABLED === 'true';
-
-  if (!enabled || !token || !chatId) {
-    return false;
-  }
+  const cfg = getTelegramConfig();
+  if (!cfg) return false;
+  const { token, chatId } = cfg;
 
   const text = [
     `🔐 <b>COD OTP VERIFICATION CODE GENERATED</b>`,
