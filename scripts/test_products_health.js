@@ -72,8 +72,9 @@ products.forEach(p => {
   const sizes = p.sizes || [];
 
   colors.forEach(c => {
+    const colorName = typeof c === 'string' ? c : (c && c.name ? c.name : '');
     sizes.forEach(s => {
-      const expectedKey = `${pid}_${c.name.toLowerCase().trim()}_${s.toLowerCase().trim()}`;
+      const expectedKey = `${pid}_${colorName.toLowerCase().trim()}_${String(s).toLowerCase().trim()}`;
       if (!variantsMap[expectedKey]) {
         // check if variant exists under slightly different casing
         const found = Object.keys(variantsMap).find(k => k.toLowerCase() === expectedKey.toLowerCase());
