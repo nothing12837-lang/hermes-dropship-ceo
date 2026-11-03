@@ -715,7 +715,7 @@ export default function CheckoutPage() {
 
       if (data.mock) {
         clear();
-        window.location.href = `/success?mock=1&email=${encodeURIComponent(email)}&total=${total.toFixed(2)}`;
+        router.push(`/success?mock=1&email=${encodeURIComponent(email)}&total=${total.toFixed(2)}`);
         return;
       }
 
@@ -866,7 +866,7 @@ export default function CheckoutPage() {
 
       if (data.mock) {
         clear();
-        window.location.href = `/success?mock=1&cod=1&partial=1&email=${encodeURIComponent(email)}&total=${total.toFixed(2)}&advance=100&balance=${Math.max(0, total - 100).toFixed(2)}`;
+        router.push(`/success?mock=1&cod=1&partial=1&email=${encodeURIComponent(email)}&total=${total.toFixed(2)}&advance=100&balance=${Math.max(0, total - 100).toFixed(2)}`);
         return;
       }
 
